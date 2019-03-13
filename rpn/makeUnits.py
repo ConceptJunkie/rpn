@@ -451,45 +451,6 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
                 unitConversionMatrix[ ( unit, newUnit ) ] = fdiv( 1, conversion )
 
     unitOperators.update( newUnitOperators )
-    newUnitOperators = { }
-
-    for unit in unitOperators:
-        if unit[ -7 : ] == '/second':
-            unitRoot = unit[ : -7 ]
-
-            # we don't want to do anything with the unit '1/second'
-            if unitRoot == '1':
-                continue
-
-            unitInfo = unitOperators[ unit ]
-            rootUnitInfo = unitOperators[ unitRoot ]
-
-            for timeUnit in timeUnits:
-                newUnit = unitRoot + '/' + timeUnit[ 0 ]
-                newPlural = unitRoot + '/' + timeUnit[ 1 ]
-                newAliases[ newPlural ] = newUnit
-                newAliases[ unitRoot + '/' + timeUnit[ 1 ] ] = newUnit
-
-                # We assume the abbrev ends with an s for second
-                if unitInfo.abbrev != '':
-                    newAbbrev = unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ]
-                    newAliases[ newAbbrev ] = newUnit
-
-                for alias in rootUnitInfo.aliases:
-                    newAliases[ alias + '/' + timeUnit[ 0 ] ] = newUnit
-
-                    if timeUnit[ 0 ] != timeUnit[ 1 ]:
-                        newAliases[ alias + '/' + timeUnit[ 1 ] ] = newUnit
-
-                newUnitOperators[ newUnit ] = \
-                    RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural,
-                                 '', [ ], unitInfo.categories, True )
-
-                conversion = mpmathify( timeUnit[ 3 ] )
-                unitConversionMatrix[ ( newUnit, unit ) ] = fdiv( 1, conversion )
-                unitConversionMatrix[ ( unit, newUnit ) ] = conversion
-
-    unitOperators.update( newUnitOperators )
 
 
 # //******************************************************************************
@@ -538,7 +499,8 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 
 def testAllCombinations( unitTypeTable, unitConversionMatrix ):
     for unitType in unitTypeTable:
-        print( 'unitType *************************************************' )
+        print( unitType, '*************************************************' )
+
         for unit1, unit2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
             if ( unit1, unit2 ) not in unitConversionMatrix:
                 print( 'conversion not found for', unit1, 'and', unit2 )
@@ -651,6 +613,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     # save the actual unit data
     fileName = getDataPath( ) + os.sep + 'units.pckl.bz2'
 
+    #testAllCombinations( unitTypeTable, unitConversionMatrix )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
