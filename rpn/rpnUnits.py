@@ -5688,6 +5688,7 @@ unitConversionMatrix = {
     ( 'unity',                      'sextillionth' )                        : mpmathify( '1.0e21' ),
     ( 'unity',                      'tenth' )                               : mpmathify( '10' ),
     ( 'unity',                      'third' )                               : mpmathify( '3' ),
+    ( 'unity',                      'thousandth' )                          : mpmathify( '1000' ),
     ( 'unity',                      'trillionth' )                          : mpmathify( '1.0e12' ),
     ( 'usb1',                       'bit/second' )                          : mpmathify( '1.2e7' ),
     ( 'usb2',                       'bit/second' )                          : mpmathify( '2.8e8' ),
