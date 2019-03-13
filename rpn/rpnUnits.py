@@ -5226,7 +5226,7 @@ unitConversionMatrix = {
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
     ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
-    ( 'celsius',                    'reaumur' )                             : fdiv( 5, 4 ),
+    ( 'celsius',                    'reaumur' )                             : fdiv( 4, 5 ),
     ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
     ( 'century',                    'microcentury' )                        : mpmathify( '1.0e6' ),
     ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),

@@ -22,11 +22,12 @@ import itertools
 import os
 import pickle
 
-from mpmath import mp, fdiv, fmul
+from mpmath import almosteq, mp, fdiv, fmul
 
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
+from rpn.rpnMeasurement import specialUnitConversionMatrix
 from rpn.rpnUnits import *
 from rpn.rpnUtils import getDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
@@ -493,7 +494,12 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 
 # //******************************************************************************
 # //
-# //  initializeConversionMatrix
+# //  testAllCombinations
+# //
+# //  Let's make sure all the conversions exist (except for transitive conversions
+# //  involving units that use the special unit conversion matrix.
+# //
+# //  This means this test will print out some errors regardless.
 # //
 # //******************************************************************************
 
@@ -502,8 +508,34 @@ def testAllCombinations( unitTypeTable, unitConversionMatrix ):
         print( unitType, '*************************************************' )
 
         for unit1, unit2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
-            if ( unit1, unit2 ) not in unitConversionMatrix:
+            if ( unit1, unit2 ) not in unitConversionMatrix and \
+               ( unit1, unit2 ) not in specialUnitConversionMatrix:
                 print( 'conversion not found for', unit1, 'and', unit2 )
+
+
+# //******************************************************************************
+# //
+# //  testAllConversions
+# //
+# //  Let's prove the conversions are consistent.
+# //
+# //******************************************************************************
+
+def testAllConversions( unitTypeTable, unitConversionMatrix ):
+    for unitType in unitTypeTable:
+        for unit1, unit2, unit3 in itertools.permutations( unitTypeTable[ unitType ], 3 ):
+            try:
+                factor1 = unitConversionMatrix[ unit1, unit2 ]
+                factor2 = unitConversionMatrix[ unit2, unit3 ]
+                factor3 = unitConversionMatrix[ unit1, unit3 ]
+            except:
+                continue
+
+            if not almosteq( fmul( factor1, factor2 ), factor3, rel_eps=1.0e-10 ):
+                print( 'conversion inconsistency found for ' + unit1 + ', ' + unit2 + ', and', unit3 )
+                print( factor1, factor2, factor3 )
+                print( fmul( factor1, factor2 ), factor3 )
+                print( )
 
 
 # //******************************************************************************
@@ -614,6 +646,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     fileName = getDataPath( ) + os.sep + 'units.pckl.bz2'
 
     #testAllCombinations( unitTypeTable, unitConversionMatrix )
+    #testAllConversions( unitTypeTable, unitConversionMatrix )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
