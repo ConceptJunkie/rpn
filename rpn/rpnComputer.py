@@ -92,6 +92,10 @@ def convertToLong( n ):
 def convertToLongLong( n ):
     return convertToSignedInt( n, 64 )
 
+@oneArgFunctionEvaluator( )
+def convertToQuadLong( n ):
+    return convertToSignedInt( n, 128 )
+
 
 # //******************************************************************************
 # //
@@ -299,13 +303,17 @@ def convertToDouble( n ):
 def convertToFloat( n ):
     return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( real( n ) ) ) ) )
 
+@twoArgFunctionEvaluator( )
+def convertToUnsignedInt( n, k ):
+    return fmod( real_int( n ), power( 2, real( k ) ) )
+
 @oneArgFunctionEvaluator( )
 def convertToUnsignedChar( n ):
     return fmod( real_int( n ), power( 2, 8 ) )
 
-@twoArgFunctionEvaluator( )
-def convertToUnsignedInt( n, k ):
-    return fmod( real_int( n ), power( 2, real( k ) ) )
+@oneArgFunctionEvaluator( )
+def convertToUnsignedShort( n ):
+    return fmod( real_int( n ), power( 2, 16 ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedLong( n ):
@@ -316,8 +324,8 @@ def convertToUnsignedLongLong( n ):
     return fmod( real_int( n ), power( 2, 64 ) )
 
 @oneArgFunctionEvaluator( )
-def convertToUnsignedShort( n ):
-    return fmod( real_int( n ), power( 2, 16 ) )
+def convertToUnsignedLongLong( n ):
+    return fmod( real_int( n ), power( 2, 128 ) )
 
 @twoArgFunctionEvaluator( )
 def andOperands( n, k ):

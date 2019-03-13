@@ -4548,7 +4548,7 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'longlong', 'quadlong', 'ulong' ] ],
+[ 'char' 'longlong', 'quadlong', 'ulong' ] ],
 
     'longlong' : [
 'conversion', 'converts the value to a signed 64-bit integer',
@@ -4558,7 +4558,7 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'long', 'ulonglong', 'quadlong', 'integer' ] ],
+[ 'char', 'long', 'ulonglong', 'quadlong', 'integer' ] ],
 
     'pack' : [
 'conversion', 'packs an integer using a values list n and a list of bit fields k',
@@ -4567,6 +4567,16 @@ fixed-size integer types.
 '''
 ''',
 [ 'unpack' ] ],
+
+    'quadlong' : [
+'conversion', 'converts the value to a signed 128-bit integer',
+'''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
+''',
+'''
+''',
+[ 'char', 'long', 'ulonglong', 'integer' ] ],
 
     'short' : [
 'conversion', 'converts the value to a signed 16-bit integer',
@@ -4602,7 +4612,7 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'integer', 'uchar', 'ushort', 'ulong' ] ],
+[ 'integer', 'uchar', 'ushort', 'ulong', 'ulonglong', 'uquadlong' ] ],
 
     'ulong' : [
 'conversion', 'converts the value to an unsigned 32-bit integer',
@@ -4612,7 +4622,7 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'long', 'ulonglong', 'uquadlong', 'uinteger' ] ],
+[ 'long', 'ulonglong', 'uquadlong', 'uinteger', 'uchar' ] ],
 
     'ulonglong' : [
 'conversion', 'converts the value to an unsigned 64-bit integer',
@@ -4622,7 +4632,17 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'ulong', 'longlong', 'uquadlong', 'uinteger' ] ],
+[ 'ulong', 'longlong', 'uquadlong', 'uinteger', 'uchar' ] ],
+
+    'uquadlong' : [
+'conversion', 'converts the value to an unsigned 128-bit integer',
+'''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
+''',
+'''
+''',
+[ 'ulong', 'quadlong', 'uinteger', 'uchar', 'ulonglong' ] ],
 
     'undouble' : [
 'conversion', 'interprets a 64-bit integer as a 64-bit IEEE 754 float',

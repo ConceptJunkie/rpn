@@ -596,7 +596,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     for unitType in sorted( basicUnitTypes ):
         if unitType != '_null_type':
-            print( '    ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
+            print( '\r     ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
             newConversions = { }
@@ -609,13 +609,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, \
                                                           unitConversionMatrix ) )
 
-            if newConversions:
                 unitConversionMatrix.update( newConversions )
-                print( len( unitConversionMatrix ), end='\r' )
+                print( '\r' + str( len( unitConversionMatrix ) ), end='' )
             else:
                 break
 
-    print( len( unitConversionMatrix ), 'conversions' )
+    print( '\r' + str( len( unitConversionMatrix ) ) + ' conversions' )
 
     # make some more aliases
     print( '        ' )

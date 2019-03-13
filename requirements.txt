@@ -4,14 +4,16 @@ enum34>=1.1.6
 ephem>=3.7.6.0
 geopy>=1.11.0
 gmpy2>=2.0.8
+importlib_resoruces>=1.0.2
 mpmath>=1.1.0
 numpy>=1.14.0
 pylru>=1.0.9
 pyreadline>=2.1
 pytz>=2017.3
 rpnChiladaData>=1.0.0
+setuptools
 six>=1.11.0
 skyfield>=1.10
 timezonefinder>=2.1.2
 tzlocal>=1.5.1
-
+wheel
