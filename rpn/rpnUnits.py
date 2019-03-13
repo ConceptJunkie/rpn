@@ -2599,7 +2599,7 @@ http://www.unc.edu/~rowlett/units/dictT.html
 ''' ),
 
     'kilogram*meter/second^2' :
-        RPNUnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', '',
+        RPNUnitInfo( 'force', 'kilogram*meter/second^2', 'kilogram*meter/second^2', '',
                      [ ], [ 'SI' ],
                      '''
 This is the definition of the SI derived unit Newton (N).
@@ -2617,8 +2617,8 @@ This is the definition of the SI derived unit Newton (N).
                      '''
 ''' ),
 
-    'foot*pound/second^2' :
-        RPNUnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', '',
+    'pound-force' :
+        RPNUnitInfo( 'force', 'pound-force', 'pound-force', '',
                      [ ], [ 'FPS' ],
                      '''
 ''' ),
@@ -5220,6 +5220,7 @@ unitConversionMatrix = {
     ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
     ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
     ( 'byte',                       'bit' )                                 : mpmathify( '8' ),
+    ( 'byte/second',                'bit/second' )                          : mpmathify( '8' ),
     ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
@@ -5538,6 +5539,7 @@ unitConversionMatrix = {
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
     ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
+    ( 'pound-force',                'newton' )                              : mpmathify( '4.4482216152605' ),
     ( 'psi',                        'pascal' )                              : mpmathify( '6894.75728' ),      # approx.
     ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
     ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
@@ -5725,6 +5727,5 @@ unitConversionMatrix = {
     ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
-
 }
 
