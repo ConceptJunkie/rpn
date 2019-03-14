@@ -79,7 +79,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.2.3.
+The current release is 7.2.4.
 
 See "rpn help settings" for more information.
 
@@ -143,10 +143,13 @@ Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com). This was origi
 **Rick Gutleber**
 [rickg@his.com](mailto:rickg@his.com)
 
-p.s. rpn is licensed under the GNU GPL version 3.0. See (see
-(http://www.gnu.org/licenses/gpl.html) for more information).
+p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+7.2.4
+
+Just a bunch of fixes.  makeUnits has been improved a bit, and I've validated that all conversions exist, and are consistent.
 
 7.2.3
 
@@ -154,21 +157,13 @@ I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
 
 7.2.2
 
-A big change that doesn't affect functionality is that the prime number data
-now resides in a separate package called rpnChiladaData.  This data rarely
-changes so there's no reason to download it.
+A big change that doesn't affect functionality is that the prime number data now resides in a separate package called rpnChiladaData.  This data rarely changes so there's no reason to download it.
 
-A major bug was uncovered after almost a year.  rpnChilada thought there were
-51920.97 seconds in a day because of a typo.  This has been fixed, and I
-figured out how to detect other similar problems if they exist.  This change
-will be implemented in the next few days.
+A major bug was uncovered after almost a year.  rpnChilada thought there were 51920.97 seconds in a day because of a typo.  This has been fixed, and I figured out how to detect other similar problems if they exist.  This change will be implemented in the next few days.
 
 7.2.1
 
-Unit conversion is now a lot smarter because the automatically-generated area
-and volume units are generated more intelligently.  This means expressions
-using the "square" and "cubic" units will convert automatically and you won't
-end up with something like "foot^2/square_mile".
+Unit conversion is now a lot smarter because the automatically-generated area and volume units are generated more intelligently.  This means expressions using the "square" and "cubic" units will convert automatically and you won't end up with something like "foot^2/square_mile".
 
 ...and yes, a few bug fixes.
 
@@ -176,36 +171,29 @@ end up with something like "foot^2/square_mile".
 
 Added 'random_element' operator.
 
-The gmpy2 digits( ) function is a much faster way to convert numbers to bases
-2 through 62.
+The gmpy2 digits( ) function is a much faster way to convert numbers to bases 2 through 62.
 
 Added support for using yafu for factoring.
 
 Added 'aliquot_limit' operator.
 
-Added support for user configuration:  'set_config', 'get_config',
-'delete_config' and 'dump_config'.
+Added support for user configuration:  'set_config', 'get_config', 'delete_config' and 'dump_config'.
 
 Added the 'mothers_day', 'fathers_day' and 'advent' operators.
 
-Added the 'molar_gas_constant', 'aliquot_limit' and 'distance' operators
-(the old 'distance' operator is now called 'geo_distance').
+Added the 'molar_gas_constant', 'aliquot_limit' and 'distance' operators (the old 'distance' operator is now called 'geo_distance').
 
 Added unit tests for converting units, and made a few fixes accordingly.
 
 Verbose mode for factoring gets turned on with -D.
 
-Oops, there were two operators named 'distance'.  'distance' now refers to the
-physics operator and the geography operator is now named 'geo_distance'.
+Oops, there were two operators named 'distance'.  'distance' now refers to the physics operator and the geography operator is now named 'geo_distance'.
 
 The 'acceleration' operator has been implemented.
 
 The derived Planck units are now calculated, instead of hard-coded.
 
-Block Hole operators:  'black_hole_entropy', 'black_hole_lifetime',
-'black_hole_luminosity', 'black_hole_mass', 'black_hole_radius' (was
-'schwarzchild_radius'), 'black_hole_surface_area',
-'black_hole_surface_gravity', 'black_hole_temperature'
+Block Hole operators:  'black_hole_entropy', 'black_hole_lifetime', 'black_hole_luminosity', 'black_hole_mass', 'black_hole_radius' (was 'schwarzchild_radius'), 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_temperature'
 
 ...and the usual bug fixes.
 

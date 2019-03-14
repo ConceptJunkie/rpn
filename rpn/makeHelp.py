@@ -1048,6 +1048,11 @@ release notes, so there are a ton of new features not mentioned here.
     '''
 For notes about earlier versions, use 'help old_release_notes'.
 
+7.2.4
+
+Just a bunch of fixes.  makeUnits has been improved a bit, and I've validated
+that all conversions exist, and are consistent.
+
 7.2.3
 
 I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
