@@ -324,7 +324,7 @@ def convertToUnsignedLongLong( n ):
     return fmod( real_int( n ), power( 2, 64 ) )
 
 @oneArgFunctionEvaluator( )
-def convertToUnsignedLongLong( n ):
+def convertToUnsignedQuadLong( n ):
     return fmod( real_int( n ), power( 2, 128 ) )
 
 @twoArgFunctionEvaluator( )

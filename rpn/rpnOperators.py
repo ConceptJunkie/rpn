@@ -2956,6 +2956,9 @@ operators = {
     'longlong'                       : RPNOperator( convertToLongLong,
                                                     1, [ RPNOperator.Integer ] ),
 
+    'quadlong'                       : RPNOperator( convertToQuadLong,
+                                                    1, [ RPNOperator.Integer ] ),
+
     # pack ???
 
     'short'                          : RPNOperator( convertToShort,
@@ -2983,6 +2986,9 @@ operators = {
                                                     1, [ RPNOperator.Integer ] ),
 
     # unpack ???
+
+    'uquadlong'                      : RPNOperator( convertToUnsignedQuadLong,
+                                                    1, [ RPNOperator.Integer ] ),
 
     'ushort'                         : RPNOperator( convertToUnsignedShort,
                                                     1, [ RPNOperator.Integer ] ),
