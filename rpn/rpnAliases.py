@@ -298,6 +298,7 @@ operatorAliases = {
     'eddington'                     : 'eddington_number',
     'election'                      : 'election_day',
     'electron_volt'                 : 'electron-volt',
+    'energy_equivalent'             : 'energy_equivalence',
     'enum_dice'                     : 'enumerate_dice',
     'enum_dice_'                    : 'enumerate_dice_',
     'equal'                         : 'is_equal',

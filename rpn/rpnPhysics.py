@@ -18,8 +18,8 @@ from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
-from rpn.rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
-                               RPNMeasurement, validateUnits
+from rpn.rpnMeasurement import getWhichUnitType, matchUnitTypes, RPNMeasurement
+
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
@@ -307,7 +307,7 @@ def calculateBlackHoleLifetime( measurement ):
 
 @oneArgFunctionEvaluator( )
 def calculateTimeDilation( velocity ):
-    validateUnits( velocity, 'velocity' )
+    velocity.validateUnits( 'velocity' )
 
     c_ratio = divide( velocity, getConstant( 'speed_of_light' ) ).value
 
@@ -325,8 +325,8 @@ def calculateTimeDilation( velocity ):
 
 @twoArgFunctionEvaluator( )
 def calculateEscapeVelocity( mass, radius ):
-    validateUnits( mass, 'mass' )
-    validateUnits( radius, 'length' )
+    mass.validateUnits( 'mass' )
+    radius.validateUnits( 'length' )
 
     velocity = getRoot( getProduct( [ 2, getConstant( 'newton_constant' ), mass ] ).divide( radius ), 2 )
     return velocity.convert( 'meter/second' )
@@ -749,8 +749,8 @@ def calculateKineticEnergy( measurement1, measurement2 ):
 
 @twoArgFunctionEvaluator( )
 def calculateHorizonDistance( altitude, radius ):
-    validateUnits( altitude, 'length' )
-    validateUnits( radius, 'length' )
+    altitude.validateUnits( 'length' )
+    radius.validateUnits( 'length' )
 
     distance = getRoot( getProduct( [ 2, radius, altitude ] ), 2 )
     return distance.convert( 'meter' )
@@ -764,7 +764,7 @@ def calculateHorizonDistance( altitude, radius ):
 
 @oneArgFunctionEvaluator( )
 def calculateEnergyEquivalence( mass ):
-    validateUnits( mass, 'mass' )
+    mass.validateUnits( 'mass' )
 
     energy = getProduct( [ mass, getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ] )
     return energy.convert( 'joule' )
@@ -778,7 +778,7 @@ def calculateEnergyEquivalence( mass ):
 
 @oneArgFunctionEvaluator( )
 def calculateMassEquivalence( energy ):
-    validateUnits( energy, 'energy' )
+    energy.validateUnits( 'energy' )
 
     mass = divide( energy, multiply( getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ) )
     return mass.convert( 'kilogram' )

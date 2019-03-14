@@ -1018,10 +1018,7 @@ def preprocessTerms( terms ):
         # translate compound units in the equivalent operators
         elif ( '*' in term or '^' in term or '/' in term ) and \
             any( c in term for c in string.ascii_letters ):
-            newTerms = unpackUnitExpression( term )
-
-            for newTerm in newTerms:
-                result.append( newTerm )
+            result.append( RPNUnits.parseUnitExpression( term ) )
         else:
             result.append( term )
 
@@ -1265,6 +1262,7 @@ def dumpOperators( ):
 def dumpConstants( ):
     if not g.constantOperators:
         loadUnitData( )
+        loadConstants( )
 
     for i in sorted( [ key for key in g.constantOperators ] ):
         print( i, g.constantOperators[ i ].value )
@@ -1283,6 +1281,7 @@ def dumpConstants( ):
 def dumpUnits( ):
     if not g.unitOperators:
         loadUnitData( )
+        loadConstants( )
 
     for i in sorted( [ key for key in g.unitOperators ] ):
         print( i )
@@ -1355,69 +1354,6 @@ def dumpStats( ):
 
 # //******************************************************************************
 # //
-# //  unpackUnitExpression
-# //
-# //******************************************************************************
-
-def unpackUnitExpression( expression, addNullUnit = True ):
-    pieces = expression.split( '/' )
-
-    if len( pieces ) > 2:
-        raise ValueError( 'only one \'/\' is permitted' )
-    elif len( pieces ) == 2:
-        result = unpackUnitExpression( pieces[ 0 ] )
-        result.extend( unpackUnitExpression( pieces[ 1 ], False ) )
-        result.append( 'divide' )
-
-        return result
-    else:
-        result = [ ]
-
-        units = expression.split( '*' )
-
-        bFirst = True
-
-        for unit in units:
-            if unit == '':
-                raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
-
-            operands = unit.split( '^' )
-
-            plainUnit = operands[ 0 ]
-
-            if plainUnit not in g.unitOperators and plainUnit in g.operatorAliases:
-                plainUnit = g.operatorAliases[ plainUnit ]
-
-            operandCount = len( operands )
-
-            exponent = 1
-
-            if operandCount > 1:
-                for i in range( 1, operandCount ):
-                    exponent *= int( floor( operands[ i ] ) )
-
-            if exponent != 0:
-                result.append( plainUnit )
-
-                if exponent != 1:
-                    result.append( str( exponent ) )
-                    result.append( 'power' )
-
-            if bFirst:
-                bFirst = False
-            else:
-                result.append( 'multiply' )
-
-        # kludge
-        if len( result ) > 1 and addNullUnit:
-            result.insert( 0, '_null_unit' )
-            result.append( 'multiply' )
-
-        return result
-
-
-# //******************************************************************************
-# //
 # //  evaluateTerm
 # //
 # //  This looks worse than it is.  It just has to do slightly different things
@@ -1450,15 +1386,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 isConstant = True
                 multipliable = g.constantOperators[ term ].multipliable
             else:
-                newTerms = unpackUnitExpression( term )
-
-                if len( newTerms ) == 1 and newTerms[ 0 ] == term:
-                    term = RPNUnits( term )
-                else:
-                    for newTerm in newTerms:
-                        evaluateTerm( newTerm, index, currentValueList, lastArg )
-
-                    return True
+                isConstant = False
+                term = RPNUnits.parseUnitString( term )
 
             if multipliable:
                 # look for unit without a value (in which case we give it a value of 1)

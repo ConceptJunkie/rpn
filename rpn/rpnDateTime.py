@@ -196,15 +196,15 @@ class RPNDateTime( arrow.Arrow ):
         #print( 'g.unitOperators[ time.getUnitString( ) ].categories', g.unitOperators[ time.getUnitString( ) ].categories )
 
         if 'years' in g.unitOperators[ time.getUnitString( ) ].categories:
-            years = convertUnits( time, 'year' ).getValue( )
+            years = time.convertValue( 'year' )
             return self.replace( year = self.year + years )
         elif 'months' in g.unitOperators[ time.getUnitString( ) ].categories:
-            months = convertUnits( time, 'month' ).getValue( )
+            months = time.convertValue( 'month' )
             return self.incrementMonths( months )
         else:
-            days = int( floor( convertUnits( time, 'day' ).getValue( ) ) )
-            seconds = int( fmod( floor( convertUnits( time, 'second' ).getValue( ) ), 86400 ) )
-            microseconds = int( fmod( floor( convertUnits( time, 'microsecond' ).getValue( ) ), 1000000 ) )
+            days = int( floor( time.convertValue( 'day' ) ) )
+            seconds = int( fmod( floor( time.convertValue( 'second' ) ), 86400 ) )
+            microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1000000 ) )
 
             try:
                 return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )

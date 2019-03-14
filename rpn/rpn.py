@@ -12,7 +12,6 @@
 # //
 # //******************************************************************************
 
-#  https://en.wikipedia.org/wiki/Natural_units#Stoney_units
 #  https://en.wikipedia.org/wiki/Medieval_weights_and_measures
 
 #  http://mathworld.wolfram.com/FavardConstants.html
@@ -36,8 +35,6 @@
 # The Canadian formula, with temperatures in C and wind speed in km/h, is
 # WCTI = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16.
 
-# rpn needs to be able to parse "meter/second^2" as a unit.  It's the "^" that's the problem.
-
 #  "rpn [ 1 0 ] [ 1 -4 ] 3 polypower polymult solve" throws an exception
 
 from __future__ import print_function
@@ -55,6 +52,7 @@ from mpmath import inf, mp, nan, nstr
 from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
+from rpn.rpnConstantUtils import loadConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
@@ -128,6 +126,7 @@ def evaluate( terms ):
     # handle a unit operator
     if not g.unitOperators:
         loadUnitData( )
+        loadConstants( )
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term, hasMore in lookAhead( terms ):
@@ -368,7 +367,6 @@ def rpn( cmd_args ):
     way (such as the unit test functionality).
     '''
     # initialize globals
-    g.debugMode = False
     g.outputRadix = 10
 
     # look for help argument before we start setting everything up (because it's faster this way)

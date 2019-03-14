@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, log10, \
-                   mpf, mpmathify, nstr, power
+from mpmath import chop, extradps, fadd, fdiv, floor, fmul, fprod, frac, fsub, \
+                   log10, mpf, mpmathify, nstr, power
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
@@ -321,20 +321,6 @@ class RPNMeasurement( object ):
     def isCompatible( self, other ):
         if isinstance( other, RPNUnits ):
             return self.getUnitTypes( ) == other.getUnitTypes( )
-        elif isinstance( other, dict ):
-            return self.getUnitTypes( ) == other
-        elif isinstance( other, str ):
-            return isCompatible( self, RPNMeasurement( 1, other ) )
-        elif isinstance( other, list ):
-            result = True
-
-            for item in other:
-                result = self.isCompatible( item )
-
-                if not result:
-                    break
-
-            return result
         elif isinstance( other, RPNMeasurement ):
             debugPrint( 'units: ', self.units, other.units )
             debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
@@ -347,22 +333,16 @@ class RPNMeasurement( object ):
             else:
                 debugPrint( 'RPNMeasurement.isCompatible exiting with false...' )
                 return False
-        else:
-            raise ValueError( 'RPNMeasurement or dict expected' )
-
-    def isEquivalent( self, other ):
-        if isinstance( other, list ):
+        elif isinstance( other, list ):
             result = True
 
             for item in other:
-                result = self.isEquivalent( item )
+                result = self.isCompatible( item )
 
                 if not result:
                     break
 
             return result
-        elif isinstance( other, RPNMeasurement ):
-            return self.getUnits( ) == other.getUnits( )
         else:
             raise ValueError( 'RPNMeasurement or dict expected' )
 
@@ -458,34 +438,57 @@ class RPNMeasurement( object ):
             raise ValueError( 'convert doesn\'t know what to do with this argument' )
 
     def isLarger( self, other ):
-        newValue = self.convert( other )
-        return ( newValue.getValue( ) > other.getValue( ) )
+        newValue = self.convertValue( other.getUnits( ) )
+        return ( newValue > other.getValue( ) )
 
     def isNotLarger( self, other ):
         return not self.isLarger( other )
 
     def isSmaller( self, other ):
-        newValue = self.convert( other )
-        return ( newValue.getValue( ) < other.getValue( ) )
+        newValue = self.convertValue( other.getUnits( ) )
+        return ( newValue < other.getValue( ) )
 
     def isNotSmaller( self, other ):
         return not self.isSmaller( other )
 
     def isEqual( self, other ):
-        newValue = self.convert( other )
-        #print( newValue.getValue( ), other.getValue( ) )
-        return ( newValue.getValue( ) == other.getValue( ) )
+        newValue = self.convertValue( other.getUnits( ) )
+        return ( newValue == other.getValue( ) )
 
     def isNotEqual( self, other ):
         return not self.isEqual( other )
 
-    def convertValue( self, other, tryReverse=True ):
-        if self.isEquivalent( other ):
-            return self.getValue( )
+    def checkUnits( self, unitType ):
+        #print( )
+        #print( 'unitType', unitType )
+        #print( 'base', g.basicUnitTypes[ unitType ].baseUnit )
+        #print( 'dim', g.basicUnitTypes[ unitType ].dimensions )
+        #print( 'measurement units', self.getUnits( ) )
+        #print( 'measurement dim', self.getDimensions( ) )
+        #print( )
+
+        if self.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].baseUnit ) ):
+            return True
+
+        return self.getDimensions( ) == g.basicUnitTypes[ unitType ].dimensions
+
+    def validateUnits( self, unitType ):
+        if not self.checkUnits( unitType ):
+            raise ValueError( unitType + ' unit expected' )
+
+    def convertValue( self, other ):
+        if not isinstance( other, ( RPNUnits, RPNMeasurement, str, list ) ):
+            raise ValueError( 'convertValue must be called with an RPNUnits object, an RPNMeasurement object, a string or a list of RPNMeasurement' )
+
+        if isinstance( other, str ):
+            other = RPNMeasurement( 1, other )
+        elif isinstance( other, RPNUnits ):
+            other = RPNMeasurement( 1, other )
 
         if self.isCompatible( other ):
             conversions = [ ]
 
+            # handle list conversions like [ year, day, minute, hour ]
             if isinstance( other, list ):
                 result = [ ]
                 source = self
@@ -508,17 +511,17 @@ class RPNMeasurement( object ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
-            debugPrint( 'unit1String: ', unit1String )
-            debugPrint( 'unit2String: ', unit2String )
-
-            if unit1String == unit2String:
-                return fmul( self.getValue( ), other.getValue( ) )
-
             if unit1String in g.operatorAliases:
                 unit1String = g.operatorAliases[ unit1String ]
 
             if unit2String in g.operatorAliases:
                 unit2String = g.operatorAliases[ unit2String ]
+
+            debugPrint( 'unit1String: ', unit1String )
+            debugPrint( 'unit2String: ', unit2String )
+
+            if unit1String == unit2String:
+                return fmul( self.getValue( ), other.getValue( ) )
 
             exponents = { }
 
@@ -526,35 +529,18 @@ class RPNMeasurement( object ):
                 loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
-            unit1NoStar = unit1String.replace( '-', '*' )
-            unit2NoStar = unit2String.replace( '-', '*' )
-
-            debugPrint( 'unit1NoStar: ', unit1NoStar )
-            debugPrint( 'unit2NoStar: ', unit2NoStar )
-
-            if ( unit1NoStar, unit2NoStar ) in g.unitConversionMatrix:
-                value = fmul( self.value, mpmathify( g.unitConversionMatrix[ ( unit1NoStar, unit2NoStar ) ] ) )
-            elif ( unit1NoStar, unit2NoStar ) in specialUnitConversionMatrix:
-                value = specialUnitConversionMatrix[ ( unit1NoStar, unit2NoStar ) ]( self.value )
+            if ( unit1String, unit2String ) in g.unitConversionMatrix:
+                value = fmul( self.value, mpmathify( g.unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
+            elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
+                value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( self.value )
             else:
                 # otherwise, we need to figure out how to do the conversion
                 conversionValue = mpmathify( 1 )
 
                 # if that isn't found, then we need to do the hard work and break the units down
-                newUnits1 = RPNUnits( )
+                newUnits1 = RPNUnits( units1 )
+                newUnits2 = RPNUnits( units2 )
 
-                for unit in units1:
-                    newUnits1.update( RPNUnits( g.unitOperators[ unit ].representation + "^" +
-                                                str( units1[ unit ] ) ) )
-
-                newUnits2 = RPNUnits( )
-
-                for unit in units2:
-                    newUnits2.update( RPNUnits( g.unitOperators[ unit ].representation + "^" +
-                                                str( units2[ unit ] ) ) )
-
-                debugPrint( 'units1:', units1 )
-                debugPrint( 'units2:', units2 )
                 debugPrint( 'newUnits1:', newUnits1 )
                 debugPrint( 'newUnits2:', newUnits2 )
 
@@ -595,31 +581,101 @@ class RPNMeasurement( object ):
 
                 value = conversionValue
 
+                # If we can't convert, then let's twiddle the units around and see if we can get it another way.
                 if not foundConversion:
-                    # This is a cheat.  The conversion logic has flaws, but if it's possible to do the
-                    # conversion in the opposite direction, then we can do that and return the reciprocal.
-                    # This allows more conversions without fixing the underlying problems, which will
-                    # require some redesign.
-                    if tryReverse:
-                        return fdiv( 1, other.convertValue( self, False ) )
+                    denominatorFound = False
+
+                    twiddleUnits1 = RPNUnits( units1 )
+                    twiddleUnits2 = RPNUnits( units2 )
+
+                    for unit in twiddleUnits1:
+                        if twiddleUnits1[ unit ] < 0:
+                            denominatorFound = True
+                            exponent = twiddleUnits1[ unit ] * -1
+
+                            if unit in twiddleUnits2:
+                                twiddleUnits2[ unit ] += exponent
+                            else:
+                                twiddleUnits2[ unit ] = exponent
+
+                            twiddleUnits1[ unit ] = 0
+
+                    twiddleUnits1 = RPNMeasurement( 1, twiddleUnits1 ).normalizeUnits( ).getUnits( )
+                    twiddleUnits2 = RPNMeasurement( 1, twiddleUnits2 ).normalizeUnits( ).getUnits( )
+
+                    if denominatorFound:
+                        try:
+                            value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). \
+                                                        convertValue( RPNMeasurement( 1, twiddleUnits2 ) ).getValue( )
+                            return RPNMeasurement( value, units2 )
+                        except:
+                            pass
                     else:
-                        raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' +
-                                          self.getUnitString( ) )
+                        raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' + self.getUnitString( ) )
+
+                    twiddleUnits1 = RPNUnits( units1 )
+                    twiddleUnits2 = RPNUnits( units2 )
+
+                    for unit in twiddleUnits2:
+                        if twiddleUnits2[ unit ] < 0:
+                            denominatorFound = True
+
+                            if unit in twiddleUnits1:
+                                twiddleUnits1[ unit ] += twiddleUnits2[ unit ] * -1
+                            else:
+                                twiddleUnits1[ unit ] = twiddleUnits2[ unit ] * -1
+
+                            twiddleUnits2[ unit ] = 0
+
+                    twiddleUnits1 = RPNMeasurement( 1, twiddleUnits1 ).normalizeUnits( ).getUnits( )
+                    twiddleUnits2 = RPNMeasurement( 1, twiddleUnits2 ).normalizeUnits( ).getUnits( )
+
+                    if denominatorFound:
+                        try:
+                            value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). \
+                                                convertValue( twiddleUnits2 )
+                            return RPNMeasurement( value, units2 )
+                        except:
+                            raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' + self.getUnitString( ) )
+                            pass
+                    else:
+                        raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' + self.getUnitString( ) )
 
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
-                    debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
-                    debugPrint( 'exponents', exponents )
+                    conversionIndex = tuple( conversion )
 
-                    conversionValue = mpmathify( g.unitConversionMatrix[ tuple( conversion ) ] )
-                    conversionValue = power( conversionValue, exponents[ tuple( conversion ) ] )
-                    debugPrint( 'conversion: ', conversion, conversionValue )
+                    if conversionIndex in g.unitConversionMatrix:
+                        debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
+                        debugPrint( 'exponents', exponents )
 
-                    value = fmul( value, conversionValue )
+                        conversionValue = mpmathify( g.unitConversionMatrix[ conversionIndex ] )
+                        conversionValue = power( conversionValue, exponents[ conversionIndex ] )
+                        debugPrint( 'conversion: ', conversion, conversionValue )
 
-                value = fmul( self.value, value )
+                        value = fmul( value, conversionValue )
+                        value = fmul( self.value, value )
+                    else:
+                        # we're ignoring the exponents, but this works for dBm<->milliwatt, etc.
+                        baseUnit = g.basicUnitTypes[ getUnitType( conversion[ 0 ] ) ].baseUnit
+
+                        conversion1 = ( conversion[ 0 ], baseUnit )
+                        conversion2 = ( baseUnit, conversion[ 1 ] )
+
+                        debugPrint( conversion1 )
+                        debugPrint( conversion2 )
+
+                        if conversion1 in g.unitConversionMatrix:
+                            value = fmul( mpmathify( g.unitConversionMatrix[ conversion1 ] ), value )
+                        else:
+                            value = specialUnitConversionMatrix[ conversion1 ]( value )
+
+                        if conversion2 in g.unitConversionMatrix:
+                            value = fmul( mpmathify( g.unitConversionMatrix[ conversion2 ] ) )
+                        else:
+                            value = specialUnitConversionMatrix[ conversion2 ]( value )
 
             return value
         else:
@@ -628,8 +684,8 @@ class RPNMeasurement( object ):
             else:
                 otherUnit = other.getUnitString( )
 
-            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) +
-                              ' and ' + otherUnit )
+            raise ValueError( 'incompatible units cannot be converted: ' +
+                              self.getUnitString( ) + ' and ' + otherUnit )
 
 
 # //******************************************************************************
@@ -665,7 +721,7 @@ def convertUnits( unit1, unit2 ):
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
     elif isinstance( unit2, str ):
-        measurement = RPNMeasurement( 1, { unit2 : 1 } )
+        measurement = RPNMeasurement( 1, unit2 )
         return RPNMeasurement( unit1.convertValue( measurement ), unit2 )
     elif not isinstance( unit2, RPNMeasurement ):
         raise ValueError( 'cannot convert non-measurements' )
@@ -674,8 +730,6 @@ def convertUnits( unit1, unit2 ):
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
         debugPrint( 'value:', unit1.convertValue( unit2 ) )
-
-        # TODO:  remove common units from unit1 and unit2 before converting!
 
         return RPNMeasurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                                unit2.getUnitName( ), unit2.getPluralUnitName( ) )
@@ -773,45 +827,13 @@ def applyNumberValueToUnit( number, term, constant ):
 
 # //******************************************************************************
 # //
-# //  checkUnits
-# //
-# //******************************************************************************
-
-def checkUnits( measurement, unitType ):
-    #print( )
-    #print( 'unitType', unitType )
-    #print( 'base', g.basicUnitTypes[ unitType ].baseUnit )
-    #print( 'dim', g.basicUnitTypes[ unitType ].dimensions )
-    #print( 'measurement units', measurement.getUnits( ) )
-    #print( 'measurement dim', measurement.getDimensions( ) )
-    #print( )
-
-    if measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].baseUnit ) ):
-        return True
-
-    return measurement.getDimensions( ) == g.basicUnitTypes[ unitType ].dimensions
-
-
-# //******************************************************************************
-# //
-# //  validateUnits
-# //
-# //******************************************************************************
-
-def validateUnits( measurement, unitType ):
-    if not checkUnits( measurement, unitType ):
-        raise ValueError( unitType + ' unit expected' )
-
-
-# //******************************************************************************
-# //
 # //  getWhichUnitType
 # //
 # //******************************************************************************
 
 def getWhichUnitType( measurement, unitTypes ):
     for unitType in unitTypes:
-        if checkUnits( measurement, unitType ):
+        if measurement.checkUnits( unitType ):
             return unitType
 
     return None

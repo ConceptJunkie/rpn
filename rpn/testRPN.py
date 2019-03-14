@@ -4722,6 +4722,14 @@ def runTests( tests ):
 # //******************************************************************************
 
 def main( ):
+    args = [ ]
+
+    for arg in sys.argv[ 1 : ]:
+        if arg == '-D':
+            g.debugMode = True
+        else:
+            args.append( arg )
+
     startTime = time.process_time( )
 
     primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
@@ -4770,9 +4778,9 @@ def main( ):
         print( 'alias \'' + alias + '\' resolves to invalid name \'' + operatorAliases[ alias ] + '\'' )
         exit( )
 
-    runTests( sys.argv[ 1 : ] )
+    runTests( args )
 
-    if ( not g.astroDataAvailable ):
+    if ( g.astroDataLoaded and not g.astroDataAvailable ):
         print( 'Astronomy tests were skipped because data could not be downloaded.' )
         print( )
 

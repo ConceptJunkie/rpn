@@ -38,8 +38,22 @@ from rpn.rpnMeasurement import RPNMeasurement, convertUnits
 from rpn.rpnNumberTheory import getNthThueMorse
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPrimeUtils import getNthPrime
+from rpn.rpnUtils import debugPrint
 
 import rpn.rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  loadConstants
+# //
+# //******************************************************************************
+
+def loadConstants( ):
+    g.c = getConstant( 'speed_of_light' )
+    g.h_bar = getConstant( 'reduced_planck_constant' )
+    g.G = getConstant( 'newton_constant' )
+    g.e0 = getConstant( 'electric_constant' )
 
 
 # //******************************************************************************
@@ -186,7 +200,6 @@ def getMillsConstant( ):
 6777791288 1511926511 4237841584 0787995981 2399295139 8684353191 1072954395
 4252242366 7227592898 0816145349 4496612806 9895474389 4519854008 6840135
 '''
-
     return mpf( ''.join( [ i for i in mills if i not in ' \n' ] ) )
 
 
@@ -309,8 +322,7 @@ def getMinFloat( ):
 lru_cache( 1 )
 def getFineStructureConstant( ):
     return getPower( getConstant( 'electron_charge' ), 2 ).divide(
-                getProduct( [ getConstant( 'reduced_planck_constant' ), getConstant( 'speed_of_light' ),
-                              4, pi, getConstant( 'electric_constant_2' ) ] ) ).getValue( )
+                getProduct( [ g.h_bar, g.c, 4, pi, getConstant( 'electric_constant_2' ) ] ) ).getValue( )
 
 
 # //******************************************************************************
@@ -325,8 +337,7 @@ def getFineStructureConstant( ):
 
 @lru_cache( 1 )
 def getPlanckLength( ):
-    return getRoot( getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'newton_constant' ) ).divide(
-                        getPower( getConstant( 'speed_of_light' ), 3 ) ), 2 )
+    return getRoot( g.h_bar.multiply( g.G ).divide( getPower( g.c, 3 ) ), 2 )
 
 
 # //******************************************************************************
@@ -337,8 +348,7 @@ def getPlanckLength( ):
 
 @lru_cache( 1 )
 def getPlanckMass( ):
-    return getRoot( getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'speed_of_light' ) ).divide(
-                        getConstant( 'newton_constant' ) ), 2 )
+    return getRoot( g.h_bar.multiply( g.c ).divide( g.G ), 2 )
 
 
 # //******************************************************************************
@@ -349,8 +359,7 @@ def getPlanckMass( ):
 
 @lru_cache( 1 )
 def getPlanckTime( ):
-    return getRoot( getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'newton_constant' ) ).divide(
-                        getPower( getConstant( 'speed_of_light' ), 5 ) ), 2 )
+    return getRoot( g.h_bar.multiply( g.G ).divide( getPower( g.c, 5 ) ), 2 )
 
 
 # //******************************************************************************
@@ -372,8 +381,8 @@ def getPlanckCharge( ):
 
 @lru_cache( 1 )
 def getPlanckTemperature( ):
-    return getRoot( getConstant( 'reduced_planck_constant' ).multiply( getPower( getConstant( 'speed_of_light' ), 5 ) ).
-        divide( getConstant( 'newton_constant' ).multiply( getPower( getConstant( 'boltzmann_constant' ), 2 ) ) ), 2 )
+    return getRoot( g.h_bar.multiply( getPower( g.c, 5 ) ).
+        divide( g.G.multiply( getPower( getConstant( 'boltzmann_constant' ), 2 ) ) ), 2 )
 
 
 # //******************************************************************************
@@ -384,7 +393,7 @@ def getPlanckTemperature( ):
 
 @lru_cache( 1 )
 def getPlanckArea( ):
-    return getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'newton_constant' ) ).divide( getPower( getConstant( 'speed_of_light' ), 3 ) )
+    return g.h_bar.multiply( g.G ).divide( getPower( g.c, 3 ) )
 
 
 # //******************************************************************************
@@ -395,7 +404,7 @@ def getPlanckArea( ):
 
 @lru_cache( 1 )
 def getPlanckVolume( ):
-    return getRoot( getPower( getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'newton_constant' ) ), 3 ).divide( getPower( getConstant( 'speed_of_light' ), 9 ) ), 2 )
+    return getRoot( getPower( g.h_bar.multiply( g.G ), 3 ).divide( getPower( g.c, 9 ) ), 2 )
 
 
 # //******************************************************************************
@@ -406,7 +415,7 @@ def getPlanckVolume( ):
 
 @lru_cache( 1 )
 def getPlanckMomentum( ):
-    return getRoot( getConstant( 'reduced_planck_constant' ).multiply( getPower( getConstant( 'speed_of_light' ), 3 ) ).divide( getConstant( 'newton_constant' ) ), 2 )
+    return getRoot( g.h_bar.multiply( getPower( g.c, 3 ) ).divide( g.G ), 2 )
 
 
 # //******************************************************************************
@@ -417,9 +426,7 @@ def getPlanckMomentum( ):
 
 @lru_cache( 1 )
 def getPlanckEnergy( ):
-    return convertUnits( getRoot( getConstant( 'reduced_planck_constant' ).
-                            multiply( getPower( getConstant( 'speed_of_light' ), 5 ) ).
-                                divide( getConstant( 'newton_constant' ) ), 2 ), 'joule' )
+    return getRoot( g.h_bar.multiply( getPower( g.c, 5 ) ).divide( g.G ), 2 ).convert( 'joule' )
 
 
 # //******************************************************************************
@@ -430,7 +437,7 @@ def getPlanckEnergy( ):
 
 @lru_cache( 1 )
 def getPlanckForce( ):
-    return convertUnits( getPower( getConstant( 'speed_of_light' ), 4 ).divide( getConstant( 'newton_constant' ) ), 'newton' )
+    return getPower( g.c, 4 ).divide( g.G ).convert( 'newton' )
 
 
 # //******************************************************************************
@@ -441,7 +448,7 @@ def getPlanckForce( ):
 
 @lru_cache( 1 )
 def getPlanckPower( ):
-    return convertUnits( getPower( getConstant( 'speed_of_light' ), 5 ).divide( getConstant( 'newton_constant' ) ), 'watt' )
+    return getPower( g.c, 5 ).divide( g.G ).convert( 'watt' )
 
 
 # //******************************************************************************
@@ -452,9 +459,7 @@ def getPlanckPower( ):
 
 @lru_cache( 1 )
 def getPlanckDensity( ):
-    return convertUnits( getPower( getConstant( 'speed_of_light' ), 5 ).divide( getConstant( 'reduced_planck_constant' ).
-                                                multiply( getPower( getConstant( 'newton_constant' ), 2 ) ) ),
-                         'kilogram/meter^3' )
+    return getPower( g.c, 5 ).divide( g.h_bar. multiply( getPower( g.G, 2 ) ) ).convert( 'kilogram/meter^3' )
 
 
 # //******************************************************************************
@@ -465,12 +470,10 @@ def getPlanckDensity( ):
 
 @lru_cache( 1 )
 def getPlanckEnergyDensity( ):
-    result = getPower( getConstant( 'speed_of_light' ), 7 ).divide( getConstant( 'reduced_planck_constant' ).
-                                                multiply( getPower( getConstant( 'newton_constant' ), 2 ) ) )
-
-    result = convertUnits( result.multiply( RPNMeasurement( 1, 'meter^3' ) ), 'joule' ).getValue( )
-
-    return RPNMeasurement( result, 'joule/meter^3' )
+    result = getPower( g.c, 7 ).divide( g.h_bar.multiply( getPower( g.G, 2 ) ) )
+    #result = convertUnits( result.multiply( RPNMeasurement( 1, 'meter^3' ) ), 'joule' )
+    #return result.divide( RPNMeasurement( 1, 'meter^3' ) )
+    return result.convert( 'joule/meter^3' )
 
 
 # //******************************************************************************
@@ -481,9 +484,7 @@ def getPlanckEnergyDensity( ):
 
 @lru_cache( 1 )
 def getPlanckIntensity( ):
-    return convertUnits( getPower( getConstant( 'speed_of_light' ), 8 ).divide( getConstant( 'reduced_planck_constant' ).
-                                                multiply( getPower( getConstant( 'newton_constant' ), 2 ) ) ),
-                         'watt/meter^2' )
+    return getPower( g.c, 8 ).divide( g.h_bar. multiply( getPower( g.G, 2 ) ) ).convert( 'watt/meter^2' )
 
 
 # //******************************************************************************
@@ -494,8 +495,7 @@ def getPlanckIntensity( ):
 
 @lru_cache( 1 )
 def getPlanckAngularFrequency( ):
-    return RPNMeasurement( getRoot( getPower( getConstant( 'speed_of_light' ), 5 ).divide( getConstant( 'reduced_planck_constant' ).
-                                                        multiply( getConstant( 'newton_constant' ) ) ), 2 ).getValue( ),
+    return RPNMeasurement( getRoot( getPower( g.c, 5 ).divide( g.h_bar. multiply( g.G ) ), 2 ).getValue( ),
                            'radian/second' )
 
 
@@ -507,8 +507,7 @@ def getPlanckAngularFrequency( ):
 
 @lru_cache( 1 )
 def getPlanckPressure( ):
-    return convertUnits( getPower( getConstant( 'speed_of_light' ), 7 ).divide( getConstant( 'reduced_planck_constant' ).
-                                        multiply( getPower( getConstant( 'newton_constant' ), 2 ) ) ), 'pascal' )
+    return getPower( g.c, 7 ).divide( g.h_bar.multiply( getPower( g.G, 2 ) ) ).convert( 'pascal' )
 
 
 # //******************************************************************************
@@ -519,10 +518,7 @@ def getPlanckPressure( ):
 
 @lru_cache( 1 )
 def getPlanckCurrent( ):
-    e_0 = getConstant( 'electric_constant' )
-
-    return getRoot( getProduct( [ 4, pi, e_0, getPower( getConstant( 'speed_of_light' ), 6 ) ] ).
-                                    divide( getConstant( 'newton_constant' ) ), 2 )
+    return getRoot( getProduct( [ 4, pi, g.e0, getPower( g.c, 6 ) ] ).divide( g.G ), 2 )
 
 
 # //******************************************************************************
@@ -533,8 +529,7 @@ def getPlanckCurrent( ):
 
 @lru_cache( 1 )
 def getPlanckVoltage( ):
-    return getRoot( getProduct( [ 4, pi, getConstant( 'electric_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ).
-                            divide( getConstant( 'newton_constant' ) ), 2 )
+    return getRoot( getProduct( [ 4, pi, g.e0, getPower( g.c, 6 ) ] ).divide( g.G ), 2 )
 
 
 # //******************************************************************************
@@ -556,10 +551,8 @@ def getPlanckImpedance( ):
 
 @lru_cache( 1 )
 def getPlanckMagneticInductance( ):
-    # goobles, need to take square root and convert to tesla
-    return getPower( getConstant( 'speed_of_light' ), 5 ).divide( getProduct( [ getConstant( 'reduced_planck_constant' ),
-                                                                   getPower( getConstant( 'newton_constant' ), 2 ), 4, pi,
-                                                                   getConstant( 'electric_constant' ) ] ) )
+    return getRoot( getPower( g.c, 5 ).divide( getProduct( [ g.h_bar, \
+                                              getPower( g.G, 2 ), 4, pi, g.e0 ] ) ), 2 ).convert( 'tesla' )
 
 # //******************************************************************************
 # //
@@ -569,10 +562,8 @@ def getPlanckMagneticInductance( ):
 
 @lru_cache( 1 )
 def getPlanckElectricalInductance( ):
-    return convertUnits( getRoot( getConstant( 'newton_constant' ).multiply( getConstant( 'reduced_planck_constant' ) ).divide(
-                                         getPower( getConstant( 'speed_of_light' ), 7 ).
-                                            multiply( getPower( getProduct( [ 4, pi, getConstant( 'electric_constant' ) ] ), 2 ) ) ),
-                                  2 ), 'henry' )
+    return getRoot( g.G.multiply( g.h_bar ).divide( getPower( g.c, 7 ). \
+                                     multiply( getPower( getProduct( [ 4, pi, g.e0 ] ), 2 ) ) ), 2 ).convert( 'henry' )
 
 
 # //******************************************************************************
@@ -583,8 +574,7 @@ def getPlanckElectricalInductance( ):
 
 @lru_cache( 1 )
 def getPlanckVolumetricFlowRate( ):
-    return getConstant( 'reduced_planck_constant' ).multiply( getConstant( 'newton_constant' ) ).divide(
-                                                      getPower( getConstant( 'speed_of_light' ), 2 ) )
+    return g.h_bar.multiply( g.G ).divide( getPower( g.c, 2 ) )
 
 
 # //******************************************************************************
@@ -595,9 +585,7 @@ def getPlanckVolumetricFlowRate( ):
 
 @lru_cache( 1 )
 def getPlanckViscosity( ):
-    return convertUnits( getRoot( getPower( getConstant( 'speed_of_light' ), 9 ).
-                            divide( getPower( getConstant( 'newton_constant' ), 3 ).
-                                multiply( getConstant( 'reduced_planck_constant' ) ) ), 2 ), 'pascal*second' )
+    return getRoot( getPower( g.c, 9 ).divide( getPower( g.G, 3 ).multiply( g.h_bar ) ), 2 ).convert( 'pascal*second' )
 
 # //******************************************************************************
 # //
@@ -607,9 +595,7 @@ def getPlanckViscosity( ):
 
 @lru_cache( 1 )
 def getPlanckAcceleration( ):
-    return getRoot( getPower( getConstant( 'speed_of_light' ), 7 ).
-            divide( getConstant( 'reduced_planck_constant' ).
-                multiply( getConstant( 'newton_constant' ) ) ), 2 )
+    return getRoot( getPower( g.c, 7 ).divide( g.h_bar.multiply( g.G ) ), 2 )
 
 
 # //******************************************************************************
@@ -640,7 +626,7 @@ def getThueMorseConstant( ):
 # //******************************************************************************
 
 def getRadiationConstant( ):
-    return getConstant( 'stefan_boltzmann_constant' ).multiply( 4 ).divide( getConstant( 'speed_of_light' ) )
+    return getConstant( 'stefan_boltzmann_constant' ).multiply( 4 ).divide( g.c )
 
 
 # //******************************************************************************

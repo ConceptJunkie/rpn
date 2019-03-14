@@ -14,7 +14,7 @@
 
 import collections
 
-from mpmath import fdiv, floor, mpmathify
+from mpmath import fdiv, mpmathify
 
 from rpn.rpnPersistence import loadUnitConversionMatrix
 
@@ -103,7 +103,7 @@ class RPNUnits( collections.Counter ):
     def __init__( self, *arg, **kw ):
         if ( len( arg ) == 1 ):
             if isinstance( arg[ 0 ], str ):
-                self.update( self.parseUnitString( arg[ 0 ] ) )
+                self.update( RPNUnits.parseUnitString( arg[ 0 ] ) )
             elif isinstance( arg[ 0 ], ( list, tuple ) ):
                 for item in arg[ 0 ]:
                     self.update( item )  # for Counter, update( ) adds, not replaces
@@ -173,7 +173,10 @@ class RPNUnits( collections.Counter ):
 
                 unitType = g.unitOperators[ unit ].unitType
 
-            types[ unitType ] += self[ unit ]
+            if unitType in types:
+                types[ unitType ] += self[ unit ]
+            else:
+                types[ unitType ] = self[ unit ]
 
         return types
 
@@ -240,7 +243,8 @@ class RPNUnits( collections.Counter ):
 
         return resultString
 
-    def parseUnitString( self, expression ):
+    @staticmethod
+    def parseUnitString( expression ):
         '''Parses a string with the algebraic representation of the units and populates
         the RPNUnits object (self) with the parsed unit values.'''
         pieces = expression.split( '/' )
@@ -248,8 +252,8 @@ class RPNUnits( collections.Counter ):
         if len( pieces ) > 2:
             raise ValueError( 'only one \'/\' is permitted' )
         elif len( pieces ) == 2:
-            result = self.parseUnitString( pieces[ 0 ] )
-            result.subtract( self.parseUnitString( pieces[ 1 ] ) )
+            result = RPNUnits.parseUnitString( pieces[ 0 ] )
+            result.subtract( RPNUnits.parseUnitString( pieces[ 1 ] ) )
 
             return result
         else:
@@ -274,7 +278,7 @@ class RPNUnits( collections.Counter ):
 
                 if operandCount > 1:
                     for i in range( 1, operandCount ):
-                        exponent *= int( floor( operands[ i ] ) )
+                        exponent *= int( operands[ i ] )
 
                 result[ plainUnit ] += exponent
 

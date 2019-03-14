@@ -129,9 +129,7 @@ def getKSphereSurfaceArea( n, k ):
     if dimensions == { 'length' : 1 }:
         m = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 1 } ] ) )
 
-        result = fmul( fdiv( fmul( power( pi, fdiv( k, 2 ) ), 2 ),
-                             gamma( fdiv( k, 2 ) ) ),
-                       power( m, fsub( k, 1 ) ) )
+        result = fmul( fdiv( fmul( power( pi, fdiv( k, 2 ) ), 2 ), gamma( fdiv( k, 2 ) ) ), power( m, fsub( k, 1 ) ) )
 
         return RPNMeasurement( result, [ { 'meter' : int( k - 1 ) } ] )
     elif dimensions == { 'length' : int( k - 1 ) }:
@@ -179,8 +177,7 @@ def getKSphereVolume( n, k ):
     if dimensions == { 'length' : 1 }:
         m = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 1 } ] ) )
 
-        result = fmul( fdiv( power( pi, fdiv( k, 2 ) ),
-                             gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
+        result = fmul( fdiv( power( pi, fdiv( k, 2 ) ), gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
 
         return RPNMeasurement( result, [ { 'meter' : k } ] )
     elif dimensions == { 'length' : int( k - 1 ) }:
