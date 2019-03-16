@@ -550,8 +550,6 @@ limitation of the Arrow class.
 
 User-defined functions can't include units.
 
-Transitive conversions with units that require special functions don't work.
-
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
@@ -573,11 +571,10 @@ gets smaller.
 
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
 *  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
-*  support date comparisons, etc. before the epoch
+*  support date comparisons, etc. before the epoch (Arrow doesn't work before the epoch apparently!)
 *  create an output handler for RPNLocation
 *  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
-*  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
 *  'mean' should work with measurements
 *  units aren't supported in user-defined functions
 *  http://en.wikipedia.org/wiki/Physical_constant
@@ -592,7 +589,7 @@ Long-term goals
 *  This is a big one, and may not be possible with the current syntax, but I would love to support nested lambdas.
 *  Turn rpn into a full-blown scripting language.  It's 2/3 of the way there.  Why not go all the way?
 *  Redesign the parsing logic.  It's excessively complex has lots of edge cases where it breaks down.
-*  Lambdas are converted into Python code, compiled and run.  Perhaps all expressions should work this way.
+*  Lambdas are converted into Python code, compiled and run.  Perhaps all expressions should work this way!
 
 See 'rpn help bugs'.
     ''',

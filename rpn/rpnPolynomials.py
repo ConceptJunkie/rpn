@@ -51,7 +51,9 @@ def determinant( M ):
         return M[ 0 ][ 0 ] * M[ 1 ][ 1 ] - M[ 0 ][ 1 ] * M[ 1 ][ 0 ]
 
     if k == 3:
-        a, b, c, d, e, f, g, h, i = M[ 0 ][ 0 ], M[ 0 ][ 1 ], M[ 0 ][ 2 ], M[ 1 ][ 0 ], M[ 1 ][ 1 ], M[ 1 ][ 2 ], M[ 2 ][ 0 ], M[ 2 ][ 1 ], M[ 2 ][ 2 ]
+        a, b, c = M[ 0 ][ 0 ], M[ 0 ][ 1 ], M[ 0 ][ 2 ]
+        d, e, f = M[ 1 ][ 0 ], M[ 1 ][ 1 ], M[ 1 ][ 2 ]
+        g, h, i = M[ 2 ][ 0 ], M[ 2 ][ 1 ], M[ 2 ][ 2 ]
         return a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g
 
     sign = 1
@@ -528,7 +530,11 @@ def solvePolynomial( args ):
     try:
         result = polyroots( args )
     except libmp.libhyper.NoConvergence:
-        result = polyroots( args, maxsteps = 100, extraprec = 20 )
+        try:
+            #  Let's try again, really hard!
+            result = polyroots( args, maxsteps = 2000, extraprec = 5000 )
+        except libmp.libhyper.NoConvergence:
+            raise ValueError( 'polynomial failed to converge' )
 
     return result
 

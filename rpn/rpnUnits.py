@@ -4119,6 +4119,12 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     # time
+    '1/hertz' :
+        RPNUnitInfo( 'time', '1/hertz', '1/hertz', '',
+                     [ ], [ ],
+                     '''
+''' ),
+
     'beat' :
         RPNUnitInfo( 'time', 'beat', 'beat', '',
                      [ ], [ ],

@@ -238,6 +238,9 @@ class RPNUnits( collections.Counter ):
                 if exponent < -1:
                     denominator += '^' + str( int( -exponent ) )
 
+        if resultString == '':
+            resultString = '1'
+
         if denominator != '':
             resultString += '/' + denominator
 
@@ -262,6 +265,9 @@ class RPNUnits( collections.Counter ):
             units = expression.split( '*' )
 
             for unit in units:
+                if unit == '1':
+                    continue
+
                 if unit == '':
                     raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
 

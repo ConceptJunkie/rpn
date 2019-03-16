@@ -17,9 +17,6 @@
 #  http://mathworld.wolfram.com/FavardConstants.html
 #  How can we create a lambda to produce multiple Favard constants with a single expression?
 
-#  Bug:
-#  rpn 1 milliwatt dBm convert
-
 #  rpn 4 meters meters * is_square
 
 # Wind chill temperature index is a measurement of the combined cooling effect of low air temperature and
@@ -34,8 +31,6 @@
 
 # The Canadian formula, with temperatures in C and wind speed in km/h, is
 # WCTI = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16.
-
-#  "rpn [ 1 0 ] [ 1 -4 ] 3 polypower polymult solve" throws an exception
 
 from __future__ import print_function
 

@@ -572,6 +572,7 @@ class RPNMeasurement( object ):
 
                         # check to see if reducing did anything and bail if it didn't... bail out
                         if ( reduced.units == self.units ) and ( reducedOther.units == other.units ):
+                            debugPrint( 'reducing didn\'t help' )
                             break
 
                         reduced = reduced.convertValue( reducedOther )
@@ -583,12 +584,17 @@ class RPNMeasurement( object ):
 
                 # If we can't convert, then let's twiddle the units around and see if we can get it another way.
                 if not foundConversion:
+                    numeratorFound = False
                     denominatorFound = False
 
                     twiddleUnits1 = RPNUnits( units1 )
                     twiddleUnits2 = RPNUnits( units2 )
 
                     for unit in twiddleUnits1:
+                        if twiddleUnits1[ unit ] > 0:
+                            numeratorFound = True
+                            continue
+
                         if twiddleUnits1[ unit ] < 0:
                             denominatorFound = True
                             exponent = twiddleUnits1[ unit ] * -1
@@ -603,7 +609,7 @@ class RPNMeasurement( object ):
                     twiddleUnits1 = RPNMeasurement( 1, twiddleUnits1 ).normalizeUnits( ).getUnits( )
                     twiddleUnits2 = RPNMeasurement( 1, twiddleUnits2 ).normalizeUnits( ).getUnits( )
 
-                    if denominatorFound:
+                    if denominatorFound and numeratorFound:
                         try:
                             value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). \
                                                         convertValue( RPNMeasurement( 1, twiddleUnits2 ) ).getValue( )
@@ -613,10 +619,20 @@ class RPNMeasurement( object ):
                     else:
                         raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' + self.getUnitString( ) )
 
+                    numeratorFound = False
+                    denominatorFound = False
+
                     twiddleUnits1 = RPNUnits( units1 )
                     twiddleUnits2 = RPNUnits( units2 )
 
+                    debugPrint( 'twiddleUnits1', twiddleUnits1 )
+                    debugPrint( 'twiddleUnits2', twiddleUnits2 )
+
                     for unit in twiddleUnits2:
+                        if twiddleUnits2[ unit ] > 0:
+                            numeratorFound = True
+                            continue
+
                         if twiddleUnits2[ unit ] < 0:
                             denominatorFound = True
 
@@ -630,10 +646,12 @@ class RPNMeasurement( object ):
                     twiddleUnits1 = RPNMeasurement( 1, twiddleUnits1 ).normalizeUnits( ).getUnits( )
                     twiddleUnits2 = RPNMeasurement( 1, twiddleUnits2 ).normalizeUnits( ).getUnits( )
 
-                    if denominatorFound:
+                    debugPrint( '2 twiddleUnits1', twiddleUnits1 )
+                    debugPrint( '2 twiddleUnits2', twiddleUnits2 )
+
+                    if denominatorFound and numeratorFound:
                         try:
-                            value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). \
-                                                convertValue( twiddleUnits2 )
+                            value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). convertValue( twiddleUnits2 )
                             return RPNMeasurement( value, units2 )
                         except:
                             raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' + self.getUnitString( ) )
@@ -644,6 +662,8 @@ class RPNMeasurement( object ):
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
+
+                    value = self.getValue( )
 
                     conversionIndex = tuple( conversion )
 
@@ -664,18 +684,28 @@ class RPNMeasurement( object ):
                         conversion1 = ( conversion[ 0 ], baseUnit )
                         conversion2 = ( baseUnit, conversion[ 1 ] )
 
-                        debugPrint( conversion1 )
-                        debugPrint( conversion2 )
+                        debugPrint( 'conversion1', conversion1 )
+                        debugPrint( 'conversion2', conversion2 )
+
+                        debugPrint( 'value0', value )
 
                         if conversion1 in g.unitConversionMatrix:
-                            value = fmul( mpmathify( g.unitConversionMatrix[ conversion1 ] ), value )
+                            debugPrint( 'standard conversion 1' )
+                            value = fmul( value, mpmathify( g.unitConversionMatrix[ conversion1 ] ) )
                         else:
+                            debugPrint( 'special conversion 1' )
                             value = specialUnitConversionMatrix[ conversion1 ]( value )
 
+                        debugPrint( 'value1', value )
+
                         if conversion2 in g.unitConversionMatrix:
-                            value = fmul( mpmathify( g.unitConversionMatrix[ conversion2 ] ) )
+                            debugPrint( 'standard conversion 2' )
+                            value = fmul( value, mpmathify( g.unitConversionMatrix[ conversion2 ] ) )
                         else:
+                            debugPrint( 'special conversion 2' )
                             value = specialUnitConversionMatrix[ conversion2 ]( value )
+
+                        debugPrint( 'value0', value )
 
             return value
         else:
