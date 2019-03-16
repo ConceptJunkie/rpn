@@ -759,3 +759,44 @@ def loadAstronomyData( ):
 
     return True
 
+
+# //******************************************************************************
+# //
+# //  matchArgumentTypes
+# //
+# //******************************************************************************
+
+#TODO
+
+def matchArgumentTypes( args, validArgTypes ):
+    result = { }
+
+    for unitTypeList in validArgTypes:
+        unitTypes = list( unitTypeList )
+
+        #print( 'unitTypes', unitTypes )
+
+        if len( args ) != len( unitTypes ):
+            raise ValueError( 'argument count mismatch in matchArgTypes( )' )
+
+        for arg in args:
+            unitType = getWhichArgType( arg, unitTypes )
+            #print( 'found unit type', unitType )
+
+            if unitType:
+                #print( 'setting unitType', unitType )
+                result[ unitType ] = arg
+            else:
+                result = { }
+                #print( 'breaking...' )
+                #print( )
+                break
+
+            unitTypes.remove( unitType )
+        else:
+            return result
+
+    #print( 'first loop completed' )
+    return None
+
+
