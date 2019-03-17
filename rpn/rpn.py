@@ -174,8 +174,7 @@ def evaluate( terms ):
 def handleOutput( valueList, indent=0, file=sys.stdout ):
     '''
     Once the evaluation of terms is complete, the results need to be
-    translated into output.  It is expected there will be a single result,
-    otherwise an error is thrown because the expression was incomplete.
+    translated into output.
 
     If the result is a list or a generator, special formatting turns those
     into text output.  Date-time values and measurements also require special

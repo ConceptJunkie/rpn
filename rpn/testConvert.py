@@ -654,17 +654,20 @@ def runConvertTests( ):
 
     # complicated conversions
     testOperator( '16800 mA hours * 5 volts * joule convert' )
+    testOperator( '1/coulomb 1/ampere*second convert' )
+    testOperator( 'kilogram/meter*second^2 joule/meter^3 convert' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
     testOperator( 'foot 4 power square_inch sqr convert' )
 
     # lists of units
-    testOperator( '1 20 range dBm watt convert' )
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
 
     # special conversions tests
+    testOperator( '1 20 range dBm watt convert' )
     testOperator( '0 100 10 range2 dBm watt convert -s1' )
+    testOperator( '60 dBm kilowatt convert' )
 
 
 # //******************************************************************************

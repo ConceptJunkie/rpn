@@ -301,7 +301,7 @@ class RPNMeasurement( object ):
         newUnits = RPNUnits( )
 
         for unit in units:
-            if units[ unit ] != 0 and unit != '_null_unit':
+            if units[ unit ] != 0 and unit != '_null_type':
                 newUnits[ unit ] = units[ unit ]
 
         return RPNMeasurement( self.value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
@@ -381,6 +381,9 @@ class RPNMeasurement( object ):
         types = RPNUnits( )
 
         for unit in self.units:
+            if unit == '1':
+                continue
+
             if unit not in g.unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -416,13 +419,18 @@ class RPNMeasurement( object ):
                 elif ( unit, newUnit ) in specialUnitConversionMatrix:
                     value = power( specialUnitConversionMatrix[ ( unit, newUnit ) ]( value ), self.units[ unit ] )
                 else:
-                    raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
+                    if unit == '1' and newUnit == '_null_unit':
+                        reduced = RPNMeasurement( value, units )
+                        debugPrint( 'getReduced 2:', reduced )
+                        return reduced
+                    else:
+                        raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
 
             units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
             debugPrint( 'value', value )
 
         reduced = RPNMeasurement( value, units )
-        debugPrint( 'getReduced 2:', reduced )
+        debugPrint( 'getReduced 3:', reduced )
         return reduced
 
     def convert( self, other ):

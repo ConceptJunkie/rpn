@@ -44,7 +44,7 @@ from rpn.rpnUnitClasses import RPNConstantInfo, RPNUnitInfo, RPNUnitTypeInfo
 basicUnitTypes = {
     '_null_type' : RPNUnitTypeInfo(
         'constant',
-        'length^0',
+        '_null_unit',
         None
     ),
 

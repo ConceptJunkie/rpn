@@ -37,7 +37,10 @@ def getUnitType( unit ):
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].unitType
     else:
-        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+        if unit == '1':
+            return '_null_type'
+        else:
+            raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 # //******************************************************************************
@@ -184,8 +187,9 @@ class RPNUnits( collections.Counter ):
         result = RPNUnits( )
 
         for unit in self:
-            # if unit not in g.unitOperators:
-            #     raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+            if unit == '1':
+                continue
+
             dimensions = RPNUnits( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
 
             exponent = self.get( unit )

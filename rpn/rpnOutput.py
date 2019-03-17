@@ -293,6 +293,9 @@ def formatUnits( measurement ):
         tempString = tempString.replace( '_null_unit*', '' )
         tempString = tempString.replace( '*_null_unit', '' )
 
+        tempString = tempString.replace( '_null_unit/', '1/' )
+        tempString = tempString.replace( '/_null_unit', '' )
+
         for c in tempString:
             if c == '_':
                 unitString += ' '

@@ -471,8 +471,6 @@ def getPlanckDensity( ):
 @lru_cache( 1 )
 def getPlanckEnergyDensity( ):
     result = getPower( g.c, 7 ).divide( g.h_bar.multiply( getPower( g.G, 2 ) ) )
-    #result = convertUnits( result.multiply( RPNMeasurement( 1, 'meter^3' ) ), 'joule' )
-    #return result.divide( RPNMeasurement( 1, 'meter^3' ) )
     return result.convert( 'joule/meter^3' )
 
 
