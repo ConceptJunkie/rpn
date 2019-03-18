@@ -5578,6 +5578,7 @@ unitConversionMatrix = {
     ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
     ( 'score',                      'unity' )                               : mpmathify( '20' ),
     ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
+    ( 'second',                     '1/hertz' )                             : mpmathify( '1' ),
     ( 'second',                     'jiffy' )                               : mpmathify( '100' ),
     ( 'second',                     'shake' )                               : mpmathify( '1.0e8' ),
     ( 'second',                     'svedberg' )                            : mpmathify( '1.0e13' ),
