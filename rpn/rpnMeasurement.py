@@ -105,6 +105,14 @@ specialUnitConversionMatrix = {
 
     ( 'dBm', 'watt' )                           : lambda dBm: power( 10, fdiv( fsub( dBm, 30 ), 10 ) ),
     ( 'watt', 'dBm' )                           : lambda W: fmul( log10( fmul( W, 1000 ) ), 10 ),
+
+    ( 'second', 'hertz' )                       : lambda second: fdiv( 1, second ),
+
+    ( 'hertz', 'second' )                       : lambda hertz: fdiv( 1, hertz ),
+
+    ( 'ohm', 'siemens' )                        : lambda ohm: fdiv( 1, ohm ),
+
+    ( 'siemens', 'ohm' )                        : lambda siemens: fdiv( 1, siemens ),
 }
 
 
@@ -676,7 +684,7 @@ class RPNMeasurement( object ):
                     conversionIndex = tuple( conversion )
 
                     if conversionIndex in g.unitConversionMatrix:
-                        debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
+                        debugPrint( 'uniat conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
                         debugPrint( 'exponents', exponents )
 
                         conversionValue = mpmathify( g.unitConversionMatrix[ conversionIndex ] )
@@ -721,6 +729,26 @@ class RPNMeasurement( object ):
                 otherUnit = '[ ' + ', '.join( [ unit.getUnitString( ) for unit in other ] ) + ' ]'
             else:
                 otherUnit = other.getUnitString( )
+
+            # last chance check, some units are reciprocals of each other
+            unit = self.getUnitString( )
+
+            baseUnit1 = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
+            baseUnit2 = g.basicUnitTypes[ getUnitType( otherUnit ) ].baseUnit
+
+            if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
+                debugPrint( '----------------------------->', self.getUnitString( ), baseUnit1, baseUnit2, otherUnit )
+                result = RPNMeasurement( self )
+
+                if ( unit != baseUnit1 ):
+                    result = self.convert( baseUnit1 )
+
+                result = RPNMeasurement( specialUnitConversionMatrix[ ( unit, otherUnit ) ]( self.getValue( ) ), unit )
+
+                if ( baseUnit2 != otherUnit ):
+                    result = result.convert( otherUnit )
+
+                return result
 
             raise ValueError( 'incompatible units cannot be converted: ' +
                               self.getUnitString( ) + ' and ' + otherUnit )
