@@ -743,7 +743,7 @@ class RPNMeasurement( object ):
                 if ( unit != baseUnit1 ):
                     result = self.convert( baseUnit1 )
 
-                result = RPNMeasurement( specialUnitConversionMatrix[ ( unit, otherUnit ) ]( self.getValue( ) ), unit )
+                result = RPNMeasurement( specialUnitConversionMatrix[ ( baseUnit1, baseUnit2 ) ]( result.getValue( ) ), baseUnit2 )
 
                 if ( baseUnit2 != otherUnit ):
                     result = result.convert( otherUnit )
