@@ -412,17 +412,18 @@ def printParagraph( text, indent = 0 ):
 # //
 # //******************************************************************************
 
-def printOperatorHelp( term, operatorInfo, operatorHelp ):
-    if operatorInfo.argCount == 1:
-        print( 'n ', end = '' )
-    elif operatorInfo.argCount == 2:
-        print( 'n k ', end = '' )
-    elif operatorInfo.argCount == 3:
-        print( 'a b c ', end = '' )
-    elif operatorInfo.argCount == 4:
-        print( 'a b c d ', end = '' )
-    elif operatorInfo.argCount == 5:
-        print( 'a b c d e ', end = '' )
+def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True):
+    if regularOperator:
+        if operatorInfo.argCount == 1:
+            print( 'n ', end = '' )
+        elif operatorInfo.argCount == 2:
+            print( 'n k ', end = '' )
+        elif operatorInfo.argCount == 3:
+            print( 'a b c ', end = '' )
+        elif operatorInfo.argCount == 4:
+            print( 'a b c d ', end = '' )
+        elif operatorInfo.argCount == 5:
+            print( 'a b c d e ', end = '' )
 
     aliasList = [ key for key in g.operatorAliases if term == g.operatorAliases[ key ] ]
 
@@ -444,14 +445,15 @@ def printOperatorHelp( term, operatorInfo, operatorHelp ):
     else:
         print( operatorHelp[ 2 ] )
 
-    if len( operatorHelp ) > 3:
-        if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
-            print( 'No examples are available.' )
+    if regularOperator:
+        if len( operatorHelp ) > 3:
+            if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
+                print( 'No examples are available.' )
+            else:
+                print( term + ' examples:' )
+                print( operatorHelp[ 3 ] )
         else:
-            print( term + ' examples:' )
-            print( operatorHelp[ 3 ] )
-    else:
-        print( 'No examples are available.' )
+            print( 'No examples are available.' )
 
     if len( operatorHelp ) > 4 and len( operatorHelp[ 4 ] ) > 0:
         print( 'see also:  ', end='' )
@@ -495,7 +497,7 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 # //
 # //******************************************************************************
 
-def printHelp( operators, constants, listOperators, modifiers, term, interactive = False ):
+def printHelp( operators, constantOperators, constants, listOperators, modifiers, term, interactive = False ):
     loadHelpData( )
 
     if g.helpVersion != PROGRAM_VERSION:
@@ -515,6 +517,8 @@ def printHelp( operators, constants, listOperators, modifiers, term, interactive
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
         printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
+    if term in constantOperators:
+        printOperatorHelp( term, constantOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
     elif term in constants:
         printOperatorHelp( term, constants[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:

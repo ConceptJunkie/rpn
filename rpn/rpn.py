@@ -66,6 +66,8 @@ from rpn.rpnPersistence import loadUnitData, loadUserVariablesFile, saveUserVari
 
 from rpn.rpnSpecial import handleIdentify
 
+from rpn.rpnUnits import constantOperators
+
 from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                          parseNumerals, validateArguments, validateOptions
 
@@ -341,7 +343,7 @@ def enterHelpMode( terms ):
             printInteractiveHelp( )
         else:
             for term in terms:
-                printHelp( operators, constants, listOperators, modifiers, term, True )
+                printHelp( operators, constantOperators, constants, listOperators, modifiers, term, True )
 
 
 # //******************************************************************************
@@ -391,7 +393,7 @@ def rpn( cmd_args ):
 
         g.operatorAliases.update( operatorAliases )
 
-        printHelp( operators, constants, listOperators, modifiers, helpArg )
+        printHelp( operators, constantOperators, constants, listOperators, modifiers, helpArg )
         return
 
     # set up the command-line options parser
@@ -480,7 +482,7 @@ def rpn( cmd_args ):
     if args.help or args.other_help:
         loadUnitNameData( )
 
-        printHelp( operators, constants, listOperators, modifiers, '' )
+        printHelp( operators, constantOperators, constants, listOperators, modifiers, '' )
         return
 
     valid, errorString = validateOptions( args )

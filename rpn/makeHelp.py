@@ -10864,6 +10864,20 @@ def main( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
+    from rpn.rpnUnits import constantOperators
+
+    for constant in constantOperators:
+        helpText = '\n\'' + constant + '\' returns a value of ' + str( constantOperators[ constant ].value )
+
+        if constantOperators[ constant ].unit:
+            helpText += ' ' + constantOperators[ constant ].unit
+
+        helpText += '\n'
+
+        operatorHelp[ constant ] = \
+            [ 'constants', constantOperators[ constant ].description,
+              helpText + constantOperators[ constant ].helpText, '' ]
+
     makeHelp( helpTopics )
 
 

@@ -19,6 +19,7 @@ from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          real, real_int
 
@@ -288,7 +289,9 @@ def interpretAsFloat( n ):
 
 @oneArgFunctionEvaluator( )
 def interpretAsDouble( n ):
-    if ( real_int( n ) < 0 ) or ( n >= 2 ** 64 - 1 ):
+    setAccuracy( 25 )
+
+    if ( real_int( n ) < 0 ) or ( n > 2 ** 64 - 1 ):
         raise ValueError( 'value out of range for a 64-bit float' )
 
     intValue = struct.pack( 'Q', int( n ) )

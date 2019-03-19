@@ -1562,7 +1562,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
 def printHelpMessage( ):
     from rpnOutput import printHelp
-    printHelp( operators, constants, listOperators, modifiers, '', True )
+    printHelp( operators, constantOperators, constants, listOperators, modifiers, '', True )
     return 0
 
 
@@ -1576,11 +1576,11 @@ def printHelpTopic( n ):
     from rpnOutput import printHelp
 
     if isinstance( n, str ):
-        printHelp( operators, listOperators, modifiers, n, True )
+        printHelp( operators, constantOperators, constants, listOperators, modifiers, n, True )
     elif isinstance( n, RPNMeasurement ):
         units = n.getUnits( )
         # help for units isn't implemented yet, but now it will work
-        printHelp( operators, constants, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
+        printHelp( operators, constantOperators, constants, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
     else:
         print( 'The \'topic\' operator requires a string argument.' )
 
