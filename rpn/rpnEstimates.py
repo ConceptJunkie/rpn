@@ -1802,7 +1802,14 @@ radiationExposureTable = {
 # //
 # //******************************************************************************
 
-# radioactivityTable = {
+radioactivityTable = {
+    mpmathify( '0.016' )        : 'average radioactivity of radium-226 in 1 gram of limestone',
+    mpmathify( '0.048' )        : 'average radioactivity of radium-226 in 1 gram of igneous rock',
+    mpmathify( '12437' )        : 'radioactivity of 1 gram of uranium-238',
+    mpmathify( '8.0e5' )        : 'average natural radioactivity of 1 cubic meter of soil on the surface of Earth',
+    mpmathify( '3.64981e10' )   : 'radioactivity of 1 gram of radium-226',
+    mpmathify( '5.2e18' )       : 'estimated total radioactivity released by the Chernobyl accident',
+    mpmathify( '3.65282e21' )   : 'radioactivity of 1 gram of nitrogen-16',
 #     mpmathify( '1' )  : 'hydrogen-7 (half-life: 23e-24 s)',
 #     mpmathify( '1' )  : 'hydrogen-5 (half-life: 80e-24 s)',
 #     mpmathify( '1' )  : 'hydrogen-4 (half-life: 100e-24 s)',
@@ -1999,7 +2006,7 @@ radiationExposureTable = {
 #     mpmathify( '1' )  : 'germanium-76 (half-life:  s)',
 #     mpmathify( '1' )  : 'xenon-136 (half-life:  s)',
 #     mpmathify( '1' )  : 'tellurium-128 (half-life:  s)',
-# }
+}
 
 
 # //******************************************************************************
