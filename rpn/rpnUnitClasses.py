@@ -294,3 +294,12 @@ class RPNUnits( collections.Counter ):
 
             return result
 
+    def normalizeUnits( self ):
+        newUnits = RPNUnits( )
+
+        for unit in self:
+            if self[ unit ] != 0 and unit != '_null_type':
+                newUnits[ unit ] = self[ unit ]
+
+        return newUnits
+

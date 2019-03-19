@@ -1283,7 +1283,8 @@ def getEulerPhi( n ):
     if real( n ) < 2:
         return n
 
-    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactorList( n ) ) )
+    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ),
+                                 power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactorList( n ) ) )
 
 
 # //******************************************************************************

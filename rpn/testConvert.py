@@ -656,6 +656,15 @@ def runConvertTests( ):
     testOperator( '16800 mA hours * 5 volts * joule convert' )
     testOperator( '1/coulomb 1/ampere*second convert' )
     testOperator( 'kilogram/meter*second^2 joule/meter^3 convert' )
+    testOperator( '34000 square_miles 8 feet 9 mph * / ydhms' )
+    testOperator( 'second hertz convert' )
+    testOperator( 'day hertz convert' )
+    testOperator( 'second daily convert' )
+    testOperator( 'day daily convert' )
+    #testOperator( 'mph miles hourly * convert' )
+    #testOperator( 'ohm/hertz', 'second/siemens' )
+    #testOperator( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product / meter convert' )
+    #testOperator( 'coulomb^2 ampere^2*second^2 convert' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

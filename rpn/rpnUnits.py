@@ -324,6 +324,13 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
+    'classical_electron_radius' :
+        RPNConstantInfo( '2.8179403227e-15', 'meter', [ 'electron_radius' ], True,
+                         '',
+                         '''
+Ref:  https://en.wikipedia.org/wiki/Classical_electron_radius
+''' ),
+
     'coulomb_constant' :
         RPNConstantInfo( '8.9875517873681764e9', 'joule*meter/coulomb^2', [ ], True,
                          '',
