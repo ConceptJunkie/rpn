@@ -304,17 +304,20 @@ basicUnitTypes = {
 constantOperators = {
     # physical constants
     'avogadro_number' :
-        RPNConstantInfo( '6.022140857e23', '', [ 'avogadro', 'avogadros_number' ], True,
+        RPNConstantInfo( '6.022140756e23', '', [ 'avogadro', 'avogadros_number', 'N_sub_A' ], True,
                          'Avogadro\'s number, the number of atoms in a mole',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?na
+Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
 
     'boltzmann_constant' :
-        RPNConstantInfo( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], True,
-                         '',
+        RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], True,
+                         'The Boltzmann constant relates the average kinetic energy of particles in a gas to the temperature of the gas',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+Ref:  https://en.wikipedia.org/wiki/Boltzmann_constant
+      https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
+
+This value is now exact, by definition.
 ''' ),
 
     'bohr_radius' :
@@ -356,10 +359,12 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
 #    return RPNMeasurement( '8.854187817e-12', 'coulomb/volt*meter' )
 
     'electron_charge' :
-        RPNConstantInfo( '1.6021766208e-19', 'coulomb', [ 'elementary_charge' ], True,
+        RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge' ], True,
                          '',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
+
+This new value is exact, by definition.
 ''' ),
 
     'faraday_constant' :
@@ -367,6 +372,15 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?f
+''' ),
+
+    'hyperfine_transition_frequency_of_cesium' :
+        RPNConstantInfo( '9192631770', 'Hz', [ 'delta_nu_sub_cs' ], True,
+                         '',
+                         '''
+This unit is now used to define the second.
+
+Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
 
     'magnetic_constant' :
@@ -408,10 +422,12 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 ''' ),
 
     'planck_constant' :
-        RPNConstantInfo( '6.626070040e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], True,
+        RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], True,
                          '',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
+Ref:https://en.wikipedia.org/wiki/Planck_constant
+
+This is the exact value, set on 20 Nov 2018 by the General Conference on Weights and Measures.
 ''' ),
 
     'reduced_planck_constant' :
