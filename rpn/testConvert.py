@@ -661,10 +661,14 @@ def runConvertTests( ):
     testOperator( 'day hertz convert' )
     testOperator( 'second daily convert' )
     testOperator( 'day daily convert' )
+
+    # conversions I hope to make work
     #testOperator( 'mph miles hourly * convert' )
     #testOperator( 'ohm/hertz', 'second/siemens' )
     #testOperator( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product / meter convert' )
     #testOperator( 'coulomb^2 ampere^2*second^2 convert' )
+    #testOperator( 'h eV second * convert' )
+    #testOperator( 'h_bar c * MeV fm * convert' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
