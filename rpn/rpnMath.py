@@ -126,6 +126,20 @@ def getValue( n ):
 
 # //******************************************************************************
 # //
+# //  getDimensions
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getDimensions( n ):
+    if isinstance( n, RPNMeasurement ):
+        return n.getDimensions( )
+    else:
+        return n
+
+
+# //******************************************************************************
+# //
 # //  divide
 # //
 # //  We used to be able to call fdiv directly, but now we want to also divide
@@ -776,7 +790,14 @@ def getMantissa( n ):
 
 @twoArgFunctionEvaluator( )
 def getModulo( n, k ):
-    return fmod( real( n ), real( k ) )
+    if isinstance( n, RPNMeasurement ):
+        return n.getModulo( k )
+    elif isinstance( k, RPNMeasurement ):
+        raise ValueError( 'cannot take a non-measurement modulo a measurement' )
+    else:
+        return fmod( real( n ), real( k ) )
+
+
 
 
 # //******************************************************************************
