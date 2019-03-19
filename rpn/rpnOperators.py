@@ -4214,6 +4214,10 @@ operators = {
                                                     1, [ RPNArgumentType.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
+    'dimensions'                     : RPNOperator( getDimensions,
+                                                    1, [ RPNArgumentType.Default ],
+                                                    RPNOperator.measurementsAllowed ),
+
     'help'                           : RPNOperator( printHelpMessage,
                                                     0, [ ] ),
 

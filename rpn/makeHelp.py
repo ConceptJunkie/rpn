@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1121
+maxExampleCount = 1123
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
@@ -9917,6 +9917,16 @@ This operator is not implemented yet!
 '''
 ''',
 [ 'dump_config', 'get_config', 'set_config' ] ],
+
+    'dimensions' : [
+'special', 'returns the unit dimensions for a measurement',
+'''
+Currently, this is only for informational purposes.
+''',
+'''
+''' + makeCommandExample( '60 mph' ) + '''
+''' + makeCommandExample( '300 coulombs' ),
+[ '', '', '' ] ],
 
     'dump_config' : [
 'special', 'dumps all configuration settings',
