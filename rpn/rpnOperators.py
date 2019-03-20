@@ -1576,11 +1576,11 @@ def printHelpTopic( n ):
     from rpnOutput import printHelp
 
     if isinstance( n, str ):
-        printHelp( operators, constantOperators, constants, listOperators, modifiers, n, True )
+        printHelp( n, True )
     elif isinstance( n, RPNMeasurement ):
         units = n.getUnits( )
         # help for units isn't implemented yet, but now it will work
-        printHelp( operators, constantOperators, constants, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
+        printHelp( list( units.keys( ) )[ 0 ], True )
     else:
         print( 'The \'topic\' operator requires a string argument.' )
 

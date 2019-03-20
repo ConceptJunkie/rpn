@@ -10878,6 +10878,13 @@ def main( ):
             [ 'constants', constantOperators[ constant ].description,
               helpText + constantOperators[ constant ].helpText, '' ]
 
+    for unit in g.unitOperators:
+        unitInfo = g.unitOperators[ unit ]
+
+        description = '\'' + unit + '\' is a unit of ' + unitInfo.unitType
+
+        operatorHelp[ unit ] = [ unitInfo.unitType, description, unitInfo.description, '' ]
+
     makeHelp( helpTopics )
 
 

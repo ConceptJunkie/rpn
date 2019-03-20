@@ -188,11 +188,11 @@ def expandMetricUnits( ):
                 if metricUnits[ metricUnit ][ 1 ]:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ], True )
+                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ], '', True )
                 else:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     '', [ ], [ 'SI' ], True )
+                                     '', [ ], [ 'SI' ], '', True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -262,7 +262,7 @@ def expandDataUnits( ):
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
                              prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, True )
+                             unitOperators[ dataUnit[ 0 ] ].categories, '', True )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -278,7 +278,7 @@ def expandDataUnits( ):
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
                              prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, True )
+                             unitOperators[ dataUnit[ 0 ] ].categories, '', True )
 
             # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
@@ -318,7 +318,7 @@ def makeAreaOperator( unit, unitPlural ):
     newAliases[ 'sq' + unitInfo.plural ] = newUnit
 
     newUnitInfo = RPNUnitInfo( 'area', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, True )
+                               unitInfo.categories, '', True )
 
     return newUnitInfo, newAliases
 
@@ -352,7 +352,7 @@ def makeVolumeOperator( unit, unitPlural ):
     newAliases[ 'cu' + unitInfo.plural ] = newUnit
 
     newUnitInfo = RPNUnitInfo( 'volume', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, True )
+                               unitInfo.categories, '', True )
 
     return newUnitInfo, newAliases
 
@@ -463,7 +463,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
 
                     newUnitOperators[ newUnit ] = \
                         RPNUnitInfo( unitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
-                                     '', [ ], unitInfo.categories, True )
+                                     '', [ ], unitInfo.categories, '', True )
 
                     conversion = mpmathify( timeUnit[ 3 ] )
                     unitConversionMatrix[ ( newUnit, unit ) ] = conversion

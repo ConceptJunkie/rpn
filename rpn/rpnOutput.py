@@ -30,7 +30,7 @@ from rpn.rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnPersistence import loadHelpData
+from rpn.rpnPersistence import loadHelpData, loadUnitData
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
                            RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpn.rpnUtils import addAliases
@@ -497,8 +497,11 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 # //
 # //******************************************************************************
 
-def printHelp( operators, constantOperators, constants, listOperators, modifiers, term, interactive = False ):
+def printHelp( term, interactive = False ):
+    from rpn.rpnOperators import constants, listOperators, modifiers, operators
+
     loadHelpData( )
+    loadUnitData( )
 
     if g.helpVersion != PROGRAM_VERSION:
         print( 'rpn:  help file version mismatch' )
@@ -514,11 +517,14 @@ def printHelp( operators, constantOperators, constants, listOperators, modifiers
     if term in g.operatorAliases:
         term = g.operatorAliases[ term ]
 
+
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
         printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
-    if term in constantOperators:
-        printOperatorHelp( term, constantOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
+    elif term in g.unitOperators:
+        printOperatorHelp( term, g.unitOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
+    elif term in g.constantOperators:
+        printOperatorHelp( term, g.constantOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
     elif term in constants:
         printOperatorHelp( term, constants[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:

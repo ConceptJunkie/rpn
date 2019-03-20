@@ -343,7 +343,7 @@ def enterHelpMode( terms ):
             printInteractiveHelp( )
         else:
             for term in terms:
-                printHelp( operators, constantOperators, constants, listOperators, modifiers, term, True )
+                printHelp( term, True )
 
 
 # //******************************************************************************
@@ -393,7 +393,7 @@ def rpn( cmd_args ):
 
         g.operatorAliases.update( operatorAliases )
 
-        printHelp( operators, constantOperators, constants, listOperators, modifiers, helpArg )
+        printHelp( helpArg )
         return
 
     # set up the command-line options parser
@@ -482,7 +482,7 @@ def rpn( cmd_args ):
     if args.help or args.other_help:
         loadUnitNameData( )
 
-        printHelp( operators, constantOperators, constants, listOperators, modifiers, '' )
+        printHelp( '' )
         return
 
     valid, errorString = validateOptions( args )
