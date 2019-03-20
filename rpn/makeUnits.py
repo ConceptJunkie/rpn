@@ -94,16 +94,16 @@ def makeAliases( ):
 
     for metricUnit in metricUnits:
         for prefix in metricPrefixes:
-            unit = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
-            pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
+            unit = makeMetricUnit( prefix[ 0 ], metricUnit )
+            pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
 
-            for alternateUnit in metricUnit[ 3 ]:           # add alternate spelling alias
+            for alternateUnit in metricUnits[ metricUnit ][ 2 ]:           # add alternate spelling alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
-            for alternateUnit in metricUnit[ 4 ]:           # add alternate spelling plural alias
+            for alternateUnit in metricUnits[ metricUnit ][ 3 ]:           # add alternate spelling plural alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
     for dataUnit in dataUnits:
@@ -180,35 +180,35 @@ def expandMetricUnits( ):
 
     for metricUnit in metricUnits:
         for prefix in metricPrefixes:
-            newName = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
-            newPlural = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
+            newName = makeMetricUnit( prefix[ 0 ], metricUnit )
+            newPlural = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit][ 0 ] )
 
             if newName not in unitOperators:
                 # constuct unit operator info
-                if metricUnit[ 2 ]:
+                if metricUnits[ metricUnit ][ 1 ]:
                     unitOperators[ newName ] = \
-                        RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                     prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
+                        RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
+                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ], True )
                 else:
                     unitOperators[ newName ] = \
-                        RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                        RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
                                      '', [ ], [ 'SI' ], True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-                unitConversionMatrix[ ( newName, metricUnit[ 0 ] ) ] = newConversion
+                unitConversionMatrix[ ( newName, metricUnit ) ] = newConversion
                 newConversion = fdiv( 1, newConversion )
-                unitConversionMatrix[ ( metricUnit[ 0 ], newName ) ] = newConversion
+                unitConversionMatrix[ ( metricUnit, newName ) ] = newConversion
             else:
                 newConversion = power( 10, fneg( mpmathify( prefix[ 2 ] ) ) )
 
             # create area and volume operators for new length units
-            if unitOperators[ metricUnit[ 0 ] ].unitType == 'length':
+            if unitOperators[ metricUnit ].unitType == 'length':
                 # create new area operators
                 newUnit = newName + '^2'
 
                 areaConversion = power( newConversion, 2 )
-                oldUnit = metricUnit[ 0 ] + '^2'
+                oldUnit = metricUnit + '^2'
 
                 if newUnit not in unitOperators:
                     newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
@@ -224,7 +224,7 @@ def expandMetricUnits( ):
                 newUnit = newName + '^3'
 
                 volumeConversion = power( newConversion, 3 )
-                oldUnit = metricUnit[ 0 ] + '^3'
+                oldUnit = metricUnit + '^3'
 
                 if newUnit not in unitOperators:
                     newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
@@ -410,46 +410,64 @@ def createAreaAndVolumeOperators( unitOperators ):
 def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
     newUnitOperators = { }
 
-    # we need to store the new ones in a different dictionary because we can't
-    # modified unitOperators while iterating through it
+    # We need to store the new ones in a different dictionary because we can't
+    # modified unitOperators while iterating through it.  This is only guaranteed
+    # a single unit compounded with seconds, but that's all I'm interested in.
     for unit in unitOperators:
+        unitRoot = ''
+
         if unit[ -7 : ] == '*second' and not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
 
-            unitInfo = unitOperators[ unit ]
+        if unit[ : 7 ] == 'second*' and not any( ( c in [ '*^/' ] ) for c in unit ):
+            unitRoot = unit[ 7 : ]
 
-            # if we end up with a real unit, then start expanding it with different times
-            if unitRoot not in unitOperators:
-                continue
+        if '/' in unitRoot:
+            continue
 
-            rootUnitInfo = unitOperators[ unitRoot ]
+        if unitRoot:
+            newRoots = [ unitRoot ]
 
-            for timeUnit in timeUnits:
-                newUnit = unitRoot + '*' + timeUnit[ 0 ]
-                newPlural = unitRoot + '-' + timeUnit[ 1 ]
-                newAliases[ newPlural ] = newUnit
-                newAliases[ unitRoot + '-' + timeUnit[ 1 ] ] = newUnit
+            if unitRoot in metricUnits:
+                for prefix in metricPrefixes:
+                    newRoots.append( prefix[ 0 ] + unitRoot )
 
-                # We assume the abbrev ends with an s for second
-                if unitInfo.abbrev != '':
-                    newAbbrev = unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ]
-                    newAliases[ newAbbrev ] = newUnit
+            for newRoot in newRoots:
+                if newRoot not in unitOperators:
+                    continue
 
-                for alias in rootUnitInfo.aliases:
-                    newAliases[ alias + '*' + timeUnit[ 0 ] ] = newUnit
-                    newAliases[ alias + '-' + timeUnit[ 0 ] ] = newUnit
+                unitInfo = unitOperators[ newRoot ]
+                rootUnitInfo = unitOperators[ newRoot ]
 
-                    if timeUnit[ 0 ] != timeUnit[ 1 ]:
-                        newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
-                        newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
+                for timeUnit in timeUnits:
+                    newUnit = newRoot + '*' + timeUnit[ 0 ]
 
-                newUnitOperators[ newUnit ] = \
-                    RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural,
-                                 '', [ ], unitInfo.categories, True )
+                    # make a bunch of obvious aliases
+                    newAliases[ newRoot + '-' + timeUnit[ 0 ] ] = newUnit
+                    newPlural = newRoot + '-' + timeUnit[ 1 ]
+                    newAliases[ newPlural ] = newUnit
+                    newAliases[ newRoot + '-' + timeUnit[ 1 ] ] = newUnit
 
-                conversion = mpmathify( timeUnit[ 3 ] )
-                unitConversionMatrix[ ( newUnit, unit ) ] = conversion
-                unitConversionMatrix[ ( unit, newUnit ) ] = fdiv( 1, conversion )
+                    # We assume the abbrev ends with an s for second
+                    if unitInfo.abbrev != '':
+                        newAbbrev = unitInfo.abbrev + timeUnit[ 2 ]
+                        newAliases[ newAbbrev ] = newUnit
+
+                    for alias in rootUnitInfo.aliases:
+                        newAliases[ alias + '*' + timeUnit[ 0 ] ] = newUnit
+                        newAliases[ alias + '-' + timeUnit[ 0 ] ] = newUnit
+
+                        if timeUnit[ 0 ] != timeUnit[ 1 ]:
+                            newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
+                            newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
+
+                    newUnitOperators[ newUnit ] = \
+                        RPNUnitInfo( unitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
+                                     '', [ ], unitInfo.categories, True )
+
+                    conversion = mpmathify( timeUnit[ 3 ] )
+                    unitConversionMatrix[ ( newUnit, unit ) ] = conversion
+                    unitConversionMatrix[ ( unit, newUnit ) ] = fdiv( 1, conversion )
 
     unitOperators.update( newUnitOperators )
 
