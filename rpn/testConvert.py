@@ -652,7 +652,7 @@ def runConvertTests( ):
     testOperator( 'watt-second watt second * convert' )
     testOperator( 'weber tesla meter sqr * convert' )
 
-    # complicated conversions
+    # additional test cases
     testOperator( '16800 mA hours * 5 volts * joule convert' )
     testOperator( '1/coulomb 1/ampere*second convert' )
     testOperator( 'kilogram/meter*second^2 joule/meter^3 convert' )
@@ -661,6 +661,7 @@ def runConvertTests( ):
     testOperator( 'day hertz convert' )
     testOperator( 'second daily convert' )
     testOperator( 'day daily convert' )
+    testOperator( '30 N 100 m * kWh convert' )
 
     # conversions I hope to make work
     #testOperator( 'mph miles hourly * convert' )
