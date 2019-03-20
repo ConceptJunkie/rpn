@@ -693,4 +693,3 @@ function recalculate() {
   eval(currenttimeperiod+"()");
 }
 
-
