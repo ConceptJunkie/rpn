@@ -64,14 +64,31 @@ def convertToBase10( integer, mantissa, inputRadix ):
 # //
 # //  parseInputValue
 # //
-# //  Parse out a time value or a numerical expression and attempt to set the
-# //  precision to an appropriate value based on the expression.
+# //  Parse out a datetime value or a numerical expression and attempt to set
+# //  the precision to an appropriate value based on the expression.
 # //
 # //******************************************************************************
 
 def parseInputValue( term, inputRadix = 10 ):
     if isinstance( term, mpf ):
         return term
+
+    possibleDate = True
+
+    tCount = 0
+
+    # one 'T' is allowed in a date, but no other letters
+    for c in term:
+        if c.isalpha( ):
+            if c == 'T':
+                if tCount > 0:
+                    possibleDate = False
+                    break
+
+                tCount += 1
+            else:
+                possibleDate = False
+                break
 
     if not g.interactive:
         if term[ 0 ] == '$' and term[ 1 : ] in g.userVariables:
@@ -88,14 +105,14 @@ def parseInputValue( term, inputRadix = 10 ):
     innerChars = term[ 1 : -1 ]
 
     # this helps us parse dates
-    if '/' in innerChars:
+    if '/' in innerChars and possibleDate:
         term = term.replace( '/', '-' )
         innerChars = term[ 1 : -1 ]
 
     # 'e' implies scientific notation, which isn't a date regardless
-    if ( 'e' not in innerChars ):
+    if possibleDate:
         # 'd' means a dice expression, '[' means a build_number expression, so don't treat it as a date
-        if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( 'd' not in term ) and ( '[' not in term ):
+        if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( '[' not in term ):
             # try:
                 datetime = arrow.get( term )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
