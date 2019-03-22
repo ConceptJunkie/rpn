@@ -66,8 +66,6 @@ from rpn.rpnPersistence import loadUnitData, loadUserVariablesFile, saveUserVari
 
 from rpn.rpnSpecial import handleIdentify
 
-from rpn.rpnUnits import constantOperators
-
 from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                          parseNumerals, validateArguments, validateOptions
 

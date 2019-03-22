@@ -670,6 +670,10 @@ def runConvertTests( ):
     #testOperator( 'coulomb^2 ampere^2*second^2 convert' )
     #testOperator( 'h eV second * convert' )
     #testOperator( 'h_bar c * MeV fm * convert' )
+    #testOperator( 'h foot*pound-force*second convert' )
+
+    # let's check some answers
+    expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

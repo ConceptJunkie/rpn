@@ -371,6 +371,10 @@ This new value is exact, by definition.
         RPNConstantInfo( '96485.33289', 'coulomb/mole', [ 'faradays_constant' ], True,
                          '',
                          '''
+The Faraday constant is named after Michael Faraday. In physics and chemistry,
+this constant represents the magnitude of electric charge per mole of
+electrons.
+
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?f
 ''' ),
 
@@ -378,8 +382,17 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?f
         RPNConstantInfo( '9192631770', 'Hz', [ 'delta_nu_sub_cs' ], True,
                          '',
                          '''
-This unit is now used to define the second.
+Since 1967, the second has been defined as exactly "the duration of
+9,192,631,770 periods of the radiation corresponding to the transition between
+the two hyperfine levels of the ground state of the caesium-133 atom" (at a
+temperature of 0 K).  This length of a second was selected to correspond
+exactly to the length of the ephemeris second previously defined.  Atomic
+clocks use such a frequency to measure seconds by counting cycles per second
+at that frequency.  Radiation of this kind is one of the most stable and
+reproducible phenomena of nature. The current generation of atomic clocks are
+accurate to within one second in a few hundred million years.
 
+Ref:  https://en.wikipedia.org/wiki/Second#%22Atomic%22_second
 Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
 
@@ -568,6 +581,11 @@ protons and two neutrons.
         RPNConstantInfo( '3.826e26', 'watt', [ 'solar_luminosity' ], True,
                          '',
                          '''
+The watt (symbol: W) is a unit of power.  In the International System of Units
+(SI) it is defined as a derived unit of 1 joule per second, and is used to
+quantify the rate of energy transfer.
+
+Ref:  https://en.wikipedia.org/wiki/Watt
 ''' ),
 
     'sun_mass' :
@@ -2328,9 +2346,17 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-    # joule/coulomb
-    # meter*newton/coulomb
-    # kilogram*meter^2/ampere*second^3
+    'joule/coulomb' :
+        RPNUnitInfo( 'electric_potential', 'joule/coulomb', 'joules/coulomb', '',
+                     [ ], [ 'SI' ],
+                     '''
+''' ),
+
+    'kilogram*meter^2/ampere*second^3' :
+        RPNUnitInfo( 'electric_potential', 'kilogram*meter^2/ampere*second^3', 'kilogram*meter^2/ampere*second^3', '',
+                     [ ], [ 'SI' ],
+                     '''
+''' ),
 
     'volt' :
         RPNUnitInfo( 'electric_potential', 'volt', 'volts', 'V',
@@ -4121,12 +4147,25 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K',
                      [ 'degK', 'degreeK', 'degreesK', 'degree_kelvin' ], [ 'SI' ],
                      '''
+The Kelvin scale is an absolute thermodynamic temperature scale using as its
+null point absolute zero, the temperature at which all thermal motion ceases
+in the classical description of thermodynamics. The kelvin (symbol: K) is the
+base unit of temperature in the International System of Units (SI).
+
+Ref:  https://en.wikipedia.org/wiki/Kelvin
 ''' ),
 
     'rankine' :
         RPNUnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R',
                      [ 'degR', 'degreeR', 'degreesR', 'degree_rankine' ], [ 'obsolete' ],
                      '''
+The Rankine scale is an absolute scale of thermodynamic temperature named after
+the Glasgow University engineer and physicist William John Macquorn Rankine,
+who proposed it in 1859. (The Kelvin scale was first proposed in 1848.)  It may
+be used in engineering systems where heat computations are done using degrees
+Fahrenheit.
+
+Ref:  https://en.wikipedia.org/wiki/Rankine_scale
 ''' ),
 
     'reaumur' :
@@ -4212,6 +4251,10 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'time', 'hour', 'hours', 'hr',
                      [ ], [ 'traditional' ],
                      '''
+An hour (abbreviated 'hr') is a unit of time conventionally reckoned as 1/24
+of a day, or 60 minutes.
+
+Ref:  https://en.wikipedia.org/wiki/Hour
 ''' ),
 
     'kovac' :
@@ -4260,6 +4303,11 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'time', 'minute', 'minutes', '',
                      [ ], [ 'traditional' ],  # 'min' is already an operator
                      '''
+The minute is a unit of time or angle (the minute angle unit in rpn is the
+'arcminute').  As a unit of time, the minute is most of times equal to 1/60 of
+an hour, or 60 seconds.
+
+https://en.wikipedia.org/wiki/Minute
 ''' ),
 
     'month' :
@@ -4278,6 +4326,19 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'time', 'second', 'seconds', 's',
                      [ ], [ 'SI', 'traditional', 'FPS' ],   # 'sec' is already an operator
                      '''
+The second is the base unit of time in the International System of Units (SI),
+commonly understood and historically defined as 1/86400 of a day - this factor
+derived from the division of the day first into 24 hours, then to 60 minutes
+and finally to 60 seconds each.
+
+Although the historical definition of the unit was based on this division of
+the Earth's rotation cycle, the formal definition in the International System
+of Units (SI) is a much steadier timekeeper: 1 second is defined to be exactly
+"the duration of 9,192,631,770 periods of the radiation corresponding to the
+transition between the two hyperfine levels of the ground state of the
+cesium-133 atom".
+
+Ref:  https://en.wikipedia.org/wiki/Second
 ''' ),
 
     'shake' :
@@ -5730,6 +5791,8 @@ unitConversionMatrix = {
     ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
+    ( 'volt',                       'joule/coulomb' )                       : mpmathify( '1' ),
+    ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
     ( 'volt',                       'watt/ampere' )                         : mpmathify( '1' ),
     ( 'watt',                       'erg/second' )                          : mpmathify( '1.0e7' ),
     ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),

@@ -2068,17 +2068,17 @@ The operator is primarily useful in lambdas.
 ''' + makeCommandExample( '-p50 652 sqrt pi * exp mantissa' ),
 [ 'floor', 'ceiling', 'nint' ] ],
 
-    'max' : [
+    'maximum' : [
 'arithmetic', 'returns the largest value in list n',
 '''
 This operator returns the largest value in the input list of values n.
 
-'max' requires a list of real arguments.
+'maximum' requires a list of real arguments.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] max' ) + '''
 ''' + makeCommandExample( '10 1000 random_integer_ max' ),
-[ 'min', 'larger', 'is_greater' ] ],
+[ 'minimum', 'larger', 'is_greater' ] ],
 
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
@@ -2093,17 +2093,17 @@ all items divided by the number of items.
 ''' + makeCommandExample( '1 1000 range sum_digits mean' ),
 [ 'stddev', 'agm', 'geometric_mean', 'harmonic_mean' ] ],
 
-    'min' : [
+    'minimum' : [
 'arithmetic', 'returns the smallest value in list n',
 '''
 This operator returns the smallest value in the input list of values n.
 
-'min' requires a list of real arguments.
+'minimum' requires a list of real arguments.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] min' ) + '''
 ''' + makeCommandExample( '10 1000 random_integer_ min' ),
-[ 'max', 'smaller', 'is_less' ] ],
+[ 'maximum', 'smaller', 'is_less' ] ],
 
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
@@ -5416,7 +5416,7 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
 
     '_dump_constants' : [
 'internal', 'dumps the list of constants',
@@ -5425,7 +5425,16 @@ The operator returns number of constants.
 ''',
 '''
 ''',
-[ '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+
+    '_dump_conversions' : [
+'internal', 'dumps the list of unit conversions',
+'''
+The operator returns number of unit conversions.
+''',
+'''
+''',
+[ '_dump_constants', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5438,7 +5447,7 @@ The operator returns number of operators.
 ''',
 '''
 ''',
-[ '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_conversions', '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
 
     '_dump_units' : [
 'internal', 'lists all rpn units',
@@ -5447,7 +5456,7 @@ The operator returns number of units.
 ''',
 '''
 ''',
-[ '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
+[ '_dump_conversions', '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
 
     '_stats' : [
 'internal', 'dumps rpn statistics',
@@ -5460,7 +5469,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
+[ '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
 
 
 # //******************************************************************************
@@ -10883,7 +10892,7 @@ def main( ):
 
         description = '\'' + unit + '\' is a unit of ' + unitInfo.unitType
 
-        operatorHelp[ unit ] = [ unitInfo.unitType, description, unitInfo.description, '' ]
+        operatorHelp[ unit ] = [ unitInfo.unitType, description, unitInfo.helpText, '' ]
 
     makeHelp( helpTopics )
 

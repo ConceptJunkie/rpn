@@ -185,14 +185,17 @@ def expandMetricUnits( ):
 
             if newName not in unitOperators:
                 # constuct unit operator info
+                helpText = '\nfill me out for metric units'
+
                 if metricUnits[ metricUnit ][ 1 ]:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ], '', True )
+                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ],
+                                     helpText, True )
                 else:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     '', [ ], [ 'SI' ], '', True )
+                                     helpText, [ ], [ 'SI' ], '', True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -259,10 +262,12 @@ def expandDataUnits( ):
             newPlural = prefix[ 0 ] + dataUnit[ 1 ]
 
             # constuct unit operator info
+            helpText = '\nfill me out for data units'
+
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
                              prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, '', True )
+                             unitOperators[ dataUnit[ 0 ] ].categories, helpText, True )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -275,10 +280,12 @@ def expandDataUnits( ):
             newPlural = prefix[ 0 ] + dataUnit[ 1 ]
 
             # constuct unit operator info
+            helpText = '\nfill me out for binary data units'
+
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
                              prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, '', True )
+                             unitOperators[ dataUnit[ 0 ] ].categories, helpText, True )
 
             # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
@@ -317,8 +324,10 @@ def makeAreaOperator( unit, unitPlural ):
     newAliases[ 'sq' + unit ] = newUnit
     newAliases[ 'sq' + unitInfo.plural ] = newUnit
 
+    helpText = '\nfill me out for area operator'
+
     newUnitInfo = RPNUnitInfo( 'area', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, '', True )
+                               unitInfo.categories, helpText, True )
 
     return newUnitInfo, newAliases
 
@@ -351,8 +360,10 @@ def makeVolumeOperator( unit, unitPlural ):
     newAliases[ 'cu' + unit ] = newUnit
     newAliases[ 'cu' + unitInfo.plural ] = newUnit
 
+    helpText = '\nfill me out for volume operator'
+
     newUnitInfo = RPNUnitInfo( 'volume', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, '', True )
+                               unitInfo.categories, helpText, True )
 
     return newUnitInfo, newAliases
 
@@ -461,9 +472,11 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
                             newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
                             newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
 
+                    helpText = '\nfill me out for compound time units'
+
                     newUnitOperators[ newUnit ] = \
                         RPNUnitInfo( unitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
-                                     '', [ ], unitInfo.categories, '', True )
+                                     '', [ ], unitInfo.categories, helpText, True )
 
                     conversion = mpmathify( timeUnit[ 3 ] )
                     unitConversionMatrix[ ( newUnit, unit ) ] = conversion
