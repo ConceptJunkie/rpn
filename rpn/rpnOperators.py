@@ -28,6 +28,7 @@ from mpmath import apery, bell, bernoulli, catalan, cplot, e, euler, exp, \
 from random import randrange
 
 from rpn.rpnAliases import dumpAliases
+from rpn.rpnUnits import constantOperators
 
 from rpn.rpnAstronomy import *
 from rpn.rpnCalendar import *
@@ -1225,6 +1226,8 @@ def evaluateListOperator( term, index, currentValueList ):
 # //******************************************************************************
 
 def dumpOperators( ):
+    #TODO:  Use g.operatorNames, etc.
+
     print( 'operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
@@ -1235,6 +1238,15 @@ def dumpOperators( ):
     print( 'list operators:' )
 
     for i in sorted( [ key for key in listOperators ] ):
+        print( '   ' + i )
+
+    print( )
+    print( 'constant operators:' )
+
+    constantNames = [ key for key in constantOperators ]
+    constantNames.extend( [ key for key in constants ] )
+
+    for i in sorted( constantNames ):
         print( '   ' + i )
 
     print( )
@@ -1251,7 +1263,7 @@ def dumpOperators( ):
 
     print( )
 
-    return len( operators ) + len( listOperators ) + len( modifiers )
+    return len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
 
 
 # //******************************************************************************
@@ -1290,6 +1302,24 @@ def dumpUnits( ):
     print( )
 
     return len( g.unitOperators )
+
+
+# //******************************************************************************
+# //
+# //  dumpUnitConversions
+# //
+# //******************************************************************************
+
+def dumpUnitConversions( ):
+    if not g.unitConversionMatrix:
+        loadUnitConversionMatrix( )
+
+    for i in sorted( [ key for key in g.unitConversionMatrix ] ):
+        print( i, g.unitConversionMatrix[ i ] )
+
+    print( )
+
+    return len( g.unitConversionMatrix )
 
 
 # //******************************************************************************
@@ -1491,6 +1521,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 if len( g.keywords ) == 0:
                     g.keywords = list( operators.keys( ) )
                     g.keywords.extend( list( listOperators.keys( ) ) )
+                    g.keywords.extend( g.constantOperatorNames )
                     g.keywords.extend( constants )
                     g.keywords.extend( g.unitOperatorNames )
                     g.keywords.extend( g.operatorAliases )
@@ -1562,7 +1593,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
 def printHelpMessage( ):
     from rpnOutput import printHelp
-    printHelp( operators, constantOperators, constants, listOperators, modifiers, '', True )
+    printHelp( '', True )
     return 0
 
 
@@ -1912,13 +1943,13 @@ listOperators = {
     'lcm'                   : RPNOperator( getLCMOfList,
                                            1, [ RPNArgumentType.List ] ),
 
-    'max'                   : RPNOperator( getMaximum,
+    'maximum'               : RPNOperator( getMaximum,
                                            1, [ RPNArgumentType.List ] ),
 
     'mean'                  : RPNOperator( calculateArithmeticMean,
                                            1, [ RPNArgumentType.List ] ),
 
-    'min'                   : RPNOperator( getMinimum,
+    'minimum'               : RPNOperator( getMinimum,
                                            1, [ RPNArgumentType.List ] ),
 
     'product'               : RPNOperator( getProduct,
@@ -4402,6 +4433,9 @@ operators = {
                                                     0, [ ] ),
 
     '_dump_constants'                : RPNOperator( dumpConstants,
+                                                    0, [ ] ),
+
+    '_dump_conversions'              : RPNOperator( dumpUnitConversions,
                                                     0, [ ] ),
 
     '_dump_operators'                : RPNOperator( dumpOperators,
