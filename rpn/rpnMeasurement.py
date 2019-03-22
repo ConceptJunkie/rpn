@@ -533,17 +533,11 @@ class RPNMeasurement( object ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
-            if unit1String in g.operatorAliases:
-                unit1String = g.operatorAliases[ unit1String ]
-
-            if unit2String in g.operatorAliases:
-                unit2String = g.operatorAliases[ unit2String ]
-
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )
 
             if unit1String == unit2String:
-                return fmul( self.getValue( ), other.getValue( ) )
+                return self.getValue( )
 
             exponents = { }
 
@@ -643,7 +637,6 @@ class RPNMeasurement( object ):
 
                         debugPrint( 'value before', value )
                         value = fmul( value, conversionValue )
-                        value = fmul( self.value, value )
                         debugPrint( 'value after', value )
                     else:
                         # we're ignoring the exponents, but this works for dBm<->milliwatt, etc.

@@ -397,23 +397,43 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 ''' ),
 
     'magnetic_constant' :
-        RPNConstantInfo( fprod( [ 4, pi, 1.0e-7 ] ), 'newton/ampere^2', [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], True,
+        RPNConstantInfo( fprod( [ 4, pi, mpmathify( '1.00000000082' ) ] ), 'newton/ampere^2',
+                         [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], True,
                          '',
                          '''
-This constant is exact by definition.
+The physical constant, ('mu_0'), commonly called the vacuum permeability,
+permeability of free space, permeability of vacuum, or magnetic constant, is
+the magnetic permeability in a classical vacuum.  Vacuum permeability is
+derived from production of a magnetic field by an electric current or by a
+moving electric charge and in all other formulas for magnetic-field production
+in a vacuum.
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mu0
+As of May 20, 2019, the vacuum permeability mu_0 is no longer a defined
+constant (per the former definition of the SI ampere), but rather needs to be
+determined experimentally; 4pi x 1.000 000 000 82 (20) 10e-7 H/m (or N/A^2) is a
+recently measured value in the revised SI.  It is proportional to the
+dimensionless fine-structure constant with no other dependencies.
+
+Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 ''' ),
 
     'magnetic_flux_quantum' :
-        RPNConstantInfo( '2.067833831e-15', 'weber', [ 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta' ], True,
+        RPNConstantInfo( '2.067833831e-15', 'weber',
+                          [ 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta' ], True,
                          '',
                          '''
+The (superconducting) magnetic flux quantum F0 = h/2e =~
+2.067833831(13)x10e-15 Wb is a combination of fundamental physical constants:
+the Planck constant h and the electron charge e.  Its value is, therefore, the
+same for any superconductor.
+
+Ref:  https://en.wikipedia.org/wiki/Magnetic_flux_quantum
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 ''' ),
 
     'molar_gas_constant' :
-        RPNConstantInfo( '8.3144598', 'joule/mole*kelvin', [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], True,
+        RPNConstantInfo( '8.3144598', 'joule/mole*kelvin',
+                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], True,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
@@ -438,9 +458,16 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
         RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], True,
                          '',
                          '''
-Ref:https://en.wikipedia.org/wiki/Planck_constant
+Ref:  https://en.wikipedia.org/wiki/Planck_constant
+The Planck constant (denoted h, also called Planck's constant) is a physical
+constant that is the quantum of electromagnetic action, which relates the
+energy carried by a photon to its frequency.  A photon's energy is equal to
+its frequency multiplied by the Planck constant.  The Planck constant is of
+fundamental importance in quantum mechanics, and in metrology it is the basis
+for the definition of the kilogram.
 
-This is the exact value, set on 20 Nov 2018 by the General Conference on Weights and Measures.
+This is the exact value, set on 20 Nov 2018 by the General Conference on
+Weights and Measures.
 ''' ),
 
     'reduced_planck_constant' :

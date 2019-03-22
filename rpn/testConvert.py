@@ -662,6 +662,9 @@ def runConvertTests( ):
     testOperator( 'second daily convert' )
     testOperator( 'day daily convert' )
     testOperator( '30 N 100 m * kWh convert' )
+    testOperator( '1 20 range dBm watt convert' )
+    testOperator( '0 100 10 range2 dBm watt convert -s1' )
+    testOperator( '60 dBm kilowatt convert' )
 
     # conversions I hope to make work
     #testOperator( 'mph miles hourly * convert' )
@@ -674,6 +677,7 @@ def runConvertTests( ):
 
     # let's check some answers
     expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )
+    expectEqual( '3 cups/second gallons/minute convert', '11.25 gallon/minute' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
@@ -681,11 +685,6 @@ def runConvertTests( ):
 
     # lists of units
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
-
-    # special conversions tests
-    testOperator( '1 20 range dBm watt convert' )
-    testOperator( '0 100 10 range2 dBm watt convert -s1' )
-    testOperator( '60 dBm kilowatt convert' )
 
 
 # //******************************************************************************
