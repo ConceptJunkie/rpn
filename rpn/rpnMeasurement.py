@@ -447,7 +447,8 @@ class RPNMeasurement( object ):
                     else:
                         raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
 
-            units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
+            units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( int( self.units[ unit ] ) ) ) )
+
             debugPrint( 'value', value )
 
         reduced = RPNMeasurement( value, units )
@@ -620,24 +621,30 @@ class RPNMeasurement( object ):
                     else:
                         raise ValueError( 'unable to convert ' + units1.getUnitString( ) + ' to ' + units2.getUnitString( ) )
 
+                debugPrint( 'Iterating through conversions...' )
+
+                value = self.getValue( )
+
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
-                    value = self.getValue( )
+                    debugPrint( '----> conversion', conversion )
 
                     conversionIndex = tuple( conversion )
 
                     if conversionIndex in g.unitConversionMatrix:
-                        debugPrint( 'uniat conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
+                        debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
                         debugPrint( 'exponents', exponents )
 
                         conversionValue = mpmathify( g.unitConversionMatrix[ conversionIndex ] )
                         conversionValue = power( conversionValue, exponents[ conversionIndex ] )
                         debugPrint( 'conversion: ', conversion, conversionValue )
 
+                        debugPrint( 'value before', value )
                         value = fmul( value, conversionValue )
                         value = fmul( self.value, value )
+                        debugPrint( 'value after', value )
                     else:
                         # we're ignoring the exponents, but this works for dBm<->milliwatt, etc.
                         baseUnit = g.basicUnitTypes[ getUnitType( conversion[ 0 ] ) ].baseUnit
@@ -731,8 +738,11 @@ class RPNMeasurement( object ):
         # last chance check, some units are reciprocals of each other
         unit = self.getUnitString( )
 
-        baseUnit1 = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
-        baseUnit2 = g.basicUnitTypes[ getUnitType( otherUnit ) ].baseUnit
+        try:
+            baseUnit1 = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
+            baseUnit2 = g.basicUnitTypes[ getUnitType( otherUnit ) ].baseUnit
+        except:
+            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
             debugPrint( '----------------------------->', self.getUnitString( ), baseUnit1, baseUnit2, otherUnit )
