@@ -318,9 +318,7 @@ def convertFromUnixTime( n ):
 
 @oneArgFunctionEvaluator( )
 def convertToHMS( n ):
-    return convertUnits( n, [ RPNMeasurement( 1, { 'hour' : 1 } ),
-                              RPNMeasurement( 1, { 'minute' : 1 } ),
-                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+    return convertUnits( n, [ 'hour', 'minute', 'second' ] )
 
 
 # //******************************************************************************
@@ -331,10 +329,7 @@ def convertToHMS( n ):
 
 @oneArgFunctionEvaluator( )
 def convertToDHMS( n ):
-    return convertUnits( n, [ RPNMeasurement( 1, { 'day' : 1 } ),
-                              RPNMeasurement( 1, { 'hour' : 1 } ),
-                              RPNMeasurement( 1, { 'minute' : 1 } ),
-                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+    return convertUnits( n, [ 'day', 'hour', 'minute', 'second' ] )
 
 
 # //******************************************************************************
@@ -345,11 +340,7 @@ def convertToDHMS( n ):
 
 @oneArgFunctionEvaluator( )
 def convertToYDHMS( n ):
-    return convertUnits( n, [ RPNMeasurement( 1, { 'year' : 1 } ),
-                              RPNMeasurement( 1, { 'day' : 1 } ),
-                              RPNMeasurement( 1, { 'hour' : 1 } ),
-                              RPNMeasurement( 1, { 'minute' : 1 } ),
-                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+    return convertUnits( n, [ 'year', 'day', 'hour', 'minute', 'second' ] )
 
 
 # //******************************************************************************

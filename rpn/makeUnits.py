@@ -427,14 +427,16 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
     for unit in unitOperators:
         unitRoot = ''
 
-        if unit[ -7 : ] == '*second' and not any( ( c in [ '*^/' ] ) for c in unit ):
+        if '/' in unit or '^' in unit:
+            continue
+
+        originalUnitInfo = unitOperators[ unit ]
+
+        if unit[ -7 : ] == '*second':
             unitRoot = unit[ : -7 ]
 
-        if unit[ : 7 ] == 'second*' and not any( ( c in [ '*^/' ] ) for c in unit ):
+        if unit[ : 7 ] == 'second*':
             unitRoot = unit[ 7 : ]
-
-        if '/' in unitRoot:
-            continue
 
         if unitRoot:
             newRoots = [ unitRoot ]
@@ -475,12 +477,17 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
                     helpText = '\nfill me out for compound time units'
 
                     newUnitOperators[ newUnit ] = \
-                        RPNUnitInfo( unitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
-                                     '', [ ], unitInfo.categories, helpText, True )
+                        RPNUnitInfo( originalUnitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
+                                     '', [ ], originalUnitInfo.categories, helpText, True )
 
                     conversion = mpmathify( timeUnit[ 3 ] )
                     unitConversionMatrix[ ( newUnit, unit ) ] = conversion
                     unitConversionMatrix[ ( unit, newUnit ) ] = fdiv( 1, conversion )
+
+                    #print( 'newUnit', newUnit )
+                    #print( 'unit', unit )
+                    #print( 'conversion', conversion )
+                    #print( )
 
     unitOperators.update( newUnitOperators )
 

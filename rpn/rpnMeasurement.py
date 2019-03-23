@@ -12,13 +12,16 @@
 # //
 # //******************************************************************************
 
+import collections
+
 from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, fprod, frac, \
                    fsub, log10, mpf, mpmathify, nstr, power
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
-from rpn.rpnUnitClasses import getUnitType, RPNUnits
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator
+from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
+                               getUnitType, RPNUnits
+from rpn.rpnUtils import debugPrint, flattenList, getPowerset, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 
@@ -297,6 +300,8 @@ class RPNMeasurement( object ):
         if ( floor( exponent ) != exponent ):
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
 
+        exponent = int( exponent )
+
         newValue = power( self.value, exponent )
 
         for unit in self.units:
@@ -319,7 +324,122 @@ class RPNMeasurement( object ):
     def normalizeUnits( self ):
         units = self.getUnits( ).normalizeUnits( )
 
-        return RPNMeasurement( self.value, units, self.getUnitName( ), self.getPluralUnitName( ) )
+        # look for units that cancel between the numerator and denominator
+        numerator = RPNUnits( )
+        denominator = RPNUnits( )
+
+        for unit in units:
+            if units[ unit ] > 0:
+                numerator[ unit ] = units[ unit ]
+            else:
+                denominator[ unit ] = units[ unit ] * -1
+
+        # if we don't have a numerator or denominator, we're done
+        if not numerator or not denominator:
+            return RPNMeasurement( self.value, units )
+
+        if not g.basicUnitTypes:
+            loadUnitData( )
+
+        debugPrint( 'numerator', numerator )
+        debugPrint( 'denominator', denominator )
+
+        nOriginalElements = sorted( list( numerator.elements( ) ) )
+        dOriginalElements = sorted( list( denominator.elements( ) ) )
+
+        nCounter = collections.Counter( nOriginalElements )
+        dCounter = collections.Counter( dOriginalElements )
+
+        nElements = [ ]
+
+        for n in nCounter:
+            for i in range( min( nCounter[ n ], 3 ) ):
+                nElements.append( n )
+
+        dElements = [ ]
+
+        for d in dCounter:
+            for i in range( min( dCounter[ n ], 3 ) ):
+                dElements.append( n )
+
+        debugPrint( 'nElements', nElements )
+        debugPrint( 'dElements', dElements )
+
+        matchFound = True   # technically not true yet, but it gets us into the loop
+
+        conversionsNeeded = [ ]
+
+        while matchFound:
+            matchFound = False
+
+            for nSubset in getPowerset( nElements ):
+                for dSubset in getPowerset( dElements ):
+                    debugPrint( 'nSubset', list( nSubset ) )
+                    debugPrint( 'dSubset', list( dSubset ) )
+
+                    nDimensions = flattenList( [ getUnitDimensionList( n ) for n in list( nSubset ) ] )
+                    dDimensions = flattenList( [ getUnitDimensionList( d ) for d in list( dSubset ) ] )
+
+                    if nDimensions == dDimensions:
+                        newNSubset = [ ]
+                        newDSubset = [ ]
+
+                        for n in nSubset:
+                            baseUnit = g.basicUnitTypes[ getUnitType( n ) ].baseUnit
+
+                            if n != baseUnit:
+                                conversionsNeeded.append( ( n, baseUnit ) )
+
+                            newNSubset.append( baseUnit )
+
+                        for d in dSubset:
+                            baseUnit = g.basicUnitTypes[ getUnitType( d ) ].baseUnit
+
+                            if d != baseUnit:
+                                conversionsNeeded.append( ( d, baseUnit ) )
+
+                            newDSubset.append( baseUnit )
+
+                        conversionsNeeded.append( ( '*'.join( newNSubset ), '*'.join( newDSubset ) ) )
+                        matchFound = True
+
+                        for n in nSubset:
+                            nOrignalElements.remove( n )
+
+                        for d in dSubset:
+                            dOriginalElements.remove( d )
+
+                        break
+
+                if matchFound:
+                    break
+
+        debugPrint( 'final nElements', nOriginalElements )
+        debugPrint( 'final dElements', dOriginalElements )
+
+        convertedValue = self.getValue( )
+
+        if not g.unitConversionMatrix:
+            loadUnitConversionMatrix( )
+
+        for i in conversionsNeeded:
+            convertedValue = fmul( convertedValue, g.unitConversionMatrix[ i ] )
+
+        units = RPNUnits( '*'.join( nOriginalElements ) )
+        denominator = RPNUnits( '*'.join( dOriginalElements ) )
+
+        debugPrint( 'n unit', units )
+        debugPrint( 'd unit', denominator )
+
+        for d in denominator:
+            units[ d ] = denominator[ d ] * -1
+
+        debugPrint( 'final units', units )
+
+        if units:
+            return RPNMeasurement( convertedValue, units )
+        else:
+            return convertedValue
 
     def update( self, units ):
         for i in self.units:
@@ -334,6 +454,8 @@ class RPNMeasurement( object ):
         self.units.update( units )
 
     def isCompatible( self, other ):
+        if isinstance( other, str ):
+            return self.isCompatible( RPNMeasurement( 1, other ) )
         if isinstance( other, RPNUnits ):
             return self.getUnitTypes( ) == other.getUnitTypes( )
         elif isinstance( other, RPNMeasurement ):
@@ -525,7 +647,17 @@ class RPNMeasurement( object ):
                 if len( other ) == 1:
                     return convertValue( other[ 0 ] )
                 else:
-                    return self.convertUnitList( other )
+                    listToConvert = [ ]
+
+                    for i in other:
+                        if isinstance( i, str ):
+                            listToConvert.append( RPNMeasurement( 1, i ) )
+                        elif isinstance( i, RPNMeasurement ):
+                            listToConvert.append( i )
+                        else:
+                            raise ValueError( 'we\'ve got something else' )
+
+                    return self.convertUnitList( listToConvert )
 
             units1 = self.getUnits( )
             units2 = other.getUnits( )
@@ -874,9 +1006,7 @@ def convertUnits( unit1, unit2 ):
 
 @oneArgFunctionEvaluator( )
 def convertToDMS( n ):
-    return convertUnits( n, [ RPNMeasurement( 1, { 'degree' : 1 } ),
-                              RPNMeasurement( 1, { 'arcminute' : 1 } ),
-                              RPNMeasurement( 1, { 'arcsecond' : 1 } ) ] )
+    return convertUnits( n, [ 'degree', 'arcminute', 'arcsecond' ] )
 
 
 # //******************************************************************************
@@ -932,7 +1062,7 @@ def estimate( measurement ):
 # //
 # //  applyNumberValueToUnit
 # //
-# //  We have to treat constant units differently because they become plain
+# //  We have to treat constant units differently because they can become plain
 # //  numbers.
 # //
 # //******************************************************************************
@@ -940,6 +1070,7 @@ def estimate( measurement ):
 def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
         value = RPNMeasurement( number, term )
+        value = value.normalizeUnits( )
     elif constant:
         if ( g.constantOperators[ term ].unit ):
             value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),
@@ -1006,5 +1137,4 @@ def matchUnitTypes( args, validUnitTypes ):
 
     #print( 'first loop completed' )
     return None
-
 

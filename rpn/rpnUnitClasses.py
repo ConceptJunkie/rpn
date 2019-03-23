@@ -13,12 +13,39 @@
 # //******************************************************************************
 
 import collections
+import itertools
 
 from mpmath import fdiv, mpmathify
 
-from rpn.rpnPersistence import loadUnitConversionMatrix
+from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 
 import rpn.rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  getUnitDimensions
+# //
+# //******************************************************************************
+
+def getUnitDimensions( unit ):
+    if unit in g.basicUnitTypes:
+        return unit
+
+    return RPNUnits( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
+
+
+# //******************************************************************************
+# //
+# //  getUnitDimensionList
+# //
+# //******************************************************************************
+
+def getUnitDimensionList( unit ):
+    if unit in g.basicUnitTypes:
+        return [ unit ]
+
+    return sorted( list( getUnitDimensions( unit ).elements( ) ) )
 
 
 # //******************************************************************************
@@ -190,7 +217,7 @@ class RPNUnits( collections.Counter ):
             if unit == '1':
                 continue
 
-            dimensions = RPNUnits( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
+            dimensions = getUnitDimensions( unit )
 
             exponent = self.get( unit )
 
@@ -254,6 +281,13 @@ class RPNUnits( collections.Counter ):
     def parseUnitString( expression ):
         '''Parses a string with the algebraic representation of the units and populates
         the RPNUnits object (self) with the parsed unit values.'''
+
+        result = RPNUnits( )
+
+        # no point in trying to parse an empty string
+        if not expression:
+            return result
+
         pieces = expression.split( '/' )
 
         if len( pieces ) > 2:
@@ -262,10 +296,8 @@ class RPNUnits( collections.Counter ):
             result = RPNUnits.parseUnitString( pieces[ 0 ] )
             result.subtract( RPNUnits.parseUnitString( pieces[ 1 ] ) )
 
-            return result
+            return result.normalizeUnits( )
         else:
-            result = RPNUnits( )
-
             units = expression.split( '*' )
 
             for unit in units:
@@ -292,12 +324,16 @@ class RPNUnits( collections.Counter ):
 
                 result[ plainUnit ] += exponent
 
-            return result
+            return result.normalizeUnits( )
 
-    def normalizeUnits( self ):
+    def normalizeUnits( self, value = 0 ):
         newUnits = RPNUnits( )
 
+        # strip out '_null_type' and units with and exponent of 0
         for unit in self:
+            # mpf's keep slipping in here
+            self[ unit ] = int( self[ unit ] )
+
             if self[ unit ] != 0 and unit != '_null_type':
                 newUnits[ unit ] = self[ unit ]
 

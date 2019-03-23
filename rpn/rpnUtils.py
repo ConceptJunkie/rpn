@@ -800,3 +800,26 @@ def matchArgumentTypes( args, validArgTypes ):
     return None
 
 
+# //******************************************************************************
+# //
+# //  getPowerset
+# //
+# //******************************************************************************
+
+def getPowerset( list ):
+    # standard python powerset recipe, minus the empty subset, which is not useful to us
+    return itertools.chain.from_iterable( itertools.combinations( list, n ) \
+                                                    for n in range( 1, len( list ) + 1 ) )
+
+
+# //******************************************************************************
+# //
+# //  flattenList
+# //
+# //******************************************************************************
+
+def flattenList( list ):
+    # standard python list flattening recipe
+    return [ item for sublist in list for item in sublist ]
+
+
