@@ -121,11 +121,10 @@ def runConvertTests( ):
     testOperator( '65 miles hour / furlongs fortnight / convert' )
     testOperator( '1 watt dBm convert' )
     testOperator( 'coulomb^3/ampere^2*second^2 coulomb convert' )
+    testOperator( 'mph miles hourly * convert' )
 
     # conversions I hope to make work
-    #testOperator( 'mph miles hourly * convert' )
     #testOperator( 'ohm/hertz', 'second/siemens' )
-    #testOperator( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product / meter convert' )
     #testOperator( 'coulomb^2 ampere^2*second^2 convert' )
     #testOperator( 'h eV second * convert' )
     #testOperator( 'h_bar c * MeV fm * convert' )

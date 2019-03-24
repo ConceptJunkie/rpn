@@ -562,7 +562,7 @@ class RPNMeasurement( object ):
         return self.units.getDimensions( )
 
     def getReduced( self ):
-        debugPrint( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
+        debugPrint( 'getReduced 1:', self.getValue( ), self.getUnits( ) )
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
 
@@ -583,7 +583,7 @@ class RPNMeasurement( object ):
                 else:
                     if unit == '1' and newUnit == '_null_unit':
                         reduced = RPNMeasurement( value, units )
-                        debugPrint( 'getReduced 2:', reduced )
+                        debugPrint( 'getReduced 2:', reduced.getValue( ), reduced.getUnits( ) )
                         return reduced
                     else:
                         raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
@@ -593,7 +593,7 @@ class RPNMeasurement( object ):
             debugPrint( 'value', value )
 
         reduced = RPNMeasurement( value, units )
-        debugPrint( 'getReduced 3:', reduced )
+        debugPrint( 'getReduced 3:', reduced.getValue( ), reduced.getUnits( ) )
         return reduced
 
     def convert( self, other ):
@@ -732,6 +732,8 @@ class RPNMeasurement( object ):
 
                         reducedOther = other.getReduced( )
 
+                        reduced.setValue( fdiv( reduced.getValue( ), reducedOther.getValue( ) ) )
+
                         debugPrint( 'reduced other:', other.units, 'becomes', reducedOther.units )
 
                         # check to see if reducing did anything and bail if it didn't... bail out
@@ -739,8 +741,7 @@ class RPNMeasurement( object ):
                             debugPrint( 'reducing didn\'t help' )
                             break
 
-                        reduced = reduced.convertValue( reducedOther )
-                        return RPNMeasurement( fdiv( reduced, reducedOther.value ), reducedOther.getUnits( ) ).getValue( )
+                        return reduced.convertValue( reducedOther )
 
                 debugPrint( )
 
