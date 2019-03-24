@@ -588,7 +588,7 @@ def getProduct( n ):
             break
 
     if hasUnits:
-        result = RPNMeasurement( 1, { } )
+        result = RPNMeasurement( 1 )
 
         for item in n:
             if isinstance( item, list ):

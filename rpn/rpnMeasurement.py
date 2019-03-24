@@ -323,6 +323,8 @@ class RPNMeasurement( object ):
 
     def normalizeUnits( self ):
         units = self.getUnits( ).normalizeUnits( )
+        debugPrint( )
+        debugPrint( 'normalize', units )
 
         # look for units that cancel between the numerator and denominator
         numerator = RPNUnits( )
@@ -350,6 +352,8 @@ class RPNMeasurement( object ):
         nCounter = collections.Counter( nOriginalElements )
         dCounter = collections.Counter( dOriginalElements )
 
+        changed = False
+
         nElements = [ ]
 
         for n in nCounter:
@@ -359,10 +363,13 @@ class RPNMeasurement( object ):
         dElements = [ ]
 
         for d in dCounter:
-            for i in range( min( dCounter[ n ], 3 ) ):
-                dElements.append( n )
+            for i in range( min( dCounter[ d ], 3 ) ):
+                dElements.append( d )
 
+        debugPrint( 'nOriginalElements', nOriginalElements )
         debugPrint( 'nElements', nElements )
+
+        debugPrint( 'dOriginalElements', dOriginalElements )
         debugPrint( 'dElements', dElements )
 
         matchFound = True   # technically not true yet, but it gets us into the loop
@@ -374,8 +381,8 @@ class RPNMeasurement( object ):
 
             for nSubset in getPowerset( nElements ):
                 for dSubset in getPowerset( dElements ):
-                    debugPrint( 'nSubset', list( nSubset ) )
-                    debugPrint( 'dSubset', list( dSubset ) )
+                    #debugPrint( 'nSubset', list( nSubset ) )
+                    #debugPrint( 'dSubset', list( dSubset ) )
 
                     nDimensions = flattenList( [ getUnitDimensionList( n ) for n in list( nSubset ) ] )
                     dDimensions = flattenList( [ getUnitDimensionList( d ) for d in list( dSubset ) ] )
@@ -404,15 +411,22 @@ class RPNMeasurement( object ):
                         matchFound = True
 
                         for n in nSubset:
-                            nOrignalElements.remove( n )
+                            #print( 'nOriginalElements', nOriginalElements, 'n', n )
+                            nOriginalElements.remove( n )
+                            changed = True
 
                         for d in dSubset:
+                            #print( 'dOriginalElements', dOriginalElements, 'd', d )
                             dOriginalElements.remove( d )
+                            changed = True
 
                         break
 
                 if matchFound:
                     break
+
+            if matchFound:
+                break
 
         debugPrint( 'final nElements', nOriginalElements )
         debugPrint( 'final dElements', dOriginalElements )
@@ -437,7 +451,12 @@ class RPNMeasurement( object ):
         debugPrint( 'final units', units )
 
         if units:
-            return RPNMeasurement( convertedValue, units )
+            result = RPNMeasurement( convertedValue, units )
+
+            if changed:
+                return result.normalizeUnits( )
+            else:
+                return result
         else:
             return convertedValue
 
