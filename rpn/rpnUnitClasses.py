@@ -78,10 +78,11 @@ def getUnitType( unit ):
 
 class RPNUnitTypeInfo( object ):
     '''This class defines the information needed to define a measurement unit type.'''
-    def __init__( self, dimensions, baseUnit, estimateTable ):
+    def __init__( self, dimensions, baseUnit, primitiveUnit, estimateTable ):
         self.dimensions = RPNUnits( dimensions )
         self.baseUnitType = RPNUnits( baseUnit )
         self.baseUnit = baseUnit
+        self.primitiveUnit = primitiveUnit
         self.estimateTable = estimateTable
 
 
@@ -338,4 +339,16 @@ class RPNUnits( collections.Counter ):
                 newUnits[ unit ] = self[ unit ]
 
         return newUnits
+
+    def splitUnits( self ):
+        numerator = RPNUnits( )
+        denominator = RPNUnits( )
+
+        for unit in self:
+            if self[ unit ] > 0:
+                numerator[ unit ] = self[ unit ]
+            else:
+                denominator[ unit ] = self[ unit ] * -1
+
+        return numerator, denominator
 

@@ -45,11 +45,13 @@ basicUnitTypes = {
     '_null_type' : RPNUnitTypeInfo(
         'constant',
         '_null_unit',
+        '_null_unit',
         None
     ),
 
     'acceleration' : RPNUnitTypeInfo(
         'length/time^2',
+        'meter/second^2',
         'meter/second^2',
         accelerationTable
     ),
@@ -57,11 +59,13 @@ basicUnitTypes = {
     'amount_of_substance' : RPNUnitTypeInfo(
         'amount_of_substance',
         'mole',
+        'mole',
         amountOfSubstanceTable
     ),
 
     'angle' : RPNUnitTypeInfo(
         'angle',
+        'radian',
         'radian',
         angleTable
     ),
@@ -69,23 +73,27 @@ basicUnitTypes = {
     'area' : RPNUnitTypeInfo(
         'length^2',
         'meter^2',
+        'meter^2',
         areaTable,
     ),
 
     'capacitance' : RPNUnitTypeInfo(
         'current^2*time^4/mass*length^2',
         'farad',
+        'ampere^2*second^4*/kilogram*meter^2',
         capacitanceTable,
     ),
 
     'charge' : RPNUnitTypeInfo(
         'current*time',
         'coulomb',
+        'ampere*second',
         chargeTable,
     ),
 
     'constant' : RPNUnitTypeInfo(
         'constant',
+        'unity',
         'unity',
         constantTable,
     ),
@@ -93,11 +101,13 @@ basicUnitTypes = {
     'current' : RPNUnitTypeInfo(
         'current',
         'ampere',
+        'ampere',
         currentTable,
     ),
 
     'data_rate' : RPNUnitTypeInfo(
         'mass*length^2/time^3*temperature',
+        'bit/second',
         'bit/second',
         dataRateTable,
     ),
@@ -105,71 +115,83 @@ basicUnitTypes = {
     'density' : RPNUnitTypeInfo(
         'mass/length^3',
         'kilogram/liter',
+        'kilogram/liter',
         densityTable,
     ),
 
     'dynamic_viscosity' : RPNUnitTypeInfo(
         'mass/length*time',
         'pascal*second',
+        'kilogram/meter*second',
         dynamicViscosityTable,
     ),
 
     'electrical_conductance' : RPNUnitTypeInfo(
         'current^2*time^3/length^2*mass',
         'siemens',
+        'ampere^2*second^3/kilogram*meter^2',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : RPNUnitTypeInfo(
         'length^2*mass/current^2*time^3',
         'ohm',
+        'kilogram*meter^2/ampere^2*second^3',
         electricalResistanceTable,
     ),
 
     'electric_potential' : RPNUnitTypeInfo(
         'mass*length^2/current*time^3',
         'volt',
+        'kilogram*meter^2/ampere*second^3',
         electricPotentialTable,
     ),
 
     'energy' : RPNUnitTypeInfo(
         'mass*length^2/time^2',
         'joule',
+        'kilogram*meter^2/second^2',
         energyTable,
     ),
 
     'force' : RPNUnitTypeInfo(
         'mass*length/time^2',
         'newton',
+        'kilogram*meter/second^2',
         forceTable,
     ),
 
     'frequency' : RPNUnitTypeInfo(
         '1/time',
         'hertz',
+        '1/second',
         frequencyTable,
     ),
 
     'illuminance' : RPNUnitTypeInfo(
         'luminous_intensity*angle^2/length^2',
         'lux',
+        'candela*radian^2/meter^2',
         illuminanceTable,
     ),
 
     'inductance' : RPNUnitTypeInfo(
         'mass*length^2/time^2*current^2',
         'henry',
+        'kilogram*meter^2/ampere^2*second^2',
         inductanceTable,
     ),
 
     'information_entropy' : RPNUnitTypeInfo(
         'mass*length^2/time^2*temperature',
         'bit',
+        'kilogram*meter^2/second^2*kelvin',
         informationEntropyTable,
     ),
 
     'jerk' : RPNUnitTypeInfo(
         'length/time^3',
+        'meter/second^3',
         'meter/second^3',
         jerkTable
     ),
@@ -177,11 +199,13 @@ basicUnitTypes = {
     'jounce' : RPNUnitTypeInfo(
         'length/time^4',
         'meter/second^4',
+        'meter/second^4',
         jounceTable
     ),
 
     'length' : RPNUnitTypeInfo(
         'length',
+        'meter',
         'meter',
         lengthTable,
     ),
@@ -189,17 +213,20 @@ basicUnitTypes = {
     'luminance' : RPNUnitTypeInfo(
         'luminous_intensity/length^2',
         'candela/meter^2',
+        'candela/meter^2',
         luminanceTable,
     ),
 
     'luminous_flux' : RPNUnitTypeInfo(
         'luminous_intensity*angle^2',
         'lumen',
+        'candela*radian^2',
         luminousFluxTable,
     ),
 
     'luminous_intensity' : RPNUnitTypeInfo(
         'luminous_intensity',
+        'candela',
         'candela',
         luminousIntensityTable,
     ),
@@ -207,23 +234,27 @@ basicUnitTypes = {
     'magnetic_field_strength' : RPNUnitTypeInfo(
         'current/length',
         'ampere/meter',
+        'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : RPNUnitTypeInfo(
         'mass*length^2/time^2*current',
         'weber',
+        'kilogram*meter^2/ampere*second^2',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : RPNUnitTypeInfo(
         'mass/time^2*current',
         'tesla',
+        'kilogram/ampere*second^2',
         magneticFluxDensityTable,
     ),
 
     'mass' : RPNUnitTypeInfo(
         'mass',
+        'kilogram',
         'kilogram',
         massTable,
     ),
@@ -231,41 +262,48 @@ basicUnitTypes = {
     'power' : RPNUnitTypeInfo(
         'mass*length^2/time^3',
         'watt',
+        'kilogram*meter^2/second^3',
         powerTable,
     ),
 
     'pressure' : RPNUnitTypeInfo(
         'mass/length*time^2',
         'pascal',
+        'kilogram/meter*second^2',
         pressureTable,
     ),
 
     'radiation_dose' : RPNUnitTypeInfo(
         'length^2/time^2',
         'sievert',
+        'meter^2/second^2',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : RPNUnitTypeInfo(
         'current*time/mass',
         'coulomb/kilogram',
+        'ampere*second/kilogram',
         radiationExposureTable,
     ),
 
     'radiosity' : RPNUnitTypeInfo(
         'mass/time^3',
         'watt/meter^2',
+        'kilograms/second^3',
         radiosityTable,
     ),
 
     'solid_angle' : RPNUnitTypeInfo(
         'angle^2',
         'steradian',
+        'radian^2',
         solidAngleTable,
     ),
 
     'temperature' : RPNUnitTypeInfo(
         'temperature',
+        'kelvin',
         'kelvin',
         temperatureTable,
     ),
@@ -273,11 +311,13 @@ basicUnitTypes = {
     'time' : RPNUnitTypeInfo(
         'time',
         'second',
+        'second',
         timeTable,
     ),
 
     'velocity' : RPNUnitTypeInfo(
         'length/time',
+        'meter/second',
         'meter/second',
         velocityTable,
     ),
@@ -285,6 +325,7 @@ basicUnitTypes = {
     'volume' : RPNUnitTypeInfo(
         'length^3',
         'liter',
+        'meter^3',
         volumeTable,
     ),
 }
@@ -1520,7 +1561,7 @@ arithmetic sometime around 1980.
 ''' ),
 
     'coulomb^2/meter*newton' :
-        RPNUnitInfo( 'capacitance', 'coulomb^2/newton*meter', 'coulomb^2/newton*meter', '',
+        RPNUnitInfo( 'capacitance', 'coulomb^2/meternewton', 'coulomb^2/meter*newton', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1551,7 +1592,7 @@ The SI unit for capacitance.
 ''' ),
 
     'meter*newton/volt^2' :
-        RPNUnitInfo( 'capacitance', 'newton*meter/volt^2', 'newton*meter/volt^2', '',
+        RPNUnitInfo( 'capacitance', 'meter*newton/volt^2', 'meter*newton/volt^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1575,7 +1616,7 @@ The SI unit for capacitance.
 ''' ),
 
     'ampere^2*second^4/kilogram*meter^2' :
-        RPNUnitInfo( 'capacitance', 'second^4*ampere^2/meter^2*kilogram', 'second^4*ampere^2/meter^2*kilogram', '',
+        RPNUnitInfo( 'capacitance', 'ampere^2*second^4*/kilogram*meter^2', 'ampere^2*second^4*/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1587,7 +1628,7 @@ The SI unit for capacitance.
 ''' ),
 
     'second*watt/volt^2' :
-        RPNUnitInfo( 'capacitance', 'watt*second/volt^2', 'watt*second/volt^2', '',
+        RPNUnitInfo( 'capacitance', 'second*watt/volt^2', 'second*watt/volt^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -3564,7 +3605,13 @@ https://en.wikipedia.org/wiki/Rack_unit
                      '''
 ''' ),
 
-    # kilogram*meter^2/ampere*second^2
+    'kilogram*meter^2/ampere*second^2' :
+        RPNUnitInfo( 'magnetic_flux', 'kilogram*meter^2/ampere*second^2', 'kilogram*meter^2/ampere*second^2', '',
+                     [ ], [ 'SI' ],
+                     '''
+''' ),
+
+
     # joule/ampere
 
     'maxwell' :
@@ -5826,6 +5873,7 @@ unitConversionMatrix = {
     ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
     ( 'watt',                       'meter*newton/second' )                 : mpmathify( '1' ),
     ( 'watt/meter^2',               'kilogram/second^3' )                   : mpmathify( '1' ),
+    ( 'weber',                      'kilogram*meter^2/ampere*second^2' )    : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
     ( 'weber',                      'meter^2*tesla' )                       : mpmathify( '1' ),
     ( 'weber',                      'second*volt' )                         : mpmathify( '1' ),

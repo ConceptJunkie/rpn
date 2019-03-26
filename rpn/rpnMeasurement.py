@@ -327,14 +327,7 @@ class RPNMeasurement( object ):
         debugPrint( 'normalize', units )
 
         # look for units that cancel between the numerator and denominator
-        numerator = RPNUnits( )
-        denominator = RPNUnits( )
-
-        for unit in units:
-            if units[ unit ] > 0:
-                numerator[ unit ] = units[ unit ]
-            else:
-                denominator[ unit ] = units[ unit ] * -1
+        numerator, denominator = units.splitUnits( )
 
         # if we don't have a numerator or denominator, we're done
         if not numerator or not denominator:
@@ -349,21 +342,18 @@ class RPNMeasurement( object ):
         nOriginalElements = sorted( list( numerator.elements( ) ) )
         dOriginalElements = sorted( list( denominator.elements( ) ) )
 
-        nCounter = collections.Counter( nOriginalElements )
-        dCounter = collections.Counter( dOriginalElements )
-
         changed = False
 
         nElements = [ ]
 
-        for n in nCounter:
-            for i in range( min( nCounter[ n ], 3 ) ):
+        for n in numerator:
+            for i in range( min( numerator[ n ], 3 ) ):
                 nElements.append( n )
 
         dElements = [ ]
 
-        for d in dCounter:
-            for i in range( min( dCounter[ d ], 3 ) ):
+        for d in denominator:
+            for i in range( min( denominator[ d ], 3 ) ):
                 dElements.append( d )
 
         debugPrint( 'nOriginalElements', nOriginalElements )
@@ -561,8 +551,8 @@ class RPNMeasurement( object ):
     def getDimensions( self ):
         return self.units.getDimensions( )
 
-    def getReduced( self ):
-        debugPrint( 'getReduced 1:', self.getValue( ), self.getUnits( ) )
+    def getPrimitive( self ):
+        debugPrint( 'getPrimitive1:', self.getValue( ), self.getUnits( ) )
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
 
@@ -572,29 +562,35 @@ class RPNMeasurement( object ):
         debugPrint( 'value', value )
 
         for unit in self.units:
-            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
-            debugPrint( 'unit', unit, 'newUnit', newUnit )
+            newUnits = g.basicUnitTypes[ getUnitType( unit ) ].primitiveUnit
 
-            if unit != newUnit:
-                if ( unit, newUnit ) in g.unitConversionMatrix:
-                    value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
-                elif ( unit, newUnit ) in specialUnitConversionMatrix:
-                    value = power( specialUnitConversionMatrix[ ( unit, newUnit ) ]( value ), self.units[ unit ] )
+            debugPrint( 'unit', unit, 'newUnits', newUnits )
+
+            if unit != newUnits:
+                if ( unit, newUnits ) in g.unitConversionMatrix:
+                    value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnits ) ] ), self.units[ unit ] ) )
+                elif ( unit, newUnits ) in specialUnitConversionMatrix:
+                    value = power( specialUnitConversionMatrix[ ( unit, newUnits ) ]( value ), self.units[ unit ] )
                 else:
-                    if unit == '1' and newUnit == '_null_unit':
+                    if unit == '1' and newUnits == '_null_unit':
                         reduced = RPNMeasurement( value, units )
-                        debugPrint( 'getReduced 2:', reduced.getValue( ), reduced.getUnits( ) )
+                        debugPrint( 'getPrimitive 2:', reduced.getValue( ), reduced.getUnits( ) )
                         return reduced
                     else:
-                        raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
+                        raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnits )
 
-            units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( int( self.units[ unit ] ) ) ) )
+            newUnits = RPNUnits( newUnits )
+
+            for newUnit in newUnits:
+                newUnits[ newUnit ] *= self.units[ unit ]
+
+            units.update( newUnits )
 
             debugPrint( 'value', value )
 
-        reduced = RPNMeasurement( value, units )
-        debugPrint( 'getReduced 3:', reduced.getValue( ), reduced.getUnits( ) )
-        return reduced
+        primitive = RPNMeasurement( value, units )
+        debugPrint( 'getPrimitive 3:', primitive.getValue( ), primitive.getUnits( ) )
+        return primitive
 
     def convert( self, other ):
         if isinstance( other, RPNMeasurement ):
@@ -724,13 +720,15 @@ class RPNMeasurement( object ):
                             foundConversion = True
                             break
 
+                    skip = False
+
                     if not foundConversion:
                         debugPrint( 'didn\'t find a conversion, try reducing' )
-                        reduced = self.getReduced( )
+                        reduced = self.getPrimitive( )
 
                         debugPrint( 'reduced:', self.units, 'becomes', reduced.units )
 
-                        reducedOther = other.getReduced( )
+                        reducedOther = other.getPrimitive( )
 
                         reduced.setValue( fdiv( reduced.getValue( ), reducedOther.getValue( ) ) )
 
