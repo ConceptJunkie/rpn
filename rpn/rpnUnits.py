@@ -3091,7 +3091,7 @@ http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
 
     'angstrom' :
-        RPNUnitInfo( 'length', 'angstrom', 'angstroms', 'A',
+        RPNUnitInfo( 'length', 'angstrom', 'angstroms', '',
                      [ 'angstroem', 'angstroems' ], [ 'science' ],
                      '''
 ''' ),

@@ -18,6 +18,7 @@ import itertools
 from mpmath import fdiv, mpmathify
 
 from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
+from rpn.rpnUtils import debugPrint
 
 import rpn.rpnGlobals as g
 
@@ -45,7 +46,20 @@ def getUnitDimensionList( unit ):
     if unit in g.basicUnitTypes:
         return [ unit ]
 
-    return sorted( list( getUnitDimensions( unit ).elements( ) ) )
+    dimensions = getUnitDimensions( unit )
+
+    numerator = [ ]
+    denominator = [ ]
+
+    for dimension in dimensions:
+        if dimensions[ dimension ] > 0:
+            for i in range( dimensions[ dimension ] ):
+                numerator.append( dimension )
+        else:
+            for i in range( dimensions[ dimension ] * -1 ):
+                denominator.append( dimension )
+
+    return numerator, denominator
 
 
 # //******************************************************************************
@@ -140,6 +154,8 @@ class RPNUnits( collections.Counter ):
                     self.update( item )  # for Counter, update( ) adds, not replaces
             elif isinstance( arg[ 0 ], ( RPNUnits, dict ) ):
                 self.update( arg[ 0 ] )
+            else:
+                raise ValueError( 'invalid call to RPNUnits constructor' )
         else:
             super( RPNUnits, self ).__init__( *arg, **kw )
 

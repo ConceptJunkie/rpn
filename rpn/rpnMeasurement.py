@@ -19,8 +19,8 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, fprod, frac, \
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
-from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
-                               getUnitType, RPNUnits
+from rpn.rpnUnitClasses import getUnitDimensionList, \
+                               getUnitDimensions, getUnitType, RPNUnits
 from rpn.rpnUtils import debugPrint, flattenList, getPowerset, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
@@ -371,13 +371,17 @@ class RPNMeasurement( object ):
 
             for nSubset in getPowerset( nElements ):
                 for dSubset in getPowerset( dElements ):
-                    #debugPrint( 'nSubset', list( nSubset ) )
-                    #debugPrint( 'dSubset', list( dSubset ) )
+                    #debugPrint( '))) nSubset', list( nSubset ) )
+                    #debugPrint( '))) dSubset', list( dSubset ) )
 
-                    nDimensions = flattenList( [ getUnitDimensionList( n ) for n in list( nSubset ) ] )
-                    dDimensions = flattenList( [ getUnitDimensionList( d ) for d in list( dSubset ) ] )
+                    nSubsetUnit = RPNUnits( '*'.join( list( nSubset ) ) )
+                    dSubsetUnit = RPNUnits( '*'.join( list( dSubset ) ) )
 
-                    if nDimensions == dDimensions:
+                    #debugPrint( '1 nSubset', dSubsetUnit )
+                    #debugPrint( '2 dSubset', dSubsetUnit )
+
+                    if nSubsetUnit.getDimensions( ) == dSubsetUnit.getDimensions( ):
+                        debugPrint( 'dimensions matched', dSubsetUnit.getDimensions( ) )
                         newNSubset = [ ]
                         newDSubset = [ ]
 
@@ -385,6 +389,7 @@ class RPNMeasurement( object ):
                             baseUnit = g.basicUnitTypes[ getUnitType( n ) ].baseUnit
 
                             if n != baseUnit:
+                                print( 'conversion added:', n, baseUnit )
                                 conversionsNeeded.append( ( n, baseUnit ) )
 
                             newNSubset.append( baseUnit )
@@ -393,11 +398,11 @@ class RPNMeasurement( object ):
                             baseUnit = g.basicUnitTypes[ getUnitType( d ) ].baseUnit
 
                             if d != baseUnit:
+                                print( 'conversion added:', d, baseUnit )
                                 conversionsNeeded.append( ( d, baseUnit ) )
 
                             newDSubset.append( baseUnit )
 
-                        conversionsNeeded.append( ( '*'.join( newNSubset ), '*'.join( newDSubset ) ) )
                         matchFound = True
 
                         for n in nSubset:

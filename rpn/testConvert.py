@@ -122,20 +122,23 @@ def runConvertTests( ):
     testOperator( '1 watt dBm convert' )
     testOperator( 'coulomb^3/ampere^2*second^2 coulomb convert' )
     testOperator( 'mph miles hourly * convert' )
-
-    # conversions I hope to make work
     testOperator( 'ohm/hertz', 'second/siemens' )
     testOperator( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product / meter convert' )
     testOperator( 'coulomb^2 ampere^2*second^2 convert' )
     testOperator( 'h eV second * convert' )
     testOperator( 'h_bar c * MeV fm * convert' )
     testOperator( 'h foot*pound-force*second convert' )
+    testOperator( '400 W/m^2 stefan_boltzmann / 4 root' )
 
     # let's check some answers
     expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )
     expectEqual( '3 cups/second gallons/minute convert', '11.25 gallon/minute' )
     expectEqual( 'coulomb/ampere*second', '1' )
-    expectResult( 'day second convert value', 86400 )
+    expectEqual( '16800 mA hours * 5 volts * joule convert', '302400 joules' )
+    expectEqual( '2 ampere 100 ohms * volts convert', '200 volts' )
+    expectEqual( '120 volt 100 ohm / ampere convert', '1.2 amperes' )
+    expectEqual( 'day second convert value', '86400' )
+    expectEqual( '120 coulombs 10 ampere / second convert', '12 seconds' )
     #expectEqual( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product /', 'classical_electron_radius' )
 
     # unit exponentiation
