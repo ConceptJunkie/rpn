@@ -126,20 +126,6 @@ def getValue( n ):
 
 # //******************************************************************************
 # //
-# //  getDimensions
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def getDimensions( n ):
-    if isinstance( n, RPNMeasurement ):
-        return n.getDimensions( )
-    else:
-        return n
-
-
-# //******************************************************************************
-# //
 # //  divide
 # //
 # //  We used to be able to call fdiv directly, but now we want to also divide
@@ -211,29 +197,7 @@ def cube( n ):
 @twoArgFunctionEvaluator( )
 def getRoot( n, k ):
     if isinstance( n, RPNMeasurement ):
-        n = n.normalizeUnits( )
-
-        if not isInteger( k ):
-            raise ValueError( 'cannot take a fractional root of a measurement' )
-
-        newUnits = RPNUnits( n.getUnits( ) )
-
-        for unit, exponent in newUnits.items( ):
-            if fmod( exponent, k ) != 0:
-                if k == 2:
-                    name = 'square'
-                elif k == 3:
-                    name = 'cube'
-                else:
-                    name = getOrdinalName( k )
-
-                raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', n.getUnits( ) )
-
-            newUnits[ unit ] /= k
-
-        value = root( n.getValue( ), k )
-
-        return RPNMeasurement( value, newUnits )
+        return n.getRoot( k )
 
     return power( n, fdiv( 1, real( k ) ) )
 

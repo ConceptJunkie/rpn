@@ -4226,11 +4226,19 @@ operators = {
                                                     0, [ ] ),
 
     # special
+    'base_units'                     : RPNOperator( convertToBaseUnits,
+                                                    1, [ RPNArgumentType.Measurement ],
+                                                    RPNOperator.measurementsAllowed ),
+
     'delete_config'                  : RPNOperator( deleteUserConfiguration,
                                                     1, [ RPNArgumentType.String ] ),
 
     'describe'                       : RPNOperator( describeInteger,
                                                     1, [ RPNArgumentType.Integer ] ),
+
+    'dimensions'                     : RPNOperator( getDimensions,
+                                                    1, [ RPNArgumentType.Default ],
+                                                    RPNOperator.measurementsAllowed ),
 
     'dump_config'                    : RPNOperator( dumpUserConfiguration,
                                                     0, [ ] ),
@@ -4242,10 +4250,6 @@ operators = {
                                                     2, [ RPNArgumentType.String, RPNArgumentType.PositiveInteger ] ),
 
     'estimate'                       : RPNOperator( estimate,
-                                                    1, [ RPNArgumentType.Default ],
-                                                    RPNOperator.measurementsAllowed ),
-
-    'dimensions'                     : RPNOperator( getDimensions,
                                                     1, [ RPNArgumentType.Default ],
                                                     RPNOperator.measurementsAllowed ),
 

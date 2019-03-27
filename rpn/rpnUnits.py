@@ -389,16 +389,6 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
 ''' ),
 
-    'electric_constant_2' :
-        RPNConstantInfo( '8.854187817e-12', 'coulomb^2/newton*meter^2', [ ], True,
-                         'same as the electric_constant, but with different units',
-                         '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
-''' ),
-
-#    return RPNMeasurement( '8.854187817e-12', 'farad/meter' )
-#    return RPNMeasurement( '8.854187817e-12', 'coulomb/volt*meter' )
-
     'electron_charge' :
         RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge' ], True,
                          '',
@@ -436,6 +426,12 @@ accurate to within one second in a few hundred million years.
 Ref:  https://en.wikipedia.org/wiki/Second#%22Atomic%22_second
 Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
+
+
+# TODO
+# https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
+# The luminous efficacy Kcd of monochromatic radiation of frequency 540×1012 Hz is exactly 683 lumens per watt (lm·W-1).
+# Kcd = 683 cd·sr·s3·kg-1·m-2
 
     'magnetic_constant' :
         RPNConstantInfo( fprod( [ 4, pi, mpmathify( '1.00000000082' ) ] ), 'newton/ampere^2',
@@ -1460,6 +1456,20 @@ arithmetic sometime around 1980.
         RPNUnitInfo( 'area', 'carucate', 'carucates', '',
                      [ ], [ 'imperial' ],
                      '''
+''' ),
+
+    'circular_mil' :
+        RPNUnitInfo( 'area', 'circular_mil', 'circular_mils', 'cmil',
+                     [ ], [ 'imperial' ],
+                     '''
+A circular mil is a unit of area, equal to the area of a circle with a
+diameter of one mil (one thousandth of an inch).  It corresponds to 5.067x10e-4
+mm^2.  It is a unit intended for referring to the area of a wire with a
+circular cross section.  As the area in circular mils can be calculated without
+reference to pi, the unit makes conversion between cross section and diameter
+of a wire considerably easier.
+
+Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'foot^2' :
@@ -5179,6 +5189,7 @@ metricUnits = {
     'becquerel'         : ( 'becquerels',       'Bq',   [ ], [ ] ),
     'blintz'            : ( 'blintzes',         'bl',   [ ], [ ] ),
     'calorie'           : ( 'calories',         'cal',  [ ], [ 'cals' ] ),
+    'circular_mil'      : ( 'circular_mils',    'cmil', [ ], [ ] ),
     'coulomb'           : ( 'coulombs',         'C',    [ ], [ ] ),
     'curie'             : ( 'cruies',           'Ci',   [ ], [ ] ),
     'dyne'              : ( 'dynes',            '',     [ ], [ ] ),
@@ -5399,6 +5410,7 @@ unitConversionMatrix = {
     ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
     ( 'circle',                     'degree' )                              : mpmathify( '360' ),
+    ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097e-10' ),
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
     ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),

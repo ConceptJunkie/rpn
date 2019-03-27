@@ -139,7 +139,21 @@ def runConvertTests( ):
     expectEqual( '120 volt 100 ohm / ampere convert', '1.2 amperes' )
     expectEqual( 'day second convert value', '86400' )
     expectEqual( '120 coulombs 10 ampere / second convert', '12 seconds' )
-    #expectEqual( 'elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product /', 'classical_electron_radius' )
+    expectEqual( '1 kilowatt 1 decavolt / ampere convert', '100 amperes' )
+    expectEqual( '1 watt 1 ohm / ampere sqr convert', '1 ampere^2' )
+    expectEqual( '50 watts 5 amperes^2 / ohm convert', '10 ohms' )
+    expectEqual( '120 volts^2 50 watts / ohms convert', '2.4 ohms' )
+    expectEqual( '200 ohms 4 watts * volts^2 convert', '800 volts^2' )
+    expectEqual( '1 kilowatt 10 ohms / sqrt', '10 amperes' )
+    expectEqual( 'volt meter / newton coulomb / convert', '1 newton coulomb /' )
+
+
+    #rpn ohm meter * circular_mil ohm * foot / convert
+    #3.28083989501 circular mil*ohm/foot
+    #
+    # The answer should be 601530493.4
+
+    #expectEqual( '-a8 elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product /', '-a8 classical_electron_radius' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

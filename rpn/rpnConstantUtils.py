@@ -322,7 +322,7 @@ def getMinFloat( ):
 lru_cache( 1 )
 def getFineStructureConstant( ):
     return getPower( getConstant( 'electron_charge' ), 2 ).divide(
-                getProduct( [ g.h_bar, g.c, 4, pi, getConstant( 'electric_constant_2' ) ] ) ).getValue( )
+                getProduct( [ g.h_bar, g.c, 4, pi, getConstant( 'electric_constant' ) ] ) )
 
 
 # //******************************************************************************
@@ -625,29 +625,4 @@ def getThueMorseConstant( ):
 
 def getRadiationConstant( ):
     return getConstant( 'stefan_boltzmann_constant' ).multiply( 4 ).divide( g.c )
-
-
-# //******************************************************************************
-# //
-# //  getVonKlitzingConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?rk
-# //
-# //******************************************************************************
-
-def getVonKlitzingConstant( ):
-    return RPNMeasurement( '25812.8074555', 'ohm' )
-
-
-# //******************************************************************************
-# //
-# //  getMolarGasConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?r
-# //
-# //******************************************************************************
-
-def getMolarGasConstant( ):
-    return RPNMeasurement( '8.3144598', 'joule/mole*kelvin' )
-
 

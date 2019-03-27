@@ -59,6 +59,15 @@ def compareResults( result1, result2 ):
         else:
             return
 
+    if isinstance( result1, RPNMeasurement ) and isinstance( result2, RPNMeasurement ):
+        if result1 != result2:
+            print( '**** error in results comparison' )
+            print( type( result1 ), type( result2 ) )
+            print( result1.value, result1.units, result2.value, result2.units, 'are not equal' )
+            raise ValueError( 'unit test failed' )
+        else:
+            return
+
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
             raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ), result1, result2 )

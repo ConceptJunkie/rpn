@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1123
+maxExampleCount = 1126
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
@@ -9910,6 +9910,17 @@ rpn (3)>5 12 **
 # //
 # //******************************************************************************
 
+    'base_units' : [
+'special', 'returns a measurement converted to base units',
+'''
+Currently, this is only for informational purposes.
+''',
+'''
+''' + makeCommandExample( '50 watts' ) + '''
+''' + makeCommandExample( '120 millivolts' ) + '''
+''' + makeCommandExample( '300 kilonewtons' ),
+[ 'dimensions' ] ],
+
     'constant' : [
 'special', 'creates a user-defined constant',
 '''
@@ -9935,7 +9946,7 @@ Currently, this is only for informational purposes.
 '''
 ''' + makeCommandExample( '60 mph' ) + '''
 ''' + makeCommandExample( '300 coulombs' ),
-[ '', '', '' ] ],
+[ 'base_units' ] ],
 
     'dump_config' : [
 'special', 'dumps all configuration settings',
