@@ -21,15 +21,18 @@ import contextlib
 import itertools
 import os
 import pickle
+import time
 
 from mpmath import almosteq, mp, fdiv, fmul
 
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
+from rpn.rpnConstantOperators import *
 from rpn.rpnMeasurement import specialUnitConversionMatrix
 from rpn.rpnUnits import *
 from rpn.rpnUtils import getDataPath
+from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
@@ -727,7 +730,12 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
+    startTime = time.process_time( )
+
     initializeConversionMatrix( unitConversionMatrix )
+
+    print( )
+    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
 
 
 # //******************************************************************************

@@ -227,6 +227,21 @@ class RPNUnits( collections.Counter ):
 
         return types
 
+    def doDimensionsCancel( self ):
+        totalDimensions = RPNUnits( )
+
+        for unit in self:
+            dimensions = getUnitDimensions( unit )
+
+            for dimension in dimensions:
+                if dimension in totalDimensions:
+                    if ( ( dimensions[ dimension ] * self[ unit ] ) > 0 ) != ( totalDimensions[ dimension ] > 0 ):
+                        return True
+
+            totalDimensions.update( dimensions )
+
+        return False
+
     def getDimensions( self ):
         result = RPNUnits( )
 

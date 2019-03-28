@@ -32,3 +32,15 @@ def debugPrint( *args, **kwargs ):
         return
 
 
+# //******************************************************************************
+# //
+# //  debugPrintNoNewLine
+# //
+# //******************************************************************************
+
+def debugPrintNoNewLine( *args, **kwargs ):
+    if g.debugMode:
+        builtins.print( *args, **kwargs, end='\r' )
+    else:
+        return
+

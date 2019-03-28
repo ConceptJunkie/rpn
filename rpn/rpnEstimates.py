@@ -213,6 +213,20 @@ capacitanceTable = {
 
 # //******************************************************************************
 # //
+# //  catalysisTable
+# //
+# //  katals : description
+# //
+# //******************************************************************************
+
+catalysisTable = {
+    mpmathify( '1.66667e-8' ) : 'the enzyme_unit, the former standard unit of catalytic activity',
+    mpmathify( '1.0' )        : 'the katal, the standard SI derived unit of catalytic activity (= 1 mole/second)',
+}
+
+
+# //******************************************************************************
+# //
 # //  chargeTable
 # //
 # //  coulombs : description

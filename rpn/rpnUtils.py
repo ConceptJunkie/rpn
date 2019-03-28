@@ -14,37 +14,17 @@
 
 from __future__ import print_function
 
-import six
-
-if six.PY3:
-    import builtins
-    from functools import lru_cache
-else:
-    FileNotFoundError = IOError
-    from pylru import lrudecorator as lru_cache
-
-def debugPrint( *args, **kwargs ):
-    if g.debugMode:
-        builtins.print( *args, **kwargs )
-    else:
-        return
-
-def debugPrintNoNewLine( *args, **kwargs ):
-    if g.debugMode:
-        builtins.print( *args, **kwargs, end='\r' )
-    else:
-        return
-
 import functools
 import itertools
 import os
 import sys
 
-from functools import reduce
+from functools import lru_cache, reduce
 from mpmath import arange, fadd, floor, im, log10, mpmathify, nint, nstr
 from random import randrange
 
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnDebug import debugPrint
 
 import rpn.rpnGlobals as g
 

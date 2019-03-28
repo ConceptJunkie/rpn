@@ -52,11 +52,11 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
-from rpn.rpnOperators import checkForVariable, constants, evaluateTerm, functionOperators, \
-                             listOperators, loadUnitNameData, loadUserFunctionsFile, \
-                             modifiers, operators, preprocessTerms, RPNFunction, \
-                             RPNVariable, saveResult, saveUserFunctionsFile, setAccuracy, \
-                             setPrecision
+from rpn.rpnOperator import checkForVariable, RPNVariable
+
+from rpn.rpnOperators import evaluateTerm, functionOperators, loadUnitNameData, \
+                             loadUserFunctionsFile, preprocessTerms, RPNFunction, \
+                             saveResult, saveUserFunctionsFile, setAccuracy, setPrecision
 
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen

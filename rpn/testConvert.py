@@ -147,14 +147,6 @@ def runConvertTests( ):
     expectEqual( '1 kilowatt 10 ohms / sqrt', '10 amperes' )
     expectEqual( 'volt meter / newton coulomb / convert', '1 newton coulomb /' )
 
-
-    #rpn ohm meter * circular_mil ohm * foot / convert
-    #3.28083989501 circular mil*ohm/foot
-    #
-    # The answer should be 601530493.4
-
-    #expectEqual( '-a8 elementary_charge sqr [ 4 pi e0 electron_mass c sqr ] product /', '-a8 classical_electron_radius' )
-
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
     testOperator( 'foot 4 power square_inch sqr convert' )

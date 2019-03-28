@@ -24,6 +24,7 @@ import io
 import pickle
 import os
 import sys
+import time
 
 from pathlib import Path
 
@@ -33,6 +34,8 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
                            PROGRAM_NAME, RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
+
+startTime = time.process_time( )
 
 
 # //******************************************************************************
@@ -10884,7 +10887,7 @@ def main( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
-    from rpn.rpnUnits import constantOperators
+    from rpn.rpnConstantOperators import constantOperators
 
     for constant in constantOperators:
         helpText = '\n\'' + constant + '\' returns a value of ' + str( constantOperators[ constant ].value )
@@ -10906,6 +10909,9 @@ def main( ):
         operatorHelp[ unit ] = [ unitInfo.unitType, description, unitInfo.helpText, '' ]
 
     makeHelp( helpTopics )
+
+    print( )
+    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
 
 
 # //******************************************************************************

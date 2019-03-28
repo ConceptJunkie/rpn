@@ -52,6 +52,7 @@ def runCommandLineOptionsTests( ):
     testOperator( 'rick -b36' )
 
     expectException( '9999 -b8' )   # invalid base 8 number
+    expectException( '123g -b16' )  # invalid base 16 number
 
     testOperator( '6 8 ** -c' )
 
@@ -185,6 +186,9 @@ def runCommandLineOptionsTests( ):
 # //******************************************************************************
 
 def runAlgebraOperatorTests( ):
+
+
+
     # add_polynomials
     testOperator( '[ 2 4 6 8 10 ] [ 3 5 7 ] add_polynomials' )
     testOperator( '1 13 3 range2 [ 3 5 7 ] add_polynomials' )
@@ -4304,6 +4308,9 @@ def runSettingsOperatorTests( ):
 # //******************************************************************************
 
 def runSpecialOperatorTests( ):
+    # base_units
+    testOperator( '10 MeV c sqr / base_units' )
+
     # constant
 
     # echo
@@ -4385,6 +4392,9 @@ def runSpecialOperatorTests( ):
     testOperator( '1 describe' )
     testOperator( '10 describe' )
     testOperator( '121 describe' )
+
+    # dimensions
+    testOperator( '10 MeV c sqr / dimensions' )
 
     # name
     expectResult( '0 name', 'zero' )
