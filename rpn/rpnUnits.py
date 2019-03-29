@@ -190,6 +190,12 @@ arithmetic sometime around 1980.
                      '''
 ''' ),
 
+    'circular_inch' :
+        RPNUnitInfo( 'area', 'circular_inch', 'circular_inch', '',
+                     [ ], [ 'imperial' ],
+                     '''
+''' ),
+
     'circular_mil' :
         RPNUnitInfo( 'area', 'circular_mil', 'circular_mils', 'cmil',
                      [ ], [ 'imperial' ],
@@ -295,14 +301,8 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
                      '''
 ''' ),
 
-    'coulomb^2/joule' :
-        RPNUnitInfo( 'capacitance', 'coulomb^2/joule', 'coulomb^2/joule', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'coulomb^2/meter*newton' :
-        RPNUnitInfo( 'capacitance', 'coulomb^2/meternewton', 'coulomb^2/meter*newton', '',
+    'ampere^2*second^4/kilogram*meter^2' :
+        RPNUnitInfo( 'capacitance', 'ampere^2*second^4*/kilogram*meter^2', 'ampere^2*second^4*/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -344,20 +344,8 @@ The SI unit for capacitance.
                      '''
 ''' ),
 
-    'coulomb^2*second^2/kilogram*meter^2' :
-        RPNUnitInfo( 'capacitance', 'second^2*coulomb^2/meter^2*kilogram', 'second^2*coulomb^2/meter^2*kilogram', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'second^2/henry' :
         RPNUnitInfo( 'capacitance', 'second^2/henry', 'second^2/henry', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'ampere^2*second^4/kilogram*meter^2' :
-        RPNUnitInfo( 'capacitance', 'ampere^2*second^4*/kilogram*meter^2', 'ampere^2*second^4*/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -4191,6 +4179,7 @@ unitConversionMatrix = {
     ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
     ( 'circle',                     'degree' )                              : mpmathify( '360' ),
+    ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
     ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097e-10' ),
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
@@ -4254,9 +4243,6 @@ unitConversionMatrix = {
     ( 'farad',                      '1/hertz*ohm' )                         : mpmathify( '1' ),
     ( 'farad',                      'ampere*second/volt' )                  : mpmathify( '1' ),
     ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
-    ( 'farad',                      'coulomb^2*second^2/kilogram*meter^2' ) : mpmathify( '1' ),
-    ( 'farad',                      'coulomb^2/joule' )                     : mpmathify( '1' ),
-    ( 'farad',                      'coulomb^2/meter*newton' )              : mpmathify( '1' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
     ( 'farad',                      'joule/volt^2' )                        : mpmathify( '1' ),
     ( 'farad',                      'meter*newton/volt^2' )                 : mpmathify( '1' ),

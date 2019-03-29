@@ -479,7 +479,7 @@ class RPNMeasurement( object ):
         denominator = RPNUnits( '*'.join( dOriginalElements ) )
 
         for d in denominator:
-            units[ d ] = denominator[ d ] * -1
+            units[ d ] += denominator[ d ] * -1
 
         debugPrint( 'normalizeUnits final units', units )
         debugPrint( )
@@ -601,6 +601,7 @@ class RPNMeasurement( object ):
         return self.units.doDimensionsCancel( )
 
     def convertToBaseUnits( self ):
+        debugPrint( )
         debugPrint( 'convertToBaseUnits:', self.getValue( ), self.getUnits( ) )
 
         if not g.unitConversionMatrix:
@@ -627,7 +628,7 @@ class RPNMeasurement( object ):
                         debugPrint( 'convertToBaseUnits 2:', reduced.getValue( ), reduced.getUnits( ) )
                         return reduced
                     else:
-                        raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnits )
+                        raise ValueError( 'cannot find a conversion for ' + unit + ' and ' + newUnits )
 
             newUnits = RPNUnits( newUnits )
 
@@ -640,6 +641,7 @@ class RPNMeasurement( object ):
 
         baseUnits = RPNMeasurement( value, units )
         debugPrint( 'convertToBaseUnits 3:', baseUnits.getValue( ), baseUnits.getUnits( ) )
+        debugPrint( )
         return baseUnits
 
     def convert( self, other ):
@@ -721,20 +723,12 @@ class RPNMeasurement( object ):
 
         value = self.value    # This is what we'll return down below
 
-        # TODO:  Should we just convert to base units regardless?  It would be safer...
-        if other.doDimensionsCancel( ):
-            other = other.convertToBaseUnits( )
-            value = fdiv( value, other.value )
-
         # let's look for straightforward conversions
         units1 = self.getUnits( )
         units2 = other.getUnits( )
 
         unit1String = units1.getUnitString( )
         unit2String = units2.getUnitString( )
-
-        debugPrint( 'unit1String: ', unit1String )
-        debugPrint( 'unit2String: ', unit2String )
 
         if unit1String == unit2String:
             return value
@@ -747,8 +741,14 @@ class RPNMeasurement( object ):
         elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
             value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( value )
         else:
+            # TODO:  Should we just convert to base units regardless?  It would be safer...
+            if other.doDimensionsCancel( ):
+                other = other.convertToBaseUnits( )
+                units2 = other.getUnits( )
+                value = fdiv( value, other.value )
+
             # otherwise, we need to figure out how to do the conversion
-            conversionValue = mpmathify( 1 )
+            conversionValue = value
 
             # if that isn't found, then we need to do the hard work and break the units down
             newUnits1 = RPNUnits( units1 )
@@ -822,8 +822,6 @@ class RPNMeasurement( object ):
                     raise ValueError( 'unable to convert ' + units1.getUnitString( ) + ' to ' + units2.getUnitString( ) )
 
             debugPrint( 'Iterating through conversions...' )
-
-            value = self.getValue( )
 
             for conversion in conversions:
                 if conversion[ 0 ] == conversion[ 1 ]:
