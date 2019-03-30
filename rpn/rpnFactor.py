@@ -21,7 +21,7 @@ import pickle
 import random
 
 from mpmath import ceil, fabs, fdiv, floor, fmod, fneg, fprod, log, log10, mp, \
-                   mpmathify, nstr, power
+                   mpmathify, power
 
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnPersistence import loadFactorCache

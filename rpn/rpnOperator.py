@@ -13,10 +13,14 @@
 # //******************************************************************************
 
 from enum import Enum
+from mpmath import exp, fadd, fmul, nstr
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded
+
+import random
 
 import rpn.rpnGlobals as g
 
@@ -48,11 +52,84 @@ class RPNArgumentType( Enum ):
 
 # //******************************************************************************
 # //
-# //  generateArgument
+# //  generateDefaultArgument
 # //
 # //******************************************************************************
 
-def generateArgument( ):
+def generateDefaultArgument( ):
+    return 'argument'
+
+
+# //******************************************************************************
+# //
+# //  generateRealArgument
+# //
+# //  for real numbers we are treating the range as logarithms
+# //
+# //******************************************************************************
+
+def generateRealArgument( range = [ 0, 10 ], allowNegative = True ):
+    factor = 1
+
+    if allowNegative and getRandomInteger( 2 ) == 1:
+        factor = -1
+
+    return nstr( fmul( exp( fmul( getRandomNumber( ), random.uniform( *range ) ) ), factor ) )
+
+
+# //******************************************************************************
+# //
+# //  generateNonnegativeRealArgument
+# //
+# //******************************************************************************
+
+def generateNonnegativeRealArgument( range = [ 0, 10 ]  ):
+    return generateRealArgument( range, allowNegative = False )
+
+
+def generateIntegerArgument( range = [ 0, 1_000_000_000 ], allowNegative = True ):
+    factor = 1
+
+    if allowNegative and getRandomInteger( 2 ) == 1:
+        factor = -1
+
+    return str( fmul( fadd( getRandomInteger( range[ 1 ] ), range[ 0 ] ), factor ) )
+
+
+def generatePositiveIntegerArgument( range = [ 1, 1_000_000_000 ], allowNegative = True  ):
+    return generateIntegerArgument( range, allowNegative = False )
+
+def generateNonnegativeIntegerArgument( range = [ 0, 1_000_000_000 ] ):
+    return generateIntegerArgument( range, allowNegative = False )
+
+def generatePrimeArgument( ):
+    return 'argument'
+
+def generateStringArgument( ):
+    return 'argument'
+
+def generateDateTimeArgument( ):
+    return 'argument'
+
+def generateLocationArgument( ):
+    return 'argument'
+
+def generateBooleanArgument( ):
+    return 'argument'
+
+def generateMeasurementArgument( ):
+    return 'argument'
+
+def generateAstronomicalObjectArgument( ):
+    return 'argument'
+
+def generateListArgument( ):
+    return 'argument'
+
+def generateGeneratorArgument( ):
+    return 'argument'
+
+def generateFunctionArgument( ):
     return 'argument'
 
 
@@ -63,22 +140,22 @@ def generateArgument( ):
 # //******************************************************************************
 
 argumentGenerators = {
-    RPNArgumentType.Default             : generateArgument,
-    RPNArgumentType.Real                : generateArgument,
-    RPNArgumentType.NonnegativeReal     : generateArgument,
-    RPNArgumentType.Integer             : generateArgument,
-    RPNArgumentType.PositiveInteger     : generateArgument,
-    RPNArgumentType.NonnegativeInteger  : generateArgument,
-    RPNArgumentType.PrimeInteger        : generateArgument,
-    RPNArgumentType.String              : generateArgument,
-    RPNArgumentType.DateTime            : generateArgument,
-    RPNArgumentType.Location            : generateArgument,
-    RPNArgumentType.Boolean             : generateArgument,
-    RPNArgumentType.Measurement         : generateArgument,
-    RPNArgumentType.AstronomicalObject  : generateArgument,
-    RPNArgumentType.List                : generateArgument,
-    RPNArgumentType.Generator           : generateArgument,
-    RPNArgumentType.Function            : generateArgument,
+    RPNArgumentType.Default             : generateDefaultArgument,
+    RPNArgumentType.Real                : generateRealArgument,
+    RPNArgumentType.NonnegativeReal     : generateNonnegativeRealArgument,
+    RPNArgumentType.Integer             : generateIntegerArgument,
+    RPNArgumentType.PositiveInteger     : generatePositiveIntegerArgument,
+    RPNArgumentType.NonnegativeInteger  : generateNonnegativeIntegerArgument,
+    RPNArgumentType.PrimeInteger        : generatePrimeArgument,
+    RPNArgumentType.String              : generateStringArgument,
+    RPNArgumentType.DateTime            : generateDateTimeArgument,
+    RPNArgumentType.Location            : generateLocationArgument,
+    RPNArgumentType.Boolean             : generateBooleanArgument,
+    RPNArgumentType.Measurement         : generateMeasurementArgument,
+    RPNArgumentType.AstronomicalObject  : generateAstronomicalObjectArgument,
+    RPNArgumentType.List                : generateListArgument,
+    RPNArgumentType.Generator           : generateGeneratorArgument,
+    RPNArgumentType.Function            : generateFunctionArgument,
 }
 
 
@@ -132,7 +209,8 @@ class RPNOperator( object ):
     measurementsNotAllowed = False
 
     '''This class represents all the data needed to define an operator.'''
-    def __init__( self, function, argCount, argTypes = None, allowMeasurements = measurementsNotAllowed ):
+    def __init__( self, function, argCount, argTypes = None, argTestRanges = None,
+                  allowMeasurements = measurementsNotAllowed ):
         self.function = function
         self.argCount = argCount
 
@@ -140,6 +218,11 @@ class RPNOperator( object ):
             self.argTypes = list( )
         else:
             self.argTypes = argTypes
+
+        if argTestRanges is None:
+            self.argTestRanges = list( )
+        else:
+            self.argTestRanges = argTestRanges
 
         self.allowMeasurements = allowMeasurements
 
@@ -249,13 +332,18 @@ class RPNOperator( object ):
 
         return True
 
-    def generateCalls( self, operatorName ):
+    def generateCall( self, operatorName ):
         args = [ ]
 
+        print( operatorName )
         for i in range( self.argCount ):
             args.append( argumentGenerators[ self.argTypes[ i ] ]( ) )
 
-        return operatorName + ' ' + ' '.join.args
+        if args:
+            print( args )
+            return ' '.join( args ) + ' ' + operatorName
+        else:
+            return operatorName
 
 
 # //******************************************************************************
@@ -317,5 +405,4 @@ sideEffectOperators = [
     'octal_mode',
     'timer_mode',
 ]
-
 

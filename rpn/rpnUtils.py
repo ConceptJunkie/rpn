@@ -21,7 +21,6 @@ import sys
 
 from functools import lru_cache, reduce
 from mpmath import arange, fadd, floor, im, log10, mpmathify, nint, nstr
-from random import randrange
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnDebug import debugPrint

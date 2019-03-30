@@ -16,6 +16,26 @@ from rpn.rpnEstimates import *
 from rpn.rpnUnitClasses import RPNUnitTypeInfo
 
 
+# https://en.wikipedia.org/wiki/Radiant_exposure#SI_radiometry_units
+
+# https://en.wikipedia.org/wiki/List_of_physical_quantities
+
+expandedUnitTypes = {
+    'abseleration'          : ( 'length*time^3',        'meter*second^3' ),
+    'absement'              : ( 'length*time',          'meter*second' ),
+    'abserk'                : ( 'length*time^4',        'meter*second^4' ),
+    'absity'                : ( 'length*time^2',        'meter*second^2' ),
+    'absock'                : ( 'length*time^8',        'meter*second^8' ),
+    'absorbed_dose_rate'    : ( 'length^2/time^3',      'meter^2*second^3' ),
+    'absop'                 : ( 'length*time^7',        'meter*second^7' ),
+    'absounce'              : ( 'length*time^5',        'meter*second^5' ),
+    'absrackle'             : ( 'length*time^6',        'meter*second^6' ),
+    'absrop'                : ( 'length*time^9',        'meter*second^9' ),
+    'acceleration'          : ( 'length/time^2',        'meter*second^2' ),
+    'angular_acceleration'  : ( '1/time^2'              'radian/second^2' ),
+}
+
+
 # //******************************************************************************
 # //
 # //  basicUnitTypes

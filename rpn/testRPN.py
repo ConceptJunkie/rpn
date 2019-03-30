@@ -22,7 +22,7 @@ from pathlib import Path
 from rpn.rpnOperators import *
 
 from rpn.rpnAliases import operatorAliases
-from rpn.rpnOperators import constants
+from rpn.rpnOperators import constants, listOperators, operators
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadUnitNameData
 from rpn.rpnTestUtils import *
@@ -186,9 +186,6 @@ def runCommandLineOptionsTests( ):
 # //******************************************************************************
 
 def runAlgebraOperatorTests( ):
-
-
-
     # add_polynomials
     testOperator( '[ 2 4 6 8 10 ] [ 3 5 7 ] add_polynomials' )
     testOperator( '1 13 3 range2 [ 3 5 7 ] add_polynomials' )
@@ -4787,6 +4784,9 @@ def main( ):
 
         print( 'alias \'' + alias + '\' resolves to invalid name \'' + operatorAliases[ alias ] + '\'' )
         exit( )
+
+    for i in operators:
+        print( operators[ i ].generateCall( i ) )
 
     runTests( args )
 
