@@ -21,18 +21,30 @@ from rpn.rpnUnitClasses import RPNUnitTypeInfo
 # https://en.wikipedia.org/wiki/List_of_physical_quantities
 
 expandedUnitTypes = {
-    'abseleration'          : ( 'length*time^3',        'meter*second^3' ),
-    'absement'              : ( 'length*time',          'meter*second' ),
-    'abserk'                : ( 'length*time^4',        'meter*second^4' ),
-    'absity'                : ( 'length*time^2',        'meter*second^2' ),
-    'absock'                : ( 'length*time^8',        'meter*second^8' ),
-    'absorbed_dose_rate'    : ( 'length^2/time^3',      'meter^2*second^3' ),
-    'absop'                 : ( 'length*time^7',        'meter*second^7' ),
-    'absounce'              : ( 'length*time^5',        'meter*second^5' ),
-    'absrackle'             : ( 'length*time^6',        'meter*second^6' ),
-    'absrop'                : ( 'length*time^9',        'meter*second^9' ),
-    'acceleration'          : ( 'length/time^2',        'meter*second^2' ),
-    'angular_acceleration'  : ( '1/time^2'              'radian/second^2' ),
+    'abseleration'                      : ( 'length*time^3' ),
+    'absement'                          : ( 'length*time' ),
+    'abserk'                            : ( 'length*time^4' ),
+    'absity'                            : ( 'length*time^2' ),
+    'absock'                            : ( 'length*time^8' ),
+    'absorbed_dose_rate'                : ( 'length^2/time^3' ),
+    'absop'                             : ( 'length*time^7' ),
+    'absounce'                          : ( 'length*time^5' ),
+    'absrackle'                         : ( 'length*time^6' ),
+    'absrop'                            : ( 'length*time^9' ),
+    'acceleration'                      : ( 'length/time^2' ),
+    'angular_acceleration'              : ( 'angle/time^2' ),
+    'angular_velocity'                  : ( 'angle/time' ),
+    'area'                              : ( 'length^2' ),
+    'area_density'                      : ( 'mass/length^2' ),
+    'capacitance'                       : ( 'current^2*time^4/length^2*mass' ),
+    'catalysis'                         : ( 'amount_of_substance/time' ),
+    'catalytic_activity_concentation'   : ( 'amount_of_substance/length^3' ),
+    'chemical_potential'                : ( 'length^2*mass/amount_of_substance*time^2' ),=
+    'crackle'                           : ( 'length/time^5' ),
+    'current_density'                   : ( 'current/length^2' ),
+    'dose_equivalent'                   : ( 'length^2/time^2' ),
+    'drop'                              : ( 'length/time^8' ),
+    'momentum'                          : ( 'mass*length^2/second' ),
 }
 
 
@@ -95,7 +107,7 @@ basicUnitTypes = {
     ),
 
     'capacitance' : RPNUnitTypeInfo(
-        'current^2*time^4/mass*length^2',
+        'current^2*time^4/length^2*mass',
         'farad',
         'ampere^2*second^4*/kilogram*meter^2',
         capacitanceTable,
@@ -130,7 +142,7 @@ basicUnitTypes = {
     ),
 
     'data_rate' : RPNUnitTypeInfo(
-        'mass*length^2/time^3*temperature',
+        'mass*length^2/temperature*time^3',
         'bit/second',
         'bit/second',
         dataRateTable,
@@ -165,21 +177,21 @@ basicUnitTypes = {
     ),
 
     'electric_potential' : RPNUnitTypeInfo(
-        'mass*length^2/current*time^3',
+        'length^2*mass/current*time^3',
         'volt',
         'kilogram*meter^2/ampere*second^3',
         electricPotentialTable,
     ),
 
     'energy' : RPNUnitTypeInfo(
-        'mass*length^2/time^2',
+        'length^2*mass/time^2',
         'joule',
         'kilogram*meter^2/second^2',
         energyTable,
     ),
 
     'force' : RPNUnitTypeInfo(
-        'mass*length/time^2',
+        'length*mass/time^2',
         'newton',
         'kilogram*meter/second^2',
         forceTable,
@@ -193,23 +205,23 @@ basicUnitTypes = {
     ),
 
     'illuminance' : RPNUnitTypeInfo(
-        'luminous_intensity*angle^2/length^2',
+        'angle^2*luminous_intensity/length^2',
         'lux',
         'candela*radian^2/meter^2',
         illuminanceTable,
     ),
 
     'inductance' : RPNUnitTypeInfo(
-        'mass*length^2/time^2*current^2',
+        'length^2*mass/current^2*Time^2',
         'henry',
         'kilogram*meter^2/ampere^2*second^2',
         inductanceTable,
     ),
 
     'information_entropy' : RPNUnitTypeInfo(
-        'mass*length^2/time^2*temperature',
+        'length^2*mass/temperature*time^2',
         'bit',
-        'kilogram*meter^2/second^2*kelvin',
+        'kilogram*meter^2/kelvin*second^2',
         informationEntropyTable,
     ),
 
@@ -242,7 +254,7 @@ basicUnitTypes = {
     ),
 
     'luminous_flux' : RPNUnitTypeInfo(
-        'luminous_intensity*angle^2',
+        'angle^2*luminous_intensity',
         'lumen',
         'candela*radian^2',
         luminousFluxTable,
@@ -263,14 +275,14 @@ basicUnitTypes = {
     ),
 
     'magnetic_flux' : RPNUnitTypeInfo(
-        'mass*length^2/time^2*current',
+        'length^2*mass/current*time^2',
         'weber',
         'kilogram*meter^2/ampere*second^2',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : RPNUnitTypeInfo(
-        'mass/time^2*current',
+        'mass/current*time^2',
         'tesla',
         'kilogram/ampere*second^2',
         magneticFluxDensityTable,
@@ -284,7 +296,7 @@ basicUnitTypes = {
     ),
 
     'power' : RPNUnitTypeInfo(
-        'mass*length^2/time^3',
+        'length^2*mass/time^3',
         'watt',
         'kilogram*meter^2/second^3',
         powerTable,
