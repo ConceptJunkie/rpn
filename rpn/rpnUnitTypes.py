@@ -39,7 +39,7 @@ expandedUnitTypes = {
     'capacitance'                       : ( 'current^2*time^4/length^2*mass' ),
     'catalysis'                         : ( 'amount_of_substance/time' ),
     'catalytic_activity_concentation'   : ( 'amount_of_substance/length^3' ),
-    'chemical_potential'                : ( 'length^2*mass/amount_of_substance*time^2' ),=
+    'chemical_potential'                : ( 'length^2*mass/amount_of_substance*time^2' ),
     'crackle'                           : ( 'length/time^5' ),
     'current_density'                   : ( 'current/length^2' ),
     'dose_equivalent'                   : ( 'length^2/time^2' ),
