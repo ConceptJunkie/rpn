@@ -135,6 +135,7 @@ functionCaches = { }
 # prime number data
 databases = { }
 cursors = { }
+primeDataAvailable = False
 
 # chemistry tables
 elements = None

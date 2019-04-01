@@ -19,8 +19,8 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, fprod, frac, \
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
-from rpn.rpnUnitClasses import getUnitDimensionList, \
-                               getUnitDimensions, getUnitType, RPNUnits
+from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
+                               getUnitType, RPNUnits
 from rpn.rpnUtils import debugPrint, flattenList, getPowerset, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
@@ -618,6 +618,8 @@ class RPNMeasurement( object ):
             debugPrint( 'unit', unit, 'newUnits', newUnits )
 
             if unit != newUnits:
+                debugPrint( 'unit vs newUnits:', unit, newUnits )
+
                 if ( unit, newUnits ) in g.unitConversionMatrix:
                     value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnits ) ] ), self.units[ unit ] ) )
                 elif ( unit, newUnits ) in specialUnitConversionMatrix:

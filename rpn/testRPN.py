@@ -25,6 +25,7 @@ from rpn.rpnAliases import operatorAliases
 from rpn.rpnOperators import constants, listOperators, operators
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadUnitNameData
+from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
 from rpn.rpnUtils import getDataPath, loadAstronomyData
 from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
@@ -345,7 +346,8 @@ def runArithmeticOperatorTests( ):
     expectException( '1 0 divide' )     # division by zero
 
     # equals_one_of
-    expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
+    if g.primeDataAvailable:
+        expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
 
     # floor
     expectResult( '-0.4 floor', -1 )
@@ -2552,9 +2554,10 @@ def runLexicographyOperatorTests( ):
     testOperator( '123456789 get_right_truncations' )
 
     # has_any_digits
-    expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
+    if g.primeDataAvailable:
+        expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
 
-    if slow:
+    if g.primeDataAvailable and slow:
         expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
 
     # has_digits
@@ -3998,7 +4001,9 @@ def runPowersAndRootsOperatorTests( ):
 
     # square_root
     expectEqual( '2 square_root', '4 4 root' )
-    expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
+
+    if g.primeDataAvailable:
+        expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
 
     # tetrate
     testOperator( '3 2 tetrate' )
@@ -4011,6 +4016,9 @@ def runPowersAndRootsOperatorTests( ):
 # //******************************************************************************
 
 def runPrimeNumberOperatorTests( ):
+    if not g.primeDataAvailable:
+        return
+
     # balanced_prime
     testOperator( '1 10 range balanced' )
     testOperator( '53 balanced' )
@@ -4739,11 +4747,7 @@ def main( ):
 
     startTime = time.process_time( )
 
-    primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
-
-    if not primeFile.is_file( ):
-        print( 'Please run "preparePrimeData" to initialize the prime number data files.' )
-        sys.exit( 0 )
+    checkForPrimeData( )
 
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
@@ -4792,6 +4796,10 @@ def main( ):
 
     if ( g.astroDataLoaded and not g.astroDataAvailable ):
         print( 'Astronomy tests were skipped because data could not be downloaded.' )
+        print( )
+
+    if ( not g.primeDataAvailable ):
+        print( 'Prime number tests were skipped because the prime number data is not available.' )
         print( )
 
     print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )

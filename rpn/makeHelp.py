@@ -29,18 +29,16 @@ import time
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
+from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnUtils import getDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, \
                            PROGRAM_NAME, RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
 
-startTime = time.process_time( )
-
-
 # //******************************************************************************
 # //
-# //  constants
+# //  constants and start-up code
 # //
 # //******************************************************************************
 
@@ -49,10 +47,18 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
 maxExampleCount = 1126
 
+startTime = time.process_time( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
 print( COPYRIGHT_MESSAGE )
 print( )
+
+checkForPrimeData( )
+
+if not g.primeDataAvailable:
+    sys.stderr.write( 'The prime number cache data is not available.\n' );
+    sys.stderr.write( 'The prime number examples will be generated much more slowly...\n\n' );
+    sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' );
 
 parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME + ' - ' +
                                   PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE,
@@ -9286,7 +9292,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '50 double_balanced' ) + '''
+''' + makeCommandExample( '5 double_balanced' ) + '''
 ''' + makeCommandExample( '1 10 range double_balanced' ),
 [ ] ],
 
@@ -9302,8 +9308,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '50 double_balanced_' ) + '''
-''' + makeCommandExample( '50 double_balanced_ diffs' ),
+''' + makeCommandExample( '10 double_balanced_' ) + '''
+''' + makeCommandExample( '10 double_balanced_ diffs' ),
 [ ] ],
 
     'isolated_prime' : [
@@ -9451,7 +9457,7 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 20 primes' ) + '''
-''' + makeCommandExample( '320620307 10 primes' ),
+''' + makeCommandExample( '3206 10 primes' ),
 [ 'prime', 'prime_range' ] ],
 
     'prime_pi' : [
@@ -9473,7 +9479,7 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 21 prime_range' ) + '''
-''' + makeCommandExample( '4458934 4458960 prime_range' ),
+''' + makeCommandExample( '934 960 prime_range' ),
 [ 'prime', 'primes' ] ],
 
     'quadruplet_prime' : [
@@ -9584,7 +9590,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '213819 sexy_prime_' ) + '''
+''' + makeCommandExample( '819 sexy_prime_' ) + '''
 ''' + makeCommandExample( '1001 1010 range sexy_prime_' ),
 [ ] ],
 
@@ -9671,7 +9677,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range triple_balanced' ),
+''' + makeCommandExample( '2 triple_balanced' ),
 [ ] ],
 
     'triple_balanced_' : [
@@ -9686,8 +9692,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '10 triple_balanced_' ) + '''
-''' + makeCommandExample( '10 triple_balanced_ diffs' ),
+''' + makeCommandExample( '3 triple_balanced_' ) + '''
+''' + makeCommandExample( '3 triple_balanced_ diffs' ),
 [ ] ],
 
     'triplet_prime' : [
@@ -10875,12 +10881,6 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
-
-    if not primeFile.is_file( ):
-        print( 'Please run "preparePrimeData" to initialize the prime number data files.' )
-        sys.exit( 0 )
-
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):

@@ -159,6 +159,23 @@ class RPNUnits( collections.Counter ):
         else:
             super( RPNUnits, self ).__init__( *arg, **kw )
 
+    def __eq__( self, other ):
+        for i in self:
+            if i in other:
+                if self[ i ] != other[ i ]:
+                    return False;
+            else:
+                return False;
+
+        for i in other:
+            if i in self:
+                if other[ i ] != self[ i ]:
+                    return False;
+            else:
+                return False;
+
+        return True
+
     def invert( self ):
         '''Inverts the units by reversing the signs of their exponents.'''
         for unit in self:
@@ -173,16 +190,6 @@ class RPNUnits( collections.Counter ):
         return result
 
     def combineUnits( self, units ):
-        #print( 'units1', self )
-        #print( 'units2', units )
-
-        #print( 'units1.getDimensions( )', self.getDimensions( ) )
-        #print( 'units2.getDimensions( )', units.getDimensions( ) )
-
-        #dimensions = self.getDimensions( )
-        #dimensions.update( units.getDimensions( ) )
-        #print( 'Dimensions( )', dimensions )
-
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
 

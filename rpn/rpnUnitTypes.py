@@ -155,7 +155,7 @@ basicUnitTypes = {
     'capacitance' : RPNUnitTypeInfo(
         'current^2*time^4/length^2*mass',
         'farad',
-        'ampere^2*second^4*/kilogram*meter^2',
+        'ampere^2*second^4/kilogram*meter^2',
         capacitanceTable,
     ),
 

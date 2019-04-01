@@ -64,6 +64,8 @@ from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, format
 from rpn.rpnPersistence import loadUnitData, loadUserVariablesFile, saveUserVariablesFile, \
                                loadUserConfigurationFile, saveUserConfigurationFile
 
+from rpn.rpnPrimeUtils import checkForPrimeData
+
 from rpn.rpnSpecial import handleIdentify
 
 from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
@@ -661,11 +663,7 @@ def rpn( cmd_args ):
 # //******************************************************************************
 
 def main( ):
-    primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
-
-    if not primeFile.is_file( ):
-        print( 'Please run "preparePrimeData" to initialize the prime number data files.' )
-        sys.exit( 0 )
+    checkForPrimeData( )
 
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 

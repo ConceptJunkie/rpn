@@ -302,7 +302,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'ampere^2*second^4/kilogram*meter^2' :
-        RPNUnitInfo( 'capacitance', 'ampere^2*second^4*/kilogram*meter^2', 'ampere^2*second^4*/kilogram*meter^2', '',
+        RPNUnitInfo( 'capacitance', 'ampere^2*second^4/kilogram*meter^2', 'ampere^2*second^4/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -340,12 +340,6 @@ The SI unit for capacitance.
 
     'second/ohm' :
         RPNUnitInfo( 'capacitance', 'second/ohm', 'second/ohm', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second^2/henry' :
-        RPNUnitInfo( 'capacitance', 'second^2/henry', 'second^2/henry', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1659,14 +1653,8 @@ This is the definition of the SI derived unit Newton (N).
                      '''
 ''' ),
 
-    'kilogram*meter^2/coulomb^2' :
-        RPNUnitInfo( 'inductance', 'kilogram*meter^2/coulomb^2', 'kilogram*meter^2/coulomb^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'kilogram*meter^2/ampere^2*second^2' :
-        RPNUnitInfo( 'inductance', 'kilogram*meter^2/second^2*ampere^2', 'kilogram*meter^2/second^2*ampere^2', '',
+        RPNUnitInfo( 'inductance', 'kilogram*meter^2/ampere^2*second^2', 'kilogram*meter^2/ampere^2*second^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1679,12 +1667,6 @@ This is the definition of the SI derived unit Newton (N).
 
     'ohm/hertz' :
         RPNUnitInfo( 'inductance', 'ohm/hertz', 'ohm/hertz', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second^2/farad' :
-        RPNUnitInfo( 'inductance', 'second^2/farad', 'second^2/farad', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -4248,7 +4230,6 @@ unitConversionMatrix = {
     ( 'farad',                      'meter*newton/volt^2' )                 : mpmathify( '1' ),
     ( 'farad',                      'second*watt/volt^2' )                  : mpmathify( '1' ),
     ( 'farad',                      'second/ohm' )                          : mpmathify( '1' ),
-    ( 'farad',                      'second^2/henry' )                      : mpmathify( '1' ),
     ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
     ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
     ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
@@ -4300,10 +4281,8 @@ unitConversionMatrix = {
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                      'joule/ampere^2' )                      : mpmathify( '1' ),
     ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
-    ( 'henry',                      'kilogram*meter^2/coulomb^2' )          : mpmathify( '1' ),
     ( 'henry',                      'ohm*second' )                          : mpmathify( '1' ),
     ( 'henry',                      'ohm/hertz' )                           : mpmathify( '1' ),
-    ( 'henry',                      'second^2/farad' )                      : mpmathify( '1' ),
     ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
