@@ -51,7 +51,7 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 isCarmichaelNumber, isDeficient, isFriendly, isKHyperperfect, \
                                 isPolydivisible, isPowerful, isPronic, isRough, isRuthAaronNumber, \
                                 isSemiPrime, isSmooth, isSphenic, isSquareFree, isUnusual
-from rpn.rpnPersistence import cachedFunction
+from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
@@ -142,7 +142,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis', overrideIgnore=True )
+@cachedOEISFunction( 'oeis', overrideIgnore=True )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
