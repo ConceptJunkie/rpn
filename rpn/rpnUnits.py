@@ -37,19 +37,45 @@ unitOperators = {
         RPNUnitInfo( '_null_type', '', '', '',
                      [ ], [ ],
                      '''
+This unit type is used internally by rpnChilada.
 ''' ),
 
     # acceleration
-    'galileo' :
-        RPNUnitInfo( 'acceleration', 'galileo', 'galileos', '',
+    'celo' :
+        RPNUnitInfo( 'acceleration', 'celo', 'celos', '',
                      [ ], [ 'CGS' ],
                      '''
+The celo is a unit of acceleration equal to the acceleration of a body whose
+velocity changes uniformly by 1 foot (0.3048 meter) per second in 1 second."
+
+Ref:  http://automationwiki.com/index.php/Engineering_Units_-_Celo
+''' ),
+
+    'galileo' :
+        RPNUnitInfo( 'acceleration', 'galileo', 'galileos', '',
+                     [ 'gal', 'gals' ], [ 'CGS' ],
+                     '''
+The gal, sometimes called galileo after Galileo Galilei, is a unit of
+acceleration used extensively in the science of gravimetry.  The gal is defined
+as 1 centimeter per second squared (1 cm/s2).  The milligal (mGal) and microgal
+(uGal) refer respectively to one thousandth and one millionth of a gal.
+
+The gal is not part of the International System of Units (known by its
+French-language initials "SI").  In 1978 the CIPM decided that it was
+permissible to use the gal "with the SI until the CIPM considers that [its] use
+is no longer necessary".  However, use of the gal is deprecated by ISO
+80000-3:2006.
 ''' ),
 
     'leo' :
         RPNUnitInfo( 'acceleration', 'leo', 'leos', '',
                      [ ], [ 'CGS' ],
                      '''
+The leo is a unit of acceleration equal to 10 meters/second^2, which is 1000
+times the acceleration represented by the galileo, and is very close to the
+acceleration due to gravity on the surface of the Earth.
+
+Ref:  http://automationwiki.com/index.php/Engineering_Units_-_Leo
 ''' ),
 
     'meter/second^2' :
@@ -1996,6 +2022,21 @@ https://en.wikipedia.org/wiki/Rack_unit
         RPNUnitInfo( 'length', 'potrzebie', 'potrzebies', 'pz',
                      [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+In issue 33, "Mad" magazine published a partial table of the "Potrzebie System
+of Weights and Measures", developed by 19-year-old Donald E. Knuth, later a
+famed computer scientist.  According to Knuth, the basis of this new
+revolutionary system is the potrzebie, which equals the thickness of Mad issue
+26, or 2.2633484517438173216473 mm, although a digit was mistakenly dropped and
+the thickness appeared as 2.263348517438173216473 mm in the MAD article.  A
+standardization in terms of the wavelength of the red line of the emission
+spectrum of cadmium is also given, which if the 1927 definition of the Angstrom
+is taken for the value of that wavelength, would equal 2.263347539605392 mm.
+
+The Potrzebie units are included in rpnChilada as a tribute to Knuth, and
+because it is a very silly system that amuses the author.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie
+Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'sazhen' :
@@ -3155,7 +3196,7 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 ''' ),
 
     'gallon' :
-        RPNUnitInfo( 'volume', 'gallon', 'gallons', 'gal',
+        RPNUnitInfo( 'volume', 'gallon', 'gallons', '',
                      [ ], [ 'imperial' ],
                      '''
 ''' ),
@@ -3628,6 +3669,7 @@ metricUnits = {
     'electron-volt'     : ( 'electron-volts',   'eV',   [ ], [ ] ),
     'erg'               : ( 'ergs',             '',     [ ], [ ] ),
     'farad'             : ( 'farads',           'F',    [ ], [ ] ),
+    'galileo'           : ( 'galileos',         '',     [ 'gal' ], [ 'gals' ] ),
     'gauss'             : ( 'gauss',            '',     [ ], [ ] ),
     'gram'              : ( 'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     'gram-equivalent'   : ( 'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
@@ -3830,6 +3872,7 @@ unitConversionMatrix = {
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
+    ( 'celo',                       'meter/second^2' )                      : mpmathify( '0.3048' ),
     ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
     ( 'celsius',                    'reaumur' )                             : fdiv( 4, 5 ),
     ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
@@ -3983,9 +4026,9 @@ unitConversionMatrix = {
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram*meter^2/second^2' )           : mpmathify( '1' ),
     ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
-    ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
     ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
+    ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
