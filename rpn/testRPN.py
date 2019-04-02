@@ -4789,8 +4789,8 @@ def main( ):
         print( 'alias \'' + alias + '\' resolves to invalid name \'' + operatorAliases[ alias ] + '\'' )
         exit( )
 
-    for i in operators:
-        print( operators[ i ].generateCall( i ) )
+    #for i in operators:
+    #    print( operators[ i ].generateCall( i ) )
 
     runTests( args )
 

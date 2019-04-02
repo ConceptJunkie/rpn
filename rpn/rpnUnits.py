@@ -283,32 +283,14 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     # capacitance
-    '1/hertz*ohm' :
-        RPNUnitInfo( 'capacitance', '1/hertz*ohm', '1/hertz*ohm', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'abfarad' :
         RPNUnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF',
                      [ ], [ 'CGS' ],
                      '''
 ''' ),
 
-    'ampere*second/volt' :
-        RPNUnitInfo( 'capacitance', 'ampere*second/volt', 'ampere*second/volt', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'ampere^2*second^4/kilogram*meter^2' :
         RPNUnitInfo( 'capacitance', 'ampere^2*second^4/kilogram*meter^2', 'ampere^2*second^4/kilogram*meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'coulomb/volt' :
-        RPNUnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -326,33 +308,9 @@ The SI unit for capacitance.
                      '''
 ''' ),
 
-    'joule/volt^2' :
-        RPNUnitInfo( 'capacitance', 'joule/volt^2', 'joule/volt^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'meter*newton/volt^2' :
-        RPNUnitInfo( 'capacitance', 'meter*newton/volt^2', 'meter*newton/volt^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second/ohm' :
-        RPNUnitInfo( 'capacitance', 'second/ohm', 'second/ohm', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'statfarad' :
         RPNUnitInfo( 'capacitance', 'statfarad', 'statfarads', 'statF',
                      [ ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'second*watt/volt^2' :
-        RPNUnitInfo( 'capacitance', 'second*watt/volt^2', 'second*watt/volt^2', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -363,21 +321,15 @@ The SI unit for capacitance.
                      '''
 ''' ),
 
-    'ampere*second' :
-        RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'second*ampere', 'second*amperes' ], [ 'SI' ],
-                     '''
-''' ),
-
     'coulomb' :
         RPNUnitInfo( 'charge', 'coulomb', 'coulombs', 'C',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
 
-    'farad*volt' :
-        RPNUnitInfo( 'charge', 'farad*volt', 'farad*volts', 'FV',
-                     [ ], [ 'SI' ],
+    'ampere*second' :
+        RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
+                     [ 'second*ampere', 'second*amperes' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -390,12 +342,6 @@ The SI unit for capacitance.
     'faraday' :
         RPNUnitInfo( 'charge', 'faraday', 'faradays', 'Fd',
                      [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
-                     '''
-''' ),
-
-    'joule/volt' :
-        RPNUnitInfo( 'charge', 'joule/volt', 'joule/volt', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -969,21 +915,9 @@ One centillion:  10e303
                      '''
 ''' ),
 
-    'coulomb/second' :
-        RPNUnitInfo( 'current', 'coulomb/second', 'coulombs/second', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'statampere' :
         RPNUnitInfo( 'current', 'statampere', 'statamperes', 'statA',
                      [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'watt/volt' :
-        RPNUnitInfo( 'current', 'watt/volt', 'watt/volt', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1080,18 +1014,6 @@ One centillion:  10e303
 ''' ),
 
     # dynamic_viscosity
-    'kilogram/meter*second' :
-        RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', '',
-                     [ ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'newton*second/meter^2' :
-        RPNUnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', '',
-                     [ ], [ 'CGS' ],
-                     '''
-''' ),
-
     'pascal*second' :
         RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*seconds', 'Pas',
                      [ 'poiseuille', 'poiseuilles' ], [ 'SI' ],
@@ -1117,12 +1039,6 @@ One centillion:  10e303
                      '''
 ''' ),
 
-    'ampere/volt' :
-        RPNUnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'conductance_quantum' :
         RPNUnitInfo( 'electrical_conductance', 'conductance_quantum', 'conductance_quanta', 'G0',
                      [ ], [ 'SI' ],
@@ -1137,12 +1053,6 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'ampere^2*second^3/kilogram*meter^2':
         RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', 'ampere^2*second^3/kilogram*meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'coulomb^2*second/kilogram*meter^2' :
-        RPNUnitInfo( 'electrical_conductance', 'coulomb^2*second/kilogram*meter^2', 'coulomb^2*second/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1172,21 +1082,9 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-    'coulomb/farad' :
-        RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'decibel-volt' :
         RPNUnitInfo( 'electric_potential', 'decibel-volt', 'decibel-volt', 'dBV',
                      [ ], [ 'engineering' ],
-                     '''
-''' ),
-
-    'joule/coulomb' :
-        RPNUnitInfo( 'electric_potential', 'joule/coulomb', 'joules/coulomb', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1198,12 +1096,6 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'volt' :
         RPNUnitInfo( 'electric_potential', 'volt', 'volts', 'V',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'watt/ampere' :
-        RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1239,18 +1131,6 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-    'joule*second/coulomb^2' :
-        RPNUnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'joule/ampere^2*second' :
-        RPNUnitInfo( 'electrical_resistance', 'joule/ampere^2*second', 'joule/ampere^2*second', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'kilogram*meter^2/ampere^2*second^3' :
         RPNUnitInfo( 'electrical_resistance', 'kilogram*meter^2/ampere^2*second^3', 'kilogram*meter^2/ampere^2*second^3', '',
                      [ ], [ 'SI' ],
@@ -1269,12 +1149,6 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-    'second/farad' :
-        RPNUnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'statohm' :
         RPNUnitInfo( 'electrical_resistance', 'statohm', 'statohms', 'statO',
                      [ ], [ 'SI' ],
@@ -1287,25 +1161,8 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-    'volt/ampere' :
-        RPNUnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'watt/ampere^2' :
-        RPNUnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
 
     # energy
-    'ampere*second*volt' :
-        RPNUnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'AVs',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'btu' :
         RPNUnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ],
                      [ 'England', 'US' ],
@@ -1352,12 +1209,6 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
                      '''
 ''' ),
 
-    'horsepower*second' :
-        RPNUnitInfo( 'energy', 'horsepower*second', 'horsepower*seconds', 'hps',
-                     [ 'second*horsepower' ], [ 'US' ],
-                     '''
-''' ),
-
     'joule' :
         RPNUnitInfo( 'energy', 'joule', 'joules', 'J',
                      [ ], [ 'SI' ],
@@ -1366,18 +1217,6 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
 
     'kilogram*meter^2/second^2' :
         RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'meter*newton' :
-        RPNUnitInfo( 'energy', 'meter*newton', 'meter*newtons', '',
-                     [ 'newton*meter', 'newton*meters' ], [ 'SI' ],
-                     '''
-''' ),
-
-    'meter^3*pascal' :
-        RPNUnitInfo( 'energy', 'meter^3*pascal', 'meter^3*pascal', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1403,6 +1242,12 @@ The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
     'rydberg' :
         RPNUnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry',
                      [ ], [ 'science' ],
+                     '''
+''' ),
+
+    'second*watt' :
+        RPNUnitInfo( 'energy', 'watt*second', 'watt*seconds', 'Ws',
+                     [ 'second*watt', 'second*watts' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1441,18 +1286,6 @@ http://www.unc.edu/~rowlett/units/dictT.html
     'ton_of_TNT' :
         RPNUnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT',
                      [ ], [ 'informal' ],
-                     '''
-''' ),
-
-    'coulomb*volt' :
-        RPNUnitInfo( 'energy', 'volt*coulomb', 'volt*coulomb', 'VC',
-                     [ 'coulomb*volt', 'coulomb*volts' ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second*watt' :
-        RPNUnitInfo( 'energy', 'watt*second', 'watt*seconds', 'Ws',
-                     [ 'second*watt', 'second*watts' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1592,6 +1425,12 @@ This is the definition of the SI derived unit Newton (N).
 ''' ),
 
     # illuminance
+    'candela*radian^2/meter^2' :
+        RPNUnitInfo( 'illuminance', 'candela*radian^2/meter^2', 'candela*radian^2/meter^2', '',
+                     [ ], [ 'SI' ],
+                     '''
+''' ),
+
     'flame' :
         RPNUnitInfo( 'illuminance', 'flame', 'flame', '',
                      [ ], [ '' ],
@@ -1613,12 +1452,6 @@ This is the definition of the SI derived unit Newton (N).
     'lumen/meter^2' :
         RPNUnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', '',
                      [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'lumen/foot^2' :
-        RPNUnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', '',
-                     [ ], [ 'FPS' ],
                      '''
 ''' ),
 
@@ -1647,26 +1480,8 @@ This is the definition of the SI derived unit Newton (N).
                      '''
 ''' ),
 
-    'joule/ampere^2' :
-        RPNUnitInfo( 'inductance', 'joule/ampere^2', 'joule/ampere^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'kilogram*meter^2/ampere^2*second^2' :
         RPNUnitInfo( 'inductance', 'kilogram*meter^2/ampere^2*second^2', 'kilogram*meter^2/ampere^2*second^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'ohm*second' :
-        RPNUnitInfo( 'inductance', 'ohm*second', 'ohm*second', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'ohm/hertz' :
-        RPNUnitInfo( 'inductance', 'ohm/hertz', 'ohm/hertz', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1674,12 +1489,6 @@ This is the definition of the SI derived unit Newton (N).
     'stathenry' :
         RPNUnitInfo( 'inductance', 'stathenry', 'stathenries', 'statH',
                      [ ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'weber/ampere' :
-        RPNUnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2317,9 +2126,9 @@ https://en.wikipedia.org/wiki/Rack_unit
                      '''
 ''' ),
 
-    'candela*steradian' :
-        RPNUnitInfo( 'luminous_flux', 'candela*steradian', 'candela*steradians', '',
-                     [ 'cd*sr', 'steradian*candela', 'steradian*candelas' ], [ 'SI' ],
+    'candela*radian^2' :
+        RPNUnitInfo( 'luminous_flux', 'candela*radian^2', 'candela*radians^2', '',
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2670,12 +2479,6 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     # power
-    'ampere*volt' :
-        RPNUnitInfo( 'power', 'ampere*volt', 'ampere*volts', 'VA',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'decibel-milliwatt' :
         RPNUnitInfo( 'power', 'decibel-milliwatt', 'decibel-milliwatts', 'dBm',
                      [ 'dBmW', ], [ 'engineering' ],
@@ -2688,21 +2491,9 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
 ''' ),
 
-    'erg/second' :
-        RPNUnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s',
-                     [ ], [ 'CGS' ],
-                     '''
-''' ),
-
     'horsepower' :
         RPNUnitInfo( 'power', 'horsepower', 'horsepower', 'hp',
                      [ ], [ 'US' ],
-                     '''
-''' ),
-
-    'joule/second' :
-        RPNUnitInfo( 'power', 'joule/second', 'joules/second', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2714,12 +2505,6 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'kilogram*meter^2/second^3' :
         RPNUnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'meter*newton/second' :
-        RPNUnitInfo( 'power', 'meter*newton/second', 'meter*newton/second', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -2773,12 +2558,6 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
 ''' ),
 
-    'newton/meter^2' :
-        RPNUnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'pascal' :
         RPNUnitInfo( 'pressure', 'pascal', 'pascals', 'Pa',
                      [ ], [ 'SI' ],
@@ -2815,12 +2594,6 @@ This conversion is required to do mass-energy equivalence calculations.
     'gray' :
         RPNUnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy',
                      [ ], [ 'SI' ],   # or should 'Gy' be giga-years?
-                     '''
-''' ),
-
-    'joule/kilogram' :
-        RPNUnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -3986,7 +3759,7 @@ metricUnits = {
     'ton_of_TNT'        : ( 'tons_of_TNT',      'tTNT', [ ], [ ] ),
     'volt'              : ( 'volts',            'V',    [ ], [ ] ),
     'watt'              : ( 'watts',            'W',    [ ], [ ] ),
-    'second*watt'       : ( 'watt*seconds',     'Ws',   [ ], [ ] ),
+    'second*watt'       : ( 'second*watt*',     'Ws',   [ ], [ ] ),
     'weber'             : ( 'webers',           'Wb',   [ ], [ ] ),
 }
 
@@ -4113,11 +3886,7 @@ unitConversionMatrix = {
     ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
     ( 'acre*foot',                  'foot^3' )                              : mpmathify( '43560' ),
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
-    ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
-    ( 'ampere',                     'watt/volt' )                           : mpmathify( '1' ),
-    ( 'ampere*second*volt',         'joule' )                               : mpmathify( '1' ),
-    ( 'ampere*volt',                'watt' )                                : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'are',                        'meter^2' )                             : mpmathify( '100' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
@@ -4148,6 +3917,7 @@ unitConversionMatrix = {
     ( 'byte',                       'bit' )                                 : mpmathify( '8' ),
     ( 'byte/second',                'bit/second' )                          : mpmathify( '8' ),
     ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
+    ( 'candela*radian^2/meter^2',   'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
@@ -4171,11 +3941,7 @@ unitConversionMatrix = {
     ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
     ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
     ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
-    ( 'coulomb',                    'farad*volt' )                          : mpmathify( '1' ),
-    ( 'coulomb',                    'joule/volt' )                          : mpmathify( '1' ),
-    ( 'coulomb/farad',              'volt' )                                : mpmathify( '1' ),
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
-    ( 'coulomb/volt',               'farad' )                               : mpmathify( '1' ),
     ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
     ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
@@ -4189,8 +3955,8 @@ unitConversionMatrix = {
     ( 'dalton',                     'gram' )                                : mpmathify( '1.660539040e-24' ),
     ( 'day',                        'beat' )                                : mpmathify( '1000' ),
     ( 'day',                        'hour' )                                : mpmathify( '24' ),
-    ( 'decibel-watt',               'decibel-milliwatt' )                   : mpmathify( '30' ),
     ( 'decade',                     'year' )                                : mpmathify( '10' ),
+    ( 'decibel-watt',               'decibel-milliwatt' )                   : mpmathify( '30' ),
     ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'furman' )                              : mpmathify( '65536' ),
@@ -4222,14 +3988,8 @@ unitConversionMatrix = {
     ( 'every_second',               '1/second' )                            : mpmathify( '1' ),
     ( 'every_second',               'every_minute' )                        : mpmathify( '60' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
-    ( 'farad',                      '1/hertz*ohm' )                         : mpmathify( '1' ),
-    ( 'farad',                      'ampere*second/volt' )                  : mpmathify( '1' ),
     ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
-    ( 'farad',                      'joule/volt^2' )                        : mpmathify( '1' ),
-    ( 'farad',                      'meter*newton/volt^2' )                 : mpmathify( '1' ),
-    ( 'farad',                      'second*watt/volt^2' )                  : mpmathify( '1' ),
-    ( 'farad',                      'second/ohm' )                          : mpmathify( '1' ),
     ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
     ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
     ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
@@ -4246,7 +4006,6 @@ unitConversionMatrix = {
     ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
     ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
     ( 'foot',                       'inch' )                                : mpmathify( '12' ),
-    ( 'footcandle',                 'lumen/foot^2' )                        : mpmathify( '1' ),
     ( 'footcandle',                 'lux' )                                 : mpmathify( '10.763910417' ),            # (m/ft)^2
     ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691' ),  # 1/pi cd/ft^2
     ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
@@ -4266,7 +4025,6 @@ unitConversionMatrix = {
     ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
     ( 'gram-equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
     ( 'gram-force',                 'newton' )                              : mpmathify( '0.00980665' ),
-    ( 'gray',                       'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
     ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
@@ -4279,11 +4037,7 @@ unitConversionMatrix = {
     ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
     ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
-    ( 'henry',                      'joule/ampere^2' )                      : mpmathify( '1' ),
     ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
-    ( 'henry',                      'ohm*second' )                          : mpmathify( '1' ),
-    ( 'henry',                      'ohm/hertz' )                           : mpmathify( '1' ),
-    ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
     ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
@@ -4291,7 +4045,6 @@ unitConversionMatrix = {
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
     ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.8027' ),
     ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
-    ( 'horsepower*second',          'joule' )                               : mpmathify( '745.69987158227022' ),
     ( 'hour',                       'minute' )                              : mpmathify( '60' ),
     ( 'hourly',                     'daily' )                               : mpmathify( '24' ),
     ( 'hubble',                     'light-year' )                          : mpmathify( '1.0e9' ),
@@ -4319,12 +4072,9 @@ unitConversionMatrix = {
     ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
     ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
     ( 'jigger',                     'pony' )                                : mpmathify( '2' ),
-    ( 'joule',                      'coulomb*volt' )                        : mpmathify( '1' ),
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram*meter^2/second^2' )           : mpmathify( '1' ),
-    ( 'joule',                      'second*watt' )                         : mpmathify( '1' ),
     ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
-    ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
     ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
     ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
@@ -4348,9 +4098,9 @@ unitConversionMatrix = {
     ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
     ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
     ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
-    ( 'lumen',                      'candela*steradian' )                   : mpmathify( '1' ),
+    ( 'lumen',                      'candela*radian^2' )                    : mpmathify( '1' ),
     ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
-    ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
+    ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '10.7639104167' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
     ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
     ( 'magnum',                     'bottle' )                              : mpmathify( '2' ),
@@ -4365,7 +4115,6 @@ unitConversionMatrix = {
     ( 'meter',                      'french' )                              : mpmathify( '3000' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
-    ( 'meter*newton',               'joule' )                               : mpmathify( '1' ),
     ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
@@ -4376,7 +4125,6 @@ unitConversionMatrix = {
     ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667215' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
-    ( 'meter^3*pascal',             'joule' )                               : mpmathify( '1' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
     ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
     ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
@@ -4400,8 +4148,6 @@ unitConversionMatrix = {
     ( 'newton',                     'kilogram*meter/second^2' )             : mpmathify( '1' ),
     ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
     ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
-    ( 'newton*second/meter^2',      'pascal*second' )                       : mpmathify( '1' ),
-    ( 'newton/meter^2',             'pascal' )                              : mpmathify( '1' ),
     ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
     ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
     ( 'nibble',                     'bit' )                                 : mpmathify( '4' ),
@@ -4429,21 +4175,15 @@ unitConversionMatrix = {
     ( 'ohm',                        'abohm' )                               : mpmathify( '1e9' ),
     ( 'ohm',                        'german_mile' )                         : mpmathify( '57.44' ),
     ( 'ohm',                        'jacobi' )                              : mpmathify( '0.6367' ),
-    ( 'ohm',                        'joule*second/coulomb^2' )              : mpmathify( '1' ),
-    ( 'ohm',                        'joule/ampere^2*second' )               : mpmathify( '1' ),
     ( 'ohm',                        'kilogram*meter^2/ampere^2*second^3' )  : mpmathify( '1' ),
     ( 'ohm',                        'matthiessen' )                         : mpmathify( '13.59' ),
-    ( 'ohm',                        'second/farad' )                        : mpmathify( '1' ),
     ( 'ohm',                        'varley' )                              : mpmathify( '25.61' ),
-    ( 'ohm',                        'volt/ampere' )                         : mpmathify( '1' ),
-    ( 'ohm',                        'watt/ampere^2' )                       : mpmathify( '1' ),
     ( 'oil_barrel',                 'gallon' )                              : mpmathify( '42' ),
     ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),
     ( 'oword',                      'bit' )                                 : mpmathify( '128' ),
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
     ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
     ( 'pascal',                     'kilogram/meter*second^2' )             : mpmathify( '1' ),
-    ( 'pascal*second',              'kilogram/meter*second' )               : mpmathify( '1' ),
     ( 'pascal*second',              'poise' )                               : mpmathify( '10' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
     ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
@@ -4516,9 +4256,7 @@ unitConversionMatrix = {
     ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
     ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
     ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
-    ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
-    ( 'siemens',                    'coulomb^2*second/kilogram*meter^2' )   : mpmathify( '1' ),
     ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
     ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
     ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
@@ -4627,13 +4365,9 @@ unitConversionMatrix = {
     ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
-    ( 'volt',                       'joule/coulomb' )                       : mpmathify( '1' ),
     ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
-    ( 'volt',                       'watt/ampere' )                         : mpmathify( '1' ),
-    ( 'watt',                       'erg/second' )                          : mpmathify( '1.0e7' ),
     ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),
     ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
-    ( 'watt',                       'meter*newton/second' )                 : mpmathify( '1' ),
     ( 'watt/meter^2',               'kilogram/second^3' )                   : mpmathify( '1' ),
     ( 'weber',                      'kilogram*meter^2/ampere*second^2' )    : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
