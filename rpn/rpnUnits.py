@@ -1290,12 +1290,6 @@ http://www.unc.edu/~rowlett/units/dictT.html
 ''' ),
 
     # force
-    'ampere*weber/meter' :
-        RPNUnitInfo( 'force', 'ampere*weber/meter', 'ampere*weber/meter', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'dyne' :
         RPNUnitInfo( 'force', 'dyne', 'dynes', 'dyn',
                      [ ], [ 'CGS' ],
@@ -1305,12 +1299,6 @@ http://www.unc.edu/~rowlett/units/dictT.html
     'gram-force' :
         RPNUnitInfo( 'force', 'gram-force', 'grams-force', 'g-m',
                      [ ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'joule/meter' :
-        RPNUnitInfo( 'force', 'joule/meter', 'joule/meter', '',
-                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2159,12 +2147,6 @@ https://en.wikipedia.org/wiki/Rack_unit
 ''' ),
 
     # magnetic_flux
-    'centimeter^2*gauss' :
-        RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', '',
-                     [ 'gauss*centimeter^2' ], [ 'CGS' ],
-                     '''
-''' ),
-
     'kilogram*meter^2/ampere*second^2' :
         RPNUnitInfo( 'magnetic_flux', 'kilogram*meter^2/ampere*second^2', 'kilogram*meter^2/ampere*second^2', '',
                      [ ], [ 'SI' ],
@@ -2178,21 +2160,9 @@ https://en.wikipedia.org/wiki/Rack_unit
                      '''
 ''' ),
 
-    'meter^2*tesla' :
-        RPNUnitInfo( 'magnetic_flux', 'meter^2*tesla', 'meter^2*tesla', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'unit_pole' :
         RPNUnitInfo( 'magnetic_flux', 'unit_pole', 'unit_poles', '',
                      [ 'unitpole', 'unitpoles' ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'second*volt' :
-        RPNUnitInfo( 'magnetic_flux', 'volt*second', 'volt*second', 'Vs',
-                     [ 'second*volt', 'second*volts' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2209,69 +2179,14 @@ https://en.wikipedia.org/wiki/Rack_unit
                      '''
 ''' ),
 
-    'ampere*henry/meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'henry*ampere/meter^2', 'henry*ampere/meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'joule/ampere*meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'joule/ampere*meter^2', 'joule/ampere*meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'kilogram/ampere*second^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
 
-    'kilogram/coulomb*second' :
-        RPNUnitInfo( 'magnetic_flux_density', 'kilogram/coulomb*second', 'kilogram/coulomb*second', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'maxwell/centimeter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', '',
-                     [ ], [ 'CGS' ],
-                     '''
-''' ),
-
-    'newton/ampere*meter' :
-        RPNUnitInfo( 'magnetic_flux_density', 'newton/ampere*meter', 'newton/ampere*meter', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'newton*second/coulomb*meter' :
-        RPNUnitInfo( 'magnetic_flux_density', 'newton*second/coulomb*meter', 'newton*second/coulomb*meter', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second*volt/meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'second*volt/meter^2', 'second*volt/meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
     'tesla' :
         RPNUnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'second*volt/meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'volt*second/meter^2', 'volt*second/meter^2', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-
-    'weber/meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -2637,12 +2552,6 @@ This conversion is required to do mass-energy equivalence calculations.
     # radiosity
     'kilogram/second^3' :
         RPNUnitInfo( 'radiosity', 'kilogram/second^3', 'kilogram/second^3', '',
-                     [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'watt/meter^2' :
-        RPNUnitInfo( 'radiosity', 'watt/meter^2', 'watt/meter^2', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -3969,7 +3878,7 @@ unitConversionMatrix = {
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
     ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
-    ( 'dry_barrel',                 'foot^2' )                              : fdiv( 49, 12 ),
+    ( 'dry_barrel',                 'foot^3' )                              : fdiv( 49, 12 ),
     ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
     ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
     ( 'dry_pint',                   'foot^3' )                              : mpmathify( '0.0194446252894' ),
@@ -4018,7 +3927,6 @@ unitConversionMatrix = {
     ( 'galileo',                    'meter/second^2' )                      : mpmathify( '0.01' ),
     ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
     ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
-    ( 'gauss',                      'maxwell/centimeter^2' )                : mpmathify( '1' ),
     ( 'goliath',                    'liter' )                               : mpmathify( '27.0' ),
     ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
@@ -4108,7 +4016,6 @@ unitConversionMatrix = {
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
     ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
     ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
-    ( 'maxwell',                    'centimeter^2*gauss' )                  : mpmathify( '1' ),
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
@@ -4142,9 +4049,7 @@ unitConversionMatrix = {
     ( 'nat',                        'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
-    ( 'newton',                     'ampere*weber/meter' )                  : mpmathify( '1' ),
     ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
-    ( 'newton',                     'joule/meter' )                         : mpmathify( '1' ),
     ( 'newton',                     'kilogram*meter/second^2' )             : mpmathify( '1' ),
     ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
     ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
@@ -4308,16 +4213,8 @@ unitConversionMatrix = {
     ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
     ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
     ( 'ten',                        'unity' )                               : mpmathify( '10' ),
-    ( 'tesla',                      'ampere*henry/meter^2' )                : mpmathify( '1' ),
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
-    ( 'tesla',                      'joule/ampere*meter^2' )                : mpmathify( '1' ),
     ( 'tesla',                      'kilogram/ampere*second^2' )            : mpmathify( '1' ),
-    ( 'tesla',                      'kilogram/coulomb*second' )             : mpmathify( '1' ),
-    ( 'tesla',                      'newton*second/coulomb*meter' )         : mpmathify( '1' ),
-    ( 'tesla',                      'newton/ampere*meter' )                 : mpmathify( '1' ),
-    ( 'tesla',                      'second*volt/meter^2' )                 : mpmathify( '1' ),
-    ( 'tesla',                      'second*volt/meter^2' )                 : mpmathify( '1' ),
-    ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'thirty',                     'unity' )                               : mpmathify( '30' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
@@ -4368,11 +4265,8 @@ unitConversionMatrix = {
     ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
     ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),
     ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
-    ( 'watt/meter^2',               'kilogram/second^3' )                   : mpmathify( '1' ),
     ( 'weber',                      'kilogram*meter^2/ampere*second^2' )    : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
-    ( 'weber',                      'meter^2*tesla' )                       : mpmathify( '1' ),
-    ( 'weber',                      'second*volt' )                         : mpmathify( '1' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),
     ( 'week',                       'day' )                                 : mpmathify( '7' ),
     ( 'wey',                        'pound' )                               : mpmathify( '252' ),
