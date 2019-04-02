@@ -40,7 +40,7 @@ def preparePrimeData( baseName ):
     deleteCache( baseName )
     db, cursor = createPrimeCache( baseName )
 
-    with open( inputFileName, "rU" ) as input:
+    with open( inputFileName, 'r' ) as input:
         for line in input:
             try:
                 key, value = line.split( )
