@@ -12,15 +12,9 @@
 # //
 # //******************************************************************************
 
-import six
-
 import collections
 
-if six.PY3:
-    from itertools import zip_longest
-else:
-    from itertools import izip_longest as zip_longest
-
+from itertools import zip_longest
 from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub, \
                    fsum, im, libmp, mp, mpc, polyroots, polyval, power, root, sin, sqrt
 

@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-import six
-
 import functools
 import os
 import signal
@@ -181,11 +179,7 @@ def downloadOEISSequence( id ):
 
 def downloadOEISText( id, char, addCR = False ):
     '''Downloads, formats and caches text data from oeis.org.'''
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
-
+    import urllib.request as urllib2
     import re as regex
 
     try:
@@ -233,10 +227,7 @@ def downloadOEISOffset( n ):
 
 @oneArgFunctionEvaluator( )
 def downloadOEISTable( id ):
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
+    import urllib.request as urllib2
 
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )

@@ -12,14 +12,6 @@
 # //
 # //******************************************************************************
 
-import six
-
-if six.PY3:
-    from functools import lru_cache
-else:
-    from pylru import lrudecorator as lru_cache
-    FileNotFoundError = IOError
-
 import bz2
 import configparser
 import contextlib
@@ -29,6 +21,7 @@ import pickle
 import sqlite3
 import types
 
+from functools import lru_cache
 from mpmath import autoprec, mp, mpf, mpmathify, nstr
 
 from rpn.rpnDebug import debugPrint

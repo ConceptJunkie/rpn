@@ -12,10 +12,7 @@
 # //
 # //******************************************************************************
 
-from __future__ import print_function
-
 import shlex
-import six
 
 import argparse
 import bz2
@@ -1070,6 +1067,8 @@ result.
 Help now supports units and constant operators after way too long.  Filling in
 the help info for the units and constant operators, along with all the existing
 help info that's missing, will take a while, and is continuing.
+
+rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
 
 The astronomy functionality has been refactored to support migrating to the
 skyfield library from pyephem.
