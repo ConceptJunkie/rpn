@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-from __future__ import print_function
-
 import configparser
 import difflib
 import inspect
@@ -28,7 +26,6 @@ from mpmath import apery, bell, bernoulli, catalan, cplot, euler, fadd, glaisher
 from random import randrange
 
 from rpn.rpnAliases import dumpAliases
-#from rpn.rpnConstantOperators import constants
 from rpn.rpnOperator import callers, RPNArgumentType, RPNOperator
 
 from rpn.rpnAstronomy import *

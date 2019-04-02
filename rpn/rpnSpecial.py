@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-import six
-
 import functools
 import os
 import signal
@@ -51,7 +49,7 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 isCarmichaelNumber, isDeficient, isFriendly, isKHyperperfect, \
                                 isPolydivisible, isPowerful, isPronic, isRough, isRuthAaronNumber, \
                                 isSemiPrime, isSmooth, isSphenic, isSquareFree, isUnusual
-from rpn.rpnPersistence import cachedFunction
+from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
@@ -142,7 +140,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis', overrideIgnore=True )
+@cachedOEISFunction( 'oeis', overrideIgnore=True )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -181,11 +179,7 @@ def downloadOEISSequence( id ):
 
 def downloadOEISText( id, char, addCR = False ):
     '''Downloads, formats and caches text data from oeis.org.'''
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
-
+    import urllib.request as urllib2
     import re as regex
 
     try:
@@ -233,10 +227,7 @@ def downloadOEISOffset( n ):
 
 @oneArgFunctionEvaluator( )
 def downloadOEISTable( id ):
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
+    import urllib.request as urllib2
 
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )

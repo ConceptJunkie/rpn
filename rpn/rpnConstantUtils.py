@@ -19,14 +19,7 @@
 
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
-
-import six
-
-if six.PY3:
-    from functools import lru_cache
-else:
-    from pylru import lrudecorator as lru_cache
-
+from functools import lru_cache
 from mpmath import arange, cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, \
                    mpf, mpmathify, nsum, pi, power, sqrt
 

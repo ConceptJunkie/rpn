@@ -12,14 +12,6 @@
 # //
 # //******************************************************************************
 
-import six
-
-if six.PY3:
-    from functools import lru_cache
-else:
-    from pylru import lrudecorator as lru_cache
-    FileNotFoundError = IOError
-
 import bz2
 import configparser
 import contextlib
@@ -29,6 +21,7 @@ import pickle
 import sqlite3
 import types
 
+from functools import lru_cache
 from mpmath import autoprec, mp, mpf, mpmathify, nstr
 
 from rpn.rpnDebug import debugPrint
@@ -506,6 +499,42 @@ def cachedFunction( name, overrideIgnore=False ):
             if not g.ignoreCache or overrideIgnore:
                 if ( args, kwargs ) in cache:
                     return cache[ ( args, kwargs ) ]
+
+            result = func( *args, **kwargs )
+
+            if not g.ignoreCache or overrideIgnore:
+                cache[ ( args, kwargs ) ] = result
+
+            return result
+
+        return cacheResults
+
+    return namedCachedFunction
+
+
+# //******************************************************************************
+# //
+# //  cachedOEISFunction
+# //
+# //  This is a modified version of cachedFunction that will ignore (and
+# //  overwrite) the cached result if it equals 0.  This prevents a failed
+# //  HTTP connection from polluting the OEIS cache with invalid data.
+# //
+# //******************************************************************************
+
+def cachedOEISFunction( name, overrideIgnore=False ):
+    def namedCachedFunction( func ):
+        @functools.wraps( func )
+
+        def cacheResults( *args, **kwargs ):
+            cache = openFunctionCache( name )
+
+            if not g.ignoreCache or overrideIgnore:
+                if ( args, kwargs ) in cache:
+                    result = cache[ ( args, kwargs ) ]
+
+                    if result != 0:
+                        return result
 
             result = func( *args, **kwargs )
 

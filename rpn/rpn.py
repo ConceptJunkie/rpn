@@ -32,10 +32,6 @@
 # The Canadian formula, with temperatures in C and wind speed in km/h, is
 # WCTI = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16.
 
-from __future__ import print_function
-
-import six
-
 import argparse
 import os
 import sys

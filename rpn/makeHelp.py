@@ -12,10 +12,7 @@
 # //
 # //******************************************************************************
 
-from __future__ import print_function
-
 import shlex
-import six
 
 import argparse
 import bz2
@@ -1053,6 +1050,28 @@ release notes, so there are a ton of new features not mentioned here.
     'release_notes' :
     '''
 For notes about earlier versions, use 'help old_release_notes'.
+
+8.0
+
+The unit conversion code has been heavily refactored and works much better now.
+
+Added the 'base_units' and 'dimensions' operators, mostly for testing purposes.
+
+Added _dump_conversions, also for testing purposes.
+
+rpnChilada is now smart enough to recognize when an OEIS request has failed,
+and to ignore the cached result stored as a result.  If it detects that the
+cached value is empty, it will perform the request again and recache the
+result.
+
+Help now supports units and constant operators after way too long.  Filling in
+the help info for the units and constant operators, along with all the existing
+help info that's missing, will take a while, and is continuing.
+
+rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
+
+The astronomy functionality has been refactored to support migrating to the
+skyfield library from pyephem.
 
 7.2.5
 

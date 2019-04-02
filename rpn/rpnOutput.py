@@ -12,10 +12,6 @@
 # //
 # //******************************************************************************
 
-from __future__ import print_function
-
-import six
-
 import math
 import string
 import sys
@@ -248,15 +244,9 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
 
         if useIndent:
             print( file=file )
-            if six.PY3:
-                print( indentString + levelIndent + newString, end='', flush=True, file=file )
-            else:
-                print( indentString + levelIndent + newString, end='', file=file )
+            print( indentString + levelIndent + newString, end='', flush=True, file=file )
         else:
-            if six.PY3:
-                print( newString, end='', flush=True, file=file )
-            else:
-                print( newString, end='', file=file )
+            print( newString, end='', flush=True, file=file )
 
     if useIndent:
         print( file=file )

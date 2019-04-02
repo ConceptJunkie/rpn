@@ -12,11 +12,6 @@
 # //
 # //******************************************************************************
 
-import six
-
-if not six.PY3:
-    FileNotFoundError = IOError
-
 import bz2
 import contextlib
 import pickle
