@@ -38,11 +38,11 @@ import rpn.rpnGlobals as g
 
 # //******************************************************************************
 # //
-# //  loadConstants
+# //  loadGlobaConstants
 # //
 # //******************************************************************************
 
-def loadConstants( ):
+def loadGlobalConstants( ):
     g.c = getConstant( 'speed_of_light' )
     g.h_bar = getConstant( 'reduced_planck_constant' )
     g.G = getConstant( 'newton_constant' )

@@ -249,6 +249,8 @@ def runConvertTests( ):
     testOperator( 'newton joule/meter convert' )
     testOperator( 'ampere*weber/meter newton convert' )
     testOperator( 'joule/meter newton convert' )
+    testOperator( 'poise pascal*second convert' )
+    testOperator( 'pascal*second poise convert' )
 
     # let's check some answers
     expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )

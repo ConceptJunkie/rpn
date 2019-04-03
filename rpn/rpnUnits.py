@@ -18,6 +18,39 @@ from rpn.rpnConstantUtils import *
 from rpn.rpnUnitClasses import RPNUnitInfo, RPNUnitTypeInfo
 
 
+# jansky (Jy)
+# a unit used in radio astronomy to measure the strength, or more precisely the flux
+# density, of radio signals from space. In measuring signal strength, it's necessary
+# to take into account both the area of the receiving antenna and the width of the
+# frequency band in which the signal occurs. Accordingly, one jansky equals a flux
+# of 10-26 watts per square meter of receiving area per hertz of frequency band
+# (W/m2Hz). Although it is not an SI unit, the jansky is approved by the
+# International Astronomical Union and is widely used by astronomers. It honors
+# Karl G. Jansky (1905-1950), the American electrical engineer who discovered
+# radio waves from space in 1930.  The jansky is sometimes called the flux unit.
+
+#langley (Ly)
+# a CGS unit of heat transmission equal to one thermochemical calorie per
+# square centimeter, or exactly 41.84 kilojoules per square meter (kJ/m2).
+# Named for the American astronomer Samuel P. Langley (1834-1906), the langley
+# is used to express the rate of solar radiation received by the earth.
+
+# lunar day
+# another name for the tidal day, a unit of time equal to 24 hours 50 minutes
+# used in tidal predictions.
+
+# MED
+# a common symbol for "minimum erythemal dose," the smallest amount of ultraviolet
+# radiation that produces observable reddening (erythema) of the skin. (Skin is
+# sensitive to reddening by radiation in only a narrow band of wavelengths around
+# 300 nanometers.) The MED obviously varies from one person to another.  Doctors
+# and tanning salon operators typically use a value of 200 joules per square meter
+# (J/m2), which represents the MED of a highly sensitive individual; persons with
+# dark skin have MED's in the range of 1000 J/m2. Regulatory agencies are moving
+# to use of the standard erythemal dose (SED), a unit equal to exactly 100 J/m2.
+# In tanning, a dose rate of one MED per hour is equivalent to 55.55 milliwatts
+# per square meter of skin surface.
+
 # //******************************************************************************
 # //
 # //  unitOperators
@@ -355,7 +388,7 @@ The SI unit for capacitance.
 
     'ampere*second' :
         RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'second*ampere', 'second*amperes' ], [ 'SI' ],
+                     [ 'second*ampere', 'second*amperes', 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1040,9 +1073,15 @@ One centillion:  10e303
 ''' ),
 
     # dynamic_viscosity
+    'kilogram/meter*second' :
+        RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', '',
+                     [ ], [ 'SI' ],
+                     '''
+''' ),
+
     'pascal*second' :
         RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*seconds', 'Pas',
-                     [ 'poiseuille', 'poiseuilles' ], [ 'SI' ],
+                     [ 'poiseuille', 'poiseuilles', 'pascal-second', 'pascal-seconds' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1190,7 +1229,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     # energy
     'btu' :
-        RPNUnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ],
+        RPNUnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btus' ],
                      [ 'England', 'US' ],
                      '''
 ''' ),
@@ -1241,6 +1280,17 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
                      '''
 ''' ),
 
+    'kayser' :
+        RPNUnitInfo( 'energy', 'kayser', 'kaysers', '',
+                     [ '', '' ], [ 'science', 'CGS' ],
+                     '''
+Kayser is a unit of energy used in atomic and molecular physics.  Since the
+frequency of a photon is proportional to the energy it carries, the kayser is
+also equivalent to an energy of 123.984 microelectronvolt.
+
+Ref:  https://www.ibiblio.org/units/dictK.html
+''' ),
+
     'kilogram*meter^2/second^2' :
         RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', '',
                      [ ], [ 'SI' ],
@@ -1272,8 +1322,8 @@ The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
 ''' ),
 
     'second*watt' :
-        RPNUnitInfo( 'energy', 'watt*second', 'watt*seconds', 'Ws',
-                     [ 'second*watt', 'second*watts' ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'second*watt', 'second*watt', 'Ws',
+                     [ 'watt-second', 'watt-seconds' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1386,7 +1436,7 @@ This is the definition of the SI derived unit Newton (N).
 
     'hertz' :
         RPNUnitInfo( 'frequency', 'hertz', 'hertz', 'Hz',
-                     [ ], [ 'SI' ],
+                     [ 'cycle', 'cycles' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2247,7 +2297,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 
     'carat' :
         RPNUnitInfo( 'mass', 'carat', 'carats', 'ct',
-                     [ 'karat', 'karats' ], [ 'US' ],
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
@@ -2601,6 +2651,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     # Bel
     # Neper
+    # karat (1/24)
 
     # solid_angle
     'hemisphere' :
@@ -3612,7 +3663,7 @@ equal to 562,000 megaliters.
 
     'wine_butt' :
         RPNUnitInfo( 'volume', 'wine_butt', 'wine_butts', '',
-                     [ ], [ 'imperial', 'wine' ],
+                     [ 'wine_pipe', 'wine_pipes' ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
@@ -3625,12 +3676,6 @@ equal to 562,000 megaliters.
     'wine_hogshead' :
         RPNUnitInfo( 'volume', 'wine_hogshead', 'wine_hogsheads', '',
                      [ ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_pipe' :
-        RPNUnitInfo( 'volume', 'wine_pipe', 'wine_pipes', '',
-                     [ 'wine_butt', 'wine_butts' ], [ 'imperial' ],
                      '''
 ''' ),
 
@@ -3676,11 +3721,10 @@ metricUnits = {
     'gram-force'        : ( 'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
     'gray'              : ( 'grays',            'Gy',   [ ], [ ] ),
     'henry'             : ( 'henries',          'H',    [ ], [ ] ),
-    'hertz'             : ( 'hertz',            'Hz',   [ ], [ ] ),
+    'hertz'             : ( 'hertz',            'Hz',   [ 'cycle' ], [ 'cycles' ] ),
     'joule'             : ( 'joules',           'J',    [ ], [ ] ),
     'katal'             : ( 'katals',           'kat',  [ ], [ ] ),
     'kelvin'            : ( 'kelvins',          'K',    [ ], [ ] ),
-    'light-year'        : ( 'light-years',      'ly',   [ ], [ ] ),
     'liter'             : ( 'liters',           'L',    [ 'litre' ], [ 'litres' ] ),
     'lumen'             : ( 'lumens',           'lm ',  [ ], [ ] ),
     'lux'               : ( 'lux',              'lx',   [ ], [ ] ),
@@ -3705,13 +3749,29 @@ metricUnits = {
     'steradian'         : ( 'steradians',       '',     [ ], [ ] ),
     'stere'             : ( 'steres',           'st',   [ ], [ ] ),
     'tesla'             : ( 'teslas',           'T',    [ ], [ ] ),
-    'ton'               : ( 'tons',             '',     [ ], [ ] ),
-    'tonne'             : ( 'tonnes',           '',     [ ], [ ] ),
-    'ton_of_TNT'        : ( 'tons_of_TNT',      'tTNT', [ ], [ ] ),
     'volt'              : ( 'volts',            'V',    [ ], [ ] ),
     'watt'              : ( 'watts',            'W',    [ ], [ ] ),
     'second*watt'       : ( 'second*watt*',     'Ws',   [ ], [ ] ),
     'weber'             : ( 'webers',           'Wb',   [ ], [ ] ),
+}
+
+
+# //******************************************************************************
+# //
+# //  integralMetricUnits
+# //
+# //  Any units that should get the SI prefixes with positive powers.
+# //
+# //  ( name, plural name, abbreviation, aliases, plural aliases )
+# //
+# //******************************************************************************
+
+integralMetricUnits = {
+    'light-year'        : ( 'light-years',      'ly',   [ ], [ ] ),
+    'ton'               : ( 'tons',             '',     [ ], [ ] ),
+    'tonne'             : ( 'tonnes',           '',     [ ], [ ] ),
+    'ton_of_TNT'        : ( 'tons_of_TNT',      'tTNT', [ ], [ ] ),
+    'year'              : ( 'years',            'y',    [ ], [ ] ),
 }
 
 
@@ -3757,28 +3817,27 @@ timeUnits = [
 # //******************************************************************************
 
 metricPrefixes = [
-    ( 'yotta',      'Y',      '24' ),
-    ( 'zetta',      'Z',      '21' ),
-    ( 'exa',        'E',      '18' ),
-    ( 'peta',       'P',      '15' ),
-    ( 'tera',       'T',      '12' ),
-    ( 'giga',       'G',      '9' ),
-    ( 'mega',       'M',      '6' ),
-    ( 'kilo',       'k',      '3' ),
-    ( 'hecto',      'h',      '2' ),
-    ( 'deca',       'da',     '1' ),
-    ( 'deci',       'd',      '-1' ),
-    ( 'centi',      'c',      '-2' ),
-    ( 'milli',      'm',      '-3' ),
-    ( 'micro',      'u',      '-6' ),  # it's really a mu
-    ( 'nano',       'n',      '-9' ),
-    ( 'pico',       'p',      '-12' ),
-    ( 'femto',      'f',      '-15' ),
-    ( 'atto',       'a',      '-18' ),
-    ( 'zepto',      'z',      '-21' ),
-    ( 'yocto',      'y',      '-24' ),
+    ( 'yotta',      'Y',      24 ),
+    ( 'zetta',      'Z',      21 ),
+    ( 'exa',        'E',      18 ),
+    ( 'peta',       'P',      15 ),
+    ( 'tera',       'T',      12 ),
+    ( 'giga',       'G',      9 ),
+    ( 'mega',       'M',      6 ),
+    ( 'kilo',       'k',      3 ),
+    ( 'hecto',      'h',      2 ),
+    ( 'deca',       'da',     1 ),
+    ( 'deci',       'd',      -1 ),
+    ( 'centi',      'c',      -2 ),
+    ( 'milli',      'm',      -3 ),
+    ( 'micro',      'u',      -6 ),  # it's really a mu
+    ( 'nano',       'n',      -9 ),
+    ( 'pico',       'p',      -12 ),
+    ( 'femto',      'f',      -15 ),
+    ( 'atto',       'a',      -18 ),
+    ( 'zepto',      'z',      -21 ),
+    ( 'yocto',      'y',      -24 ),
 ]
-
 
 # //******************************************************************************
 # //
@@ -3789,14 +3848,14 @@ metricPrefixes = [
 # //******************************************************************************
 
 dataPrefixes = [
-    ( 'yotta',      'Y',      '24' ),
-    ( 'zetta',      'Z',      '21' ),
-    ( 'exa',        'E',      '18' ),
-    ( 'peta',       'P',      '15' ),
-    ( 'tera',       'T',      '12' ),
-    ( 'giga',       'G',      '9' ),
-    ( 'mega',       'M',      '6' ),
-    ( 'kilo',       'k',      '3' ),
+    ( 'yotta',      'Y',      24 ),
+    ( 'zetta',      'Z',      21 ),
+    ( 'exa',        'E',      18 ),
+    ( 'peta',       'P',      15 ),
+    ( 'tera',       'T',      12 ),
+    ( 'giga',       'G',      9 ),
+    ( 'mega',       'M',      6 ),
+    ( 'kilo',       'k',      3 ),
 ]
 
 
@@ -3809,14 +3868,14 @@ dataPrefixes = [
 # //******************************************************************************
 
 binaryPrefixes = [
-    ( 'yobi',       'Yi',     '80' ),
-    ( 'zebi',       'Zi',     '70' ),
-    ( 'exi',        'Ei',     '60' ),
-    ( 'pebi',       'Pi',     '50' ),
-    ( 'tebi',       'Ti',     '40' ),
-    ( 'gibi',       'Gi',     '30' ),
-    ( 'mebi',       'Mi',     '20' ),
-    ( 'kibi',       'ki',     '10' ),
+    ( 'yobi',       'Yi',     80 ),
+    ( 'zebi',       'Zi',     70 ),
+    ( 'exi',        'Ei',     60 ),
+    ( 'pebi',       'Pi',     50 ),
+    ( 'tebi',       'Ti',     40 ),
+    ( 'gibi',       'Gi',     30 ),
+    ( 'mebi',       'Mi',     20 ),
+    ( 'kibi',       'ki',     10 ),
 ]
 
 
@@ -4028,6 +4087,7 @@ unitConversionMatrix = {
     ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
     ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
     ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
+    ( 'kayser',                     'electron-volt' )                       : mpmathify( '123.984e-6' ),
     ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
@@ -4132,7 +4192,6 @@ unitConversionMatrix = {
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
     ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
     ( 'pascal',                     'kilogram/meter*second^2' )             : mpmathify( '1' ),
-    ( 'pascal*second',              'poise' )                               : mpmathify( '10' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
     ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
     ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
@@ -4142,6 +4201,8 @@ unitConversionMatrix = {
     ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
     ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
     ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
+    ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '10' ),
+    ( 'poise',                      'pascal*second' )                       : mpmathify( '10' ),
     ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
     ( 'pony',                       'dram' )                                : mpmathify( '6' ),
     ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
@@ -4264,10 +4325,10 @@ unitConversionMatrix = {
     ( 'three',                      'unity' )                               : mpmathify( '3' ),
     ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
+    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
-    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
@@ -4321,7 +4382,6 @@ unitConversionMatrix = {
     ( 'wine_tun',                   'puncheon' )                            : mpmathify( '3' ),
     ( 'wine_tun',                   'rundlet' )                             : mpmathify( '14' ),
     ( 'wine_tun',                   'tierce' )                              : mpmathify( '6' ),
-    ( 'wine_tun',                   'wine_pipe' )                           : mpmathify( '2' ),
     ( 'wood',                       'martin' )                              : mpmathify( '100' ),
     ( 'word',                       'bit' )                                 : mpmathify( '16' ),
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),

@@ -21,7 +21,7 @@ from pathlib import Path
 
 from rpn.rpnOperators import *
 
-from rpn.rpnAliases import operatorAliases
+from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnOperators import constants, listOperators, operators
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadUnitNameData
@@ -4763,30 +4763,35 @@ def main( ):
 
     loadHelpData( )
     loadUnitNameData( )
+    loadUnitData( )
+    loadGlobalConstants( )
 
-    for alias in operatorAliases:
-        if operatorAliases[ alias ] in operators:
+    foundProblem = False
+
+    for alias in g.operatorAliases:
+        if alias in operators or \
+           alias in listOperators or \
+           alias in modifiers or \
+           alias in constants or \
+           alias in g.unitOperatorNames or \
+           alias in g.operatorCategories:
+            print( 'alias \'' + alias + '\' collides with an existing name' )
+            foundProblem = True
+
+        if g.operatorAliases[ alias ] in operators or \
+           g.operatorAliases[ alias ] in listOperators or \
+           g.operatorAliases[ alias ] in modifiers or \
+           g.operatorAliases[ alias ] in constants or \
+           g.operatorAliases[ alias ] in g.constantOperators or \
+           g.operatorAliases[ alias ] in g.unitOperatorNames or \
+           g.operatorAliases[ alias ] in g.operatorCategories or \
+           g.operatorAliases[ alias ] == 'unit_types':
             continue
 
-        if operatorAliases[ alias ] in listOperators:
-            continue
+        print( 'alias \'' + alias + '\' resolves to invalid name \'' + g.operatorAliases[ alias ] + '\'' )
+        foundProblem = True
 
-        if operatorAliases[ alias ] in modifiers:
-            continue
-
-        if operatorAliases[ alias ] in constants:
-            continue
-
-        if operatorAliases[ alias ] in g.unitOperatorNames:
-            continue
-
-        if operatorAliases[ alias ] in g.operatorCategories:
-            continue
-
-        if operatorAliases[ alias ] == 'unit_types':
-            continue
-
-        print( 'alias \'' + alias + '\' resolves to invalid name \'' + operatorAliases[ alias ] + '\'' )
+    if foundProblem:
         exit( )
 
     #for i in operators:

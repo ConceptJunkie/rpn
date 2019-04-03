@@ -144,7 +144,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 
     'magnetic_flux_quantum' :
         RPNConstantInfo( '2.067833831e-15', 'weber',
-                          [ 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta' ], True,
+                          [ 'magnetic_flux_quanta' ], True,
                          '',
                          '''
 The (superconducting) magnetic flux quantum F0 = h/2e =~

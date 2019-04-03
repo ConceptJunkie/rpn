@@ -105,6 +105,23 @@ def makeAliases( ):
             for alternateUnit in metricUnits[ metricUnit ][ 3 ]:           # add alternate spelling plural alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
+    for integralMetricUnit in integralMetricUnits:
+        for prefix in metricPrefixes:
+            if prefix[ 2 ] < 3:    # skip deca- and hecto- as well
+                continue
+
+            unit = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
+            pluralUnit = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit ][ 0 ] )
+
+            if pluralUnit != unit:
+                newAliases[ pluralUnit ] = unit             # add plural alias
+
+            for alternateUnit in integralMetricUnits[ integralMetricUnit ][ 2 ]:           # add alternate spelling alias
+                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
+            for alternateUnit in integralMetricUnits[ integralMetricUnit ][ 3 ]:           # add alternate spelling plural alias
+                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
     for dataUnit in dataUnits:
         newAliases[ dataUnit[ 2 ] ] = dataUnit[ 0 ]
 
@@ -182,8 +199,11 @@ def expandMetricUnits( ):
             newName = makeMetricUnit( prefix[ 0 ], metricUnit )
             newPlural = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit][ 0 ] )
 
+            if newPlural == newName:
+                newPlural = ''
+
             if newName not in unitOperators:
-                # constuct unit operator info
+                # construct unit operator info
                 helpText = '\nfill me out for metric units'
 
                 if metricUnits[ metricUnit ][ 1 ]:
@@ -194,13 +214,13 @@ def expandMetricUnits( ):
                 else:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     helpText, [ ], [ 'SI' ], '', True )
+                                     '', [ ], [ 'SI' ], helpText, True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-                unitConversionMatrix[ ( newName, metricUnit ) ] = newConversion
+                metricConversions[ ( newName, metricUnit ) ] = newConversion
                 newConversion = fdiv( 1, newConversion )
-                unitConversionMatrix[ ( metricUnit, newName ) ] = newConversion
+                metricConversions[ ( metricUnit, newName ) ] = newConversion
             else:
                 newConversion = power( 10, fneg( mpmathify( prefix[ 2 ] ) ) )
 
@@ -213,7 +233,7 @@ def expandMetricUnits( ):
                 oldUnit = metricUnit + '^2'
 
                 if newUnit not in unitOperators:
-                    newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
+                    newUnitInfo, newUnitAliases = makeAreaOperator( newName )
                     metricAliases.update( newUnitAliases )
 
                     unitOperators[ newUnit ] = newUnitInfo
@@ -229,7 +249,7 @@ def expandMetricUnits( ):
                 oldUnit = metricUnit + '^3'
 
                 if newUnit not in unitOperators:
-                    newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
+                    newUnitInfo, newUnitAliases = makeVolumeOperator( newName )
                     metricAliases.update( newUnitAliases )
 
                     unitOperators[ newUnit ] = newUnitInfo
@@ -237,6 +257,41 @@ def expandMetricUnits( ):
                     # add new conversions
                     metricConversions[ ( oldUnit, newUnit ) ] = volumeConversion
                     metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
+
+    for integralMetricUnit in integralMetricUnits:
+        for prefix in metricPrefixes:
+            if prefix[ 2 ] < 3:      # we don't want deca- or hecto- here either.
+                continue
+
+            newName = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
+            newPlural = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit][ 0 ] )
+
+            if newPlural == newName:
+                newPlural = ''
+
+            if newName in unitOperators:
+                continue
+
+            # construct unit operator info
+            helpText = '\nfill me out for metric units'
+
+            if integralMetricUnits[ integralMetricUnit ][ 1 ]:
+                unitOperators[ newName ] = \
+                    RPNUnitInfo( unitOperators[ integralMetricUnit ].unitType, newName, newPlural,
+                                 prefix[ 1 ] + integralMetricUnits[ integralMetricUnit ][ 1 ], [ ], [ 'SI' ],
+                                 helpText, True )
+            else:
+                unitOperators[ newName ] = \
+                    RPNUnitInfo( unitOperators[ integralMetricUnit ].unitType, newName, newPlural,
+                                 '', [ ], [ 'SI' ], helpText, True )
+
+
+            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+            #print( newName, integralMetricUnit, newConversion )
+            metricConversions[ ( newName, integralMetricUnit ) ] = newConversion
+            newConversion = fdiv( 1, newConversion )
+            #print( integralMetricUnit, newName, newConversion )
+            metricConversions[ ( integralMetricUnit, newName ) ] = newConversion
 
     return metricConversions, metricAliases
 
@@ -301,7 +356,7 @@ def expandDataUnits( ):
 # //
 # //******************************************************************************
 
-def makeAreaOperator( unit, unitPlural ):
+def makeAreaOperator( unit ):
     unitInfo = unitOperators[ unit ]
 
     newAliases = { }
@@ -337,7 +392,7 @@ def makeAreaOperator( unit, unitPlural ):
 # //
 # //******************************************************************************
 
-def makeVolumeOperator( unit, unitPlural ):
+def makeVolumeOperator( unit ):
     unitInfo = unitOperators[ unit ]
 
     newAliases = { }
@@ -387,26 +442,18 @@ def createAreaAndVolumeOperators( unitOperators ):
             newUnit = unit + '^2'
 
             if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = \
-                    makeAreaOperator( unit, unitOperators[ unit ].plural )
+                newUnitInfo, newUnitAliases = makeAreaOperator( unit )
 
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
-
-                compoundUnit = unit + '^2'
-                newAliases[ compoundUnit ] = newUnit
 
             newUnit = unit + '^3'
 
             if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = \
-                    makeVolumeOperator( unit, unitOperators[ unit ].plural )
+                newUnitInfo, newUnitAliases = makeVolumeOperator( unit )
 
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
-
-                compoundUnit = unit + '^3'
-                newAliases[ compoundUnit ] = newUnit
 
     return newOperators, newAliases
 

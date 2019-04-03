@@ -43,7 +43,7 @@ from mpmath import inf, mp, nan, nstr
 from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
-from rpn.rpnConstantUtils import loadConstants
+from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
@@ -119,7 +119,7 @@ def evaluate( terms ):
     # handle a unit operator
     if not g.unitOperators:
         loadUnitData( )
-        loadConstants( )
+        loadGlobalConstants( )
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term, hasMore in lookAhead( terms ):
