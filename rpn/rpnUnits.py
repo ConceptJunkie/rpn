@@ -388,7 +388,7 @@ The SI unit for capacitance.
 
     'ampere*second' :
         RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'second*ampere', 'second*amperes', 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
+                     [ 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1174,7 +1174,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     # electrical_resistance
     '1/siemens' :
         RPNUnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '',
-                     [ '1/mho' ], [ 'SI' ],
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2170,7 +2170,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 
     'footlambert' :
         RPNUnitInfo( 'luminance', 'footlambert', 'footlamberts', '',
-                     [ 'foot*lambert', 'foot*lamberts', 'feet*lambert' ], [ 'US', 'obsolete' ],
+                     [ ], [ 'US', 'obsolete' ],
                      '''
 ''' ),
 
@@ -2182,7 +2182,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 
     'nit' :
         RPNUnitInfo( 'luminance', 'nit', 'nits', 'nt',
-                     [ 'meterlambert', 'meter*lambert', 'meterlamberts', 'meter*lamberts' ], [ 'obsolete' ],
+                     [ 'meterlambert', 'meterlamberts' ], [ 'obsolete' ],
                      '''
 ''' ),
 
