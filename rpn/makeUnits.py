@@ -94,7 +94,11 @@ def makeAliases( ):
     for metricUnit in metricUnits:
         for prefix in metricPrefixes:
             unit = makeMetricUnit( prefix[ 0 ], metricUnit )
-            pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
+
+            if metricUnits[ metricUnit ][ 0 ]:
+                pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
+            else:
+                pluralUnit = unit
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
@@ -111,7 +115,11 @@ def makeAliases( ):
                 continue
 
             unit = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
-            pluralUnit = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit ][ 0 ] )
+
+            if integralMetricUnits[ integralMetricUnit ][ 0 ]:
+                pluralUnit = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit ][ 0 ] )
+            else:
+                pluralUnit = unit
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
@@ -162,7 +170,7 @@ def makeAliases( ):
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
 
-        if unitInfo.plural != unit:
+        if unitInfo.plural != unit and unitInfo.plural != '':
             newAliases[ unitInfo.plural ] = unit
 
         for alias in unitInfo.aliases:
@@ -197,10 +205,11 @@ def expandMetricUnits( ):
     for metricUnit in metricUnits:
         for prefix in metricPrefixes:
             newName = makeMetricUnit( prefix[ 0 ], metricUnit )
-            newPlural = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit][ 0 ] )
 
-            if newPlural == newName:
-                newPlural = ''
+            if metricUnits[ metricUnit ][ 0 ]:
+                newPlural = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
+            else:
+                newPlural = newName
 
             if newName not in unitOperators:
                 # construct unit operator info
@@ -264,10 +273,11 @@ def expandMetricUnits( ):
                 continue
 
             newName = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
-            newPlural = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit][ 0 ] )
 
-            if newPlural == newName:
-                newPlural = ''
+            if integralMetricUnits[ integralMetricUnit][ 0 ]:
+                newPlural = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit][ 0 ] )
+            else:
+                newPlural = newName
 
             if newName in unitOperators:
                 continue
@@ -511,20 +521,20 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
                     if unitInfo.abbrev != '':
                         newAbbrev = unitInfo.abbrev + timeUnit[ 2 ]
                         newAliases[ newAbbrev ] = newUnit
+                    else:
+                        newAbbrev = ''
 
                     for alias in rootUnitInfo.aliases:
-                        newAliases[ alias + '*' + timeUnit[ 0 ] ] = newUnit
                         newAliases[ alias + '-' + timeUnit[ 0 ] ] = newUnit
 
                         if timeUnit[ 0 ] != timeUnit[ 1 ]:
-                            newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
                             newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
 
                     helpText = '\nfill me out for compound time units'
 
                     newUnitOperators[ newUnit ] = \
-                        RPNUnitInfo( originalUnitInfo.unitType, newRoot + '*' + timeUnit[ 0 ], newPlural,
-                                     '', [ ], originalUnitInfo.categories, helpText, True )
+                        RPNUnitInfo( originalUnitInfo.unitType, newUnit, newPlural,
+                                     newAbbrev, [ ], originalUnitInfo.categories, helpText, True )
 
                     conversion = mpmathify( timeUnit[ 3 ] )
                     unitConversionMatrix[ ( newUnit, unit ) ] = conversion
