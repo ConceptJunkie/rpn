@@ -24,7 +24,7 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_
 
 import rpn.rpnGlobals as g
 
-from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
+from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
 
 
 # //******************************************************************************
@@ -828,4 +828,38 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
 
     gravity = multiply( divide( mass, getPower( length, 2 ) ), getConstant( 'newton_constant' ) )
     return gravity.convert( 'meters/seconds^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateWindChill
+# //
+# //  https://www.ibiblio.org/units/dictW.html
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def calculateWindChill( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'velocity', 'temperature' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'wind_chill\' requires velocity and temperature measurements' )
+
+    wind_speed = arguments[ 'velocity' ].convert( 'miles/hour' ).value
+    temperature = arguments[ 'temperature' ].convert( 'degrees_F' ).value
+
+    if wind_speed < 3:
+        raise ValueError( '\'wind_chill\' is not defined for wind speeds less than 3 mph' )
+
+    if temperature > 50:
+        raise ValueError( '\'wind_chill\' is not defined for temperatures over 50 degrees fahrenheit' )
+
+    result = fsum( [ 35.74, fmul( temperature, 0.6215 ), fneg( fmul( 35.75, power( wind_speed, 0.16 ) ) ),
+                   fprod( [ 0.4275, temperature, power( wind_speed, 0.16 ) ] ) ] )
+
+    return RPNMeasurement( result, 'degrees_F' )
 

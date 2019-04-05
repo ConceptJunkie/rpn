@@ -2729,31 +2729,31 @@ This conversion is required to do mass-energy equivalence calculations.
     # temperature
     'celsius' :
         RPNUnitInfo( 'temperature', 'celsius', 'degrees_celsius', 'Cel',
-                     [ 'centigrade', 'degC', 'degreeC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ],
+                     [ 'centigrade', 'degC', 'degreeC', 'degreesC', 'degree_centigrade', 'degrees_centigrade', 'degrees_C' ], [ 'SI' ],
                      '''
 ''' ),
 
     'degree_newton' :
         RPNUnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '',
-                     [ 'degN', 'degreeN', 'degreesN' ], [ 'obsolete' ],
+                     [ 'degN', 'degreeN', 'degreesN', 'degrees_N' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'delisle' :
         RPNUnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De',
-                     [ 'degD', 'degreeD', 'degreesD', 'degree_delisle' ], [ 'obsolete' ],
+                     [ 'degD', 'degreeD', 'degreesD', 'degree_delisle', 'degrees_D' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'fahrenheit' :
         RPNUnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '',
-                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit' ], [ 'US', 'traditional' ],
+                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ], [ 'US', 'traditional' ],
                      '''
 ''' ),
 
     'kelvin' :
         RPNUnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K',
-                     [ 'degK', 'degreeK', 'degreesK', 'degree_kelvin' ], [ 'SI' ],
+                     [ 'degK', 'degreeK', 'degreesK', 'degree_kelvin', 'degrees_K' ], [ 'SI' ],
                      '''
 The Kelvin scale is an absolute thermodynamic temperature scale using as its
 null point absolute zero, the temperature at which all thermal motion ceases
@@ -2765,7 +2765,7 @@ Ref:  https://en.wikipedia.org/wiki/Kelvin
 
     'rankine' :
         RPNUnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R',
-                     [ 'degR', 'degreeR', 'degreesR', 'degree_rankine' ], [ 'obsolete' ],
+                     [ 'degR', 'degreeR', 'degreesR', 'degree_rankine', 'degrees_R' ], [ 'obsolete' ],
                      '''
 The Rankine scale is an absolute scale of thermodynamic temperature named after
 the Glasgow University engineer and physicist William John Macquorn Rankine,
@@ -2778,13 +2778,13 @@ Ref:  https://en.wikipedia.org/wiki/Rankine_scale
 
     'reaumur' :
         RPNUnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re',
-                     [ 'degRe', 'degreeRe', 'degreesRe', 'degree_reaumur' ], [ 'obsolete' ],
+                     [ 'degRe', 'degreeRe', 'degreesRe', 'degree_reaumur', 'degrees_Re' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'romer' :
         RPNUnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro',
-                     [ 'degRo', 'degreeRo', 'degreesRo', 'degree_romer' ], [ 'obsolete' ],
+                     [ 'degRo', 'degreeRo', 'degreesRo', 'degree_romer', 'degrees_Ro' ], [ 'obsolete' ],
                      '''
 ''' ),
 

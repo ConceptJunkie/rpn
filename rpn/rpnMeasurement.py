@@ -472,7 +472,10 @@ class RPNMeasurement( object ):
             loadUnitConversionMatrix( )
 
         for i in conversionsNeeded:
-            convertedValue = fmul( convertedValue, g.unitConversionMatrix[ i ] )
+            if i in g.unitConversionMatrix:
+                convertedValue = fmul( convertedValue, g.unitConversionMatrix[ i ] )
+            else:
+                convertedValue = fmul( convertedValue, RPNMeasurement( 1, i[ 0 ] ).convertValue( i[ 1 ] ) )
 
         # build up the resulting units
         units = RPNUnits( '*'.join( nOriginalElements ) )

@@ -33,14 +33,14 @@ from rpn.rpnUnitClasses import RPNConstantInfo
 constantOperators = {
     # physical constants
     'avogadro_number' :
-        RPNConstantInfo( '6.022140756e23', '', [ 'avogadro', 'avogadros_number', 'N_sub_A' ], True,
+        RPNConstantInfo( '6.022140756e23', '', [ 'avogadro', 'avogadros_number', 'N_sub_A' ], False,
                          'Avogadro\'s number, the number of atoms in a mole',
                          '''
 Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
 
     'boltzmann_constant' :
-        RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], True,
+        RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], False,
                          'The Boltzmann constant relates the average kinetic energy of particles in a gas to the temperature of the gas',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Boltzmann_constant
@@ -50,35 +50,35 @@ This value is now exact, by definition.
 ''' ),
 
     'bohr_radius' :
-        RPNConstantInfo( '5.2917721067e-11', 'meter', [ ], True,
+        RPNConstantInfo( '5.2917721067e-11', 'meter', [ ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
     'classical_electron_radius' :
-        RPNConstantInfo( '2.8179403227e-15', 'meter', [ 'electron_radius' ], True,
+        RPNConstantInfo( '2.8179403227e-15', 'meter', [ 'electron_radius' ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Classical_electron_radius
 ''' ),
 
     'coulomb_constant' :
-        RPNConstantInfo( '8.9875517873681764e9', 'joule*meter/coulomb^2', [ ], True,
+        RPNConstantInfo( '8.9875517873681764e9', 'joule*meter/coulomb^2', [ ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 ''' ),
 
     'electric_constant' :
-        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3', [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], True,
+        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3', [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
 ''' ),
 
     'electron_charge' :
-        RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge' ], True,
+        RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge' ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
@@ -86,19 +86,8 @@ Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
 This new value is exact, by definition.
 ''' ),
 
-    'faraday_constant' :
-        RPNConstantInfo( '96485.33289', 'coulomb/mole', [ 'faradays_constant' ], True,
-                         '',
-                         '''
-The Faraday constant is named after Michael Faraday. In physics and chemistry,
-this constant represents the magnitude of electric charge per mole of
-electrons.
-
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?f
-''' ),
-
     'hyperfine_transition_frequency_of_cesium' :
-        RPNConstantInfo( '9192631770', 'Hz', [ 'delta_nu_sub_cs' ], True,
+        RPNConstantInfo( '9192631770', 'Hz', [ 'delta_nu_sub_cs' ], False,
                          '',
                          '''
 Since 1967, the second has been defined as exactly "the duration of
@@ -122,8 +111,8 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 # Kcd = 683 cd·sr·s3·kg-1·m-2
 
     'magnetic_constant' :
-        RPNConstantInfo( fprod( [ 4, pi, mpmathify( '1.00000000082' ) ] ), 'newton/ampere^2',
-                         [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], True,
+        RPNConstantInfo( fprod( [ 4, pi, mpmathify( '1.00000000082e-7' ) ] ), 'newton/ampere^2',
+                         [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], False,
                          '',
                          '''
 The physical constant, ('mu_0'), commonly called the vacuum permeability,
@@ -144,7 +133,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 
     'magnetic_flux_quantum' :
         RPNConstantInfo( '2.067833831e-15', 'weber',
-                          [ 'magnetic_flux_quanta' ], True,
+                          [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
                          '',
                          '''
 The (superconducting) magnetic flux quantum F0 = h/2e =~
@@ -158,21 +147,21 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 
     'molar_gas_constant' :
         RPNConstantInfo( '8.3144598', 'joule/mole*kelvin',
-                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], True,
+                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
 ''' ),
 
     'newton_constant' :
-        RPNConstantInfo( '6.67408e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], True,
+        RPNConstantInfo( '6.67408e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], False,
                          'Newton\'s constant of gravitation',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
 ''' ),
 
     'nuclear_magneton' :
-        RPNConstantInfo( '5.050783699e-27', 'joule/tesla', [ ], True,
+        RPNConstantInfo( '5.050783699e-27', 'joule/tesla', [ ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
@@ -180,7 +169,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 ''' ),
 
     'planck_constant' :
-        RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], True,
+        RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Planck_constant
@@ -196,42 +185,28 @@ Weights and Measures.
 ''' ),
 
     'reduced_planck_constant' :
-        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second', [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], True,
+        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second', [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
 ''' ),
 
     'rydberg_constant' :
-        RPNConstantInfo( '10973731.568508', 'meter^-1', [ ], True,
+        RPNConstantInfo( '10973731.568508', 'meter^-1', [ ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
     'speed_of_light' :
-        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity' ], True,
+        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity' ], False,
                          'the speed of light in a vacuum',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 ''' ),
 
-    'stefan_boltzmann_constant' :
-        RPNConstantInfo( '5.670367e-8', 'watt/meter^2*kelvin^4', [ 'sigma_sb', 'stefan_boltzmann' ], True,
-                         '',
-                         '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?sigma
-''' ),
-
-    'vacuum_impedance' :
-        RPNConstantInfo( '376.730313461', 'ohm', [ 'z_nought', 'z0','z_0', 'z_sub_0' ], True,
-                         '',
-                         '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?z0
-''' ),
-
     'von_klitzing_constant' :
-        RPNConstantInfo( '25812.8074555', 'ohm', [ ], True,
+        RPNConstantInfo( '25812.8074555', 'ohm', [ ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?rk

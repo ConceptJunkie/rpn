@@ -3889,6 +3889,10 @@ def runPhysicsOperatorTests( ):
     # time_dilation
     testOperator( '1 million miles hour / time_dilation' )
 
+    # wind_chill
+    testOperator( '40 degrees_F 10 mph wind_chill' )
+    testOperator( '0 degrees_C 20 m/s wind_chill' )
+
 
 # //******************************************************************************
 # //

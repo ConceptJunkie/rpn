@@ -158,5 +158,7 @@ timescale = None
 c = None
 e0 = None
 h_bar = None
+h = None
 G = None
+k = None
 

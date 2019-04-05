@@ -120,9 +120,15 @@ constants = {
                                                    0, [ ] ),
 
     # physical constants
+    'faraday_constant'              : RPNOperator( getFaradayConstant,
+                                                   0, [ ] ),
     'fine_structure_constant'       : RPNOperator( getFineStructureConstant,
                                                    0, [ ] ),
     'radiation_constant'            : RPNOperator( getRadiationConstant,
+                                                   0, [ ] ),
+    'stefan_boltzmann_constant'     : RPNOperator( getStefanBoltzmannConstant,
+                                                   0, [ ] ),
+    'vacuum_impedance'              : RPNOperator( getVacuumImpedance,
                                                    0, [ ] ),
 
     # Planck constants
@@ -3782,6 +3788,9 @@ operators = {
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),
 
     'velocity'                       : RPNOperator( calculateVelocity,
+                                                    2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
+
+    'wind_chill'                     : RPNOperator( calculateWindChill,
                                                     2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
 
     # powers_and_roots

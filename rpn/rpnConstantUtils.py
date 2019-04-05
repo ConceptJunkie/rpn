@@ -44,9 +44,11 @@ import rpn.rpnGlobals as g
 
 def loadGlobalConstants( ):
     g.c = getConstant( 'speed_of_light' )
+    g.h = getConstant( 'planck_constant' )
     g.h_bar = getConstant( 'reduced_planck_constant' )
     g.G = getConstant( 'newton_constant' )
     g.e0 = getConstant( 'electric_constant' )
+    g.k = getConstant( 'boltzmann_constant' )
 
 
 # //******************************************************************************
@@ -375,7 +377,7 @@ def getPlanckCharge( ):
 @lru_cache( 1 )
 def getPlanckTemperature( ):
     return getRoot( g.h_bar.multiply( getPower( g.c, 5 ) ).
-        divide( g.G.multiply( getPower( getConstant( 'boltzmann_constant' ), 2 ) ) ), 2 )
+        divide( g.G.multiply( getPower( g.k, 2 ) ) ), 2 )
 
 
 # //******************************************************************************
@@ -531,7 +533,7 @@ def getPlanckVoltage( ):
 
 @lru_cache( 1 )
 def getPlanckImpedance( ):
-    return getConstant( 'vacuum_impedance' ).divide( fmul( 4, pi ) )
+    return getVacuumImpedance( ).divide( fmul( 4, pi ) )
 
 
 # //******************************************************************************
@@ -578,6 +580,7 @@ def getPlanckVolumetricFlowRate( ):
 def getPlanckViscosity( ):
     return getRoot( getPower( g.c, 9 ).divide( getPower( g.G, 3 ).multiply( g.h_bar ) ), 2 ).convert( 'pascal*second' )
 
+
 # //******************************************************************************
 # //
 # //  getPlanckAcceleration
@@ -587,6 +590,18 @@ def getPlanckViscosity( ):
 @lru_cache( 1 )
 def getPlanckAcceleration( ):
     return getRoot( getPower( g.c, 7 ).divide( g.h_bar.multiply( g.G ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getStefanBoltzmannConstant
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getStefanBoltzmannConstant( ):
+    return getProduct( [ 4, getPower( pi, 5 ), getPower( g.k, 4 ) ] ).divide(
+                   getProduct( [ 15, getPower( g.h, 3 ), getPower( g.c, 2 ) ] ) )
 
 
 # //******************************************************************************
@@ -616,6 +631,34 @@ def getThueMorseConstant( ):
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getRadiationConstant( ):
-    return getConstant( 'stefan_boltzmann_constant' ).multiply( 4 ).divide( g.c )
+    return getStefanBoltzmannConstant( ).multiply( 4 ).divide( g.c )
+
+
+# //******************************************************************************
+# //
+# //  getFaradayConstant
+# //
+# //  https://en.wikipedia.org/wiki/Faraday_constant
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getFaradayConstant( ):
+    return RPNMeasurement( getConstant( 'avogadro_number' ), '1/mole' ). \
+                        multiply( getConstant( 'electron_charge' ) )
+
+
+# //******************************************************************************
+# //
+# //  getVacuumImpedance
+# //
+# //  https://en.wikipedia.org/wiki/Impedance_of_free_space
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getVacuumImpedance( ):
+    return getConstant( 'magnetic_constant' ).multiply( g.c ).convert( 'ohm' )
 

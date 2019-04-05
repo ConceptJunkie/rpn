@@ -33,6 +33,7 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
 
 import rpn.rpnGlobals as g
 
+
 # //******************************************************************************
 # //
 # //  constants and start-up code
@@ -42,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1126
+maxExampleCount = 1131
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4091,6 +4092,19 @@ protons in the universe and the same number of electrons."  This number is equal
 ''' + makeCommandExample( 'euler_mascheroni_constant' ),
 [ ] ],
 
+    'faraday_constant' : [
+'constants', 'returns the Faraday Constant',
+'''
+The Faraday constant is named after Michael Faraday.  In physics and
+chemistry, this constant represents the magnitude of electric charge per mole
+of electrons.
+
+Ref:  https://en.wikipedia.org/wiki/Faraday_constant
+''',
+'''
+''' + makeCommandExample( 'faraday_constant' ),
+[ ] ],
+
     'fine_structure_constant' : [
 'constants', 'returns the fine-structure constant',
 '''
@@ -4445,12 +4459,36 @@ at random within a unit cube.
 ''' + makeCommandExample( 'silver_ratio' ),
 [ ] ],
 
+    'stefan_boltzmann_constant' : [
+'constants', 'returns the Stefan Boltzmann Constant',
+'''
+The Stefan-Boltzmann constant (also Stefan's constant), a physical constant
+denoted by the Greek letter sigma, is the constant of proportionality in the
+Stefan-Boltzmann law: "the total intensity radiated over all wavelengths
+increases as the temperature increases", of a black body which is proportional
+to the fourth power of the thermodynamic temperature.
+
+Ref:  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
+''',
+'''
+''' + makeCommandExample( 'stefan_boltzmann_constant' ),
+[ ] ],
+
     'thue_morse_constant' : [
 'constants', 'calculates the Thue-Morse constant',
 '''
 ''',
 '''
 ''' + makeCommandExample( 'thue_morse_constant' ),
+[ ] ],
+
+    'vacuum_impedance' : [
+'constants', 'returns the Vacuum Impedance constant',
+'''
+Ref:  https://en.wikipedia.org/wiki/Impedance_of_free_space
+''',
+'''
+''' + makeCommandExample( 'vacuum_impedance' ),
 [ ] ],
 
 
@@ -8313,6 +8351,16 @@ order), from one of the following combinations of units:
 ''' + makeCommandExample( '100 meters 10 seconds velocity' ) + '''
 ''',
 [ 'acceleration', 'distance' ] ],
+
+    'wind_chill' : [
+'physics', 'calculates the wind chill given the temperature and the wind',
+'''
+Ref:  https://en.wikipedia.org/wiki/Wind_chill
+''',
+'''
+''' + makeCommandExample( '32 degrees_F 10 mph' ) + '''
+''' + makeCommandExample( '0 degrees_C 20 m/s' ),
+[ ] ],
 
 
 # //******************************************************************************
