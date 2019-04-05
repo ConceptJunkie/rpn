@@ -46,20 +46,19 @@ Johansson, who did most of the heavy lifting (http://mpmath.org).
 rpnChilada gives you the whole enchilada when it comes to playing with
 numbers.  You get math functions, algebra functions, combinatoric functions,
 number theory functions, astronomy functions, physics functions, unit
-conversions (comparable to GNU Units) and much, much more.   rpnChilada
-supports lists, but not matrices.
+conversions (comparable to GNU Units) and much, much more.   There are over
+800 unique operators.  rpnChilada supports lists, but not matrices.
 
 rpnChilada comes with integrated help, which isn't complete, but has at
-least a basic description of every function, and over 1200 built-in
-examples.
+least a basic description of every operator, and over 1100 built-in
+examples.  Help now includes descriptions for constants and units as well.
 
 rpnChilada also comes with an extensive test suite, which is being constantly
 improved.  Many of the functions are validated against the OEIS.
 
-Version 7 has been in the works for more than two and a half years, and the
-number of operators since version 6.4 has increased by at least 200.  It also
-supports user-defined persistent variables and functions.  rpnChilada also
-caches lookups and certain calculations.
+Version 8 represents a major rehaul of the unit conversion code.  Unit
+conversion is now significantly smarter than it used to be, and intermediate
+conversions are no longer necessary.
 
 There are still bugs, and since it's a one-person side project, progress
 is slow, but bug reports and feature requests are welcome at rickg@his.com.

@@ -506,6 +506,7 @@ operatorAliases = {
     'modulus'                       : 'abs',
     'moebius'                       : 'mobius',
     'molar_weight'                  : 'molar_mass',
+    'mondo_point'                   : 'millimeter',
     'more'                          : 'is_greater',
     'more_than'                     : 'is_greater',
     'motzkin'                       : 'nth_motzkin',

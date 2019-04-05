@@ -663,6 +663,8 @@ def main( ):
 
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
+    os.chdir( getDataPath( ) )     # SkyField doesn't like running in the root directory
+
     if not unitsFile.is_file( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )

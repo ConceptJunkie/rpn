@@ -388,7 +388,7 @@ The SI unit for capacitance.
 
     'ampere*second' :
         RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
+                     [ 'second*ampere', 'second*amperes', 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1174,7 +1174,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     # electrical_resistance
     '1/siemens' :
         RPNUnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '',
-                     [ ], [ 'SI' ],
+                     [ '1/mho' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2170,7 +2170,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 
     'footlambert' :
         RPNUnitInfo( 'luminance', 'footlambert', 'footlamberts', '',
-                     [ ], [ 'US', 'obsolete' ],
+                     [ 'foot*lambert', 'foot*lamberts', 'feet*lambert' ], [ 'US', 'obsolete' ],
                      '''
 ''' ),
 
@@ -2182,7 +2182,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 
     'nit' :
         RPNUnitInfo( 'luminance', 'nit', 'nits', 'nt',
-                     [ 'meterlambert', 'meterlamberts' ], [ 'obsolete' ],
+                     [ 'meterlambert', 'meter*lambert', 'meterlamberts', 'meter*lamberts' ], [ 'obsolete' ],
                      '''
 ''' ),
 
@@ -3067,14 +3067,14 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 
     'speed_of_sound' :
         RPNUnitInfo( 'velocity', 'speed_of_sound', 'x speed_of_sound', '',
-                     [ ], [ 'natural' ], '',
+                     [ ], [ 'natural' ],
                      '''
 ''' ),
 
     # volume
     'acre*foot' :
         RPNUnitInfo( 'volume', 'acre*foot', 'acre*feet', '',
-                     [ ], [ 'FPS', 'imperial' ],
+                     [ 'acre-foot', 'acre-feet', 'acre_foot', 'acre_feet' ], [ 'FPS', 'imperial' ],
                      '''
 ''' ),
 
@@ -3699,7 +3699,7 @@ equal to 562,000 megaliters.
 
 metricUnits = {
     'ampere'            : ( 'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
-    'ampere*second'     : ( 'ampere*seconds',   'As',   [ 'amp*second' ], [ 'amp*seconds' ] ),
+    'ampere*second'     : ( '',                 'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
     'arcsecond'         : ( 'arcseconds',       'as',   [ ], [ ] ),
     'are'               : ( 'ares',             'a',    [ ], [ ] ),
     'bar'               : ( 'bars',             'bar',  [ ], [ ] ),
@@ -3736,7 +3736,7 @@ metricUnits = {
     'ohm'               : ( 'ohms',             'O',    [ ], [ ] ),
     'parsec'            : ( 'parsecs',          'pc',   [ ], [ ] ),
     'pascal'            : ( 'pascals',          'Pa',   [ ], [ ] ),
-    'pascal*second'     : ( 'pascal*seconds',   'Pas',  [ ], [ ] ),
+    'pascal*second'     : ( '',                 'Pas',  [ 'pascal-second' ], [ 'pascal-seconds' ] ),
     'poise'             : ( 'poise',            '',     [ ], [ ] ),
     'pond'              : ( 'ponds',            '',     [ ], [ ] ),
     'potrzebie'         : ( 'potrzebies',       'pz',   [ ], [ ] ),
@@ -3751,7 +3751,7 @@ metricUnits = {
     'tesla'             : ( 'teslas',           'T',    [ ], [ ] ),
     'volt'              : ( 'volts',            'V',    [ ], [ ] ),
     'watt'              : ( 'watts',            'W',    [ ], [ ] ),
-    'second*watt'       : ( 'second*watt*',     'Ws',   [ ], [ ] ),
+    'second*watt'       : ( '',                 'Ws',   [ 'watt-second' ], [ 'watt-seconds' ] ),
     'weber'             : ( 'webers',           'Wb',   [ ], [ ] ),
 }
 

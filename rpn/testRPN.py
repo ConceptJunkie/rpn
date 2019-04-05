@@ -4737,6 +4737,8 @@ def runTests( tests ):
 # //******************************************************************************
 
 def main( ):
+    os.chdir( getDataPath( ) )     # SkyField doesn't like running in the root directory
+
     args = [ ]
 
     for arg in sys.argv[ 1 : ]:

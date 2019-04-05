@@ -44,6 +44,8 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
 maxExampleCount = 1126
 
+os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
+
 startTime = time.process_time( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
@@ -1071,7 +1073,7 @@ help info that's missing, will take a while, and is continuing.
 rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
 
 The unit tests now confirm that aliases do not collide with other reserved
-words.
+words.  The alias creation for generated types has also been cleaned up.
 
 The astronomy functionality has been refactored to support migrating to the
 skyfield library from pyephem.
