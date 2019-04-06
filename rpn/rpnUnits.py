@@ -1068,7 +1068,6 @@ https://en.wikipedia.org/wiki/Conductance_quantum
                      '''
 ''' ),
 
-
     # energy
     'btu' :
         RPNUnitInfo( 'energy', 'BTUs', '', [ 'btus' ], [ 'England', 'US' ],
