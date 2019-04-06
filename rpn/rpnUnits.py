@@ -67,7 +67,7 @@ from rpn.rpnUnitClasses import RPNUnitInfo, RPNUnitTypeInfo
 unitOperators = {
     # _null_type - used internally
     '_null_unit' :
-        RPNUnitInfo( '_null_type', '', '', '',
+        RPNUnitInfo( '_null_type', '_null_unit', '_null_unit', '',
                      [ ], [ ],
                      '''
 This unit type is used internally by rpnChilada.
@@ -1282,7 +1282,7 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
 
     'kayser' :
         RPNUnitInfo( 'energy', 'kayser', 'kaysers', '',
-                     [ '', '' ], [ 'science', 'CGS' ],
+                     [ ], [ 'science', 'CGS' ],
                      '''
 Kayser is a unit of energy used in atomic and molecular physics.  Since the
 frequency of a photon is proportional to the energy it carries, the kayser is
@@ -1430,7 +1430,7 @@ This is the definition of the SI derived unit Newton (N).
 
     'every_second' :
         RPNUnitInfo( 'frequency', 'x_every_second', 'x_every_second', '',
-                     [ '' ], [ 'traditional' ],
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
@@ -1497,7 +1497,7 @@ This is the definition of the SI derived unit Newton (N).
 
     'flame' :
         RPNUnitInfo( 'illuminance', 'flame', 'flame', '',
-                     [ ], [ '' ],
+                     [ ], [ ],
                      '''
 ''' ),
 
