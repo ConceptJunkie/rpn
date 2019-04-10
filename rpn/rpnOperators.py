@@ -3760,6 +3760,9 @@ operators = {
     'escape_velocity'                : RPNOperator( calculateEscapeVelocity,
                                                     2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
 
+    'heat_index'                     : RPNOperator( calculateHeatIndex,
+                                                    2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
+
     'horizon_distance'               : RPNOperator( lambda n: calculateHorizonDistance( n, constants[ 'earth_radius' ].function( ) ),
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),
 

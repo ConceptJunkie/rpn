@@ -863,3 +863,50 @@ def calculateWindChill( measurement1, measurement2 ):
 
     return RPNMeasurement( result, 'degrees_F' )
 
+
+# //******************************************************************************
+# //
+# //  calculateHeatIndex
+# //
+# //  https://en.wikipedia.org/wiki/Heat_index#Formula
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def calculateHeatIndex( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'temperature', 'constant' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'heat_index\' requires a temperature measurement and the relative humidity in percent' )
+
+    T = arguments[ 'temperature' ].convert( 'degrees_F' ).value
+    R = arguments[ 'constant' ]
+
+    if T < 80:
+        raise ValueError( '\'heat_index\' is not defined for temperatures less than 80 degrees fahrenheit' )
+
+    if R < 0.4 or R > 1.0:
+        raise ValueError( '\'heat_index\' requires a relative humidity value ranging from 40% to 100%' )
+
+    R = fmul( R, 100 )
+
+    c1 = -42.379
+    c2 = 2.04901523
+    c3 = 10.14333127
+    c4 = -0.22475541
+    c5 = -6.83783e-3
+    c6 = -5.481717e-2
+    c7 = 1.22874e-3
+    c8 = 8.5282e-4
+    c9 = -1.99e-6
+
+    heatIndex = fsum( [ c1, fmul( c2, T ), fmul( c3, R ), fprod( [ c4, T, R ] ), fprod( [ c5, T, T ] ),
+                        fprod( [ c6, R, R ] ), fprod( [ c7, T, T, R ] ), fprod( [ c8, T, R, R ] ),
+                        fprod( [ c9, T, T, R, R ] ) ] )
+
+    return RPNMeasurement( heatIndex, 'fahrenheit' ).convert( arguments[ 'temperature' ].units )
+

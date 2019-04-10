@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1131
+maxExampleCount = 1133
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -8232,6 +8232,16 @@ order), from one of the following combinations of units:
 ''',
 [ ] ],
 
+    'heat_index' : [
+'physics', 'calculates the heat index given the temperature and the relative humidity',
+'''
+Ref:  https://en.wikipedia.org/wiki/Heat_index
+''',
+'''
+''' + makeCommandExample( '90 degrees_F 50 percent heat_index' ) + '''
+''' + makeCommandExample( '30 degrees_C 80 percent heat_index' ),
+[ 'wind_chill' ] ],
+
     'horizon_distance' : [
 'physics', 'calculates the distance to the horizon for altitude n (assuming the Earth is a perfect sphere)'
 '''
@@ -8358,9 +8368,9 @@ order), from one of the following combinations of units:
 Ref:  https://en.wikipedia.org/wiki/Wind_chill
 ''',
 '''
-''' + makeCommandExample( '32 degrees_F 10 mph' ) + '''
-''' + makeCommandExample( '0 degrees_C 20 m/s' ),
-[ ] ],
+''' + makeCommandExample( '32 degrees_F 10 mph wind_chill' ) + '''
+''' + makeCommandExample( '0 degrees_C 20 m/s wind_chill' ),
+[ 'heat_index' ] ],
 
 
 # //******************************************************************************

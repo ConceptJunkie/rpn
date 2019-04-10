@@ -1194,6 +1194,14 @@ def matchUnitTypes( args, validUnitTypes ):
             raise ValueError( 'argument count mismatch in matchUnitTypes( )' )
 
         for arg in args:
+            if isinstance( arg, mpf ):
+                if 'constant' in unitTypes:
+                    result[ 'constant' ] = arg
+                    continue
+                else:
+                    result = { }
+                    break
+
             unitType = getWhichUnitType( arg, unitTypes )
             #print( 'found unit type', unitType )
 
@@ -1210,7 +1218,6 @@ def matchUnitTypes( args, validUnitTypes ):
         else:
             return result
 
-    #print( 'first loop completed' )
     return None
 
 
