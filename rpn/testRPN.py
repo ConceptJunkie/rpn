@@ -36,7 +36,14 @@ from mpmath import *
 
 import rpn.rpnGlobals as g
 
-slow = False
+PROGRAM_NAME = 'testRPN'
+PROGRAM_DESCRIPTION = 'rpnChilada test suite'
+
+for arg in sys.argv[ 1 : ]:
+    if arg == '-s':
+        slow = True
+    else:
+        slow = False
 
 
 # //******************************************************************************
@@ -1556,7 +1563,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
 
     if slow:
-        expectEqual( '-a1000 0 2106 range nth_motzkin', '1006 oeis 2016 left' )
+        expectEqual( '-a1000 0 2105 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
     testOperator( '13 nth_pell' )
@@ -4727,11 +4734,42 @@ def runTests( tests ):
                     print( 'Interpreting \'' + test + '\' as \'' + guess[ 0 ] + '\'...' )
                     print( )
                     rpnTests[ guess[ 0 ] ]( )
+                    return True
                 else:
-                    print( 'I don\'t know what \'' + test + '\' means in this context.' )
+                    printHelpText( 'I don\'t know what \'' + test + '\' means in this context.' )
+                    return False
     else:
         for test in rpnTests:
             rpnTests[ test ]( )
+
+        return True
+
+
+# //******************************************************************************
+# //
+# //  printHelpText
+# //
+# //******************************************************************************
+
+def printHelpText( text=None ):
+    print( PROGRAM_NAME + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+
+    if text:
+        print( )
+        print( text )
+
+    print( )
+    print( 'Usage:' )
+    print( )
+    print( 'flags -  -D - debug output' )
+    print( '         -s - run longer, slower tests' )
+    print( '         -? - print this help text' )
+    print( )
+    print( 'arguments - zero or more of the following (zero arguments means \'run all tests\'):' )
+
+    for test in rpnTestList:
+        print( '    ' + test[ 0 ] )
 
 
 # //******************************************************************************
@@ -4748,7 +4786,10 @@ def main( ):
     for arg in sys.argv[ 1 : ]:
         if arg == '-D':
             g.debugMode = True
-        else:
+        elif arg == '-?':
+            printHelpText( )
+            return
+        elif arg != '-s':
             args.append( arg )
 
     startTime = time.process_time( )
@@ -4803,17 +4844,16 @@ def main( ):
     #for i in operators:
     #    print( operators[ i ].generateCall( i ) )
 
-    runTests( args )
+    if runTests( args ):
+        if ( g.astroDataLoaded and not g.astroDataAvailable ):
+            print( 'Astronomy tests were skipped because data could not be downloaded.' )
+            print( )
 
-    if ( g.astroDataLoaded and not g.astroDataAvailable ):
-        print( 'Astronomy tests were skipped because data could not be downloaded.' )
-        print( )
+        if ( not g.primeDataAvailable ):
+            print( 'Prime number tests were skipped because the prime number data is not available.' )
+            print( )
 
-    if ( not g.primeDataAvailable ):
-        print( 'Prime number tests were skipped because the prime number data is not available.' )
-        print( )
-
-    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+        print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
 
 
 # //******************************************************************************
