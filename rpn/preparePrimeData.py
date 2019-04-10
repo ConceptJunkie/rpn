@@ -57,7 +57,7 @@ def preparePrimeData( baseName ):
 # //******************************************************************************
 
 def main( ):
-    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + 'RPN command-line prime number data file converter' )
+    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + ' - RPN command-line prime number data file converter' )
     print( COPYRIGHT_MESSAGE )
     print( )
 

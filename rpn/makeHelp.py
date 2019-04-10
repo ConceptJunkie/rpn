@@ -49,7 +49,7 @@ os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root direct
 
 startTime = time.process_time( )
 
-print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
+print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
 print( COPYRIGHT_MESSAGE )
 print( )
 
@@ -135,7 +135,7 @@ def makeCommandExample( command, indent=0, slow=False ):
 
 helpTopics = {
     'options' :
-    'rpn' + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n' +
+    'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' +
     COPYRIGHT_MESSAGE + '\n\n' +
     '''
 command-line options:
@@ -507,7 +507,7 @@ timer:  The timer function prints out the time taken for each operation.
 timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
     ''',
     'about' :
-    PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n' +
+    PROGRAM_NAME + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' +
     COPYRIGHT_MESSAGE +
     '''
 
