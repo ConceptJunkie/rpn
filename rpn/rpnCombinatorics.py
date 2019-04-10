@@ -96,6 +96,7 @@ def getNthSchroederNumber( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
     http://oeis.org/A001006
