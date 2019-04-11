@@ -328,7 +328,7 @@ class RPNMeasurement( object ):
 
         return RPNMeasurement( value, newUnits ).normalizeUnits( )
 
-    def invert( self, invertValue=True ):
+    def getInverted( self, invertValue=True ):
         units = self.units
 
         newUnits = RPNUnits( )
@@ -916,11 +916,15 @@ class RPNMeasurement( object ):
             baseUnit1 = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
             baseUnit2 = g.basicUnitTypes[ getUnitType( otherUnit ) ].baseUnit
         except:
+            inverted = self.getInverted( )
 
-            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + ' and ' + otherUnit )
+            try:
+                return inverted.convert( other )
+            except:
+                raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
-            debugPrint( '----------------------------->', self.getUnitString( ), baseUnit1, baseUnit2, otherUnit )
+            debugPrint( '----->', self.getUnitString( ), baseUnit1, baseUnit2, otherUnit )
             result = RPNMeasurement( self )
 
             if ( unit != baseUnit1 ):
@@ -1238,6 +1242,6 @@ def invertUnits( measurement ):
     if not isinstance( measurement, RPNMeasurement ):
         raise ValueError( 'cannot invert non-measurements' )
 
-    return measurement.invert( )
+    return measurement.getInverted( )
 
 
