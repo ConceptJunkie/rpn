@@ -104,10 +104,10 @@ def compareValues( result1, result2 ):
         if isinstance( result2, RPNMeasurement ):
             return result1.__eq__( result2 )
         else:
-            return almosteq( result1.getValue( ), result2 )
+            return almosteq( result1.value, result2 )
     else:
         if isinstance( result2, RPNMeasurement ):
-            return almosteq( result1, result2.getValue( ) )
+            return almosteq( result1, result2.value )
         else:
             return almosteq( result1, result2 )
 

@@ -525,6 +525,8 @@ Perhaps the worst bug is the some operations that use generators still manage
 to rack up astronomical memory usage.  I haven't been able to figure out how
 this happens, but it's probably something stupid on my part.
 
+'$varname' syntax doesn't work in interactive mode!
+
 Using 'for_each' on a nested list should give a nice error message.
 
 Using 'for_each_list' on a non-nested list crashes.

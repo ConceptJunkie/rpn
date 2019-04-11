@@ -224,7 +224,7 @@ class RPNDateTime( arrow.Arrow ):
 
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
-            kneg = RPNMeasurement( fneg( time.getValue( ) ), time.getUnits( ) )
+            kneg = RPNMeasurement( fneg( time.value ), time.units )
             return self.add( kneg )
         elif isinstance( time, RPNDateTime ):
             if self > time:

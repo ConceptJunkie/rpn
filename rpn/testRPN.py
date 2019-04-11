@@ -39,11 +39,11 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'testRPN'
 PROGRAM_DESCRIPTION = 'rpnChilada test suite'
 
+slow = False
+
 for arg in sys.argv[ 1 : ]:
     if arg == '-s':
         slow = True
-    else:
-        slow = False
 
 
 # //******************************************************************************
@@ -1563,7 +1563,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
 
     if slow:
-        expectEqual( '-a1000 0 2105 range nth_motzkin', '1006 oeis 2016 left' )
+        expectEqual( '-a1000 0 2015 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
     testOperator( '13 nth_pell' )

@@ -232,7 +232,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
             elif isinstance( item, RPNDateTime ):
                 newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                newString = formatOutput( nstr( item.getValue( ), min_fixed=-g.maximumFixed - 1 ) )
+                newString = formatOutput( nstr( item.value, min_fixed=-g.maximumFixed - 1 ) )
                 newString += ' ' + formatUnits( item )
             else:
                 newString = formatOutput( str( item ) )
@@ -268,7 +268,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
 # //******************************************************************************
 
 def formatUnits( measurement ):
-    value = measurement.getValue( )
+    value = measurement.value
 
     unitName = measurement.getUnitName( )
 
@@ -296,7 +296,7 @@ def formatUnits( measurement ):
 
     unitString = ''
 
-    units = measurement.getUnits( )
+    units = measurement.units
 
     # now that we've expanded the compound units, let's format...
     for unit in units:

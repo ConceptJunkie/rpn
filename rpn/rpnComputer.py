@@ -186,7 +186,7 @@ def getBitCount( n ):
     result = 0
 
     if isinstance( n, RPNMeasurement ):
-        value = real_int( n.getValue( ) )
+        value = real_int( n.value )
     else:
         value = real_int( n )
 

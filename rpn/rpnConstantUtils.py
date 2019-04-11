@@ -488,7 +488,7 @@ def getPlanckIntensity( ):
 
 @lru_cache( 1 )
 def getPlanckAngularFrequency( ):
-    return RPNMeasurement( getRoot( getPower( g.c, 5 ).divide( g.h_bar. multiply( g.G ) ), 2 ).getValue( ),
+    return RPNMeasurement( getRoot( getPower( g.c, 5 ).divide( g.h_bar. multiply( g.G ) ), 2 ).value,
                            'radian/second' )
 
 

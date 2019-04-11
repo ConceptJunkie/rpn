@@ -91,7 +91,7 @@ def decrement( n ):
 @oneArgFunctionEvaluator( )
 def getNegative( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( fneg( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( fneg( n.value ), n.units )
     else:
         return fneg( n )
 
@@ -105,7 +105,7 @@ def getNegative( n ):
 @oneArgFunctionEvaluator( )
 def getSign( n ):
     if isinstance( n, RPNMeasurement ):
-        return sign( n.getValue( ) )
+        return sign( n.value )
     else:
         return sign( n )
 
@@ -119,7 +119,7 @@ def getSign( n ):
 @oneArgFunctionEvaluator( )
 def getValue( n ):
     if isinstance( n, RPNMeasurement ):
-        return n.getValue( )
+        return n.value
     else:
         return n
 
@@ -222,7 +222,7 @@ def getCubeRoot( n ):
 @oneArgFunctionEvaluator( )
 def takeReciprocal( n ):
     if isinstance( n, RPNMeasurement ):
-        return n.invert( )
+        return n.invert( invertValue=False )
     else:
         return fdiv( 1, n )
 
@@ -239,7 +239,7 @@ def takeReciprocal( n ):
 @oneArgFunctionEvaluator( )
 def getAbsoluteValue( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( fabs( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( fabs( n.value ), n.units )
     else:
         return fabs( n )
 
@@ -256,7 +256,7 @@ def getAbsoluteValue( n ):
 @oneArgFunctionEvaluator( )
 def getNearestInt( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( nint( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( nint( n.value ), n.units )
     else:
         return nint( n )
 
@@ -576,7 +576,7 @@ def isInteger( n ):
 @oneArgFunctionEvaluator( )
 def roundOff( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( roundOff( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( roundOff( n.value ), n.units )
     else:
         return floor( fadd( real( n ), 0.5 ) )
 
@@ -590,7 +590,7 @@ def roundOff( n ):
 @twoArgFunctionEvaluator( )
 def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( roundByValue( n.getValue( ), value ), n.getUnits( ) )
+        return RPNMeasurement( roundByValue( n.value, value ), n.units )
     else:
         return fmul( floor( fdiv( fadd( real( n ), fdiv( value, 2 ) ), value ) ), value )
 
@@ -604,7 +604,7 @@ def roundByValue( n, value ):
 @twoArgFunctionEvaluator( )
 def roundByDigits( n, digits ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( roundByDigits( n.getValue( ), digits ), n.getUnits( ) )
+        return RPNMeasurement( roundByDigits( n.value, digits ), n.units )
     else:
         return roundByValue( real( n ), power( 10, digits ) )
 
@@ -646,7 +646,7 @@ def getSmaller( n, k ):
 @oneArgFunctionEvaluator( )
 def getFloor( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( getFloor( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( getFloor( n.value ), n.units )
     else:
         return floor( n )
 
@@ -660,7 +660,7 @@ def getFloor( n ):
 @oneArgFunctionEvaluator( )
 def getCeiling( n ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( getCeiling( n.getValue( ) ), n.getUnits( ) )
+        return RPNMeasurement( getCeiling( n.value ), n.units )
     else:
         return ceil( n )
 

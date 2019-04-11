@@ -898,8 +898,8 @@ def evaluateConstantOperator( term, index, currentValueList ):
         result = [ result ]
 
     for item in result:
-        if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
-            newResult.append( item.getValue( ) )
+        if isinstance( item, RPNMeasurement ) and item.units == { }:
+            newResult.append( item.value )
         else:
             newResult.append( item )
 
@@ -1419,7 +1419,7 @@ def printHelpTopic( n ):
     if isinstance( n, str ):
         printHelp( n, True )
     elif isinstance( n, RPNMeasurement ):
-        units = n.getUnits( )
+        units = n.units
         # help for units isn't implemented yet, but now it will work
         printHelp( list( units.keys( ) )[ 0 ], True )
     else:

@@ -172,7 +172,7 @@ def getKSphereVolume( n, k ):
         return getKSphereVolume( RPNMeasurement( real( n ), 'meter' ), k )
 
     dimensions = n.getDimensions( )
-    m = n.getValue( )
+    m = n.value
 
     if dimensions == { 'length' : 1 }:
         m = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 1 } ] ) )

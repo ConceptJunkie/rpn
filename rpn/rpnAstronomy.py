@@ -681,10 +681,10 @@ def getEclipseTotality( body1, body2, location, date ):
        not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected two astronomical objects, a location and a date-time' )
 
-    separation = body1.getAngularSeparation( body2, location, date ).getValue( )
+    separation = body1.getAngularSeparation( body2, location, date ).value
 
-    radius1 = body1.getAngularSize( ).getValue( )
-    radius2 = body2.getAngularSize( ).getValue( )
+    radius1 = body1.getAngularSize( ).value
+    radius2 = body2.getAngularSize( ).value
 
     if separation > fadd( radius1, radius2 ):
         return 0

@@ -13,7 +13,7 @@
 # //******************************************************************************
 
 from enum import Enum
-from mpmath import exp, fadd, fmul, nstr
+from mpmath import exp, fadd, fmul, nan, nstr
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
@@ -319,7 +319,7 @@ class RPNOperator( object ):
                 result = [ result ]
 
             for item in result:
-                if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
+                if isinstance( item, RPNMeasurement ) and item.units == { }:
                     newResult.append( item.value )
                 else:
                     newResult.append( item )

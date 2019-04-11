@@ -289,88 +289,85 @@ def getElementAttribute( n, k ):
 def convertMeasurementToAtomicSymbol( n ):
     # If there is a value other than the default 1, then let's just bail, because
     # something more complicated is going on.
-    if n.getValue( ) != 1:
+    if n.value != 1:
         return n
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'henry' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'henry' ).units:
         return 'H'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'henry' ).getUnits( ):
-        return 'H'
-
-    if n.getUnits( ) == RPNMeasurement( 1, 'byte' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'byte' ).units:
         return 'B'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'coulomb' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'coulomb' ).units:
         return 'C'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'newton' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'newton' ).units:
         return 'N'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'ohm' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'ohm' ).units:
         return 'O'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'farad' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'farad' ).units:
         return 'F'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'megagram' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'megagram' ).units:
         return 'Mg'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'siemens' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'siemens' ).units:
         return 'S'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'kelvin' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'kelvin' ).units:
         return 'K'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'volt' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'volt' ).units:
         return 'V'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'gigare' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'gigare' ).units:
         return 'Ga'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'ampere*second' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'ampere*second' ).units:
         return 'As'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'barye' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'barye' ).units:
         return 'Ba'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'petameter' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'petameter' ).units:
         return 'Pm'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'terabit' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'terabit' ).units:
         return 'Tb'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'terameter' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'terameter' ).units:
         return 'Tm'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'yottabit' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'yottabit' ).units:
         return 'Yb'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'terare' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'terare' ).units:
         return 'Te'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'watt' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'watt' ).units:
         return 'W'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'reaumur' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'reaumur' ).units:
         return 'Re'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'petabit' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'petabit' ).units:
         return 'Pb'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'franklin' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'franklin' ).units:
         return 'Fr'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'petare' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'petare' ).units:
         return 'Pa'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'ampere*minute' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'ampere*minute' ).units:
         return 'Am'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'exasecond' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'exasecond' ).units:
         return 'Es'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'terasecond' ).getUnits( ):
+    if n.units == RPNMeasurement( 1, 'terasecond' ).units:
         return 'Ts'
 
     # No matches?  Then let an exception be thrown.

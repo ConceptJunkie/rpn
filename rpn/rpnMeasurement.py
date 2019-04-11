@@ -143,23 +143,6 @@ def getSimpleUnitType( unit ):
 
 # //******************************************************************************
 # //
-# //  invertUnits
-# //
-# //  invert the units and take the reciprocal of the value to create an
-# //  equivalent measurement
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def invertUnits( measurement ):
-    if not isinstance( measurement, RPNMeasurement ):
-        raise ValueError( 'cannot invert non-measurements' )
-
-    return RPNMeasurement( fdiv( 1, measurement.getValue( ) ), measurement.invert( ).getUnits( ) )
-
-
-# //******************************************************************************
-# //
 # //  class RPNMeasurement
 # //
 # //******************************************************************************
@@ -177,8 +160,8 @@ class RPNMeasurement( object ):
             self.value = mpmathify( value )
             self.units = RPNUnits( units )
         elif isinstance( value, RPNMeasurement ):
-            self.value = value.getValue( )
-            self.units = RPNUnits( value.getUnits( ) )
+            self.value = value.value
+            self.units = RPNUnits( value.units )
         else:
             self.value = value
             self.units = RPNUnits( units )
@@ -233,43 +216,43 @@ class RPNMeasurement( object ):
 
     def add( self, other ):
         if isinstance( other, RPNMeasurement ):
-            if self.getUnits( ) == other.getUnits( ):
-                return RPNMeasurement( fadd( self.value, other.value ), self.getUnits( ),
+            if self.units == other.units:
+                return RPNMeasurement( fadd( self.value, other.value ), self.units,
                                        self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
 
-                return RPNMeasurement( fadd( self.value, newOther ), self.getUnits( ),
+                return RPNMeasurement( fadd( self.value, newOther ), self.units,
                                        self.getUnitName( ), self.getPluralUnitName( ) )
         else:
-            return RPNMeasurement( fadd( self.value, other ), self.getUnits( ),
+            return RPNMeasurement( fadd( self.value, other ), self.units,
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
     def subtract( self, other ):
         if isinstance( other, RPNMeasurement ):
-            if self.getUnits( ) == other.getUnits( ):
-                return RPNMeasurement( fsub( self.value, other.value ), self.getUnits( ),
+            if self.units == other.units:
+                return RPNMeasurement( fsub( self.value, other.value ), self.units,
                                        self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
-                return RPNMeasurement( fsub( self.value, newOther ), self.getUnits( ),
+                return RPNMeasurement( fsub( self.value, newOther ), self.units,
                                        self.getUnitName( ), self.getPluralUnitName( ) )
 
         else:
-            return RPNMeasurement( fsub( self.value, other ), self.getUnits( ),
+            return RPNMeasurement( fsub( self.value, other ), self.units,
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
     def multiply( self, other ):
         if isinstance( other, RPNMeasurement ):
             newValue = fmul( self.value, other.value )
 
-            factor, newUnits = self.getUnits( ).combineUnits( other.getUnits( ) )
+            factor, newUnits = self.units.combineUnits( other.units )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
             newValue = fmul( self.value, other )
 
-            self = RPNMeasurement( newValue, self.getUnits( ),
+            self = RPNMeasurement( newValue, self.units,
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.normalizeUnits( )
@@ -278,13 +261,13 @@ class RPNMeasurement( object ):
         if isinstance( other, RPNMeasurement ):
             newValue = fdiv( self.value, other.value )
 
-            factor, newUnits = self.getUnits( ).combineUnits( other.getUnits( ).inverted( ) )
+            factor, newUnits = self.units.combineUnits( other.units.inverted( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
             newValue = fdiv( self.value, other )
 
-            self = RPNMeasurement( newValue, self.getUnits( ),
+            self = RPNMeasurement( newValue, self.units,
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.normalizeUnits( )
@@ -293,12 +276,12 @@ class RPNMeasurement( object ):
         if isinstance( other, RPNMeasurement ):
             measurement = RPNMeasurement( self )
 
-            measurement = measurement.convert( other.getUnits( ) )
-            measurement.setValue( fmod( measurement.getValue( ), other.getValue( ) ) )
+            measurement = measurement.convert( other.units )
+            measurement.value = fmod( measurement.value, other.value )
 
             self = RPNMeasurement( measurement )
         else:
-            self.setValue( fmod( self.getValue( ), other ) )
+            self.value = fmod( self.value, other )
 
         return self.normalizeUnits( )
 
@@ -321,7 +304,7 @@ class RPNMeasurement( object ):
         if ( floor( operand ) != operand ):
             raise ValueError( 'cannot take a fractional root of a measurement' )
 
-        newUnits = RPNUnits( self.getUnits( ) )
+        newUnits = RPNUnits( self.units )
 
         for unit, exponent in newUnits.items( ):
             if fmod( exponent, operand ) != 0:
@@ -337,26 +320,29 @@ class RPNMeasurement( object ):
                 if ( baseUnits != self ):
                     return baseUnits.getRoot( operand )
                 else:
-                    raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', self.getUnits( ) )
+                    raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', self.units )
 
             newUnits[ unit ] /= operand
 
-        value = root( self.getValue( ), operand )
+        value = root( self.value, operand )
 
         return RPNMeasurement( value, newUnits ).normalizeUnits( )
 
-    def invert( self ):
-        units = self.getUnits( )
+    def invert( self, invertValue=True ):
+        units = self.units
 
         newUnits = RPNUnits( )
 
         for unit in units:
             newUnits[ unit ] = -units[ unit ]
 
-        return RPNMeasurement( self.value, newUnits )
+        if invertValue:
+            return RPNMeasurement( fdiv( 1, self.value ), newUnits )
+        else:
+            return RPNMeasurement( self.value, newUnits )
 
     def normalizeUnits( self ):
-        units = self.getUnits( ).normalizeUnits( )
+        units = self.units.normalizeUnits( )
         debugPrint( )
         debugPrint( 'normalize', units )
 
@@ -466,7 +452,7 @@ class RPNMeasurement( object ):
         debugPrint( 'final dElements', dOriginalElements )
 
         # convert the value based on all the conversions we queued up
-        convertedValue = self.getValue( )
+        convertedValue = self.value
 
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
@@ -541,18 +527,6 @@ class RPNMeasurement( object ):
         else:
             raise ValueError( 'RPNMeasurement or dict expected' )
 
-    def getValue( self ):
-        return self.value
-
-    def setValue( self, value ):
-        self.value = value
-
-    def getUnits( self ):
-        return self.units
-
-    def setUnits( self, units ):
-        self.units = RPNUnits( units )
-
     def getUnitString( self ):
         return self.units.getUnitString( )
 
@@ -605,7 +579,7 @@ class RPNMeasurement( object ):
 
     def convertToBaseUnits( self ):
         debugPrint( )
-        debugPrint( 'convertToBaseUnits:', self.getValue( ), self.getUnits( ) )
+        debugPrint( 'convertToBaseUnits:', self.value, self.units )
 
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
@@ -630,7 +604,7 @@ class RPNMeasurement( object ):
                 else:
                     if unit == '1' and newUnits == '_null_unit':
                         reduced = RPNMeasurement( value, units )
-                        debugPrint( 'convertToBaseUnits 2:', reduced.getValue( ), reduced.getUnits( ) )
+                        debugPrint( 'convertToBaseUnits 2:', reduced.value, reduced.units )
                         return reduced
                     else:
                         raise ValueError( 'cannot find a conversion for ' + unit + ' and ' + newUnits )
@@ -645,39 +619,39 @@ class RPNMeasurement( object ):
             debugPrint( 'value', value )
 
         baseUnits = RPNMeasurement( value, units )
-        debugPrint( 'convertToBaseUnits 3:', baseUnits.getValue( ), baseUnits.getUnits( ) )
+        debugPrint( 'convertToBaseUnits 3:', baseUnits.value, baseUnits.units )
         debugPrint( )
         return baseUnits
 
     def convert( self, other ):
         if isinstance( other, RPNMeasurement ):
-            return RPNMeasurement( self.convertValue( other ), other.getUnits( ) )
+            return RPNMeasurement( self.convertValue( other ), other.units )
         elif isinstance( other, ( RPNUnits, dict, str ) ):
             measurement = RPNMeasurement( 1, other )
-            return RPNMeasurement( self.convertValue( measurement ), measurement.getUnits( ) )
+            return RPNMeasurement( self.convertValue( measurement ), measurement.units )
         elif isinstance( other, mpf ):
             measurement = RPNMeasurement( other, 'unity' )
-            return RPNMeasurement( self.convertValue( measurement ), measurement.getUnits( ) )
+            return RPNMeasurement( self.convertValue( measurement ), measurement.units )
         else:
             raise ValueError( 'convert doesn\'t know what to do with this argument' )
 
     def isLarger( self, other ):
-        newValue = self.convertValue( other.getUnits( ) )
-        return ( newValue > other.getValue( ) )
+        newValue = self.convertValue( other.units )
+        return ( newValue > other.value )
 
     def isNotLarger( self, other ):
         return not self.isLarger( other )
 
     def isSmaller( self, other ):
-        newValue = self.convertValue( other.getUnits( ) )
-        return ( newValue < other.getValue( ) )
+        newValue = self.convertValue( other.units )
+        return ( newValue < other.value )
 
     def isNotSmaller( self, other ):
         return not self.isSmaller( other )
 
     def isEqual( self, other ):
-        newValue = self.convertValue( other.getUnits( ) )
-        return ( newValue == other.getValue( ) )
+        newValue = self.convertValue( other.units )
+        return ( newValue == other.value )
 
     def isNotEqual( self, other ):
         return not self.isEqual( other )
@@ -729,8 +703,8 @@ class RPNMeasurement( object ):
         value = self.value    # This is what we'll return down below
 
         # let's look for straightforward conversions
-        units1 = self.getUnits( )
-        units2 = other.getUnits( )
+        units1 = self.units
+        units2 = other.units
 
         unit1String = units1.getUnitString( )
         unit2String = units2.getUnitString( )
@@ -749,7 +723,7 @@ class RPNMeasurement( object ):
             # TODO:  Should we just convert to base units regardless?  It would be safer...
             if other.doDimensionsCancel( ):
                 other = other.convertToBaseUnits( )
-                units2 = other.getUnits( )
+                units2 = other.units
                 value = fdiv( value, other.value )
 
             # otherwise, we need to figure out how to do the conversion
@@ -791,7 +765,7 @@ class RPNMeasurement( object ):
 
                     reducedOther = other.convertToBaseUnits( )
 
-                    reduced.setValue( fdiv( reduced.getValue( ), reducedOther.getValue( ) ) )
+                    reduced.value = fdiv( reduced.value, reducedOther.value )
 
                     debugPrint( 'reduced other:', other.units, 'becomes', reducedOther.units )
 
@@ -903,10 +877,10 @@ class RPNMeasurement( object ):
                     conversion = source.convertValue( measurement )
 
                     if count < len( other ) - 1:
-                        result.append( RPNMeasurement( floor( conversion ), measurement.getUnits( ) ) )
-                        source = RPNMeasurement( chop( frac( conversion ) ), measurement.getUnits( ) )
+                        result.append( RPNMeasurement( floor( conversion ), measurement.units ) )
+                        source = RPNMeasurement( chop( frac( conversion ) ), measurement.units )
                     else:
-                        result.append( RPNMeasurement( conversion, measurement.getUnits( ) ) )
+                        result.append( RPNMeasurement( conversion, measurement.units ) )
 
             return result
         else:
@@ -942,6 +916,7 @@ class RPNMeasurement( object ):
             baseUnit1 = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
             baseUnit2 = g.basicUnitTypes[ getUnitType( otherUnit ) ].baseUnit
         except:
+
             raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
@@ -951,7 +926,7 @@ class RPNMeasurement( object ):
             if ( unit != baseUnit1 ):
                 result = self.convert( baseUnit1 )
 
-            result = RPNMeasurement( specialUnitConversionMatrix[ ( baseUnit1, baseUnit2 ) ]( result.getValue( ) ), baseUnit2 )
+            result = RPNMeasurement( specialUnitConversionMatrix[ ( baseUnit1, baseUnit2 ) ]( result.value ), baseUnit2 )
 
             if ( baseUnit2 != otherUnit ):
                 result = result.convert( otherUnit )
@@ -1017,7 +992,7 @@ class RPNMeasurement( object ):
 
         if denominatorFound and numeratorFound:
             try:
-                value = RPNMeasurement( self.getValue( ), twiddleUnits1 ). convertValue( twiddleUnits2 )
+                value = RPNMeasurement( self.value, twiddleUnits1 ). convertValue( twiddleUnits2 )
                 return True, RPNMeasurement( value, units2 )
             except:
                 return False, None
@@ -1069,7 +1044,7 @@ def convertUnits( unit1, unit2 ):
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
         debugPrint( 'value:', unit1.convertValue( unit2 ) )
 
-        return RPNMeasurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
+        return RPNMeasurement( unit1.convertValue( unit2 ), unit2.units,
                                unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
@@ -1110,7 +1085,7 @@ def estimate( measurement ):
     unitTypeInfo = g.basicUnitTypes[ unitType ]
 
     unit = RPNMeasurement( 1, unitTypeInfo.baseUnit )
-    value = RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ).getValue( )
+    value = RPNMeasurement( measurement.convertValue( unit ), unit.units ).value
 
     if not unitTypeInfo.estimateTable:
         return 'No estimates are available for this unit type (' + unitType + ').'
@@ -1247,4 +1222,22 @@ def convertToBaseUnits( n ):
         return n.convertToBaseUnits( )
     else:
         return n
+
+
+# //******************************************************************************
+# //
+# //  invertUnits
+# //
+# //  invert the units and take the reciprocal of the value to create an
+# //  equivalent measurement
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def invertUnits( measurement ):
+    if not isinstance( measurement, RPNMeasurement ):
+        raise ValueError( 'cannot invert non-measurements' )
+
+    return measurement.invert( )
+
 

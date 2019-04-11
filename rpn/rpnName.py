@@ -246,7 +246,7 @@ def getNumberName( n, ordinal = False ):
     units = ''
 
     if isinstance( n, RPNMeasurement ):
-        value = n.getValue( )
+        value = n.value
 
         if value == 1 or value == -1:
             units = n.getUnitName( )

@@ -861,7 +861,11 @@ def calculateWindChill( measurement1, measurement2 ):
     result = fsum( [ 35.74, fmul( temperature, 0.6215 ), fneg( fmul( 35.75, power( wind_speed, 0.16 ) ) ),
                    fprod( [ 0.4275, temperature, power( wind_speed, 0.16 ) ] ) ] )
 
-    return RPNMeasurement( result, 'degrees_F' )
+    # in case someone puts in a silly velocity
+    if result < -459.67:
+        result = -459.67
+
+    return RPNMeasurement( result, 'degrees_F' ).convert( arguments[ 'temperature' ].units )
 
 
 # //******************************************************************************
