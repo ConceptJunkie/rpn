@@ -133,7 +133,7 @@ Ref:  http://automationwiki.com/index.php/Engineering_Units_-_Leo
 ''' ),
 
     'arcsecond' :
-        RPNUnitInfo( 'angle', 'arcsecond', 'arcseconds', '',
+        RPNUnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec',
                      [ 'arcsec', 'arcsecs' ], [ 'astronomy', 'mathematics' ],
                      '''
 ''' ),
@@ -387,8 +387,8 @@ The SI unit for capacitance.
 ''' ),
 
     'ampere*second' :
-        RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'second*ampere', 'second*amperes', 'ampere-second', 'ampere-seconds', 'amp-second', 'amp-seconds' ], [ 'SI' ],
+        RPNUnitInfo( 'charge', 'ampere*second', 'ampere*second', '',
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1079,12 +1079,6 @@ One centillion:  10e303
                      '''
 ''' ),
 
-    'pascal*second' :
-        RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*seconds', 'Pas',
-                     [ 'poiseuille', 'poiseuilles', 'pascal-second', 'pascal-seconds' ], [ 'SI' ],
-                     '''
-''' ),
-
     'poise' :
         RPNUnitInfo( 'dynamic_viscosity', 'poise', 'poise', '',
                      [ ], [ 'CGS' ],
@@ -1262,9 +1256,9 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
 "it came up often enough in our work".
 ''' ),
 
-    'gram-equivalent' :
-        RPNUnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE',
-                     [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
+    'gram_equivalent' :
+        RPNUnitInfo( 'energy', 'gram_equivalent', 'grams_equivalent', 'gE',
+                     [ 'gram-energy', 'grams-energy', 'gram-equivalent', 'grame-equivalent', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
                      '''
 ''' ),
 
@@ -1321,12 +1315,6 @@ The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
                      '''
 ''' ),
 
-    'second*watt' :
-        RPNUnitInfo( 'energy', 'second*watt', 'second*watt', 'Ws',
-                     [ 'watt-second', 'watt-seconds' ], [ 'SI' ],
-                     '''
-''' ),
-
     'therm' :
         RPNUnitInfo( 'energy', 'therm', 'therms', '',
                      [ 'thm' ], [ 'England', 'US' ],
@@ -1372,9 +1360,9 @@ http://www.unc.edu/~rowlett/units/dictT.html
                      '''
 ''' ),
 
-    'gram-force' :
-        RPNUnitInfo( 'force', 'gram-force', 'grams-force', 'g-m',
-                     [ ], [ 'CGS' ],
+    'gram_force' :
+        RPNUnitInfo( 'force', 'gram_force', 'grams_force', 'gf',
+                     [ 'gram-force', 'gramme-force', 'grams-force', 'grammes-force' ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -1428,15 +1416,9 @@ This is the definition of the SI derived unit Newton (N).
                      '''
 ''' ),
 
-    'every_second' :
-        RPNUnitInfo( 'frequency', 'x_every_second', 'x_every_second', '',
-                     [ ], [ 'traditional' ],
-                     '''
-''' ),
-
     'hertz' :
         RPNUnitInfo( 'frequency', 'hertz', 'hertz', 'Hz',
-                     [ 'cycle', 'cycles' ], [ 'SI' ],
+                     [ 'cycle', 'cycles', 'every_second' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2290,7 +2272,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'blintz' :
-        RPNUnitInfo( 'mass', 'blintz', 'blintzes', '',
+        RPNUnitInfo( 'mass', 'blintz', 'blintzes', 'bl',
                      [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
@@ -2598,7 +2580,7 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'gray' :
-        RPNUnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy',
+        RPNUnitInfo( 'radiation_dose', 'gray', 'grays', '',
                      [ ], [ 'SI' ],   # or should 'Gy' be giga-years?
                      '''
 ''' ),
@@ -2674,13 +2656,13 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'square_arcminute' :
         RPNUnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', '',
-                     [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
+                     [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_arcsecond' :
         RPNUnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', '',
-                     [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
+                     [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
                      '''
 ''' ),
 
@@ -2716,7 +2698,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'square_grad' :
         RPNUnitInfo( 'solid_angle', 'grad^2', 'grads^2', '',
-                     [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
+                     [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
                      '''
 ''' ),
 
@@ -3218,7 +3200,7 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 
     'farshimmelt_ngogn' :
         RPNUnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn',
-                     [ 'far-ngogn', 'far-ngogns' ], [ 'Potrzebie', 'humorous' ],
+                     [ 'far-ngogn', 'far-ngogns', 'farshimmelt-ngogn', 'farshimmelt-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
@@ -3242,7 +3224,7 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 
     'furshlugginer_ngogn' :
         RPNUnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer_ngogns', 'Fn',
-                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns' ], [ 'Potrzebie', 'humorous' ],
+                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns', 'furshlugginer-ngogn', 'furshlugginer-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
@@ -3697,63 +3679,60 @@ equal to 562,000 megaliters.
 # //
 # //******************************************************************************
 
-metricUnits = {
-    'ampere'            : ( 'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
-    'ampere*second'     : ( '',                 'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
-    'arcsecond'         : ( 'arcseconds',       'as',   [ ], [ ] ),
-    'are'               : ( 'ares',             'a',    [ ], [ ] ),
-    'bar'               : ( 'bars',             'bar',  [ ], [ ] ),
-    'barn'              : ( 'barns',            '',     [ ], [ ] ),
-    'becquerel'         : ( 'becquerels',       'Bq',   [ ], [ ] ),
-    'blintz'            : ( 'blintzes',         'bl',   [ ], [ ] ),
-    'calorie'           : ( 'calories',         'cal',  [ ], [ 'cals' ] ),
-    'circular_mil'      : ( 'circular_mils',    'cmil', [ ], [ ] ),
-    'coulomb'           : ( 'coulombs',         'C',    [ ], [ ] ),
-    'curie'             : ( 'cruies',           'Ci',   [ ], [ ] ),
-    'dyne'              : ( 'dynes',            '',     [ ], [ ] ),
-    'electron-volt'     : ( 'electron-volts',   'eV',   [ ], [ ] ),
-    'erg'               : ( 'ergs',             '',     [ ], [ ] ),
-    'farad'             : ( 'farads',           'F',    [ ], [ ] ),
-    'galileo'           : ( 'galileos',         '',     [ 'gal' ], [ 'gals' ] ),
-    'gauss'             : ( 'gauss',            '',     [ ], [ ] ),
-    'gram'              : ( 'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
-    'gram-equivalent'   : ( 'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
-    'gram-force'        : ( 'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
-    'gray'              : ( 'grays',            'Gy',   [ ], [ ] ),
-    'henry'             : ( 'henries',          'H',    [ ], [ ] ),
-    'hertz'             : ( 'hertz',            'Hz',   [ 'cycle' ], [ 'cycles' ] ),
-    'joule'             : ( 'joules',           'J',    [ ], [ ] ),
-    'katal'             : ( 'katals',           'kat',  [ ], [ ] ),
-    'kelvin'            : ( 'kelvins',          'K',    [ ], [ ] ),
-    'liter'             : ( 'liters',           'L',    [ 'litre' ], [ 'litres' ] ),
-    'lumen'             : ( 'lumens',           'lm ',  [ ], [ ] ),
-    'lux'               : ( 'lux',              'lx',   [ ], [ ] ),
-    'maxwell'           : ( 'maxwells',         'Mx',   [ ], [ ] ),
-    'meter'             : ( 'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
-    'mole'              : ( 'moles',            'mol',  [ ], [ ] ),
-    'newton'            : ( 'newtons',          'N',    [ ], [ ] ),
-    'ngogn'             : ( 'ngogns',           'ng',   [ ], [ ] ),
-    'ohm'               : ( 'ohms',             'O',    [ ], [ ] ),
-    'parsec'            : ( 'parsecs',          'pc',   [ ], [ ] ),
-    'pascal'            : ( 'pascals',          'Pa',   [ ], [ ] ),
-    'pascal*second'     : ( '',                 'Pas',  [ 'pascal-second' ], [ 'pascal-seconds' ] ),
-    'poise'             : ( 'poise',            '',     [ ], [ ] ),
-    'pond'              : ( 'ponds',            '',     [ ], [ ] ),
-    'potrzebie'         : ( 'potrzebies',       'pz',   [ ], [ ] ),
-    'rad'               : ( 'rads',             'rad',  [ ], [ ] ),
-    'radian'            : ( 'radians',          '',     [ ], [ ] ),
-    'rem'               : ( 'rems',             'rem',  [ ], [ ] ),
-    'second'            : ( 'seconds',          's',    [ ], [ ] ),
-    'siemens'           : ( 'siemens',          'S',    [ 'mho' ], [ 'mhos' ] ),
-    'sievert'           : ( 'sieverts',         'Sv',   [ ], [ ] ),
-    'steradian'         : ( 'steradians',       '',     [ ], [ ] ),
-    'stere'             : ( 'steres',           'st',   [ ], [ ] ),
-    'tesla'             : ( 'teslas',           'T',    [ ], [ ] ),
-    'volt'              : ( 'volts',            'V',    [ ], [ ] ),
-    'watt'              : ( 'watts',            'W',    [ ], [ ] ),
-    'second*watt'       : ( '',                 'Ws',   [ 'watt-second' ], [ 'watt-seconds' ] ),
-    'weber'             : ( 'webers',           'Wb',   [ ], [ ] ),
-}
+metricUnits = [
+    'ampere',
+    'arcsecond',
+    'are',
+    'bar',
+    'barn',
+    'becquerel',
+    'blintz',
+    'calorie',
+    'circular_mil',
+    'coulomb',
+    'curie',
+    'dyne',
+    'electron-volt',
+    'erg',
+    'farad',
+    'galileo',
+    'gauss',
+    'gram',
+    'gram_equivalent',
+    'gram_force',
+    'gray',
+    'henry',
+    'hertz',
+    'joule',
+    'katal',
+    'kelvin',
+    'liter',
+    'lumen',
+    'lux',
+    'maxwell',
+    'meter',
+    'mole',
+    'newton',
+    'ngogn',
+    'ohm',
+    'parsec',
+    'pascal',
+    'poise',
+    'pond',
+    'potrzebie',
+    'rad',
+    'radian',
+    'rem',
+    'second',
+    'siemens',
+    'sievert',
+    'steradian',
+    'stere',
+    'tesla',
+    'volt',
+    'watt',
+    'weber',
+]
 
 
 # //******************************************************************************
@@ -3766,13 +3745,13 @@ metricUnits = {
 # //
 # //******************************************************************************
 
-integralMetricUnits = {
-    'light-year'        : ( 'light-years',      'ly',   [ ], [ ] ),
-    'ton'               : ( 'tons',             '',     [ ], [ ] ),
-    'tonne'             : ( 'tonnes',           '',     [ ], [ ] ),
-    'ton_of_TNT'        : ( 'tons_of_TNT',      'tTNT', [ ], [ ] ),
-    'year'              : ( 'years',            'y',    [ ], [ ] ),
-}
+integralMetricUnits = [
+    'light-year',
+    'ton',
+    'tonne',
+    'ton_of_TNT',
+    'year',
+]
 
 
 # //******************************************************************************
@@ -3787,10 +3766,25 @@ integralMetricUnits = {
 # //******************************************************************************
 
 dataUnits = [
-    ( 'bit',            'bits',             'b',    [ ], [ ] ),
-    ( 'bit/second',     'bits/second',      'bps',  [ ], [ ] ),
-    ( 'byte',           'bytes',            'B',    [ ], [ ] ),
-    ( 'byte/second',    'bytes/second',     'Bps',  [ ], [ ] ),
+    'bit',
+    'bit/second',
+    'byte',
+    'byte/second',
+]
+
+
+# //******************************************************************************
+# //
+# //  units that compound with time
+# //
+# //  Anything that goes here needs to have an abbreviation.
+# //
+# //******************************************************************************
+
+compoundTimeUnits = [
+    'ampere',
+    'pascal',
+    'watt',
 ]
 
 
@@ -3800,12 +3794,13 @@ dataUnits = [
 # //
 # //******************************************************************************
 
-timeUnits = [
-    ( 'minute',     'minutes',      'm',        '60' ),
-    ( 'hour',       'hours',        'h',        '3600' ),
-    ( 'day',        'days',         'd',        '86400' ),
-    ( 'year',       'years',        'y',        '31557600' ),   # Julian year == 365.25 days
-]
+timeUnits = {
+    'second' : 's',
+    'minute' : 'm',
+    'hour'   : 'h',
+    'day'    : 'd',
+    'year'   : 'y',
+}
 
 
 # //******************************************************************************
@@ -3996,8 +3991,6 @@ unitConversionMatrix = {
     ( 'ell',                        'inch' )                                : mpmathify( '45' ),
     ( 'eon',                        'year' )                                : mpmathify( '1e9' ),
     ( 'every_minute',               'hourly' )                              : mpmathify( '60' ),
-    ( 'every_second',               '1/second' )                            : mpmathify( '1' ),
-    ( 'every_second',               'every_minute' )                        : mpmathify( '60' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
     ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
@@ -4033,8 +4026,8 @@ unitConversionMatrix = {
     ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
     ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
-    ( 'gram-equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
-    ( 'gram-force',                 'newton' )                              : mpmathify( '0.00980665' ),
+    ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
+    ( 'gram_force',                 'newton' )                              : mpmathify( '0.00980665' ),
     ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
     ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
@@ -4050,6 +4043,7 @@ unitConversionMatrix = {
     ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
+    ( 'hertz',                      'every_minute' )                        : mpmathify( '60' ),
     ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
@@ -4202,7 +4196,6 @@ unitConversionMatrix = {
     ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
     ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
     ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '10' ),
-    ( 'poise',                      'pascal*second' )                       : mpmathify( '10' ),
     ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
     ( 'pony',                       'dram' )                                : mpmathify( '6' ),
     ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
@@ -4236,7 +4229,7 @@ unitConversionMatrix = {
     ( 'reaumur',                    'degree_newton' )                       : fdiv( 33, 80 ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
     ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
-    ( 'reynolds',                   'pascal*second' )                       : mpmathify( '6894.75729' ),
+    ( 'reynolds',                   'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
     ( 'rood',                       'foot^2' )                              : mpmathify( '10890' ),

@@ -123,8 +123,8 @@ def evaluate( terms ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term, hasMore in lookAhead( terms ):
-        if term in g.operatorAliases:
-            term = g.operatorAliases[ term ]
+        if term in g.aliases:
+            term = g.aliases[ term ]
 
         if term in functionOperators:
             if g.creatingFunction:
@@ -387,7 +387,7 @@ def rpn( cmd_args ):
 
         loadUnitNameData( )
 
-        g.operatorAliases.update( operatorAliases )
+        g.aliases.update( operatorAliases )
 
         printHelp( helpArg )
         return
@@ -473,7 +473,7 @@ def rpn( cmd_args ):
     # OK, let's parse and validate the options
     args = parser.parse_args( options )
 
-    g.operatorAliases.update( operatorAliases )
+    g.aliases.update( operatorAliases )
 
     if args.help or args.other_help:
         loadUnitNameData( )

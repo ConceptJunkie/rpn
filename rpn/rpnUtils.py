@@ -112,10 +112,10 @@ def removeUnderscores( source ):
 # //
 # //******************************************************************************
 
-def addAliases( operatorList, operatorAliases ):
+def addAliases( operatorList, aliases ):
     '''Adds the predefined aliases from the operator table into the global alias list.'''
     for index, operator in enumerate( operatorList ):
-        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
+        aliasList = [ key for key in aliases if operator == aliases[ key ] ]
 
         if operator in g.unitOperators:
             unitInfo = g.unitOperators[ operator ]

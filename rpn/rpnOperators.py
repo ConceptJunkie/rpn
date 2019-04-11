@@ -333,8 +333,8 @@ class RPNFunction( object ):
             term = valueList.pop( 0 )
             debugPrint( 'term:', term, 'args:', args )
 
-            if not isinstance( term, list ) and term in g.operatorAliases:
-                term = g.operatorAliases[ term ]
+            if not isinstance( term, list ) and term in g.aliases:
+                term = g.aliases[ term ]
 
             if term in ( 'x', 'y', 'z' ) and not valueList:
                 self.code += term
@@ -865,8 +865,8 @@ def preprocessTerms( terms ):
 
     for term in terms:
         # translate the aliases into their real names
-        if term in g.operatorAliases:
-            result.append( g.operatorAliases[ term ] )
+        if term in g.aliases:
+            result.append( g.aliases[ term ] )
         # operators and unit operator names can be stuck right back in the list
         elif term in g.unitOperatorNames or term in g.constantOperatorNames:
             result.append( term )
@@ -1196,6 +1196,68 @@ def dumpStats( ):
 
 # //******************************************************************************
 # //
+# //  preparseForUnits
+# //
+# //  Break the string apart by '-', '/', '*', and '^' and if each element is a
+# //  unit, then convert '-' to '*'.   This way, we can still have '-' in
+# //  operator names (although I don't think there are currently any).
+# //
+# //******************************************************************************
+
+def preparseForUnits( term ):
+    if '-' in term:
+        pieces = term.split( '-' )
+    else:
+        pieces = [ term ]
+
+    newPieces = [ ]
+
+    for piece in pieces:
+        if '/' in piece:
+            newPieces.extend( piece.split( '/' ) )
+        else:
+            newPieces.append( piece )
+
+    pieces = newPieces
+
+    newPieces = [ ]
+
+    for piece in pieces:
+        if '*' in piece:
+            newPieces.extend( piece.split( '*' ) )
+        else:
+            newPieces.append( piece )
+
+    pieces = newPieces
+
+    for piece in pieces:
+        if '^' in piece:
+            splits = piece.split( '^' )
+
+            unit = splits[ 0 ]
+
+            if unit in g.aliases:
+                unit = g.aliases[ unit ]
+
+            if unit not in g.unitOperators:
+                return term
+
+            try:
+                value = int( splits[ 1 ] )
+            except:
+                return term
+        else:
+            if piece in g.aliases:
+                piece = g.aliases[ piece ]
+
+            if piece not in g.unitOperators:
+                return term
+
+    return term.replace( '-', '*' )
+
+
+# //******************************************************************************
+# //
 # //  evaluateTerm
 # //
 # //  This looks worse than it is.  It just has to do slightly different things
@@ -1212,6 +1274,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
     listDepth = 0
 
     try:
+        term = preparseForUnits( term )
+
         # handle a modifier operator
         if not isList and not isGenerator and term in modifiers:
             operatorInfo = modifiers[ term ]
@@ -1336,15 +1400,15 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                     g.keywords.extend( g.constantOperatorNames )
                     g.keywords.extend( constants )
                     g.keywords.extend( g.unitOperatorNames )
-                    g.keywords.extend( g.operatorAliases )
+                    g.keywords.extend( g.aliases )
 
                 guess = difflib.get_close_matches( term, g.keywords, 1 )
 
                 if ( len( guess ) == 1 ):
                     guess = guess[ 0 ]
 
-                    if guess in g.operatorAliases:
-                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.format( term, guess, g.operatorAliases[ guess ] ) )
+                    if guess in g.aliases:
+                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.format( term, guess, g.aliases[ guess ] ) )
                     else:
                         print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\'?'.format( term, guess ) )
                 else:

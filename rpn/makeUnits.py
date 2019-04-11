@@ -92,80 +92,62 @@ def makeAliases( ):
     newAliases = { }
 
     for metricUnit in metricUnits:
+        unitInfo = unitOperators[ metricUnit ]
+
         for prefix in metricPrefixes:
             unit = makeMetricUnit( prefix[ 0 ], metricUnit )
+            pluralUnit = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
-            if metricUnits[ metricUnit ][ 0 ]:
-                pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
-            else:
-                pluralUnit = unit
+            for alias in unitInfo.aliases:
+                newAliases[ makeMetricUnit( prefix[ 0 ], alias ) ] = unit
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
 
-            for alternateUnit in metricUnits[ metricUnit ][ 2 ]:           # add alternate spelling alias
-                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
-
-            for alternateUnit in metricUnits[ metricUnit ][ 3 ]:           # add alternate spelling plural alias
-                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
-
     for integralMetricUnit in integralMetricUnits:
+        unitInfo = unitOperators[ integralMetricUnit ]
+
         for prefix in metricPrefixes:
             if prefix[ 2 ] < 3:    # skip deca- and hecto- as well
                 continue
 
             unit = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
+            pluralUnit = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
-            if integralMetricUnits[ integralMetricUnit ][ 0 ]:
-                pluralUnit = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit ][ 0 ] )
-            else:
-                pluralUnit = unit
+            for alias in unitInfo.aliases:
+                newAliases[ makeMetricUnit( prefix[ 0 ], alias ) ] = unit
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
 
-            for alternateUnit in integralMetricUnits[ integralMetricUnit ][ 2 ]:           # add alternate spelling alias
-                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
-
-            for alternateUnit in integralMetricUnits[ integralMetricUnit ][ 3 ]:           # add alternate spelling plural alias
-                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
-
     for dataUnit in dataUnits:
-        newAliases[ dataUnit[ 2 ] ] = dataUnit[ 0 ]
+        unitInfo = unitOperators[ dataUnit ]
 
         for prefix in dataPrefixes:
-            unit = prefix[ 0 ] + dataUnit[ 0 ]
-            pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
+            newUnit = prefix[ 0 ] + dataUnit
+            newPlural = prefix[ 0 ] + unitInfo.plural
 
-            if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit                 # add plural alias
+            if newPlural != newUnit:
+                newAliases[ newPlural ] = newUnit           # add plural alias
 
-            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit    # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit    # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit    # add SI abbreviation alias
+            for alias in unitInfo.aliases:
+                newAliases[ prefix[ 0 ] + alias ] = newUnit
 
-            for alternateUnit in dataUnit[ 3 ]:                 # add alternate spelling alias
-                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
-
-            for alternateUnit in dataUnit[ 4 ]:                 # add alternate spelling plural alias
-                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
+            if unitInfo.abbrev:
+                newAliases[ prefix[ 1 ] + unitInfo.abbrev ] = newUnit
 
         for prefix in binaryPrefixes:
-            unit = prefix[ 0 ] + dataUnit[ 0 ]
-            pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
+            newUnit = prefix[ 0 ] + dataUnit
+            newPlural = prefix[ 0 ] + unitInfo.plural
 
-            if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit                 # add plural alias
+            if newPlural != newUnit:
+                newAliases[ newPlural ] = newUnit           # add plural alias
 
-            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit    # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit    # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit    # add SI abbreviation alias
+            for alias in unitInfo.aliases:
+                newAliases[ prefix[ 0 ] + alias ] = newUnit
 
-            for alternateUnit in dataUnit[ 3 ]:                 # add alternate spelling alias
-                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
-
-            for alternateUnit in dataUnit[ 4 ]:                 # add alternate spelling plural alias
-                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
+            if unitInfo.abbrev:
+                newAliases[ prefix[ 1 ] + unitInfo.abbrev ] = newUnit
 
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
@@ -185,6 +167,17 @@ def makeAliases( ):
         for alias in constantInfo.aliases:
             newAliases[ alias ] = constant
 
+    for compoundTimeUnit in compoundTimeUnits:
+        unitInfo = unitOperators[ compoundTimeUnit ]
+
+        for timeUnit in timeUnits:
+            for metricPrefix in metricPrefixes:
+                compoundUnit = metricPrefix[ 0 ] + compoundTimeUnit + '*' + timeUnit
+                newAbbrev = metricPrefix[ 1 ] + unitInfo.abbrev + timeUnits[ timeUnit ]
+                print( 'newAbbrev', newAbbrev, compoundUnit )
+
+                newAliases[ newAbbrev ] = compoundUnit
+
     return newAliases
 
 
@@ -203,35 +196,31 @@ def expandMetricUnits( ):
     metricAliases = { }
 
     for metricUnit in metricUnits:
+        unitInfo = unitOperators[ metricUnit ]
+
         for prefix in metricPrefixes:
+            if metricUnit not in unitOperators:
+                continue
+
             newName = makeMetricUnit( prefix[ 0 ], metricUnit )
+            newPlural = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
-            if metricUnits[ metricUnit ][ 0 ]:
-                newPlural = makeMetricUnit( prefix[ 0 ], metricUnits[ metricUnit ][ 0 ] )
+            # construct unit operator info
+            helpText = '\nfill me out for metric units'
+
+            if unitInfo.abbrev:
+                newAbbrev = prefix[ 1 ] + unitInfo.abbrev
             else:
-                newPlural = newName
+                newAbbrev = ''
 
-            if newName not in unitOperators:
-                # construct unit operator info
-                helpText = '\nfill me out for metric units'
+            unitOperators[ newName ] = \
+                    RPNUnitInfo( unitInfo.unitType, newName, newPlural, newAbbrev, [ ],
+                                 unitInfo.categories, helpText, True )
 
-                if metricUnits[ metricUnit ][ 1 ]:
-                    unitOperators[ newName ] = \
-                        RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     prefix[ 1 ] + metricUnits[ metricUnit ][ 1 ], [ ], [ 'SI' ],
-                                     helpText, True )
-                else:
-                    unitOperators[ newName ] = \
-                        RPNUnitInfo( unitOperators[ metricUnit ].unitType, newName, newPlural,
-                                     '', [ ], [ 'SI' ], helpText, True )
-
-
-                newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-                metricConversions[ ( newName, metricUnit ) ] = newConversion
-                newConversion = fdiv( 1, newConversion )
-                metricConversions[ ( metricUnit, newName ) ] = newConversion
-            else:
-                newConversion = power( 10, fneg( mpmathify( prefix[ 2 ] ) ) )
+            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+            metricConversions[ ( newName, metricUnit ) ] = newConversion
+            newConversion = fdiv( 1, newConversion )
+            metricConversions[ ( metricUnit, newName ) ] = newConversion
 
             # create area and volume operators for new length units
             if unitOperators[ metricUnit ].unitType == 'length':
@@ -268,39 +257,30 @@ def expandMetricUnits( ):
                     metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
 
     for integralMetricUnit in integralMetricUnits:
+        unitInfo = unitOperators[ integralMetricUnit ]
+
         for prefix in metricPrefixes:
             if prefix[ 2 ] < 3:      # we don't want deca- or hecto- here either.
                 continue
 
             newName = makeMetricUnit( prefix[ 0 ], integralMetricUnit )
+            newPlural = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
-            if integralMetricUnits[ integralMetricUnit][ 0 ]:
-                newPlural = makeMetricUnit( prefix[ 0 ], integralMetricUnits[ integralMetricUnit][ 0 ] )
+            if unitInfo.abbrev:
+                newAbbrev = prefix[ 1 ] + unitInfo.abbrev
             else:
-                newPlural = newName
-
-            if newName in unitOperators:
-                continue
+                newAbbrev = ''
 
             # construct unit operator info
             helpText = '\nfill me out for metric units'
 
-            if integralMetricUnits[ integralMetricUnit ][ 1 ]:
-                unitOperators[ newName ] = \
-                    RPNUnitInfo( unitOperators[ integralMetricUnit ].unitType, newName, newPlural,
-                                 prefix[ 1 ] + integralMetricUnits[ integralMetricUnit ][ 1 ], [ ], [ 'SI' ],
-                                 helpText, True )
-            else:
-                unitOperators[ newName ] = \
-                    RPNUnitInfo( unitOperators[ integralMetricUnit ].unitType, newName, newPlural,
-                                 '', [ ], [ 'SI' ], helpText, True )
-
+            unitOperators[ newName ] = \
+                    RPNUnitInfo( unitInfo.unitType, newName, newPlural, newAbbrev, [ ],
+                                 unitInfo.categories, helpText, True )
 
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-            #print( newName, integralMetricUnit, newConversion )
             metricConversions[ ( newName, integralMetricUnit ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
-            #print( integralMetricUnit, newName, newConversion )
             metricConversions[ ( integralMetricUnit, newName ) ] = newConversion
 
     return metricConversions, metricAliases
@@ -321,41 +301,49 @@ def expandDataUnits( ):
     newConversions = { }
 
     for dataUnit in dataUnits:
+        unitInfo = unitOperators[ dataUnit ]
+
         for prefix in dataPrefixes:
-            newName = prefix[ 0 ] + dataUnit[ 0 ]
-            newPlural = prefix[ 0 ] + dataUnit[ 1 ]
+            newName = prefix[ 0 ] + dataUnit
 
             # constuct unit operator info
             helpText = '\nfill me out for data units'
 
+            if unitInfo.abbrev:
+                newAbbrev = prefix[ 0 ] + unitInfo.abbrev
+            else:
+                newAbbrev = ''
+
             unitOperators[ newName ] = \
-                RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                             prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, helpText, True )
+                RPNUnitInfo( unitInfo.unitType, newName, prefix[ 0 ] + unitInfo.plural,
+                             newAbbrev, [ ], unitInfo.categories, helpText, True )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-            newConversions[ ( newName, dataUnit[ 0 ] ) ] = newConversion
+            newConversions[ ( newName, dataUnit ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
-            newConversions[ ( dataUnit[ 0 ], newName ) ] = newConversion
+            newConversions[ ( dataUnit, newName ) ] = newConversion
 
         for prefix in binaryPrefixes:
-            newName = prefix[ 0 ] + dataUnit[ 0 ]
-            newPlural = prefix[ 0 ] + dataUnit[ 1 ]
+            newName = prefix[ 0 ] + dataUnit
 
             # constuct unit operator info
             helpText = '\nfill me out for binary data units'
 
+            if unitInfo.abbrev:
+                newAbbrev = prefix[ 0 ] + unitInfo.abbrev
+            else:
+                newAbbrev = ''
+
             unitOperators[ newName ] = \
-                RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                             prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                             unitOperators[ dataUnit[ 0 ] ].categories, helpText, True )
+                RPNUnitInfo( unitInfo.unitType, newName, prefix[ 0 ] + unitInfo.plural,
+                             newAbbrev, [ ], unitInfo.categories, helpText, True )
 
             # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
-            newConversions[ ( newName, dataUnit[ 0 ] ) ] = newConversion
+            newConversions[ ( newName, dataUnit ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
-            newConversions[ ( dataUnit[ 0 ], newName ) ] = newConversion
+            newConversions[ ( dataUnit, newName ) ] = newConversion
 
     return newConversions
 
@@ -470,86 +458,6 @@ def createAreaAndVolumeOperators( unitOperators ):
 
 # //******************************************************************************
 # //
-# //  expandCompoundTimeUnits
-# //
-# //******************************************************************************
-
-def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
-    newUnitOperators = { }
-
-    # We need to store the new ones in a different dictionary because we can't
-    # modified unitOperators while iterating through it.  This is only guaranteed
-    # a single unit compounded with seconds, but that's all I'm interested in.
-    for unit in unitOperators:
-        unitRoot = ''
-
-        if '/' in unit or '^' in unit:
-            continue
-
-        originalUnitInfo = unitOperators[ unit ]
-
-        if unit[ -7 : ] == '*second':
-            unitRoot = unit[ : -7 ]
-
-        if unit[ : 7 ] == 'second*':
-            unitRoot = unit[ 7 : ]
-
-        if unitRoot:
-            newRoots = [ unitRoot ]
-
-            if unitRoot in metricUnits:
-                for prefix in metricPrefixes:
-                    newRoots.append( prefix[ 0 ] + unitRoot )
-
-            for newRoot in newRoots:
-                if newRoot not in unitOperators:
-                    continue
-
-                unitInfo = unitOperators[ newRoot ]
-                rootUnitInfo = unitOperators[ newRoot ]
-
-                for timeUnit in timeUnits:
-                    newUnit = newRoot + '*' + timeUnit[ 0 ]
-
-                    # make a bunch of obvious aliases
-                    newAliases[ newRoot + '-' + timeUnit[ 0 ] ] = newUnit
-                    newPlural = newRoot + '-' + timeUnit[ 1 ]
-                    newAliases[ newPlural ] = newUnit
-                    newAliases[ newRoot + '-' + timeUnit[ 1 ] ] = newUnit
-
-                    # We assume the abbrev ends with an s for second
-                    if unitInfo.abbrev != '':
-                        newAbbrev = unitInfo.abbrev + timeUnit[ 2 ]
-                        newAliases[ newAbbrev ] = newUnit
-                    else:
-                        newAbbrev = ''
-
-                    for alias in rootUnitInfo.aliases:
-                        newAliases[ alias + '-' + timeUnit[ 0 ] ] = newUnit
-
-                        if timeUnit[ 0 ] != timeUnit[ 1 ]:
-                            newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
-
-                    helpText = '\nfill me out for compound time units'
-
-                    newUnitOperators[ newUnit ] = \
-                        RPNUnitInfo( originalUnitInfo.unitType, newUnit, newPlural,
-                                     newAbbrev, [ ], originalUnitInfo.categories, helpText, True )
-
-                    conversion = mpmathify( timeUnit[ 3 ] )
-                    unitConversionMatrix[ ( newUnit, unit ) ] = conversion
-                    unitConversionMatrix[ ( unit, newUnit ) ] = fdiv( 1, conversion )
-
-                    #print( 'newUnit', newUnit )
-                    #print( 'unit', unit )
-                    #print( 'conversion', conversion )
-                    #print( )
-
-    unitOperators.update( newUnitOperators )
-
-
-# //******************************************************************************
-# //
 # //  extrapolateTransitiveConversions
 # //
 # //******************************************************************************
@@ -591,7 +499,7 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 # //  testAllCombinations
 # //
 # //  Let's make sure all the conversions exist (except for transitive conversions
-# //  involving units that use the special unit conversion matrix.
+# //  involving units that use the special unit conversion matrix).
 # //
 # //  This means this test will print out some errors regardless.
 # //
@@ -682,8 +590,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     # add new operators for compound time units
     print( 'Expanding compound time units...' )
-
-    expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases )
 
     # extrapolate transitive conversions
     print( )

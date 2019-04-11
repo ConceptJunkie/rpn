@@ -72,8 +72,8 @@ def getUnitType( unit ):
     if unit in g.basicUnitTypes:
         return unit
 
-    if unit in g.operatorAliases:
-        unit = g.operatorAliases[ unit ]
+    if unit in g.aliases:
+        unit = g.aliases[ unit ]
 
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].unitType
@@ -350,8 +350,8 @@ class RPNUnits( collections.Counter ):
 
                 plainUnit = operands[ 0 ]
 
-                if plainUnit not in g.unitOperators and plainUnit in g.operatorAliases:
-                    plainUnit = g.operatorAliases[ plainUnit ]
+                if plainUnit not in g.unitOperators and plainUnit in g.aliases:
+                    plainUnit = g.aliases[ plainUnit ]
 
                 operandCount = len( operands )
 

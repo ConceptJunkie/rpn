@@ -269,6 +269,11 @@ def runConvertTests( ):
     expectEqual( '1 kilowatt 10 ohms / sqrt', '10 amperes' )
     expectEqual( 'volt meter / newton coulomb / convert', '1 newton coulomb /' )
     expectEqual( 'Wb Hz/V convert', '1 Hz/V' )
+    expectEqual( 'decameter meters convert', '10 meters' )
+    expectEqual( 'hectare ares convert', '100 ares' )
+    expectEqual( 'kilogram gram convert', '1000 grams' )
+    expectEqual( '1 volt millivolt convert', '1000 millivolts' )
+    expectEqual( '1 petabyte bit convert', '8e15 bits' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

@@ -415,7 +415,7 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
         elif operatorInfo.argCount == 5:
             print( 'a b c d e ', end = '' )
 
-    aliasList = [ key for key in g.operatorAliases if term == g.operatorAliases[ key ] ]
+    aliasList = [ key for key in g.aliases if term == g.aliases[ key ] ]
 
     print( term + ' - ' + operatorHelp[ 1 ] )
 
@@ -475,7 +475,7 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
     operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == category ] )
     operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == category ] )
 
-    addAliases( operatorList, g.operatorAliases )
+    addAliases( operatorList, g.aliases )
 
     for operator in sorted( operatorList ):
         print( operator )
@@ -504,8 +504,8 @@ def printHelp( term, interactive = False ):
         return
 
     # first check if the term is an alias and translate
-    if term in g.operatorAliases:
-        term = g.operatorAliases[ term ]
+    if term in g.aliases:
+        term = g.aliases[ term ]
 
 
     # then look for exact matches in all the lists of terms for which we have help support
@@ -529,7 +529,7 @@ def printHelp( term, interactive = False ):
         printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), 4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
-        addAliases( unitList, g.operatorAliases )
+        addAliases( unitList, g.aliases )
         for unit in unitList:
             printParagraph( unit, 4 )
     else:

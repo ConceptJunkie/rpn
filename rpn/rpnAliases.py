@@ -22,12 +22,12 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def dumpAliases( ):
-    for alias in sorted( [ key for key in g.operatorAliases ] ):
-        print( alias, g.operatorAliases[ alias ] )
+    for alias in sorted( [ key for key in g.aliases ] ):
+        print( alias, g.aliases[ alias ] )
 
     print( )
 
-    return len( g.operatorAliases )
+    return len( g.aliases )
 
 
 # //******************************************************************************
@@ -614,6 +614,8 @@ operatorAliases = {
     'persian'                       : 'to_persian',
     'persian_name'                  : 'to_persian_name',
     'plastic'                       : 'plastic_constant',
+    'poiseuille'                    : 'pascal*second',
+    'poiseuilles'                   : 'pascal*second',
     'poly'                          : 'polygonal',
     'poly*'                         : 'multiply_polynomials',
     'poly**'                        : 'polynomial_power',

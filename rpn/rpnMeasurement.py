@@ -132,8 +132,8 @@ specialUnitConversionMatrix = {
 # //******************************************************************************
 
 def getSimpleUnitType( unit ):
-    if unit in g.operatorAliases:
-        unit = g.operatorAliases[ unit ]
+    if unit in g.aliases:
+        unit = g.aliases[ unit ]
 
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].representation

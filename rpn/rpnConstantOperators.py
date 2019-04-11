@@ -64,7 +64,7 @@ Ref:  https://en.wikipedia.org/wiki/Classical_electron_radius
 ''' ),
 
     'coulomb_constant' :
-        RPNConstantInfo( '8.9875517873681764e9', 'joule*meter/coulomb^2', [ ], False,
+        RPNConstantInfo( '8.9875517873681764e9', 'kilogram*meter^3/ampere^2*second^4', [ ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
@@ -78,7 +78,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
 ''' ),
 
     'electron_charge' :
-        RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge' ], False,
+        RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge', 'electron' ], False,
                          '',
                          '''
 Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
@@ -199,7 +199,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
     'speed_of_light' :
-        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity' ], False,
+        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity', 'light' ], False,
                          'the speed of light in a vacuum',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c

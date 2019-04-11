@@ -1303,7 +1303,6 @@ def runChemistryOperatorTests( ):
 
     testOperator( 'Ga atomic_number' )      # gigare
     testOperator( 'Ge atomic_number' )
-    testOperator( 'As atomic_number' )      # ampere-second
     testOperator( 'Se atomic_number' )
     testOperator( 'Br atomic_number' )
     testOperator( 'Kr atomic_number' )
@@ -4815,7 +4814,7 @@ def main( ):
 
     foundProblem = False
 
-    for alias in g.operatorAliases:
+    for alias in g.aliases:
         if alias in operators or \
            alias in listOperators or \
            alias in modifiers or \
@@ -4825,17 +4824,20 @@ def main( ):
             print( 'alias \'' + alias + '\' collides with an existing name' )
             foundProblem = True
 
-        if g.operatorAliases[ alias ] in operators or \
-           g.operatorAliases[ alias ] in listOperators or \
-           g.operatorAliases[ alias ] in modifiers or \
-           g.operatorAliases[ alias ] in constants or \
-           g.operatorAliases[ alias ] in g.constantOperators or \
-           g.operatorAliases[ alias ] in g.unitOperatorNames or \
-           g.operatorAliases[ alias ] in g.operatorCategories or \
-           g.operatorAliases[ alias ] == 'unit_types':
+        if g.aliases[ alias ] in operators or \
+           g.aliases[ alias ] in listOperators or \
+           g.aliases[ alias ] in modifiers or \
+           g.aliases[ alias ] in constants or \
+           g.aliases[ alias ] in g.constantOperators or \
+           g.aliases[ alias ] in g.unitOperatorNames or \
+           g.aliases[ alias ] in g.operatorCategories or \
+           g.aliases[ alias ] == 'unit_types':
             continue
 
-        print( 'alias \'' + alias + '\' resolves to invalid name \'' + g.operatorAliases[ alias ] + '\'' )
+        if '*' in g.aliases[ alias ]:
+            continue
+
+        print( 'alias \'' + alias + '\' resolves to invalid name \'' + g.aliases[ alias ] + '\'' )
         foundProblem = True
 
     if foundProblem:

@@ -57,7 +57,7 @@ def loadUnitNameData( ):
             unitsVersion = pickle.load( pickleFile )
             g.unitOperatorNames = pickle.load( pickleFile )
             g.constantOperatorNames = pickle.load( pickleFile )
-            g.operatorAliases.update( pickle.load( pickleFile ) )
+            g.aliases.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit names.  Run "makeUnits" to generate the unit data files.' )
         return False
