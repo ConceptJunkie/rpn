@@ -1075,6 +1075,8 @@ help info that's missing, will take a while, and is continuing.
 
 rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
 
+Added 'wind_chill' and 'heat_index' operators.
+
 The unit tests now confirm that aliases do not collide with other reserved
 words.  The alias creation for generated types has also been cleaned up.
 
