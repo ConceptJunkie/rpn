@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1133
+maxExampleCount = 1134
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4493,6 +4493,20 @@ Ref:  https://en.wikipedia.org/wiki/Impedance_of_free_space
 ''',
 '''
 ''' + makeCommandExample( 'vacuum_impedance' ),
+[ ] ],
+
+    'von_klitzing_constant' : [
+'constants', 'returns the von Klitzing constant',
+'''
+The value is derived from h/e^2, where h is Planck's constant and e is the
+charge of the electron.
+
+Ref:  CODATA 2014
+Ref:  https://www.easycalculation.com/constant/von-klitzing-constant.html
+Ref:  https://en.wikipedia.org/wiki/Quantum_Hall_effect#The_Bohr_atom_interpretation_of_the_von_Klitzing_constant
+''',
+'''
+''' + makeCommandExample( 'von_klitzing_constant' ),
 [ ] ],
 
 

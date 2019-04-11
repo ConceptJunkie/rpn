@@ -43,11 +43,12 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def loadGlobalConstants( ):
-    g.c = getConstant( 'speed_of_light' )
+    g.c = getConstant( 'speed_of_light'  )
+    g.e = getConstant( 'electron_charge' )
+    g.e0 = getConstant( 'electric_constant' )
+    g.G = getConstant( 'newton_constant' )
     g.h = getConstant( 'planck_constant' )
     g.h_bar = getConstant( 'reduced_planck_constant' )
-    g.G = getConstant( 'newton_constant' )
-    g.e0 = getConstant( 'electric_constant' )
     g.k = getConstant( 'boltzmann_constant' )
 
 
@@ -661,4 +662,17 @@ def getFaradayConstant( ):
 @lru_cache( 1 )
 def getVacuumImpedance( ):
     return getConstant( 'magnetic_constant' ).multiply( g.c ).convert( 'ohm' )
+
+
+# //******************************************************************************
+# //
+# //  getvonKlitzingConstant
+# //
+# //  https://www.easycalculation.com/constant/von-klitzing-constant.html
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getvonKlitzingConstant( ):
+    return g.h.divide( getPower( g.e, 2 ) ).convert( 'ohm' )
 

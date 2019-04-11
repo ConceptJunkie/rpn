@@ -848,6 +848,7 @@ operatorAliases = {
     'unsigned'                      : 'uinteger',
     'variable'                      : 'get_variable',
     'vernal'                        : 'vernal_equinox',
+    'von_klitzing'                  : 'von_klitzing_constant',
     'winter'                        : 'winter_solstice',
     'woodall'                       : 'riesel',
     'yearcal'                       : 'year_calendar',

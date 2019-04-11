@@ -156,9 +156,10 @@ timescale = None
 
 # constants
 c = None
+e = None
 e0 = None
-h_bar = None
-h = None
 G = None
+h = None
+h_bar = None
 k = None
 

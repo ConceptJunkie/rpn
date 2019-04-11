@@ -205,13 +205,6 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 ''' ),
 
-    'von_klitzing_constant' :
-        RPNConstantInfo( '25812.8074555', 'ohm', [ ], False,
-                         '',
-                         '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?rk
-''' ),
-
     # physical quantities
     'aa_battery' :
         RPNConstantInfo( '15400', 'joule', [ ], True,

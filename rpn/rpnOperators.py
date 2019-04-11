@@ -119,7 +119,7 @@ constants = {
     'thue_morse_constant'           : RPNOperator( getThueMorseConstant,
                                                    0, [ ] ),
 
-    # physical constants
+    # derived physical constants
     'faraday_constant'              : RPNOperator( getFaradayConstant,
                                                    0, [ ] ),
     'fine_structure_constant'       : RPNOperator( getFineStructureConstant,
@@ -129,6 +129,8 @@ constants = {
     'stefan_boltzmann_constant'     : RPNOperator( getStefanBoltzmannConstant,
                                                    0, [ ] ),
     'vacuum_impedance'              : RPNOperator( getVacuumImpedance,
+                                                   0, [ ] ),
+    'von_klitzing_constant'         : RPNOperator( getvonKlitzingConstant,
                                                    0, [ ] ),
 
     # Planck constants

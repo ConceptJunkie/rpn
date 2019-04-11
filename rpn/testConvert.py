@@ -268,6 +268,7 @@ def runConvertTests( ):
     expectEqual( '200 ohms 4 watts * volts^2 convert', '800 volts^2' )
     expectEqual( '1 kilowatt 10 ohms / sqrt', '10 amperes' )
     expectEqual( 'volt meter / newton coulomb / convert', '1 newton coulomb /' )
+    expectEqual( 'Wb Hz/V convert', '1 Hz/V' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
