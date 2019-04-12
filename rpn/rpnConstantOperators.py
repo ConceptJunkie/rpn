@@ -40,7 +40,8 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 ''' ),
 
     'boltzmann_constant' :
-        RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], False,
+        RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin',
+                         [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], False,
                          'The Boltzmann constant relates the average kinetic energy of particles in a gas to the temperature of the gas',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Boltzmann_constant
@@ -71,7 +72,8 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 ''' ),
 
     'electric_constant' :
-        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3', [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], False,
+        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3',
+                         [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
@@ -185,7 +187,8 @@ Weights and Measures.
 ''' ),
 
     'reduced_planck_constant' :
-        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second', [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], False,
+        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second',
+                         [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
@@ -199,7 +202,8 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
     'speed_of_light' :
-        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity', 'light' ], False,
+        RPNConstantInfo( '299792458', 'meter/second',
+                         [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity', 'light' ], False,
                          'the speed of light in a vacuum',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
@@ -775,7 +779,8 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''' ),
 
     'max_long' :
-        RPNConstantInfo( ( 1 << 31 ) - 1, '', [ 'max_int', 'maxint', 'max_int32', 'maxint32', 'maxlong' ], False,
+        RPNConstantInfo( ( 1 << 31 ) - 1, '',
+                         [ 'max_int', 'maxint', 'max_int32', 'maxint32', 'maxlong' ], False,
                          'the maximum 32-bit signed integer',
                          '''
 This is the largest number that can be represented by a 32-bit signed
@@ -791,7 +796,8 @@ integer assuming two's complement representation.
 ''' ),
 
     'max_quadlong' :
-        RPNConstantInfo( ( 1 << 127 ) - 1, '', [ 'max_int128', 'maxint128', 'max_quad', 'maxquad', 'maxquadlong' ], False,
+        RPNConstantInfo( ( 1 << 127 ) - 1, '',
+                         [ 'max_int128', 'maxint128', 'max_quad', 'maxquad', 'maxquadlong' ], False,
                          'the maximum 128-bit signed integer',
                          '''
 This is the largest number that can be represented by a 128-bit signed
@@ -815,7 +821,8 @@ integer assuming two's complement representation.
 ''' ),
 
     'max_ulong' :
-        RPNConstantInfo( ( 1 << 32 ) - 1, '', [ 'max_uint32', 'maxuint32', 'max_uint', 'maxuint', 'maxulong' ], False,
+        RPNConstantInfo( ( 1 << 32 ) - 1, '',
+                         [ 'max_uint32', 'maxuint32', 'max_uint', 'maxuint', 'maxulong' ], False,
                          'the maximum 32-bit unsigned integer',
                          '''
 This is the largest number that can be represented by a 32-bit unsigned
@@ -885,7 +892,8 @@ integer assuming two's complement representation.
 ''' ),
 
     'min_quadlong' :
-        RPNConstantInfo( -( 1 << 127 ), '', [ 'min_int128', 'minint128', 'min_quad', 'minquad', 'minquadlong' ], False,
+        RPNConstantInfo( -( 1 << 127 ), '',
+                         [ 'min_int128', 'minint128', 'min_quad', 'minquad', 'minquadlong' ], False,
                          'the minimum 128-bit signed integer',
                          '''
 This is the smallest number that can be represented by a 128-bit signed

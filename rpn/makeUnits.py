@@ -174,9 +174,37 @@ def makeAliases( ):
             for metricPrefix in metricPrefixes:
                 compoundUnit = metricPrefix[ 0 ] + compoundTimeUnit + '*' + timeUnit
                 newAbbrev = metricPrefix[ 1 ] + unitInfo.abbrev + timeUnits[ timeUnit ]
-                print( 'newAbbrev', newAbbrev, compoundUnit )
 
                 newAliases[ newAbbrev ] = compoundUnit
+
+    # add area aliases
+    for unit in unitOperators:
+        unitInfo = unitOperators[ unit ]
+
+        if unitInfo.unitType == 'length':
+            for prefix in [ 'sq', 'square', 'sq_', 'square_' ]:
+                newAliases[ prefix + unit ] = unit + "^2"
+
+                if unitInfo.plural != unit:
+                    newAliases[ prefix + unitInfo.plural ] = unit + "^2"
+
+                if unitInfo.abbrev:
+                    newAliases[ prefix + unitInfo.abbrev ] = unit + "^2"
+
+                for alias in unitInfo.aliases:
+                    newAliases[ prefix + alias ] = unit + "^2"
+
+            for prefix in [ 'cu', 'cubic', 'cu_', 'cubic_' ]:
+                newAliases[ prefix + unit ] = unit + "^3"
+
+                if unitInfo.plural != unit:
+                    newAliases[ prefix + unitInfo.plural ] = unit + "^3"
+
+                if unitInfo.abbrev:
+                    newAliases[ prefix + unitInfo.abbrev ] = unit + "^3"
+
+                for alias in unitInfo.aliases:
+                    newAliases[ prefix + alias ] = unit + "^3"
 
     return newAliases
 
@@ -221,40 +249,6 @@ def expandMetricUnits( ):
             metricConversions[ ( newName, metricUnit ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
             metricConversions[ ( metricUnit, newName ) ] = newConversion
-
-            # create area and volume operators for new length units
-            if unitOperators[ metricUnit ].unitType == 'length':
-                # create new area operators
-                newUnit = newName + '^2'
-
-                areaConversion = power( newConversion, 2 )
-                oldUnit = metricUnit + '^2'
-
-                if newUnit not in unitOperators:
-                    newUnitInfo, newUnitAliases = makeAreaOperator( newName )
-                    metricAliases.update( newUnitAliases )
-
-                    unitOperators[ newUnit ] = newUnitInfo
-
-                    # add new conversions
-                    metricConversions[ ( oldUnit, newUnit ) ] = areaConversion
-                    metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
-
-                # create new volume operators
-                newUnit = newName + '^3'
-
-                volumeConversion = power( newConversion, 3 )
-                oldUnit = metricUnit + '^3'
-
-                if newUnit not in unitOperators:
-                    newUnitInfo, newUnitAliases = makeVolumeOperator( newName )
-                    metricAliases.update( newUnitAliases )
-
-                    unitOperators[ newUnit ] = newUnitInfo
-
-                    # add new conversions
-                    metricConversions[ ( oldUnit, newUnit ) ] = volumeConversion
-                    metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
 
     for integralMetricUnit in integralMetricUnits:
         unitInfo = unitOperators[ integralMetricUnit ]
@@ -346,114 +340,6 @@ def expandDataUnits( ):
             newConversions[ ( dataUnit, newName ) ] = newConversion
 
     return newConversions
-
-
-# //******************************************************************************
-# //
-# //  makeAreaOperator
-# //
-# //******************************************************************************
-
-def makeAreaOperator( unit ):
-    unitInfo = unitOperators[ unit ]
-
-    newAliases = { }
-
-    newUnit = unit + '^2'
-
-    if unitInfo.abbrev == '':
-        abbrev = 'sq' + unit
-    else:
-        abbrev = 'sq' + unitInfo.abbrev
-        newAliases[ 'sq' + unitInfo.abbrev ] = newUnit
-        newAliases[ 'sq_' + unitInfo.abbrev ] = newUnit
-        newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
-
-    newAliases[ 'square_' + unit ] = newUnit
-    newAliases[ 'square_' + unitInfo.plural ] = newUnit
-    newAliases[ 'sq_' + unit ] = newUnit
-    newAliases[ 'sq_' + unitInfo.plural ] = newUnit
-    newAliases[ 'sq' + unit ] = newUnit
-    newAliases[ 'sq' + unitInfo.plural ] = newUnit
-
-    helpText = '\nfill me out for area operator'
-
-    newUnitInfo = RPNUnitInfo( 'area', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, helpText, True )
-
-    return newUnitInfo, newAliases
-
-
-# //******************************************************************************
-# //
-# //  makeVolumeOperator
-# //
-# //******************************************************************************
-
-def makeVolumeOperator( unit ):
-    unitInfo = unitOperators[ unit ]
-
-    newAliases = { }
-
-    newUnit = unit + '^3'
-
-    if unitInfo.abbrev == '':
-        abbrev = 'cu' + unit
-    else:
-        abbrev = 'cu' + unitInfo.abbrev
-        newAliases[ 'cu' + unitInfo.abbrev ] = newUnit
-        newAliases[ 'cu_' + unitInfo.abbrev ] = newUnit
-        newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
-
-    newAliases[ 'cubic_' + unit ] = newUnit
-    newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
-    newAliases[ 'cu_' + unit ] = newUnit
-    newAliases[ 'cu_' + unitInfo.plural ] = newUnit
-    newAliases[ 'cu' + unit ] = newUnit
-    newAliases[ 'cu' + unitInfo.plural ] = newUnit
-
-    helpText = '\nfill me out for volume operator'
-
-    newUnitInfo = RPNUnitInfo( 'volume', newUnit, newUnit, abbrev, [ ],
-                               unitInfo.categories, helpText, True )
-
-    return newUnitInfo, newAliases
-
-
-# //******************************************************************************
-# //
-# //  createAreaAndVolumeOperators
-# //
-# //******************************************************************************
-
-def createAreaAndVolumeOperators( unitOperators ):
-    newOperators = { }
-    newAliases = { }
-
-    for unit in unitOperators:
-        unitInfo = unitOperators[ unit ]
-
-        if unitInfo.representation != unit:
-            newAliases[ unitInfo.representation ] = unit
-
-        if unitInfo.unitType == 'length':
-            newUnit = unit + '^2'
-
-            if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = makeAreaOperator( unit )
-
-                newAliases.update( newUnitAliases )
-                newOperators[ newUnit ] = newUnitInfo
-
-            newUnit = unit + '^3'
-
-            if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = makeVolumeOperator( unit )
-
-                newAliases.update( newUnitAliases )
-                newOperators[ newUnit ] = newUnitInfo
-
-    return newOperators, newAliases
 
 
 # //******************************************************************************
@@ -558,32 +444,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( newConversions )
 
-    # create area and volume units from all of the length units
-    print( 'Creating area and volume units for all length units...' )
-
-    newOperators, newAliases = createAreaAndVolumeOperators( unitOperators )
-
-    unitOperators.update( newOperators )
-
-    # add new conversions for the new area and volume units
-    print( 'Adding new conversions for the new area and volume units...' )
-
-    newConversions = { }
-
-    for op1, op2 in unitConversionMatrix:
-        if unitOperators[ op1 ].unitType == 'length':
-            conversion = unitConversionMatrix[ ( op1, op2 ) ]
-            newConversions[ ( op1 + '^2', op2 + '^2' ) ] = power( conversion, 2 )
-            newConversions[ ( op1 + '^3', op2 + '^3' ) ] = power( conversion, 3 )
-
-    unitConversionMatrix.update( newConversions )
-
     print( 'Expanding metric units against the list of SI prefixes...' )
 
     metricConversions, metricAliases = expandMetricUnits( )
 
     unitConversionMatrix.update( metricConversions )
-    newAliases.update( metricAliases )
+    newAliases = metricAliases
 
     print( 'Expanding data units against the list of SI and binary prefixes...' )
     unitConversionMatrix.update( expandDataUnits( ) )
