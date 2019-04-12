@@ -800,25 +800,3 @@ def flattenList( list ):
     # standard python list flattening recipe
     return [ item for sublist in list for item in sublist ]
 
-
-# //******************************************************************************
-# //
-# //  useHigherPrecision
-# //
-# //******************************************************************************
-
-def useHigherPrecision( dps ):
-    def higherPrecisionFunction( func ):
-        @functools.wraps( func )
-
-        def setHigherPrecision( *args, **kwargs ):
-            if mp.dps < dps:
-                with workdps( dps, normalize_output=True ):
-                    return func( *args, **kwargs )
-            else:
-                return func( *args, **kwargs )
-
-        return setHigherPrecision
-
-    return higherPrecisionFunction
-

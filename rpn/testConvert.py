@@ -252,7 +252,12 @@ def runConvertTests( ):
     testOperator( 'poise pascal*second convert' )
     testOperator( 'pascal*second poise convert' )
 
+
     # let's check some answers
+    expectEqual( '1/hertz second convert', '1 second' )
+    expectEqual( '1/second hertz convert', '1 hertz' )
+    expectEqual( '1/ohm siemens convert', '1 siemens' )
+    expectEqual( '1/siemens ohm convert', '1 ohm' )
     expectEqual( '12 inches foot convert', '1 foot' )
     expectEqual( '1 foot inches convert', '12 inches' )
     expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )

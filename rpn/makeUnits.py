@@ -242,7 +242,7 @@ def expandMetricUnits( ):
                 newAbbrev = ''
 
             unitOperators[ newName ] = \
-                    RPNUnitInfo( unitInfo.unitType, newName, newPlural, newAbbrev, [ ],
+                    RPNUnitInfo( unitInfo.unitType, newPlural, newAbbrev, [ ],
                                  unitInfo.categories, helpText, True )
 
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -269,7 +269,7 @@ def expandMetricUnits( ):
             helpText = '\nfill me out for metric units'
 
             unitOperators[ newName ] = \
-                    RPNUnitInfo( unitInfo.unitType, newName, newPlural, newAbbrev, [ ],
+                    RPNUnitInfo( unitInfo.unitType, newPlural, newAbbrev, [ ],
                                  unitInfo.categories, helpText, True )
 
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -309,7 +309,7 @@ def expandDataUnits( ):
                 newAbbrev = ''
 
             unitOperators[ newName ] = \
-                RPNUnitInfo( unitInfo.unitType, newName, prefix[ 0 ] + unitInfo.plural,
+                RPNUnitInfo( unitInfo.unitType, prefix[ 0 ] + unitInfo.plural,
                              newAbbrev, [ ], unitInfo.categories, helpText, True )
 
             # create new conversions
@@ -330,7 +330,7 @@ def expandDataUnits( ):
                 newAbbrev = ''
 
             unitOperators[ newName ] = \
-                RPNUnitInfo( unitInfo.unitType, newName, prefix[ 0 ] + unitInfo.plural,
+                RPNUnitInfo( unitInfo.unitType, prefix[ 0 ] + unitInfo.plural,
                              newAbbrev, [ ], unitInfo.categories, helpText, True )
 
             # create new conversions

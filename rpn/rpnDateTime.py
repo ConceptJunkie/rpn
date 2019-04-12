@@ -192,13 +192,13 @@ class RPNDateTime( arrow.Arrow ):
         if not isinstance( time, RPNMeasurement ):
             ValueError( 'RPNMeasurement expected' )
 
-        #print( 'time.getUnitString( )', time.getUnitString( ) )
-        #print( 'g.unitOperators[ time.getUnitString( ) ].categories', g.unitOperators[ time.getUnitString( ) ].categories )
+        #print( 'time.getUnitName( )', time.getUnitName( ) )
+        #print( 'g.unitOperators[ time.getUnitName( ) ].categories', g.unitOperators[ time.getUnitName( ) ].categories )
 
-        if 'years' in g.unitOperators[ time.getUnitString( ) ].categories:
+        if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
             years = time.convertValue( 'year' )
             return self.replace( year = self.year + years )
-        elif 'months' in g.unitOperators[ time.getUnitString( ) ].categories:
+        elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
             months = time.convertValue( 'month' )
             return self.incrementMonths( months )
         else:
