@@ -21,8 +21,8 @@ import time
 
 from mpmath import almosteq, mp, fdiv, fmul
 
-#  This has to go here so the mpf's in the import get created with 50 places of precision.
-mp.dps = 50
+#  This has to go here so the mpf's in the import get created with 52 places of precision.
+mp.dps = 52
 
 from rpn.rpnConstantOperators import *
 from rpn.rpnMeasurement import specialUnitConversionMatrix

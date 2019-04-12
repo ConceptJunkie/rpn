@@ -18,7 +18,7 @@ from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
-from mpmath import almosteq, fsub, mpf, mpmathify, nan
+from mpmath import almosteq, fsub, mpf, mpmathify, nan, workdps
 
 
 # //******************************************************************************
@@ -63,7 +63,10 @@ def compareResults( result1, result2 ):
         if result1 != result2:
             print( '**** error in results comparison' )
             print( type( result1 ), type( result2 ) )
-            print( result1.value, result1.units, result2.value, result2.units, 'are not equal' )
+
+            with workdps( 50 ):
+                print( result1.value, result1.units, result2.value, result2.units, 'are not equal' )
+
             raise ValueError( 'unit test failed' )
         else:
             return

@@ -253,13 +253,15 @@ def runConvertTests( ):
     testOperator( 'pascal*second poise convert' )
 
     # let's check some answers
+    expectEqual( '12 inches foot convert', '1 foot' )
+    expectEqual( '1 foot inches convert', '12 inches' )
     expectEqual( 'newton*day kilonewton*second convert', '86.4 kilonewton*second' )
     expectEqual( '3 cups/second gallons/minute convert', '11.25 gallon/minute' )
     expectEqual( 'coulomb/ampere*second', '1' )
     expectEqual( '16800 mA hours * 5 volts * joule convert', '302400 joules' )
     expectEqual( '2 ampere 100 ohms * volts convert', '200 volts' )
     expectEqual( '120 volt 100 ohm / ampere convert', '1.2 amperes' )
-    expectEqual( 'day second convert value', '86400' )
+    expectEqual( 'day second convert', '86400 seconds' )
     expectEqual( '120 coulombs 10 ampere / second convert', '12 seconds' )
     expectEqual( '1 kilowatt 1 decavolt / ampere convert', '100 amperes' )
     expectEqual( '1 watt 1 ohm / ampere sqr convert', '1 ampere^2' )
@@ -274,6 +276,7 @@ def runConvertTests( ):
     expectEqual( 'kilogram gram convert', '1000 grams' )
     expectEqual( '1 volt millivolt convert', '1000 millivolts' )
     expectEqual( '1 petabyte bit convert', '8e15 bits' )
+    expectEqual( 'mile^2 acre convert', '640 acres' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

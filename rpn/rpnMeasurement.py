@@ -21,7 +21,8 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
                                getUnitType, RPNUnits
-from rpn.rpnUtils import debugPrint, flattenList, getPowerset, oneArgFunctionEvaluator
+from rpn.rpnUtils import debugPrint, flattenList, getPowerset, \
+                         oneArgFunctionEvaluator, useHigherPrecision
 
 import rpn.rpnGlobals as g
 
@@ -152,10 +153,8 @@ class RPNMeasurement( object ):
     and an RPNUnits instance.'''
     value = mpf( )
     units = RPNUnits( )
-    unitName = None
-    pluralUnitName = None
 
-    def __init__( self, value, units = RPNUnits( ), unitName = None, pluralUnitName = None ):
+    def __init__( self, value, units = RPNUnits( ) ):
         if isinstance( value, str ):
             self.value = mpmathify( value )
             self.units = RPNUnits( units )
@@ -165,9 +164,6 @@ class RPNMeasurement( object ):
         else:
             self.value = value
             self.units = RPNUnits( units )
-
-        self.unitName = unitName
-        self.pluralUnitName = pluralUnitName
 
     def __eq__( self, other ):
         if isinstance( other, RPNMeasurement ):
@@ -199,49 +195,43 @@ class RPNMeasurement( object ):
         return not self.isLarger( other )
 
     #def __repr__( self ):
-    #    return 'RPNMeasurement(\'' + str( mpf( self ) ) + '\',' + \
-    #           ( '{}' if self.units is None else '\'' + self.units.getUnitString( ) + '\'' ) + \
-    #           '\'' + self.unitName + '\',\'' + self.pluralUnitName + '\')'
+    #    return 'RPNMeasurement(\'' + str( self.value ) + ' ' + \
+    #           ( '{}' if self.units is None else '\'' + self.units.getUnitString( ) + '\'' )
 
     #def __str__( self ):
     #    return repr( self )
 
     def increment( self, unit, amount = 1 ):
-        self.unitName = None
-        self.pluralUnitName = None
         self.units[ unit ] += amount
 
     def decrement( self, unit, amount = 1 ):
         increment( self, unit, -amount )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def add( self, other ):
         if isinstance( other, RPNMeasurement ):
             if self.units == other.units:
-                return RPNMeasurement( fadd( self.value, other.value ), self.units,
-                                       self.getUnitName( ), self.getPluralUnitName( ) )
+                return RPNMeasurement( fadd( self.value, other.value ), self.units )
             else:
                 newOther = other.convertValue( self )
 
-                return RPNMeasurement( fadd( self.value, newOther ), self.units,
-                                       self.getUnitName( ), self.getPluralUnitName( ) )
+                return RPNMeasurement( fadd( self.value, newOther ), self.units )
         else:
-            return RPNMeasurement( fadd( self.value, other ), self.units,
-                                   self.getUnitName( ), self.getPluralUnitName( ) )
+            return RPNMeasurement( fadd( self.value, other ), self.units )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def subtract( self, other ):
         if isinstance( other, RPNMeasurement ):
             if self.units == other.units:
-                return RPNMeasurement( fsub( self.value, other.value ), self.units,
-                                       self.getUnitName( ), self.getPluralUnitName( ) )
+                return RPNMeasurement( fsub( self.value, other.value ), self.units )
             else:
                 newOther = other.convertValue( self )
-                return RPNMeasurement( fsub( self.value, newOther ), self.units,
-                                       self.getUnitName( ), self.getPluralUnitName( ) )
+                return RPNMeasurement( fsub( self.value, newOther ), self.units )
 
         else:
-            return RPNMeasurement( fsub( self.value, other ), self.units,
-                                   self.getUnitName( ), self.getPluralUnitName( ) )
+            return RPNMeasurement( fsub( self.value, other ), self.units )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def multiply( self, other ):
         if isinstance( other, RPNMeasurement ):
             newValue = fmul( self.value, other.value )
@@ -252,11 +242,11 @@ class RPNMeasurement( object ):
         else:
             newValue = fmul( self.value, other )
 
-            self = RPNMeasurement( newValue, self.units,
-                                   self.getUnitName( ), self.getPluralUnitName( ) )
+            self = RPNMeasurement( newValue, self.units )
 
         return self.normalizeUnits( )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def divide( self, other ):
         if isinstance( other, RPNMeasurement ):
             newValue = fdiv( self.value, other.value )
@@ -267,11 +257,11 @@ class RPNMeasurement( object ):
         else:
             newValue = fdiv( self.value, other )
 
-            self = RPNMeasurement( newValue, self.units,
-                                   self.getUnitName( ), self.getPluralUnitName( ) )
+            self = RPNMeasurement( newValue, self.units )
 
         return self.normalizeUnits( )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def getModulo( self, other ):
         if isinstance( other, RPNMeasurement ):
             measurement = RPNMeasurement( self )
@@ -285,6 +275,7 @@ class RPNMeasurement( object ):
 
         return self.normalizeUnits( )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def exponentiate( self, exponent ):
         if ( floor( exponent ) != exponent ):
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
@@ -300,6 +291,7 @@ class RPNMeasurement( object ):
 
         return self
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def getRoot( self, operand ):
         if ( floor( operand ) != operand ):
             raise ValueError( 'cannot take a fractional root of a measurement' )
@@ -328,6 +320,7 @@ class RPNMeasurement( object ):
 
         return RPNMeasurement( value, newUnits ).normalizeUnits( )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def getInverted( self, invertValue=True ):
         units = self.units
 
@@ -341,6 +334,7 @@ class RPNMeasurement( object ):
         else:
             return RPNMeasurement( self.value, newUnits )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def normalizeUnits( self ):
         units = self.units.normalizeUnits( )
         debugPrint( )
@@ -490,9 +484,6 @@ class RPNMeasurement( object ):
         if not isinstance( units, dict ):
             raise ValueError( 'dict expected' )
 
-        self.unitName = None
-        self.pluralUnitName = None
-
         self.units.update( units )
 
     def isCompatible( self, other ):
@@ -531,9 +522,6 @@ class RPNMeasurement( object ):
         return self.units.getUnitString( )
 
     def getUnitName( self ):
-        if self.unitName:
-            return self.unitName
-
         unitString = self.getUnitString( )
 
         if unitString in g.unitOperators:
@@ -542,9 +530,6 @@ class RPNMeasurement( object ):
             return unitString
 
     def getPluralUnitName( self ):
-        if self.pluralUnitName:
-            return self.pluralUnitName
-
         unitString = self.getUnitString( )
 
         if unitString in g.unitOperators:
@@ -577,6 +562,7 @@ class RPNMeasurement( object ):
     def doDimensionsCancel( self ):
         return self.units.doDimensionsCancel( )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def convertToBaseUnits( self ):
         debugPrint( )
         debugPrint( 'convertToBaseUnits:', self.value, self.units )
@@ -623,6 +609,7 @@ class RPNMeasurement( object ):
         debugPrint( )
         return baseUnits
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def convert( self, other ):
         if isinstance( other, RPNMeasurement ):
             return RPNMeasurement( self.convertValue( other ), other.units )
@@ -666,6 +653,7 @@ class RPNMeasurement( object ):
         if not self.isOfUnitType( unitType ):
             raise ValueError( unitType + ' unit expected' )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def convertValue( self, other ):
         if not isinstance( other, ( RPNUnits, RPNMeasurement, str, list ) ):
             raise ValueError( 'convertValue must be called with an RPNUnits object, an RPNMeasurement object, a string or a list of RPNMeasurement' )
@@ -854,6 +842,7 @@ class RPNMeasurement( object ):
         debugPrint( 'convertValue final', value )
         return value
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def convertUnitList( self, other ):
         if not isinstance( other, list ):
             raise ValueError( 'convertUnitList expects a list argument' )
@@ -903,6 +892,7 @@ class RPNMeasurement( object ):
 
             return result[ : : -1 ]
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def convertIncompatibleUnit( self, other ):
         if isinstance( other, list ):
             otherUnit = '[ ' + ', '.join( [ unit.getUnitString( ) for unit in other ] ) + ' ]'
@@ -939,6 +929,7 @@ class RPNMeasurement( object ):
 
         raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + ' and ' + otherUnit )
 
+    @useHigherPrecision( g.unitConversionPrecision )
     def twiddleUnits( self, units1, twiddle1, units2, twiddle2 ):
         numeratorFound = False
         denominatorFound = False
@@ -1011,6 +1002,7 @@ class RPNMeasurement( object ):
 # //
 # //******************************************************************************
 
+@useHigherPrecision( g.unitConversionPrecision )
 def convertUnits( unit1, unit2 ):
     if isinstance( unit1, RPNGenerator ):
         unit1 = list( unit1 )
@@ -1046,10 +1038,12 @@ def convertUnits( unit1, unit2 ):
         debugPrint( 'convertUnits' )
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
-        debugPrint( 'value:', unit1.convertValue( unit2 ) )
 
-        return RPNMeasurement( unit1.convertValue( unit2 ), unit2.units,
-                               unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+        newValue = unit1.convertValue( unit2 )
+
+        debugPrint( '*** value:', newValue )
+
+        return RPNMeasurement( newValue, unit2.units )
 
 
 # //******************************************************************************
@@ -1121,6 +1115,7 @@ def estimate( measurement ):
 # //
 # //******************************************************************************
 
+@useHigherPrecision( g.unitConversionPrecision )
 def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
         value = RPNMeasurement( number, term )
@@ -1135,8 +1130,7 @@ def applyNumberValueToUnit( number, term, constant ):
         if g.unitOperators[ term ].unitType == 'constant':
             value = RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) )
         else:
-            value = RPNMeasurement( number, term, g.unitOperators[ term ].representation,
-                                    g.unitOperators[ term ].plural )
+            value = RPNMeasurement( number, term )
 
     return value
 

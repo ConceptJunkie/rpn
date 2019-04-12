@@ -95,6 +95,9 @@ useYAFU = True
 verbose = False
 zhangConjecturesAllowed = False
 
+# internal constants
+unitConversionPrecision = 50
+
 # unit data
 basicUnitTypes = { }
 constantOperators = { }

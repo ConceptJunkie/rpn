@@ -23,7 +23,6 @@ from rpn.rpnOperators import *
 
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnOperators import constants, listOperators, operators
-from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
@@ -319,23 +318,24 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 3 weeks add' )
     testOperator( 'now 150 miles 10 furlongs fortnight / / add' )
 
-    expectResult( '55 mph 10 miles hour / +', RPNMeasurement( 65, 'mile/hour' ) )
+    expectEqual( '55 mph 10 miles hour / +', '65 mile/hour' )
+    expectEqual( '3 feet 7 inches + inches convert', '43 inches' )
+
     expectResult( '4 3 add', 7 )
-    expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( 43, 'inch' ) )
 
     expectException( '2 cups 3 weeks +' )   # incompatible measurements
 
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
-    expectResult( '9.5 cups ceiling', RPNMeasurement( 10, 'cups' ) )
 
+    expectEqual( '9.5 cups ceiling', '10 cups' )
     expectEqual( '1 56 range lambda x x log * ceiling eval', '50502 oeis 56 left' )
 
     # decrement
     expectResult( '2 decrement', 1 )
-    expectResult( '3 miles decrement', RPNMeasurement( 2, 'miles' ) )
 
+    expectEqual( '3 miles decrement', '2 miles' )
     #expectEqual( 'infinity decrement', 'infinity' )        # The test can't compare infinity.
     #expectEqual( 'negative_infinity decrement', 'negative_infinity' )
 
@@ -360,8 +360,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
     expectResult( '3.4 floor', 3 )
-    expectResult( '3.14 miles floor', RPNMeasurement( 3, 'miles' ) )
 
+    expectEqual( '3.14 miles floor', '3 miles' )
     expectEqual( '10.3 cups floor', '10 cups' )
     expectEqual( '88 mph 10 round_by_value', '90 mph' )
     expectEqual( '4.5 i 8.6 + floor', '4 i 8 +' )
@@ -398,11 +398,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '2 increment', 3 )
     expectResult( '-1 increment', 0 )
     expectResult( '0.5 increment', 1.5 )
-    expectResult( '3 miles increment', RPNMeasurement( 4, 'miles' ) )
 
     #expectEqual( 'infinity increment', 'infinity' )        # The test can't compare infinity.
     #expectEqual( 'negative_infinity increment', 'negative_infinity' )
     expectEqual( '2 i increment', '2 i 1 +' )
+    expectEqual( '3 miles increment', '4 miles' )
 
     # is_divisible
     expectResult( '1000 10000 is_divisible', 0 )
@@ -644,11 +644,10 @@ def runArithmeticOperatorTests( ):
     # product
     testOperator( '1 1 10 range range prod' )
 
-    expectResult( '[ 2 cups ] product', RPNMeasurement( 2, 'cup' ) )
-    expectResult( '[ 3 2 cups ] product', RPNMeasurement( 6, 'cup' ) )
-    expectResult( '[ 2 cups 8 16 ] product', RPNMeasurement( 256, 'cup' ) )
-    expectResult( '[ 3 2 cups 8 16 ] product', RPNMeasurement( 768, 'cup' ) )
-
+    expectEqual( '[ 2 cups ] product', '2 cups' )
+    expectEqual( '[ 3 2 cups ] product', '6 cups' )
+    expectEqual( '[ 2 cups 8 16 ] product', '256 cups' )
+    expectEqual( '[ 3 2 cups 8 16 ] product', '768 cup' )
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
 
     # reciprocal
@@ -724,7 +723,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 1965-03-31 -' )
     testOperator( '2015-01-01 1965-03-31 -' )
 
-    expectResult( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( 165, 'teaspoon' ) )
+    expectEqual( '4 cups 27 teaspoons - teaspoons convert', '165 teaspoons' )
 
     expectException( '2 light-year 3 seconds -' )
 
@@ -4834,7 +4833,7 @@ def main( ):
            g.aliases[ alias ] == 'unit_types':
             continue
 
-        if '*' in g.aliases[ alias ]:
+        if '*' in g.aliases[ alias ] or '^' in g.aliases[ alias ]:
             continue
 
         print( 'alias \'' + alias + '\' resolves to invalid name \'' + g.aliases[ alias ] + '\'' )
