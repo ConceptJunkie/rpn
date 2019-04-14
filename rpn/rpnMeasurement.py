@@ -212,9 +212,7 @@ class RPNMeasurement( object ):
             if self.units == other.units:
                 return RPNMeasurement( fadd( self.value, other.value ), self.units )
             else:
-                newOther = other.convertValue( self )
-
-                return RPNMeasurement( fadd( self.value, newOther ), self.units )
+                return RPNMeasurement( fadd( self.value, other.convertValue( self ) ), self.units )
         else:
             return RPNMeasurement( fadd( self.value, other ), self.units )
 
@@ -223,67 +221,45 @@ class RPNMeasurement( object ):
             if self.units == other.units:
                 return RPNMeasurement( fsub( self.value, other.value ), self.units )
             else:
-                newOther = other.convertValue( self )
-                return RPNMeasurement( fsub( self.value, newOther ), self.units )
+                return RPNMeasurement( fsub( self.value, other.convertValue( self ) ), self.units )
 
         else:
             return RPNMeasurement( fsub( self.value, other ), self.units )
 
     def multiply( self, other ):
         if isinstance( other, RPNMeasurement ):
-            newValue = fmul( self.value, other.value )
-
             factor, newUnits = self.units.combineUnits( other.units )
-
-            self = RPNMeasurement( fmul( newValue, factor ), newUnits )
+            return RPNMeasurement( fmul( fmul( self.value, other.value ), factor ), newUnits ).normalizeUnits( )
         else:
-            newValue = fmul( self.value, other )
-
-            self = RPNMeasurement( newValue, self.units )
-
-        return self.normalizeUnits( )
+            return RPNMeasurement( fmul( self.value, other ), self.units ).normalizeUnits( )
 
     def divide( self, other ):
         if isinstance( other, RPNMeasurement ):
-            newValue = fdiv( self.value, other.value )
-
             factor, newUnits = self.units.combineUnits( other.units.inverted( ) )
-
-            self = RPNMeasurement( fmul( newValue, factor ), newUnits )
+            return RPNMeasurement( fmul( fdiv( self.value, other.value ), factor ), newUnits ).normalizeUnits( )
         else:
-            newValue = fdiv( self.value, other )
-
-            self = RPNMeasurement( newValue, self.units )
-
-        return self.normalizeUnits( )
+            return RPNMeasurement( fdiv( self.value, other ), self.units ).normalizeUnits( )
 
     def getModulo( self, other ):
         if isinstance( other, RPNMeasurement ):
-            measurement = RPNMeasurement( self )
-
-            measurement = measurement.convert( other.units )
+            measurement = RPNMeasurement( self ).convert( other.units )
             measurement.value = fmod( measurement.value, other.value )
 
-            self = RPNMeasurement( measurement )
+            return measurement.normalizeUnits( )
         else:
-            self.value = fmod( self.value, other )
-
-        return self.normalizeUnits( )
+            return RPNMeasurement( fmod( self.value, other ), self.units ).normalizeUnits( )
 
     def exponentiate( self, exponent ):
         if ( floor( exponent ) != exponent ):
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
 
         exponent = int( exponent )
-
         newValue = power( self.value, exponent )
 
         for unit in self.units:
             self.units[ unit ] *= exponent
 
-        self = RPNMeasurement( newValue, self.units )
-
-        return self
+        return RPNMeasurement( newValue, self.units )
 
     def getRoot( self, operand ):
         if ( floor( operand ) != operand ):
@@ -328,6 +304,7 @@ class RPNMeasurement( object ):
 
     def normalizeUnits( self ):
         units = self.units.normalizeUnits( )
+
         debugPrint( )
         debugPrint( 'normalize', units )
 
@@ -748,26 +725,6 @@ class RPNMeasurement( object ):
 
             value = conversionValue
 
-            # If we can't convert, then let's twiddle the units around and see if we can get it another way.
-            if not foundConversion:
-                debugPrint( 'attempting to twiddle the units' )
-                success, returnValue = self.twiddleUnits( units1, True, units2, False )
-
-                if success:
-                    return returnValue
-
-                success, returnValue = self.twiddleUnits( units1, False, units2, True )
-
-                if success:
-                    return returnValue
-
-                success, returnValue = self.twiddleUnits( units1, True, units2, True )
-
-                if success:
-                    return returnValue
-                else:
-                    raise ValueError( 'unable to convert ' + units1.getUnitString( ) + ' to ' + units2.getUnitString( ) )
-
             debugPrint( 'Iterating through conversions...' )
 
             for conversion in conversions:
@@ -905,71 +862,6 @@ class RPNMeasurement( object ):
             return result
 
         raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitName( ) + ' and ' + otherUnit )
-
-    def twiddleUnits( self, units1, twiddle1, units2, twiddle2 ):
-        numeratorFound = False
-        denominatorFound = False
-
-        twiddleUnits1 = RPNUnits( units1 )
-        twiddleUnits2 = RPNUnits( units2 )
-
-        debugPrint( '0 twiddleUnits1', twiddleUnits1 )
-        debugPrint( '0 twiddleUnits2', twiddleUnits2 )
-
-        if twiddle1:
-            for unit in twiddleUnits1:
-                if twiddleUnits1[ unit ] > 0:
-                    numeratorFound = True
-                    continue
-
-                if twiddleUnits1[ unit ] < 0:
-                    denominatorFound = True
-                    exponent = twiddleUnits1[ unit ] * -1
-
-                    if unit in twiddleUnits2:
-                        twiddleUnits2[ unit ] += exponent
-                    else:
-                        twiddleUnits2[ unit ] = exponent
-
-                    twiddleUnits1[ unit ] = 0
-
-            twiddleUnits1 = RPNUnits( twiddleUnits1 ).normalizeUnits( )
-            twiddleUnits2 = RPNUnits( twiddleUnits2 ).normalizeUnits( )
-
-            debugPrint( '1 twiddleUnits1', twiddleUnits1 )
-            debugPrint( '1 twiddleUnits2', twiddleUnits2 )
-
-        if twiddle2:
-            for unit in twiddleUnits2:
-                if twiddleUnits2[ unit ] > 0:
-                    numeratorFound = True
-                    continue
-
-                if twiddleUnits2[ unit ] < 0:
-                    denominatorFound = True
-
-                    if unit in twiddleUnits1:
-                        twiddleUnits1[ unit ] += twiddleUnits2[ unit ] * -1
-                    else:
-                        twiddleUnits1[ unit ] = twiddleUnits2[ unit ] * -1
-
-                    twiddleUnits2[ unit ] = 0
-
-            twiddleUnits1 = RPNUnits( twiddleUnits1 ).normalizeUnits( )
-            twiddleUnits2 = RPNUnits( twiddleUnits2 ).normalizeUnits( )
-
-            debugPrint( '2 twiddleUnits1', twiddleUnits1 )
-            debugPrint( '2 twiddleUnits2', twiddleUnits2 )
-
-        if denominatorFound and numeratorFound:
-            try:
-                value = RPNMeasurement( self.value, twiddleUnits1 ). convertValue( twiddleUnits2 )
-                return True, RPNMeasurement( value, units2 )
-            except:
-                return False, None
-                pass
-
-        return False, None
 
 
 # //******************************************************************************
