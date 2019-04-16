@@ -3850,15 +3850,14 @@ unitConversionMatrix = {
     # radiation_dose
 
     ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
+    ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
+    ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
+    ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
     ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
 
     # radiation_exposure
 
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
-    ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
-    ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
-    ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
-    ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
     ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
 
     # radiosity
