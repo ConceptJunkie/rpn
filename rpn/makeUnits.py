@@ -76,8 +76,8 @@ def makeUnitTypeTable( unitOperators ):
     for unitType in basicUnitTypes:
         unitTypeTable[ unitType ] = [ ]
 
-    for unit in unitOperators:
-        unitTypeTable[ unitOperators[ unit ].unitType ].append( unit )
+    for unit, unitInfo in unitOperators.items( ):
+        unitTypeTable[ unitInfo.unitType ].append( unit )
 
     return unitTypeTable
 
@@ -149,9 +149,7 @@ def makeAliases( ):
             if unitInfo.abbrev:
                 newAliases[ prefix[ 1 ] + unitInfo.abbrev ] = newUnit
 
-    for unit in unitOperators:
-        unitInfo = unitOperators[ unit ]
-
+    for unit, unitInfo in unitOperators.items( ):
         if unitInfo.plural != unit and unitInfo.plural != '':
             newAliases[ unitInfo.plural ] = unit
 
@@ -161,26 +159,22 @@ def makeAliases( ):
         if unitInfo.abbrev != '':
             newAliases[ unitInfo.abbrev ] = unit
 
-    for constant in constantOperators:
-        constantInfo = constantOperators[ constant ]
-
+    for constant, constantInfo in constantOperators.items( ):
         for alias in constantInfo.aliases:
             newAliases[ alias ] = constant
 
     for compoundTimeUnit in compoundTimeUnits:
         unitInfo = unitOperators[ compoundTimeUnit ]
 
-        for timeUnit in timeUnits:
+        for timeUnit, abbrev in timeUnits.items( ):
             for metricPrefix in metricPrefixes:
                 compoundUnit = metricPrefix[ 0 ] + compoundTimeUnit + '*' + timeUnit
-                newAbbrev = metricPrefix[ 1 ] + unitInfo.abbrev + timeUnits[ timeUnit ]
+                newAbbrev = metricPrefix[ 1 ] + unitInfo.abbrev + abbrev
 
                 newAliases[ newAbbrev ] = compoundUnit
 
     # add area aliases
-    for unit in unitOperators:
-        unitInfo = unitOperators[ unit ]
-
+    for unit, unitInfo in unitOperators.items( ):
         if unitInfo.unitType == 'length':
             for prefix in [ 'sq', 'square', 'sq_', 'square_' ]:
                 newAliases[ prefix + unit ] = unit + "^2"
@@ -392,10 +386,10 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 # //******************************************************************************
 
 def testAllCombinations( unitTypeTable, unitConversionMatrix ):
-    for unitType in unitTypeTable:
+    for unitType, unitList in unitTypeTable.items( ):
         print( unitType, '*************************************************' )
 
-        for unit1, unit2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
+        for unit1, unit2 in itertools.combinations( unitList, 2 ):
             if ( unit1, unit2 ) not in unitConversionMatrix and \
                ( unit1, unit2 ) not in specialUnitConversionMatrix:
                 print( 'conversion not found for', unit1, 'and', unit2 )
@@ -410,8 +404,8 @@ def testAllCombinations( unitTypeTable, unitConversionMatrix ):
 # //******************************************************************************
 
 def testAllConversions( unitTypeTable, unitConversionMatrix ):
-    for unitType in unitTypeTable:
-        for unit1, unit2, unit3 in itertools.permutations( unitTypeTable[ unitType ], 3 ):
+    for unitType, unitList in unitTypeTable.items( ):
+        for unit1, unit2, unit3 in itertools.permutations( unitList, 3 ):
             try:
                 factor1 = unitConversionMatrix[ unit1, unit2 ]
                 factor2 = unitConversionMatrix[ unit2, unit3 ]
@@ -439,9 +433,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     newConversions = { }
 
-    for op1, op2 in unitConversionMatrix:
-        conversion = fdiv( 1, unitConversionMatrix[ ( op1, op2 ) ] )
-        newConversions[ ( op2, op1 ) ] = conversion
+    for ops, factor in unitConversionMatrix.items( ):
+        conversion = fdiv( 1, factor )
+        newConversions[ ( ops[ 1 ], ops[ 0 ] ) ] = conversion
 
     unitConversionMatrix.update( newConversions )
 
@@ -495,8 +489,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newAliases.update( makeAliases( ) )
 
     print( 'Stringifying conversion matrix values...' )
-    for op1, op2 in unitConversionMatrix:
-        unitConversionMatrix[ ( op1, op2 ) ] = str( unitConversionMatrix[ ( op1, op2 ) ] )
+    for ops, factor in unitConversionMatrix.items( ):
+        unitConversionMatrix[ ( ops[ 0 ], ops[ 1 ] ) ] = str( factor )
 
     print( 'Saving everything...' )
 
@@ -531,8 +525,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unitType in basicUnitTypes.keys( ):
         unitTypeDict[ unitType ] = list( )
 
-    for unit in unitOperators:
-        unitTypeDict[ unitOperators[ unit ].unitType ].append( unit )
+    for unit, unitInfo in unitOperators.items( ):
+        unitTypeDict[ unitInfo.unitType ].append( unit )
 
     fileName = getDataPath( ) + os.sep + 'unit_help.pckl.bz2'
 
