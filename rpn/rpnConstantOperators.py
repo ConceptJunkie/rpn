@@ -253,51 +253,135 @@ protons and two neutrons.
 ''' ),
 
     'deuteron_mass' :
-        RPNConstantInfo( '3.343583719e-27', 'kilogram', [ ], True,
+        RPNConstantInfo( '3.34358550157e-27', 'kilogram', [ ], True,
                          'Deuterium nucleus mass',
                          '''
+The nucleus of deuterium is called a deuteron.  It has a mass of
+2.013553212745(40) u (equal to 1875.612928(12) MeV).
+
+The charge radius of the deuteron is 2.1413(25) fm.[21] Like the proton radius,
+measurements using muonic deuterium produce a significantly smaller result:
+2.12562(78) fm.[22] This is 6s less than the accepted CODATA 2014 value,
+measured using electrons, and confirms the unresolved proton charge radius anomaly.
+
+Ref:  https://en.wikipedia.org/wiki/Deuterium#Deuteron_mass_and_radius
 ''' ),
 
     'electron_mass' :
         RPNConstantInfo( '9.10938356e-31', 'kilogram', [ 'electron_rest_mass' ], True,
                          '',
                          '''
+The electron rest mass is the mass of a stationary electron, also known as the
+invariant mass of the electron.  It is one of the fundamental constants of
+physics.  It has a value of about 9.109x10^-31 kilograms or about 5.486x10^-4
+atomic mass units, equivalent to an energy of about 8.187xe10^-14 joules or about
+0.5110 MeV.
+
+https://en.wikipedia.org/wiki/Electron_rest_mass
 ''' ),
 
     'helion_mass' :
         RPNConstantInfo( '5.006412700e-27', 'kilogram', [ ], True,
                          'Helium-3 nucleus mass',
                          '''
+A helion is a short name for the naked nucleus of helium, a doubly positively
+charged helium ion. In practice, helion refers specifically to the nucleus of
+the helium-3 isotope, consisting of two protons and one neutron.  The nucleus
+of the other stable isotope of helium, helium-4 isotope, which consists of two
+protons and two neutrons, is specifically called an alpha particle.
+
+This particle is emitted in the decay of tritium, an isotope of hydrogen.
+
+https://en.wikipedia.org/wiki/Helion_(chemistry)
+https://physics.nist.gov/cgi-bin/cuu/Value?mh
 ''' ),
 
     'muon_mass' :
         RPNConstantInfo( '1.883531594e-28', 'kilogram', [ ], True,
                          '',
                          '''
+The muon, (from the Greek letter mu, used to represent it) is an elementary
+particle similar to the electron, with an electric charge of -1 e and a spin of
+1/2, but with a much greater mass.  It is classified as a lepton.  As is the
+case with other leptons, the muon is not believed to have any sub-structure -
+that is, it is not thought to be composed of any simpler particles.
+
+Ref:  https://en.wikipedia.org/wiki/Muon
 ''' ),
 
     'neutron_mass' :
         RPNConstantInfo( '1.674927471e-27', 'kilogram', [ ], True,
                          '',
                          '''
+The neutron is a subatomic particle, with no net electric charge and a mass
+slightly larger than that of a proton.  Protons and neutrons constitute the
+nuclei of atoms.  Since protons and neutrons behave similarly within the
+nucleus, and each has a mass of approximately one atomic mass unit, they are
+both referred to as nucleons.  Their properties and interactions are described
+by nuclear physics.
+
+Ref:  https://en.wikipedia.org/wiki/Neutron
 ''' ),
 
     'proton_mass' :
         RPNConstantInfo( '1.672621898e-27', 'kilogram', [ ], True,
                          '',
                          '''
+A proton is a subatomic particle with a positive electric charge of +1
+elementary charge and a mass slightly less than that of a neutron.  Protons
+and neutrons, each with masses of approximately one atomic mass unit, are
+collectively referred to as "nucleons".
+
+One or more protons are present in the nucleus of every atom; they are a
+necessary part of the nucleus.  The number of protons in the nucleus is the
+defining property of an element, and is referred to as the atomic number
+(represented by the symbol Z). Since each element has a unique number of
+protons, each element has its own unique atomic number.
+
+https://en.wikipedia.org/wiki/Proton
 ''' ),
 
     'tau_mass' :
         RPNConstantInfo( '3.16747e-27', 'kilogram', [ ], True,
                          '',
                          '''
+The tau, also called the tau lepton, tau particle, or tauon, is an elementary
+particle similar to the electron, with negative electric charge and a spin of
+1/2. Together with the electron, the muon, and the three neutrinos, it is a
+lepton.
+
+https://en.wikipedia.org/wiki/Tau_(particle)
 ''' ),
 
     'triton_mass' :
         RPNConstantInfo( '5.007356665e-27', 'kilogram', [ ], True,
                          '',
                          '''
+Tritium, also known as hydrogen-3, is a radioactive isotope of hydrogen.  The
+nucleus of tritium (sometimes called a triton) contains one proton and two
+neutrons, whereas the nucleus of protium (by far the most abundant hydrogen
+isotope) contains one proton and no neutrons.  Naturally occurring tritium is
+extremely rare on Earth, where trace amounts are formed by the interaction of
+the atmosphere with cosmic rays.  It can be produced by irradiating lithium
+metal or lithium-bearing ceramic pebbles in a nuclear reactor.
+
+Ref:  https://en.wikipedia.org/wiki/Tritium
+''' ),
+
+    'triple_point_of_water' :
+        RPNConstantInfo( '273.16', 'kelvin', [ ], True,
+                         '',
+                         '''
+In thermodynamics, the triple point of a substance is the temperature and
+pressure at which the three phases (gas, liquid, and solid) of that substance
+coexist in thermodynamic equilibrium.
+
+The triple point of water was used to define the kelvin, the base unit of
+thermodynamic temperature in the International System of Units (SI).  The value
+of the triple point of water was fixed by definition, rather than measured, but
+that changed with the 2019 redefinition of SI base units.
+
+Ref:  https://en.wikipedia.org/wiki/Triple_point
 ''' ),
 
     # heavenly body constants

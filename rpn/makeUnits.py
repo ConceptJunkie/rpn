@@ -421,8 +421,9 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
 
             if not almosteq( fmul( factor1, factor2 ), factor3, rel_eps=1.0e-10 ):
                 print( 'conversion inconsistency found for ' + unit1 + ', ' + unit2 + ', and', unit3 )
-                print( factor1, factor2, factor3 )
-                print( fmul( factor1, factor2 ), factor3 )
+                print( unit1 + ' --> ' + unit2, factor1 )
+                print( unit2 + ' --> ' + unit3, factor2 )
+                print( unit3 + ' --> ' + unit1, factor3 )
                 print( )
 
 

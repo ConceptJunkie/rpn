@@ -251,7 +251,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'homestead' :
-        RPNUnitInfo( 'area', 'homesteads', '', [ ], [ 'US' ],
+        RPNUnitInfo( 'area', 'homesteads', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -286,7 +286,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'section' :
-        RPNUnitInfo( 'area', 'sections', '', [ ], [ 'US' ],
+        RPNUnitInfo( 'area', 'sections', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -296,7 +296,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'township' :
-        RPNUnitInfo( 'area', 'townships', '', [ ], [ 'US' ],
+        RPNUnitInfo( 'area', 'townships', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1070,7 +1070,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     # energy
     'btu' :
-        RPNUnitInfo( 'energy', 'BTUs', '', [ 'btus' ], [ 'England', 'US' ],
+        RPNUnitInfo( 'energy', 'BTUs', '', [ 'btus' ], [ 'England', 'U.S.' ],
                      '''
 ''' ),
 
@@ -1136,7 +1136,7 @@ Ref:  https://www.ibiblio.org/units/dictK.html
 ''' ),
 
     'quad' :
-        RPNUnitInfo( 'energy', 'quads', '', [ ], [ 'US' ],
+        RPNUnitInfo( 'energy', 'quads', '', [ ], [ 'U.S.' ],
                      '''
 A quad is a unit of energy equal to 10^15 (a short-scale quadrillion) BTU, or
 1.055e18 joules (1.055 exajoules or EJ) in SI units.  The unit is used by
@@ -1152,7 +1152,7 @@ The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
 ''' ),
 
     'therm' :
-        RPNUnitInfo( 'energy', 'therms', '', [ 'thm' ], [ 'England', 'US' ],
+        RPNUnitInfo( 'energy', 'therms', '', [ 'thm' ], [ 'England', 'U.S.' ],
                      '''
 The therm (symbol thm) is a non-SI unit of heat energy equal to 100,000
 British thermal units (BTU).  It is approximately the energy equivalent of
@@ -1313,12 +1313,6 @@ This is the definition of the SI derived unit Newton (N).
 ''' ),
 
     # information_entropy
-    'ban' :
-        RPNUnitInfo( 'information_entropy', 'bans', '',
-                     [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ],
-                     '''
-''' ),
-
     'bit' :
         RPNUnitInfo( 'information_entropy', 'bits', 'b',
                      [ 'shannon', 'shannons' ], [ 'computing' ],
@@ -1349,6 +1343,21 @@ and on different platforms, but is now commonly defined to be 8 bits in size.
                      [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ],
                      '''
 A 'double-word' consisting of 2 16-bits words, or 32 bits total.
+''' ),
+
+    'hartley' :
+        RPNUnitInfo( 'information_entropy', 'hartleys', 'Hart',
+                     [ 'dit', 'dits', 'ban', 'bans' ], [ 'IEC' ],
+                     '''
+The hartley (symbol Hart), also called a ban, or a dit (short for decimal
+digit), is a logarithmic unit which measures information or entropy, based on
+base 10 logarithms and powers of 10, rather than the powers of 2 and base 2
+logarithms which define the bit, or shannon.  One ban or hartley is the
+information content of an event if the probability of that event occurring is
+1/10.  It is therefore equal to the information contained in one decimal digit
+(or dit), assuming a priori equiprobability of each possible value.
+
+Ref:  https://en.wikipedia.org/wiki/Hartley_(unit)
 ''' ),
 
     'joule/kelvin' :
@@ -1489,7 +1498,7 @@ http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
 
     'caliber' :
-        RPNUnitInfo( 'length', 'caliber', '', [ 'calibre' ], [ 'US' ],
+        RPNUnitInfo( 'length', 'caliber', '', [ 'calibre' ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1683,7 +1692,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'mil' :
-        RPNUnitInfo( 'length', 'mils', '', [ 'thou' ], [ 'US' ],
+        RPNUnitInfo( 'length', 'mils', '', [ 'thou' ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1728,8 +1737,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'pyad' :
-        RPNUnitInfo( 'length', 'pyads', '',
-                     [ ], [ 'Russia', 'obsolete' ],
+        RPNUnitInfo( 'length', 'pyads', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
@@ -1847,7 +1855,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'footlambert' :
-        RPNUnitInfo( 'luminance', 'footlamberts', '', [ ], [ 'US', 'obsolete' ],
+        RPNUnitInfo( 'luminance', 'footlamberts', '', [ ], [ 'U.S.', 'obsolete' ],
                      '''
 ''' ),
 
@@ -1956,7 +1964,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'carat' :
-        RPNUnitInfo( 'mass', 'carats', 'ct', [ ], [ 'US' ],
+        RPNUnitInfo( 'mass', 'carats', 'ct', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2017,7 +2025,7 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'kip' :
-        RPNUnitInfo( 'mass', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'US' ],
+        RPNUnitInfo( 'mass', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2047,7 +2055,7 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'pound' :
-        RPNUnitInfo( 'mass', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ],
+        RPNUnitInfo( 'mass', 'pounds', 'lb', [ ], [ 'U.S.', 'traditional', 'FPS' ],
                      '''
 ''' ),
 
@@ -2078,12 +2086,12 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'stone_us' :
-        RPNUnitInfo( 'mass', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'US' ],
+        RPNUnitInfo( 'mass', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'U.S.' ],
                      '''
 ''' ),
 
     'ton' :
-        RPNUnitInfo( 'mass', 'tons', '', [ ], [ 'traditional', 'US' ],
+        RPNUnitInfo( 'mass', 'tons', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
 ''' ),
 
@@ -2129,7 +2137,7 @@ This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'horsepower' :
-        RPNUnitInfo( 'power', 'horsepower', 'hp', [ ], [ 'US' ],
+        RPNUnitInfo( 'power', 'horsepower', 'hp', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2355,7 +2363,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'fahrenheit' :
         RPNUnitInfo( 'temperature', 'degrees_fahrenheit', '',
-                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ], [ 'US', 'traditional' ],
+                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ], [ 'U.S.', 'traditional' ],
                      '''
 ''' ),
 
@@ -2614,7 +2622,7 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 ''' ),
 
     'mach' :
-        RPNUnitInfo( 'velocity', 'mach', '', [ ], [ 'US' ],
+        RPNUnitInfo( 'velocity', 'mach', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2625,23 +2633,21 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 
     # volume
     'balthazar' :
-        RPNUnitInfo( 'volume', 'balthazars', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'balthazars', '', [ 'belshazzar', 'belshazzars' ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'beer_barrel' :
-        RPNUnitInfo( 'volume', 'beer_barrel', '', [ ], [ 'US', 'beer' ],
+        RPNUnitInfo( 'volume', 'beer_barrel', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
     'beer_keg' :
-        RPNUnitInfo( 'volume', 'beer_kegs', '', [ ], [ 'US', 'beer' ],
+        RPNUnitInfo( 'volume', 'beer_kegs', '', [ ], [ 'U.S.', 'beer' ],
                      '''
-''' ),
-
-    'bottle' :
-        RPNUnitInfo( 'volume', 'bottles', '', [ ], [ 'wine' ],
-                     '''
+https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
     'bucket' :
@@ -2654,14 +2660,21 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
                      '''
 ''' ),
 
+    'butt' :
+        RPNUnitInfo( 'volume', 'butts', '', [ 'pipe', 'pipes' ], [ 'U.S.', 'wine' ],
+                     '''
+''' ),
+
     'chopine' :
         RPNUnitInfo( 'volume', 'chopines', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'clavelin' :
         RPNUnitInfo( 'volume', 'clavelins', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'coffeespoon' :
@@ -2669,18 +2682,8 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
                      '''
 ''' ),
 
-    'coomb' :
-        RPNUnitInfo( 'volume', 'coombs', '', [ ], [ 'imperial' ],
-                     '''
-''' ),
-
     'cord' :
         RPNUnitInfo( 'volume', 'cords', '', [ ], [ 'traditional' ],
-                     '''
-''' ),
-
-    'foot^3' :
-        RPNUnitInfo( 'volume', 'foot^3', '', [ ], [ 'traditional', 'FPS' ],
                      '''
 ''' ),
 
@@ -2697,6 +2700,7 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'demi' :
         RPNUnitInfo( 'volume', 'demis', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'dessertspoon' :
@@ -2713,6 +2717,13 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'dry_barrel' :
         RPNUnitInfo( 'volume', 'dry_barrels', '', [ ], [ 'imperial' ],
                      '''
+Defined as length of stave 28-1/2 inches (72 cm), diameter of head 17-1/8
+inches (43 cm), distance between heads 26 inches (66 cm), circumference of
+bulge 64 inches (1.6 m) outside measurement; representing as nearly as
+possible 7,056 cubic inches; and the thickness of staves not greater than
+4/10 inch (10 mm).  This is exactly equal to 26.25 US dry gallons.
+
+Ref:  https://en.wikipedia.org/wiki/Barrel_(unit)#Dry_goods_in_the_US
 ''' ),
 
     'dry_hogshead' :
@@ -2721,17 +2732,17 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 ''' ),
 
     'dry_gallon' :
-        RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'traditional', 'US' ],
+        RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
 ''' ),
 
     'dry_pint' :
-        RPNUnitInfo( 'volume', 'dry_pints', '', [ ], [ 'traditional', 'US' ],
+        RPNUnitInfo( 'volume', 'dry_pints', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
 ''' ),
 
     'dry_quart' :
-        RPNUnitInfo( 'volume', 'dry_quarts', '', [ ], [ 'traditional', 'US' ],
+        RPNUnitInfo( 'volume', 'dry_quarts', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
 ''' ),
 
@@ -2747,17 +2758,24 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 ''' ),
 
     'fifth' :
-        RPNUnitInfo( 'volume', 'fifths', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'fifths', '', [ ], [ 'U.S.', 'liquor' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
 ''' ),
 
     'firkin' :
-        RPNUnitInfo( 'volume', 'firkins', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'firkins', '', [ ], [ 'imperial', 'beer' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'fluid_ounce' :
         RPNUnitInfo( 'volume', 'fluid_ounces', '', [ 'floz' ], [ 'traditional' ],
+                     '''
+''' ),
+
+    'foot^3' :
+        RPNUnitInfo( 'volume', 'foot^3', '', [ ], [ 'traditional', 'FPS' ],
                      '''
 ''' ),
 
@@ -2781,11 +2799,13 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'goliath' :
         RPNUnitInfo( 'volume', 'goliaths', '', [ 'primat' ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
-    'hogshead' :
-        RPNUnitInfo( 'volume', 'hogsheads', '', [ ], [ 'traditional', 'wine' ],
+    'growler' :
+        RPNUnitInfo( 'volume', 'growlers', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'hoppus_foot' :
@@ -2815,15 +2835,21 @@ Myanmar (Burma), are still stated in hoppus tons.
 Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
+    'imperial_barrel' :
+        RPNUnitInfo( 'volume', 'imperial_barrels', '', [ ], [ 'imperial', 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+''' ),
+
     'imperial_bushel' :
         RPNUnitInfo( 'volume', 'imperial_bushels', '', [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_butt' :
-        RPNUnitInfo( 'volume', 'imperial_butts', '',
-                     [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'imperial_butts', '', [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_cup' :
@@ -2842,13 +2868,20 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'imperial_hogshead' :
-        RPNUnitInfo( 'volume', 'imperial_hogsheads', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'imperial_hogsheads', '', [ ], [ 'imperial', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_peck' :
         RPNUnitInfo( 'volume', 'imperial_pecks', '', [ ], [ 'imperial' ],
                      '''
+A peck is an imperial and United States customary unit of dry volume,
+equivalent to 2 dry gallons or 8 dry quarts or 16 dry pints.  Two pecks make a
+kenning (obsolete), and four pecks make a bushel.  Although the peck is no
+longer widely used, some produce, such as apples, is still often sold by the peck.
+
+Ref:  https://en.wikipedia.org/wiki/Peck
 ''' ),
 
     'imperial_pint' :
@@ -2856,13 +2889,25 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
                      '''
 ''' ),
 
+    'imperial_puncheon' :
+        RPNUnitInfo( 'volume', 'imperial_puncheons', '', [ 'imperial_tertian', 'imperial_tertians' ], [ 'imperial', 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+''' ),
+
     'imperial_quart' :
         RPNUnitInfo( 'volume', 'imperial_quarts', '', [ ], [ 'imperial' ],
                      '''
 ''' ),
 
-    'jack' :
-        RPNUnitInfo( 'volume', 'jacks', '', [ 'jackpot', 'jackpots' ], [ 'imperial' ],
+    'imperial_tun' :
+        RPNUnitInfo( 'volume', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+''' ),
+
+    'inch^3' :
+        RPNUnitInfo( 'volume', 'inch^3', '', [ ], [ 'traditional' ],
                      '''
 ''' ),
 
@@ -2874,11 +2919,13 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
     'jeroboam' :
         RPNUnitInfo( 'volume', 'jeroboams', '', [ 'double_magnum', 'double_magnums' ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'jigger' :
-        RPNUnitInfo( 'volume', 'jiggers', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'jiggers', '', [ 'short_shot', 'short_shots' ], [ 'U.S.', 'liquor' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_measurements
 ''' ),
 
     'kenning' :
@@ -2887,34 +2934,43 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'kilderkin' :
-        RPNUnitInfo( 'volume', 'kilderkins', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'kilderkins', '', [ ], [ 'imperial', 'beer' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'liter' :
         RPNUnitInfo( 'volume', 'liters', 'L',    # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
                      [ ], [ 'SI' ],
                      '''
+The liter is an SI  accepted metric system unit of volume equal to 1 cubic
+decimeter (dm^3), 1,000 cubic centimeters (cm^3) or 1/1,000 cubic meter.
+
+Ref:  https://en.wikipedia.org/wiki/Litre
 ''' ),
 
     'magnum' :
         RPNUnitInfo( 'volume', 'magnums', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'marie_jeanne' :
-        RPNUnitInfo( 'volume', 'marie_jeannes', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'marie_jeannes', '', [ 'dame_jeanne', 'dame_jeannes' ], [ 'France', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
 ''' ),
 
     'melchior' :
         RPNUnitInfo( 'volume', 'melchiors', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'melchizedek' :
-        RPNUnitInfo( 'volume', 'melchizedeks', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'melchizedeks', '', [ 'midas', 'midases' ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'meter^3' :
@@ -2923,8 +2979,9 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'methuselah' :
-        RPNUnitInfo( 'volume', 'methuselahs', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'methuselahs', '', [ 'mathusalem', 'mathusalems' ], [ 'France', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
 ''' ),
 
     'minim' :
@@ -2938,8 +2995,9 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'nebuchadnezzar' :
-        RPNUnitInfo( 'volume', 'nebuchadnezzars', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'nebuchadnezzars', '', [ 'nabuchodonosor', 'nabuchodonosors' ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'ngogn' :
@@ -2948,18 +3006,25 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'oil_barrel' :
-        RPNUnitInfo( 'volume', 'oil_barrels', 'bbl', [ ], [ 'US' ],
+        RPNUnitInfo( 'volume', 'oil_barrels', 'bbl', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
     'peck' :
-        RPNUnitInfo( 'volume', 'pecks', 'pk', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'pecks', 'pk', [ ], [ 'U.S.' ],
                      '''
+A peck is an imperial and United States customary unit of dry volume,
+equivalent to 2 dry gallons or 8 dry quarts or 16 dry pints.  Two pecks make a
+kenning (obsolete), and four pecks make a bushel.  Although the peck is no
+longer widely used, some produce, such as apples, is still often sold by the peck.
+
+Ref:  https://en.wikipedia.org/wiki/Peck
 ''' ),
 
     'piccolo' :
         RPNUnitInfo( 'volume', 'piccolos', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'pinch' :
@@ -2968,23 +3033,24 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'pin' :
-        RPNUnitInfo( 'volume', 'pins', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'pins', '', [ ], [ 'imperial', 'beer' ],
                      '''
 ''' ),
 
     'pint' :
-        RPNUnitInfo( 'volume', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'US' ],
-                     '''
-''' ),
-
-    'pipe' :
-        RPNUnitInfo( 'volume', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'U.S.' ],
                      '''
 ''' ),
 
     'pony' :
-        RPNUnitInfo( 'volume', 'ponies', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'ponies', '', [ ], [ 'U.S.', 'liquor' ],
                      '''
+''' ),
+
+    'pony_keg' :
+        RPNUnitInfo( 'volume', 'pony_kegs', '', [ ], [ 'U.S.', 'beer' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'portuguese_almude' :
@@ -2998,28 +3064,32 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'puncheon' :
-        RPNUnitInfo( 'volume', 'puncheons', '', [ 'tertian', 'tertians' ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'puncheons', '', [ ], [ 'U.S.', 'wine', 'beer' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'quart' :
-        RPNUnitInfo( 'volume', 'quarts', 'qt', [ ], [ 'US' ],
+        RPNUnitInfo( 'volume', 'quarts', 'qt', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
     'rehoboam' :
         RPNUnitInfo( 'volume', 'rehoboams', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'rundlet' :
-        RPNUnitInfo( 'volume', 'rundlets', '', [ ], [ 'imperial', 'wine' ],
+        RPNUnitInfo( 'volume', 'rundlets', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'salmanazar' :
         RPNUnitInfo( 'volume', 'salmanazars', '', [ ], [ 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'saltspoon' :
@@ -3040,7 +3110,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 ''' ),
 
     'snit' :
-        RPNUnitInfo( 'volume', 'snits', '', [ ], [ 'U.S.' ],
+        RPNUnitInfo( 'volume', 'snits', '', [ ], [ 'U.S.', 'liquor' ],
                      '''
 http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
@@ -3051,18 +3121,15 @@ http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
 
     'solomon' :
-        RPNUnitInfo( 'volume', 'solomons', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'solomons', '', [ ], [ 'France', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'sovereign' :
-        RPNUnitInfo( 'volume', 'sovereigns', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'sovereigns', '', [ ], [ 'France', 'wine' ],
                      '''
-''' ),
-
-    'standard' :
-        RPNUnitInfo( 'volume', 'standards', '', [ ], [ 'wine' ],
-                     '''
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'stein' :
@@ -3077,11 +3144,6 @@ http://www.unc.edu/~rowlett/units/dictS.html
 
     'stere' :
         RPNUnitInfo( 'volume', 'steres', 'st', [ ], [ 'metric', 'obsolete' ],  # ... but not SI
-                     '''
-''' ),
-
-    'strike' :
-        RPNUnitInfo( 'volume', 'strikes', '', [ ], [ 'imperial' ],
                      '''
 ''' ),
 
@@ -3103,44 +3165,38 @@ equal to 562,000 megaliters.
 ''' ),
 
     'tierce' :
-        RPNUnitInfo( 'volume', 'tierces', '', [ ], [ 'wine', 'imperial' ],
+        RPNUnitInfo( 'volume', 'tierces', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'tun' :
-        RPNUnitInfo( 'volume', 'tuns', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'tuns', '', [ ], [ 'U.S.', 'wine', 'beer' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+''' ),
+
+    'wine_barrel' :
+        RPNUnitInfo( 'volume', 'wine_barrels', '', [ ], [ 'U.S.', 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+''' ),
+
+    'wine_bottle' :
+        RPNUnitInfo( 'volume', 'wine_bottles', '', [ 'bottle', 'bottles' ], [ 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
+''' ),
+
+    'wine_hogshead' :
+        RPNUnitInfo( 'volume', 'hogsheads', '', [ ], [ 'U.S.', 'wine' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'wineglass' :
         RPNUnitInfo( 'volume', 'wineglasses', '',
                      [ 'wine_glass', 'wine_glasses' ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_barrel' :
-        RPNUnitInfo( 'volume', 'wine_barrels', '', [ ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_butt' :
-        RPNUnitInfo( 'volume', 'wine_butts', '',
-                     [ 'wine_pipe', 'wine_pipes' ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_gallon' :
-        RPNUnitInfo( 'volume', 'wine_gallons', '', [ ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_hogshead' :
-        RPNUnitInfo( 'volume', 'wine_hogsheads', '', [ ], [ 'imperial', 'wine' ],
-                     '''
-''' ),
-
-    'wine_tun' :
-        RPNUnitInfo( 'volume', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 }
@@ -3360,443 +3416,123 @@ binaryPrefixes = [
 # //******************************************************************************
 
 unitConversionMatrix = {
-    ( 'abampere',                   'ampere' )                              : mpmathify( '10' ),
-    ( 'abcoulomb',                  'coulomb' )                             : mpmathify( '10' ),
-    ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
-    ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
-    ( 'acre',                       'foot^2' )                              : mpmathify( '43560' ),
-    ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
-    ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
-    ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
-    ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
-    ( 'are',                        'meter^2' )                             : mpmathify( '100' ),
-    ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
-    ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
-    ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
-    ( 'atmosphere',                 'pascal' )                              : mpmathify( '101325' ),
-    ( 'thirteen',                   'unity' )                               : mpmathify( '13' ),
-    ( 'balthazar',                  'liter' )                               : mpmathify( '12.0' ),
-    ( 'ban',                        'nat' )                                 : log( 10 ),
-    ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
-    ( 'bar',                        'pascal' )                              : mpmathify( '1.0e5' ),
-    ( 'barleycorn',                 'poppyseed' )                           : mpmathify( '4' ),
-    ( 'beat',                       'blink' )                               : mpmathify( '100' ),
-    ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
-    ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
-    ( 'berkovets',                  'dolya' )                               : mpmathify( '3686400' ),
-    ( 'billion',                    'unity' )                               : mpmathify( '1.0e9' ),
-    ( 'bit',                        'kilogram*meter^2/kelvin*second^2' )    : fmul( mpmathify( '1.38064852e-23' ), log( 2 ) ),
-    ( 'bit',                        'nat' )                                 : log( 2 ),
-    ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
-    ( 'blintz',                     'furshlugginer_blintz' )                : mpmathify( '1.0e-6' ),
-    ( 'blintz',                     'gram' )                                : mpmathify( '36.42538631' ),
-    ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
-    ( 'btu',                        'joule' )                               : mpmathify( '1054.5' ),
-    ( 'btupf',                      'joule/kelvin' )                        : mpmathify( '1899.100534716' ),
-    ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
-    ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
-    ( 'byte',                       'bit' )                                 : mpmathify( '8' ),
-    ( 'byte/second',                'bit/second' )                          : mpmathify( '8' ),
-    ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
-    ( 'candela*radian^2/meter^2',   'lumen/meter^2' )                       : mpmathify( '1' ),
-    ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
-    ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
-    ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
+    # acceleration
+
     ( 'celo',                       'meter/second^2' )                      : mpmathify( '0.3048' ),
-    ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
-    ( 'celsius',                    'reaumur' )                             : fdiv( 4, 5 ),
-    ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
-    ( 'century',                    'microcentury' )                        : mpmathify( '1.0e6' ),
-    ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
-    ( 'century',                    'year' )                                : mpmathify( '100' ),
-    ( 'chain',                      'yard' )                                : mpmathify( '22' ),
-    ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
-    ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
+    ( 'galileo',                    'meter/second^2' )                      : mpmathify( '0.01' ),
+    ( 'leo',                        'meter/second^2' )                      : mpmathify( '10' ),
+
+    # amount_of_substance
+
+    # angle
+
+    ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'circle',                     'degree' )                              : mpmathify( '360' ),
-    ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
-    ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ), # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
-    ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
-    ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
-    ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
-    ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
-    ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
-    ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
-    ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
-    ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
-    ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
-    ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
-    ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
-    ( 'cup',                        'dram' )                                : mpmathify( '64' ),
-    ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
-    ( 'cup',                        'gill' )                                : mpmathify( '2' ),
-    ( 'cup',                        'wineglass' )                           : mpmathify( '4' ),
-    ( 'curie',                      'becquerel' )                           : mpmathify( '3.7e10' ),
-    ( 'dalton',                     'gram' )                                : mpmathify( '1.660539040e-24' ),
-    ( 'day',                        'beat' )                                : mpmathify( '1000' ),
-    ( 'day',                        'hour' )                                : mpmathify( '24' ),
-    ( 'decade',                     'year' )                                : mpmathify( '10' ),
-    ( 'decibel-watt',               'decibel-milliwatt' )                   : mpmathify( '30' ),
-    ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'furman' )                              : mpmathify( '65536' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
-    ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
-    ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
-    ( 'diuym',                      'inch' )                                : mpmathify( '1' ),
-    ( 'diuym',                      'liniya' )                              : mpmathify( '10' ),
-    ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
-    ( 'twelve',                     'unity' )                               : mpmathify( '12' ),
-    ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
-    ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
-    ( 'dry_barrel',                 'foot^3' )                              : fdiv( 49, 12 ),
-    ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
-    ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
-    ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
-    ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
-    ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
-    ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
-    ( 'eight',                      'unity' )                               : mpmathify( '8' ),
-    ( 'eighteen',                   'unity' )                               : mpmathify( '18' ),
-    ( 'eighty',                     'unity' )                               : mpmathify( '80' ),
-    ( 'electron-volt',              'joule' )                               : mpmathify( '1.6021766208e-19' ),
-    ( 'eleven',                     'unity' )                               : mpmathify( '11' ),
-    ( 'ell',                        'inch' )                                : mpmathify( '45' ),
-    ( 'eon',                        'year' )                                : mpmathify( '1e9' ),
-    ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
-    ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
-    ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
-    ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
-    ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
-    ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
-    ( 'fifteen',                    'unity' )                               : mpmathify( '15' ),
-    ( 'fifty',                      'unity' )                               : mpmathify( '50' ),
-    ( 'finger',                     'inch' )                                : mpmathify( '4.5' ),
-    ( 'fingerbreadth',              'inch' )                                : mpmathify( '0.75' ),
-    ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
-    ( 'firkin',                     'pin' )                                 : mpmathify( '2' ),
-    ( 'five',                       'unity' )                               : mpmathify( '5' ),
-    ( 'flame',                      'lux' )                                 : mpmathify( '43.0556416668' ),
-    ( 'forty',                      'unity' )                               : mpmathify( '40' ),
-    ( 'fluid_ounce',                'dram' )                                : mpmathify( '8' ),
-    ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
-    ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
-    ( 'foot',                       'inch' )                                : mpmathify( '12' ),
-    ( 'footcandle',                 'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ), # rpn -a54 meter foot convert sqr value
-    ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ), # rpn -a54 meter foot convert sqr value pi /
-    ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
-    ( 'fortnight',                  'microfortnight' )                      : mpmathify( '1.0e6' ),
-    ( 'four',                       'unity' )                               : mpmathify( '4' ),
-    ( 'fourteen',                   'unity' )                               : mpmathify( '14' ),
-    ( 'funt',                       'dolya' )                               : mpmathify( '9216' ),
-    ( 'furlong',                    'yard' )                                : mpmathify( '220' ),
-    ( 'fut',                        'foot' )                                : mpmathify( '1' ),
-    ( 'galileo',                    'meter/second^2' )                      : mpmathify( '0.01' ),
-    ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
-    ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
-    ( 'goliath',                    'liter' )                               : mpmathify( '27.0' ),
-    ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
-    ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
-    ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
-    ( 'gram_force',                 'newton' )                              : mpmathify( '0.00980665' ),
-    ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
-    ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
-    ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
-    ( 'great_gross',                'gross' )                               : mpmathify( '12' ),
-    ( 'greek_cubit',                'inch' )                                : mpmathify( '18.22' ),
-    ( 'gregorian_year',             'second' )                              : mpmathify( '31556952' ),
-    ( 'gross',                      'unity' )                               : mpmathify( '144' ),
-    ( 'hand',                       'inch' )                                : mpmathify( '4' ),
-    ( 'handbreadth',                'inch' )                                : mpmathify( '3' ),
-    ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
-    ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
-    ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
-    ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
-    ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
-    ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
-    ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
+    ( 'octant',                     'degree' )                              : mpmathify( '45' ),
+    ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
+    ( 'quadrant',                   'degree' )                              : mpmathify( '90' ),
+    ( 'quintant',                   'degree' )                              : mpmathify( '72' ),
+    ( 'radian',                     'centrad' )                             : mpmathify( '100' ),
+    ( 'radian',                     'degree' )                              : fdiv( 180, pi ),
+    ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
+
+    # area
+
+    ( 'acre',                       'foot^2' )                              : mpmathify( '43560' ),
+    ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
+    ( 'are',                        'meter^2' )                             : mpmathify( '100' ),
+    ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
+    ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
+    ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
+    ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ), # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
-    ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
-    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.802706436' ),
-    ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
-    ( 'hour',                       'minute' )                              : mpmathify( '60' ),
-    ( 'hubble',                     'light-year' )                          : mpmathify( '1.0e9' ),
-    ( 'hundred',                    'unity' )                               : mpmathify( '100' ),
-    ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
-    ( 'imperial_butt',              'imperial_hogshead' )                   : mpmathify( '2' ),
-    ( 'imperial_cup',               'imperial_gill' )                       : mpmathify( '2' ),
-    ( 'imperial_gallon',            'pottle' )                              : mpmathify( '2' ),
-    ( 'imperial_gill',              'jack' )                                : mpmathify( '2' ),
-    ( 'imperial_hogshead',          'coomb' )                               : mpmathify( '2' ),
-    ( 'imperial_peck',              'imperial_quart' )                      : mpmathify( '2' ),
-    ( 'imperial_pint',              'imperial_cup' )                        : mpmathify( '2' ),
-    ( 'imperial_quart',             'imperial_pint' )                       : mpmathify( '2' ),
     ( 'imperial_square',            'foot^2' )                              : mpmathify( '100' ),
-    ( 'inch',                       'barleycorn' )                          : mpmathify( '3' ),
-    ( 'inch',                       'caliber' )                             : mpmathify( '100' ),
-    ( 'inch',                       'cicero' )                              : fdiv( mpmathify( '50.8' ), 9 ),
-    ( 'inch',                       'gutenberg' )                           : mpmathify( '7200' ),
-    ( 'inch',                       'meter' )                               : mpmathify( '0.0254' ),
-    ( 'inch',                       'mil' )                                 : mpmathify( '1000' ),
-    ( 'inch',                       'pica' )                                : mpmathify( '6' ),
-    ( 'inch',                       'point' )                               : mpmathify( '72' ),
-    ( 'inch',                       'twip' )                                : mpmathify( '1440' ),
-    ( 'jack',                       'tablespoon' )                          : mpmathify( '5' ),
-    ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
-    ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
-    ( 'jigger',                     'pony' )                                : mpmathify( '2' ),
-    ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
-    ( 'joule',                      'kilogram*meter^2/second^2' )           : mpmathify( '1' ),
-    ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
-    ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
-    ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
-    ( 'kayser',                     'electron-volt' )                       : mpmathify( '123.984e-6' ),
-    ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
-    ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
-    ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
-    ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
-    ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
-    ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
-    ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),
-    ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
-    ( 'league',                     'mile' )                                : mpmathify( '3' ),
-    ( 'leo',                        'meter/second^2' )                      : mpmathify( '10' ),
-    ( 'library_of_congress',        'byte' )                                : mpmathify( '1.0e13' ),
-    ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
-    ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
-    ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
-    ( 'liter',                      'ngogn' )                               : mpmathify( '86.2477899004' ),
-    ( 'liter',                      'stein' )                               : mpmathify( '2' ),
-    ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
-    ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
-    ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
-    ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
-    ( 'lumen',                      'candela*radian^2' )                    : mpmathify( '1' ),
-    ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
-    ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '10.7639104167' ),
-    ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
-    ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
-    ( 'magnum',                     'bottle' )                              : mpmathify( '2' ),
-    ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
-    ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
-    ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
-    ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
-    ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
-    ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
-    ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
-    ( 'meter',                      'french' )                              : mpmathify( '3000' ),
-    ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
-    ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
-    ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
-    ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
-    ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
     ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
     ( 'meter^2',                    'foot^2' )                              : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ),  # (meter/foot)^2
     ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
     ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
-    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
-    ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
-    ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
-    ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
-    ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
-    ( 'million',                    'unity' )                               : mpmathify( '1.0e6' ),
-    ( 'mingo',                      'clarke' )                              : mpmathify( '10' ),
-    ( 'minute',                     'second' )                              : mpmathify( '60' ),
-    ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
-    ( 'month',                      'day' )                                 : mpmathify( '30' ),
-    ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
-    ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
-    ( 'nat',                        'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
-    ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
-    ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
-    ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
-    ( 'newton',                     'kilogram*meter/second^2' )             : mpmathify( '1' ),
-    ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
-    ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
-    ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
-    ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
-    ( 'nibble',                     'bit' )                                 : mpmathify( '4' ),
+    ( 'rood',                       'foot^2' )                              : mpmathify( '10890' ),
+    ( 'section',                    'acre' )                                : mpmathify( '640' ),
+    ( 'township',                   'acre' )                                : mpmathify( '23040' ),
+    ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
+
+    # capacitance
+
+    ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
+    ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
+    ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
+    ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
+
+    # catalysis
+
+    ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
+    ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
+
+    # charge
+
+    ( 'abcoulomb',                  'coulomb' )                             : mpmathify( '10' ),
+    ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
+    ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
+    ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
+    ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
+
+    # constant
+
+    ( 'billion',                    'unity' )                               : mpmathify( '1.0e9' ),
+    ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
+    ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
+    ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
+    ( 'eight',                      'unity' )                               : mpmathify( '8' ),
+    ( 'eighteen',                   'unity' )                               : mpmathify( '18' ),
+    ( 'eighty',                     'unity' )                               : mpmathify( '80' ),
+    ( 'eleven',                     'unity' )                               : mpmathify( '11' ),
+    ( 'fifteen',                    'unity' )                               : mpmathify( '15' ),
+    ( 'fifty',                      'unity' )                               : mpmathify( '50' ),
+    ( 'five',                       'unity' )                               : mpmathify( '5' ),
+    ( 'forty',                      'unity' )                               : mpmathify( '40' ),
+    ( 'four',                       'unity' )                               : mpmathify( '4' ),
+    ( 'fourteen',                   'unity' )                               : mpmathify( '14' ),
+    ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
+    ( 'great_gross',                'gross' )                               : mpmathify( '12' ),
+    ( 'gross',                      'unity' )                               : mpmathify( '144' ),
+    ( 'hundred',                    'unity' )                               : mpmathify( '100' ),
+    ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
+    ( 'million',                    'unity' )                               : mpmathify( '1.0e6' ),
     ( 'nine',                       'unity' )                               : mpmathify( '9' ),
     ( 'nineteen',                   'unity' )                               : mpmathify( '19' ),
     ( 'ninety',                     'unity' )                               : mpmathify( '90' ),
-    ( 'nit',                        'apostilb' )                            : pi,
-    ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
-    ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
     ( 'nonillion',                  'unity' )                               : mpmathify( '1.0e30' ),
     ( 'novemdecillion',             'unity' )                               : mpmathify( '1.0e60' ),
-    ( 'nyp',                        'bit' )                                 : mpmathify( '2' ),
-    ( 'oc1',                        'bit/second' )                          : mpmathify( '5.184e7' ),
-    ( 'oc12',                       'oc1' )                                 : mpmathify( '12' ),
-    ( 'oc192',                      'oc1' )                                 : mpmathify( '192' ),
-    ( 'oc24',                       'oc1' )                                 : mpmathify( '24' ),
-    ( 'oc3',                        'oc1' )                                 : mpmathify( '3' ),
-    ( 'oc48',                       'oc1' )                                 : mpmathify( '48' ),
-    ( 'oc768',                      'oc1' )                                 : mpmathify( '768' ),
-    ( 'octant',                     'degree' )                              : mpmathify( '45' ),
     ( 'octillion',                  'unity' )                               : mpmathify( '1.0e27' ),
     ( 'octodecillion',              'unity' )                               : mpmathify( '1.0e57' ),
-    ( 'oersted',                    'ampere/meter' )                        : mpmathify( '79.5774715' ),
-    ( 'ohm',                        '1/siemens' )                           : mpmathify( '1' ),
-    ( 'ohm',                        'abohm' )                               : mpmathify( '1e9' ),
-    ( 'ohm',                        'german_mile' )                         : mpmathify( '57.44' ),
-    ( 'ohm',                        'jacobi' )                              : mpmathify( '0.6367' ),
-    ( 'ohm',                        'kilogram*meter^2/ampere^2*second^3' )  : mpmathify( '1' ),
-    ( 'ohm',                        'matthiessen' )                         : mpmathify( '13.59' ),
-    ( 'ohm',                        'varley' )                              : mpmathify( '25.61' ),
-    ( 'oil_barrel',                 'gallon' )                              : mpmathify( '42' ),
-    ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),
-    ( 'oword',                      'bit' )                                 : mpmathify( '128' ),
-    ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
-    ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
-    ( 'pascal',                     'kilogram/meter*second^2' )             : mpmathify( '1' ),
-    ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
-    ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
-    ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
-    ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
-    ( 'pfund',                      'gram' )                                : mpmathify( '500' ),
-    ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
-    ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
-    ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
-    ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
-    ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '10' ),
-    ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
-    ( 'pony',                       'dram' )                                : mpmathify( '6' ),
-    ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
-    ( 'portuguese_almude',          'liter' )                               : mpmathify( '16.7' ),
-    ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
-    ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
-    ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
-    ( 'pottle',                     'imperial_quart' )                      : mpmathify( '2' ),
-    ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
-    ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
-    ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
-    ( 'pound-force',                'newton' )                              : mpmathify( '4.4482216152605' ),
-    ( 'psi',                        'pascal' )                              : mpmathify( '6894.75728' ),      # approx.
-    ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
-    ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
-    ( 'quad',                       'btu' )                                 : mpmathify( '10e15' ),
-    ( 'quadrant',                   'degree' )                              : mpmathify( '90' ),
     ( 'quadrillion',                'unity' )                               : mpmathify( '1.0e15' ),
-    ( 'quart',                      'cup' )                                 : mpmathify( '4' ),
-    ( 'quart',                      'dry_pint' )                            : mpmathify( '1.7187340106451707' ),
-    ( 'quart',                      'liter' )                               : mpmathify( '0.946352946' ),
-    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
     ( 'quattuordecillion',          'unity' )                               : mpmathify( '1.0e45' ),
     ( 'quindecillion',              'unity' )                               : mpmathify( '1.0e48' ),
-    ( 'quintal',                    'gram' )                                : mpmathify( '100000' ),
-    ( 'quintant',                   'degree' )                              : mpmathify( '72' ),
     ( 'quintillion',                'unity' )                               : mpmathify( '1.0e18' ),
-    ( 'qword',                      'bit' )                                 : mpmathify( '64' ),
-    ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
-    ( 'radian',                     'centrad' )                             : mpmathify( '100' ),
-    ( 'radian',                     'degree' )                              : fdiv( 180, pi ),
-    ( 'reaumur',                    'degree_newton' )                       : fdiv( 33, 80 ),
-    ( 'reed',                       'foot' )                                : mpmathify( '9' ),
-    ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
-    ( 'reynolds',                   'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
-    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
-    ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
-    ( 'rood',                       'foot^2' )                              : mpmathify( '10890' ),
-    ( 'rope',                       'foot' )                                : mpmathify( '20' ),
-    ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
-    ( 'rydberg',                    'joule' )                               : mpmathify( '2.17987232498e-18' ),
-    ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
-    ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
-    ( 'twenty',                     'unity' )                               : mpmathify( '20' ),
-    ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
-    ( 'second',                     'jiffy' )                               : mpmathify( '100' ),
-    ( 'second',                     'shake' )                               : mpmathify( '1.0e8' ),
-    ( 'second',                     'svedberg' )                            : mpmathify( '1.0e13' ),
-    ( 'section',                    'acre' )                                : mpmathify( '640' ),
     ( 'septendecillion',            'unity' )                               : mpmathify( '1.0e54' ),
     ( 'septillion',                 'unity' )                               : mpmathify( '1.0e24' ),
     ( 'seven',                      'unity' )                               : mpmathify( '7' ),
     ( 'seventeen',                  'unity' )                               : mpmathify( '17' ),
     ( 'seventy',                    'unity' )                               : mpmathify( '70' ),
     ( 'sexdecillion',               'unity' )                               : mpmathify( '1.0e51' ),
-    ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',                 'unity' )                               : mpmathify( '1.0e21' ),
-    ( 'sixty',                      'unity' )                               : mpmathify( '60' ),
-    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
-    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
-    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
-    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
-    ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
-    ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
-    ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
-    ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
     ( 'six',                        'unity' )                               : mpmathify( '6' ),
     ( 'sixteen',                    'unity' )                               : mpmathify( '16' ),
-    ( 'skein',                      'foot' )                                : mpmathify( '360' ),
-    ( 'skot',                       'bril' )                                : mpmathify( '1.0e4' ),
-    ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
-    ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
-    ( 'slug',                       'slinch' )                              : mpmathify( '12' ),
-    ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
-    ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
-    ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
-    ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
-    ( 'span',                       'inch' )                                : mpmathify( '9' ),
-    ( 'spanish_almude',             'liter' )                               : mpmathify( '4.625' ),
-    ( 'speed_of_sound',             'meter/second' )                        : mpmathify( '343' ),
-    ( 'sphere',                     'hemisphere' )                          : mpmathify( '2' ),
-    ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
-    ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
-    ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
-    ( 'square_octant',              'square_degree' )                       : mpmathify( '2025' ),
-    ( 'square_quadrant',            'square_degree' )                       : mpmathify( '8100' ),
-    ( 'square_quintant',            'square_degree' )                       : mpmathify( '5184' ),
-    ( 'square_sextant',             'square_degree' )                       : mpmathify( '3600' ),
-    ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
-    ( 'standard',                   'liter' )                               : mpmathify( '0.75' ),
-    ( 'stapp',                      'meter/second^3' )                      : mpmathify( '9.80665' ),
-    ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
-    ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
-    ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
-    ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
-    ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
-    ( 'statvolt',                   'volt' )                                : fdiv( 299792458, 1000000 ),
-    ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
-    ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
-    ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
-    ( 'stere',                      'liter' )                               : mpmathify( '1000' ),
-    ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
-    ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
-    ( 'stone',                      'pound' )                               : mpmathify( '14' ),
-    ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
-    ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
-    ( 'sydharb',                    'liter' )                               : mpmathify( '5.62e11' ),
-    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
-    ( 'teaspoon',                   'coffeespoon' )                         : mpmathify( '2' ),
-    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
-    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
-    ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
-    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
+    ( 'sixty',                      'unity' )                               : mpmathify( '60' ),
     ( 'ten',                        'unity' )                               : mpmathify( '10' ),
-    ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
-    ( 'tesla',                      'kilogram/ampere*second^2' )            : mpmathify( '1' ),
-    ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
+    ( 'thirteen',                   'unity' )                               : mpmathify( '13' ),
     ( 'thirty',                     'unity' )                               : mpmathify( '30' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'three',                      'unity' )                               : mpmathify( '3' ),
-    ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
-    ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
-    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
-    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
-    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
-    ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
-    ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
     ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
-    ( 'trit',                       'nat' )                                 : log( 3 ),
-    ( 'tropical_month',             'day' )                                 : mpmathify( '27.321582' ),
-    ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
-    ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
-    ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
-    ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
-    ( 'tun',                        'pipe' )                                : mpmathify( '2' ),
+    ( 'twelve',                     'unity' )                               : mpmathify( '12' ),
+    ( 'twenty',                     'unity' )                               : mpmathify( '20' ),
     ( 'two',                        'unity' )                               : mpmathify( '2' ),
     ( 'undecillion',                'unity' )                               : mpmathify( '1.0e36' ),
     ( 'unity',                      'billionth' )                           : mpmathify( '1.0e9' ),
@@ -3815,35 +3551,480 @@ unitConversionMatrix = {
     ( 'unity',                      'third' )                               : mpmathify( '3' ),
     ( 'unity',                      'thousandth' )                          : mpmathify( '1000' ),
     ( 'unity',                      'trillionth' )                          : mpmathify( '1.0e12' ),
+    ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
+
+    # current
+
+    ( 'abampere',                   'ampere' )                              : mpmathify( '10' ),
+    ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
+
+    # data_rate
+
+    ( 'byte/second',                'bit/second' )                          : mpmathify( '8' ),
+    ( 'oc1',                        'bit/second' )                          : mpmathify( '5.184e7' ),
+    ( 'oc12',                       'oc1' )                                 : mpmathify( '12' ),
+    ( 'oc192',                      'oc1' )                                 : mpmathify( '192' ),
+    ( 'oc24',                       'oc1' )                                 : mpmathify( '24' ),
+    ( 'oc3',                        'oc1' )                                 : mpmathify( '3' ),
+    ( 'oc48',                       'oc1' )                                 : mpmathify( '48' ),
+    ( 'oc768',                      'oc1' )                                 : mpmathify( '768' ),
     ( 'usb1',                       'bit/second' )                          : mpmathify( '1.2e7' ),
     ( 'usb2',                       'bit/second' )                          : mpmathify( '2.8e8' ),
     ( 'usb3.0',                     'bit/second' )                          : mpmathify( '5.0e9' ),
     ( 'usb3.1',                     'bit/second' )                          : mpmathify( '1.0e10' ),
-    ( 'versta',                     'meter' )                               : mpmathify( '1066.8' ),
-    ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
-    ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
+
+    # density
+
+    # dynamic_viscosity
+
+    ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '10' ),
+    ( 'reynolds',                   'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
+
+    # electrical_conductance
+
+    ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
+    ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
+    ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
+    ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
+    ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
+
+    # electrical_resistance
+
+    ( 'ohm',                        '1/siemens' )                           : mpmathify( '1' ),
+    ( 'ohm',                        'abohm' )                               : mpmathify( '1e9' ),
+    ( 'ohm',                        'german_mile' )                         : mpmathify( '57.44' ),
+    ( 'ohm',                        'jacobi' )                              : mpmathify( '0.6367' ),
+    ( 'ohm',                        'kilogram*meter^2/ampere^2*second^3' )  : mpmathify( '1' ),
+    ( 'ohm',                        'matthiessen' )                         : mpmathify( '13.59' ),
+    ( 'ohm',                        'varley' )                              : mpmathify( '25.61' ),
+    ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
+
+    # electric_potential
+
+    ( 'statvolt',                   'volt' )                                : fdiv( 299792458, 1000000 ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
     ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
-    ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),
-    ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
+
+    # energy
+
+    ( 'btu',                        'joule' )                               : mpmathify( '1054.5' ),
+    ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
+    ( 'electron-volt',              'joule' )                               : mpmathify( '1.6021766208e-19' ),
+    ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
+    ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
+    ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
+    ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
+    ( 'joule',                      'kilogram*meter^2/second^2' )           : mpmathify( '1' ),
+    ( 'kayser',                     'electron-volt' )                       : mpmathify( '123.984e-6' ),
+    ( 'quad',                       'btu' )                                 : mpmathify( '10e15' ),
+    ( 'rydberg',                    'joule' )                               : mpmathify( '2.17987232498e-18' ),
+    ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
+    ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
+    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
+    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
+
+    # force
+
+    ( 'gram_force',                 'newton' )                              : mpmathify( '0.00980665' ),
+    ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
+    ( 'newton',                     'kilogram*meter/second^2' )             : mpmathify( '1' ),
+    ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
+    ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
+    ( 'pound-force',                'newton' )                              : mpmathify( '4.4482216152605' ),
+    ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
+
+    # frequency
+
+    ( 'curie',                      'becquerel' )                           : mpmathify( '3.7e10' ),
+    ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
+    ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
+    ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
+
+    # illuminance
+
+    ( 'candela*radian^2/meter^2',   'lumen/meter^2' )                       : mpmathify( '1' ),
+    ( 'flame',                      'lux' )                                 : mpmathify( '43.0556416668' ),
+    ( 'footcandle',                 'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ), # rpn -a54 meter foot convert sqr value
+    ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '10.7639104167' ),
+    ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
+    ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
+
+    # inductance
+
+    ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
+    ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
+    ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
+
+    # information_entropy
+
+    ( 'bit',                        'kilogram*meter^2/kelvin*second^2' )    : fmul( mpmathify( '1.38064852e-23' ), log( 2 ) ),
+    ( 'bit',                        'nat' )                                 : log( 2 ),
+    ( 'btupf',                      'joule/kelvin' )                        : mpmathify( '1899.100534716' ),
+    ( 'byte',                       'bit' )                                 : mpmathify( '8' ),
+    ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
+    ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
+    ( 'hartley',                    'nat' )                                 : log( 10 ),
+    ( 'library_of_congress',        'byte' )                                : mpmathify( '1.0e13' ),
+    ( 'nat',                        'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
+    ( 'nibble',                     'bit' )                                 : mpmathify( '4' ),
+    ( 'nyp',                        'bit' )                                 : mpmathify( '2' ),
+    ( 'oword',                      'bit' )                                 : mpmathify( '128' ),
+    ( 'qword',                      'bit' )                                 : mpmathify( '64' ),
+    ( 'trit',                       'nat' )                                 : log( 3 ),
+    ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
+    ( 'word',                       'bit' )                                 : mpmathify( '16' ),
+
+    # jerk
+
+    ( 'stapp',                      'meter/second^3' )                      : mpmathify( '9.80665' ),
+
+    # jounce
+
+    # length
+
+    ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
+    ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
+    ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
+    ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
+    ( 'barleycorn',                 'poppyseed' )                           : mpmathify( '4' ),
+    ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
+    ( 'chain',                      'yard' )                                : mpmathify( '22' ),
+    ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
+    ( 'diuym',                      'inch' )                                : mpmathify( '1' ),
+    ( 'diuym',                      'liniya' )                              : mpmathify( '10' ),
+    ( 'ell',                        'inch' )                                : mpmathify( '45' ),
+    ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
+    ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
+    ( 'finger',                     'inch' )                                : mpmathify( '4.5' ),
+    ( 'fingerbreadth',              'inch' )                                : mpmathify( '0.75' ),
+    ( 'foot',                       'inch' )                                : mpmathify( '12' ),
+    ( 'furlong',                    'yard' )                                : mpmathify( '220' ),
+    ( 'fut',                        'foot' )                                : mpmathify( '1' ),
+    ( 'greek_cubit',                'inch' )                                : mpmathify( '18.22' ),
+    ( 'hand',                       'inch' )                                : mpmathify( '4' ),
+    ( 'handbreadth',                'inch' )                                : mpmathify( '3' ),
+    ( 'hubble',                     'light-year' )                          : mpmathify( '1.0e9' ),
+    ( 'inch',                       'barleycorn' )                          : mpmathify( '3' ),
+    ( 'inch',                       'caliber' )                             : mpmathify( '100' ),
+    ( 'inch',                       'cicero' )                              : fdiv( mpmathify( '50.8' ), 9 ),
+    ( 'inch',                       'gutenberg' )                           : mpmathify( '7200' ),
+    ( 'inch',                       'meter' )                               : mpmathify( '0.0254' ),
+    ( 'inch',                       'mil' )                                 : mpmathify( '1000' ),
+    ( 'inch',                       'pica' )                                : mpmathify( '6' ),
+    ( 'inch',                       'point' )                               : mpmathify( '72' ),
+    ( 'inch',                       'twip' )                                : mpmathify( '1440' ),
+    ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
+    ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
+    ( 'league',                     'mile' )                                : mpmathify( '3' ),
+    ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
+    ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
+    ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
+    ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
+    ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
+    ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
+    ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
+    ( 'meter',                      'french' )                              : mpmathify( '3000' ),
+    ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
+    ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
+    ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
+    ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
+    ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
+    ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
+    ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
+    ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
+    ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
+    ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
+    ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
+    ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
+    ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
+    ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
+    ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
+    ( 'reed',                       'foot' )                                : mpmathify( '9' ),
+    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
+    ( 'rope',                       'foot' )                                : mpmathify( '20' ),
+    ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
+    ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
+    ( 'skein',                      'foot' )                                : mpmathify( '360' ),
+    ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
+    ( 'span',                       'inch' )                                : mpmathify( '9' ),
+    ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
+    ( 'versta',                     'meter' )                               : mpmathify( '1066.8' ),
+    ( 'yard',                       'foot' )                                : mpmathify( '3' ),
+
+    # luminance
+
+    ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ), # rpn -a54 meter foot convert sqr value pi /
+    ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
+    ( 'nit',                        'apostilb' )                            : pi,
+    ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
+    ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
+    ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
+    ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
+    ( 'skot',                       'bril' )                                : mpmathify( '1.0e4' ),
+    ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
+    ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
+
+    # luminous_flux
+
+    ( 'lumen',                      'candela*radian^2' )                    : mpmathify( '1' ),
+
+    # luminous_intensity
+
+    ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
+
+    # magnetic_field_strength
+
+    ( 'oersted',                    'ampere/meter' )                        : mpmathify( '79.5774715' ),
+
+    # 'magnetic_flux
+
     ( 'weber',                      'kilogram*meter^2/ampere*second^2' )    : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),
+
+    # magnetic_flux_density
+
+    ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
+    ( 'tesla',                      'kilogram/ampere*second^2' )            : mpmathify( '1' ),
+
+    # mass
+
+    ( 'berkovets',                  'dolya' )                               : mpmathify( '3686400' ),
+    ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
+    ( 'blintz',                     'furshlugginer_blintz' )                : mpmathify( '1.0e-6' ),
+    ( 'blintz',                     'gram' )                                : mpmathify( '36.42538631' ),
+    ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
+    ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
+    ( 'dalton',                     'gram' )                                : mpmathify( '1.660539040e-24' ),
+    ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
+    ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
+    ( 'funt',                       'dolya' )                               : mpmathify( '9216' ),
+    ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
+    ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
+    ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
+    ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
+    ( 'month',                      'day' )                                 : mpmathify( '30' ),
+    ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),
+    ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
+    ( 'pfund',                      'gram' )                                : mpmathify( '500' ),
+    ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
+    ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
+    ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
+    ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
+    ( 'quintal',                    'gram' )                                : mpmathify( '100000' ),
+    ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
+    ( 'slug',                       'slinch' )                              : mpmathify( '12' ),
+    ( 'stone',                      'pound' )                               : mpmathify( '14' ),
+    ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
+    ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
+    ( 'tropical_month',             'day' )                                 : mpmathify( '27.321582' ),
+    ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
+    ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'week',                       'day' )                                 : mpmathify( '7' ),
     ( 'wey',                        'pound' )                               : mpmathify( '252' ),
-    ( 'wine_barrel',                'wine_gallon' )                         : mpmathify( '31.5' ),
-    ( 'wine_butt',                  'wine_gallon' )                         : mpmathify( '126' ),
-    ( 'wine_gallon',                'gallon' )                              : mpmathify( '1' ),
-    ( 'wine_hogshead',              'gallon' )                              : mpmathify( '63' ),
-    ( 'wine_tun',                   'gallon' )                              : mpmathify( '252' ),
-    ( 'wine_tun',                   'puncheon' )                            : mpmathify( '3' ),
-    ( 'wine_tun',                   'rundlet' )                             : mpmathify( '14' ),
-    ( 'wine_tun',                   'tierce' )                              : mpmathify( '6' ),
-    ( 'wood',                       'martin' )                              : mpmathify( '100' ),
-    ( 'word',                       'bit' )                                 : mpmathify( '16' ),
-    ( 'yard',                       'foot' )                                : mpmathify( '3' ),
-    ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
+
+    # power
+
+    ( 'decibel-watt',               'decibel-milliwatt' )                   : mpmathify( '30' ),
+    ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
+    ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
+    ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
+    ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
+    ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),
+
+    # pressure
+
+    ( 'atmosphere',                 'pascal' )                              : mpmathify( '101325' ),
+    ( 'bar',                        'pascal' )                              : mpmathify( '1.0e5' ),
+    ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
+    ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
+    ( 'pascal',                     'kilogram/meter*second^2' )             : mpmathify( '1' ),
+    ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
+    ( 'psi',                        'pascal' )                              : mpmathify( '6894.75728' ),      # approx.
+    ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
+
+    # radiation_dose
+
+    ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
+    ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
+
+    # radiation_exposure
+
+    ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
+    ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
+    ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
+    ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
+    ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
+    ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
+
+    # radiosity
+
+    # solid_angle
+
+    ( 'arcminute^2',                'arcsecond^2' )                         : mpmathify( '3600' ),
+    ( 'degree^2',                   'arcminute^2' )                         : mpmathify( '3600' ),
+    ( 'octant^2',                   'degree^2' )                            : mpmathify( '2025' ),
+    ( 'quadrant^2',                 'degree^2' )                            : mpmathify( '8100' ),
+    ( 'quintant^2',                 'degree^2' )                            : mpmathify( '5184' ),
+    ( 'sextant^2',                  'degree^2' )                            : mpmathify( '3600' ),
+    ( 'sphere',                     'hemisphere' )                          : mpmathify( '2' ),
+    ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
+    ( 'steradian',                  'degree^2' )                            : power( fdiv( 180, pi ), 2 ),
+    ( 'steradian',                  'grad^2' )                              : power( fdiv( 200, pi ), 2 ),
+    ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
+
+    # temperature
+
+    ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
+    ( 'celsius',                    'reaumur' )                             : fdiv( 4, 5 ),
+    ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
+    ( 'reaumur',                    'degree_newton' )                       : fdiv( 33, 80 ),
+
+    # time
+
+    ( 'beat',                       'blink' )                               : mpmathify( '100' ),
+    ( 'century',                    'microcentury' )                        : mpmathify( '1.0e6' ),
+    ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
+    ( 'century',                    'year' )                                : mpmathify( '100' ),
+    ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
+    ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
+    ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
+    ( 'day',                        'beat' )                                : mpmathify( '1000' ),
+    ( 'day',                        'hour' )                                : mpmathify( '24' ),
+    ( 'decade',                     'year' )                                : mpmathify( '10' ),
+    ( 'eon',                        'year' )                                : mpmathify( '1e9' ),
+    ( 'fortnight',                  'microfortnight' )                      : mpmathify( '1.0e6' ),
+    ( 'gregorian_year',             'second' )                              : mpmathify( '31556952' ),
+    ( 'hour',                       'minute' )                              : mpmathify( '60' ),
+    ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),
+    ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
+    ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
+    ( 'mingo',                      'clarke' )                              : mpmathify( '10' ),
+    ( 'minute',                     'second' )                              : mpmathify( '60' ),
+    ( 'second',                     'jiffy' )                               : mpmathify( '100' ),
+    ( 'second',                     'shake' )                               : mpmathify( '1.0e8' ),
+    ( 'second',                     'svedberg' )                            : mpmathify( '1.0e13' ),
+    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
+    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
+    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
+    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
+    ( 'wood',                       'martin' )                              : mpmathify( '100' ),
+    ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
+
+    # velocity
+
+    ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
+    ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
+    ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
+    ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
+    ( 'speed_of_sound',             'meter/second' )                        : mpmathify( '343' ),
+
+    # volume
+
+    ( 'balthazar',                  'liter' )                               : mpmathify( '12.0' ),
+    ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
+    ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
+    ( 'beer_keg',                   'pony_keg' )                            : mpmathify( '2' ),
+    ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
+    ( 'bushel',                     'dry_gallon' )                          : mpmathify( '8' ),
+    ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
+    ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
+    ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
+    ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
+    ( 'cup',                        'dram' )                                : mpmathify( '64' ),
+    ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
+    ( 'cup',                        'gill' )                                : mpmathify( '2' ),
+    ( 'cup',                        'wineglass' )                           : mpmathify( '4' ),
+    ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
+    ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
+    ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
+    ( 'dry_barrel',                 'inch^3' )                              : mpmathify( '7056' ),
+    ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
+    ( 'dry_gallon',                 'gallon' )                              : mpmathify( ' 1.163647' ),
+    ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
+    ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
+    ( 'dry_tun',                    'dry_gallon' )                          : mpmathify( '216.56' ),
+    ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
+    ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
+    ( 'firkin',                     'pin' )                                 : mpmathify( '2' ),
+    ( 'fluid_ounce',                'dram' )                                : mpmathify( '8' ),
+    ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
+    ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
+    ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
+    ( 'goliath',                    'liter' )                               : mpmathify( '27.0' ),
+    ( 'growler',                    'fluid_ounce' )                         : mpmathify( '64' ),
+    ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
+    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.802706436' ),
+    ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
+    ( 'imperial_cup',               'imperial_gill' )                       : mpmathify( '2' ),
+    ( 'imperial_gallon',            'liter' )                               : mpmathify( '4.54609' ),   # This is the exact definition.
+    ( 'imperial_gallon',            'pottle' )                              : mpmathify( '2' ),
+    ( 'imperial_peck',              'imperial_quart' )                      : mpmathify( '8' ),
+    ( 'imperial_pint',              'imperial_cup' )                        : mpmathify( '2' ),
+    ( 'imperial_quart',             'imperial_pint' )                       : mpmathify( '2' ),
+    ( 'imperial_tun',               'imperial_barrel' )                     : mpmathify( '8' ),
+    ( 'imperial_tun',               'imperial_butt' )                       : mpmathify( '2' ),
+    ( 'imperial_tun',               'imperial_gallon' )                     : mpmathify( '210' ),
+    ( 'imperial_tun',               'imperial_hogshead' )                   : mpmathify( '4' ),
+    ( 'imperial_tun',               'imperial_puncheon' )                   : mpmathify( '3' ),
+    ( 'imperial_tun',               'imperial_rundlet' )                    : mpmathify( '14' ),
+    ( 'imperial_tun',               'imperial_tierce' )                     : mpmathify( '6' ),
+    ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
+    ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
+    ( 'jigger',                     'fluid_ounce' )                         : mpmathify( '1.5' ),
+    ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
+    ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
+    ( 'liter',                      'ngogn' )                               : mpmathify( '86.2477899004' ),
+    ( 'liter',                      'stein' )                               : mpmathify( '2' ),
+    ( 'magnum',                     'wine_bottle' )                         : mpmathify( '2' ),
+    ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
+    ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
+    ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
+    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667214885902504380103540026269320546806739574396' ), # This is needed for 'cord'
+    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
+    ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
+    ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
+    ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
+    ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
+    ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
+    ( 'oil_barrel',                 'gallon' )                              : mpmathify( '42' ),
+    ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
+    ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
+    ( 'pony',                       'fluid_ounce' )                         : mpmathify( '1' ),
+    ( 'portuguese_almude',          'liter' )                               : mpmathify( '16.7' ),
+    ( 'pottle',                     'imperial_quart' )                      : mpmathify( '2' ),
+    ( 'quart',                      'cup' )                                 : mpmathify( '4' ),
+    ( 'quart',                      'liter' )                               : mpmathify( '0.946352946' ),
+    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
+    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
+    ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
+    ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
+    ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
+    ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
+    ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
+    ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
+    ( 'spanish_almude',             'liter' )                               : mpmathify( '4.625' ),
+    ( 'stere',                      'liter' )                               : mpmathify( '1000' ),
+    ( 'sydharb',                    'liter' )                               : mpmathify( '5.62e11' ),
+    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
+    ( 'teaspoon',                   'coffeespoon' )                         : mpmathify( '2' ),
+    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
+    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
+    ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
+    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
+    ( 'tun',                        'butt' )                                : mpmathify( '2' ),
+    ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
+    ( 'tun',                        'puncheon' )                            : mpmathify( '3' ),
+    ( 'tun',                        'rundlet' )                             : mpmathify( '14' ),
+    ( 'tun',                        'tierce' )                              : mpmathify( '6' ),
+    ( 'tun',                        'wine_barrel' )                         : mpmathify( '8' ),
+    ( 'tun',                        'wine_hogshead' )                       : mpmathify( '4' ),
+    ( 'us_tun',                     'gallon' )                              : mpmathify( '252' ),
+    ( 'wine_bottle',                'liter' )                               : mpmathify( '0.75' ),
+    ( 'wine_gallon',                'gallon' )                              : mpmathify( '1' ),
 }
 
