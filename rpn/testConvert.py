@@ -282,6 +282,7 @@ def runConvertTests( ):
     expectEqual( '1 volt millivolt convert', '1000 millivolts' )
     expectEqual( '1 petabyte bit convert', '8e15 bits' )
     expectEqual( 'mile^2 acre convert', '640 acres' )
+    expectEqual( 'gallon cubic_inches convert', '231 cubic_inches' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

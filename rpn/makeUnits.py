@@ -12,14 +12,16 @@
 # //
 # //******************************************************************************
 
+import argparse
 import bz2
 import contextlib
 import itertools
 import os
 import pickle
+import sys
 import time
 
-from mpmath import almosteq, mp, fdiv, fmul
+from mpmath import almosteq, mp, fdiv, fmul, fneg
 
 #  This has to go here so the mpf's in the import get created with 52 places of precision.
 mp.dps = 52
@@ -42,6 +44,8 @@ import rpn.rpnGlobals as g
 
 PROGRAM_NAME = 'makeUnits'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
+
+validationPrecision = 20
 
 
 # //******************************************************************************
@@ -228,7 +232,9 @@ def expandMetricUnits( ):
             newPlural = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
             # construct unit operator info
-            helpText = '\nfill me out for metric units'
+            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
+                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + metricUnit + \
+                       '\'.\n\nPlease see the help entry for \'' + metricUnit + '\' for more information.'
 
             if unitInfo.abbrev:
                 newAbbrev = prefix[ 1 ] + unitInfo.abbrev
@@ -260,7 +266,9 @@ def expandMetricUnits( ):
                 newAbbrev = ''
 
             # construct unit operator info
-            helpText = '\nfill me out for metric units'
+            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
+                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + integralMetricUnit + \
+                       '\'.\n\nPlease see the help entry for \'' + integralMetricUnit + '\' for more information.'
 
             unitOperators[ newName ] = \
                     RPNUnitInfo( unitInfo.unitType, newPlural, newAbbrev, [ ],
@@ -295,7 +303,9 @@ def expandDataUnits( ):
             newName = prefix[ 0 ] + dataUnit
 
             # constuct unit operator info
-            helpText = '\nfill me out for data units'
+            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
+                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + dataUnit + \
+                       '\'.\n\nPlease see the help entry for \'' + dataUnit + '\' for more information.'
 
             if unitInfo.abbrev:
                 newAbbrev = prefix[ 0 ] + unitInfo.abbrev
@@ -316,7 +326,9 @@ def expandDataUnits( ):
             newName = prefix[ 0 ] + dataUnit
 
             # constuct unit operator info
-            helpText = '\nfill me out for binary data units'
+            helpText = '\n\'Using the binary data size prefixes, ' + newName + '\' is the equivalent\nof 2^' + \
+                       str( prefix[ 2 ] ) + ' times the value of \'' + dataUnit + \
+                       '\'.\n\nPlease see the help entry for \'' + dataUnit + '\' for more information.'
 
             if unitInfo.abbrev:
                 newAbbrev = prefix[ 0 ] + unitInfo.abbrev
@@ -378,21 +390,28 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 # //
 # //  testAllCombinations
 # //
-# //  Let's make sure all the conversions exist (except for transitive conversions
-# //  involving units that use the special unit conversion matrix).
+# //  Let's make sure all the conversions exist.
 # //
-# //  This means this test will print out some errors regardless.
+# //  For the case of transitive conversions involving units that use the
+# //  special unit conversion matrix, we'll need to do checks, to see if we
+# //  can convert to the base unit type on the way from converting from unit1
+# //  to unit2.
 # //
 # //******************************************************************************
 
 def testAllCombinations( unitTypeTable, unitConversionMatrix ):
     for unitType, unitList in unitTypeTable.items( ):
-        print( unitType, '*************************************************' )
-
         for unit1, unit2 in itertools.combinations( unitList, 2 ):
             if ( unit1, unit2 ) not in unitConversionMatrix and \
                ( unit1, unit2 ) not in specialUnitConversionMatrix:
-                print( 'conversion not found for', unit1, 'and', unit2 )
+                baseUnit1 = basicUnitTypes[ unitOperators[ unit1 ].unitType ].baseUnit
+                baseUnit2 = basicUnitTypes[ unitOperators[ unit2 ].unitType ].baseUnit
+
+                if ( unit1, baseUnit1 ) not in unitConversionMatrix and \
+                   ( unit1, baseUnit1 ) not in specialUnitConversionMatrix and \
+                   ( baseUnit1, unit2 ) not in unitConversionMatrix and \
+                   ( baseUnit1, unit2 ) not in specialUnitConversionMatrix:
+                    print( 'conversion not found for', unit1, 'and', unit2 )
 
 
 # //******************************************************************************
@@ -404,6 +423,11 @@ def testAllCombinations( unitTypeTable, unitConversionMatrix ):
 # //******************************************************************************
 
 def testAllConversions( unitTypeTable, unitConversionMatrix ):
+    print( 'Testing all conversions for consistency...' )
+    print( )
+
+    validated = 0
+
     for unitType, unitList in unitTypeTable.items( ):
         for unit1, unit2, unit3 in itertools.permutations( unitList, 3 ):
             try:
@@ -413,12 +437,23 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
             except:
                 continue
 
-            if not almosteq( fmul( factor1, factor2 ), factor3, rel_eps=1.0e-10 ):
-                print( 'conversion inconsistency found for ' + unit1 + ', ' + unit2 + ', and', unit3 )
-                print( unit1 + ' --> ' + unit2, factor1 )
-                print( unit2 + ' --> ' + unit3, factor2 )
-                print( unit3 + ' --> ' + unit1, factor3 )
+            epsilon = power( 10, fneg( validationPrecision ) )
+
+            if not almosteq( fmul( factor1, factor2 ), factor3, rel_eps=epsilon ):
+                print( 'conversion inconsistency found for ' + unit1 + ', ' + unit2 + ', and', unit3, file=sys.stderr )
+                print( unit1 + ' --> ' + unit2, factor1, file=sys.stderr )
+                print( unit2 + ' --> ' + unit3, factor2, file=sys.stderr )
+                print( unit3 + ' --> ' + unit1, factor3, file=sys.stderr )
                 print( )
+
+            validated += 1
+
+            if validated % 1000 == 0:
+                print( '\r' + '{:,} conversion permutations validated...'.format( validated ), end='' )
+
+    print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.'. \
+                                                                        format( validated, validationPrecision ) )
+    print( 'No consistency problems detected.' )
 
 
 # //******************************************************************************
@@ -427,7 +462,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
 # //
 # //******************************************************************************
 
-def initializeConversionMatrix( unitConversionMatrix ):
+def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     # reverse each conversion
     print( 'Reversing each conversion...' )
 
@@ -478,9 +513,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
             unitConversionMatrix.update( newConversions )
 
-            print( '\r' + str( len( unitConversionMatrix ) ), end='' )
+            print( '\r' + '{:,}'.format( len( unitConversionMatrix ) ), end='' )
 
-    print( '\r' + str( len( unitConversionMatrix ) ) + ' conversions' )
+    print( '\r' + '{:,} conversions'.format( len( unitConversionMatrix ) ) )
 
     # make some more aliases
     print( '        ' )
@@ -506,8 +541,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
     # save the actual unit data
     fileName = getDataPath( ) + os.sep + 'units.pckl.bz2'
 
-    #testAllCombinations( unitTypeTable, unitConversionMatrix )
-    #testAllConversions( unitTypeTable, unitConversionMatrix )
+    testAllCombinations( unitTypeTable, unitConversionMatrix )
+
+    if validateConversions:
+        testAllConversions( unitTypeTable, unitConversionMatrix )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -550,9 +587,21 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
+    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME + ' - ' +
+                                      PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE,
+                                      add_help = False,
+                                      formatter_class = argparse.RawTextHelpFormatter,
+                                      prefix_chars = '-' )
+
+    parser.add_argument( '-v', '--validate_conversions', action = 'store_true' )
+
+    args = parser.parse_args( sys.argv[ 1 : ] )
+
+    validateConversions = args.validate_conversions
+
     startTime = time.process_time( )
 
-    initializeConversionMatrix( unitConversionMatrix )
+    initializeConversionMatrix( unitConversionMatrix, validateConversions )
 
     print( )
     print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
