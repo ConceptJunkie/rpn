@@ -203,7 +203,7 @@ arithmetic sometime around 1980.
 
     # area
     'acre' :
-        RPNUnitInfo( 'area', 'acres', 'ac', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'acres', 'ac', [ ], [ 'U.S.', 'U.K.' ],
                      '''
 ''' ),
 
@@ -228,12 +228,12 @@ arithmetic sometime around 1980.
 ''' ),
 
     'circular_inch' :
-        RPNUnitInfo( 'area', 'circular_inch', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'circular_inch', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
     'circular_mil' :
-        RPNUnitInfo( 'area', 'circular_mils', 'cmil', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'circular_mils', 'cmil', [ ], [ 'U.S.' ],
                      '''
 A circular mil is a unit of area, equal to the area of a circle with a
 diameter of one mil (one thousandth of an inch).  It corresponds to 5.067x10e-4
@@ -246,7 +246,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'foot^2' :
-        RPNUnitInfo( 'area', 'foot^2', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'foot^2', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -281,7 +281,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'rood' :
-        RPNUnitInfo( 'area', 'roods', '', [ 'farthingdale' ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'roods', '', [ 'farthingdale' ], [ 'U.K.' ],
                      '''
 ''' ),
 
@@ -1503,7 +1503,7 @@ http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
 
     'chain' :
-        RPNUnitInfo( 'length', 'chains', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'chains', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1571,7 +1571,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'furlong' :
-        RPNUnitInfo( 'length', 'furlongs', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'furlongs', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1612,7 +1612,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'inch' :
-        RPNUnitInfo( 'length', 'inches', 'in', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'inches', 'in', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1677,7 +1677,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'meter' :
-        RPNUnitInfo( 'length', 'meters', 'm', [ ], [ 'SI' ],
+        RPNUnitInfo( 'length', 'meters', 'm', [ 'metre', 'metres' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1697,7 +1697,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'mile' :
-        RPNUnitInfo( 'length', 'miles', 'mi', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'miles', 'mi', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1713,11 +1713,6 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 
     'parsec' :
         RPNUnitInfo( 'length', 'parsecs', 'pc', [ ], [ 'science' ],
-                     '''
-''' ),
-
-    'perch' :
-        RPNUnitInfo( 'length', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ],
                      '''
 ''' ),
 
@@ -1745,7 +1740,7 @@ https://en.wikipedia.org/wiki/French_catheter_scale
         RPNUnitInfo( 'length', 'rack_units', '', [ ], [ 'computers' ],
                      '''
 A rack unit (abbreviated U or RU) is a unit of measure defined as 44.50
-millimetres (1.752 in).  It is most frequently used as a measurement of the
+millimeters (1.752 in).  It is most frequently used as a measurement of the
 overall height of 19-inch and 23-inch rack frames, as well as the height of
 equipment that mounts in these frames, whereby the height of the frame or
 equipment is expressed as multiples of rack units.
@@ -1759,7 +1754,7 @@ https://en.wikipedia.org/wiki/Rack_unit
 ''' ),
 
     'rod' :
-        RPNUnitInfo( 'length', 'rods', 'rd', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'rods', '', [ 'pole', 'poles', 'perch', 'perches' ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -1806,6 +1801,16 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
     'smoot' :
         RPNUnitInfo( 'length', 'smoots', '', [ ], [ 'humorous' ],
                      '''
+The Smoot is a unit of length, defined as the height in 1958 of Oliver R.
+Smoot, who later became the Chairman of the American National Standards
+Institute (ANSI), and then the president of the International Organization for
+Standardization (ISO). The unit is used to measure the length of the Harvard
+Bridge.  Canonically, and originally, in 1958 when Smoot was a Lambda Chi Alpha
+pledge at MIT (class of 1962), the bridge was measured to be 364.4 Smoots, plus
+or minus one ear, using Mr. Smoot himself as a ruler.  At the time, Smoot was 5
+feet, 7 inches, or 170 cm, tall.
+
+https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Smoot
 ''' ),
 
     'span' :
@@ -1816,6 +1821,21 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
     'stadium' :
         RPNUnitInfo( 'length', 'stadia', '', [ ], [ 'Rome' ],
                      '''
+''' ),
+
+    'survey_foot' :
+        RPNUnitInfo( 'length', 'survey_feet', '', [ ], [ 'U.S.' ],
+                     '''
+In 1893 the United States fixed the yard at 3600/3937 meters, making the yard
+0.9144018 meters and 1896 the British authorities fixed the yard as being
+0.9143993 meters.  At the time the discrepancy of about two parts per million
+was considered to be insignificant.  In 1960, the United Kingdom, United
+States, Australia, Canada and South Africa standardised their units of length
+by defining the "international yard" as being 0.9144 meters exactly.  This
+change affected land surveyors in the United States and led to the old units
+being renamed "survey feet", "survey miles" etc.
+
+https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Units_of_length
 ''' ),
 
     'twip' :
@@ -1834,7 +1854,7 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'yard' :
-        RPNUnitInfo( 'length', 'yards', 'yd', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'length', 'yards', 'yd', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2651,13 +2671,14 @@ https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
     'bucket' :
-        RPNUnitInfo( 'volume', 'buckets', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'buckets', '', [ ], [ 'U.S.' ],
                      '''
 ''' ),
 
     'bushel' :
-        RPNUnitInfo( 'volume', 'bushels', 'bu', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'bushels', 'bu', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/United_States_customary_units
 ''' ),
 
     'butt' :
@@ -2690,6 +2711,16 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
     'cup' :
         RPNUnitInfo( 'volume', 'cups', '', [ ], [ 'traditional', 'cooking' ],
                      '''
+The cup is a cooking measure of volume, commonly associated with cooking and
+serving sizes.  It is traditionally equal to half a liquid pint in U.S.
+customary units but is now separately defined in terms of the metric system at
+values between 1/5 and 1/4 of a liter.  Because actual drinking cups may differ
+greatly from the size of this unit, standard measuring cups are usually used
+instead.
+
+In the U.S., the cup is defined to be 8 fluid ounces.
+
+https://en.wikipedia.org/wiki/Cup_(unit)
 ''' ),
 
     'dash' :
@@ -2706,6 +2737,18 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
     'dessertspoon' :
         RPNUnitInfo( 'volume', 'dessertspoons', '', [ ], [ 'traditional', 'cooking' ],
                      '''
+A dessert spoon is a spoon designed specifically for eating dessert and
+sometimes used for soup or cereals.  Similar in size to a soup spoon
+(intermediate between a teaspoon and a tablespoon) but with an oval rather than
+round bowl, it typically has a capacity around twice that of a teaspoon.
+
+By extension the term 'dessert spoon' is used as a cooking measure of volume,
+usually of 10ml or 1/3 fl oz.
+
+Ref:  https://en.wikipedia.org/wiki/Dessert_spoon
+
+Note:  Wikipedia is mistaken.  10 mL is approximately 1/3 fluid ounce, not 0.4
+fluid ounce.
 ''' ),
 
     'dram' :
@@ -2715,39 +2758,54 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'dry_barrel' :
-        RPNUnitInfo( 'volume', 'dry_barrels', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'dry_barrels', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
 Defined as length of stave 28-1/2 inches (72 cm), diameter of head 17-1/8
 inches (43 cm), distance between heads 26 inches (66 cm), circumference of
 bulge 64 inches (1.6 m) outside measurement; representing as nearly as
 possible 7,056 cubic inches; and the thickness of staves not greater than
-4/10 inch (10 mm).  This is exactly equal to 26.25 US dry gallons.
+4/10 inch (10 mm).  This is exactly equal to 26.25 U.S. dry gallons.
 
 Ref:  https://en.wikipedia.org/wiki/Barrel_(unit)#Dry_goods_in_the_US
 ''' ),
 
     'dry_hogshead' :
-        RPNUnitInfo( 'volume', 'dry_hogsheads', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'dry_hogsheads', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
 ''' ),
 
     'dry_gallon' :
-        RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'traditional', 'U.S.' ],
+        RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
+THe dry gallon is defined to be 1/2 peck, or 4 dry quarts.  The U.S. customary
+dry volume measurements correspond with each other the same way the liquid
+measurements do.
+
+https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 ''' ),
 
     'dry_pint' :
-        RPNUnitInfo( 'volume', 'dry_pints', '', [ ], [ 'traditional', 'U.S.' ],
+        RPNUnitInfo( 'volume', 'dry_pints', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
+THe dry pint is defined to be 1/2 dry quart.  The U.S. customary dry volume
+measurements correspond with each other the same way the liquid measurements
+do.
+
+https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 ''' ),
 
     'dry_quart' :
-        RPNUnitInfo( 'volume', 'dry_quarts', '', [ ], [ 'traditional', 'U.S.' ],
+        RPNUnitInfo( 'volume', 'dry_quarts', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
+THe dry quart is defined to be 1/4 dry gallon, or two dry pints.  The U.S.
+customary dry volume measurements correspond with each other the same way the
+liquid measurements do.
+
+https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 ''' ),
 
     'dry_tun' :
-        RPNUnitInfo( 'volume', 'dry_tuns', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'dry_tuns', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
 ''' ),
 
@@ -2764,7 +2822,7 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
 ''' ),
 
     'firkin' :
-        RPNUnitInfo( 'volume', 'firkins', '', [ ], [ 'imperial', 'beer' ],
+        RPNUnitInfo( 'volume', 'firkins', '', [ ], [ 'U.S.', 'beer' ],
                      '''
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
@@ -2772,11 +2830,28 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
     'fluid_ounce' :
         RPNUnitInfo( 'volume', 'fluid_ounces', '', [ 'floz' ], [ 'traditional' ],
                      '''
+A fluid ounce (abbreviated fl oz, fl. oz. or oz. fl.,) is a unit of volume
+(also called capacity) typically used for measuring liquids.  Various
+definitions have been used throughout history, but only two are still in common
+use: the British Imperial and the United States customary fluid ounce.
+
+A U.S. fluid ounce is 1/16 of a US fluid pint and 1/128 of a US liquid gallon
+or approximately 29.57 ml, making it about 4% larger than the imperial fluid
+ounce.
+
+Ref:  https://en.wikipedia.org/wiki/Fluid_ounce
 ''' ),
 
     'foot^3' :
         RPNUnitInfo( 'volume', 'foot^3', '', [ ], [ 'traditional', 'FPS' ],
                      '''
+The cubic foot is an imperial and U.S. customary (non-metric) unit of volume,
+used in the United States, and partially in Canada, and the United Kingdom.  It
+is defined as the volume of a cube with sides of one foot (0.3048 m) in length.
+
+Its volume is 28.3168 liters or about 1/35 of a cubic meter.
+
+https://en.wikipedia.org/wiki/Cubic_foot
 ''' ),
 
     'furshlugginer_ngogn' :
@@ -2786,13 +2861,20 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'gallon' :
-        RPNUnitInfo( 'volume', 'gallons', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'gallons', '', [ ], [ 'U.S.' ],
                      '''
+The gallon is a unit of measurement for volume and fluid capacity in both the
+U.S. customary units and the British imperial systems of measurement.
+
+The U.S. gallon is defined as 231 cubic inches (4 U.S. liquid quarts or 8 U.S.
+liquid pints) or exactly 3.785411784 liters,
+
+Ref:  https://en.wikipedia.org/wiki/Gallon
 ''' ),
 
     'gill' :
         RPNUnitInfo( 'volume', 'gills', '',
-                     [ 'noggin', 'noggins', 'teacup', 'teacups' ], [ 'imperial' ],
+                     [ 'noggin', 'noggins', 'teacup', 'teacups' ], [ 'U.S.' ],
                      '''
 ''' ),
 
@@ -2800,6 +2882,19 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
         RPNUnitInfo( 'volume', 'goliaths', '', [ 'primat' ], [ 'wine' ],
                      '''
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
+''' ),
+
+    'grand_canyon' :
+        RPNUnitInfo( 'volume', 'grand_canyons', '', [ ], [ 'informal' ],
+                     '''
+With a volume measure approximately 4 orders of magnitude greater than a
+sydharb, the volume of the Grand Canyon may be used to visualize even larger
+things, like the magma chamber underneath Yellowstone and other things.
+
+According to the National Park Service, the volume of the Grand Canyon is
+4.17 trillion cubic metres (5.45 trillion cubic yards).
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#The_Grand_Canyon
 ''' ),
 
     'growler' :
@@ -2828,7 +2923,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
         RPNUnitInfo( 'volume', 'hoppus_tons', '', [ ], [ 'England', 'obsolete' ],
                      '''
 The hoppus ton (HT) was also a traditionally used unit of volume in British
-forestry. One hoppus ton is equal to 50 hoppus feet or 1.8027 cubic metres.
+forestry. One hoppus ton is equal to 50 hoppus feet or 1.8027 cubic meters.
 Some shipments of tropical hardwoods, especially shipments of teak from
 Myanmar (Burma), are still stated in hoppus tons.
 
@@ -2842,7 +2937,7 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_bushel' :
-        RPNUnitInfo( 'volume', 'imperial_bushels', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'imperial_bushels', '', [ ], [ 'imperial', 'dry_measure' ],
                      '''
 ''' ),
 
@@ -2874,7 +2969,7 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_peck' :
-        RPNUnitInfo( 'volume', 'imperial_pecks', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'imperial_pecks', '', [ ], [ 'imperial', 'dry_measure' ],
                      '''
 A peck is an imperial and United States customary unit of dry volume,
 equivalent to 2 dry gallons or 8 dry quarts or 16 dry pints.  Two pecks make a
@@ -2940,8 +3035,8 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'liter' :
-        RPNUnitInfo( 'volume', 'liters', 'L',    # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
-                     [ ], [ 'SI' ],
+        RPNUnitInfo( 'volume', 'liters', 'L', [ 'litre', 'litres' ], [ 'SI' ],
+        # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
                      '''
 The liter is an SI  accepted metric system unit of volume equal to 1 cubic
 decimeter (dm^3), 1,000 cubic centimeters (cm^3) or 1/1,000 cubic meter.
@@ -3011,7 +3106,7 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'peck' :
-        RPNUnitInfo( 'volume', 'pecks', 'pk', [ ], [ 'U.S.' ],
+        RPNUnitInfo( 'volume', 'pecks', 'pk', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
 A peck is an imperial and United States customary unit of dry volume,
 equivalent to 2 dry gallons or 8 dry quarts or 16 dry pints.  Two pecks make a
@@ -3040,6 +3135,11 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
     'pint' :
         RPNUnitInfo( 'volume', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'U.S.' ],
                      '''
+The pint, symbol pt, is a unit of volume or capacity in both the imperial and
+United States customary measurement systems.  In both of those systems it is
+traditionally one-eighth of a gallon.
+
+https://en.wikipedia.org/wiki/Pint
 ''' ),
 
     'pony' :
@@ -3072,6 +3172,17 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
     'quart' :
         RPNUnitInfo( 'volume', 'quarts', 'qt', [ ], [ 'U.S.' ],
                      '''
+The quart (abbreviation qt.) is an English unit of volume equal to a quarter
+gallon.  It is divided into two pints or four cups.  Historically, the exact
+size of the quart has varied with the different values of gallons over time and
+in reference to different commodities.  Presently, three kinds of quarts remain
+in use: the liquid quart and dry quart of the U.S. customary system and the
+imperial quart of the British imperial system. All are roughly equal to one
+metric liter.
+
+In the U.S., the quart is defined to be 32 fluid ounces.
+
+Ref:  https://en.wikipedia.org/wiki/Quart
 ''' ),
 
     'rehoboam' :
@@ -3152,16 +3263,32 @@ http://www.unc.edu/~rowlett/units/dictS.html
                      '''
 The approximate volume of the Syndey Harbor at high tide, considered to be
 equal to 562,000 megaliters.
+
+https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sydney_Harbour
 ''' ),
 
     'tablespoon' :
         RPNUnitInfo( 'volume', 'tablespoons', 'tbsp', [ ], [ 'traditional', 'cooking' ],
                      '''
+A tablespoon is a large spoon used for serving or eating.
+
+By extension, the term is also used as a cooking measure of volume.  In this
+capacity, it is most commonly abbreviated tbsp, and occasionally referred to
+as a tablespoonful to distinguish it from the utensil.  A United States
+tablespoon is approximately 14.8 ml (0.50 U.S. fl oz).
+
+Ref:  https://en.wikipedia.org/wiki/Tablespoon
 ''' ),
 
     'teaspoon' :
         RPNUnitInfo( 'volume', 'teaspoons', 'tsp', [ ], [ 'traditional', 'cooking' ],
                      '''
+A teaspoon is an item of cutlery, a small spoon.
+
+By extension the term 'teaspoon' (usually abbreviated tsp.) is used as a
+cooking measure of volume, of approximately 5 ml.
+
+Ref:  https://en.wikipedia.org/wiki/Teaspoon
 ''' ),
 
     'tierce' :
@@ -3185,7 +3312,13 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
     'wine_bottle' :
         RPNUnitInfo( 'volume', 'wine_bottles', '', [ 'bottle', 'bottles' ], [ 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
+A wine bottle is a bottle, generally made of glass, that is used for holding
+wine.  Some wines are fermented in the bottle, others are bottled only after
+fermentation.  Recently the bottle has become a standard unit of volume to
+describe sales in the wine industry, measuring 750 milliliters (26.40 imp. fl.
+oz.; 25.36 U.S. fl. oz.).
+
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'wine_hogshead' :
@@ -3198,6 +3331,11 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
         RPNUnitInfo( 'volume', 'wineglasses', '',
                      [ 'wine_glass', 'wine_glasses' ], [ 'imperial', 'wine' ],
                      '''
+As a supplemental unit of apothecary measure, the wineglass (also known as
+wineglassful, pl. wineglassesful, or cyathus vinarius in pharmaceutical Latin)
+was defined as 1/8 of a pint, or 2 fluid ounces.
+
+Ref:  https://en.wikipedia.org/wiki/Wine_glass#Capacity_measure
 ''' ),
 }
 
@@ -3456,9 +3594,9 @@ unitConversionMatrix = {
     ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
     ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
-    ( 'rood',                       'foot^2' )                              : mpmathify( '10890' ),
+    ( 'rood',                       'foot^2' )                              : mpmathify( '272.25' ),   # same as a square rod!
     ( 'section',                    'acre' )                                : mpmathify( '640' ),
-    ( 'township',                   'acre' )                                : mpmathify( '23040' ),
+    ( 'township',                   'acre' )                                : mpmathify( '23040' ),   # 36 square miles
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
 
     # capacitance
@@ -3733,7 +3871,7 @@ unitConversionMatrix = {
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
-    ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
+    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
     ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
@@ -3741,7 +3879,6 @@ unitConversionMatrix = {
     ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
-    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
     ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
@@ -3749,6 +3886,7 @@ unitConversionMatrix = {
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
     ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
+    ( 'survey_foot',                'meter' )                               : fdiv( 1200, 3937 ),
     ( 'versta',                     'meter' )                               : mpmathify( '1066.8' ),
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
 
@@ -3924,40 +4062,79 @@ unitConversionMatrix = {
 
     # volume
 
-    ( 'balthazar',                  'liter' )                               : mpmathify( '12.0' ),
-    ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
-    ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
-    ( 'beer_keg',                   'pony_keg' )                            : mpmathify( '2' ),
+    # volume - U.S. measures
+
     ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
-    ( 'bushel',                     'dry_gallon' )                          : mpmathify( '8' ),
-    ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
-    ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
-    ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
-    ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
     ( 'cup',                        'gill' )                                : mpmathify( '2' ),
     ( 'cup',                        'wineglass' )                           : mpmathify( '4' ),
-    ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
     ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
-    ( 'dry_barrel',                 'inch^3' )                              : mpmathify( '7056' ),
-    ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
-    ( 'dry_gallon',                 'gallon' )                              : mpmathify( ' 1.163647' ),
-    ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
-    ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
-    ( 'dry_tun',                    'dry_gallon' )                          : mpmathify( '216.56' ),
-    ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
-    ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
-    ( 'firkin',                     'pin' )                                 : mpmathify( '2' ),
     ( 'fluid_ounce',                'dram' )                                : mpmathify( '8' ),
     ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
     ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
+    ( 'gallon',                     'inch^3' )                              : mpmathify( '231' ),
+    ( 'gallon',                     'liter' )                               : mpmathify( '3.785411784' ),   # This is exact!
     ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
-    ( 'goliath',                    'liter' )                               : mpmathify( '27.0' ),
+    ( 'oil_barrel',                 'gallon' )                              : mpmathify( '42' ),
+    ( 'quart',                      'cup' )                                 : mpmathify( '4' ),
+    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
+    ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
+    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
+    ( 'teaspoon',                   'coffeespoon' )                         : mpmathify( '2' ),
+    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
+    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
+    ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
+    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
+
+    # volume - wine bottles
+
+    ( 'balthazar',                  'wine_bottle' )                         : mpmathify( '16' ),
+    ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
+    ( 'goliath',                    'wine_bottle' )                         : mpmathify( '36' ),
+    ( 'jeroboam',                   'wine_bottle' )                         : mpmathify( '4' ),  # some French regions use 6
+    ( 'magnum',                     'wine_bottle' )                         : mpmathify( '2' ),
+    ( 'marie_jeanne',               'wine_bottle' )                         : mpmathify( '3' ),
+    ( 'melchior',                   'wine_bottle' )                         : mpmathify( '24' ),
+    ( 'melchizedek',                'wine_bottle' )                         : mpmathify( '40' ),
+    ( 'methuselah',                 'wine_bottle' )                         : mpmathify( '8' ),
+    ( 'mordechai',                  'wine_bottle' )                         : mpmathify( '12' ),
+    ( 'nebuchadnezzar',             'wine_bottle' )                         : mpmathify( '20' ),
+    ( 'rehoboam',                   'wine_bottle' )                         : mpmathify( '6' ),
+    ( 'salmanazar',                 'wine_bottle' )                         : mpmathify( '12' ),
+    ( 'solomon',                    'wine_bottle' )                         : mpmathify( '24' ),
+    ( 'sovereign',                  'wine_bottle' )                         : mpmathify( '35' ),
+    ( 'wine_bottle',                'chopine' )                             : mpmathify( '3' ),
+    ( 'wine_bottle',                'demi' )                                : mpmathify( '2' ),
+    ( 'wine_bottle',                'jennie' )                              : mpmathify( '1.5' ),
+    ( 'wine_bottle',                'liter' )                               : mpmathify( '0.75' ),
+    ( 'wine_bottle',                'piccolo' )                             : mpmathify( '4' ),
+
+    # volume - wine
+
+    ( 'tun',                        'butt' )                                : mpmathify( '2' ),
+    ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
+    ( 'tun',                        'puncheon' )                            : mpmathify( '3' ),
+    ( 'tun',                        'rundlet' )                             : mpmathify( '14' ),
+    ( 'tun',                        'tierce' )                              : mpmathify( '6' ),
+    ( 'tun',                        'wine_barrel' )                         : mpmathify( '8' ),
+    ( 'tun',                        'wine_hogshead' )                       : mpmathify( '4' ),
+
+    # volume - beer
+
+    ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
+    ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
+    ( 'beer_keg',                   'pony_keg' )                            : mpmathify( '2' ),
     ( 'growler',                    'fluid_ounce' )                         : mpmathify( '64' ),
-    ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
-    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.802706436' ),
+    ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
+    ( 'firkin',                     'pin' )                                 : mpmathify( '2' ),
+    ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
+    ( 'liter',                      'stein' )                               : mpmathify( '2' ),
+
+    # volume - imperial
+
+    ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
     ( 'imperial_cup',               'imperial_gill' )                       : mpmathify( '2' ),
     ( 'imperial_gallon',            'liter' )                               : mpmathify( '4.54609' ),   # This is the exact definition.
@@ -3972,58 +4149,43 @@ unitConversionMatrix = {
     ( 'imperial_tun',               'imperial_puncheon' )                   : mpmathify( '3' ),
     ( 'imperial_tun',               'imperial_rundlet' )                    : mpmathify( '14' ),
     ( 'imperial_tun',               'imperial_tierce' )                     : mpmathify( '6' ),
-    ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
-    ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
+    ( 'pottle',                     'imperial_quart' )                      : mpmathify( '2' ),
+
+    # volume - liquor
+
     ( 'jigger',                     'fluid_ounce' )                         : mpmathify( '1.5' ),
-    ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
-    ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
-    ( 'liter',                      'ngogn' )                               : mpmathify( '86.2477899004' ),
-    ( 'liter',                      'stein' )                               : mpmathify( '2' ),
-    ( 'magnum',                     'wine_bottle' )                         : mpmathify( '2' ),
-    ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
-    ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
-    ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
-    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667214885902504380103540026269320546806739574396' ), # This is needed for 'cord'
-    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
-    ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
-    ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
-    ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
+    ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
+    ( 'pony',                       'fluid_ounce' )                         : mpmathify( '1' ),
+
+    # volume - Potrzebie
+
+    ( 'liter',                      'ngogn' )                               : mpmathify( '86.2473382128925178993463552296954874904688556293757985' ),
     ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
     ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
-    ( 'oil_barrel',                 'gallon' )                              : mpmathify( '42' ),
+
+    # volume - dry measure
+
+    ( 'bushel',                     'dry_gallon' )                          : mpmathify( '8' ),
+    ( 'bushel',                     'liter' )                               : mpmathify( '35.23907016688' ), # exact!
+    ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
+    ( 'dry_barrel',                 'inch^3' )                              : mpmathify( '7056' ),
+    ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
+    ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
+    ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
+    ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
-    ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
-    ( 'pony',                       'fluid_ounce' )                         : mpmathify( '1' ),
+
+    # volume - other
+
+    ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
+    ( 'grand_canyon',               'meter^3' )                             : mpmathify( '4.17e12' ),
+    ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
+    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.802706436' ),
+    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667214885902504380103540026269320546806739574396' ), # This is needed for 'cord'
+    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'portuguese_almude',          'liter' )                               : mpmathify( '16.7' ),
-    ( 'pottle',                     'imperial_quart' )                      : mpmathify( '2' ),
-    ( 'quart',                      'cup' )                                 : mpmathify( '4' ),
-    ( 'quart',                      'liter' )                               : mpmathify( '0.946352946' ),
-    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
-    ( 'quart',                      'pint' )                                : mpmathify( '2' ),
-    ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
-    ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
-    ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
-    ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
-    ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
-    ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
     ( 'spanish_almude',             'liter' )                               : mpmathify( '4.625' ),
-    ( 'stere',                      'liter' )                               : mpmathify( '1000' ),
+    ( 'stere',                      'liter' )                               : mpmathify( '1000' ),    # metric, but not SI
     ( 'sydharb',                    'liter' )                               : mpmathify( '5.62e11' ),
-    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
-    ( 'teaspoon',                   'coffeespoon' )                         : mpmathify( '2' ),
-    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
-    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
-    ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
-    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
-    ( 'tun',                        'butt' )                                : mpmathify( '2' ),
-    ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
-    ( 'tun',                        'puncheon' )                            : mpmathify( '3' ),
-    ( 'tun',                        'rundlet' )                             : mpmathify( '14' ),
-    ( 'tun',                        'tierce' )                              : mpmathify( '6' ),
-    ( 'tun',                        'wine_barrel' )                         : mpmathify( '8' ),
-    ( 'tun',                        'wine_hogshead' )                       : mpmathify( '4' ),
-    ( 'us_tun',                     'gallon' )                              : mpmathify( '252' ),
-    ( 'wine_bottle',                'liter' )                               : mpmathify( '0.75' ),
-    ( 'wine_gallon',                'gallon' )                              : mpmathify( '1' ),
 }
 
