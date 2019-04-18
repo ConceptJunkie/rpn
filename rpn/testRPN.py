@@ -1550,10 +1550,10 @@ def runCombinatoricsOperatorTests( ):
     # nth_delannoy
     testOperator( '-a80 100 nth_delannoy' )
 
-    expectEqual( '-a80 0 99 range nth_delannoy', '1850 oeis 100 left' )
+    expectEqual( '0 99 range nth_delannoy', '1850 oeis 100 left' )
 
     if slow:
-        expectEqual( '-a80 0 1308 range nth_delannoy', '1850 oeis 1309 left' )
+        expectEqual( '0 1308 range nth_delannoy', '1850 oeis 1309 left' )
 
     # nth_motzkin
     testOperator( '-a25 56 nth_motzkin' )
@@ -1561,7 +1561,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
 
     if slow:
-        expectEqual( '-a1000 0 2015 range nth_motzkin', '1006 oeis 2016 left' )
+        expectEqual( '0 2015 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
     testOperator( '13 nth_pell' )
@@ -1574,7 +1574,7 @@ def runCombinatoricsOperatorTests( ):
     # nth_schroeder
     testOperator( '-a50 67 nth_schroeder' )
 
-    expectEqual( '-a80 1 100 range nth_schroeder', '6318 oeis 100 left' )
+    expectEqual( '1 100 range nth_schroeder', '6318 oeis 100 left' )
 
     if slow:
         expectEqual( '-a1600 1 2000 range nth_schroeder', '6318 oeis 2000 left' )
@@ -1582,7 +1582,7 @@ def runCombinatoricsOperatorTests( ):
     # nth_schroeder_hipparchus
     testOperator( '1 10 range nth_schroeder_hipparchus' )
 
-    expectEqual( '-a80 0 99 range nth_schroeder_hipparchus', '1003 oeis 100 left' )
+    expectEqual( '0 99 range nth_schroeder_hipparchus', '1003 oeis 100 left' )
 
     if slow:
         expectEqual( '-a1000 0 1311 range nth_schroeder_hipparchus', '1003 oeis 1312 left' )
@@ -1603,7 +1603,6 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
 
     expectException( '6 7 permutations' )
-
 
 
 # //******************************************************************************
@@ -2552,9 +2551,6 @@ def runLexicographyOperatorTests( ):
     # get_right_digits
     expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
 
-    if slow:
-        expectEqual( '-a21000 dddd[159] build_numbers lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 573 left 572 right' )
-
     # get_right_truncations
     testOperator( '123456789 get_right_truncations' )
 
@@ -3345,7 +3341,7 @@ def runNumberTheoryOperatorTests( ):
     expectException( '1 20 range 12 is_rough' )
 
     if slow:
-        expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
+        expectEqual( '2 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
 
     # is_ruth_aaron
     testOperator( '1 20 range is_ruth_aaron' )
@@ -3431,6 +3427,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
 
     # linear_recurrence_with_modulo
+    #expectEqual( '1 2000 range lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** linear_recurrence_with_modulo x 1 - element equals filter', '-a420 350 oeis 42 left 41 right' )
+
+    #if slow:
+    #    expectEqual( 'dddd[159] build_numbers lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** linear_recurrence_with_modulo x 1 - element equals filter', '-a420 350 oeis 573 left 572 right' )
 
     # log_gamma
     testOperator( '10 log_gamma' )
@@ -4854,7 +4854,7 @@ def main( ):
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
-        print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
 
 
 # //******************************************************************************

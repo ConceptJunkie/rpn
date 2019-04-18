@@ -2058,6 +2058,14 @@ listOperators = {
                                            4, [ RPNArgumentType.List, RPNArgumentType.List,
                                                 RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
+#    'nth_linear_recurrence' : RPNOperator( lambda a, b, c: RPNGenerator( getNthLinearRecurrence( a, b, c ) ),
+#                                           3, [ RPNArgumentType.List, RPNArgumentType.List,
+#                                                RPNArgumentType.PositiveInteger ], [ ] ),
+#
+#    'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: RPNGenerator( getNthLinearRecurrenceWithModulo( a, b, c, d ) ),
+#                                           4, [ RPNArgumentType.List, RPNArgumentType.List,
+#                                                RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
     # powers_and_roots
     'power_tower'           : RPNOperator( calculatePowerTower,
                                            1, [ RPNArgumentType.List ], [ ] ),

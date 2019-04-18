@@ -17,8 +17,9 @@ import shlex
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnSettings import setAccuracy
 
-from mpmath import almosteq, fsub, mpf, mpmathify, nan, workdps
+from mpmath import almosteq, fsub, mpf, mpmathify, log10, nan, workdps
 
 
 # //******************************************************************************
@@ -77,6 +78,10 @@ def compareResults( result1, result2 ):
 
         for i in range( 0, len( result1 ) ):
             if not compareValues( result1[ i ], result2[ i ] ):
+                digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
+
+                setAccuracy( digits )
+
                 print( '**** error in results comparison' )
                 print( type( result1[ i ] ), type( result2[ i ] ) )
                 print( result1[ i ], result2[ i ], 'are not equal' )

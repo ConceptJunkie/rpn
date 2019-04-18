@@ -33,12 +33,21 @@ from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEval
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'apery' )
 def getNthAperyNumber( n ):
     '''
     http://oeis.org/A005259
 
     a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
     '''
+    if n < 0:
+        raise ValueError( '\'nth_apery\' expects a non-negative argument' )
+
+    precision = int( fmul( n, 1.6 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
     result = 0
 
     for k in arange( 0, real( n ) + 1 ):
@@ -55,7 +64,19 @@ def getNthAperyNumber( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
+    if real_int( n ) == 1:
+        return 3
+
+    if n < 0:
+        raise ValueError( '\'nth_delannoy\' expects a non-negative argument' )
+
+    precision = int( fmul( n, 0.8 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
     result = 0
 
     for k in arange( 0, fadd( real( n ), 1 ) ):
@@ -71,8 +92,9 @@ def getNthDelannoyNumber( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
-    if real( n ) == 1:
+    if real_int( n ) == 1:
         return 1
 
     if n < 0:
@@ -81,6 +103,11 @@ def getNthSchroederNumber( n ):
     n = fsub( n, 1 )
 
     result = 0
+
+    precision = int( fmul( n, 0.8 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
 
     for k in arange( 0, fadd( n, 1 ) ):
         result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ),
@@ -104,7 +131,7 @@ def getNthMotzkinNumber( n ):
     a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
     '''
 
-    precision = int( fdiv( n, 1 ) )
+    precision = int( n )
 
     if ( mp.dps < precision ):
         mp.dps = precision
@@ -120,6 +147,37 @@ def getNthMotzkinNumber( n ):
 
 # //******************************************************************************
 # //
+# //  getNthSchroederHipparchusNumber
+# //
+# //  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
+# //  https://oeis.org/A001003
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@cachedFunction( 'schroeder_hipparchus' )
+def getNthSchroederHipparchusNumber( n ):
+    if real_int( n ) == 0:
+        return 1
+
+    if n < 0:
+        raise ValueError( '\'nth_schroeder_hipparchus\' expects a non-negative argument' )
+
+    precision = int( fmul( n, 0.8 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
+    result = 0
+
+    for i in arange( n ):
+        result = fadd( result, fmul( getNarayanaNumber( n, fadd( i, 1 ) ), power( 2, i ) ) )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  getNthPellNumber
 # //
 # //******************************************************************************
@@ -131,6 +189,14 @@ def getNthPellNumber( n ):
 
     a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
     '''
+    if n < 0:
+        raise ValueError( '\'nth_pell\' expects a non-negative argument' )
+
+    precision = int( fmul( n, 0.4 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], n )
 
 
@@ -317,6 +383,7 @@ def getPartitionNumber( n ):
     every integer smaller than the original argument.
     '''
     debugPrint( 'partition', int( n ) )
+
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
     elif n in ( 0, 1 ):
@@ -354,8 +421,8 @@ def getPartitionNumber( n ):
 
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'new_partition' )
-def NEWgetPartitionNumber( n ):
+@cachedFunction( 'old_partition' )
+def OLDgetPartitionNumber( n ):
     if n < 0:
         return 0
 
@@ -442,28 +509,6 @@ def getNarayanaNumber( n, k ):
 @oneArgFunctionEvaluator( )
 def getNthCatalanNumber( n ):
     return fdiv( binomial( fmul( 2, real( n ) ), n ), fadd( n, 1 ) )
-
-
-# //******************************************************************************
-# //
-# //  getNthSchroederHipparchusNumber
-# //
-# //  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
-# //  https://oeis.org/A001003
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def getNthSchroederHipparchusNumber( n ):
-    if n == 0:
-        return 1
-
-    result = 0
-
-    for i in arange( n ):
-        result = fadd( result, fmul( getNarayanaNumber( n, fadd( i, 1 ) ), power( 2, i ) ) )
-
-    return result
 
 
 # //******************************************************************************
