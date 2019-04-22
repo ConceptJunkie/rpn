@@ -288,6 +288,7 @@ operatorAliases = {
     'dup_digits'                    : 'duplicate_digits',
     'dup_number'                    : 'duplicate_number',
     'dup_op'                        : 'duplicate_operator',
+    'dup_ops'                       : 'duplicate_operator',
     'dup_operator'                  : 'duplicate_operator',
     'dup_term'                      : 'duplicate_term',
     'eddington'                     : 'eddington_number',

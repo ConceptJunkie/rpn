@@ -74,7 +74,7 @@ def compareResults( result1, result2 ):
 
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
-            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ), result1, result2 )
+            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
 
         for i in range( 0, len( result1 ) ):
             if not compareValues( result1[ i ], result2[ i ] ):
@@ -87,11 +87,6 @@ def compareResults( result1, result2 ):
                 print( result1[ i ], result2[ i ], 'are not equal' )
                 print( 'difference', fsub( result1[ i ], result2[ i ] ) )
                 print( 'difference found at index', i )
-
-                print( )
-                for i in range( len( result1 ) ):
-                    print( i, result1[ i ], result2[ i ] )
-                print( )
 
                 raise ValueError( 'unit test failed' )
     elif not compareValues( result1, result2 ):

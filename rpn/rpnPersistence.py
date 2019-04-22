@@ -485,6 +485,26 @@ def deleteFromFunctionCache( name, key ):
 
 # //******************************************************************************
 # //
+# //  dumpFunctionCache
+# //
+# //******************************************************************************
+
+def dumpFunctionCache( name ):
+    if not doesCacheExist( name[ 0 ] ):
+        raise ValueError( 'cache \'' + name[ 0 ] + '\' does not exist.' )
+
+    cache = openFunctionCache( name[ 0 ] )
+
+    keys = sorted( cache.keys( ) )
+
+    for key in keys:
+        print( key, cache[ key ] )
+
+    return len( cache )
+
+
+# //******************************************************************************
+# //
 # //  cachedFunction
 # //
 # //******************************************************************************

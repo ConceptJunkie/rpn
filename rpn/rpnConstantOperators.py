@@ -83,7 +83,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
         RPNConstantInfo( '1.602176634e-19', 'coulomb', [ 'elementary_charge', 'electron' ], False,
                          '',
                          '''
-Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
+Ref:  https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units#Ampere
 
 This new value is exact, by definition.
 ''' ),

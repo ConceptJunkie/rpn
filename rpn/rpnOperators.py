@@ -798,18 +798,22 @@ def forEachList( list, func ):
 # //
 # //******************************************************************************
 
-def breakOnCondition( n, k ):
-    if isinstance( n, mpf ):
-        n = [ n ]
+def breakOnCondition( arguments, condition, func ):
+    if not isinstance( arguments, list ):
+        arguments = [ arguments ]
 
-    if not isinstance( k, RPNFunction ):
+    #print( 'arguments', arguments )
+
+    if not isinstance( func, RPNFunction ):
         raise ValueError( '\'break_on\' expects a function argument' )
 
-    for i in n:
-        value = k.evaluate( i )
+    for argument in arguments:
+        value = func.evaluate( argument )
 
-        if value:
-            return i
+        if value == condition:
+            return value
+
+    return value
 
 
 # //******************************************************************************
@@ -1678,7 +1682,7 @@ specialFormatOperators = {
 # //******************************************************************************
 
 functionOperators = [
-    'break_on',
+    #'break_on',
     'eval0',
     'eval',
     'eval2',
@@ -1849,9 +1853,6 @@ listOperators = {
                                            1, [ RPNArgumentType.List ], [ ] ),
 
     # function
-    'break_on'              : RPNOperator( breakOnCondition,
-                                           2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
-
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
 
@@ -3098,7 +3099,10 @@ operators = {
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     # function
-    'eval0'                           : RPNOperator( evaluateFunction0,
+    #'break_on'                       : RPNOperator( breakOnCondition,
+    #                                                3, [ RPNArgumentType.Default, RPNArgumentType.Default, RPNArgumentType.Function ], [ ] ),
+
+    'eval0'                          : RPNOperator( evaluateFunction0,
                                                     1, [ RPNArgumentType.Function ], [ ] ),
 
     'eval'                           : RPNOperator( evaluateFunction,
@@ -4306,6 +4310,9 @@ operators = {
     # internal
     '_dump_aliases'                  : RPNOperator( dumpAliases,
                                                     0, [ ], [ ] ),
+
+    '_dump_cache'                    : RPNOperator( dumpFunctionCache,
+                                                    1, [ RPNArgumentType.String ], [ ] ),
 
     '_dump_constants'                : RPNOperator( dumpConstants,
                                                     0, [ ], [ ] ),

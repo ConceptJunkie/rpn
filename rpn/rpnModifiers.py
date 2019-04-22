@@ -115,25 +115,12 @@ def duplicateOperation( valueList ):
     if isinstance( valueList[ -1 ], list ):
         raise ValueError( "'duplicate_operator' cannot accept a list argument" )
 
-    duplicateOperations = nint( floor( valueList.pop( ) ) )
+    argument = nint( floor( valueList.pop( ) ) )
 
-    #print( 'end of list', valueList[ -1 ] )
+    if argument < 1:
+        raise ValueError( "'duplicate_operator' requires an argument of 1 or more (n.b., 1 has no effect)" )
 
-    # operatorInfo = operators[ term ]
-    # argsNeeded = operatorInfo.argCount
-    #
-    # if argsNeeded > 1:
-    #     savedArgs = currentValueList[ -argsNeeded + 1 : ]
-    #
-    # for i in range( 0, int( g.duplicateOperations ) ):
-    #     if argsNeeded > 1 and i > 0:
-    #         currentValueList.extend( savedArgs )
-    #
-    #     if not operators[ term ].evaluate( term, index, currentValueList ):
-    #         return False
-    #
-    # g.duplicateOperations = 0
-
+    g.duplicateOperations = argument
 
 
 # //******************************************************************************

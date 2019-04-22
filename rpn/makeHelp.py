@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1134
+maxExampleCount = 1139
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1062,7 +1062,7 @@ The unit conversion code has been heavily refactored and works much better now.
 
 Added the 'base_units' and 'dimensions' operators, mostly for testing purposes.
 
-Added _dump_conversions, also for testing purposes.
+Added '_dump_conversions' and '_dump_cache', also for testing purposes.
 
 rpnChilada is now smart enough to recognize when an OEIS request has failed,
 and to ignore the cached result stored as a result.  If it detects that the
@@ -1082,6 +1082,9 @@ words.  The alias creation for generated types has also been cleaned up.
 
 The astronomy functionality has been refactored to support migrating to the
 skyfield library from pyephem.
+
+Removed the 'break_on' operator because it no longer works.  It will be
+re-implemented in the future.
 
 7.2.5
 
@@ -4917,14 +4920,13 @@ and seconds.
 # //
 # //******************************************************************************
 
-    'break_on' : [
-'functions', '',
-'''
-''',
-'''
-''',
-[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
-
+#    'break_on' : [
+#'functions', '',
+#'''
+#''',
+#'''
+#''',
+#[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'eval' : [
 'functions', 'evaluates the function n for the given argument k',
@@ -5009,7 +5011,7 @@ non-zero value.
 Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
-[ 'break_on', 'filter_by_index', 'lambda', 'unfilter' ] ],
+[ 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'filter_by_index' : [
 'functions', 'filters a list n using function k applied to the list indexes',
@@ -5505,7 +5507,21 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
+
+    '_dump_cache' : [
+'internal', 'dumps the contents of cache n',
+'''
+The operator returns number of items in the cache.
+
+Since most of the cache names are also operator names, be sure to use the
+string literal delimiter (') for the cache name.
+
+e.g.,  "rpn 'next_prime _dump_cache"
+''',
+'''
+''',
+[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_constants' : [
 'internal', 'dumps the list of constants',
@@ -5514,7 +5530,7 @@ The operator returns number of constants.
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_conversions' : [
 'internal', 'dumps the list of unit conversions',
@@ -5523,7 +5539,7 @@ The operator returns number of unit conversions.
 ''',
 '''
 ''',
-[ '_dump_constants', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_constants', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5536,7 +5552,7 @@ The operator returns number of operators.
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
 
     '_dump_units' : [
 'internal', 'lists all rpn units',
@@ -5545,7 +5561,7 @@ The operator returns number of units.
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
 
     '_stats' : [
 'internal', 'dumps rpn statistics',
@@ -5558,7 +5574,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
 
 
 # //******************************************************************************
@@ -7032,9 +7048,21 @@ resulting expression a list, rather than a set of k expressions.
     'duplicate_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
+The argument n, which is a count of the number of times to duplicate the
+operation, and the 'duplicate_operator' operator must precede another
+operator, which will then be performed n times.
+
+If n is 1, then the 'duplicate_operator' operator has no effect, since
+operators are evaluated once by default.
+
+'duplicate_operator' is not allowed inside a lambda.
 ''',
 '''
-''',
+''' + makeCommandExample( '10 1 duplicate_operator sqr' ) + '''
+''' + makeCommandExample( '10 2 duplicate_operator sqr' ) + '''
+''' + makeCommandExample( '10 3 duplicate_operator sqr' ) + '''
+''' + makeCommandExample( '8 3 2 duplicate_operator **' ) + '''
+''' + makeCommandExample( '8 3 3 duplicate_operator **' ),
 [ ] ],
 
     'previous' : [

@@ -3018,6 +3018,9 @@ def runModifierOperatorTests( ):
     testOperator( '2 5 duplicate_operator sqr' )
     testOperator( '4 6 5 duplicate_operator *' )
 
+    expectException( '10 10 [ 1 2 3 ] duplicate_operator +' )
+    expectException( '3 4 0 duplicate_operator +' )
+
     # duplicate_term
     testOperator( '[ 1 2 10 duplicate_term ] cf' )
 
@@ -3482,7 +3485,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a302 0 999 range nth_jacobsthal', '1045 oeis 1000 left' )
 
     if slow:
-        expectEqual( '-a1002 0 3316 range nth_jacobsthal', '1045 oeis 3317 left' )
+        expectEqual( '-a1002 0 3315 range nth_jacobsthal', '1045 oeis 3316 left' )
 
     # nth_kynea
     testOperator( '1 10 range nth_kynea' )
