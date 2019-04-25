@@ -299,6 +299,8 @@ operatorAliases = {
     'enum_dice_'                    : 'enumerate_dice_',
     'equal'                         : 'is_equal',
     'equals'                        : 'is_equal',
+    'ethiopian'                     : 'to_ethiopian',
+    'ethiopian_name'                : 'to_ethiopian_name',
     'euler'                         : 'euler_mascheroni_constant',
     'eulerbrick'                    : 'euler_brick',
     'eulerphi'                      : 'euler_phi',

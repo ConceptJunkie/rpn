@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1139
+maxExampleCount = 1145
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1085,6 +1085,9 @@ skyfield library from pyephem.
 
 Removed the 'break_on' operator because it no longer works.  It will be
 re-implemented in the future.
+
+Added 'to_ethiopian', 'to_ethiopian_name' and 'from_ethiopian' operators for
+converting to and from the Ethiopian calendar.
 
 7.2.5
 
@@ -3126,6 +3129,14 @@ in June.
 ''',
 [ ] ],
 
+    'from_ethiopian' : [
+'calendars', 'converts a date in the Ethiopian calendar to the equivalent Gregorian date',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'from_hebrew' : [
 'calendars', 'converts a date in the Hebrew calendar to the equivalent Gregorian date',
 '''
@@ -3311,13 +3322,30 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 [ 'from_bahai' ] ],
 
+    'to_ethiopian' : [
+'calendars', 'converts a date to the equivalent date in the Ethiopian calendar',
+'''
+''',
+'''
+''',
+[ 'from_ethiopian', 'to_ethiopian_name' ] ],
+
+    'to_ethiopian_name' : [
+'calendars', 'converts a date to the equivalent date in the Ethiopian calendar with the day and month names',
+'''
+The Ethiopian calendar names every day in the month after a saint.
+''',
+'''
+''',
+[ 'from_ethiopian', 'to_ethiopian' ] ],
+
     'to_hebrew' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar',
 '''
 ''',
 '''
 ''',
-[ 'from_hebrew' ] ],
+[ 'from_hebrew', 'to_hebrew_name' ] ],
 
     'to_hebrew_name' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
@@ -7055,7 +7083,8 @@ operator, which will then be performed n times.
 If n is 1, then the 'duplicate_operator' operator has no effect, since
 operators are evaluated once by default.
 
-'duplicate_operator' is not allowed inside a lambda.
+'duplicate_operator' is not allowed inside a lambda.  If 'duplicate_operator'
+is not followed by another operator, then it has no effect.
 ''',
 '''
 ''' + makeCommandExample( '10 1 duplicate_operator sqr' ) + '''
@@ -7694,10 +7723,10 @@ count the zeroes.
 ''',
 '''
 ''',
-[ 'linear_recurrence' ] ],
+[ 'linear_recurrence', 'nth_linear_recurrence' ] ],
 
     'linear_recurrence' : [
-'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',
+'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b)',
 '''
 The factors (a) indicate the multiple of each preceding value to add to create
 the next value in the recurrence list, listed from right to left (meaning the
@@ -7731,15 +7760,15 @@ The Pell numbers:
 ''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 15 linear_recurrence' ) + '''
 The Perrin sequence:
 ''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 20 linear_recurrence' ),
-[ 'linear_recurrence_with_modulo' ] ],
+[ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'linear_recurrence_with_modulo' : [
-'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
+'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
 '''
 ''',
 '''
 ''',
-[ ] ],
+[ 'linear_recurrence', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'lucas' : [
 'number_theory', 'calculates the nth Lucas number',
@@ -7819,6 +7848,47 @@ added to the (n + 1)th Mersenne number.
 '''
 ''',
 [ ] ],
+
+    'nth_linear_recurrence' : [
+'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',
+'''
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (b), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
+
+The is some disagreement about whether the zeroes count as part of these linear
+recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
+etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
+count the zeroes.
+''',
+'''
+The 20th Fibonacci number:
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 20 nth_linear_recurrence' ) + '''
+The 17th Lucas number:
+''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 17 nth_linear_recurrence' ) + '''
+The 43rd Tribonacci sequence:
+''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 43 nth_linear_recurrence' ) + '''
+The 12th Octanacci sequence:
+''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 12 nth_linear_recurrence' ) + '''
+The 15th Pell number:
+''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 15 nth_linear_recurrence' ) + '''
+The 21st Perrin number:
+''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 21 nth_linear_recurrence' ),
+[ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
+
+    'nth_linear_recurrence_with_modulo' : [
+'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
+'''
+''',
+'''
+''',
+[ 'linear_recurrence', 'nth_linear_recurrence', 'linear_recurrence_with_modulo' ] ],
 
     'nth_leonardo' : [
 'number_theory', 'returns the nth Leonardo number',

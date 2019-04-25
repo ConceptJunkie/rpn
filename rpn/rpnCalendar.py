@@ -16,6 +16,7 @@ import calendar
 
 from convertdate import bahai, gregorian, hebrew, indian_civil, islamic, julian, \
                         mayan, persian
+from ethiopian_date import EthiopianDateConverter as ethiopian_date
 from mpmath import ceil
 
 from rpn.rpnDateTime import RPNDateTime
@@ -110,7 +111,7 @@ hebrewDays = [
     'Yom Rishon'
 ]
 
-indianCivilDays = (
+indianCivilDays = [
     "Somavara",     # Monday
     "Mangalavara",
     "Budhavara",
@@ -118,9 +119,9 @@ indianCivilDays = (
     "Sukravara",
     "Sanivara",
     "Ravivara",
-)
+]
 
-indianCivilMonths = (
+indianCivilMonths = [
     "Chaitra",
     "Vaishakha",
     "Jyeshtha",
@@ -133,7 +134,7 @@ indianCivilMonths = (
     "Pausha",
     "Magha",
     "Phalguna",
-)
+]
 
 islamicMonths = [
     'Muharram',
@@ -183,6 +184,55 @@ persianDays = [
     'Panjshanbeh',
     'Jomeh',
     'Shanbeh'
+]
+
+ethiopianMonths = [
+    'Meskerem',
+    'Thikimt',
+    'Hidar',
+    'Tahsas',
+    'Thir',
+    'Yekatit',
+    'Megabit',
+    'Miyazya',
+    'Ginbot',
+    'Senie',
+    'Hamlie',
+    'Nehasie',
+    'Phagumien'
+]
+
+ethiopianDays = [
+    'Lideta',
+    'Aba Guba',
+    'Be\'Eta',
+    'Yohannes',
+    'Abo',
+    'Iyesus',
+    'Selassie',
+    'Aba Kiros',
+    'Tomas',
+    'Meskel',
+    'Hana Mariam',
+    'Michael',
+    'Egziher Ab',
+    'Abune Aregawi',
+    'K\'irk\'os',
+    'Kidane Mihret',
+    'Est\'ifanos',
+    'Tekle Alfa',
+    'Gabriel',
+    'Hintsite',
+    'Mariam',
+    'Ura\'el',
+    'Giorgis',
+    'Tekle Haimanot',
+    'Merk\'orios',
+    'Yosef',
+    'Medhani Alem',
+    'Amanu\'el',
+    'Bale Egziabeir',
+    'Mark\'os'
 ]
 
 
@@ -566,4 +616,46 @@ def getBahaiCalendarDateName( n ):
         result += str( date[ 0 ] )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getEthiopianCalendarDate
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getEthiopianCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertEthiopianDate
+# //
+# //******************************************************************************
+
+def convertEthiopianDate( year, month, day ):
+    eth_date = ethiopian_date.to_gregorian( real_int( year ), real_int( month ), real_int( day ) )
+    return RPNDateTime( eth_date.year, eth_date.month, eth_date.day )
+
+
+# //******************************************************************************
+# //
+# //  getEthiopianCalendarDateName
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getEthiopianCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = ethiopian_date.to_ethiopian( n.year, n.month, n.day )
+
+    return ethiopianDays[ date[ 2 ] ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 0 ] )
 

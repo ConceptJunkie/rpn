@@ -2059,13 +2059,13 @@ listOperators = {
                                            4, [ RPNArgumentType.List, RPNArgumentType.List,
                                                 RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-#    'nth_linear_recurrence' : RPNOperator( lambda a, b, c: RPNGenerator( getNthLinearRecurrence( a, b, c ) ),
-#                                           3, [ RPNArgumentType.List, RPNArgumentType.List,
-#                                                RPNArgumentType.PositiveInteger ], [ ] ),
-#
-#    'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: RPNGenerator( getNthLinearRecurrenceWithModulo( a, b, c, d ) ),
-#                                           4, [ RPNArgumentType.List, RPNArgumentType.List,
-#                                                RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+    'nth_linear_recurrence' : RPNOperator( lambda a, b, c: getNthLinearRecurrence( a, b, c ),
+                                           3, [ RPNArgumentType.List, RPNArgumentType.List,
+                                                RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: getNthLinearRecurrenceWithModulo( a, b, c, d ),
+                                           4, [ RPNArgumentType.List, RPNArgumentType.List,
+                                                RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     # powers_and_roots
     'power_tower'           : RPNOperator( calculatePowerTower,
@@ -2490,6 +2490,10 @@ operators = {
                                                     3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
                                                          RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'from_ethiopian'                 : RPNOperator( convertEthiopianDate,
+                                                    3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
+                                                         RPNArgumentType.PositiveInteger ], [ ] ),
+
     'from_hebrew'                    : RPNOperator( convertHebrewDate,
                                                     3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
                                                          RPNArgumentType.PositiveInteger ], [ ] ),
@@ -2560,6 +2564,12 @@ operators = {
                                                     1, [ RPNArgumentType.DateTime ], [ ] ),
 
     'to_bahai_name'                  : RPNOperator( getBahaiCalendarDateName,
+                                                    1, [ RPNArgumentType.DateTime ], [ ] ),
+
+    'to_ethiopian'                   : RPNOperator( getEthiopianCalendarDate,
+                                                    1, [ RPNArgumentType.DateTime ], [ ] ),
+
+    'to_ethiopian_name'              : RPNOperator( getEthiopianCalendarDateName,
                                                     1, [ RPNArgumentType.DateTime ], [ ] ),
 
     'to_hebrew'                      : RPNOperator( getHebrewCalendarDate,
