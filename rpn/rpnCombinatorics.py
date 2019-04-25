@@ -197,7 +197,7 @@ def getNthPellNumber( n ):
     if ( mp.dps < precision ):
         mp.dps = precision
 
-    return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], n )
+    return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
 
 
 # //******************************************************************************

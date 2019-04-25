@@ -17,9 +17,8 @@ import shlex
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnSettings import setAccuracy
 
-from mpmath import almosteq, fsub, mpf, mpmathify, log10, nan, workdps
+from mpmath import almosteq, fsub, mpf, mpmathify, log10, mp, nan, workdps
 
 
 # //******************************************************************************
@@ -80,7 +79,7 @@ def compareResults( result1, result2 ):
             if not compareValues( result1[ i ], result2[ i ] ):
                 digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
 
-                setAccuracy( digits )
+                mp.dps = digits
 
                 print( '**** error in results comparison' )
                 print( type( result1[ i ] ), type( result2[ i ] ) )
@@ -145,8 +144,10 @@ def expectEqual( command1, command2 ):
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
-    result1 = rpn( shlex.split( command1 + ' -I' ) )[ 0 ]
-    result2 = rpn( shlex.split( command2 + ' -I' ) )[ 0 ]
+    # Converting to a list makes sure generators get evaluated before the
+    # precision gets reset.
+    result1 = list( rpn( shlex.split( command1 + ' -I' ) )[ 0 ] )
+    result2 = list( rpn( shlex.split( command2 + ' -I' ) )[ 0 ] )
 
     compareResults( result1, result2 )
 

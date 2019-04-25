@@ -260,7 +260,7 @@ def findCenteredDecagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthPentagonalTriangularNumber( n ):
-    return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], real_int( n ) )
+    return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -273,7 +273,7 @@ def getNthPentagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthPentagonalSquareNumber( n ):
-    return getNthLinearRecurrence( [ 1, -9603, 9603 ], [ 1, 9801, 94109401 ], real_int( n ) )
+    return getNthLinearRecurrence( [ 1, -9603, 9603 ], [ 1, 9801, 94109401 ], fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -326,7 +326,7 @@ def getNthHexagonalPentagonalNumber( n ):
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalTriangularNumber( n ):
     return getNthLinearRecurrence( [ 1, -1, -103682, 103682, 1 ],
-                                   [ 1, 55, 121771, 5720653, 12625478965 ], real_int( n ) )
+                                   [ 1, 55, 121771, 5720653, 12625478965 ], fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -343,7 +343,7 @@ def getNthHeptagonalTriangularNumber( n ):
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalSquareNumber( n ):
     index = getNthLinearRecurrence( [ 1, -1, 0, -1442, 1442, 0, 1 ],
-                                    [ 1, 6, 49, 961, 8214, 70225, 1385329 ], real_int( n ) )
+                                    [ 1, 6, 49, 961, 8214, 70225, 1385329 ], fsub( real_int( n ), 1 ) )
 
     return getNthPolygonalNumber( index, 7 )
 
@@ -581,7 +581,7 @@ def getNthNonagonalHexagonalNumber( n ):
 
     return getNthLinearRecurrence( [ 1, -1, -4162056194, 4162056194, 1 ],
                                    [ 1, 325, 5330229625, 1353857339341, 22184715227362706161 ],
-                                   real_int( n ) )
+                                   fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -814,7 +814,7 @@ def getNthSquareTriangularNumber( n ):
     neededPrecision = int( real_int( n ) * 3.5 )  # determined by experimentation
 
     if mp.dps < neededPrecision:
-        setAccuracy( neededPrecision )
+        mp.dps = neededPrecision
 
     sqrt2 = sqrt( 2 )
 

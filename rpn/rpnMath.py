@@ -17,7 +17,7 @@ from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    cosh, cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, \
                    fmod, fmul, fneg, fsub, hypot, im, lambertw, li, ln, log, \
                    log10, mpc, mpf, nint, phi, polyexp, polylog, power, re, \
-                   root, sec, sech, sign, sin, sinh, sqrt, tan, tanh
+                   root, sec, sech, sign, sin, sinh, sqrt, tan, tanh, mp
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator

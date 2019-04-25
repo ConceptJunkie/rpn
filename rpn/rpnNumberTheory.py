@@ -163,7 +163,7 @@ def getNthLucasNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthJacobsthalNumber( n ):
-    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( real( n ), 1 ) )
+    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], real_int( n ) )
 
 
 # //******************************************************************************
@@ -174,7 +174,8 @@ def getNthJacobsthalNumber( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthBaseKRepunit( n, k ):
-    return getNthLinearRecurrence( [ fneg( real( k ) ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
+    return getNthLinearRecurrence( [ fneg( real_int( k ) ), fadd( k, 1 ) ],
+                                   [ 1, fadd( k, 1 ) ], fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -301,12 +302,12 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     '''
     This is used for testing getNthKFibonacciNumber( ).
     '''
-    precision = int( fdiv( fmul( real( n ), real( k ) ), 8 ) )
+    precision = int( fdiv( fmul( int( n ), real( k ) ), 8 ) )
 
     if ( mp.dps < precision ):
         mp.dps = precision
 
-    return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
+    return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], n )
 
 
 # //******************************************************************************
@@ -574,7 +575,44 @@ def getLinearRecurrence( recurrence, seeds, count ):
 # //******************************************************************************
 
 def getNthLinearRecurrence( recurrence, seeds, n ):
-    return list( getLinearRecurrence( recurrence, seeds, n ) )[ -1 ]
+    #return list( getLinearRecurrence( recurrence, seeds, n ) )[ -1 ]
+
+    if not isinstance( recurrence, ( list, RPNGenerator ) ):
+        recurrence = [ recurrence ]
+
+    if not isinstance( seeds, ( list, RPNGenerator ) ):
+        seeds = [ seeds ]
+
+    n = real_int( n )
+
+    if not seeds:
+        raise ValueError( 'for operator \'linear_recurrence\', seeds list cannot be empty ' )
+
+    # calculate missing seeds
+    for i in range( len( seeds ), len( recurrence ) ):
+        seeds.append( list( getLinearRecurrence( recurrence[ : i ], seeds, 1 ) ) )
+
+    if n < len( seeds ):
+        return seeds[ n ]
+
+    if not recurrence:
+        raise ValueError( 'internal error:  for operator \'nth_linear_recurrence\', '
+                          'recurrence list cannot be empty ' )
+
+    result = [ ]
+    result.extend( seeds )
+
+    for i in arange( len( seeds ), n + 1 ):
+        newValue = 0
+
+        for j in range( -1, -( len( seeds ) + 1 ), -1 ):
+            newValue = fadd( newValue, fmul( result[ j ], recurrence[ j ] ) )
+
+        result.append( newValue )
+
+        del result[ 0 ]
+
+    return result[ -1 ]
 
 
 # //******************************************************************************
@@ -621,6 +659,51 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
             yield newValue
 
             del result[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  getNthLinearRecurrenceWithModulo
+# //
+# //******************************************************************************
+
+def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
+    if not isinstance( recurrence, ( list, RPNGenerator ) ):
+        recurrence = [ recurrence ]
+
+    if not isinstance( seeds, ( list, RPNGenerator ) ):
+        seeds = [ seeds ]
+
+    if not seeds:
+        raise ValueError( 'for operator \'linear_recurrence_with_modulo\', seeds list cannot be empty ' )
+
+    n = real_int( n )
+
+    # calculate missing seeds
+    for i in range( len( seeds ), len( recurrence ) ):
+        seeds.append( getLinearRecurrenceWithModulo( recurrence[ : i ], seeds, i, modulo ) )
+
+    if n < len( seeds ):
+        return seeds[ n ]
+    else:
+        if not recurrence:
+            raise ValueError( 'internal error:  for operator \'nth_linear_recurrence_with_modulo\', '
+                              'recurrence list cannot be empty ' )
+
+        result = [ ]
+        result.extend( seeds )
+
+        for i in arange( len( seeds ), n + 1 ):
+            newValue = 0
+
+            for j in range( -1, -( len( seeds ) + 1 ), -1 ):
+                newValue = fmod( fadd( newValue, fmul( result[ j ], recurrence[ j ] ) ), modulo )
+
+            result.append( newValue )
+
+            del result[ 0 ]
+
+    return result[ -1 ]
 
 
 # //******************************************************************************

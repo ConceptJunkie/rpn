@@ -331,6 +331,7 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '9.5 cups ceiling', '10 cups' )
     expectEqual( '1 56 range lambda x x log * ceiling eval', '50502 oeis 56 left' )
+    expectEqual( '-a60 1 200 range lambda x ln 2 x ** * x / ceil eval', '65615 oeis 200 left' )
 
     # decrement
     expectResult( '2 decrement', 1 )
@@ -633,6 +634,7 @@ def runArithmeticOperatorTests( ):
     expectEqual( '2 i 3.4 + nearest_int', '2 i 3 +' )
     expectEqual( '2.6 i 4 + nearest_int', '3 i 4 +' )
     expectEqual( '0 1000 range phi * nearest_int', '7067 oeis 1001 left' )
+    expectEqual( '11 4 root 0 31 range ** nearest_int', '18076 oeis 32 left' )
 
     # negative
     expectResult( '-4 negative', 4 )
@@ -1037,6 +1039,9 @@ def runCalendarOperatorTests( ):
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
 
+    # from_ethiopian
+    testOperator( '2012 8 6 from_ethiopian' )
+
     # from_hebrew
     testOperator( '5776 8 6 from_hebrew' )
 
@@ -1101,6 +1106,12 @@ def runCalendarOperatorTests( ):
 
     # to_bahai_name
     testOperator( 'today to_bahai_name' )
+
+    # to_ethiopian
+    testOperator( 'today to_ethiopian' )
+
+    # to_ethiopian_name
+    testOperator( 'today to_ethiopian_name' )
 
     # to_hebrew
     testOperator( 'today to_hebrew' )
@@ -3428,6 +3439,7 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
     expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
+    expectEqual( '[ -1 e euler_constant ** 1 e euler_constant ** / + ] [ 1 1 ] 36 linear_recurrence floor 35 right', '93608 oeis 35 left' )
 
     # linear_recurrence_with_modulo
     #expectEqual( '1 2000 range lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** linear_recurrence_with_modulo x 1 - element equals filter', '-a420 350 oeis 42 left 41 right' )
@@ -3496,6 +3508,22 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 10 range nth_leonardo' )
 
     expectEqual( '-a106 0 499 range nth_leonardo', '1595 oeis 500 left' )
+
+    # nth_linear_recurrence
+    testOperator( '2 5 17 nth_linear_recurrence' )
+
+    expectEqual( '-a50 [ 1 1 ] [ 0 1 ] 100 nth_linear_recurrence', '-a50 100 fibonacci' )
+
+    # nth_linear_recurrence_with_modulo
+    testOperator( '[ 0 1 1 ] [ 5 1 -3 ] 17 1000 nth_linear_recurrence_with_modulo' )
+
+    expectEqual( '[ 0 1 1 ] [ 5 1 -3 ] 17 1000 nth_linear_recurrence_with_modulo', '[ 0 1 1 ] [ 5 1 -3 ] 18 1000 linear_recurrence_with_modulo -1 element' )
+    expectEqual( '[ 0 1 1 1 ] [ 6 1 -6 2 ] 100 1000 nth_linear_recurrence_with_modulo', '[ 0 1 1 1 ] [ 6 1 -6 2 ] 101 1000 linear_recurrence_with_modulo -1 element' )
+    expectEqual( '1 100 range lambda [ 1 1 ] [ 0 1 ] x x 1 + prime nth_linear_recurrence_with_modulo eval', '121104 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 4999 range lambda [ 1 1 ] [ 0 1 ] x x 1 + prime nth_linear_recurrence_with_modulo eval', '121104 oeis 4999 left' )
+
 
     # nth_mersenne_exponent
     testOperator( '1 10 range nth_mersenne_exponent' )
@@ -3918,11 +3946,14 @@ def runPowersAndRootsOperatorTests( ):
 
     # cube_root
     testOperator( 'pi cube_root' )
-    expectEqual( '17 cube_root 0 199 range ** nint', '18025 oeis 200 left' )
-    expectEqual( '11 cube_root 0 199 range ** nint', '18007 oeis 200 left' )
+
+    expectEqual( '-a83 17 cube_root 0 199 range ** nearest_int', '18025 oeis 200 left' )
+    expectEqual( '-a70 11 cube_root 0 199 range ** nearest_int', '18007 oeis 200 left' )
+    expectEqual( '-a30 6 cube_root 0 199 range ** nearest_int', '17992 oeis 200 left' )
 
     # exp
     testOperator( '13 exp' )
+
     expectEqual( '2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval', '58209 oeis 2000 left' )
     expectEqual( '1 999 range lambda x x sin exp * ceiling eval', '134892 oeis 999 left' )
 
@@ -3932,8 +3963,13 @@ def runPowersAndRootsOperatorTests( ):
     # expphi
     testOperator( '100 expphi' )
 
+    expectEqual( '-a2002 0 4784 range expphi floor', '14217 oeis 4785 left' )
+
     # hyper4_2
     testOperator( '-a160 -c 4 3 hyper4_2' )
+
+    expectEqual( '-a40 inf lambda 2 2 sqrt x hyper4_2 - 2 ln x ** / limit 10 21 ** * get_digits', '277435 oeis 21 left' )
+    expectEqual( '-a100 2 2 sqrt 1 300 range hyper4_2 - 5 make_cf lambda x 1 element for_each_list -s1', '280918 oeis 300 left' )
 
     # power
     testOperator( '4 5 power' )
@@ -3977,6 +4013,8 @@ def runPowersAndRootsOperatorTests( ):
     # powmod
     testOperator( '43 67 9 powmod' )
 
+    expectEqual( '0 21000 range lambda 2 x x sqr 1 + powmod x sqr equals filter', '247220 oeis 5 left' )
+
     # pseudoprimes to base 2
     expectEqual( '3 100000 2 range2 lambda x is_prime not filter lambda 2 x 1 - x powmod 1 equals filter',
                  '1567 oeis lambda x 100000 is_less filter' )
@@ -4007,9 +4045,12 @@ def runPowersAndRootsOperatorTests( ):
     expectResult( '8 0.5 root', 64 )
 
     expectEqual( '8 3 root', '8 cube_root' )
+    expectEqual( '20 5 root 0 31 range ** nearest_int', '18172 oeis 32 left' )
 
     # square
     expectEqual( '123 square', '123 123 *' )
+
+    expectEqual( '0 1000 range square', '290 oeis 1001 left' )
 
     # square_root
     expectEqual( '2 square_root', '4 4 root' )

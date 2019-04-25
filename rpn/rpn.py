@@ -222,10 +222,10 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
-                    outputString = formatOutput( nstr( result.value, mp.dps, min_fixed=-g.maximumFixed - 1 ) )
+                    outputString = formatOutput( nstr( result.value, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
                     outputString += ' ' + formatUnits( result )
                 else:
-                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-g.maximumFixed - 1 ) )
+                    outputString = formatOutput( nstr( result, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
 
             print( indentString + outputString, file=file )
 
@@ -492,7 +492,7 @@ def rpn( cmd_args ):
     g.integerGrouping = args.integer_grouping
     g.leadingZero = args.leading_zero
 
-    # handle -a - set precision to be at least 2 greater than output accuracy
+    # handle -a
     setAccuracy( args.output_accuracy )
 
     # handle -b
