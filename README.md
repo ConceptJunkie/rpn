@@ -117,6 +117,8 @@ Using rpnChilada:
 rpnChilada is very easy to use.  It's just like any RPN calculator: Operands go first, then the operators. All examples assume `rpn` is an alias for `python /<path-to-rpn>/rpn.py`.  In interactive mode, you leave off the `rpn`.
 I always create an alias for "python rpn.py" called "rpn".  If you are using the package installed with pip, there are commands in the scripts directories called "rpn" and "rpnChilada" to launch rpnChilada.
 
+Unit tests can be run with the testRPN command (when installed from the wheel) or by running testRPN.py from the rpn/ directory.
+
 For instance:
 
 	rpn 2 2 +
@@ -133,7 +135,9 @@ Start with `rpn help` for an overview. To dive right in, see `rpn help examples`
 
 The data files are stored in the same location as `rpn.py` in a subdirectory called `rpndata/`.
 
-If you really want to generate prime numbers, see my "primes" project: https://github.com/ConceptJunkie/primes I've calculated the first 10 billion prime numbers and will someday update the rpn lookup tables.
+If you really want to generate prime numbers, see my "primes" project: https://github.com/ConceptJunkie/primes I've calculated the first 15 billion prime numbers and will someday update the rpn lookup tables.
+
+The project https://github.com/ConceptJunkie/rpnChiladaData provides the compiled prime number data files.  If you installed rpnChilada with pip, then this data will be automatically installed.
 
 rpn also provides a simple interface for accessing The On-Line Encyclopedia of Integer Sequences (http://oeis.org), see `rpn help special` and `rpn help oeis`.
 
@@ -150,7 +154,7 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.0
+8.0.0
 
 The unit conversion code has been heavily refactored and works much better now.
 
