@@ -216,3 +216,15 @@ pip-log.txt
 
 *.bz2
 
+# Prime number data files
+
+rpn/*.txt
+
+# Skyfield data files
+
+rpn/rpndata/de405.bsp
+rpn/rpndata/de421.bsp
+rpn/rpndata/deltat.data
+rpn/rpndata/deltat.preds
+rpn/rpndata/Leap_Second.dat
+
