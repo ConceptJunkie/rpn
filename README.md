@@ -131,17 +131,17 @@ rpn has pretty extensive built-in help, although the help files are not complete
 
 Start with `rpn help` for an overview. To dive right in, see `rpn help examples`. In interactive mode, typing `help` will launch help mode. Then, `topics` will print out a list of help topics and `exit` will return to rpn.
 
-`makeRPNPrimes.py` consists of a bunch of functions for pre-calculating and caching different kinds of prime numbers that was recently pulled out of `rpn.py` (and as of version 6.4.0 isn't finished as a standalone program).
-
-The data files are stored in the same location as `rpn.py` in a subdirectory called `rpndata/`. In the Windows installer version, they are stored in the same directory as the `EXE`.
+The data files are stored in the same location as `rpn.py` in a subdirectory called `rpndata/`.
 
 If you really want to generate prime numbers, see my "primes" project: https://github.com/ConceptJunkie/primes I've calculated the first 10 billion prime numbers and will someday update the rpn lookup tables.
 
 rpn also provides a simple interface for accessing The On-Line Encyclopedia of Integer Sequences (http://oeis.org), see `rpn help special` and `rpn help oeis`.
 
+rpnChilada used to provide a Windows installer, but I haven't been able to do that since version 6.4.0.  I hope to bring that back some day.
+
 ## Feedback, Comments, Bug Reports:
 
-Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com). This was originally an exercise to learn Python, but slowly blossomed into something really useful and fun, so I wanted to share it. rpn also exposes just a few of the features of the amazing mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where almost all the hard math stuff is actually done.
+Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com).  This was originally an exercise to learn Python, but slowly blossomed into something really useful and fun, so I wanted to share it. rpn also exposes just a few of the features of the amazing mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where almost all the hard math stuff is actually done.
 
 **Rick Gutleber**
 [rickg@his.com](mailto:rickg@his.com)
