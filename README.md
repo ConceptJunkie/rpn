@@ -83,7 +83,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.2.4.
+The current release is 8.0.0.
 
 See "rpn help settings" for more information.
 
@@ -123,7 +123,7 @@ For instance:
 
 will calculate 2 + 2.
 
-rpn supports more than 700 operators. (`rpn _dump_operators` will list them all.)
+rpn supports more than 900 operators. (`rpn _dump_operators` will list them all.)
 
 The entire operator list is also included at the bottom of this document.
 
@@ -149,6 +149,43 @@ Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com). This was origi
 p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+8.0
+
+The unit conversion code has been heavily refactored and works much better now.
+
+Added the 'base_units' and 'dimensions' operators, mostly for testing purposes.
+
+Added '_dump_conversions' and '_dump_cache', also for testing purposes.
+
+rpnChilada is now smart enough to recognize when an OEIS request has failed,
+and to ignore the cached result stored as a result.  If it detects that the
+cached value is empty, it will perform the request again and recache the
+result.
+
+Help now supports units and constant operators after way too long.  Filling in
+the help info for the units and constant operators, along with all the existing
+help info that's missing, will take a while, and is continuing.
+
+rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
+
+Added 'wind_chill' and 'heat_index' operators.
+
+The unit tests now confirm that aliases do not collide with other reserved
+words.  The alias creation for generated types has also been cleaned up.
+
+The astronomy functionality has been refactored to support migrating to the
+skyfield library from pyephem.
+
+Removed the 'break_on' operator because it no longer works.  It will be
+re-implemented in the future.
+
+Added 'to_ethiopian', 'to_ethiopian_name' and 'from_ethiopian' operators for
+converting to and from the Ethiopian calendar.
+
+7.2.5
+
+I fat-fingered an addition to the requirements.txt file.  :-/
 
 7.2.4
 
