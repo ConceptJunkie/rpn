@@ -18,7 +18,7 @@ from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
-from mpmath import almosteq, fsub, mpf, mpmathify, log10, mp, nan, workdps
+from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
 
 
 # //******************************************************************************
@@ -27,6 +27,8 @@ from mpmath import almosteq, fsub, mpf, mpmathify, log10, mp, nan, workdps
 # //
 # //******************************************************************************
 
+#import pysnooper
+#@pysnooper.snoop( )
 def compareResults( result1, result2 ):
     '''Compares two RPN expressions to make sure they produce the same result.
     Does nothing if the results compare successfully, otherwise raises an
@@ -69,13 +71,22 @@ def compareResults( result1, result2 ):
 
             raise ValueError( 'unit test failed' )
         else:
-            return
+            return True
 
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
             raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
 
         for i in range( 0, len( result1 ) ):
+            if isinf( result1[ i ] ):
+                if isinf( result2[ i ] ):
+                    return True
+                else:
+                    raise ValueError( 'unit test failed' )
+                    print( '**** error in results comparison' )
+                    print( type( result1[ i ] ), type( result2[ i ] ) )
+                    print( result1[ i ], result2[ i ], 'are not equal' )
+
             if not compareValues( result1[ i ], result2[ i ] ):
                 digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
 
@@ -88,11 +99,12 @@ def compareResults( result1, result2 ):
                 print( 'difference found at index', i )
 
                 raise ValueError( 'unit test failed' )
-    elif not compareValues( result1, result2 ):
-        print( '**** error in results comparison' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
-        raise ValueError( 'unit test failed' )
+    else:
+        if not compareValues( result1, result2 ):
+            print( '**** error in results comparison' )
+            print( '    result 1: ', result1 )
+            print( '    result 2: ', result2 )
+            raise ValueError( 'unit test failed' )
 
 
 # //******************************************************************************
@@ -101,17 +113,24 @@ def compareResults( result1, result2 ):
 # //
 # //******************************************************************************
 
+#@pysnooper.snoop( )
 def compareValues( result1, result2 ):
+    if isinstance( result1, RPNMeasurement ) != isinstance( result2, RPNMeasurement ):
+        return False
+
     if isinstance( result1, RPNMeasurement ):
-        if isinstance( result2, RPNMeasurement ):
-            return result1.__eq__( result2 )
-        else:
-            return almosteq( result1.value, result2 )
+        return result1.__eq__( result2 )
     else:
-        if isinstance( result2, RPNMeasurement ):
-            return almosteq( result1, result2.value )
-        else:
-            return almosteq( result1, result2 )
+        if isinf( result1 ):
+            if isinf( result2 ):
+                return True
+            else:
+                raise ValueError( 'unit test failed' )
+                print( '**** error in results comparison' )
+                print( type( result1 ), type( result2 ) )
+                print( result1, result2, 'are not equal' )
+
+        return almosteq( result1, result2 )
 
 
 # //******************************************************************************
@@ -140,14 +159,22 @@ def expectException( command ):
 # //
 # //******************************************************************************
 
+#@pysnooper.snoop( )
 def expectEqual( command1, command2 ):
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
     # Converting to a list makes sure generators get evaluated before the
     # precision gets reset.
-    result1 = list( rpn( shlex.split( command1 + ' -I' ) )[ 0 ] )
-    result2 = list( rpn( shlex.split( command2 + ' -I' ) )[ 0 ] )
+    result1 = rpn( shlex.split( command1 + ' -I' ) )[ 0 ]
+
+    if isinstance( result1, RPNGenerator ):
+        result1 = list( result1.getGenerator( ) )
+
+    result2 = rpn( shlex.split( command2 + ' -I' ) )[ 0 ]
+
+    if isinstance( result2, RPNGenerator ):
+        result2 = list( result2.getGenerator( ) )
 
     compareResults( result1, result2 )
 

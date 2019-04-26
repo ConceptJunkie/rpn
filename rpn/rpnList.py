@@ -23,7 +23,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import add, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnNumberTheory import getGCDOfList
-from rpn.rpnUtils import listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator, \
+from rpn.rpnUtils import getPowerset, listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator, \
                          listArgFunctionEvaluator
 
 
@@ -1081,12 +1081,12 @@ def equalsOneOf( value, targetList ):
 
 # //******************************************************************************
 # //
-# //  getPowerset
+# //  getListPowerset
 # //
 # //******************************************************************************
 
-def getPowerset( n ):
-    for i in itertools.chain.from_iterable( itertools.combinations( n, r ) for r in range( len( n ) + 1 ) ):
+def getListPowerset( n ):
+    for i in getPowerset( n ):
         if len( i ) > 0:
             yield list( i )
 

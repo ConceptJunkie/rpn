@@ -1856,7 +1856,7 @@ listOperators = {
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
 
-    'filter_list'           : RPNOperator( lambda n, k: RPNGenerator( filterListOfLists( n, k ) ),
+    'filter_lists'          : RPNOperator( lambda n, k: RPNGenerator( filterListOfLists( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
 
     'filter_by_index'       : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
@@ -1987,7 +1987,7 @@ listOperators = {
     'permute_lists'         : RPNOperator( permuteLists,
                                            1, [ RPNArgumentType.List ], [ ] ),
 
-    'powerset'              : RPNOperator( lambda n: RPNGenerator( getPowerset( n ) ),
+    'powerset'              : RPNOperator( lambda n: RPNGenerator( getListPowerset( n ) ),
                                            1, [ RPNArgumentType.List ], [ ] ),
 
     'random_element'        : RPNOperator( getRandomElement,
@@ -2690,6 +2690,9 @@ operators = {
 
     'debruijn'                       : RPNOperator( getDeBruijnSequence,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'get_partitions'                 : RPNOperator( getIntegerPartitions,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'lah'                            : RPNOperator( getLahNumber,
                                                     2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),

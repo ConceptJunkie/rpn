@@ -743,7 +743,7 @@ def isZero( n ):
 
 @oneArgFunctionEvaluator( )
 def getMantissa( n ):
-    return fsub( n, floor( n ) )
+    return fmod( n, 1 )
 
 
 # //******************************************************************************

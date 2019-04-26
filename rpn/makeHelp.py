@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1145
+maxExampleCount = 1149
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -5049,7 +5049,7 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
-    'filter_list' : [
+    'filter_lists' : [
 'functions', '',
 '''
 ''',
@@ -6509,7 +6509,18 @@ The intervals of the chromatic scale:
 ''',
 '''
 ''',
-[ 'get_permutations', 'get_repeat_combinations' ] ],
+[ 'get_permutations', 'get_repeat_combinations', 'get_partitions' ] ],
+
+    'get_partitions' : [
+'list_operators', 'generates all integer partitions of n',
+'''
+''',
+'''
+''' + makeCommandExample( '2 get_partitions' ) + '''
+''' + makeCommandExample( '3 get_partitions' ) + '''
+''' + makeCommandExample( '4 get_partitions' ) + '''
+''' + makeCommandExample( '5 get_partitions' ),
+[ 'get_combinations', 'get_permutations', 'get_partitions' ] ],
 
     'get_permutations' : [
 'list_operators', 'generates all permutations of k members of list n',
@@ -6517,7 +6528,7 @@ The intervals of the chromatic scale:
 ''',
 '''
 ''',
-[ 'get_combinations', 'get_repeat_permutations' ] ],
+[ 'get_combinations', 'get_repeat_permutations', 'get_partitions' ] ],
 
     'get_repeat_combinations' : [
 'list_operators', 'generates all combinations of k members of list n, with repeats allowed',

@@ -337,8 +337,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '2 decrement', 1 )
 
     expectEqual( '3 miles decrement', '2 miles' )
-    #expectEqual( 'infinity decrement', 'infinity' )        # The test can't compare infinity.
-    #expectEqual( 'negative_infinity decrement', 'negative_infinity' )
+    expectEqual( 'infinity decrement', 'infinity' )
+    expectEqual( 'negative_infinity decrement', 'negative_infinity' )
 
     expectEqual( '2 i decrement', '2 i 1 -' )
 
@@ -400,8 +400,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '-1 increment', 0 )
     expectResult( '0.5 increment', 1.5 )
 
-    #expectEqual( 'infinity increment', 'infinity' )        # The test can't compare infinity.
-    #expectEqual( 'negative_infinity increment', 'negative_infinity' )
+    expectEqual( 'infinity increment', 'infinity' )
+    expectEqual( 'negative_infinity increment', 'negative_infinity' )
     expectEqual( '2 i increment', '2 i 1 +' )
     expectEqual( '3 miles increment', '4 miles' )
 
@@ -488,8 +488,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 inch 1 inch is_not_equal', 0 )
     expectResult( '4 1 cup is_not_equal', 1 )
 
-    expectException( '4 cups 1 is_not_equal' )         # can't compare a measurement with an integer
-    expectException( '1 inch 1 cup is_not_equal' )  # incompatible measurements
+    expectException( '4 cups 1 is_not_equal' )          # can't compare a measurement with an integer
+    expectException( '1 inch 1 cup is_not_equal' )      # incompatible measurements
 
     # is_not_greater
     expectResult( '4 3 is_not_greater', 0 )
@@ -569,8 +569,7 @@ def runArithmeticOperatorTests( ):
     testOperator( '12 14 lcm2' )
 
     # mantissa
-    # This works on the command line, but not here.  I have no idea why.
-    #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 4 left' )
+    expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 4 left' )
 
     # max
     testOperator( '[ 2 miles 11000 feet 127000 inches ] max' )
@@ -1197,74 +1196,74 @@ def runChemistryOperatorTests( ):
     testOperator( '1 atomic_symbol' )
     testOperator( '118 atomic_symbol' )
 
-    expectException( '119 atomic_symbol' )  # atomic number out of range
-    expectException( '0 atomic_symbol' )    # atomic number out of range
+    expectException( '119 atomic_symbol' )          # atomic number out of range
+    expectException( '0 atomic_symbol' )            # atomic number out of range
 
     # atomic_weight
     testOperator( '1 118 range atomic_weight' )
 
-    expectException( '119 atomic_symbol' )  # atomic number out of range
-    expectException( '0 atomic_symbol' )    # atomic number out of range
+    expectException( '129 atomic_symbol' )          # atomic number out of range
+    expectException( '0 atomic_symbol' )            # atomic number out of range
 
     # element_block
     testOperator( '1 118 range element_block')
 
-    expectException( '119 element_block' )  # atomic number out of range
-    expectException( '0 element_block' )    # atomic number out of range
+    expectException( '119 element_block' )          # atomic number out of range
+    expectException( '0 element_block' )            # atomic number out of range
 
     # element_boiling_point
     testOperator( '1 118 range element_boiling_point')
 
-    expectException( '119 element_boiling_point' )   # atomic number out of range
-    expectException( '0 element_boiling_point' )     # atomic number out of range
+    expectException( '120 element_boiling_point' )  # atomic number out of range
+    expectException( '0 element_boiling_point' )    # atomic number out of range
 
     # element_density
     testOperator( '1 118 range element_density')
 
-    expectException( '119 element_density' )   # atomic number out of range
-    expectException( '0 element_density' )     # atomic number out of range
+    expectException( '119 element_density' )        # atomic number out of range
+    expectException( '0 element_density' )          # atomic number out of range
 
     # element_description
     testOperator( '1 118 range element_description' )
 
-    expectException( '119 element_description' )   # atomic number out of range
-    expectException( '0 element_description' )     # atomic number out of range
+    expectException( '119 element_description' )    # atomic number out of range
+    expectException( '0 element_description' )      # atomic number out of range
 
     # element_group
     testOperator( '1 118 range element_group')
 
-    expectException( '119 element_group' )   # atomic number out of range
-    expectException( '0 element_group' )     # atomic number out of range
+    expectException( '119 element_group' )          # atomic number out of range
+    expectException( '0 element_group' )            # atomic number out of range
 
     # element_melting_point
     testOperator( '1 118 range element_melting_point')
 
-    expectException( '119 element_melting_point' )   # atomic number out of range
-    expectException( '0 element_melting_point' )     # atomic number out of range
+    expectException( '119 element_melting_point' )  # atomic number out of range
+    expectException( '0 element_melting_point' )    # atomic number out of range
 
     # element_name
     testOperator( '1 118 range element_name' )
 
-    expectException( '119 element_name' )    # atomic number out of range
-    expectException( '0 element_name' )      # atomic number out of range
+    expectException( '119 element_name' )           # atomic number out of range
+    expectException( '0 element_name' )             # atomic number out of range
 
     # element_occurrence
     testOperator( '1 118 range element_occurrence' )
 
-    expectException( '119 element_occurrence' )   # atomic number out of range
-    expectException( '0 element_occurrence' )     # atomic number out of range
+    expectException( '119 element_occurrence' )     # atomic number out of range
+    expectException( '0 element_occurrence' )       # atomic number out of range
 
     # element_period
     testOperator( '1 118 range element_period' )
 
-    expectException( '119 element_period' )    # atomic number out of range
-    expectException( '0 element_period' )      # atomic number out of range
+    expectException( '119 element_period' )         # atomic number out of range
+    expectException( '0 element_period' )           # atomic number out of range
 
     # element_state
     testOperator( '1 118 range element_state' )
 
-    expectException( '119 element_state' )     # atomic number out of range
-    expectException( '0 element_state' )       # atomic number out of range
+    expectException( '119 element_state' )          # atomic number out of range
+    expectException( '0 element_state' )            # atomic number out of range
 
     # molar_mass
     testOperator( 'H2O molar_mass' )
@@ -1456,7 +1455,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '8 1 992 sized_range lambda x 2 * 8 - 7 binomial 8 / eval', '973 oeis 992 left' )
     expectEqual( '0 999 range lambda x 3 binomial x 2 binomial + x 1 binomial + x 0 binomial + eval', '125 oeis 1000 left' )
     expectEqual( '0 1002 range lambda x 4 binomial eval', '332 oeis 1003 left' )
-    #expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial eval', '346 oeis 501 left' )
+    expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial - eval', '346 oeis 501 left' )
     expectEqual( '0 27 range lambda 10 x + 1 - x binomial 1 - eval', '35927 oeis 28 left' )
 
     # combinations
@@ -1500,6 +1499,16 @@ def runCombinatoricsOperatorTests( ):
 
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )
+
+    # get_partitions
+    testOperator( '5 get_partitions' )
+
+    expectEqual( '1 10 range lambda x get_partitions count eval', '1 10 range partitions' )
+    expectEqual( '5 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 5 element' )
+    expectEqual( '10 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 10 element' )
+    expectEqual( '20 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 20 element' )
+    expectEqual( '30 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 30 element' )
+    expectEqual( '40 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 40 element' )
 
     # get_permutations
     testOperator( '1 5 range 2 get_permutations' )
@@ -1606,8 +1615,7 @@ def runCombinatoricsOperatorTests( ):
     # partitions
     testOperator( '1 10 range partitions' )
 
-    # This function is extremely slow without caching.
-    expectEqual( '0 15 range partitions', '41 oeis 16 left' )
+    expectEqual( '0 15 range partitions', '41 oeis 16 left' )  # This function is extremely slow without caching.
 
     # permutations
     expectEqual( '8 3 permutations', '8 ! 5 ! /' )
@@ -2888,6 +2896,8 @@ def runListOperatorTests( ):
     # powerset
     testOperator( '1 5 range powerset' )
 
+    expectEqual( '-a30 0 12 range powerset lambda x nth_mersenne_prime product for_each_list unique sort 2000 left', '46528 oeis 2000 left' )
+
     # right
     testOperator( '1 10 range random_element' )
     testOperator( '[ 1 10 range 11 20 range 21 30 range ] random_element' )
@@ -2926,6 +2936,8 @@ def runListOperatorTests( ):
     # sort
     testOperator( '10 1 -1 range2 sort' )
 
+    expectEqual( '[01:1:15] build_numbers unique lambda x is_prime filter sort 1000 left', '20449 oeis 1000 left' )
+
     # sort_descending
     testOperator( '1 10 range sort_descending' )
 
@@ -2939,6 +2951,8 @@ def runListOperatorTests( ):
     testOperator( '1 10 range unique' )
     testOperator( '1 10 range 1 10 range append unique' )
     testOperator( '[ 1 10 range 10 dup ] unique' )
+
+    expectEqual( '2 1000 range lambda x factor unique sum eval', '8472 oeis 1000 left 999 right' )
 
     # zero
     expectEqual( '-10 10 range zero', '[ 10 ]' )
@@ -3168,6 +3182,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '883847311 factor' )
     testOperator( '1 40 range fibonacci factor -s1' )
 
+    expectEqual( '2 1001 range lambda x factor square sum eval', '67666 oeis 1001 left 1000 right' )
+
     # factorial
     testOperator( '-a25 -c 23 factorial' )
     testOperator( '2.5 factorial' )
@@ -3339,6 +3355,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '-a700 1 16 range nth_mersenne_prime is_prime and_all', 1 )
 
     expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
+    expectEqual( '-a222 0 221 range lambda 10 x 1 + ** 17 + 9 / is_prime filter', '56654 oeis 9 left' )
 
     # is_pronic
     testOperator( '1 20 range is_pronic' )
@@ -3942,7 +3959,9 @@ def runPowersAndRootsOperatorTests( ):
 
     # cube
     testOperator( '3 cube' )
+
     expectEqual( '0 10000 range cube', '578 oeis 10001 left' )
+    expectEqual( '2 1001 range lambda x factor cube sum eval', '224787 oeis 1001 left 1000 right' )
 
     # cube_root
     testOperator( 'pi cube_root' )
@@ -3959,6 +3978,8 @@ def runPowersAndRootsOperatorTests( ):
 
     # exp10
     testOperator( '12 exp10' )
+
+    expectEqual( '-a101 0 100 range exp10', '11557 oeis 101 left' )
 
     # expphi
     testOperator( '100 expphi' )
@@ -3991,6 +4012,9 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '1 100 range lambda 1 x range 7 ** sum eval', '541 oeis 101 left 100 right' )
     expectEqual( '1 100 range lambda 1 x range 8 ** sum eval', '542 oeis 101 left 100 right' )
 
+    expectEqual( '1 100 range lambda x x 1 - ** eval', '169 oeis 100 left' )
+    expectEqual( '2 387 range lambda x x 2 - ** eval', '272 oeis 388 left 386 right' )
+
     if slow:
         expectEqual( '1 1000 range lambda 1 x range 4 ** sum eval', '538 oeis 1001 left 1000 right' )
         expectEqual( '1 1000 range lambda 1 x range 5 ** sum eval', '539 oeis 1001 left 1000 right' )
@@ -4009,6 +4033,8 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower2' )
     testOperator( '[ 2 3 range 2 4 range ] power_tower2' )
     testOperator( '[ 1 i 1 i 1 i 1 i 1 i 1 i ] power_tower2' )
+
+    expectEqual( '-a50 [ 0.25 1000 dup ] power_tower2', '0.5' )
 
     # powmod
     testOperator( '43 67 9 powmod' )

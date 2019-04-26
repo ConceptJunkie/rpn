@@ -1942,6 +1942,9 @@ def getNthMersenneExponent( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthMersennePrime( n ):
+    if n == 0:
+        return 1
+
     return fsub( power( 2, getNthMersenneExponent( n ) ), 1 )
 
 
