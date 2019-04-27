@@ -454,10 +454,10 @@ def runArithmeticOperatorTests( ):
 
     # is_integer
     expectResult( '1 is_integer', 1 )
-    expectResult( '3 2 i + is_integer', 1 )
-    expectResult( '3 2.5 i + is_integer', 0 )
-    expectResult( '3.5 2 i + is_integer', 0 )
     expectResult( '3.5 is_integer', 0 )
+
+    expectException( '3 2.5 i + is_integer' )       # real argument required
+    expectException( '3.5 2 i + is_integer' )       # real argument required
 
     # is_kth_power
     expectResult( '1024 2 is_kth_power', 1 )
@@ -644,6 +644,7 @@ def runArithmeticOperatorTests( ):
 
     # product
     testOperator( '1 1 10 range range prod' )
+    testOperator( '[ 2 feet 3 feet 4 feet ] prod' )
 
     expectEqual( '[ 2 cups ] product', '2 cups' )
     expectEqual( '[ 3 2 cups ] product', '6 cups' )
@@ -1509,6 +1510,21 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '20 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 20 element' )
     expectEqual( '30 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 30 element' )
     expectEqual( '40 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 40 element' )
+
+    expectEqual( '5 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 4 element' )
+    expectEqual( '8 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 7 element' )
+    expectEqual( '11 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 10 element' )
+    expectEqual( '12 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 11 element' )
+    expectEqual( '14 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 13 element' )
+    expectEqual( '23 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 22 element' )
+    expectEqual( '29 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 28 element' )
+    expectEqual( '32 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 31 element' )
+    expectEqual( '35 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 34 element' )
+    expectEqual( '43 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 42 element' )
+
+    if slow:
+        expectEqual( '50 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 49 element' )
+        expectEqual( '60 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 59 element' )
 
     # get_permutations
     testOperator( '1 5 range 2 get_permutations' )

@@ -2214,7 +2214,7 @@ operators = {
                                                     1, [ RPNArgumentType.Default ], [ ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'reciprocal'                     : RPNOperator( takeReciprocal,
+    'reciprocal'                     : RPNOperator( getReciprocal,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
     'round'                          : RPNOperator( roundOff,

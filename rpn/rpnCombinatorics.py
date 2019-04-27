@@ -456,6 +456,9 @@ def OLDgetPartitionNumber( n ):
 # //
 # //  https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
 # //
+# //  http://jeromekelleher.net/generating-integer-partitions.html provides a
+# //  similar version of this algorithm.
+# //
 # //******************************************************************************
 
 def createIntegerPartitions( n ):

@@ -554,10 +554,12 @@ def getSum( n ):
 
     result = None
 
-    for i in n:
-        if result is None:
-            result = i
-        else:
+    try:
+        result = fsum( n )
+    except:
+        result = n[ 0 ]
+
+        for i in n[ 1 : ]:
             result = add( result, i )
 
     return result

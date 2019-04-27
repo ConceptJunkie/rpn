@@ -16,8 +16,8 @@ from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    asec, asech, asin, asinh, atan, atanh, ceil, conj, cos, \
                    cosh, cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, \
                    fmod, fmul, fneg, fsub, hypot, im, lambertw, li, ln, log, \
-                   log10, mpc, mpf, nint, phi, polyexp, polylog, power, re, \
-                   root, sec, sech, sign, sin, sinh, sqrt, tan, tanh, mp
+                   log10, mp, mpc, mpf, nint, phi, polyexp, polylog, power, \
+                   re, root, sec, sech, sign, sin, sinh, sqrt, tan, tanh
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -212,7 +212,7 @@ def getCubeRoot( n ):
 
 # //******************************************************************************
 # //
-# //  takeReciprocal
+# //  getReciprocal
 # //
 # //  We used to be able to call fdiv directly, but now we want to handle
 # //  RPNMeasurements.
@@ -220,7 +220,7 @@ def getCubeRoot( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def takeReciprocal( n ):
+def getReciprocal( n ):
     if isinstance( n, RPNMeasurement ):
         return n.invert( invertValue=False )
     else:
@@ -564,7 +564,7 @@ def isNotLess( n, k ):
 
 @oneArgFunctionEvaluator( )
 def isInteger( n ):
-    return 1 if n == floor( n ) else 0
+    return 1 if fmod( real( n ), 1 ) == 0 else 0
 
 
 # //******************************************************************************
