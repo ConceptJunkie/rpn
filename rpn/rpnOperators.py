@@ -3833,13 +3833,16 @@ operators = {
     'black_hole_radius'              : RPNOperator( calculateBlackHoleRadius,
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),
 
-    'black_hole_temperature'         : RPNOperator( calculateBlackHoleTemperature,
-                                                    1, [ RPNArgumentType.Measurement ], [ ] ),
-
     'black_hole_surface_area'        : RPNOperator( calculateBlackHoleSurfaceArea,
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),
 
     'black_hole_surface_gravity'     : RPNOperator( calculateBlackHoleSurfaceGravity,
+                                                    1, [ RPNArgumentType.Measurement ], [ ] ),
+
+    'black_hole_surface_tides'       : RPNOperator( calculateBlackHoleSurfaceTides,
+                                                    1, [ RPNArgumentType.Measurement ], [ ] ),
+
+    'black_hole_temperature'         : RPNOperator( calculateBlackHoleTemperature,
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),
 
     'distance'                       : RPNOperator( calculateDistance,
@@ -3877,6 +3880,9 @@ operators = {
 
     'surface_gravity'                : RPNOperator( calculateSurfaceGravity,
                                                     2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
+
+    'tidal_force'                    : RPNOperator( calculateTidalForce,
+                                                    3, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
 
     'time_dilation'                  : RPNOperator( calculateTimeDilation,
                                                     1, [ RPNArgumentType.Measurement ], [ ] ),

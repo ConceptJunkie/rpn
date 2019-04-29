@@ -43,7 +43,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1149
+maxExampleCount = 1155
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1056,7 +1056,20 @@ release notes, so there are a ton of new features not mentioned here.
     '''
 For notes about earlier versions, use 'help old_release_notes'.
 
-8.0
+8.1.0
+
+Added the 'get_partitions', 'nth_linear_recurrence' and
+'nth_linear_recurrence_with_modulo' operators.
+
+Added 'from_ethiopian', 'to_ethopian' and 'to_ethiopian_name' functions for
+the Ethiopian calendar.
+
+Added 'black_hole_surface_tides' now that I understand it.  I also added a more
+general 'tidal_force' operator.
+
+Added more unit tests and the usual bug fixes.
+
+8.0.0
 
 The unit conversion code has been heavily refactored and works much better now.
 
@@ -1945,15 +1958,12 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_integer' : [
 'arithmetic', 'returns 1 if n is an integer, otherwise returns 0',
 '''
-For complex numbers, is integer considers the real part and the complex part
-seperately.  I don't know if that's appropriate, but that's how it works for
-now.
+'is_integer' requires a real argument.
 ''',
 '''
 ''' + makeCommandExample( 'pi is_integer' ) + '''
 ''' + makeCommandExample( '1 is_integer' ) + '''
-''' + makeCommandExample( '3 i 7 + is_integer' ) + '''
-''' + makeCommandExample( '3.1 i 4 + is_integer' ),
+''' + makeCommandExample( '3.1 is_integer' ),
 [ 'is_even', 'is_odd', 'nearest_int' ] ],
 
     'is_kth_power' : [
@@ -8222,7 +8232,7 @@ combinations of units:
     'black_hole_entropy' : [
 'physics', 'calculates the entropy of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_entropy' ) + '''
@@ -8231,12 +8241,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 billion watts black_hole_entropy' ) + '''
 ''' + makeCommandExample( 'gee black_hole_entropy' ) + '''
 ''' + makeCommandExample( '100 tons black_hole_entropy' ),
-[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
+[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_lifetime' : [
 'physics', 'calculates the lifetime of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_lifetime' ) + '''
@@ -8245,12 +8255,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 billion watts black_hole_lifetime' ) + '''
 ''' + makeCommandExample( '1.0e12 kg black_hole_lifetime' ) + '''
 ''' + makeCommandExample( 'gee black_hole_lifetime' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'black_hole_luminosity' : [
 'physics', 'calculates the luminosity of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_luminosity' ) + '''
@@ -8258,12 +8268,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '373 kelvin black_hole_luminosity' ) + '''
 ''' + makeCommandExample( '1.0e16 kg black_hole_luminosity' ) + '''
 ''' + makeCommandExample( 'gee black_hole_luminosity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_mass' : [
 'physics', 'calculates the mass of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
@@ -8271,11 +8281,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
 ''' + makeCommandExample( '10 gee black_hole_mass' ),
-[ 'black_hole_surface_aarea', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
+[ 'black_hole_surface_aarea', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_radius' : [
 'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
 '''
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( 'earth_mass black_hole_radius' ) + '''
@@ -8285,12 +8296,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '3 kelvin black_hole_radius' ) + '''
 ''' + makeCommandExample( '1 trillion watts black_hole_radius' ) + '''
 ''' + makeCommandExample( '100 gee black_hole_radius' ),
-[ 'black_hole_surface_aarea', 'black_hole_sureface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
+[ 'black_hole_surface_aarea', 'black_hole_sureface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_area' : [
 'physics', 'calculates the surface area of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_surface_area' ) + '''
@@ -8298,12 +8309,12 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1.0e12 kelvin black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '1 sextillion watts black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '1.0e25 gee black_hole_surface_area' ),
-[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
+[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_gravity' : [
 'physics', 'calculates the surface gravity of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1 acre black_hole_surface_gravity' ) + '''
@@ -8311,12 +8322,29 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1.0e15 kelvin black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '60 watts black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '2000 gee black_hole_surface_gravity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity', 'black_hole_surface_tides' ] ],
+
+    'black_hole_surface_tides' : [
+'physics', 'calculates the tidal force at the event horizon of a black hole given one of several different measurements'
+'''
+Tidal force is meters/second^2/meter, which means the meters cancel out and
+it ends up being 1/second^2, which I found confusing, but it makes sense if you
+think about it.
+
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+''',
+'''
+''' + makeCommandExample( '100 square_inch black_hole_surface_tides' ) + '''
+''' + makeCommandExample( '1 quadrillion years black_hole_surface_tides' ) + '''
+''' + makeCommandExample( '273 kelvin black_hole_surface_tides' ) + '''
+''' + makeCommandExample( '1 thousand watts black_hole_surface_tides' ) + '''
+''' + makeCommandExample( '100 gee black_hole_surface_tides' ),
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity', 'black_hole_temperature' ] ],
 
     'black_hole_temperature' : [
 'physics', 'calculates the temperature of a black hole given one of several different measurements'
 '''
-http://xaonon.dyndns.org/hawking/
+https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''',
 '''
 ''' + makeCommandExample( '1 square_inch black_hole_temperature' ) + '''
@@ -8324,7 +8352,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '273 kelvin black_hole_temperature' ) + '''
 ''' + makeCommandExample( '1 million watts black_hole_temperature' ) + '''
 ''' + makeCommandExample( '0.01 gee black_hole_temperature' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'distance' : [
 'physics', 'calculates distance...',
@@ -8453,6 +8481,19 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 ''' + makeCommandExample( '10 solar_mass 10 solar_mass black_hole_radius surface_gravity', indent=4 ) + '''
 ''' + makeCommandExample( '10 solar_mass black_hole_surface_gravity', indent=4 ),
 [ 'black_hole_gravity' ] ],
+
+    'tidal_force' : [
+'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), and delta distance (c)',
+'''
+https://en.wikipedia.org/wiki/Tidal_force#Formulation
+''',
+'''
+''' + makeCommandExample( '500000 solar_mass previous black_hole_radius 500 meters tidal_force' ) + '''
+Calculate the lunar tidal force on Earth for a delta of one meter (i.e., how
+much tidal force affects an object one meter in size (assuming it's pointing
+at the Moon).
+''' + makeCommandExample( 'earth_mass 238900 miles 1 meter tidal_force' ),
+[ ] ],
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',

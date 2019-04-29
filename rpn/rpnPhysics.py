@@ -42,6 +42,7 @@ def calculateBlackHoleMass( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -78,6 +79,11 @@ def calculateBlackHoleMass( measurement ):
         return getRoot( divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
                                 getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
                                      getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
+    elif 'tidal_force' in arguments:
+        tidal_force = arguments[ 'tidal_force' ]
+
+        return getRoot( divide( getPower( getConstant( 'speed_of_light' ), 6 ),
+                                getProduct( [ 4, tidal_force, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
     elif 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
@@ -102,6 +108,7 @@ def calculateBlackHoleRadius( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -131,6 +138,7 @@ def calculateBlackHoleSurfaceArea( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -161,6 +169,7 @@ def calculateBlackHoleSurfaceGravity( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -190,6 +199,7 @@ def calculateBlackHoleEntropy( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -221,6 +231,7 @@ def calculateBlackHoleTemperature( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -252,6 +263,7 @@ def calculateBlackHoleLuminosity( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -283,6 +295,7 @@ def calculateBlackHoleLifetime( measurement ):
         [ 'area' ],
         [ 'temperature' ],
         [ 'power' ],
+        [ 'tidal_force' ],
         [ 'time' ],
     ]
 
@@ -297,6 +310,57 @@ def calculateBlackHoleLifetime( measurement ):
                        getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ) )
 
     return lifetime.convert( 'seconds' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleTidalForce
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleSurfaceTides( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'tidal_force' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_surface_tides: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    tidal_force = divide( getPower( getConstant( 'speed_of_light' ), 6 ),
+                          getProduct( [ 4, getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ) )
+
+    return tidal_force.convert( '1/second^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateTidalForce
+# //
+# //  Two arguments are the same unit type, so the order needs to be fixed.
+# //
+# //******************************************************************************
+
+def calculateTidalForce( mass, distance, delta ):
+    mass.validateUnits( 'mass' )
+    distance.validateUnits( 'length' )
+    delta.validateUnits( 'length' )
+
+    tidal_force = divide( getProduct( [ 2, getConstant( 'newton_constant' ), mass, delta ] ),
+                          getPower( distance, 3 ) )
+
+    return tidal_force.convert( 'meter/second^2' )
 
 
 # //******************************************************************************

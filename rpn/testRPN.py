@@ -3168,6 +3168,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '9 double_factorial' )
 
     expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
+    expectEqual( '-a1000 1 400 range lambda x double_factorial 32 + is_prime filter', '76190 oeis 15 left' )
 
     # egypt
     testOperator( '45 67 egypt' )
@@ -3258,6 +3259,8 @@ def runNumberTheoryOperatorTests( ):
     # gamma
     testOperator( '3 gamma' )
 
+    expectEqual( '-a200 1 100 range gamma', '142 oeis 100 left' )
+
     # generate_polydivisibles
     testOperator( '3 generate_polydivisibles -r3' )
 
@@ -3303,6 +3306,8 @@ def runNumberTheoryOperatorTests( ):
 
     # hyperfactorial
     testOperator( '-a160 -c 17 hyperfactorial' )
+
+    expectEqual( '-a1000 -p1100 0 36 range hyperfactorial', '2109 oeis 37 left' )
 
     # is_abundant
     testOperator( '1 20 range is_abundant' )
@@ -3372,6 +3377,7 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
     expectEqual( '-a222 0 221 range lambda 10 x 1 + ** 17 + 9 / is_prime filter', '56654 oeis 9 left' )
+    expectEqual( '1 56304 range lambda x 4 * 1 + is_prime filter', '5098 oeis 10000 left' )
 
     # is_pronic
     testOperator( '1 20 range is_pronic' )
@@ -3649,6 +3655,7 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '1 500 range sigma', '203 oeis 500 left' )
     expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 500 left 499 right' )
+    expectEqual( '1 1000 range lambda x sigma 2 x * - -22 equals filter', '223606 oeis 7 left' )
 
     if slow:
         expectEqual( '1 100000 range sigma', '203 oeis 100000 left' )
@@ -3792,6 +3799,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1 watt black_hole_entropy' )
     testOperator( '1 trillion years black_hole_entropy' )
     testOperator( '1 angstrom years black_hole_entropy' )
+    testOperator( '100000000 1/second^2 black_hole_entropy' )
 
     # black_hole_lifetime
     testOperator( '1.0e100 years black_hole_lifetime' )
@@ -3801,6 +3809,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1 kelvin black_hole_lifetime' )
     testOperator( '1.5 PW black_hole_lifetime' )
     testOperator( '100 miles black_hole_lifetime' )
+    testOperator( '10000000 1/second^2 black_hole_lifetime' )
 
     # black_hole_luminosity
     testOperator( '1 gram black_hole_luminosity' )
@@ -3810,6 +3819,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1 day black_hole_luminosity' )
     testOperator( '1000 miles black_hole_luminosity' )
     testOperator( '1.0e20 W black_hole_mass' )
+    testOperator( '1000000 1/second^2 black_hole_luminosity' )
 
     # black_hole_mass
     testOperator( '1000 watts black_hole_mass' )
@@ -3819,6 +3829,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1 quadrillion years black_hole_mass' )
     testOperator( '1 millimeter black_hole_mass' )
     testOperator( '1 horsepower black_hole_mass' )
+    testOperator( '100000 1/second^2 black_hole_mass' )
 
     # black_hole_radius
     testOperator( '1 mile black_hole_radius' )
@@ -3828,15 +3839,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '10000 kelvin black_hole_radius' )
     testOperator( '1 TW black_hole_radius' )
     testOperator( '1 billion years black_hole_radius' )
-
-    # black_hole_temperature
-    testOperator( '50 K black_hole_temperature' )
-    testOperator( '1e20 watts black_hole_temperature' )
-    testOperator( '1 square_light-year black_hole_temperature' )
-    testOperator( '1.0e-9 meters/second^2 black_hole_temperature' )
-    testOperator( '1.0e15 kg black_hole_temperature' )
-    testOperator( '1 minute black_hole_temperature' )
-    testOperator( '1 mile black_hole_temperature' )
+    testOperator( '10000 1/second^2 black_hole_radius' )
 
     # black_hole_surface_area
     testOperator( '1 acre black_hole_surface_area' )
@@ -3846,6 +3849,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1.0e-15 kg black_hole_surface_area' )
     testOperator( '1 hour black_hole_surface_area' )
     testOperator( '1 parsec black_hole_surface_area' )
+    testOperator( '1000 1/second^2 black_hole_surface_area' )
 
     # black_hole_surface_gravity
     testOperator( 'moon_gravity black_hole_surface_gravity' )
@@ -3855,6 +3859,27 @@ def runPhysicsOperatorTests( ):
     testOperator( '1.0e20 kg black_hole_surface_gravity' )
     testOperator( '1 quintillion years black_hole_surface_gravity' )
     testOperator( '1 foot black_hole_surface_gravity' )
+    testOperator( '100 1/second^2 black_hole_surface_gravity' )
+
+    # black_hole_temperature
+    testOperator( '50 K black_hole_temperature' )
+    testOperator( '1e20 watts black_hole_temperature' )
+    testOperator( '1 square_light-year black_hole_temperature' )
+    testOperator( '1.0e-9 meters/second^2 black_hole_temperature' )
+    testOperator( '1.0e15 kg black_hole_temperature' )
+    testOperator( '1 minute black_hole_temperature' )
+    testOperator( '1 mile black_hole_temperature' )
+    testOperator( '10 1/second^2 black_hole_temperature' )
+
+    # black_hole_surface_tides
+    testOperator( '50000 K black_hole_surface_tides' )
+    testOperator( '1e15 watts black_hole_surface_tides' )
+    testOperator( '1 square_parsec black_hole_surface_tides' )
+    testOperator( '1 gee black_hole_surface_tides' )
+    testOperator( '1.0e35 kg black_hole_surface_tides' )
+    testOperator( '100 million  black_hole_surface_tides' )
+    testOperator( '1000 miles black_hole_surface_tides' )
+    testOperator( '1/second^2 black_hole_surface_tides' )
 
     # energy_equivalence
     testOperator( '1 gram energy_equivalence' )
@@ -3954,6 +3979,9 @@ def runPhysicsOperatorTests( ):
 
     expectException( 'earth_radius earth_volume surface_gravity' )
     expectException( 'earth_mass sun_mass surface_gravity' )
+
+    # tidal_force
+    testOperator( '500000 solar_mass previous black_hole_radius 500 meters tidal_force' )
 
     # time_dilation
     testOperator( '1 million miles hour / time_dilation' )
