@@ -3877,7 +3877,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '1 square_parsec black_hole_surface_tides' )
     testOperator( '1 gee black_hole_surface_tides' )
     testOperator( '1.0e35 kg black_hole_surface_tides' )
-    testOperator( '100 million  black_hole_surface_tides' )
+    testOperator( '100 million years black_hole_surface_tides' )
     testOperator( '1000 miles black_hole_surface_tides' )
     testOperator( '1/second^2 black_hole_surface_tides' )
 
