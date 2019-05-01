@@ -1099,7 +1099,17 @@ def dumpOperators( ):
 
     print( )
 
-    return len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
+    print( len( operators ), 'operators' )
+    print( len( listOperators ), 'list operators' )
+    print( len( modifiers ), 'modifier operators' )
+    print( len( constantNames ), 'constant operators' )
+
+    total = len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
+    print( )
+    print( total, 'operators' )
+    print( )
+
+    return total
 
 
 # //******************************************************************************
