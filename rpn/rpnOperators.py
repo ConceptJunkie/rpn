@@ -1816,6 +1816,9 @@ listOperators = {
     'product'               : RPNOperator( getProduct,
                                            1, [ RPNArgumentType.List ], [ ] ),
 
+    'root_mean_square'      : RPNOperator( calculateRootMeanSquare,
+                                           1, [ RPNArgumentType.List ], [ ] ),
+
     'stddev'                : RPNOperator( getStandardDeviation,
                                            1, [ RPNArgumentType.List ], [ ] ),
 
@@ -2742,6 +2745,12 @@ operators = {
     'permutations'                   : RPNOperator( getPermutations,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'stirling1'                      : RPNOperator( getStirling1,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'stirling2'                      : RPNOperator( getStirling2,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
     # complex
     'argument'                       : RPNOperator( getArgument,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
@@ -3532,6 +3541,9 @@ operators = {
     'abundance_ratio'                : RPNOperator( getAbundanceRatio,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'ackermann'                      : RPNOperator( calculateAckermannFunction,
+                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
+
     'aliquot'                        : RPNOperator( getAliquotSequence,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
@@ -3905,6 +3917,9 @@ operators = {
                                                     1, [ RPNArgumentType.Default ], [ ],
                                                     RPNOperator.measurementsAllowed ),
 
+    'cube_super_root'                : RPNOperator( getCubeSuperRoot,
+                                                    1, [ RPNArgumentType.Default ], [ ] ),
+
     'exp'                            : RPNOperator( getExp,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
@@ -3936,6 +3951,15 @@ operators = {
     'square_root'                    : RPNOperator( getSquareRoot,
                                                     1, [ RPNArgumentType.Default ], [ ],
                                                     RPNOperator.measurementsAllowed ),
+
+    'square_super_root'              : RPNOperator( getSquareSuperRoot,
+                                                    1, [ RPNArgumentType.Default ], [ ] ),
+
+    'super_root'                     : RPNOperator( getSuperRoot,
+                                                    2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
+
+    #'super_roots'                    : RPNOperator( getSuperRoots,
+    #                                                2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'tetrate'                        : RPNOperator( tetrate,
                                                     2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ] ),

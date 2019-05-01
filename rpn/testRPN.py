@@ -655,6 +655,11 @@ def runArithmeticOperatorTests( ):
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
 
+    # root_mean_square
+    testOperator( '1 10 range root_mean_square' )
+
+    expectEqual( '1 1000 range lambda x factor root_mean_square is_integer x is_composite and filter', '134600 oeis 36 left' )
+
     # round
     expectResult( '0.1 round', 0 )
     expectResult( '4.5 round', 5 )
@@ -1520,9 +1525,9 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '29 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 28 element' )
     expectEqual( '32 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 31 element' )
     expectEqual( '35 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 34 element' )
-    expectEqual( '43 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 42 element' )
 
     if slow:
+        expectEqual( '43 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 42 element' )
         expectEqual( '50 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 49 element' )
         expectEqual( '60 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count', '58360 oeis 59 element' )
 
@@ -1638,6 +1643,13 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
 
     expectException( '6 7 permutations' )
+
+    # stirling1
+    testOperator( '3 2 stirling1' )
+
+    # stirling2
+    testOperator( '3 2 stirling2' )
+
 
 
 # //******************************************************************************
@@ -3325,10 +3337,12 @@ def runNumberTheoryOperatorTests( ):
     # is_carmichael
     expectEqual( '1 10000 2 interval_range lambda x is_carmichael filter', '2997 oeis 7 left' )
 
-    expectResult( '-a15 2997 oeis 200 left is_carmichael and_all', 1 )
+    expectResult( '2997 oeis 200 left is_carmichael and_all', 1 )
 
     if slow:
-        expectResult( '2997 oeis is_carmichael and_all', 1 )
+        # This ends up being super-slow because it doesn't have access to the factor cache.  So,
+        # we're not going to do all 10000.
+        expectResult( '2997 oeis is_carmichael 1000 left and_all', 1 )
 
     # is_composite
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
@@ -3726,10 +3740,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
 
     if slow:
-        expectEqual( '0 9999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 10000 left' )
+        expectEqual( '0 4999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 5000 left' )
         expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 left' )
-        expectEqual( '0 9999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 10000 left' )
-        expectEqual( '0 9999 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 10000 left' )
+        expectEqual( '0 999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 1000 left' )    # The full 10000 would take days.  This is "slow", but not "glacial".
+        expectEqual( '0 499 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 500 left' )     # The full 10000 would take days.
 
     # sums_of_k_nonzero_powers
     testOperator( '5104 3 3 sums_of_k_nonzero_powers' )
@@ -4014,6 +4028,10 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '-a70 11 cube_root 0 199 range ** nearest_int', '18007 oeis 200 left' )
     expectEqual( '-a30 6 cube_root 0 199 range ** nearest_int', '17992 oeis 200 left' )
 
+    # cube_super_root
+    expectEqual( '19683 cube_super_root', '3' )
+    expectEqual( '4294967296 cube_super_root', '4' )
+
     # exp
     testOperator( '13 exp' )
 
@@ -4127,6 +4145,16 @@ def runPowersAndRootsOperatorTests( ):
 
     if g.primeDataAvailable:
         expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
+
+    # square_super_root
+    expectEqual( '4 square_super_root', '2' )
+    expectEqual( '27 square_super_root', '3' )
+
+    # super_root
+    expectEqual( '4 2 super_root', '4 square_super_root' )
+    expectEqual( '4294967296 3 super_root', '4294967296 cube_super_root' )
+    expectEqual( '5 5 super_root 5 tetrate', '5' )
+    expectEqual( '187 7 super_root 7 tetrate', '187' )
 
     # tetrate
     testOperator( '3 2 tetrate' )

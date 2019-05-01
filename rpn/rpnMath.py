@@ -14,10 +14,11 @@
 
 from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    asec, asech, asin, asinh, atan, atanh, ceil, conj, cos, \
-                   cosh, cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, \
-                   fmod, fmul, fneg, fsub, hypot, im, lambertw, li, ln, log, \
-                   log10, mp, mpc, mpf, nint, phi, polyexp, polylog, power, \
-                   re, root, sec, sech, sign, sin, sinh, sqrt, tan, tanh
+                   cosh, cot, coth, csc, csch, e, exp, fabs, fadd, fdiv, \
+                   floor, fmod, fmul, fneg, fprod, fsub, hypot, im, lambertw, \
+                   li, ln, log, log10, mp, mpc, mpf, nint, phi, polyexp, \
+                   polylog, power, re, root, sec, sech, sign, sin, sinh, sqrt, \
+                   tan, tanh, unitroots
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -208,6 +209,59 @@ def getSquareRoot( n ):
 @oneArgFunctionEvaluator( )
 def getCubeRoot( n ):
     return getRoot( n, 3 )
+
+
+# //******************************************************************************
+# //
+# //  getSquareSuperRoot
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getSquareSuperRoot( n ):
+    return power( e, lambertw( log( n ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getCubeSuperRoot
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getCubeSuperRoot( n ):
+    value = fmul( 2, log( n ) )
+    return sqrt( fdiv( value, lambertw( value ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getSuperRoot
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getSuperRoot( n, k ):
+    k = fsub( real_int( k ), 1 )
+    value = fmul( k, log( n ) )
+    return root( fdiv( value, lambertw( value ) ), k )
+
+
+# //******************************************************************************
+# //
+# //  getSuperRoots
+# //
+# //  Returns all the super-roots of n, not just the nice, positive, real one.
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getSuperRoots( n, k ):
+    k = fsub( real_int( k ), 1 )
+    factors = [ fmul( i, root( k, k ) ) for i in unitroots( int( k ) ) ]
+    base = root( fdiv( log( n ), lambertw( fmul( k, log( n ) ) ) ), k )
+
+    return [ fmul( i, base ) for i in factors ]
 
 
 # //******************************************************************************
@@ -699,7 +753,7 @@ def getMinimum( n ):
 
 @oneArgFunctionEvaluator( )
 def isEven( n ):
-    return 1 if fmod( real( n ), 2 ) == 0 else 0
+    return 1 if fmod( real_int( n ), 2 ) == 0 else 0
 
 
 # //******************************************************************************
@@ -710,7 +764,7 @@ def isEven( n ):
 
 @oneArgFunctionEvaluator( )
 def isOdd( n ):
-    return 1 if fmod( real( n ), 2 ) == 1 else 0
+    return 1 if fmod( real_int( n ), 2 ) == 1 else 0
 
 
 # //******************************************************************************

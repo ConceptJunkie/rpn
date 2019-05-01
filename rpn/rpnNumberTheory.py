@@ -28,11 +28,13 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
 
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
-from rpn.rpnUtils import getMPFIntegerAsString, listAndOneArgFunctionEvaluator, \
-                         oneArgFunctionEvaluator, twoArgFunctionEvaluator, real, real_int
+from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
+                         listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
+                         twoArgFunctionEvaluator, real, real_int
 
 import rpn.rpnGlobals as g
 
@@ -889,42 +891,6 @@ def getNthFibonorial( n ):
         result = fmul( result, fib( i ) )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  getGCDOfList
-# //
-# //******************************************************************************
-
-def getGCDOfList( args ):
-    if isinstance( args, RPNGenerator ):
-        args = list( args )
-    if not isinstance( args, list ):
-        args = [ args ]
-
-    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-        return [ getGCDOfList( real( arg ) ) for arg in args ]
-    else:
-        result = set( )
-
-        if len( args ) == 1:
-            return args[ 0 ]
-
-        for pair in itertools.combinations( args, 2 ):
-            result.add( getGCD( *pair ) )
-
-        if len( result ) == 1:
-            return result.pop( )
-        else:
-            return getGCDOfList( list( result ) )
-
-@twoArgFunctionEvaluator( )
-def getGCD( n, k ):
-    while k:
-        n, k = k, fmod( n, k )
-
-    return n
 
 
 # //******************************************************************************
@@ -1833,8 +1799,11 @@ def getNthCalkinWilf( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'friendly' )
+@listArgFunctionEvaluator( )
 def isFriendly( n ):
+    if len( n ) < 2:
+        raise ValueError( '\'is_friendly\' requires a list with more than one element' )
+
     first = True
 
     abundance = 0
@@ -2108,7 +2077,6 @@ def getZeta( n ):
 def getHurwitzZeta( n, k ):
     return zeta( n, k )
 
-
 # //******************************************************************************
 # //
 # //  getCollatzSequenceGenerator
@@ -2201,24 +2169,24 @@ def getDigitalRoot( n ):
 # //
 # //******************************************************************************
 
+import pysnooper
+
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'carmichael' )
+#@cachedFunction( 'carmichael' )
+#@pysnooper.snoop( )
 def isCarmichaelNumber( n ):
-    if n == 1:
+    if n <= 2:
         return 0
 
-    if not isSquareFree( n ):
+    # even numbers need not apply
+    if fmod( real_int( n ), 2 ) == 0:
         return 0
 
     factorList = getFactorList( n )
 
-    # check to see that the number is squarefree
     for i in factorList:
+        # check to see that the number is squarefree
         if i[ 1 ] > 1:
-            return 0
-
-    for i in factorList:
-        if i[ 0 ] == 2:
             return 0
 
         if not isDivisible( n - 1, i[ 0 ] - 1 ):
@@ -2248,6 +2216,83 @@ def isCarmichaelNumberOperator( n ):
 @cachedFunction( 'ruth_aaron' )
 def isRuthAaronNumber( n ):
     return 1 if fsum( getFactors( real_int( n ) ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
+
+
+# //******************************************************************************
+# //
+# //  calculateAckermannFunction
+# //
+# //  https://stackoverflow.com/questions/12678099/ackermann-function-understanding
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def calculateAckermannFunction( n, k ):
+    """
+    Computes the value of the Ackermann function for the input integers m and n.
+    the Ackermann function being:
+    A( n, k ) = k + 1                        if n = 0
+              = A ( n - 1 , 1 )              if n > 0 and k == 1
+              = A ( n - 1 , A ( n , k - 1 )  if n > 0 and k > 0
+    """
+    # shortcuts to help with excessive recursion
+    if n == 1:
+        return fadd( k, 2 )
+    elif n == 2:
+        return fadd( fmul( 2, k ), 3 )
+    elif n == 3:
+        return fsub( power( 2, fadd( k, 3 ) ), 3 )
+    elif n == 4:
+        return fsub( calculatePowerTower2( [ 2 ] * ( int( k ) + 3 ) ), 3 )
+
+    # Here's the real algorithm...
+    if n == 0:
+        #print( k + 1 )
+        return fadd( k, 1 )
+    elif n > 0 and k == 0:
+        #print( "ackermann( ", n - 1, ",", 1, " ) " )
+        return calculateAckermannFunction( fsub( n, 1 ), 1 )
+    elif n > 0 and k > 0:
+        #print( "Ackermann( ", n - 1, ",", "Ackermann( ", n, ",", k- 1, " )", " )" )
+        return calculateAckermannFunction( fsub( n, 1 ), calculateAckermannFunction( n, fsub( k, 1 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getIntegerSquareRoot
+# //
+# //  https://code.activestate.com/recipes/577821-integer-square-root-function/
+# //
+# //******************************************************************************
+
+#def getIntegerSquareRoot( x ):
+#    if x < 0:
+#        raise ValueError('square root not defined for negative numbers')
+#
+#    n = int(x)
+#
+#    if n == 0:
+#        return 0
+#
+#    a, b = divmod(n.bit_length(), 2)
+#    x = 2**(a+b)
+#
+#    while True:
+#        y = (x + n//x)//2
+#
+#        if y >= x:
+#            return x
+#
+#        x = y
+#
+#    # Frederik Johansson
+#    x = 2^ceil(numbits(N)/2)
+#    loop:
+#        y = floor((x + floor(N/x))/2)
+#        if y >= x
+#            return x
+#        x = y
+
 
 
 ############################################################################

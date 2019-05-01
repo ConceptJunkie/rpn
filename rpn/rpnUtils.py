@@ -398,12 +398,10 @@ def listArgFunctionEvaluator( ):
         @functools.wraps( func )
 
         def evaluateList( arg ):
-            args = list( arg )
-
-            if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-                result = [ evaluateList( i ) for i in args ]
+            if isinstance( arg, ( list, RPNGenerator ) ):
+                result = func( arg )
             else:
-                result = func( args )
+                result = func( [ arg ] )
 
             return result
 

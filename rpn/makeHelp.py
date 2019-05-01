@@ -7,6 +7,8 @@
 # //  RPN command-line calculator help file generator
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
+# //  NOTE:  Don't run this file directly.  Use ../makeHelp.py.
+# //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
 # //
@@ -43,7 +45,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1155
+maxExampleCount = 1176
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -169,7 +171,7 @@ command-line options:
         identify the result (may just repeat input)
 
     -I, --ignore_cache
-         ignore cached results, and recalculates values, then updates cache
+         ignore cached results, recalculates values, then updates cache
 
     -ln, --line_length
         line length to use for formatting help (default: ''' + str( g.defaultLineLength ) + ')' + '''
@@ -1879,7 +1881,7 @@ values.
 ''' + makeCommandExample( '[ 1 10 range ] geometric_mean' ) + '''
 Calculate the geometric mean of the first n numbers from 1 to 5:
 ''' + makeCommandExample( '[ 1 1 5 range range ] geometric_mean' ),
-[ 'mean', 'agm', 'harmonic_mean' ] ],
+[ 'mean', 'agm', 'harmonic_mean', 'root_mean_square' ] ],
 
     'harmonic_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
@@ -1891,7 +1893,7 @@ The harmonic mean is calculated by taking ...
 ''' + makeCommandExample( '[ 1 10 range ] harmonic_mean' ) + '''
 Calculate the harmonic mean of the first n numbers from 1 to 5:
 ''' + makeCommandExample( '[ 1 1 5 range range ] harmonic_mean' ),
-[ 'mean', 'agm', 'geometric_mean' ] ],
+[ 'mean', 'agm', 'geometric_mean', 'root_mean_square' ] ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -2145,7 +2147,7 @@ all items divided by the number of items.
 '''
 ''' + makeCommandExample( '1 10 range mean' ) + '''
 ''' + makeCommandExample( '1 1000 range sum_digits mean' ),
-[ 'stddev', 'agm', 'geometric_mean', 'harmonic_mean' ] ],
+[ 'stddev', 'agm', 'geometric_mean', 'harmonic_mean', 'root_mean_square' ] ],
 
     'minimum' : [
 'arithmetic', 'returns the smallest value in list n',
@@ -2231,6 +2233,16 @@ Calculating the magnetic constant:
 ''',
 [ 'divide' ] ],
 
+    'root_mean_square' : [
+'arithmetic', 'calculates the root mean square of values in list n',
+'''
+https://en.wikipedia.org/wiki/Root_mean_square
+''',
+'''
+''' + makeCommandExample( '10 50 random_integer_ root_mean_square' ) + '''
+''' + makeCommandExample( '1 50 range root_mean_square' ),
+[ 'mean', 'agm', 'geometric_mean', 'stddev' ] ],
+
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
@@ -2309,7 +2321,7 @@ unit circle.
 '''
 ''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
 ''' + makeCommandExample( '1 50 range count_div stddev' ),
-[ 'mean', 'agm', 'geometric_mean' ] ],
+[ 'mean', 'agm', 'geometric_mean', 'root_mean_square' ] ],
 
     'subtract' : [
 'arithmetic', 'subtracts k from n',
@@ -3999,6 +4011,26 @@ When calculating the number of permutations of k objects, order matters.
 ''' + makeCommandExample( '10 7 permutations' ) + '''
 ''' + makeCommandExample( '20 10 permutations' ),
 [ 'combinations' ] ],
+
+    'stirling1' : [
+'combinatorics', 'calculates the Sitrling number of the first kind for n and k'
+'''
+''',
+'''
+''' + makeCommandExample( '3 2 stirling1' ) + '''
+''' + makeCommandExample( '10 7 stirling1' ) + '''
+''' + makeCommandExample( '5 1 5 range stirling1' ),
+[ 'stirling2' ] ],
+
+    'stirling2' : [
+'combinatorics', 'calculates the Sitrling number of the second kind for n and k'
+'''
+''',
+'''
+''' + makeCommandExample( '3 2 stirling2' ) + '''
+''' + makeCommandExample( '10 7 stirling2' ) + '''
+''' + makeCommandExample( '5 1 5 range stirling2' ),
+[ 'stirling1' ] ],
 
 
 # //******************************************************************************
@@ -7157,6 +7189,14 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 [ ] ],
 
+    'ackermann' : [
+'number_theory', 'calculates the value of the Ackermann function for n and k',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''
@@ -9338,7 +9378,19 @@ It is the equivalent of 'n 3 root'.
 '''
 ''' + makeCommandExample( '64 cube_root' ) + '''
 ''' + makeCommandExample( '27 feet^3 cube_root' ),
-[ 'cube', 'square_root', 'root' ] ],
+[ 'cube', 'square_root', 'root', 'cube_super_root' ] ],
+
+    'cube_super_root' : [
+'powers_and_roots', 'calculates the cube super-root of n',
+'''
+The operator return x such that (x^x)^x = n.
+''',
+'''
+''' + makeCommandExample( '8 cube_super_root' ) + '''
+''' + makeCommandExample( '4294967296 cube_super_root' ) + '''
+''' + makeCommandExample( '-73 cube_super_root' ) + '''
+''' + makeCommandExample( '4 -2 i + cube_super_root' ),
+[ 'square', 'cube_root', 'root', 'square_root', 'square_super_root' ] ],
 
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
@@ -9438,7 +9490,7 @@ This operator returns the kth root of n.
 ''' + makeCommandExample( '2 12 //' ) + '''
 ''' + makeCommandExample( '1 10 range 2 //' ) + '''
 ''' + makeCommandExample( '4 foot^2 2 //' ),
-[ 'power', 'square_root', 'cube_root' ] ],
+[ 'power', 'square_root', 'cube_root', 'square_super_root' ] ],
 
     'square' : [
 'powers_and_roots', 'calculates the square of n',
@@ -9463,7 +9515,43 @@ This operator is the equivalent of 'n 2 root'.
 ''' + makeCommandExample( '2 square_root' ) + '''
 ''' + makeCommandExample( '64 feet^2 square_root' ) + '''
 ''' + makeCommandExample( '5 sqrt 1 + 2 /' ),
-[ 'square', 'cube_root', 'root' ] ],
+[ 'square', 'cube_root', 'root', 'square_super_root' ] ],
+
+    'square_super_root' : [
+'powers_and_roots', 'calculates the square super-root of n',
+'''
+The operator return x such that x^x = n.
+''',
+'''
+''' + makeCommandExample( '4 square_super_root' ) + '''
+''' + makeCommandExample( '16777216 square_super_root' ) + '''
+''' + makeCommandExample( '-10 square_super_root' ) + '''
+''' + makeCommandExample( '3 i square_super_root' ),
+[ 'square', 'cube_root', 'root', 'square_root', 'cube_super_root' ] ],
+
+    'super_root' : [
+'powers_and_roots', 'calculates the principal, real, kth super-root of n',
+'''
+''',
+'''
+''' + makeCommandExample( '256 2 super_root' ) + '''
+''' + makeCommandExample( '8 3 super_root' ) + '''
+''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_root' ) + '''
+''' + makeCommandExample( '-73 6 super_root' ) + '''
+''' + makeCommandExample( '12 6 i + 15 super_root' ),
+[ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_roots' ] ],
+
+#    'super_roots' : [
+#'powers_and_roots', 'calculates all of the kth super-roots of n',
+#'''
+#''',
+#'''
+#''' + makeCommandExample( '256 2 super_roots' ) + '''
+#''' + makeCommandExample( '8 3 super_roots' ) + '''
+#''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
+#''' + makeCommandExample( '-128 5 super_roots' ) + '''
+#''' + makeCommandExample( '27 4 i + 3 super_roots' ),
+#[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
 
     'tetrate' : [
 'powers_and_roots', 'tetrates n by k',

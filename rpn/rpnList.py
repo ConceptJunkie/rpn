@@ -16,16 +16,59 @@ import collections
 import itertools
 import random
 
-from mpmath import arange, fadd, fdiv, fmul, fneg, fprod, fsub, fsum, inf, \
-                   power, root, sqrt
+from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, \
+                   inf, power, root, sqrt
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import add, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnNumberTheory import getGCDOfList
-from rpn.rpnUtils import getPowerset, listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator, \
-                         listArgFunctionEvaluator
+from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, \
+                         listAndOneArgFunctionEvaluator, \
+                         listAndTwoArgFunctionEvaluator, \
+                         twoArgFunctionEvaluator, real
 
+
+# //******************************************************************************
+# //
+# //  getGCD
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getGCD( n, k ):
+    while k:
+        n, k = k, fmod( n, k )
+
+    return n
+
+
+# //******************************************************************************
+# //
+# //  getGCDOfList
+# //
+# //******************************************************************************
+
+def getGCDOfList( args ):
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+    if not isinstance( args, list ):
+        args = [ args ]
+
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+        return [ getGCDOfList( real( arg ) ) for arg in args ]
+    else:
+        result = set( )
+
+        if len( args ) == 1:
+            return args[ 0 ]
+
+        for pair in itertools.combinations( args, 2 ):
+            result.add( getGCD( *pair ) )
+
+        if len( result ) == 1:
+            return result.pop( )
+        else:
+            return getGCDOfList( list( result ) )
 
 # //******************************************************************************
 # //
@@ -615,6 +658,7 @@ def getProduct( n ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def getStandardDeviation( args ):
     if isinstance( args, RPNGenerator ):
         return getStandardDeviation( list( args ) )
@@ -639,6 +683,7 @@ def getStandardDeviation( args ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def reduceList( args ):
     if isinstance( args, RPNGenerator ):
         return reduceList( list( args ) )
@@ -664,6 +709,7 @@ def reduceList( args ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def calculateGeometricMean( args ):
     if isinstance( args, RPNGenerator ):
         return calculateGeometricMean( list( args ) )
@@ -682,6 +728,7 @@ def calculateGeometricMean( args ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def calculateHarmonicMean( args ):
     if isinstance( args, RPNGenerator ):
         return calculateHarmonicMean( list( args ) )
@@ -705,6 +752,7 @@ def calculateHarmonicMean( args ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def calculateArithmeticMean( args ):
     if isinstance( args, RPNGenerator ):
         total = 0
@@ -722,6 +770,33 @@ def calculateArithmeticMean( args ):
             pass # TODO: handle measurements
         else:
             return fdiv( fsum( args ), len( args ) )
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
+# //  calculateRootMeanSquare
+# //
+# //******************************************************************************
+
+def calculateRootMeanSquare( args ):
+    if isinstance( args, RPNGenerator ):
+        total = 0
+        count = 0
+
+        for i in args:
+            total += power( i, 2 )
+            count += 1
+
+        return square( fdiv( total, count ) )
+    elif isinstance( args, list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+            return [ calculateRootMeanSquare( list( arg ) ) for arg in args ]
+        elif isinstance( args[ 0 ], RPNMeasurement ):
+            pass # TODO: handle measurements
+        else:
+            return sqrt( fdiv( fsum( [ power( i, 2 ) for i in args ] ), len( args ) ) )
     else:
         return args
 

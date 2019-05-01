@@ -16,7 +16,7 @@ import itertools
 
 from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
                    fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
-                   power, fprod, sqrt
+                   power, fprod, sqrt, stirling1, stirling2
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
@@ -665,6 +665,28 @@ def getDenominationCombinations( denominations, target ):
             data[ i + k ] += data[ i ]
 
     return data[ target ]
+
+
+# //******************************************************************************
+# //
+# //  getStirling1
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getStirling1( n, k ):
+    return stirling1( n, k )
+
+
+# //******************************************************************************
+# //
+# //  getStirling=2
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getStirling2( n, k ):
+    return stirling2( n, k )
 
 
 #  http://crowsandcats.blogspot.com/2013/04/approximate-restricted-integer.html
