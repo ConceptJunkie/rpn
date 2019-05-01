@@ -34,6 +34,7 @@ buildOptions = \
             "rpn" + os.sep + g.dataDir + os.sep + 'units.pckl.bz2',
             "rpn" + os.sep + g.dataDir + os.sep + 'unit_conversions.pckl.bz2',
             "rpn" + os.sep + g.dataDir + os.sep + 'unit_help.pckl.bz2',
+            "rpn" + os.sep + g.dataDir + os.sep + 'unit_names.pckl.bz2',
             "rpn" + os.sep + g.dataDir + os.sep + 'deltat.data',
             "rpn" + os.sep + g.dataDir + os.sep + 'deltat.preds',
             "rpn" + os.sep + g.dataDir + os.sep + 'Leap_Second.dat',

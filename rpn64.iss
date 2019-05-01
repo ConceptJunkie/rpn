@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "rpnChilada"
-#define MyAppVersion "7.2.beta3"
+#define MyAppVersion "8.0.0"
 #define MyAppPublisher "Rick Gutleber"
 #define MyAppURL "https://github.com/ConceptJunkie/rpn"
 #define MyAppExeName "rpn.exe"
-#define BuildDir="c:\sys\ut\rpn\rpn\build\exe.win-amd64-3.6"
+#define BuildDir="c:\sys\ut\rpn\build\exe.win-amd64-3.7"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -23,8 +23,8 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=C:\sys\ut\rpn\gpl-3.0.txt
-OutputBaseFilename=setup_rpn
+LicenseFile=C:\sys\ut\rpn\LICENSE
+OutputBaseFilename=setup_rpnchilada
 Compression=lzma
 SolidCompression=yes
 
@@ -36,44 +36,56 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#BuildDir}\rpn.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_bz2.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_ctypes.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_decimal.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_hashlib.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_lzma.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_socket.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\_ssl.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\gmpy2.pyd"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "{#BuildDir}\lib\gmpy2.cp37-win_amd64.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\library.zip"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\VCRUNTIME140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sqlite3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\python37.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\pywintypes37.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\win32api.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\win32evtlog.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_bz2.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_ctypes.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_decimal.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_hashlib.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_lzma.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_socket.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\lib\_ssl.pyd"; DestDir: "{app}"; Flags: ignoreversion
+
 Source: "{#BuildDir}\help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\library.zip"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\MSVCR100.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\python36.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\pywintypes36.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\small_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\unit_conversions.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\unit_help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\win32api.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\win32evtlog.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\cousin_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\double_balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\isolated_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\large_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\quad_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\quint_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sext_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_quadruplets.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_triplets.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sophie_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\super_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\triplet_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\triple_balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\twin_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\unit_names.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "{#BuildDir}\balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\cousin_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\double_balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\isolated_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\large_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\quad_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\quint_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sext_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_quadruplets.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_triplets.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\small_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sophie_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\super_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\triplet_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\triple_balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\twin_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "{#BuildDir}\de405.bsp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\de421.bsp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\deltat.data"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\deltat.preds"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\Leap_Second.dat"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
