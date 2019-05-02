@@ -748,6 +748,27 @@ def calculateHarmonicMean( args ):
 
 # //******************************************************************************
 # //
+# //  calculateAntiharmonicMean
+# //
+# // https://en.wikipedia.org/wiki/Contraharmonic_mean
+# //
+# //******************************************************************************
+
+@listArgFunctionEvaluator( )
+def calculateAntiharmonicMean( args ):
+    if isinstance( args, RPNGenerator ):
+        return calculateAntiharmonicMean( list( args ) )
+    elif isinstance( args, list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+            return [ calculateAntiharmonicMean( list( arg ) ) for arg in args ]
+        else:
+            return fdiv( fsum( args, squared=True ), fsum( args ) )
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
 # //  calculateArithmeticMean
 # //
 # //******************************************************************************
@@ -796,7 +817,7 @@ def calculateRootMeanSquare( args ):
         elif isinstance( args[ 0 ], RPNMeasurement ):
             pass # TODO: handle measurements
         else:
-            return sqrt( fdiv( fsum( [ power( i, 2 ) for i in args ] ), len( args ) ) )
+            return sqrt( fdiv( fsum( args, squared=True ), len( args ) ) )
     else:
         return args
 

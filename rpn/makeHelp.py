@@ -1780,6 +1780,18 @@ Addition is supported for measurements.
 ''' + makeCommandExample( '1 mile 1 km +' ),
 [ 'subtract', 'sum', 'multiply', 'divide' ] ],
 
+    'antiharmonic_mean' : [
+'arithmetic', 'calculates the antiharmonic mean of a a list of numbers n',
+'''
+The antiharmonic mean is calculated by taking ...
+''',
+'''
+''' + makeCommandExample( '[ 1 2 3 4 6 8 ] antiharmonic_mean' ) + '''
+''' + makeCommandExample( '[ 1 15 range ] antiharmonic_mean' ) + '''
+Calculate the antiharmonic mean of the first n numbers from 1 to 5:
+''' + makeCommandExample( '[ 1 1 5 range range ] antiharmonic_mean' ),
+[ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'harmonic_mean' ] ],
+
     'ceiling' : [
 'arithmetic', 'returns the next higher integer for n',
 '''
@@ -1884,7 +1896,7 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
 [ 'mean', 'agm', 'harmonic_mean', 'root_mean_square' ] ],
 
     'harmonic_mean' : [
-'arithmetic', 'calculates the geometric mean of a a list of numbers n',
+'arithmetic', 'calculates the harmonic mean of a a list of numbers n',
 '''
 The harmonic mean is calculated by taking ...
 ''',
@@ -1893,7 +1905,7 @@ The harmonic mean is calculated by taking ...
 ''' + makeCommandExample( '[ 1 10 range ] harmonic_mean' ) + '''
 Calculate the harmonic mean of the first n numbers from 1 to 5:
 ''' + makeCommandExample( '[ 1 1 5 range range ] harmonic_mean' ),
-[ 'mean', 'agm', 'geometric_mean', 'root_mean_square' ] ],
+[ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'antiharmonic_mean' ] ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -5577,7 +5589,7 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_constants' ] ],
 
     '_dump_cache' : [
 'internal', 'dumps the contents of cache n',
@@ -5591,7 +5603,7 @@ e.g.,  "rpn 'next_prime _dump_cache"
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_constants' : [
 'internal', 'dumps the list of constants',
@@ -5600,7 +5612,7 @@ The operator returns number of constants.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_conversions' : [
 'internal', 'dumps the list of unit conversions',
@@ -5609,7 +5621,7 @@ The operator returns number of unit conversions.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_constants', '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5622,18 +5634,9 @@ The operator returns number of operators.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units', '_dump_constants' ] ],
 
-    '_dump_units' : [
-'internal', 'lists all rpn units',
-'''
-The operator returns number of units.
-''',
-'''
-''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
-
-    '_stats' : [
+    '_dump_stats' : [
 'internal', 'dumps rpn statistics',
 '''
 This operator returns the count of unique operators, the count of unit
@@ -5645,6 +5648,15 @@ The operator returns the RPN version number in list format.
 '''
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
+
+    '_dump_units' : [
+'internal', 'lists all rpn units',
+'''
+The operator returns number of units.
+''',
+'''
+''',
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants' ] ],
 
 
 # //******************************************************************************
@@ -9436,13 +9448,21 @@ It was originally added to make testing the base phi output easier.
 ''' + makeCommandExample( '3 expphi 2 expphi -' ),
 [ 'phi', 'exp', 'exp10' ] ],
 
-    'hyper4_2' : [
-'powers_and_roots', 'calculates the right-associative tetration of n by k',
+    'hyperoperator' : [
+'powers_and_roots', 'calculates the hyperoperator with operands b and c',
 '''
 ''',
 '''
 ''',
-[ 'tetrate', 'power' ] ],
+[ 'tetrate_right', 'tetrate', 'power', 'hyperoperator_right' ] ],
+
+    'hyperoperator_right' : [
+'powers_and_roots', 'calculates the ath right-associative hyperoperator with operands b and c',
+'''
+''',
+'''
+''',
+[ 'tetrate_right', 'tetrate', 'power' ] ],
 
     'power' : [
 'powers_and_roots', 'calculates the kth power of n',
@@ -9563,7 +9583,16 @@ itself k times.
 ''' + makeCommandExample( '3 3 tetrate' ) + '''
 ''' + makeCommandExample( '10 10 tetrate' ) + '''
 ''' + makeCommandExample( '2 1 6 range tetrate' ),
-[ 'power', 'hyper4_2' ] ],
+[ 'power', 'tetrate_right', 'hyperoperator' ] ],
+
+    'tetrate_right' : [
+'powers_and_roots', 'calculates the right-associative tetration of n by k',
+'''
+''',
+'''
+''',
+[ 'tetrate', 'power', 'hyperoperator_right' ] ],
+
 
 # //******************************************************************************
 # //

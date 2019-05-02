@@ -21,19 +21,6 @@
 
 #  rpn 4 meters meters * is_square
 
-# Wind chill temperature index is a measurement of the combined cooling effect of low air temperature and
-# wind on the human body. The index was first defined by the American Antarctic explorer Paul Siple in 1939.
-# As originally used by U.S. meteorologists, the wind chill index (WCI) was computed from the temperature T
-# (in F) and wind speed V (in mi/hr) using the formula:
-# WCI = 0.0817(3.71 sqrt(V) + 5.81 - 0.25V)(T - 91.4) + 91.4.
-
-# In 2001, U.S. and Canadian meteorologists agreed on a revised definition of the wind chill temperature
-# index (WCTI). The U.S. version, with the temperature in F and wind speed in miles per hour, is
-# WCTI = 35.74 + 0.6215T - 35.75V0.16 + 0.4275TV0.16.
-
-# The Canadian formula, with temperatures in C and wind speed in km/h, is
-# WCTI = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16.
-
 import argparse
 import os
 import sys

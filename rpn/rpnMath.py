@@ -12,6 +12,7 @@
 # //
 # //******************************************************************************
 
+from hyperop import hyperop
 from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    asec, asech, asin, asinh, atan, atanh, ceil, conj, cos, \
                    cosh, cot, coth, csc, csch, e, exp, fabs, fadd, fdiv, \
@@ -338,9 +339,9 @@ def tetrate( i, j ):
 
 # //******************************************************************************
 # //
-# //  tetrateLarge
+# //  tetrateRight
 # //
-# //  This is the larger (right-associative) version of the hyper4 operator.
+# //  This is the larger, right-associative version of the hyper4 operator.
 # //
 # //  This function forces the second argument to an integer and runs in O( n )
 # //  time based on the second argument.
@@ -348,7 +349,7 @@ def tetrate( i, j ):
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def tetrateLarge( i, j ):
+def tetrateRight( i, j ):
     result = i
 
     for x in arange( 1, j ):
@@ -1014,4 +1015,40 @@ def getPolylog( n, k ):
 @twoArgFunctionEvaluator( )
 def calculateHypotenuse( n, k ):
     return hypot( n, k )
+
+
+# //******************************************************************************
+# //
+# //  calculateNthHyperoperator
+# //
+# //******************************************************************************
+
+from functools import reduce
+
+class hyperop_left( hyperop ):
+    def __call__( self, a, b ):
+        '''
+        Evaluate and return expression H[n](a,b).
+        (a,b) must be non-negative for n>4.
+        '''
+        check = self._check_value( a, b )
+
+        if check is not None:
+            return check
+
+        # Apply foldl
+        return reduce(lambda x, y: self.lower( x, y ), self._repeat( a, b ) )
+
+def calculateNthHyperoperator( a, b, c ):
+    return hyperop_left( a )( b, c )
+
+
+# //******************************************************************************
+# //
+# //  calculateNthRightHyperoperator
+# //
+# //******************************************************************************
+
+def calculateNthRightHyperoperator( a, b, c ):
+    return hyperop( a )( b, c )
 

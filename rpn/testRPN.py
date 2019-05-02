@@ -325,6 +325,21 @@ def runArithmeticOperatorTests( ):
 
     expectException( '2 cups 3 weeks +' )   # incompatible measurements
 
+    # antiharmonic_mean
+    testOperator( '1 5 range antiharmonic_mean' )
+
+    # see A179871... until we can do nested lamdbas, we can't generate this sequence
+    expectEqual( '1 21 range lambda x 21 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+    expectEqual( '1 22 range lambda x 22 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
+    expectEqual( '1 23 range lambda x 23 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
+    expectEqual( '1 24 range lambda x 24 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+    expectEqual( '1 165 range lambda x 165 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+    expectEqual( '1 166 range lambda x 166 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
+    expectEqual( '1 167 range lambda x 167 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
+    expectEqual( '1 168 range lambda x 168 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+    expectEqual( '1 10966 range lambda x 10966 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
+    expectEqual( '1 10967 range lambda x 10967 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
@@ -3109,6 +3124,9 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '120 abundance_ratio', 3 )
     expectResult( '672 abundance_ratio', 3 )
 
+    # ackermann
+    expectEqual( '0 5 range 0 ackermann', '126333 oeis 6 left' )
+
     # aliquot
     testOperator( '276 10 aliquot' )
 
@@ -3738,6 +3756,16 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
     expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
     expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 1 equals filter', '294524 oeis 7 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 2 equals filter', '295150 oeis 10 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 3 equals filter', '295151 oeis 11 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 4 equals filter', '295152 oeis 9 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 5 equals filter', '295153 oeis 12 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 6 equals filter', '295154 oeis 9 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 7 equals filter', '295155 oeis 9 left' )
+    expectEqual( '0 109 range lambda x 5 2 sums_of_k_powers count 8 equals filter', '295156 oeis 11 left' )
+    expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 9 equals filter', '295157 oeis 11 left' )
+    expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 10 equals filter', '295158 oeis 4 left' )
 
     if slow:
         expectEqual( '0 4999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 5000 left' )
@@ -4048,11 +4076,26 @@ def runPowersAndRootsOperatorTests( ):
 
     expectEqual( '-a2002 0 4784 range expphi floor', '14217 oeis 4785 left' )
 
-    # hyper4_2
-    testOperator( '-a160 -c 4 3 hyper4_2' )
+    # hyperoperator
+    expectEqual( '-a500 [ 1 5 range 1 5 range ] multiplex lambda 4 x 0 element x 1 element hyperoperator for_each_list', '-a500 [ 1 5 range 1 5 range ] multiplex lambda x 0 element x 1 element tetrate for_each_list' )
 
-    expectEqual( '-a40 inf lambda 2 2 sqrt x hyper4_2 - 2 ln x ** / limit 10 21 ** * get_digits', '277435 oeis 21 left' )
-    expectEqual( '-a100 2 2 sqrt 1 300 range hyper4_2 - 5 make_cf lambda x 1 element for_each_list -s1', '280918 oeis 300 left' )
+    expectEqual( '0 104 range lambda x 2 2 hyperop eval', '255176 oeis 105 left' )
+    expectEqual( '0 5 range lambda x 3 2 hyperop eval', '54871 oeis 6 left' )
+    expectEqual( '0 3 range lambda x x x hyperop eval', '189896 oeis 4 left' )
+    expectEqual( '0 4 range lambda x 10 2 hyperop eval', '256131 oeis 5 left' )
+    expectEqual( '0 4 range lambda x 4 2 hyperop eval', '253855 oeis 5 left' )
+    #expectEqual( '0 4 range lambda 5 2 x hyperop eval', '266198 oeis 5 left' )
+    #xpectEqual( '0 3 range lambda 5 3 x hyperop eval', '266199 oeis 4 left' )
+    #expectEqual( '0 5 range lambda x 2 3 hyperop eval', '67652 oeis 6 left' )
+    #expectEqual( '0 104 range lambda x 1 2 hyperop eval', '261143 oeis 6 left' )
+    #expectEqual( '0 4 range lambda x x 2 hyperop eval', '261143 oeis 5 left' )
+
+    # hyperoperator_right
+    expectEqual( '[ 1 4 range 1 3 range ] multiplex lambda 4 x 0 element x 1 element hyperoperator_right for_each_list', '[ 1 4 range 1 3 range ] multiplex lambda x 0 element x 1 element hyper4_right for_each_list' )
+
+    expectEqual( '0 4 range lambda x 2 x hyperop_right eval', '1695 oeis 5 left' )
+    expectEqual( '-a200 0 4 range lambda x 4 3 hyperop_right eval', '255340 oeis 5 left' )
+    expectEqual( '0 4 range lambda x x 3 hyperop_right eval', '261146 oeis 5 left' )
 
     # power
     testOperator( '4 5 power' )
@@ -4158,6 +4201,13 @@ def runPowersAndRootsOperatorTests( ):
 
     # tetrate
     testOperator( '3 2 tetrate' )
+
+    # tetrate_right
+    testOperator( '-a160 -c 4 3 tetrate_right' )
+
+    expectEqual( '-a40 inf lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * get_digits', '277435 oeis 21 left' )
+    expectEqual( '-a100 2 2 sqrt 1 300 range tetrate_right - 5 make_cf lambda x 1 element for_each_list -s1', '280918 oeis 300 left' )
+
 
 
 # //******************************************************************************

@@ -522,6 +522,9 @@ def cachedFunction( name, overrideIgnore=False ):
 
             result = func( *args, **kwargs )
 
+            if isinstance( result, RPNGenerator ):
+                result = list( result )
+
             if not g.ignoreCache or overrideIgnore:
                 cache[ ( args, kwargs ) ] = result
 

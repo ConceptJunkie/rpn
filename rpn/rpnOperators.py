@@ -27,6 +27,8 @@ from random import randrange
 
 from rpn.rpnAliases import dumpAliases
 from rpn.rpnOperator import callers, RPNArgumentType, RPNOperator
+from rpn.rpnOutput import printTitleScreen
+from rpn.rpnVersion import PROGRAM_DESCRIPTION
 
 from rpn.rpnAstronomy import *
 from rpn.rpnCalendar import *
@@ -1062,51 +1064,67 @@ def evaluateListOperator( term, index, currentValueList ):
 # //
 # //******************************************************************************
 
-def dumpOperators( ):
-    #TODO:  Use g.operatorNames, etc.
-    print( 'operators:' )
+def dumpOperators( totalsOnly=False ):
+    # TODO:  Use g.operatorNames, etc.
+    if not totalsOnly:
+        print( 'regular operators:' )
+
+    regular_operators = 0
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
         # print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-        print( '   ' + i )
+        regular_operators += 1
 
-    print( )
-    print( 'list operators:' )
+        if not totalsOnly:
+            print( '   ' + i )
 
-    for i in sorted( [ key for key in listOperators ] ):
-        print( '   ' + i )
+    if not totalsOnly:
+        print( )
+        print( 'list operators:' )
 
-    print( )
-    print( 'constant operators:' )
+        for i in sorted( [ key for key in listOperators ] ):
+            print( '   ' + i )
+
+        print( )
+        print( 'constant operators:' )
 
     constantNames = [ key for key in g.constantOperators ]
     constantNames.extend( [ key for key in constants ] )
 
-    for i in sorted( constantNames ):
-        print( '   ' + i )
+    if not totalsOnly:
+        for i in sorted( constantNames ):
+            print( '   ' + i )
 
-    print( )
-    print( 'modifer operators:' )
+        print( )
+        print( 'modifer operators:' )
 
-    for i in sorted( [ key for key in modifiers ] ):
-        print( '   ' + i )
+        for i in sorted( [ key for key in modifiers ] ):
+            print( '   ' + i )
 
-    print( )
-    print( 'internal operators:' )
+        print( )
+        print( 'internal operators:' )
+
+    internal_operators = 0
 
     for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
-        print( '   ' + i )
+        internal_operators += 1
 
-    print( )
+        if not totalsOnly:
+            print( '   ' + i )
 
-    print( len( operators ), 'operators' )
-    print( len( listOperators ), 'list operators' )
-    print( len( modifiers ), 'modifier operators' )
-    print( len( constantNames ), 'constant operators' )
+    if not totalsOnly:
+        print( )
+
+    print( '{:10,} regular operators'.format( regular_operators ) )
+    print( '{:10,} list operators'.format( len( listOperators ) ) )
+    print( '{:10,} modifier operators'.format( len( modifiers ) ) )
+    print( '{:10,} constant operators'.format( len( constantNames ) ) )
+    print( '{:10,} internal operators'.format( internal_operators ) )
 
     total = len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
-    print( )
-    print( total, 'operators' )
+
+    print( '     ----- ------------------' )
+    print( '{:10,} unique operators'.format( total ) )
     print( )
 
     return total
@@ -1174,13 +1192,23 @@ def dumpUnitConversions( ):
 # //
 # //******************************************************************************
 
-def dumpStats( ):
+def dumpStats( printTitle=True ):
+    if printTitle:
+        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION, showHelp=False )
+        print( )
+
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
-    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) +
-                                             len( modifiers ) ) )
-    print( '{:10,} constants'.format( len( constants ) ) )
+    print( 'rpnChilada Statistics:' )
+    print( )
+
+    dumpOperators( totalsOnly=True )
+
+    print( '{:10,} aliases'.format( len( g.aliases ) ) )
+    print( )
+
+    print( '{:10,} units'.format( len( g.unitOperators ) ) )
     print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
@@ -1798,6 +1826,9 @@ listOperators = {
                                            1, [ RPNArgumentType.List ], [ ] ),
 
     # arithmetic
+    'antiharmonic_mean'     : RPNOperator( calculateAntiharmonicMean,
+                                           1, [ RPNArgumentType.List ], [ ] ),
+
     'equals_one_of'         : RPNOperator( equalsOneOf,
                                            2, [ RPNArgumentType.Default, RPNArgumentType.List ], [ ],
                                            RPNOperator.measurementsAllowed ),
@@ -3939,8 +3970,11 @@ operators = {
     'expphi'                         : RPNOperator( getExpPhi,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
-    'hyper4_2'                       : RPNOperator( tetrateLarge,
-                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ] ),
+    'hyperoperator'                  : RPNOperator( calculateNthHyperoperator,
+                                                    3, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
+
+    'hyperoperator_right'            : RPNOperator( calculateNthRightHyperoperator,
+                                                    3, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
 
     'power'                          : RPNOperator( getPower,
                                                     2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ],
@@ -3972,6 +4006,9 @@ operators = {
     #                                                2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'tetrate'                        : RPNOperator( tetrate,
+                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ] ),
+
+    'tetrate_right'                  : RPNOperator( tetrateRight,
                                                     2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ] ),
 
     # prime_number
@@ -4376,10 +4413,10 @@ operators = {
     '_dump_operators'                : RPNOperator( dumpOperators,
                                                     0, [ ], [ ] ),
 
-    '_dump_units'                    : RPNOperator( dumpUnits,
+    '_dump_stats'                    : RPNOperator( dumpStats,
                                                     0, [ ], [ ] ),
 
-    '_stats'                         : RPNOperator( dumpStats,
+    '_dump_units'                    : RPNOperator( dumpUnits,
                                                     0, [ ], [ ] ),
 
     #   'antitet'                       : RPNOperator( findTetrahedralNumber, 0 ),

@@ -671,9 +671,11 @@ def printHelpModeHelp( ):
 # //
 # //******************************************************************************
 
-def printTitleScreen( programName, programDescription ):
+def printTitleScreen( programName, programDescription, showHelp=True ):
     print( programName + PROGRAM_VERSION_STRING + ' - ' + programDescription )
     print( COPYRIGHT_MESSAGE )
-    print( )
-    print( 'Type "help" for more information, and "exit" to exit.' )
+
+    if showHelp:
+        print( )
+        print( 'Type "help" for more information, and "exit" to exit.' )
 

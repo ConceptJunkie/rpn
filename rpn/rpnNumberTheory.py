@@ -1974,9 +1974,11 @@ def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
             yield from findSumsOfKPowersGenerator( fsub( n, power( i, p ) ),
                                                    fsub( k, 1 ), p, bNonZero, prefix + [ i ] )
 
+@cachedFunction( 'sums_of_k_powers' )
 def findSumsOfKPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p ) )
 
+@cachedFunction( 'sums_of_k_nonzero_powers' )
 def findSumsOfKNonzeroPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p, bNonZero = True ) )
 
@@ -2076,6 +2078,7 @@ def getZeta( n ):
 @twoArgFunctionEvaluator( )
 def getHurwitzZeta( n, k ):
     return zeta( n, k )
+
 
 # //******************************************************************************
 # //

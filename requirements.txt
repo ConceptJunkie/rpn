@@ -4,6 +4,7 @@ ephem>=3.7.6.0
 ethiopian-date-converter>=0.1.5
 geopy>=1.19.0
 gmpy2>=2.0.8
+hyperop>=1.1
 importlib_resources>=1.0.2
 mpmath>=1.1.0
 numpy>=1.16.2
