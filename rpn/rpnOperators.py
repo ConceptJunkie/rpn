@@ -3670,6 +3670,9 @@ operators = {
     'harmonic'                       : RPNOperator( getHarmonic,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
+    'harmonic_fraction'              : RPNOperator( getHarmonicFraction,
+                                                    1, [ RPNArgumentType.Default ], [ ] ),
+
     'heptanacci'                     : RPNOperator( getNthHeptanacci,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
@@ -3686,6 +3689,9 @@ operators = {
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_achilles'                    : RPNOperator( isAchillesNumber,
+                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
+
+    'is_antiharmonic'                : RPNOperator( isAntiharmonic,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_carmichael'                  : RPNOperator( isCarmichaelNumberOperator,

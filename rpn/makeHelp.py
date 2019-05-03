@@ -45,7 +45,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1176
+maxExampleCount = 1179
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -7520,6 +7520,18 @@ The harmonic series consists of the reciprocals of the natural numbers.
 ''' + makeCommandExample( '1e100 harmonic' ),
 [ ] ],
 
+    'harmonic_fraction' : [
+'number_theory', 'returns the rational version of the nth harmonic number',
+'''
+The harmonic series consists of the reciprocals of the natural numbers.
+''',
+'''
+''' + makeCommandExample( '1 harmonic_fraction' ) + '''
+''' + makeCommandExample( '5 harmonic fraction' ) + '''
+''' + makeCommandExample( '100 harmonic' ) + '''
+''' + makeCommandExample( '1e100 harmonic' ),
+[ ] ],
+
     'heptanacci' : [
 'number_theory', 'calculates the nth Heptanacci number',
 '''
@@ -7564,6 +7576,14 @@ first n numbers each taken to the power of itself.
 
     'is_achilles' : [
 'number_theory', 'returns whether or not n is an Achilles number',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_antiharmonic' : [
+'number_theory', 'returns whether or not n is an antiharmonic number',
 '''
 ''',
 '''

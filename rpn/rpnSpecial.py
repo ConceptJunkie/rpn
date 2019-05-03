@@ -46,9 +46,10 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthMersennePrime, getNthPadovanNumber, getNthPerfectNumber, \
                                 getNthRieselNumber, getNthSubfactorial, getNthStern, getNthSuperfactorial, \
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
-                                isCarmichaelNumber, isDeficient, isFriendly, isKHyperperfect, \
-                                isPolydivisible, isPowerful, isPronic, isRough, isRuthAaronNumber, \
-                                isSemiPrime, isSmooth, isSphenic, isSquareFree, isUnusual
+                                isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
+                                isKHyperperfect, isPolydivisible, isPowerful, isPronic, isRough, \
+                                isRuthAaronNumber, isSemiPrime, isSmooth, isSphenic, isSquareFree, \
+                                isUnusual
 from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
@@ -695,37 +696,6 @@ def describeInteger( n ):
         if isPowerful( n ):
             print( indent + 'powerful' )
 
-        # Achilles
-        if isAchillesNumber( n ):
-            print( indent + 'an Achilles number' )
-
-        # unusual
-        if isUnusual( n ):
-            print( indent + 'unusual' )
-
-        # hyperperfect
-        for i in range( 2, 21 ):
-            if isKHyperperfect( n, i ):
-                print( indent + str( i ) + '-hyperperfect' )
-
-        # Ruth-Aaron
-        if isRuthAaronNumber( n ):
-            print( indent + 'a Ruth-Aaron number' )
-
-        # Smith numbers
-        if isSmithNumber( n ):
-            print( indent + 'a Smith number' )
-
-        # base-k Smith numbers
-        for i in range( 2, 10 ):
-            if isBaseKSmithNumber( n, i ):
-                print( indent + 'a base-' + str( i ) + ' Smith number' )
-
-        # order-k Smith numbers
-        for i in range( 2, 11 ):
-            if isOrderKSmithNumber( n, i ):
-                print( indent + 'an order-' + str( i ) + ' Smith number' )
-
     # factorial
     result = findInput( n, getNthFactorial, lambda n: power( log10( n ), 0.92 ) )
 
@@ -771,6 +741,41 @@ def describeInteger( n ):
     # pronic
     if isPronic( n ):
         print( indent + 'pronic' )
+
+    # Achilles
+    if isAchillesNumber( n ):
+        print( indent + 'an Achilles number' )
+
+    # antiharmonic
+    if isAntiharmonic( n ):
+        print( indent + 'antiharmonic' )
+
+    # unusual
+    if isUnusual( n ):
+        print( indent + 'unusual' )
+
+    # hyperperfect
+    for i in range( 2, 21 ):
+        if isKHyperperfect( n, i ):
+            print( indent + str( i ) + '-hyperperfect' )
+
+    # Ruth-Aaron
+    if isRuthAaronNumber( n ):
+        print( indent + 'a Ruth-Aaron number' )
+
+    # Smith numbers
+    if isSmithNumber( n ):
+        print( indent + 'a Smith number' )
+
+    # base-k Smith numbers
+    for i in range( 2, 10 ):
+        if isBaseKSmithNumber( n, i ):
+            print( indent + 'a base-' + str( i ) + ' Smith number' )
+
+    # order-k Smith numbers
+    for i in range( 2, 11 ):
+        if isOrderKSmithNumber( n, i ):
+            print( indent + 'an order-' + str( i ) + ' Smith number' )
 
     # polydivisible
     if isPolydivisible( n ):

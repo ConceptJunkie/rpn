@@ -49,11 +49,6 @@ def getGCD( n, k ):
 # //******************************************************************************
 
 def getGCDOfList( args ):
-    if isinstance( args, RPNGenerator ):
-        args = list( args )
-    if not isinstance( args, list ):
-        args = [ args ]
-
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getGCDOfList( real( arg ) ) for arg in args ]
     else:
@@ -69,6 +64,7 @@ def getGCDOfList( args ):
             return result.pop( )
         else:
             return getGCDOfList( list( result ) )
+
 
 # //******************************************************************************
 # //
@@ -685,22 +681,17 @@ def getStandardDeviation( args ):
 
 @listArgFunctionEvaluator( )
 def reduceList( args ):
-    if isinstance( args, RPNGenerator ):
-        return reduceList( list( args ) )
-    elif isinstance( args, list ):
-        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-            return [ reduceList( arg ) for arg in args ]
-        else:
-            gcd = getGCDOfList( args )
-
-            result = [ ]
-
-            for i in args:
-                result.append( fdiv( i, gcd ) )
-
-            return result
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+        return [ reduceList( arg ) for arg in args ]
     else:
-        return args
+        gcd = getGCDOfList( args )
+
+        result = [ ]
+
+        for i in args:
+            result.append( fdiv( i, gcd ) )
+
+        return result
 
 
 # //******************************************************************************
@@ -711,15 +702,10 @@ def reduceList( args ):
 
 @listArgFunctionEvaluator( )
 def calculateGeometricMean( args ):
-    if isinstance( args, RPNGenerator ):
-        return calculateGeometricMean( list( args ) )
-    elif isinstance( args, list ):
-        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-            return [ calculateGeometricMean( list( arg ) ) for arg in args ]
-        else:
-            return root( fprod( args ), len( args ) )
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+        return [ calculateGeometricMean( list( arg ) ) for arg in args ]
     else:
-        return args
+        return root( fprod( args ), len( args ) )
 
 
 # //******************************************************************************

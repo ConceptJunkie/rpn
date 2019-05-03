@@ -21,14 +21,14 @@ from functools import reduce
 
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
                    fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
-                   fprod, fsub, fsum, gamma, harmonic, hyperfac, log10, \
-                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, \
-                   polyval, power, primepi, psi, re, root, superfac, sqrt, \
-                   unitroots, zeta, zetazero
+                   fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, \
+                   log10, loggamma, mp, mpc, mpf, mpmathify, nint, phi, \
+                   polyroots, polyval, power, primepi, psi, re, root, superfac, \
+                   sqrt, unitroots, zeta, zetazero
 
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2
+from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
@@ -258,7 +258,15 @@ def getNthKFibonacciNumber( n, k ):
     poly = [ 1 ]
     poly.extend( [ -1 ] * int( k ) )
 
-    roots = polyroots( poly )
+    try:
+        roots = polyroots( poly )
+    except libmp.libhyper.NoConvergence:
+        try:
+            #  Let's try again, really hard!
+            roots = polyroots( poly, maxsteps = 2000, extraprec = 5000 )
+        except libmp.libhyper.NoConvergence:
+            raise ValueError( 'polynomial failed to converge' )
+
     nthPoly = getNthFibonacciPolynomial( k )
 
     result = 0
@@ -420,6 +428,7 @@ def convertFromContinuedFraction( n ):
         raise ValueError( "invalid input for evaluating a continued fraction" )
 
     fraction = RPNContinuedFraction( n ).getFraction( )
+
     return fdiv( fraction.numerator, fraction.denominator )
 
 
@@ -445,7 +454,9 @@ def interpretAsFraction( n, k ):
     if ( mp.dps < real_int( k ) ):
         mp.dps = k
 
-    fraction = RPNContinuedFraction( real( n ), maxterms = k ).getFraction( )
+    cutoff = fmul( n, power( 10, -10 ) )
+    fraction = RPNContinuedFraction( real( n ), maxterms = k, cutoff=cutoff ).getFraction( )
+
     return [ fraction.numerator, fraction.denominator ]
 
 
@@ -929,20 +940,15 @@ def getExtendedGCD( a, b ):
 # //******************************************************************************
 
 def getLCMOfList( args ):
-    if isinstance( args, RPNGenerator ):
-        return getLCMOfList( list( args ) )
-    elif isinstance( args, list ):
-        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-            return [ getLCMOfList( arg ) for arg in args ]
-        else:
-            result = 1
-
-            for arg in args:
-                result = result * arg / getGCD( result, arg )
-
-            return result
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+        return [ getLCMOfList( arg ) for arg in args ]
     else:
-        return args
+        result = 1
+
+        for arg in args:
+            result = fdiv( fmul( result, arg ), getGCD( result, arg ) )
+
+        return result
 
 @twoArgFunctionEvaluator( )
 def getLCM( n, k ):
@@ -1948,7 +1954,6 @@ def getNthThueMorse( n ):
 
 def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
     # If we are looking for only one power, then we only have one choice
-    #print( 'n', n, 'k', k, 'p', p, 'prefix', prefix )
     if k == 1:
         if n == 0:
             if not bNonZero and not prefix:
@@ -1974,6 +1979,7 @@ def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
             yield from findSumsOfKPowersGenerator( fsub( n, power( i, p ) ),
                                                    fsub( k, 1 ), p, bNonZero, prefix + [ i ] )
 
+
 @cachedFunction( 'sums_of_k_powers' )
 def findSumsOfKPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p ) )
@@ -1982,6 +1988,12 @@ def findSumsOfKPowers( n, k, p ):
 def findSumsOfKNonzeroPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p, bNonZero = True ) )
 
+
+# //******************************************************************************
+# //
+# //  some one-line operators
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getBarnesG( n ):
@@ -2088,7 +2100,6 @@ def getHurwitzZeta( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getCollatzSequenceGenerator( n, k ):
-
     if n == 0:
         return
 
@@ -2172,7 +2183,7 @@ def getDigitalRoot( n ):
 # //
 # //******************************************************************************
 
-import pysnooper
+#import pysnooper
 
 @oneArgFunctionEvaluator( )
 #@cachedFunction( 'carmichael' )
@@ -2262,6 +2273,43 @@ def calculateAckermannFunction( n, k ):
 
 # //******************************************************************************
 # //
+# //  isAntiharmonic
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isAntiharmonic( n ):
+    if real_int( n ) < 1:
+        return 0
+
+    return 1 if isDivisible( getSigmaK( n, 2 ), getSigmaK( n, 1 ) ) else 0
+
+
+# //******************************************************************************
+# //
+# //  getHarmonicFraction
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getHarmonicFraction( n ):
+    n = int( real_int( n ) )
+
+    if n == 1:
+        return [ 1, 1 ]
+
+    denominator = getLCMOfList( range( 2, n + 1 ) )
+
+    numerator = 0
+
+    for i in range( 1, n + 1 ):
+        numerator = fadd( numerator, fdiv( denominator, i ) )
+
+    return reduceList( [ numerator, denominator ] )
+
+
+# //******************************************************************************
+# //
 # //  getIntegerSquareRoot
 # //
 # //  https://code.activestate.com/recipes/577821-integer-square-root-function/
@@ -2314,7 +2362,7 @@ def calculateAckermannFunction( n, k ):
 #       the documentation and/or other materials provided with the distribution.
 ############################################################################
 #def carmichaellambda(n):
-#        """carmichaellambda(n) - Computer Carmichael's Lambda function
+#        """carmichaellambda(n) - Compute Carmichael's Lambda function
 #        of n - the smallest exponent e such that b**e = 1 for all b coprime to n.
 #        Otherwise defined as the exponent of the group of integers mod n."""
 #        thefactors = factors(n)
