@@ -7523,13 +7523,18 @@ The harmonic series consists of the reciprocals of the natural numbers.
     'harmonic_fraction' : [
 'number_theory', 'returns the rational version of the nth harmonic number',
 '''
-The harmonic series consists of the reciprocals of the natural numbers.
+The harmonic series consists of the reciprocals of the natural numbers.  They
+are all rational numbers, so it's possible to represent them as fractions.
+
+This is an exact calculation, so while it's possible to get the value of the
+googolth harmonic number (to a limited precision), calculating a large harmonic
+fraction is far more limited.
 ''',
 '''
 ''' + makeCommandExample( '1 harmonic_fraction' ) + '''
-''' + makeCommandExample( '5 harmonic fraction' ) + '''
-''' + makeCommandExample( '100 harmonic' ) + '''
-''' + makeCommandExample( '1e100 harmonic' ),
+''' + makeCommandExample( '5 harmonic_fraction' ) + '''
+''' + makeCommandExample( '-a20 50 harmonic_fraction' ) + '''
+''' + makeCommandExample( '-a50 100 harmonic_fraction' ),
 [ ] ],
 
     'heptanacci' : [

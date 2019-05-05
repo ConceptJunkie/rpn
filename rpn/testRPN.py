@@ -329,6 +329,8 @@ def runArithmeticOperatorTests( ):
     testOperator( '1 5 range antiharmonic_mean' )
 
     # see A179871... until we can do nested lamdbas, we can't generate this sequence
+    # nested lambdas would look something like this:
+    # rpn 1 10 range lambda 1 x range lambda x' x gcd2 1 equals filter anitharmonic_mean is_integer eval eval
     expectEqual( '1 21 range lambda x 21 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
     expectEqual( '1 22 range lambda x 22 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
     expectEqual( '1 23 range lambda x 23 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
@@ -3217,9 +3219,11 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range euler_phi' )
 
     expectEqual( '1 100 range euler_phi', '10 oeis 100 left' )
+    expectEqual( '1 1000 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis lambda x 1000 not_greater filter' )
 
     if slow:
         expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
+        expectEqual( '1 32753 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis lambda x 32753 not_greater filter' )
 
     # factor
     testOperator( '-25 factor' )
@@ -3305,6 +3309,9 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '2 9 range lambda x generate_polydivisibles count eval', '271374 oeis 8 left' )
 
+    if slow:
+        expectEqual( '10 12 range lambda x generate_polydivisibles count eval', '271374 oeis 11 left 3 right' )
+
     # geometric_recurrence
     expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
     expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 18 geometric_recurrence', '280 oeis 18 left' )
@@ -3357,10 +3364,7 @@ def runNumberTheoryOperatorTests( ):
     # is_abundant
     testOperator( '1 20 range is_abundant' )
 
-    expectEqual( '1 1000 range lambda x is_abundant filter', '5101 oeis lambda x 1000 is_not_greater filter' )
-
-    if slow:
-        expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
+    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
 
     # is_achilles
     testOperator( '1 20 range is_achilles' )
@@ -3542,12 +3546,13 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
     expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
     expectEqual( '[ -1 e euler_constant ** 1 e euler_constant ** / + ] [ 1 1 ] 36 linear_recurrence floor 35 right', '93608 oeis 35 left' )
+    expectEqual( '-a120 [ 2 0 1 ] [ 1 2 3 ] 500 linear_recurrence', '3476 oeis 500 left' )
 
     # linear_recurrence_with_modulo
-    #expectEqual( '1 2000 range lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** linear_recurrence_with_modulo x 1 - element equals filter', '-a420 350 oeis 42 left 41 right' )
+    expectEqual( '1 200 range lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** nth_linear_recurrence_with_modulo x equals filter', '350 oeis lambda x 201 is_less x 0 is_greater and filter' )
 
-    #if slow:
-    #    expectEqual( 'dddd[159] build_numbers lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** linear_recurrence_with_modulo x 1 - element equals filter', '-a420 350 oeis 573 left 572 right' )
+    if slow:
+        expectEqual( 'ddd[159] build_numbers lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** nth_linear_recurrence_with_modulo x equals filter', '-a420 350 oeis lambda x 10000 is_less x 0 is_greater and filter' )
 
     # log_gamma
     testOperator( '10 log_gamma' )
@@ -3556,6 +3561,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a21 99 lucas' )
 
     expectEqual( '0 999 range lucas', '32 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '0 4774 range lucas', '32 oeis 4775 left' )
 
     # make_cf
     testOperator( 'e 20 make_cf' )

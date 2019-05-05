@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import cos, cot, fadd, fdiv, floor, fmul, fprod, fsub, fsum, gamma, \
+from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, \
                    hypot, power, pi, root, sin, sqrt, tan
 
 from rpn.rpnList import getProduct, getSum

@@ -49,6 +49,11 @@ def getGCD( n, k ):
 # //******************************************************************************
 
 def getGCDOfList( args ):
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+    if not isinstance( args, list ):
+        args = [ args ]
+
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getGCDOfList( real( arg ) ) for arg in args ]
     else:
