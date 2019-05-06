@@ -1078,6 +1078,9 @@ Added 'hyperoperator' and 'hyperoperator_right' operators.
 Added 'root_mean_square', 'stirling1', 'stirling2', 'ackermann',
 'square_super_root', 'cube_super_root' and 'super_root' operators.
 
+Added 'filter_integers', 'filter_on_flags', 'is_k_perfect', 'phitorial', and
+'relatively_prime' operators.
+
 Added 'get_partitions'.
 
 Added more unit tests and the usual bug fixes.

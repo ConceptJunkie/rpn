@@ -4038,19 +4038,13 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '4294967296 cube_super_root', '4' )
 
     # exp
-    testOperator( '13 exp' )
-
     expectEqual( '2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval', '58209 oeis 2000 left' )
     expectEqual( '1 999 range lambda x x sin exp * ceiling eval', '134892 oeis 999 left' )
 
     # exp10
-    testOperator( '12 exp10' )
-
     expectEqual( '-a101 0 100 range exp10', '11557 oeis 101 left' )
 
     # expphi
-    testOperator( '100 expphi' )
-
     expectEqual( '-a2002 0 4784 range expphi floor', '14217 oeis 4785 left' )
 
     # hyperoperator
@@ -4180,8 +4174,6 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '3 2 tetrate' )
 
     # tetrate_right
-    testOperator( '-a160 -c 4 3 tetrate_right' )
-
     expectEqual( '-a40 inf lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * get_digits', '277435 oeis 21 left' )
     expectEqual( '-a100 2 2 sqrt 1 300 range tetrate_right - 5 make_cf lambda x 1 element for_each_list -s1', '280918 oeis 300 left' )
 
@@ -4218,6 +4210,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range cousin_prime_' )
     testOperator( '4486 cousin_prime_' )
     testOperator( '192765 cousin_prime_' )
+
     # cousin primes are currently wrong starting with #99
     #expectEqual( '1 100 range lambda x cousin_prime_ product eval', '143206 oeis 100 left' )
     #expectEqual( '1001 1100 range lambda x cousin_prime_ product eval', '143206 oeis 1100 left 100 right' )
