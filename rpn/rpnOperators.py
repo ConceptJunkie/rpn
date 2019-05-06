@@ -3594,6 +3594,9 @@ operators = {
     'alternating_factorial'          : RPNOperator( getNthAlternatingFactorial,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
+    'alternating_harmonic_fraction'  : RPNOperator( getAlternatingHarmonicFraction,
+                                                    1, [ RPNArgumentType.Default ], [ ] ),
+
     'barnesg'                        : RPNOperator( getBarnesG,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
@@ -3668,10 +3671,13 @@ operators = {
                                                     2, [ RPNArgumentType.Integer, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'harmonic'                       : RPNOperator( getHarmonic,
-                                                    1, [ RPNArgumentType.Default ], [ ] ),
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'harmonic_fraction'              : RPNOperator( getHarmonicFraction,
-                                                    1, [ RPNArgumentType.Default ], [ ] ),
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'harmonic_residue'               : RPNOperator( getHarmonicResidue,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'heptanacci'                     : RPNOperator( getNthHeptanacci,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
@@ -3704,6 +3710,9 @@ operators = {
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     # is_friendly
+
+    'is_harmonic'                    : RPNOperator( isHarmonic,
+                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),

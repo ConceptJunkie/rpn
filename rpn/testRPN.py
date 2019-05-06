@@ -3136,6 +3136,16 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '13 alternating_factorial' )
     testOperator( '-a20 1 20 range alternating_factorial' )
 
+    # alternating_harmonic fraction
+    testOperator( '15 alternating_harmonic_fraction' )
+
+    expectEqual( '-a100 1 100 range alternating_harmonic_fraction lambda x 0 element for_each_list', '58313 oeis 100 left' )
+    expectEqual( '-a100 1 100 range alternating_harmonic_fraction lambda x 1 element for_each_list', '58312 oeis 100 left' )
+
+    if slow:
+        expectEqual( '-a1002 1 2000 range alternating_harmonic_fraction lambda x 0 element for_each_list', '58313 oeis 2000 left' )
+        expectEqual( '-a1002 1 2000 range alternating_harmonic_fraction lambda x 1 element for_each_list', '58312 oeis 2000 left' )
+
     # base
     testOperator( '[ 1 1 1 1 1 1 ] 2 10 range base' )
 
@@ -3333,6 +3343,11 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-a1002 1 2295 range harmonic_fraction lambda x 0 element for_each_list', '1008 oeis 2295 left' )
         expectEqual( '-a1002 1 2308 range harmonic_fraction lambda x 1 element for_each_list', '2805 oeis 2308 left' )
 
+    # harmonic_residue
+    testOperator( '148 harmonic_residue' )
+
+    expectEqual( '1 10000 range harmonic_residue', '106315 oeis 10000 left' )
+
     # heptanacci
     testOperator( '-a200 -c 623 heptanacci' )
 
@@ -3394,6 +3409,9 @@ def runNumberTheoryOperatorTests( ):
 
     # is_friendly
     testOperator( '[ 220 264 ] is_friendly' )
+
+    # is_harmonic
+    expectEqual( '1 1000 range lambda x is_harmonic filter', '1599 oeis lambda x 1000 is_not_greater filter' )
 
     # is_k_hyperperfect
     expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )

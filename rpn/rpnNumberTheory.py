@@ -21,14 +21,15 @@ from functools import reduce
 
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
                    fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
-                   fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, \
-                   log10, loggamma, mp, mpc, mpf, mpmathify, nint, phi, \
-                   polyroots, polyval, power, primepi, psi, re, root, superfac, \
-                   sqrt, unitroots, zeta, zetazero
+                   fprod, fsub, fsum, gamma, harmonic, hyperfac, isint, \
+                   libmp, log10, loggamma, mp, mpc, mpf, mpmathify, nint, phi, \
+                   polyroots, polyval, power, primepi, psi, re, root, \
+                   superfac, sqrt, unitroots, zeta, zetazero
 
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2, reduceList
+from rpn.rpnList import calculateHarmonicMean, getGCD, getGCDOfList, \
+                        calculatePowerTower2, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
@@ -2273,6 +2274,34 @@ def calculateAckermannFunction( n, k ):
 
 # //******************************************************************************
 # //
+# //  getHarmonicResidue
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getHarmonicResidue( n ):
+    if real_int( n ) < 2:
+        return 0
+
+    return fmod( fmul( n, getDivisorCount( n ) ), getSigma( n ) )
+
+
+# //******************************************************************************
+# //
+# //  isHarmonic
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isHarmonic( n ):
+    if real_int( n ) < 1:
+        return 0
+
+    return 1 if getHarmonicResidue( n ) == 0 else 0
+
+
+# //******************************************************************************
+# //
 # //  isAntiharmonic
 # //
 # //******************************************************************************
@@ -2304,6 +2333,32 @@ def getHarmonicFraction( n ):
 
     for i in range( 1, n + 1 ):
         numerator = fadd( numerator, fdiv( denominator, i ) )
+
+    return reduceList( [ numerator, denominator ] )
+
+
+# //******************************************************************************
+# //
+# //  getAlternatingHarmonicFraction
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getAlternatingHarmonicFraction( n ):
+    n = int( real_int( n ) )
+
+    if n == 1:
+        return [ 1, 1 ]
+
+    denominator = getLCMOfList( range( 2, n + 1 ) )
+
+    numerator = 0
+
+    for i in range( 1, n + 1 ):
+        if fmod( i, 2 ):
+            numerator = fadd( numerator, fdiv( denominator, i ) )
+        else:
+            numerator = fsub( numerator, fdiv( denominator, i ) )
 
     return reduceList( [ numerator, denominator ] )
 

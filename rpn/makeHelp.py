@@ -45,7 +45,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1179
+maxExampleCount = 1189
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1068,6 +1068,17 @@ the Ethiopian calendar.
 
 Added 'black_hole_surface_tides' now that I understand it.  I also added a more
 general 'tidal_force' operator.
+
+Added 'is_harmonic', 'is_antiharmonic', 'harmonic_fraction',
+'alternating_harmonic_fraction', 'harmonic_residue', 'harmonic_mean',
+and 'antiharmonic_mean' operators.
+
+Added 'hyperoperator' and 'hyperoperator_right' operators.
+
+Added 'root_mean_square', 'stirling1', 'stirling2', 'ackermann',
+'square_super_root', 'cube_super_root' and 'super_root' operators.
+
+Added 'get_partitions'.
 
 Added more unit tests and the usual bug fixes.
 
@@ -7233,6 +7244,20 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 [ ] ],
 
+    'alternating_harmonic_fraction' : [
+'number_theory', 'returns the rational version of the nth alternating harmonic number',
+'''
+The alternating harmonic series consists of the sums of the reciprocals of
+the natural numbers, where every second one is negative.  They are all
+rational numbers, so it's possible to represent them as fractions.
+''',
+'''
+''' + makeCommandExample( '2 alternating_harmonic_fraction' ) + '''
+''' + makeCommandExample( '7 alternating_harmonic_fraction' ) + '''
+''' + makeCommandExample( '-a20 60 alternating_harmonic_fraction' ) + '''
+''' + makeCommandExample( '-a50 110 alternating_harmonic_fraction' ),
+[ ] ],
+
     'barnesg' : [
 'number_theory', 'evaluates the Barnes G-function for n',
 '''
@@ -7523,8 +7548,9 @@ The harmonic series consists of the reciprocals of the natural numbers.
     'harmonic_fraction' : [
 'number_theory', 'returns the rational version of the nth harmonic number',
 '''
-The harmonic series consists of the reciprocals of the natural numbers.  They
-are all rational numbers, so it's possible to represent them as fractions.
+The harmonic series consists of the sums of the reciprocals of the natural
+numbers.  They are all rational numbers, so it's possible to represent
+them as fractions.
 
 This is an exact calculation, so while it's possible to get the value of the
 googolth harmonic number (to a limited precision), calculating a large harmonic
@@ -7535,6 +7561,15 @@ fraction is far more limited.
 ''' + makeCommandExample( '5 harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a20 50 harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a50 100 harmonic_fraction' ),
+[ ] ],
+
+    'harmonic_residue' : [
+'number_theory', 'returns the harmonic residue of n',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range harmonic_residue' ) + '''
+''' + makeCommandExample( '1 10 range nth_perfect_number harmonic_residue' ),
 [ ] ],
 
     'heptanacci' : [
@@ -7621,6 +7656,14 @@ first n numbers each taken to the power of itself.
 
     'is_friendly' : [
 'number_theory', 'returns whether list n is a list of mutually friendly numbers',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_harmonic' : [
+'number_theory', 'returns whether or not n is a harmonic number',
 '''
 ''',
 '''
