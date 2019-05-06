@@ -45,7 +45,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1189
+maxExampleCount = 1194
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1069,7 +1069,7 @@ the Ethiopian calendar.
 Added 'black_hole_surface_tides' now that I understand it.  I also added a more
 general 'tidal_force' operator.
 
-Added 'is_harmonic', 'is_antiharmonic', 'harmonic_fraction',
+Added 'is_harmonic_divisor_number', 'is_antiharmonic', 'harmonic_fraction',
 'alternating_harmonic_fraction', 'harmonic_residue', 'harmonic_mean',
 and 'antiharmonic_mean' operators.
 
@@ -1794,7 +1794,11 @@ Addition is supported for measurements.
     'antiharmonic_mean' : [
 'arithmetic', 'calculates the antiharmonic mean of a a list of numbers n',
 '''
-The antiharmonic mean is calculated by taking ...
+The antiharmonic mean of a set of positive numbers is defined as the arithmetic
+mean of the squares of the numbers divided by the arithmetic mean of the
+numbers.
+
+Ref:  https://en.wikipedia.org/wiki/Contraharmonic_mean
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 4 6 8 ] antiharmonic_mean' ) + '''
@@ -1891,7 +1895,7 @@ decreased to the next lower integral multiple of i.
 '''
 ''' + makeCommandExample( '5 20 gcd2' ) + '''
 ''' + makeCommandExample( '3150 8820 gcd2' ),
-[ 'reduce', 'lcm', 'gcd' ] ],
+[ 'reduce', 'lcm', 'gcd', 'relatively_prime' ] ],
 
     'geometric_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
@@ -5104,7 +5108,7 @@ non-zero value.
 Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
-[ 'filter_by_index', 'lambda', 'unfilter' ] ],
+[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
     'filter_by_index' : [
 'functions', 'filters a list n using function k applied to the list indexes',
@@ -5113,6 +5117,21 @@ Which of the first 80 fibonacci numbers is prime?
 '''
 ''',
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
+
+    'filter_integers' : [
+'functions', 'filters a list of integers, 1 through n inclusive',
+'''
+The function is a special case of 'filter', and is implemented as shortcut
+since it is a common scenario.
+
+The user-created function can accept two variables:  x, which is the value
+being iterated from one to n, and y, which is the value n itself
+''',
+'''
+Which of the first 80 fibonacci numbers is prime?
+
+''' + makeCommandExample( '-a20 80 lambda x fib is_prime filter_integers' ),
+[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
     'filter_lists' : [
 'functions', '',
@@ -5824,6 +5843,17 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 '''
 ''',
 [ ] ],
+
+    'filter_on_flags' : [
+'functions', 'filters the list k based on the nonzero values of the list n',
+'''
+The function is a kludge to work around the lack of nested lambdas in
+rpnChilada 8.x.  This work around covers a lot of situations where nested
+lambdas would otherwise be used.
+''',
+'''
+''' + makeCommandExample( '[ 0 1 0 1 0 1 ] 1 6 range filter_on_flags' ),
+[ 'filter_lists', 'filter', 'filter_integers' ] ],
 
     'find_palindrome' : [
 'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',
@@ -7662,16 +7692,23 @@ first n numbers each taken to the power of itself.
 ''',
 [ ] ],
 
-    'is_harmonic' : [
-'number_theory', 'returns whether or not n is a harmonic number',
+    'is_harmonic_divisor_number' : [
+'number_theory', 'returns whether or not n is a harmonic divisor number',
+'''
+''',
+'''
+''',
+[ ] ],
+    'is_k_hyperperfect' : [
+'number_theory', 'returns whether an integer n is k hyperperfect',
 '''
 ''',
 '''
 ''',
 [ ] ],
 
-    'is_k_hyperperfect' : [
-'number_theory', 'returns whether an integer n is k hyperperfect',
+    'is_k_perfect' : [
+'number_theory', 'returns whether an integer n is k perfect',
 '''
 ''',
 '''
@@ -8160,18 +8197,34 @@ as new Mersenne Primes are being actively searched for.
 ''',
 [ ] ],
 
+    'phitorial' : [
+'number_theory', 'calculates the nth photorial',
+'''
+This function calculates the product of all numbers between 1 and n, inclusive,
+which are relatively prime to n.
+''',
+'''
+''' + makeCommandExample( '1 10 range phitorial' ),
+[ ] ],
+
     'primorial' : [
 'number_theory', 'calculates the nth primorial',
 '''
 This function calculates the product of the first n prime numbers.
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range primorial' ),
 [ ] ],
+
+    'relatively_prime' : [
+'number_theory', 'calculates whether n and k are relatively prime',
+'''
+Numbers are relatively prime if their great common denominator is 1.
+''',
+'''
+''' + makeCommandExample( '5 8 relatively_prime' ) + '''
+''' + makeCommandExample( '1 19 lambda 20 x relatively_prime filter' ),
+[ 'reduce', 'lcm', 'gcd', 'gcd2' ] ],
 
     'repunit' : [
 'number_theory', 'returns the nth repunit in base k',

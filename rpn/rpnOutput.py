@@ -624,6 +624,9 @@ def printGeneralHelp( ):
     print( 'The following is a list of operator categories:' )
     print( )
 
+    operatorCategories = g.operatorCategories
+    operatorCategories.remove( '_null_type' )
+
     printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
 
 

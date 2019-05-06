@@ -19,9 +19,9 @@ import itertools
 import struct
 
 from enum import Enum
-from mpmath import apery, bell, bernoulli, catalan, cplot, euler, fadd, glaisher, \
-                   khinchin, lambertw, limit, mertens, nint, nprod, nsum, phi, \
-                   pi, plot, splot
+from mpmath import apery, catalan, cplot, euler, fadd, glaisher, khinchin, \
+                   lambertw, limit, mertens, nprod, nsum, phi, pi, plot, \
+                   splot
 
 from random import randrange
 
@@ -711,7 +711,7 @@ def repeatGenerator( n, func ):
 
 # //******************************************************************************
 # //
-# //  repeatGenerator
+# //  repeat
 # //
 # //******************************************************************************
 
@@ -764,6 +764,37 @@ def filterListByIndex( n, k, invert = False ):
 
         if ( value != 0 ) != invert:
             yield item
+
+
+# //******************************************************************************
+# //
+# //  filterIntegersGenerator
+# //
+# //******************************************************************************
+
+def filterIntegersGenerator( n, k ):
+    if real_int( n ) < 1:
+        raise ValueError( '\'filter_integers\' requires a positive integer argument' )
+
+    if not isinstance( k, RPNFunction ):
+        raise ValueError( '\'filter_integers\' expects a function argument' )
+
+    for i in arange( 1, fadd( n, 1 ) ):
+        value = k.evaluate( i, n )
+
+        if ( value != 0 ):
+            yield i
+
+
+# //******************************************************************************
+# //
+# //  filterIntegers
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def filterIntegers( n, func ):
+    return RPNGenerator( filterIntegersGenerator( n, func ) )
 
 
 # //******************************************************************************
@@ -1730,6 +1761,7 @@ functionOperators = [
     'eval_list3',
     'filter',
     'filter_by_index',
+    'filter_integers',
     'for_each',
     'for_each_list',
     'function',
@@ -1967,6 +1999,9 @@ listOperators = {
 
     'enumerate'             : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Integer ], [ ] ),
+
+    'filter_on_flags'       : RPNOperator( lambda n, k: RPNGenerator( filterOnFlags( n, k ) ),
+                                           2, [ RPNArgumentType.List, RPNArgumentType.List ], [ ] ),
 
     'find'                  : RPNOperator( findInList,
                                            2, [ RPNArgumentType.List, RPNArgumentType.Default ], [ ] ),
@@ -3190,6 +3225,9 @@ operators = {
                                                     4, [ RPNArgumentType.Default, RPNArgumentType.Default,
                                                          RPNArgumentType.Default, RPNArgumentType.Function ], [ ] ),
 
+    'filter_integers'                : RPNOperator( filterIntegers,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.Function ], [ ] ),
+
     'function'                       : RPNOperator( createUserFunction,
                                                     2, [ RPNArgumentType.String, RPNArgumentType.Function ], [ ] ),
 
@@ -3710,11 +3748,13 @@ operators = {
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     # is_friendly
-
-    'is_harmonic'                    : RPNOperator( isHarmonic,
+    'is_harmonic_divisor_number'     : RPNOperator( isHarmonicDivisorNumber,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'is_k_perfect'              : RPNOperator( isKPerfect,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'is_k_semiprime'                 : RPNOperator( isKSemiPrimeOperator,
@@ -3828,11 +3868,20 @@ operators = {
     'pentanacci'                     : RPNOperator( getNthPentanacci,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'phitorial'                      : RPNOperator( getNthPhitorial,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
     'polygamma'                      : RPNOperator( getPolygamma,
                                                     2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Default ], [ ] ),
 
+    'primorial'                      : RPNOperator( getNthPrimorial,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
     'radical'                        : RPNOperator( getRadical,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
+
+    'relatively_prime'               : RPNOperator( areRelativelyPrime,
+                                                    2, [ RPNArgumentType.Integer, RPNArgumentType.Integer ], [ ] ),
 
     'repunit'                        : RPNOperator( getNthBaseKRepunit,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
@@ -4089,9 +4138,6 @@ operators = {
 
     'prime_range'                    : RPNOperator( getPrimeRange,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
-
-    'primorial'                      : RPNOperator( getNthPrimorial,
-                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'quadruplet_prime'               : RPNOperator( getNthQuadrupletPrime,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),

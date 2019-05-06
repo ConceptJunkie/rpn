@@ -328,19 +328,13 @@ def runArithmeticOperatorTests( ):
     # antiharmonic_mean
     testOperator( '1 5 range antiharmonic_mean' )
 
-    # see A179871... until we can do nested lamdbas, we can't generate this sequence
     # nested lambdas would look something like this:
     # rpn 1 10 range lambda 1 x range lambda x' x gcd2 1 equals filter anitharmonic_mean is_integer eval eval
-    expectEqual( '1 21 range lambda x 21 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
-    expectEqual( '1 22 range lambda x 22 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
-    expectEqual( '1 23 range lambda x 23 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
-    expectEqual( '1 24 range lambda x 24 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
-    expectEqual( '1 165 range lambda x 165 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
-    expectEqual( '1 166 range lambda x 166 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
-    expectEqual( '1 167 range lambda x 167 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
-    expectEqual( '1 168 range lambda x 168 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
-    expectEqual( '1 10966 range lambda x 10966 gcd2 1 equals filter antiharmonic_mean is_integer', '1' )
-    expectEqual( '1 10967 range lambda x 10967 gcd2 1 equals filter antiharmonic_mean is_integer', '0' )
+    expectEqual( '1 200 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 200 range filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
+
+    if slow:
+        expectEqual( '1 1000 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 1000 range filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
+        #expectEqual( '1 10969 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 10969 range filter_on_flags', '179871 oeis 2500 left' )   # takes over an hour, not sure why it's so slow
 
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
@@ -629,9 +623,8 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '1 1000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 1001 is_less filter' )
 
-    # FIXME:
-    #if slow:
-    #    expectEqual( '-a32 1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 is_less filter' )
+    if slow:
+        expectEqual( '-a32 1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10000 is_not_greater filter' )
 
     expectException( '20 i 3 modulo' )
 
@@ -671,6 +664,9 @@ def runArithmeticOperatorTests( ):
 
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
+
+    # relatively_prime
+    expectEqual( '1 2631 range lambda x x sigma relatively_prime filter', '14567 oeis 1000 left' )
 
     # root_mean_square
     testOperator( '1 10 range root_mean_square' )
@@ -1442,9 +1438,6 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a20 20 arrangements', '-a20 20 0 20 range permutations sum' )
 
     # bell_polynomal
-    testOperator( '4 5 bell_polynomial' )
-    testOperator( '5 5 10 range bell_polynomial' )
-
     from rpn.rpnSpecial import downloadOEISSequence
 
     bell_terms = downloadOEISSequence( 106800 )
@@ -1524,8 +1517,6 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '1 5 range 2 get_combinations' )
 
     # get_partitions
-    testOperator( '5 get_partitions' )
-
     expectEqual( '1 10 range lambda x get_partitions count eval', '1 10 range partitions' )
     expectEqual( '5 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 5 element' )
     expectEqual( '10 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 10 element' )
@@ -1562,8 +1553,6 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a160 0 100 range nth_menage', '-a160 179 oeis 101 left' )
 
     # multifactorial
-    testOperator( '1 20 range 5 multifactorial' )
-
     expectEqual( '-a1000 0 805 range 2 multifactorial', '6882 oeis 806 left' )
     expectEqual( '-a125 0 200 range 3 multifactorial', '7661 oeis 201 left' )
     expectEqual( '-a285 0 500 range 4 multifactorial', '7662 oeis 501 left' )
@@ -1582,8 +1571,6 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a15 1 27 range lambda x 1 x range narayana eval flatten 364 left', '1263 oeis 364 left' )
 
     # nth_apery
-    testOperator( '-a20 12 nth_apery' )
-
     expectEqual( '0 99 range nth_apery', '5259 oeis 100 left' )
 
     if slow:
@@ -1595,64 +1582,46 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a845 0 500 range nth_bell', '-a20 110 oeis 501 left' )
 
     # nth_bernoulli
-    testOperator( '16 nth_bernoulli' )
-
     expectEqual( '-a222 0 200 range nth_bernoulli', '-a20 27641 oeis 201 left 27642 oeis 201 left /' )
     expectEqual( '1 551 range lambda 2 1 2 x ** - * x bernoulli * eval', '36968 oeis 551 left' )
 
     # nth_catalan
-    testOperator( '-a50 85 nth_catalan' )
-
     expectEqual( '-a117 1 200 2 range2 nth_catalan', '24492 oeis 100 left' )
 
     # nth_delannoy
-    testOperator( '-a80 100 nth_delannoy' )
-
     expectEqual( '0 99 range nth_delannoy', '1850 oeis 100 left' )
 
     if slow:
         expectEqual( '0 1308 range nth_delannoy', '1850 oeis 1309 left' )
 
     # nth_motzkin
-    testOperator( '-a25 56 nth_motzkin' )
-
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
 
     if slow:
         expectEqual( '0 2015 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
-    testOperator( '13 nth_pell' )
-
     expectEqual( '-a383 1 100 range nth_pell', '129 oeis 100 left' )
 
     if slow:
         expectEqual( '-a383 1 1001 range nth_pell', '129 oeis 1001 left' )
 
     # nth_schroeder
-    testOperator( '-a50 67 nth_schroeder' )
-
     expectEqual( '1 100 range nth_schroeder', '6318 oeis 100 left' )
 
     if slow:
         expectEqual( '-a1600 1 2000 range nth_schroeder', '6318 oeis 2000 left' )
 
     # nth_schroeder_hipparchus
-    testOperator( '1 10 range nth_schroeder_hipparchus' )
-
     expectEqual( '0 99 range nth_schroeder_hipparchus', '1003 oeis 100 left' )
 
     if slow:
         expectEqual( '-a1000 0 1311 range nth_schroeder_hipparchus', '1003 oeis 1312 left' )
 
     # nth_sylvester
-    testOperator( '45 nth_sylvester' )
-
     expectEqual( '1 13 range nth_sylvester', '58 oeis 13 left' )
 
     # partitions
-    testOperator( '1 10 range partitions' )
-
     expectEqual( '0 15 range partitions', '41 oeis 16 left' )  # This function is extremely slow without caching.
 
     # permutations
@@ -2313,12 +2282,17 @@ def runFunctionOperatorTests( ):
     testOperator( '15 4 26 lambda x 2 ** y 3 ** + z 4 ** + eval3' )
 
     # filter
-    testOperator( '-a20 1 80 range fib lambda x is_prime filter' )
+    testOperator( '-a20 1 80 range lambda x fib is_prime filter' )
 
     expectEqual( '1 10000 range lambda x is_prime filter', '1 1229 primes' )
 
     # filter_by_index
     expectEqual( '0 10000 range lambda x is_prime filter_by_index', '1 1229 primes' )
+
+    # filter_integers
+    testOperator( '-a20 80 fib lambda x is_prime filter' )
+
+    expectEqual( '10000 lambda x is_prime filter_integers', '1 1229 primes' )
 
     # filter_list
 
@@ -3207,8 +3181,6 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-3690 divisors' )
 
     # double_factorial
-    testOperator( '9 double_factorial' )
-
     expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
     expectEqual( '-a1000 1 400 range lambda x double_factorial 32 + is_prime filter', '76190 oeis 15 left' )
 
@@ -3226,8 +3198,6 @@ def runNumberTheoryOperatorTests( ):
     expectException( '1 2 3 euler_brick' )
 
     # euler_phi
-    testOperator( '1 20 range euler_phi' )
-
     expectEqual( '1 100 range euler_phi', '10 oeis 100 left' )
     expectEqual( '1 1000 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis lambda x 1000 not_greater filter' )
 
@@ -3257,7 +3227,6 @@ def runNumberTheoryOperatorTests( ):
     expectException( '-1 factorial' )
 
     # fibonacci
-    testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a8300 39399 fibonacci' )
 
     expectEqual( '0 99 range fibonacci', '45 oeis 100 left' )
@@ -3269,9 +3238,6 @@ def runNumberTheoryOperatorTests( ):
     #expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
     # fibonorial
-    testOperator( '5 fibonorial' )
-    testOperator( '-a50 24 fibonorial' )
-
     expectEqual( '1 100 range fibonorial', '3266 oeis 100 left' )
 
     # fraction
@@ -3282,8 +3248,6 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-p250 5 sqrt 2 200 range fraction flatten lambda x is_odd filter_by_index', '1076 oeis 201 left 199 right' )
 
     # frobenius
-    testOperator( '10 20 3 range2 prime frobenius' )
-
     expectEqual( '2 101 range lambda x 1 5 sized_range frobenius eval', '138985 oeis 100 left' )
 
     if slow:
@@ -3310,13 +3274,9 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '2 1000 range lambda [ x x 1 + x 2 + ] triangular frobenius eval', '69755 oeis 999 left' )
 
     # gamma
-    testOperator( '3 gamma' )
-
     expectEqual( '-a200 1 100 range gamma', '142 oeis 100 left' )
 
     # generate_polydivisibles
-    testOperator( '3 generate_polydivisibles -r3' )
-
     expectEqual( '2 9 range lambda x generate_polydivisibles count eval', '271374 oeis 8 left' )
 
     if slow:
@@ -3329,13 +3289,9 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 11 geometric_recurrence', '284 oeis 11 left' )
 
     # harmonic
-    testOperator( '34 harmonic' )
-
     expectEqual( '1 1000 range lambda x harmonic x harmonic exp x harmonic log * + floor x sigma - eval', '57641 oeis 1000 left' )
 
     # harmonic fraction
-    testOperator( '12 harmonic_fraction' )
-
     expectEqual( '-a100 1 100 range harmonic_fraction lambda x 0 element for_each_list', '1008 oeis 100 left' )
     expectEqual( '-a100 1 100 range harmonic_fraction lambda x 1 element for_each_list', '2805 oeis 100 left' )
 
@@ -3344,13 +3300,9 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-a1002 1 2308 range harmonic_fraction lambda x 1 element for_each_list', '2805 oeis 2308 left' )
 
     # harmonic_residue
-    testOperator( '148 harmonic_residue' )
-
     expectEqual( '1 10000 range harmonic_residue', '106315 oeis 10000 left' )
 
     # heptanacci
-    testOperator( '-a200 -c 623 heptanacci' )
-
     expectEqual( '0 49 range heptanacci', '122189 oeis 50 left' )
 
     if slow:
@@ -3358,8 +3310,6 @@ def runNumberTheoryOperatorTests( ):
         #expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
-    testOperator( '-a300 -c 949 hexanacci' )
-
     expectEqual( '0 49 range hexanacci', '1592 oeis 50 left' )
 
     if slow:
@@ -3372,18 +3322,12 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 1 100 range range square 1/x sum', '2 zeta 2 2 101 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
 
     # hyperfactorial
-    testOperator( '-a160 -c 17 hyperfactorial' )
-
     expectEqual( '-a1000 -p1100 0 36 range hyperfactorial', '2109 oeis 37 left' )
 
     # is_abundant
-    testOperator( '1 20 range is_abundant' )
-
     expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
 
     # is_achilles
-    testOperator( '1 20 range is_achilles' )
-
     expectEqual( '1 500 range lambda x is_achilles filter', '52486 oeis lambda x 500 is_not_greater filter' )
 
     # is_antiharmonic
@@ -3403,22 +3347,33 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
 
     # is_deficient
-    testOperator( '1 20 range is_deficient' )
-
     expectEqual( '1 86 range lambda x is_deficient filter', '5100 oeis 66 left' )
 
     # is_friendly
     testOperator( '[ 220 264 ] is_friendly' )
 
-    # is_harmonic
-    expectEqual( '1 1000 range lambda x is_harmonic filter', '1599 oeis lambda x 1000 is_not_greater filter' )
+    # is_harmonic_divisor_number
+    expectEqual( '1 1000 range lambda x is_harmonic_divisor_number filter', '1599 oeis lambda x 1000 is_not_greater filter' )
 
     # is_k_hyperperfect
     expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )
 
-    # is_k_semiprime
-    testOperator( '1 20 range 3 is_k_semiprime' )
+    # is_k_perfect
+    expectEqual( '154345556085770649600 6 is_k_perfect', '1' )
+    expectEqual( '8268099687077761372899241948635962893501943883292455548843932421413884476391773708366277840568053624227289196057256213348352000000000 8 is_k_perfect', '1' )
 
+    expectEqual( '1 700 range lambda x 3 is_k_perfect filter', '5820 oeis lambda x 1000 is_not_greater filter' )
+    expectEqual( '5820 oeis 3 is_k_perfect and_all', '1' )
+    expectEqual( '27687 oeis 50 left 4 is_k_perfect and_all', '1' )
+    expectEqual( '46060 oeis 30 left 5 is_k_perfect and_all', '1' )
+    expectEqual( '46061 oeis 20 left 6 is_k_perfect and_all', '1' )
+
+    if slow:
+        expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
+        expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
+        expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
+
+    # is_k_semiprime
     expectEqual( '-a30 1 50 range lambda x tribonacci is_semiprime filter', '101757 oeis lambda x 50 is_not_greater filter' )
 
     # is_k_sphenic
@@ -3429,12 +3384,15 @@ def runNumberTheoryOperatorTests( ):
     # is_perfect
     testOperator( '1 30 range is_perfect' )
 
+    expectResult( '396 oeis 7 left is_perfect and_all', 1 )
+
+    if slow:
+        expectResult( '-a400 396 oeis 15 left is_perfect and_all', 1 )
+
     # is_polydivisible
     expectResult( '3608528850368400786036725 is_polydivisible', 1 )
 
     # is_powerful
-    testOperator( '1 20 range is_powerful' )
-
     expectEqual( '1 1000 range lambda x is_powerful filter', '1694 oeis 54 left' )
 
     if slow:
@@ -3452,13 +3410,9 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 56304 range lambda x 4 * 1 + is_prime filter', '5098 oeis 10000 left' )
 
     # is_pronic
-    testOperator( '1 20 range is_pronic' )
-
     expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
 
     # is_rough
-    testOperator( '1 20 range 2 is_rough' )
-
     expectEqual( '1 500 range lambda x 11 is_rough filter', '8364 oeis lambda x 500 is_not_greater filter' )
     expectEqual( '1 500 range lambda x 19 is_rough filter', '166061 oeis lambda x 500 is_not_greater filter' )
     expectEqual( '1 500 range lambda x 23 is_rough filter', '166063 oeis lambda x 500 is_not_greater filter' )
@@ -3474,15 +3428,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 1000 range lambda x is_ruth_aaron filter', '39752 oeis lambda x 1000 is_not_greater filter' )
 
     # is_semiprime
-    testOperator( '12 is_semiprime' )
-
     expectEqual( '1 205 range lambda x is_semiprime x is_squarefree and filter', '6881 oeis 60 left' )
     expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
 
     # is_smooth
-    testOperator( '128 3 is_smooth' )
-    testOperator( '1 20 range 5 is_smooth' )
-
     expectEqual( '1 500 range lambda x 3 is_smooth filter', '3586 oeis lambda x 500 is_not_greater filter' )
     expectEqual( '1 500 range lambda x 7 is_smooth filter', '2473 oeis lambda x 500 is_not_greater filter' )
     expectEqual( '1 500 range lambda x 17 is_smooth filter', '80681 oeis lambda x 500 is_not_greater filter' )
@@ -3490,7 +3439,7 @@ def runNumberTheoryOperatorTests( ):
     expectException( '1 20 range 12 is_smooth' )
 
     # is_sphenic
-    testOperator( '[ 2 3 5 ] prod is_sphenic' )
+    expectResult( '[ 2 3 5 ] prod is_sphenic', 1 )
 
     expectEqual( '1 500 range lambda x is_sphenic filter 53 left', '7304 oeis 53 left' )
     expectEqual( '-a30 1 11 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 20 left' )
@@ -3501,7 +3450,6 @@ def runNumberTheoryOperatorTests( ):
     # is_squarefree
     testOperator( '2013 sqr is_squarefree' )
     testOperator( '8 primorial is_squarefree' )
-    testOperator( '1 20 range is_squarefree' )
 
     expectEqual( '1 113 range lambda x is_squarefree filter', '5117 oeis 71 left' )
     expectEqual( '1 100 range is_squarefree', '8966 oeis 100 left' )
@@ -3602,13 +3550,9 @@ def runNumberTheoryOperatorTests( ):
     expectException( '17 29 make_pyth_4' )
 
     # merten
-    testOperator( '1 10 range merten' )
-
     expectEqual( '1 81 range merten', '2321 oeis 81 left' )
 
     # mobius
-    testOperator( '20176 mobius' )
-
     expectEqual( '1 1000 range mobius', '8683 oeis 1000 left' )
 
     if slow:
@@ -3620,16 +3564,12 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
 
     # nth_jacobsthal
-    testOperator( '1 10 range nth_jacobsthal' )
-
     expectEqual( '-a75 0 249 range nth_jacobsthal', '1045 oeis 250 left' )
 
     if slow:
         expectEqual( '-a1002 0 3315 range nth_jacobsthal', '1045 oeis 3316 left' )
 
     # nth_kynea
-    testOperator( '1 10 range nth_kynea' )
-
     expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
 
     # nth_leonardo
@@ -3666,26 +3606,18 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
 
     # nth_perfect_number
-    testOperator( '12 nth_perfect_number' )
-
     expectEqual( '1 14 range nth_perfect_number', '396 oeis 14 left' )
 
     # nth_stern
-    testOperator( '1 100 range nth_stern' )
-
     expectEqual( '0 99 range nth_stern', '2487 oeis 100 left' )
 
     if slow:
         expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
 
     # nth_thue_morse
-    testOperator( '1 10 range nth_thue_morse' )
-
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
     # octanacci
-    testOperator( '1 10 range octanacci' )
-
     expectEqual( '-a30 0 99 range octanacci', '79262 oeis 100 left' )
 
     if slow:
@@ -3699,28 +3631,23 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 142 range pascal_triangle flatten', '7318 oeis 10153 left' )
 
     # pentanacci
-    testOperator( '16 pentanacci' )
-
     expectEqual( '0 99 range pentanacci', '1591 oeis 100 left' )
 
     expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
 
     # polygamma
-    testOperator( '4 5 polygamma' )
-
     expectEqual( '-a105 1 1 5 sqrt + 4 / polygamma 1 3 5 sqrt + 4 / polygamma - 2 / 10 105 ** * get_digits 102 left', '91659 oeis 102 left' )
 
-    # primorial
-    testOperator( '1 10 range primorial' )
+    # phitorial
+    expectEqual( '-a400 1 200 range phitorial', '1783 oeis 200 left' )
 
+    # primorial
     expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
 
     # radical
     testOperator( '1 10 range radical' )
 
     # repunit
-    testOperator( '-a20 23 5 repunit' )
-
     expectEqual( '-a300 1 250 range 15 repunit', '135518 oeis 250 left' )
     expectEqual( '-a300 1 250 range 14 repunit', '135519 oeis 250 left' )
 
@@ -3737,13 +3664,9 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
 
     # riesel
-    testOperator( '23 riesel' )
-
     expectEqual( '-a100 1 300 range riesel', '3261 oeis 300 left' )
 
     # sigma
-    testOperator( '1 20 range sigma' )
-
     expectEqual( '1 500 range sigma', '203 oeis 500 left' )
     expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 500 left 499 right' )
     expectEqual( '1 1000 range lambda x sigma 2 x * - -22 equals filter', '223606 oeis 7 left' )
@@ -3753,8 +3676,6 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 50000 left 49999 right' )
 
     # sigma_k
-    testOperator( '1 20 3 range sigma_k' )
-
     expectEqual( '1 50 range 2 sigma_k', '1157 oeis 50 left' )
     expectEqual( '-p30 1 100 range 3 sigma_k', '1158 oeis 100 left' )
     expectEqual( '-p30 1 100 range 4 sigma_k', '1159 oeis 100 left' )
@@ -3804,13 +3725,9 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-p260 1 10000 range 24 sigma_k', '13972 oeis 10000 left' )
 
     # subfactorial
-    testOperator( '-a20 -c 19 subfactorial' )
-
     expectEqual( '1 199 range subfactorial', '166 oeis 200 left 199 right' )
 
     # sums_of_k_powers
-    testOperator( '1072 3 3 sums_of_k_powers' )
-
     expectEqual( '0 576 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 left' )
     expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
     expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
@@ -3833,32 +3750,23 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '0 499 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 500 left' )     # The full 10000 would take days.
 
     # sums_of_k_nonzero_powers
-    testOperator( '5104 3 3 sums_of_k_nonzero_powers' )
-
     expectEqual( '1 629 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 200 left' )
 
     if slow:
         expectEqual( '1 40045 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 10000 left' )
 
     # superfactorial
-    testOperator( '-a50 -c 12 superfactorial' )
-
     expectEqual( '0 46 range superfactorial', '178 oeis 47 left' )
 
     # tetranacci
-    testOperator( '-a30 -c 87 tetranacci' )
-
     expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     expectEqual( '0 99 range tetranacci', '78 oeis 100 left' )
 
     # thabit
-    testOperator( '-a20 -c 45 thabit' )
-
     expectEqual( '0 998 range thabit', '55010 oeis 1000 left 999 right' )
 
     # tribonacci
-    testOperator( '1 20 range tribonacci' )
     testOperator( '-c -a2800 10239 tribonacci' )
 
     expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
@@ -3875,15 +3783,11 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '7 unit_roots -s1' )
 
     # zeta
-    testOperator( '4 zeta' )
-
     expectEqual( '-a20005 3 zeta 10 20001 ** * floor get_digits', '2117 oeis 20002 left' )
     expectEqual( '-a10000 2 zeta', '-a10000 pi sqr 6 /' )
     expectEqual( '-a150 1 10 range lambda 2 x * zeta pi 2 x * ** / 2 x * fraction eval lambda x 1 element for_each_list', '2432 oeis 10 left' )
 
     # zeta_zero
-    testOperator( '4 zeta_zero' )
-
     expectEqual( '1 100 range zeta_zero im nint', '2410 oeis 100 left' )
 
     if slow:

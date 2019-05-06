@@ -35,7 +35,7 @@ from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
-                         twoArgFunctionEvaluator, real, real_int
+                         setAccuracyForN, twoArgFunctionEvaluator, real, real_int
 
 import rpn.rpnGlobals as g
 
@@ -1145,6 +1145,7 @@ def getRadical( target ):
 
 #@cachedFunction( 'sigma' )    # This resulted in some really weird bugs in the 'aliquot' operator, and having the
                                # factors already cached means it really isn't necessary.
+
 def getSigma( target ):
     '''
     Returns the sum of the divisors of n, including 1 and n.
@@ -1159,6 +1160,8 @@ def getSigma( target ):
         return 1
 
     factorList = getFactorList( n )
+
+    setAccuracyForN( n )
 
     result = 1
 
@@ -1834,7 +1837,21 @@ def isFriendly( n ):
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'k_hyperperfect' )
 def isKHyperperfect( n, k ):
+    setAccuracyForN( n )
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isKPerfect
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@cachedFunction( 'k_perfect' )
+def isKPerfect( n, k ):
+    setAccuracyForN( n )
+    return 1 if fdiv( getSigma( n ), n ) == k else 0
 
 
 # //******************************************************************************
@@ -2288,12 +2305,12 @@ def getHarmonicResidue( n ):
 
 # //******************************************************************************
 # //
-# //  isHarmonic
+# //  isHarmonicDivisorNumber
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def isHarmonic( n ):
+def isHarmonicDivisorNumber( n ):
     if real_int( n ) < 1:
         return 0
 
@@ -2361,6 +2378,40 @@ def getAlternatingHarmonicFraction( n ):
             numerator = fsub( numerator, fdiv( denominator, i ) )
 
     return reduceList( [ numerator, denominator ] )
+
+
+# //******************************************************************************
+# //
+# //  areRelativelyPrime
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def areRelativelyPrime( n, k ):
+    return 1 if getGCD( n, k ) == 1 else 0
+
+
+# //******************************************************************************
+# //
+# //  getNthPhitorial
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getNthPhitorial( n ):
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative, real integer expected' )
+
+    if n < 2:
+        return 1
+
+    result = 1
+
+    for i in arange( n + 1 ):
+        if areRelativelyPrime( i, n ):
+            result = fmul( result, i )
+
+    return result
 
 
 # //******************************************************************************

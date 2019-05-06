@@ -47,9 +47,9 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthRieselNumber, getNthSubfactorial, getNthStern, getNthSuperfactorial, \
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
                                 isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
-                                isKHyperperfect, isPolydivisible, isPowerful, isPronic, isRough, \
-                                isRuthAaronNumber, isSemiPrime, isSmooth, isSphenic, isSquareFree, \
-                                isUnusual
+                                isKHyperperfect, isKPerfect, isPolydivisible, isPowerful, isPronic, \
+                                isRough, isRuthAaronNumber, isSemiPrime, isSmooth, isSphenic, \
+                                isSquareFree, isUnusual
 from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
@@ -169,7 +169,7 @@ def downloadOEISSequence( id ):
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
     else:
-        return [ int( i ) for i in result.split( ',' ) ]
+        return [ mpmathify( i ) for i in result.split( ',' ) ]
 
 
 # //******************************************************************************
@@ -251,7 +251,7 @@ def downloadOEISTable( id ):
         if line[ 0 ] == '#' or len( line ) == 0:
             continue
 
-        result.append( int( line.split( )[ 1 ] ) )
+        result.append( mpmathify( int( line.split( )[ 1 ] ) ) )
 
     return result, True
 
