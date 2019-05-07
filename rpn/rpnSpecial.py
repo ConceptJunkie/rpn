@@ -169,7 +169,8 @@ def downloadOEISSequence( id ):
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
     else:
-        return [ mpmathify( i ) for i in result.split( ',' ) ]
+        #return [ mpmathify( i ) for i in result.split( ',' ) ]
+        return [ int( i ) for i in result.split( ',' ) ]
 
 
 # //******************************************************************************
@@ -251,7 +252,8 @@ def downloadOEISTable( id ):
         if line[ 0 ] == '#' or len( line ) == 0:
             continue
 
-        result.append( mpmathify( int( line.split( )[ 1 ] ) ) )
+        #result.append( mpmathify( int( line.split( )[ 1 ] ) ) )
+        result.append( int( line.split( )[ 1 ] ) )
 
     return result, True
 
