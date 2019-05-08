@@ -28,7 +28,7 @@ import signal
 import time
 
 from contextlib import contextmanager
-from mpmath import inf, mp, nan, nstr
+from mpmath import fneg, im, inf, mp, mpc, mpmathify, nan, nstr, re
 from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
@@ -176,6 +176,10 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
     indentString = ' ' * indent
 
     if len( valueList ) != 1:
+        if g.checkForSingleResults:
+            print( 'valueList', valueList )
+            raise ValueError( 'unexpected multiple results!' )
+
         valueList = [ valueList ]
 
     if isinstance( valueList[ 0 ], RPNFunction ):
@@ -213,6 +217,22 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                 if isinstance( result, RPNMeasurement ):
                     outputString = formatOutput( nstr( result.value, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
                     outputString += ' ' + formatUnits( result )
+                # handle a complex output (mpmath type: mpc)
+                elif isinstance( result, mpc ):
+                    #print( 'result', result, type( result ) )
+                    #print( 'im', im( result ), type( im( result ) ) )
+                    #print( 're', re( result ), type( re( result ) ) )
+                    imaginary = im( result )
+
+                    if im( result ) > 0:
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                       ' + ' + formatOutput( nstr( mpmathify( im( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                    elif im( result ) < 0:
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                    else:
+                        outputString = formatOutput( nstr( re( result ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
+                # otherwise, it's a plain old mpf
                 else:
                     outputString = formatOutput( nstr( result, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
 
