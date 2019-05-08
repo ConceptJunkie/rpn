@@ -605,8 +605,6 @@ def getBahaiCalendarDateName( n ):
     result = bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', '
 
-    print( date )
-
     if date[ 0 ] >= 1:
         result += 'Year ' + bahaiYears[ date[ 0 ] % 19 - 1 ] + ' of the ' + \
                   getOrdinalName( ( date[ 0 ] // 19 ) + 1 ) + ' Vahid of the ' + \

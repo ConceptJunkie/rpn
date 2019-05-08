@@ -48,7 +48,7 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
                                 isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
                                 isKHyperperfect, isKPerfect, isPolydivisible, isPowerful, isPronic, \
-                                isRough, isRuthAaronNumber, isSemiPrime, isSmooth, isSphenic, \
+                                isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
 from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
@@ -685,7 +685,7 @@ def describeInteger( n ):
             previousPrime = i
 
         # is_semiprime
-        if isSemiPrime( n ):
+        if isSemiprime( n ):
             print( indent + 'semiprime' )
 
         # is_sphenic

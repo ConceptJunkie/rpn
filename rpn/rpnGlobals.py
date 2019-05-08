@@ -51,6 +51,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 # state variables
 astroDataLoaded = False
 astroDataAvailable = False
+checkForSingleResults = False
 creatingFunction = False
 duplicateOperations = 0
 echoArguments = [ ]

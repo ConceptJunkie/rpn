@@ -578,7 +578,7 @@ def isPerfectDigitalInvariant( n ):
             if sum > n:
                 return 0
             elif sum == n:
-                return exponent
+                return 1
 
         if sum == oldsum:
             return 0

@@ -35,6 +35,8 @@ from mpmath import *
 
 import rpn.rpnGlobals as g
 
+g.testForSingleResults = True
+
 PROGRAM_NAME = 'testRPN'
 PROGRAM_DESCRIPTION = 'rpnChilada test suite'
 
@@ -330,11 +332,11 @@ def runArithmeticOperatorTests( ):
 
     # nested lambdas would look something like this:
     # rpn 1 10 range lambda 1 x range lambda x' x gcd2 1 equals filter anitharmonic_mean is_integer eval eval
-    expectEqual( '1 200 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 200 range filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
+    expectEqual( '1 200 range 1 200 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
 
     if slow:
-        expectEqual( '1 1000 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 1000 range filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
-        #expectEqual( '1 10969 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer 1 10969 range filter_on_flags', '179871 oeis 2500 left' )   # takes over an hour, not sure why it's so slow
+        expectEqual( '1 1000 range 1 1000 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags', '179871 oeis lambda x 200 not_greater filter' )
+        #expectEqual( '1 10969 range 1 10969 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags', '179871 oeis 2500 left' )   # takes over an hour, not sure why it's so slow
 
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
@@ -2700,7 +2702,7 @@ def runLexicographyOperatorTests( ):
     testOperator( '1253 4 is_pddi' )
 
     # is_pdi
-    testOperator( '1253 4 is_pdi' )
+    testOperator( '1253 is_pdi' )
 
     # is_sum_product
     testOperator( '3 5 is_sum_product' )
@@ -2748,7 +2750,7 @@ def runLexicographyOperatorTests( ):
     expectResult( '2677889 persistence', 8 )
 
     # replace_digits
-    testOperator( '1 2 134958' )
+    #testOperator( '1 2 134958 replace_digits' )  # not implemented yet
 
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
@@ -2766,7 +2768,7 @@ def runLexicographyOperatorTests( ):
     testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
 
     # show_k_persistence
-    testOperator( '-a60 3 2222222223333333778 3 show_k_persistence' )
+    testOperator( '-a60 2222222223333333778 3 show_k_persistence' )
     testOperator( '-a30 1 10 range 5 show_k_persistence -s1' )
 
     # show_persistence
@@ -3300,7 +3302,10 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-a1002 1 2308 range harmonic_fraction lambda x 1 element for_each_list', '2805 oeis 2308 left' )
 
     # harmonic_residue
-    expectEqual( '1 10000 range harmonic_residue', '106315 oeis 10000 left' )
+    expectEqual( '1 1000 range harmonic_residue', '106315 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 10000 range harmonic_residue', '106315 oeis 10000 left' )
 
     # heptanacci
     expectEqual( '0 49 range heptanacci', '122189 oeis 50 left' )
@@ -3374,16 +3379,22 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
 
     # is_k_semiprime
-    expectEqual( '-a30 1 50 range lambda x tribonacci is_semiprime filter', '101757 oeis lambda x 50 is_not_greater filter' )
+    expectEqual( '1 500 range lambda x 2 is_k_semiprime filter', '1 500 range lambda x is_semiprime filter' )
+    expectEqual( '1 1000 range lambda x 3 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x is_sphenic filter' )
+    expectEqual( '1 1000 range lambda x 4 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x 4 is_k_sphenic filter' )
+    expectEqual( '1 1000 range lambda x 5 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x 5 is_k_sphenic filter' )
+
+    expectEqual( '-a30 1 50 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis lambda x 50 is_not_greater filter' )
+
+    expectResult( '210 4 is_k_semiprime', 1 )
 
     # is_k_sphenic
-    testOperator( '30 3 is_k_sphenic' )
-
-    expectResult( '210 4 is_k_sphenic', 1 )
+    expectEqual( '1 500 range lambda x 2 is_k_sphenic filter', '1 500 range lambda x is_semiprime x is_squarefree and filter' )
+    expectEqual( '1 500 range lambda x 3 is_k_sphenic filter', '1 500 range lambda x 3 is_k_semiprime x is_squarefree and filter' )
+    expectEqual( '1 205 range lambda x 2 is_k_sphenic filter', '6881 oeis 60 left' )
+    expectEqual( '1 141 range lambda x 2 is_k_sphenic filter square', '85986 oeis 41 left' )
 
     # is_perfect
-    testOperator( '1 30 range is_perfect' )
-
     expectResult( '396 oeis 7 left is_perfect and_all', 1 )
 
     if slow:
@@ -3428,8 +3439,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 1000 range lambda x is_ruth_aaron filter', '39752 oeis lambda x 1000 is_not_greater filter' )
 
     # is_semiprime
-    expectEqual( '1 205 range lambda x is_semiprime x is_squarefree and filter', '6881 oeis 60 left' )
-    expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
+    expectEqual( '1 40882 range lambda x is_semiprime filter', '1358 oeis 10000 left' )
 
     # is_smooth
     expectEqual( '1 500 range lambda x 3 is_smooth filter', '3586 oeis lambda x 500 is_not_greater filter' )
@@ -3499,6 +3509,8 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '0 100 range 10 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
     expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
     expectResult( '200 20 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 200, 20 ) )
+
+    expectEqual( '0 100 range 5 k_fibonacci', '0 100 range pentanacci' )
 
     # leyland
     testOperator( '7 8 leyland' )
@@ -3817,7 +3829,7 @@ def runPhysicsOperatorTests( ):
     testOperator( '100 kelvin black_hole_entropy' )
     testOperator( '1 watt black_hole_entropy' )
     testOperator( '1 trillion years black_hole_entropy' )
-    testOperator( '1 angstrom years black_hole_entropy' )
+    testOperator( '1 angstrom black_hole_entropy' )
     testOperator( '100000000 1/second^2 black_hole_entropy' )
 
     # black_hole_lifetime

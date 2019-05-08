@@ -3708,9 +3708,6 @@ operators = {
     'get_base_k_digits'              : RPNOperator( getBaseKDigits,
                                                     2, [ RPNArgumentType.Integer, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'harmonic'                       : RPNOperator( getHarmonic,
-                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
-
     'harmonic_fraction'              : RPNOperator( getHarmonicFraction,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
@@ -3747,21 +3744,20 @@ operators = {
     'is_deficient'                   : RPNOperator( isDeficient,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    # is_friendly
     'is_harmonic_divisor_number'     : RPNOperator( isHarmonicDivisorNumber,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'is_k_perfect'              : RPNOperator( isKPerfect,
+    'is_k_perfect'                   : RPNOperator( isKPerfect,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'is_k_semiprime'                 : RPNOperator( isKSemiPrimeOperator,
+    'is_k_semiprime'                 : RPNOperator( isKSemiprimeOperator,
                                                     2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_k_sphenic'                   : RPNOperator( isKSphenicOperator,
-                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+    'is_k_sphenic'                   : RPNOperator( isKSphenic,
+                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_perfect'                     : RPNOperator( isPerfect,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
@@ -3784,7 +3780,7 @@ operators = {
     'is_ruth_aaron'                  : RPNOperator( isRuthAaronNumber,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_semiprime'                   : RPNOperator( isSemiPrime,
+    'is_semiprime'                   : RPNOperator( isSemiprime,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_smooth'                      : RPNOperator( isSmoothOperator,
@@ -3831,6 +3827,9 @@ operators = {
 
     'nth_carol'                      : RPNOperator( getNthCarolNumber,
                                                     1, [ RPNArgumentType.Real ], [ ] ),
+
+    'nth_harmonic_number'            : RPNOperator( getNthHarmonicNumber,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_jacobsthal'                 : RPNOperator( getNthJacobsthalNumber,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),

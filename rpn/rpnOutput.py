@@ -137,8 +137,12 @@ def formatOutput( output ):
         if c in '+-.':
             continue
 
+        # anything with embedded whitespace is a string
         if c in string.whitespace or c in string.punctuation:
             return output
+
+    #print( )
+    #print( 'formatOutput 1:', output )
 
     # override settings with temporary settings if needed
     # if g.tempCommaMode:
@@ -177,6 +181,9 @@ def formatOutput( output ):
     if imaginary != 0:
         strImaginary, negativeImaginary = formatNumber( imaginary, outputRadix, leadingZero )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
+
+    #print( 'formatOutput 2:', output )
+    #print( )
 
     return result
 

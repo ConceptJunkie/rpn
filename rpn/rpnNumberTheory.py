@@ -244,7 +244,7 @@ def getNthKFibonacciNumber( n, k ):
         raise ValueError( 'non-negative argument expected' )
 
     if real( k ) < 2:
-        raise ValueError( 'argument <= 2 expected' )
+        raise ValueError( 'argument >= 2 expected' )
 
     if n < k - 1:
         return 0
@@ -1513,21 +1513,21 @@ def isRoughOperator( n, k ):
 
 # //******************************************************************************
 # //
-# //  isKSemiPrime
+# //  isKSemiprime
 # //
 # //******************************************************************************
 
 @cachedFunction( 'k_semiprime' )
-def isKSemiPrime( n, k ):
+def isKSemiprime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
 @twoArgFunctionEvaluator( )
-def isKSemiPrimeOperator( n, k ):
-    return isKSemiPrime( n, k )
+def isKSemiprimeOperator( n, k ):
+    return isKSemiprime( n, k )
 
 @oneArgFunctionEvaluator( )
-def isSemiPrime( n ):
-    return isKSemiPrime( n, 2 )
+def isSemiprime( n ):
+    return isKSemiprime( n, 2 )
 
 
 # //******************************************************************************
@@ -2046,7 +2046,7 @@ def getGamma( n ):
     return gamma( n )
 
 @oneArgFunctionEvaluator( )
-def getHarmonic( n ):
+def getNthHarmonicNumber( n ):
     return harmonic( n )
 
 @oneArgFunctionEvaluator( )

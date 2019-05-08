@@ -1220,8 +1220,9 @@ def isPalindromeList( n ):
 
 def filterOnFlagsGenerator( n, k ):
     for n_item, k_item in zip( n, k ):
-        if n_item:
-            yield k_item
+        if k_item:
+            yield n_item
 
 def filterOnFlags( n, k ):
     return RPNGenerator.createGenerator( filterOnFlagsGenerator, [ n, k ] )
+

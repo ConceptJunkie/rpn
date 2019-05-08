@@ -35,6 +35,8 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
 
 import rpn.rpnGlobals as g
 
+g.checkForSingleResults = True
+
 
 # //******************************************************************************
 # //
@@ -45,7 +47,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1194
+maxExampleCount = 1272
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -268,10 +270,10 @@ harmonic numbers:
     'input' :
     '''
 For integers, rpn understands hexidecimal input of the form '0x...'.
-''' + makeCommandExample( 'rpn 0x10', indent=4 ) + '''
+''' + makeCommandExample( '0x10', indent=4 ) + '''
 A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
 interpreted as binary.
-''' + makeCommandExample( 'rpn 101b', indent=4 ) + '''
+''' + makeCommandExample( '101b', indent=4 ) + '''
 ''' + makeCommandExample( '011b', indent=4 ) + '''
 Otherwise, a leading '0' is interpreted as octal.
 ''' + makeCommandExample( '030', indent=4 ) + '''
@@ -377,7 +379,7 @@ For now, here are some examples:
 ''' + makeCommandExample( '10 miles km convert', indent=4 ) + '''
 ''' + makeCommandExample( '2 gallons cups convert', indent=4 ) + '''
 ''' + makeCommandExample( '153 pounds stone convert', indent=4 ) + '''
-''' + makeCommandExample( 'usb1 kilobit/second', indent=4 ) + '''
+''' + makeCommandExample( 'usb1 kilobit/second convert', indent=4 ) + '''
 ''' + makeCommandExample( '60 miles hour / furlongs fortnight / convert', indent=4 ) + '''
 ''' + makeCommandExample( '10 tons estimate', indent=4 ) + '''
 ''' + makeCommandExample( '78 kg [ pound ounce ] convert', indent=4 ) + '''
@@ -410,7 +412,7 @@ km/second*Mpc?
 What is the acceleration due to gravity at the Earth's surface?
 ''' + makeCommandExample( 'G earth_mass * earth_radius 2 ** /', indent=4 ) + '''
 What is the escape velocity from the Earth's surface?
-''' + makeCommandExample( '2 G earth_mass * earth_radius / sqrt', indent=4 ) + '''
+''' + makeCommandExample( '2 G * earth_mass * earth_radius / sqrt', indent=4 ) + '''
 Obviously, this doesn't take air resistance into account.
 
 What is the orbital velocity of a satellite orbiting the Earth at an altitude
@@ -421,16 +423,11 @@ orbit?
 ''' + makeCommandExample( '[ 24 hours sqr G earth_mass ] prod 4 pi sqr * / cube_root miles convert earth_radius -', indent=4 ) + '''
 Or better yet, there's now an operator for that:
 ''' + makeCommandExample( '24 hours earth_mass orbital_radius earth_radius - miles convert', 4 ) + '''
-I tried to make the unit conversion flexible and smart.  It is... sometimes.
+I've tried to make the unit conversion flexible and smart.
 ''' + makeCommandExample( '16800 mA hours * 5 volts * joule convert', indent=4 ) + '''
 ''' + makeCommandExample( 'gigaparsec barn * cubic_inches convert', indent=4 ) + '''
-''' + makeCommandExample( 'cubic_inches gigaparsec barn * convert', indent=4 ) + '''
-And sometimes it isn't.
-
-This is a long-standing deficiency in the design.  I've struggled to figure
-out to support more compound unit conversions through dimensional analysis.
-
-Help topics for individual units is coming someday, but not today.
+''' + makeCommandExample( 'cubic_inch gigaparsec barn * convert', indent=4 ) + '''
+''' + makeCommandExample( 'watt ohm / sqrt', indent=4 ) + '''
     ''',
     'interactive_mode' :
     '''
@@ -1058,98 +1055,23 @@ release notes, so there are a ton of new features not mentioned here.
     '''
 For notes about earlier versions, use 'help old_release_notes'.
 
-8.1.0
+7.1.0
 
-Added the 'get_partitions', 'nth_linear_recurrence' and
-'nth_linear_recurrence_with_modulo' operators.
+Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
 
-Added 'from_ethiopian', 'to_ethopian' and 'to_ethiopian_name' functions for
-the Ethiopian calendar.
+Fixed a few mistakes in the help examples.
 
-Added 'black_hole_surface_tides' now that I understand it.  I also added a more
-general 'tidal_force' operator.
+The unit tests no longer use cached values for functions (but it still uses
+the cache for functions that access the Internet:  the OEIS functions and the
+location functions).
 
-Added 'is_harmonic_divisor_number', 'is_antiharmonic', 'harmonic_fraction',
-'alternating_harmonic_fraction', 'harmonic_residue', 'harmonic_mean',
-and 'antiharmonic_mean' operators.
+Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
+'is_order_k_smith_number' operators.
 
-Added 'hyperoperator' and 'hyperoperator_right' operators.
+Replaced the -R option with 'get_base_k_digits'.   It should have been an
+operator all along.
 
-Added 'root_mean_square', 'stirling1', 'stirling2', 'ackermann',
-'square_super_root', 'cube_super_root' and 'super_root' operators.
-
-Added 'filter_integers', 'filter_on_flags', 'is_k_perfect', 'phitorial', and
-'relatively_prime' operators.
-
-Added 'get_partitions'.
-
-Added more unit tests and the usual bug fixes.
-
-8.0.0
-
-The unit conversion code has been heavily refactored and works much better now.
-
-Added the 'base_units' and 'dimensions' operators, mostly for testing purposes.
-
-Added '_dump_conversions' and '_dump_cache', also for testing purposes.
-
-rpnChilada is now smart enough to recognize when an OEIS request has failed,
-and to ignore the cached result stored as a result.  If it detects that the
-cached value is empty, it will perform the request again and recache the
-result.
-
-Help now supports units and constant operators after way too long.  Filling in
-the help info for the units and constant operators, along with all the existing
-help info that's missing, will take a while, and is continuing.
-
-rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
-
-Added 'wind_chill' and 'heat_index' operators.
-
-The unit tests now confirm that aliases do not collide with other reserved
-words.  The alias creation for generated types has also been cleaned up.
-
-The astronomy functionality has been refactored to support migrating to the
-skyfield library from pyephem.
-
-Removed the 'break_on' operator because it no longer works.  It will be
-re-implemented in the future.
-
-Added 'to_ethiopian', 'to_ethiopian_name' and 'from_ethiopian' operators for
-converting to and from the Ethiopian calendar.
-
-7.2.5
-
-I fat-fingered an addition to the requirements.txt file.  :-/
-
-7.2.4
-
-Just a bunch of fixes.  makeUnits has been improved a bit, and I've validated
-that all conversions exist, and are consistent.
-
-7.2.3
-
-I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
-
-7.2.2
-
-A big change that doesn't affect functionality is that the prime number data
-now resides in a separate package called rpnChiladaData.  This data rarely
-changes so there's no reason to download it.
-
-A major bug was uncovered after almost a year.  rpnChilada thought there were
-51920.97 seconds in a day because of a typo.  This has been fixed, and I
-figured out how to detect other similar problems if they exist.  This change
-will be implemented in the next few days.
-
-7.2.1
-
-Unit conversion is now a lot smarter because the automatically-generated area
-and volume units are generated more intelligently.  This means expressions
-using the "square" and "cubic" units will convert automatically and you won't
-end up with something like "foot^2/square_mile".
-
-...and yes, a few bug fixes.
+The rpnChilada wheel works on Linux now.
 
 7.2.0
 
@@ -1188,23 +1110,99 @@ Block Hole operators:  'black_hole_entropy', 'black_hole_lifetime',
 
 ...and the usual bug fixes.
 
-7.1.0
+7.2.1
 
-Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
+Unit conversion is now a lot smarter because the automatically-generated area
+and volume units are generated more intelligently.  This means expressions
+using the "square" and "cubic" units will convert automatically and you won't
+end up with something like "foot^2/square_mile".
 
-Fixed a few mistakes in the help examples.
+...and yes, a few bug fixes.
 
-The unit tests no longer use cached values for functions (but it still uses
-the cache for functions that access the Internet:  the OEIS functions and the
-location functions).
+7.2.2
 
-Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
-'is_order_k_smith_number' operators.
+A big change that doesn't affect functionality is that the prime number data
+now resides in a separate package called rpnChiladaData.  This data rarely
+changes so there's no reason to download it.
 
-Replaced the -R option with 'get_base_k_digits'.   It should have been an
-operator all along.
+A major bug was uncovered after almost a year.  rpnChilada thought there were
+51920.97 seconds in a day because of a typo.  This has been fixed, and I
+figured out how to detect other similar problems if they exist.  This change
+will be implemented in the next few days.
 
-The rpnChilada wheel works on Linux now.
+7.2.3
+
+I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
+
+7.2.4
+
+Just a bunch of fixes.  makeUnits has been improved a bit, and I've validated
+that all conversions exist, and are consistent.
+
+7.2.5
+
+I fat-fingered an addition to the requirements.txt file.  :-/
+
+8.0.0
+
+The unit conversion code has been heavily refactored and works much better now.
+
+Added the 'base_units' and 'dimensions' operators, mostly for testing purposes.
+
+Added '_dump_conversions' and '_dump_cache', also for testing purposes.
+
+rpnChilada is now smart enough to recognize when an OEIS request has failed,
+and to ignore the cached result stored as a result.  If it detects that the
+cached value is empty, it will perform the request again and recache the
+result.
+
+Help now supports units and constant operators after way too long.  Filling in
+the help info for the units and constant operators, along with all the existing
+help info that's missing, will take a while, and is continuing.
+
+rpnChilada has officially dropped Python 2 support.  I rarely tested it anyway.
+
+Added 'wind_chill' and 'heat_index' operators.
+
+The unit tests now confirm that aliases do not collide with other reserved
+words.  The alias creation for generated types has also been cleaned up.
+
+The astronomy functionality has been refactored to support migrating to the
+skyfield library from pyephem.
+
+Removed the 'break_on' operator because it no longer works.  It will be
+re-implemented in the future.
+
+Added 'to_ethiopian', 'to_ethiopian_name' and 'from_ethiopian' operators for
+converting to and from the Ethiopian calendar.
+
+Added more unit tests and the usual bug fixes.
+
+8.1.0
+
+Added the 'get_partitions', 'nth_linear_recurrence' and
+'nth_linear_recurrence_with_modulo' operators.
+
+Added 'black_hole_surface_tides' now that I understand it.  I also added a more
+general 'tidal_force' operator.
+
+Added 'is_harmonic_divisor_number', 'is_antiharmonic', 'harmonic_fraction',
+'alternating_harmonic_fraction', 'harmonic_residue', 'harmonic_mean',
+and 'antiharmonic_mean' operators.
+
+Added 'hyperoperator' and 'hyperoperator_right' operators.
+
+Added 'root_mean_square', 'stirling1', 'stirling2', 'ackermann',
+'square_super_root', 'cube_super_root' and 'super_root' operators.
+
+Added 'filter_integers', 'filter_on_flags', 'is_k_perfect', 'phitorial', and
+'relatively_prime' operators.
+
+Finally, after many years complex numbers are also formatted.
+
+Added more unit tests and the usual bug fixes.
+
+More help text has been filled in.
     ''',
     'license' :
     '''
@@ -1806,8 +1804,8 @@ Ref:  https://en.wikipedia.org/wiki/Contraharmonic_mean
 '''
 ''' + makeCommandExample( '[ 1 2 3 4 6 8 ] antiharmonic_mean' ) + '''
 ''' + makeCommandExample( '[ 1 15 range ] antiharmonic_mean' ) + '''
-Calculate the antiharmonic mean of the first n numbers from 1 to 5:
-''' + makeCommandExample( '[ 1 1 5 range range ] antiharmonic_mean' ),
+Calculate the antiharmonic mean of the first n numbers from 1 to 7:
+''' + makeCommandExample( '[ 1 1 7 range range ] antiharmonic_mean' ),
 [ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'harmonic_mean' ] ],
 
     'ceiling' : [
@@ -1916,13 +1914,21 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'harmonic_mean' : [
 'arithmetic', 'calculates the harmonic mean of a a list of numbers n',
 '''
-The harmonic mean is calculated by taking ...
+The harmonic mean (sometimes called the subcontrary mean) is one of
+several kinds of average, and in particular one of the Pythagorean
+means.  Typically, it is appropriate for situations when the average of
+rates is desired.
+
+The harmonic mean can be expressed as the reciprocal of the arithmetic mean
+of the reciprocals of the given set of observations.
+
+Ref:  https://en.wikipedia.org/wiki/Harmonic_mean
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 4 ] harmonic_mean' ) + '''
 ''' + makeCommandExample( '[ 1 10 range ] harmonic_mean' ) + '''
-Calculate the harmonic mean of the first n numbers from 1 to 5:
-''' + makeCommandExample( '[ 1 1 5 range range ] harmonic_mean' ),
+Calculate the harmonic mean of the first n numbers from 1 to 7:
+''' + makeCommandExample( '[ 1 1 7 range range ] harmonic_mean' ),
 [ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'antiharmonic_mean' ] ],
 
     'increment' : [
@@ -2121,7 +2127,7 @@ The operator is primarily useful in lambdas.
 ''',
 '''
 ''' + makeCommandExample( '7 8 larger' ) + '''
-''' + makeCommandExample( 'pi 3' ) + '''
+''' + makeCommandExample( 'pi 3 larger' ) + '''
 ''' + makeCommandExample( '1 -1 larger' ),
 [ 'smaller', 'is_larger' ] ],
 
@@ -3292,7 +3298,7 @@ armed services.
 ''',
 '''
 ''' + makeCommandExample( '2016 memorial_day' ) + '''
-''' + makeCommandExample( '2020 2025 memorial_day -s1' ),
+''' + makeCommandExample( '2020 2025 range memorial_day -s1' ),
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'mothers_day' : [
@@ -3321,7 +3327,9 @@ a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
-''',
+''' + makeCommandExample( '2019 8 2 1 nth_weekday' ) + '''
+''' + makeCommandExample( '2019 11 4 3 nth_weekday' ) + '''
+''' + makeCommandExample( '2020 3 1 1 nth_weekday', indent=4 ),
 [ ] ],
 
     'nth_weekday_of_year' : [
@@ -3331,7 +3339,10 @@ a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
-''',
+''' + makeCommandExample( '2019 8 1 nth_weekday_of_year' ) + '''
+''' + makeCommandExample( '2019 43 3 nth_weekday_of_year' ) + '''
+Find the last Friday of 2020:
+''' + makeCommandExample( '2020 -1 5 nth_weekday_of_year', indent=4 ),
 [ ] ],
 
     'pentecost' : [
@@ -3339,7 +3350,8 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2019 pentecost' ) + '''
+''' + makeCommandExample( '2020 pentecost' ),
 [ 'easter' ] ],
 
     'presidents_day' : [
@@ -3347,7 +3359,8 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2018 presidents_day' ) + '''
+''' + makeCommandExample( '2019 presidents_day' ),
 [ 'labor_day', 'memorial_day', 'election_day' ] ],
 
     'thanksgiving' : [
@@ -3355,7 +3368,8 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2017 thanksgiving' ) + '''
+''' + makeCommandExample( '2019 thanksgiving' ),
 [ 'christmas', 'easter', 'mothers_day', 'fathers_day' ] ],
 
     'to_bahai' : [
@@ -3363,32 +3377,43 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 '''
-''',
-[ 'from_bahai' ] ],
+''' + makeCommandExample( '2017-01-11 to_bahai' ) + '''
+''' + makeCommandExample( '2018-03-21 to_bahai' ),
+[ 'from_bahai', 'to_bahai_name' ] ],
 
     'to_bahai_name' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
 '''
+Since rpnChilada is limited to ASCII text, ASCII versions of the Baha'i
+names are used.
 ''',
 '''
-''',
-[ 'from_bahai' ] ],
+''' + makeCommandExample( '2017-01-11 to_bahai_name' ) + '''
+''' + makeCommandExample( '2018-03-21 to_bahai_name' ),
+[ 'from_bahai', 'to_bahai' ] ],
 
     'to_ethiopian' : [
 'calendars', 'converts a date to the equivalent date in the Ethiopian calendar',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2018-12-21 to_ethiopian' ) + '''
+''' + makeCommandExample( '2019-04-19 to_ethiopian' ),
 [ 'from_ethiopian', 'to_ethiopian_name' ] ],
 
     'to_ethiopian_name' : [
 'calendars', 'converts a date to the equivalent date in the Ethiopian calendar with the day and month names',
 '''
-The Ethiopian calendar names every day in the month after a saint.
+The Ethiopian calendar names every day in the month after a saint.  This
+function returns the month and date names for the current date in the
+Ethiopian calendar.
+
+Since rpnChilada is limited to ASCII text, ASCII versions of the Ethiopian
+names are used.
 ''',
 '''
-''',
+''' + makeCommandExample( '2018-09-15 to_ethiopian_name' ) + '''
+''' + makeCommandExample( '2019-05-07 to_ethiopian_name' ),
 [ 'from_ethiopian', 'to_ethiopian' ] ],
 
     'to_hebrew' : [
@@ -3396,31 +3421,39 @@ The Ethiopian calendar names every day in the month after a saint.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2018-04-30 to_hebrew' ) + '''
+''' + makeCommandExample( '2019-06-09 to_hebrew' ),
 [ 'from_hebrew', 'to_hebrew_name' ] ],
 
     'to_hebrew_name' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
 '''
+Since rpnChilada is limited to ASCII text, ASCII versions of the Hebrew
+names are used.
 ''',
 '''
-''',
-[ 'from_hebrew' ] ],
+''' + makeCommandExample( '2018-04-30 to_hebrew_name' ) + '''
+''' + makeCommandExample( '2019-06-09 to_hebrew_name' ),
+[ 'from_hebrew', 'to_hebrew' ] ],
 
     'to_indian_civil' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-02-28 to_indian_civil' ) + '''
+''' + makeCommandExample( '2019-09-01 to_indian_civil' ),
 [ 'from_indian_civil' ] ],
 
     'to_indian_civil_name' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
 '''
+Since rpnChilada is limited to ASCII text, ASCII versions of the Indian
+names are used.
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-02-28 to_indian_civil_name' ) + '''
+''' + makeCommandExample( '2019-09-01 to_indian_civil_name' ),
 [ 'from_indian_civil' ] ],
 
     'to_islamic' : [
@@ -3428,15 +3461,19 @@ The Ethiopian calendar names every day in the month after a saint.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-01-11 to_islamic' ) + '''
+''' + makeCommandExample( '2019-12-01 to_islamic' ),
 [ 'from_islamic' ] ],
 
     'to_islamic_name' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
 '''
+Since rpnChilada is limited to ASCII text, ASCII versions of the Islamic
+names are used.
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-01-11 to_islamic_name' ) + '''
+''' + makeCommandExample( '2019-12-01 to_islamic_name' ),
 [ 'from_islamic' ] ],
 
     'to_iso' : [
@@ -3500,15 +3537,19 @@ The Ethiopian calendar names every day in the month after a saint.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-03-15 to_persian' ) + '''
+''' + makeCommandExample( '2019-08-17 to_persian' ),
 [ 'from_persian' ] ],
 
     'to_persian_name' : [
 'calendars', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
+Since rpnChilada is limited to ASCII text, ASCII versions of the Persian
+names are used.
 ''',
 '''
-''',
+''' + makeCommandExample( '2019-03-15 to_persian_name' ) + '''
+''' + makeCommandExample( '2019-08-17 to_persian_name' ),
 [ 'from_persian' ] ],
 
     'veterans_day' : [
@@ -3553,10 +3594,46 @@ print out the actual name of the weekday.
 'calendars', 'prints a month calendar for the date value',
 '''
 The 'year_calendar' operator is special in that what it prints out is a
-side-effect.  It actually returns the date value passed in as a result, so as
-far as rpn is concerned, it's an operator that does nothing.
+side-effect.  It actually returns an empty string.
 ''',
 '''
+c:\>rpn 2019 year_calendar
+                                  2019
+
+      January                   February                   March
+Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
+       1  2  3  4  5                      1  2                      1  2
+ 6  7  8  9 10 11 12       3  4  5  6  7  8  9       3  4  5  6  7  8  9
+13 14 15 16 17 18 19      10 11 12 13 14 15 16      10 11 12 13 14 15 16
+20 21 22 23 24 25 26      17 18 19 20 21 22 23      17 18 19 20 21 22 23
+27 28 29 30 31            24 25 26 27 28            24 25 26 27 28 29 30
+                                                    31
+
+       April                      May                       June
+Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
+    1  2  3  4  5  6                1  2  3  4                         1
+ 7  8  9 10 11 12 13       5  6  7  8  9 10 11       2  3  4  5  6  7  8
+14 15 16 17 18 19 20      12 13 14 15 16 17 18       9 10 11 12 13 14 15
+21 22 23 24 25 26 27      19 20 21 22 23 24 25      16 17 18 19 20 21 22
+28 29 30                  26 27 28 29 30 31         23 24 25 26 27 28 29
+                                                    30
+
+        July                     August                  September
+Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
+    1  2  3  4  5  6                   1  2  3       1  2  3  4  5  6  7
+ 7  8  9 10 11 12 13       4  5  6  7  8  9 10       8  9 10 11 12 13 14
+14 15 16 17 18 19 20      11 12 13 14 15 16 17      15 16 17 18 19 20 21
+21 22 23 24 25 26 27      18 19 20 21 22 23 24      22 23 24 25 26 27 28
+28 29 30 31               25 26 27 28 29 30 31      29 30
+
+      October                   November                  December
+Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
+       1  2  3  4  5                      1  2       1  2  3  4  5  6  7
+ 6  7  8  9 10 11 12       3  4  5  6  7  8  9       8  9 10 11 12 13 14
+13 14 15 16 17 18 19      10 11 12 13 14 15 16      15 16 17 18 19 20 21
+20 21 22 23 24 25 26      17 18 19 20 21 22 23      22 23 24 25 26 27 28
+27 28 29 30 31            24 25 26 27 28 29 30      29 30 31
+
 ''',
 [ 'calendar', 'weekday' ] ],
 
@@ -3948,13 +4025,13 @@ combinatorics and number theory.
     'nth_pell' : [
 'combinatorics', 'calculates the nth Pell number',
 '''
-From https://en.wikipedia.org/wiki/Pell_number:
-
 In mathematics, the Pell numbers are an infinite sequence of integers, known
 since ancient times, that comprise the denominators of the closest rational
 approximations to the square root of 2. This sequence of approximations begins
 1/1, 3/2, 7/5, 17/12, and 41/29, so the sequence of Pell numbers begins with
 1, 2, 5, 12, and 29.
+
+Ref:  https://en.wikipedia.org/wiki/Pell_number:
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_pell' ),
@@ -3977,8 +4054,6 @@ They were named after the German mathematician Ernst Schroeder.
     'nth_schroeder_hipparchus' : [
 'combinatorics', 'calculates the nth Schroeder-Hipparchus number',
 '''
-From https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number:
-
 In number theory, the Schroeder-Hipparchus numbers form an integer sequence
 that can be used to count the number of plane trees with a given set of leaves,
 the number of ways of inserting parentheses into a sequence, and the number of
@@ -3990,6 +4065,8 @@ or the Hipparchus numbers, after Eugene Charles Catalan and his Catalan numbers,
 Ernst Schroeder and the closely related Schroeder numbers, and the ancient Greek
 mathematician Hipparchus who appears from evidence in Plutarch to have known of
 these numbers.
+
+Ref:  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number:
 ''',
 '''
 ''' + makeCommandExample( '1 12 range nth_schroeder_hipparchus' ),
@@ -4013,12 +4090,9 @@ rapidly than any other series of unit fractions with the same number of terms.
     'partitions' : [
 'combinatorics', 'returns the partition number for n',
 '''
-From https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
-
-In number theory and combinatorics, a partition of a positive integer n, also
-called an integer partition, is a way of writing n as a sum of positive
-integers.  Two sums that differ only in the order of their summands are
-considered the same partition.
+A partition of a positive integer n, also called an integer partition, is a way
+of writing n as a sum of positive integers.  Two sums that differ only in the
+order of their summands are considered the same partition.
 
 For example, 4 can be partitioned in five distinct ways:
     4
@@ -4026,6 +4100,8 @@ For example, 4 can be partitioned in five distinct ways:
     2 + 2
     2 + 1 + 1
     1 + 1 + 1 + 1
+
+Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
 ''',
 '''
 ''' + makeCommandExample( '4 partitions' ),
@@ -4043,24 +4119,42 @@ When calculating the number of permutations of k objects, order matters.
 [ 'combinations' ] ],
 
     'stirling1' : [
-'combinatorics', 'calculates the Sitrling number of the first kind for n and k'
+'combinatorics', 'calculates the Stirling number of the first kind for n and k'
 '''
+Stirling numbers of the first kind arise in the study of permutations.  In
+particular, the Stirling numbers of the first kind count permutations according
+to their number of cycles (counting fixed points as cycles of length one).
+
+The Stirling numbers of the first and second kind can be understood as inverses
+of one another when viewed as triangular matrices.
+
+Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_first_kind
 ''',
 '''
 ''' + makeCommandExample( '3 2 stirling1' ) + '''
 ''' + makeCommandExample( '10 7 stirling1' ) + '''
 ''' + makeCommandExample( '5 1 5 range stirling1' ),
-[ 'stirling2' ] ],
+[ 'stirling2', 'permutations' ] ],
 
     'stirling2' : [
 'combinatorics', 'calculates the Sitrling number of the second kind for n and k'
 '''
+A Stirling number of the second kind (or Stirling partition number) is the
+number of ways to partition a set of n objects into k non-empty subsets.
+Stirling numbers of the second kind occur in the field of mathematics called
+combinatorics and the study of partitions.
+
+Stirling numbers of the second kind are one of two kinds of Stirling numbers,
+the other kind being called Stirling numbers of the first kind (or Stirling
+cycle numbers).
+
+Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind
 ''',
 '''
 ''' + makeCommandExample( '3 2 stirling2' ) + '''
 ''' + makeCommandExample( '10 7 stirling2' ) + '''
 ''' + makeCommandExample( '5 1 5 range stirling2' ),
-[ 'stirling1' ] ],
+[ 'stirling1', 'permutations' ] ],
 
 
 # //******************************************************************************
@@ -5848,14 +5942,14 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 [ ] ],
 
     'filter_on_flags' : [
-'functions', 'filters the list k based on the nonzero values of the list n',
+'functions', 'filters the list n based on the nonzero values of the list k',
 '''
 The function is a kludge to work around the lack of nested lambdas in
 rpnChilada 8.x.  This work around covers a lot of situations where nested
 lambdas would otherwise be used.
 ''',
 '''
-''' + makeCommandExample( '[ 0 1 0 1 0 1 ] 1 6 range filter_on_flags' ),
+''' + makeCommandExample( '1 6 range [ 0 1 0 1 0 1 ] filter_on_flags' ),
 [ 'filter_lists', 'filter', 'filter_integers' ] ],
 
     'find_palindrome' : [
@@ -6575,10 +6669,12 @@ the bth power.  The list is expanded to contain c items.
     'find' : [
 'list_operators', 'returns the first index of k that equals n',
 '''
-''',
-'''
 This used to have the arguments swapped, but that seemed wrong.
 ''',
+'''
+''' + makeCommandExample( '6 [ 1 4 5 6 9 ] find' ) + '''
+And we can access the found item using the 'element' operator:
+''' + makeCommandExample( '[ 1 4 5 6 9 ] 3 element', indent=4 ),
 [ ] ],
 
     'flatten' : [
@@ -6586,7 +6682,7 @@ This used to have the arguments swapped, but that seemed wrong.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 [ 3 4 ] [ 5 [ 6 7 ] 8 [ 9 ] ] [ [ 10 ] ] ] flatten' ),
 [ 'collate', 'interleave', 'group_elements' ] ],
 
     'geometric_range' : [
@@ -6606,18 +6702,32 @@ The intervals of the chromatic scale:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 4 ] 2 get_combinations -s1' ),
 [ 'get_permutations', 'get_repeat_combinations', 'get_partitions' ] ],
 
     'get_partitions' : [
 'list_operators', 'generates all integer partitions of n',
 '''
+A partition of a positive integer n, also called an integer partition, is a way
+of writing n as a sum of positive integers.  Two sums that differ only in the
+order of their summands are considered the same partition.
+
+For example, 4 can be partitioned in five distinct ways:
+    4
+    3 + 1
+    2 + 2
+    2 + 1 + 1
+    1 + 1 + 1 + 1
+
+This operator generates the list of partitions as a list of lists of integers,
+where each nested list is a different, unique partitioning of n into integers.
+
+Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
 ''',
 '''
 ''' + makeCommandExample( '2 get_partitions' ) + '''
 ''' + makeCommandExample( '3 get_partitions' ) + '''
-''' + makeCommandExample( '4 get_partitions' ) + '''
-''' + makeCommandExample( '5 get_partitions' ),
+''' + makeCommandExample( '4 get_partitions' ),
 [ 'get_combinations', 'get_permutations', 'get_partitions' ] ],
 
     'get_permutations' : [
@@ -6625,7 +6735,7 @@ The intervals of the chromatic scale:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] 2 get_permutations -s1' ),
 [ 'get_combinations', 'get_repeat_permutations', 'get_partitions' ] ],
 
     'get_repeat_combinations' : [
@@ -6633,7 +6743,7 @@ The intervals of the chromatic scale:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] 2 get_repeat_combinations -s1' ),
 [ 'get_permutations', 'get_combinations' ] ],
 
     'get_repeat_permutations' : [
@@ -6641,7 +6751,7 @@ The intervals of the chromatic scale:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] 2 get_repeat_permutations -s1' ),
 [ 'get_permutations', 'get_repeat_combinations' ] ],
 
     'group_elements' : [
@@ -7272,9 +7382,15 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
     'alternating_factorial' : [
 'number_theory', 'calculates the alternating factorial of n',
 '''
+An alternating factorial is the absolute value of the alternating sum of the
+first n factorials of positive integers, having the recurrence relation:
+
+af( n ) = n! - af( n - 1 )
+
+Ref:  https://en.wikipedia.org/wiki/Alternating_factorial
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range alternating_factorial' ),
 [ ] ],
 
     'alternating_harmonic_fraction' : [
@@ -7294,11 +7410,12 @@ rational numbers, so it's possible to represent them as fractions.
     'barnesg' : [
 'number_theory', 'evaluates the Barnes G-function for n',
 '''
-The Barnes G-function is the generalization of the superfactorial.
+The Barnes G-function is the generalization of the superfactorial to real and
+complex numbers.
 ''',
 '''
 ''',
-[ ] ],
+[ 'superfactoral', 'gamma' ] ],
 
     'base' : [
 'number_theory', 'interprets list elements as base k digits',
@@ -7320,12 +7437,24 @@ The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
     'calkin_wilf' : [
 'number_theory', 'calculates the nth member of the Calkin-Wilf sequence',
 '''
-The operator returns a list of two numbers, the numerator and the denominator
-of the nth Calkin-Wilf number.
+The Calkin-Wilf tree is a tree in which the vertices correspond one-to-one to
+the positive rational numbers.  The tree is rooted at the number 1, and any
+rational number expressed in simplest terms as the fraction a/b has as its two
+children the numbers a/a+b and a+b/b.  Every positive rational number appears
+exactly once in the tree.
+
+The sequence of rational numbers in a breadth-first traversal of the
+Calkin-Wilf tree is known as the Calkin-Wilf sequence.
+
+This operator returns a list of two numbers, the numerator and the denominator
+of the nth number in the Calkin-Wilf sequence.
+
+Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
 ''',
 '''
 ''' + makeCommandExample( '0 10 range calkin_wilf' ) + '''
-''' + makeCommandExample( '1000000 calkin_wilf' ),
+''' + makeCommandExample( '1000000 calkin_wilf' ) + '''
+''' + makeCommandExample( '1000000000000000000000000000000000 calkin_wilf' ),
 [ ] ],
 
     'cf' : [
@@ -7348,9 +7477,10 @@ of the nth Calkin-Wilf number.
 'number_theory', 'returns a count of the divisors of n',
 '''
 The count_divisors operator factors the argument and then calculates number of
-divisors from the list of prime factors.  'divisors count' calculates the same
-result, but the 'divisors' operator can generate prohibitively large lists for
-numbers with a lot of factors.
+divisors from the list of prime factors.
+
+'rpn divisors count' calculates the same result, but the 'divisors' operator
+can generate prohibitively large lists for numbers with a lot of factors.
 ''',
 '''
 ''' + makeCommandExample( '98280 count_divisors' ) + '''
@@ -7458,19 +7588,31 @@ a Pythogorean triples, therefore the face diagonals are also integers.
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
-In order to take advantage of YAFU, please set the following configuration
-values:
+rpnChilada's native prime factoring capability is fairly strong.  I've
+incorporated code that utilizes Brent's Pollard Rho algorithm and
+SIQS (the Self-Initializing Quadratic Sieve).
+
+For better results, rpnChilada supports calling YAFU, which is probably
+the most powerful piece of open-source factoring software available, and
+is supported on most platforms.
+
+https://sourceforge.net/projects/yafu/
+
+Setting up YAFU is outside of the scope of this documentation.  In order to
+take advantage of YAFU, please set the following configuration values:
 
 'yafu_binary' needs to be set to the YAFU executable name.
 'yafu_path' needs to be set to the location of the YAFU executable.
 
 e.g.:
 
-rpn yafu_binary 'yafu-x64.core2.exe
-rpn yafu_path 'c:\app\yafu
+rpn yafu_binary 'yafu-x64.core2.exe set_config
+rpn yafu_path 'c:\app\yafu set_config
 ''',
 '''
-''',
+''' + makeCommandExample( '8675309 factor' ) + '''
+''' + makeCommandExample( '10000000000000000000001 factor' ) + '''
+''' + makeCommandExample( '-a20 2 43 ** 1 - factor' ),
 [ ] ],
 
     'factorial' : [
@@ -7480,7 +7622,7 @@ rpn yafu_path 'c:\app\yafu
 ''',
 '''
 ''' + makeCommandExample( '1 10 range factorial' ),
-[ ] ],
+[ 'superfactorial', 'hyperfactorial', 'barnesg', 'gamma', 'double_factorial', 'subfactorial' ] ],
 
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
@@ -7494,7 +7636,8 @@ in the 13th century.  The sequence has many amazing properties.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range fibonacci' ) + '''
-This shows the relationship between the Fibonacci numbers and the Lucas numbers
+This shows the relationship between the Fibonacci numbers and the Lucas numbers:
+
 ''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
 ''' + makeCommandExample( '1 30 range lucas' ),
 [ ] ],
@@ -7555,28 +7698,43 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 '''
 ''',
 '''
+''' + makeCommandExample( '2 generate_polydivisibles' ) + '''
+''' + makeCommandExample( '3 generate_polydivisibles' ),
+[ 'is_polydivisible' ] ],
+
+    'geometric_recurrence' : [
+'number_theory', 'calculates the dth value of a linear recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
+'''
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (c), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
+
+The is some disagreement about whether the zeroes count as part of these linear
+recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
+etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
+count the zeroes.
 ''',
-[ ] ],
+'''
+''',
+[ 'linear_recurrence', 'nth_linear_recurrence' ] ],
 
     'get_base_k_digits' : [
 'number_theory', 'interprets n as a list digits in base k',
 '''
+This operator is the equivalent of converting a number to base k, representing
+each digit by its base-10 equivalent.
 ''',
 '''
-''',
+''' + makeCommandExample( '1042 10 get_base_k_digits' ) + '''
+''' + makeCommandExample( '1042 8 get_base_k_digits' ) + '''
+''' + makeCommandExample( '3232235521 256 get_base_k_digits' ),
 [ 'base' ] ],
-
-    'harmonic' : [
-'number_theory', 'returns the sum of the first n terms of the harmonic series',
-'''
-The harmonic series consists of the reciprocals of the natural numbers.
-''',
-'''
-''' + makeCommandExample( '1 harmonic' ) + '''
-''' + makeCommandExample( '2 harmonic' ) + '''
-''' + makeCommandExample( '100 harmonic' ) + '''
-''' + makeCommandExample( '1e100 harmonic' ),
-[ ] ],
 
     'harmonic_fraction' : [
 'number_theory', 'returns the rational version of the nth harmonic number',
@@ -7599,6 +7757,8 @@ fraction is far more limited.
     'harmonic_residue' : [
 'number_theory', 'returns the harmonic residue of n',
 '''
+The harmonic residue is the remainder of the product of n and the divisor
+count of n, divided by the sum of the divisors of n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range harmonic_residue' ) + '''
@@ -7610,7 +7770,10 @@ fraction is far more limited.
 '''
 ''',
 '''
-''',
+The first several heptanacci numbers:
+''' + makeCommandExample( '1 20 range heptanacci', indent=4 ) + '''
+The Heptanacci constant:
+''' + makeCommandExample( 'infinity lambda x 6 + heptanacci x 5 + heptanacci / limit', indent=4 ),
 [ ] ],
 
     'hexanacci' : [
@@ -7618,7 +7781,10 @@ fraction is far more limited.
 '''
 ''',
 '''
-''',
+The first several hexanacci numbers:
+''' + makeCommandExample( '1 20 range hexanacci', indent=4 ) + '''
+The Hexanacci constant:
+''' + makeCommandExample( 'infinity lambda x 5 + hexanacci x 4 + hexanacci / limit', indent=4 ),
 [ ] ],
 
     'hurwitz_zeta' : [
@@ -7637,14 +7803,22 @@ first n numbers each taken to the power of itself.
 ''',
 '''
 ''' + makeCommandExample( '-a45 1 10 range hyperfactorial' ),
-[ ] ],
+[ 'factorial', 'superfactorial' ] ],
 
     'is_abundant' : [
 'number_theory', 'returns whether or not n is an abundant number',
 '''
+An abundant number or excessive number is a number for which the sum of its
+proper divisors is greater than the number itself.  The integer 12 is the
+first abundant number.  Its proper divisors are 1, 2, 3, 4 and 6 for a total
+of 16.  The amount by which the sum exceeds the number is the abundance.  The
+number 12 has an abundance of 4, for example.
+
+Ref:  https://en.wikipedia.org/wiki/Abundant_number
 ''',
 '''
-''',
+The first several abundant numbers:
+''' + makeCommandExample( '1 80 range lambda x is_abundant filter' ),
 [ ] ],
 
     'is_achilles' : [
@@ -7658,9 +7832,12 @@ first n numbers each taken to the power of itself.
     'is_antiharmonic' : [
 'number_theory', 'returns whether or not n is an antiharmonic number',
 '''
+A number is antiharmonic if the sum of the squares of its divisors divides the
+sum of its divisors.
 ''',
 '''
-''',
+The first several antiharmonic numbers:
+''' + makeCommandExample( '1 150 range lambda x is_antiharmonic filter' ),
 [ ] ],
 
     'is_carmichael' : [
@@ -7682,10 +7859,15 @@ first n numbers each taken to the power of itself.
     'is_deficient' : [
 'number_theory', 'returns whether or not n is a deficient number',
 '''
+A deficient number is a number n for which the sum of divisors is less than
+twice n.
+
+Ref:  https://en.wikipedia.org/wiki/Deficient_number
 ''',
 '''
-''',
-[ ] ],
+The first several deficient numbers:
+''' + makeCommandExample( '1 25 range lambda x is_deficient filter' ),
+[ 'is_abundant', 'is_perfect' ] ],
 
     'is_friendly' : [
 'number_theory', 'returns whether list n is a list of mutually friendly numbers',
@@ -7698,9 +7880,15 @@ first n numbers each taken to the power of itself.
     'is_harmonic_divisor_number' : [
 'number_theory', 'returns whether or not n is a harmonic divisor number',
 '''
+A harmonic divisor number, or Ore number (named after Oystein Ore who defined
+it in 1948), is a positive integer whose divisors have a harmonic mean that is
+an integer.
+
+Ref:  https://en.wikipedia.org/wiki/Harmonic_divisor_number
 ''',
 '''
-''',
+The first few harmonic divisor numbers:
+''' + makeCommandExample( '-a45 1 500 range lambda x is_harmonic_divisor_number filter' ),
 [ ] ],
     'is_k_hyperperfect' : [
 'number_theory', 'returns whether an integer n is k hyperperfect',
@@ -7721,6 +7909,9 @@ first n numbers each taken to the power of itself.
     'is_k_semiprime' : [
 'number_theory', 'returns whether n is a k-factor square-free number',
 '''
+A number is k-semiprime if is the product of k prime factors, and those factors
+do not need to be unique.  To determine if a number has k unique prime factors,
+use 'is_k_sphenic'.
 ''',
 '''
 ''',
@@ -7734,7 +7925,7 @@ arbitrary number of squarefree factors.
 
 This terminology is not used, as far as I can tell, but there does not seem to
 be an appropriate term to describe having a number of squarefree other than 1
-(prime), 2 (semiprime), or 3 (sphenic).
+(prime), or 3 (sphenic).
 ''',
 '''
 ''',
@@ -7743,10 +7934,18 @@ be an appropriate term to describe having a number of squarefree other than 1
     'is_perfect' : [
 'number_theory', 'returns whether or not n is a perfect number',
 '''
+A perfect number is a positive integer that is equal to the sum of its proper
+positive divisors, that is, the sum of its positive divisors excluding the
+number itself (also known as its aliquot sum).  Equivalently, a perfect number
+is a number that is half the sum of all of its positive divisors (including
+itself) i.e. s1(n) = 2n.
+
+Ref:  https://en.wikipedia.org/wiki/Perfect_number
 ''',
 '''
-''',
-[ ] ],
+The first few perfect numbers:
+''' + makeCommandExample( '1 500 range lambda x is_perfect filter' ),
+[ 'nth_perfect_number', 'is_abundant', 'is_deficient', 'is_k_perfect', 'is_k_hyperperfect' ] ],
 
     'is_polydivisible' : [
 'number_theory', 'returns whether or not n is polydivisible',
@@ -7884,28 +8083,6 @@ beyond a certain size.
 ''',
 [ ] ],
 
-    'geometric_recurrence' : [
-'number_theory', 'calculates the dth value of a linear recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
-'''
-The factors (a) indicate the multiple of each preceding value to add to create
-the next value in the recurrence list, listed from right to left (meaning the
-last factor corresponds to the n - 1'th value in the sequence.  For the
-Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
-plus the one before that.  The tribonacci sequence would have a factor list of
-[ 1 1 1 ].
-
-The seeds (c), simply specify a list of initial values.  The number of seeds
-cannot exceed the number of factors, but there may be fewer seeds.
-
-The is some disagreement about whether the zeroes count as part of these linear
-recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
-etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
-count the zeroes.
-''',
-'''
-''',
-[ 'linear_recurrence', 'nth_linear_recurrence' ] ],
-
     'linear_recurrence' : [
 'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b)',
 '''
@@ -8011,6 +8188,18 @@ n and k cannot both be odd.
 ''',
 [ ] ],
 
+    'nth_harmonic_number' : [
+'number_theory', 'returns the sum of the first n terms of the harmonic series',
+'''
+The harmonic series consists of the reciprocals of the natural numbers.
+''',
+'''
+''' + makeCommandExample( '1 nth_harmonic_number' ) + '''
+''' + makeCommandExample( '2 nth_harmonic_number' ) + '''
+''' + makeCommandExample( '10000 nth_harmonic_number' ) + '''
+''' + makeCommandExample( '1e100 nth_harmonic' ),
+[ ] ],
+
     'nth_kynea' : [
 'number_theory', 'gets the nth Kynea number',
 '''
@@ -8050,25 +8239,29 @@ count the zeroes.
 ''',
 '''
 The 20th Fibonacci number:
-''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 20 nth_linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 20 nth_linear_recurrence', indent=4 ) + '''
 The 17th Lucas number:
-''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 17 nth_linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 17 nth_linear_recurrence', indent=4 ) + '''
 The 43rd Tribonacci sequence:
-''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 43 nth_linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 43 nth_linear_recurrence', indent=4 ) + '''
 The 12th Octanacci sequence:
-''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 12 nth_linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 12 nth_linear_recurrence', indent=4 ) + '''
 The 15th Pell number:
-''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 15 nth_linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 15 nth_linear_recurrence', indent=4 ) + '''
 The 21st Perrin number:
-''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 21 nth_linear_recurrence' ),
+''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 21 nth_linear_recurrence', indent=4 ),
 [ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'nth_linear_recurrence_with_modulo' : [
 'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
 '''
+THis allows for the calculation of linear recurrences when only a modular
+answer is required.  This means that it is far faster to calculate than working
+out the full value of the linear recurrence.
 ''',
 '''
-''',
+The last 6 digits of the 20000th Fibonacci number:
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 20000 100000 nth_linear_recurrence_with_modulo', indent=4 ),
 [ 'linear_recurrence', 'nth_linear_recurrence', 'linear_recurrence_with_modulo' ] ],
 
     'nth_leonardo' : [
@@ -8156,7 +8349,8 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 100 range nth_stern' ),
+The first 20 members of the Stern sequence:
+''' + makeCommandExample( '1 20 range nth_stern', indent=4 ),
 [ ] ],
 
     'nth_thue_morse' : [
@@ -8164,7 +8358,8 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 100 range nth_thue_morse' ),
+The first 20 members of the Thue Morse sequence:
+''' + makeCommandExample( '1 20 range nth_thue_morse', indent=4 ),
 [ ] ],
 
     'octanacci' : [
@@ -8172,7 +8367,10 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-''',
+The first several octanacci numbers:
+''' + makeCommandExample( '1 20 range octanacci', indent=4 ) + '''
+The Octanacci constant:
+''' + makeCommandExample( 'infinity lambda x 7 + octanacci x 6 + octanacci / limit', indent=4 ),
 [ ] ],
 
     'pascal_triangle' : [
@@ -8180,6 +8378,7 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
+The first 10 lines of Pascal's triangle:
 ''' + makeCommandExample( '1 10 range pascal_triangle -s1' ),
 [ ] ],
 
@@ -8188,8 +8387,10 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 20 range pentanacci' ) + '''
-''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit' ),
+The first several pentanacci numbers:
+''' + makeCommandExample( '1 20 range pentanacci', indent=4 ) + '''
+The Pentanacci constant:
+''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit', indent=4 ),
 [ ] ],
 
     'polygamma' : [
@@ -8207,7 +8408,8 @@ This function calculates the product of all numbers between 1 and n, inclusive,
 which are relatively prime to n.
 ''',
 '''
-''' + makeCommandExample( '1 10 range phitorial' ),
+The first several phitorial numbers:
+''' + makeCommandExample( '1 10 range phitorial', indent=4 ),
 [ ] ],
 
     'primorial' : [
@@ -8226,12 +8428,14 @@ Numbers are relatively prime if their great common denominator is 1.
 ''',
 '''
 ''' + makeCommandExample( '5 8 relatively_prime' ) + '''
-''' + makeCommandExample( '1 19 lambda 20 x relatively_prime filter' ),
+''' + makeCommandExample( '1 20 range lambda y x relatively_prime filter_integers' ),
 [ 'reduce', 'lcm', 'gcd', 'gcd2' ] ],
 
     'repunit' : [
 'number_theory', 'returns the nth repunit in base k',
 '''
+A repunit for base-k is a number consisting of entirely of the digit 1 in that
+base.
 ''',
 '''
 ''' + makeCommandExample( '11 10 repunit' ) + '''
@@ -8321,14 +8525,17 @@ the Barnes G-function.
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range superfactorial' ),
-[ ] ],
+[ 'barnesg', 'factorial' ] ],
 
     'tetranacci' : [
 'number_theory', 'calculates the nth Tetranacci number',
 '''
 ''',
 '''
-''',
+The first several tetranacci numbers:
+''' + makeCommandExample( '1 20 range tetranacci', indent=4 ) + '''
+The Tetranacci constant:
+''' + makeCommandExample( 'infinity lambda x 3 + tetranacci x 2 + tetranacci / limit', indent=4 ),
 [ ] ],
 
     'thabit' : [
@@ -8344,7 +8551,10 @@ the Barnes G-function.
 '''
 ''',
 '''
-''',
+The first several tribonacci numbers:
+''' + makeCommandExample( '1 20 range tribonacci', indent=4 ) + '''
+The Tribonacci constant:
+''' + makeCommandExample( 'infinity lambda x 2 + tribonacci x 1 + tribonacci / limit', indent=4 ),
 [ ] ],
 
     'trigamma' : [
@@ -8553,7 +8763,7 @@ order), from one of the following combinations of units:
 ''',
 '''
 ''',
-[ ] ],
+[ 'mass_equivalence' ] ],
 
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
@@ -8592,34 +8802,55 @@ Ref:  https://en.wikipedia.org/wiki/Heat_index
     'mass_equivalence' : [
 'physics', 'calculates the mass equivalence of energy n',
 '''
+This is calculated simply using Einstein's energy/mass equivalence formula
+E = mc^2, which solved for m gives, m = E/c^2
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 gallon_of_gasoline mass_equivalence' ) + '''
+''' + makeCommandExample( '1 ton_of_TNT mass_equivalence' ),
+[ 'energy_equivalence' ] ],
 
     'orbital_mass' : [
-'physics', '',
+'physics', 'calculates the mass of the object being orbited',
 '''
+Any two of the following three measurements can be used (in any order) as
+arguments:
+
+    orbital period,
+    orbital velocity,
+    orbit radius (the distance between the centers of mass)
+
+Mass returned is really the combined mass of the object orbiting and the
+object being orbited.
+
 ''',
 '''
 ''',
 [ 'orbital_period', 'orbital_radius', 'orbital_velocity' ] ],
 
     'orbital_period' : [
-'physics', 'calculates the orbital period of an object orbiting mass n at radius k',
+'physics', 'calculates the orbital period of an object',
 '''
-Mass n is really the combined mass of the object orbiting and the object being
-orbited.
+Any two of the following three measurements can be used (in any order) as
+arguments:
+
+    mass (the combined mass of the two objects)
+    orbit radius (the distance between the centers of mass)
+    orbital velocity
 ''',
 '''
 ''',
 [ 'orbital_mass', 'orbital_radius', 'orbital_velocity' ] ],
 
     'orbital_radius' : [
-'physics', '',
+'physics', 'calculates the radius of an orbit',
 '''
-Mass n is really the combined mass of the object orbiting and the object being
-orbited.
+Any two of the following three measurements can be used (in any order) as
+arguments:
+
+    mass (the combined mass of the two objects)
+    orbital period
+    orbital velocity
 ''',
 '''
 ''',
@@ -8628,15 +8859,12 @@ orbited.
     'orbital_velocity' : [
 'physics', 'calculates the circular orbital velocity of an object for values n and k',
 '''
-The two arguments need to measurements of two of the following three types in
-any order:
+Any two of the following three measurements can be used (in any order) as
+arguments:
 
-mass (the mass of the object being orbited)
-length (the radius of the orbit)
-time (the period of the orbit)
-
-Mass n is really the combined mass of the object orbiting and the object being
-orbited.
+    mass (the combined mass of the two objects)
+    orbit radius (the distance between the centers of mass)
+    orbital period
 ''',
 '''
 ''' + makeCommandExample( '24 hours earth_mass orbital_velocity' ) + '''
@@ -8647,8 +8875,14 @@ orbited.
     'surface_gravity' : [
 'physics', 'calculates the surface gravity of a spherical object',
 '''
-The two arguments need to be measurements of mass and radius, or measurements
-of density and volume in either order.
+Any two of the following three measurements can be used (in any order) as
+arguments, except the two arguments cannot be radius and volume, because
+the mass and density cnanot be calculated from only the radius and volume:
+
+    density
+    mass
+    radius
+    volume
 ''',
 '''
 ''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ) + '''
@@ -8659,7 +8893,7 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 [ 'black_hole_gravity' ] ],
 
     'tidal_force' : [
-'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), and delta distance (c)',
+'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), and the distance difference (c)',
 '''
 https://en.wikipedia.org/wiki/Tidal_force#Formulation
 ''',
@@ -8677,7 +8911,7 @@ at the Moon).
 ''',
 '''
 ''' + makeCommandExample( '1 million mph time_dilation' ) + '''
-''' + makeCommandExample( '0.99 c time_dilation' ),
+''' + makeCommandExample( '0.99 c * time_dilation' ),
 [ ] ],
 
     'velocity' : [
@@ -9573,7 +9807,7 @@ It was originally added to make testing the base phi output easier.
 [ 'phi', 'exp', 'exp10' ] ],
 
     'hyperoperator' : [
-'powers_and_roots', 'calculates the hyperoperator with operands b and c',
+'powers_and_roots', 'calculates the ath hyperoperator with operands b and c',
 '''
 ''',
 '''
@@ -10241,10 +10475,10 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '157 twin_prime_' ) + '''
-''' + makeCommandExample( '1 20 twin_prime_' ) + '''
-An extremely crude estimation of Brun's twin prime constant:
+''' + makeCommandExample( '1 20 range twin_prime_' ) + '''
+An _extremely_ crude estimation of Brun's twin prime constant:
 
-''' + makeCommandExample( 'rpn 1 50 range twin_primes_ 1/x sum sum' ),
+''' + makeCommandExample( '1 100 range twin_primes_ 1/x sum sum' ),
 [ ] ],
 
 
@@ -10620,7 +10854,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-''' + makeCommandExample( 'rpn 10349 oeis' ),
+''' + makeCommandExample( '10349 oeis' ),
 [ 'oeis_comment', 'oeis_ex', 'oeis_name', 'oeis_offset' ] ],
 
     'oeis_comment' : [
@@ -11183,6 +11417,16 @@ The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 
+The hyperbolic cosine can be defined in terms of the exponential function:
+
+         e^x + e^-x
+cosh x = ----------
+             2
+
+The hyperbolic cosine can also be defined in terms of cosine:
+
+cosh x = cos( ix )
+
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
@@ -11212,6 +11456,14 @@ The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 
+The hyperbolic cotangent can be defined in terms of sinh and cosh:
+
+coth( x ) = cosh( x ) / sinh( x )
+
+The hyperbolic cotangent can also be defined in terms of cotangent:
+
+coth x = i cot( ix )
+
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
@@ -11230,7 +11482,7 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''' + makeCommandExample( '36 degrees csc', indent=4 ) + '''
+''' + makeCommandExample( '45 degrees csc' ) + '''
 Comparing csc to sin:
 ''' + makeCommandExample( '36 degrees csc 1/x', indent=4 ) + '''
 ''' + makeCommandExample( '36 degrees sin', indent=4 ),
@@ -11239,6 +11491,14 @@ Comparing csc to sin:
     'csch' : [
 'trigonometry', 'calculates hyperbolic cosecant of n',
 '''
+The hyperbolic cosecant is defined as the reciprocal of the hyperbolic sine
+function.
+
+csch( x ) = 1 / sinh( x )
+
+The hyperbolic cosecant can also be defined in terms of the cosecant function:
+
+csch( x ) = i csc( ix )
 
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
@@ -11249,13 +11509,15 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( 'pi 5 / radians csch' ) + '''
+Comparing csch to sinh:
+''' + makeCommandExample( 'pi 6 / radians csch 1/x', indent=4 ) + '''
+''' + makeCommandExample( 'pi 6 / radians sinh', indent=4 ),
 [ 'csc', 'sech', 'acsch', 'coth' ] ],
 
     'sec' : [
 'trigonometry', 'calculates the secant of n',
 '''
-
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
@@ -11267,10 +11529,17 @@ can handle a value in degrees without having to first convert.
     'sech' : [
 'trigonometry', 'calculates the hyperbolic secant of n',
 '''
-
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+The hyperbolic secant can be defined in terms of cosh:
+
+sech( x ) = 1 / cosh( x )
+
+The hyperbolic secant can also be defined in terms of sec:
+
+sech x = sec( ix )
 
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
@@ -11299,10 +11568,19 @@ can handle a value in degrees without having to first convert.
     'sinh' : [
 'trigonometry', 'calculates the hyperbolic sine of n',
 '''
-
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+The hyperbolic sine can be defined in terms of the exponential function:
+
+         e^x - e^-x
+sinh x = ----------
+             2
+
+The hyperbolic sine can also be defined in terms of sine:
+
+sinh x = -i sin( ix )
 
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
@@ -11331,17 +11609,28 @@ can handle a value in degrees without having to first convert.
     'tanh' : [
 'trigonometry', 'calculates the hyperbolic tangent of n',
 '''
-
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+The hyperbolic tangent can be defined in terms of sinh and cosh:
+
+tanh x = sinh x / cosh x
+
+The hyperbolic tangent can also be defined in terms of tangent:
+
+tanh x = -i tan( ix )
 
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 pi * 4 / radians tanh' ) + '''
+Comparing tanh to sinh/cosh and tan:
+''' + makeCommandExample( '4 pi * 7 / tanh', indent=4 ) + '''
+''' + makeCommandExample( '4 pi * 7 / ( sinh cosh ) unlist /', indent=4 ) + '''
+''' + makeCommandExample( '-1 i 4 pi * 7 / i * tanh', indent=4 ),
 [ 'tan', 'atanh', 'cosh', 'sinh' ] ],
 
 }
