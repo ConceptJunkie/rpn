@@ -229,7 +229,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                                        ' + ' + formatOutput( nstr( mpmathify( im( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
                     elif im( result ) < 0:
                         outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
-                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
                     else:
                         outputString = formatOutput( nstr( re( result ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
                 # otherwise, it's a plain old mpf

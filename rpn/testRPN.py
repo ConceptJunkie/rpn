@@ -394,15 +394,22 @@ def runArithmeticOperatorTests( ):
     expectResult( '[ 6 10 15 ] gcd', 1 )
     expectResult( '[ 14 22 77 ] gcd', 1 )
 
-    # gcd2
-    testOperator( '123 78 gcd2' )
+    expectEqual( '2 1000 range lambda x divisors 1 - gcd eval', '258409 oeis 999 left' )
 
-    expectEqual( '-a4200 0 20000 range lambda x x fib gcd2 eval', '104714 oeis 20001 left' )
+    if slow:
+        expectEqual( '2 10000 range lambda x divisors 1 - gcd eval', '258409 oeis 9999 left' )
+
+    # gcd2
     expectEqual( '-a500 1 1000 range lambda 2 x ** 1 - 3 x ** 1 - gcd2 eval', '86892 oeis 1000 left' )
+    expectEqual( '-a4200 0 5000 range lambda x x fib gcd2 eval', '104714 oeis 5001 left' )
+    expectEqual( '-a2600 1 1000 range lambda x 1 + x ! gcd2 eval', '181569 oeis 1000 left' )
+    expectEqual( '-a500 1 1000 range lambda 2 x ** 1 - 3 x ** 1 - gcd2 eval', '86892 oeis 1000 left' )
+    expectEqual( '-a1400 1 500 range lambda x x ^ x ! gcd2 eval', '51696 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '-a4200 0 20000 range lambda x x fib gcd2 eval', '104714 oeis 20001 left' )
 
     # harmonic_mean
-    testOperator( '1 5 range harmonic_mean' )
-
     expectEqual( '1 1000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter', '1599 oeis lambda x 1000 is_not_greater filter' )
 
     if slow:
@@ -476,8 +483,10 @@ def runArithmeticOperatorTests( ):
     expectResult( '1024 2 is_kth_power', 1 )
     expectResult( '32 2 is_kth_power', 0 )
     expectResult( '36864 2 is_kth_power', 1 )
-    expectResult( '32 i 2 is_kth_power', 1 )
+    expectResult( '32 i 5 is_kth_power', 1 )
     expectResult( '128 i 128 - 3 is_kth_power', 1 )
+    expectResult( '-a100 1 100 range lambda 8 x ** x is_kth_power eval and_all', 1 )
+    expectResult( '1 100 range lambda 3 i 4 + x ** x is_kth_power eval and_all', 1 )
 
     # is_less
     expectResult( '4 3 is_less', 0 )
@@ -549,6 +558,10 @@ def runArithmeticOperatorTests( ):
     expectResult( '1024 2 is_power_of_k', 1 )
     expectResult( '65 2 is_power_of_k', 0 )
     expectResult( '36864 2 is_power_of_k', 0 )
+    expectResult( '2 1 100 range ** 2 is_power_of_k and_all', 1 )
+    expectResult( '58 1 100 range ** 58 is_power_of_k and_all', 1 )
+    expectResult( '-12 1 100 range ** -12 is_power_of_k and_all', 1 )
+    expectResult( '2 i 3 + 1 100 range ** 2 i 3 + is_power_of_k and_all', 1 )
 
     # is_square
     expectResult( '1024 is_square', 1 )
@@ -582,6 +595,8 @@ def runArithmeticOperatorTests( ):
     testOperator( '12 14 lcm2' )
 
     # mantissa
+    expectException( '3.4 i 0.5 + mantissa' )
+
     expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 4 left' )
 
     # max
@@ -1022,45 +1037,45 @@ def runBitwiseOperatorTests( ):
 
 def runCalendarOperatorTests( ):
     # ascension
-    testOperator( '2016 ascension' )
+    testOperator( '2010 2020 range ascension' )
 
     # ash_wednesday
-    testOperator( '2015 ash_wednesday' )
+    testOperator( '2010 2020 range ash_wednesday' )
 
     # calendar
-    testOperator( '1965-03-31 calendar' )
-    testOperator( '2014-10-01 calendar' )
-    testOperator( 'today calendar' )
+    testOperator( '1965-03-31 0 11 range month + calendar' )
+    testOperator( '2014-10-01 0 11 range month + calendar' )
+    testOperator( 'today 0 11 range month + calendar' )
 
     # christmas
-    testOperator( '2016 christmas' )
+    testOperator( '2010 2020 range christmas' )
 
     # columbus_day
-    testOperator( '2017 columbus_day' )
+    testOperator( '2010 2020 range columbus_day' )
 
     # dst_end
-    testOperator( '2015 dst_end' )
+    testOperator( '1980 2020 range dst_end' )
 
     # dst_start
-    testOperator( '2015 dst_start' )
+    testOperator( '1980 2020 range dst_start' )
 
     # easter
-    testOperator( '2015 easter' )
+    testOperator( '2010 2020 range easter' )
 
     # election_day
-    testOperator( '2015 election_day' )
+    testOperator( '2010 2020 range election_day' )
 
     # epiphany
-    testOperator( '2018 epiphany' )
+    testOperator( '2010 2020 range epiphany' )
 
     # fathers_day
-    testOperator( '2018 fathers_day' )
+    testOperator( '2010 2020 range fathers_day' )
 
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
 
     # from_ethiopian
-    testOperator( '2012 8 6 from_ethiopian' )
+    testOperator( '2012 1 1 from_ethiopian' )
 
     # from_hebrew
     testOperator( '5776 8 6 from_hebrew' )
@@ -1081,28 +1096,28 @@ def runCalendarOperatorTests( ):
     testOperator( '1394 7 27 from_persian' )
 
     # good_friday
-    testOperator( '2018 good_friday' )
+    testOperator( '2010 2020 range good_friday' )
 
     # independence_day
-    testOperator( '2017 independence_day' )
+    testOperator( '2010 2020 range independence_day' )
 
     # iso_date
-    testOperator( 'today iso_date' )
+    testOperator( 'today 0 31 range day + iso_date' )
 
     # labor_day
-    testOperator( '2015 labor_day' )
+    testOperator( '2010 2020 range labor_day' )
 
     # martin_luther_king_day
-    testOperator( '2017 martin_luther_king_day' )
+    testOperator( '2010 2020 range martin_luther_king_day' )
 
     # memorial_day
-    testOperator( '2015 memorial_day' )
+    testOperator( '2010 2020 range memorial_day' )
 
     # mothers_day
-    testOperator( '2018 mothers_day' )
+    testOperator( '2010 2020 range mothers_day' )
 
     # new_years_day
-    testOperator( '2018 new_years_day' )
+    testOperator( '2010 2020 range new_years_day' )
 
     # nth_weekday
     testOperator( '2015 march 4 thursday nth_weekday' )
@@ -1113,76 +1128,76 @@ def runCalendarOperatorTests( ):
     testOperator( '2015 -1 thursday nth_weekday_of_year' )
 
     # pentecost
-    testOperator( '2016 pentecost' )
+    testOperator( '2010 2020 range pentecost' )
 
     # presidents_day
-    testOperator( '2015 presidents_day' )
+    testOperator( '2010 2020 range presidents_day' )
 
     # thanksgiving
-    testOperator( '2015 thanksgiving' )
+    testOperator( '2010 2020 range thanksgiving' )
 
     # to_bahai
-    testOperator( 'today to_bahai' )
+    testOperator( 'today 0 31 range days + to_bahai' )
 
     # to_bahai_name
-    testOperator( 'today to_bahai_name' )
+    testOperator( 'today 0 31 range days + to_bahai_name' )
 
     # to_ethiopian
-    testOperator( 'today to_ethiopian' )
+    testOperator( 'today 0 31 range days + to_ethiopian' )
 
     # to_ethiopian_name
-    testOperator( 'today to_ethiopian_name' )
+    testOperator( 'today 0 31 range days + to_ethiopian_name' )
 
     # to_hebrew
-    testOperator( 'today to_hebrew' )
+    testOperator( 'today 0 31 range days + to_hebrew' )
 
     # to_hebrew_name
-    testOperator( 'today to_hebrew_name' )
+    testOperator( 'today 0 31 range days + to_hebrew_name' )
 
     # to_indian_civil
-    testOperator( 'today to_indian_civil' )
+    testOperator( 'today 0 31 range days + to_indian_civil' )
 
     # to_indian_civil_name
-    testOperator( 'today to_indian_civil_name' )
+    testOperator( 'today 0 31 range days + to_indian_civil_name' )
 
     # to_islamic
-    testOperator( 'today to_islamic' )
+    testOperator( 'today 0 31 range days + to_islamic' )
 
     # to_islamic_name
-    testOperator( 'today to_islamic_name' )
+    testOperator( 'today 0 31 range days + to_islamic_name' )
 
     # to_iso
-    testOperator( 'today to_iso' )
+    testOperator( 'today 0 31 range days + to_iso' )
 
     # to_iso_name
-    testOperator( 'today to_iso_name' )
+    testOperator( 'today 0 31 range days + to_iso_name' )
 
     # to_julian
-    testOperator( 'today to_julian' )
+    testOperator( 'today 0 31 range days + to_julian' )
 
     # to_julian_day
-    testOperator( 'today to_julian_day' )
+    testOperator( 'today 0 31 range days + to_julian_day' )
 
     # to_lilian_day
-    testOperator( 'today to_lilian_day' )
+    testOperator( 'today 0 31 range days + to_lilian_day' )
 
     # to_mayan
-    testOperator( 'today to_mayan' )
+    testOperator( 'today 0 31 range days + to_mayan' )
 
     # to_ordinal_date
-    testOperator( 'today to_ordinal_date' )
+    testOperator( 'today 0 31 range days + to_ordinal_date' )
 
     # to_persian
-    testOperator( 'today to_persian' )
+    testOperator( 'today 0 31 range days + to_persian' )
 
     # to_persian_name
-    testOperator( 'today to_persian_name' )
+    testOperator( 'today 0 31 range days + to_persian_name' )
 
     # veterans_day
-    testOperator( '2017 veterans_day' )
+    testOperator( '2010 2020 range veterans_day' )
 
     # weekday
-    testOperator( 'today weekday' )
+    testOperator( 'today 0 31 range days + weekday' )
 
     expectException( '2017-00-01 weekday' )
     expectException( '2017-13-01 weekday' )
@@ -1191,7 +1206,7 @@ def runCalendarOperatorTests( ):
     expectException( '1951-02-29 weekday' )
 
     # weekday_name
-    testOperator( 'today weekday_name' )
+    testOperator( 'today 0 31 range days + weekday_name' )
 
     # year_calendar
     testOperator( '1965 year_calendar' )

@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1272
+maxExampleCount = 1284
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1198,7 +1198,12 @@ Added 'root_mean_square', 'stirling1', 'stirling2', 'ackermann',
 Added 'filter_integers', 'filter_on_flags', 'is_k_perfect', 'phitorial', and
 'relatively_prime' operators.
 
-Finally, after many years complex numbers are also formatted.
+If the OEIS text file for a particular sequence has a last line that doesn't
+end with a linefeed, rpn now parses out the last value correctly, instead of
+missing it completely.
+
+Finally, after many years complex numbers are also formatted according to the
+same rules for formatting regular real numbers.
 
 Added more unit tests and the usual bug fixes.
 
@@ -1859,6 +1864,10 @@ Division is supported for measurements.
     'equals_one_of' : [
 'arithmetic', 'returns 1 if n equals any value in the list k, otherwise returns 0',
 '''
+This operator returns 1 if n equals any element in the list k, otherwise it
+returns 0.
+
+This operator is a shortcut which is equivalent to 'n k equals or_all'
 ''',
 '''
 ''' + makeCommandExample( '0 [ 0 1 2 ] equals_one_of' ) + '''
@@ -1882,11 +1891,15 @@ decreased to the next lower integral multiple of i.
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
+The greatest common denominator is the largest number which is a common divisor
+of every element in list n.  If numbers are relatively prime, then their
+greatest common divisor is 1.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 10 20 ] gcd' ) + '''
+''' + makeCommandExample( '[ 27 64 ] gcd' ) + '''
 ''' + makeCommandExample( '[ 3150 8820 ] gcd' ),
-[ 'reduce', 'lcm', 'gcd2' ] ],
+[ 'reduce', 'lcm', 'gcd2', 'relatively_prime' ] ],
 
     'gcd2' : [
 'arithmetic', 'calculates the greatest common denominator of n and k',
@@ -2005,17 +2018,20 @@ otherwise it returns 0.  It is most useful in lambdas.
 [ 'is_even', 'is_odd', 'nearest_int' ] ],
 
     'is_kth_power' : [
-'arithmetic', 'returns whether n is a perfect kth power',
+'arithmetic', 'returns 1 if n is a perfect kth power, otherwise returns 0',
 '''
+'is_kth_power' also works with complex numbers.
 ''',
 '''
 ''' + makeCommandExample( '16 4 is_kth_power' ) + '''
-''' + makeCommandExample( '32 5 is_kth_power' ),
+''' + makeCommandExample( '32 5 is_kth_power' ) + '''
+''' + makeCommandExample( '2 i 3 + 5 ** 5 is_kth_power' ),
 [ 'is_square', 'is_power_of_k' ] ],
 
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
+'is_less' requires a real argument.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_less' ) + '''
@@ -2038,6 +2054,8 @@ otherwise it returns 0.  It is most useful in lambdas.
 'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
 '''
 'is_not_greater' is the equivalent of "less than or equal".
+
+'is_not_greater' requires a real argument.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_not_greater' ) + '''
@@ -2050,6 +2068,8 @@ otherwise it returns 0.  It is most useful in lambdas.
 'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
 '''
 'is_not_less' is the equivalent of "greater than or equal".
+
+'is_not_less' requires a real argument.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_not_less' ) + '''
@@ -2059,9 +2079,12 @@ otherwise it returns 0.  It is most useful in lambdas.
 [ 'is_less', 'is_not_greater' ] ],
 
     'is_not_zero' : [
-'arithmetic', 'returns whether n is not zero',
+'arithmetic', 'returns 1 if n is not zero, otherwise returns 0',
 '''
 This is simply a check for a non-zero value.
+
+The operator is primarily useful in lambdas.  It is actually idential to
+'not not'.
 ''',
 '''
 ''' + makeCommandExample( '1 is_not_zero' ) + '''
@@ -2072,9 +2095,9 @@ This is simply a check for a non-zero value.
 'arithmetic', 'returns whether n is an odd number',
 '''
 This operator returns 1 if the argument is an odd integer (i.e., an
-integer n such that n % 2 == 1), otherwise it returns 0.  It expects a real
-argument.
-n % 2 == 1).
+integer n such that n % 2 == 1), otherwise it returns 0.
+
+'is_odd' expects a real argument.
 ''',
 '''
 ''' + makeCommandExample( '2 is_odd' ) + '''
@@ -2109,9 +2132,10 @@ This works with complex numbers:
 [ 'is_power_of_k', 'is_kth_power' ] ],
 
     'is_zero' : [
-'arithmetic', 'returns whether n is zero',
+'arithmetic', 'returns 1 if n is zero else 0',
 '''
-The operator is primarily useful in lambdas.
+The operator is primarily useful in lambdas.  It is actually idential to the
+'not' operator.
 ''',
 '''
 ''' + makeCommandExample( '0 is_zero' ) + '''
@@ -2134,6 +2158,8 @@ The operator is primarily useful in lambdas.
     'lcm' : [
 'arithmetic', 'calculates the least common multiple of elements in list n',
 '''
+The least common multiple is the smallest number that is an integral multiple
+of every element in the list n.
 ''',
 '''
 ''' + makeCommandExample( '[ 3 6 12 ] lcm' ) + '''
@@ -2144,6 +2170,9 @@ The operator is primarily useful in lambdas.
     'lcm2' : [
 'arithmetic', 'calculates the least common multiple of n and k',
 '''
+The least common multiple is the smallest number that is an integral multiple
+of n and k.
+
 'n k lcm2' is equivalent to '[ n k ] lcm'.
 ''',
 '''
@@ -2154,6 +2183,7 @@ The operator is primarily useful in lambdas.
     'mantissa' : [
 'arithmetic', 'returns the decimal part of n',
 '''
+'mantissa' expects a real argument.
 ''',
 '''
 ''' + makeCommandExample( 'pi mantissa' ) + '''
@@ -2200,9 +2230,11 @@ This operator returns the smallest value in the input list of values n.
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
 '''
+'modulo' expects real arguments, but it doesn't require integer arguments.
 ''',
 '''
 ''' + makeCommandExample( '7 4 modulo' ) + '''
+''' + makeCommandExample( '2.6 0.5 modulo' ) + '''
 ''' + makeCommandExample( '143 12 modulo' ),
 [ 'powmod', 'divide' ] ],
 
@@ -2229,11 +2261,14 @@ Multiplication is supported for measurements.
     'negative' : [
 'arithmetic', 'calculates the negative of n',
 '''
+This is the equalivent of 'n -1 *'.
 ''',
 '''
 ''' + makeCommandExample( '1 negative' ) + '''
 ''' + makeCommandExample( '-1 negative' ) + '''
-''' + makeCommandExample( '0 negative' ),
+''' + makeCommandExample( '0 negative' ) + '''
+''' + makeCommandExample( '3 i negative' ) + '''
+''' + makeCommandExample( '-4 5 i + negative' ),
 [ 'sign', 'abs' ] ],
 
     'nearest_int' : [
@@ -2246,17 +2281,24 @@ different than 'round'.
 ''' + makeCommandExample( '2 sqrt nearest_int' ) + '''
 ''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
 ''' + makeCommandExample( '0.5 nearest_int' ) + '''
-''' + makeCommandExample( '1.5 nearest_int' ),
+''' + makeCommandExample( '1.5 nearest_int' ) + '''
+''' + makeCommandExample( '3.4 i nearest_int' ) + '''
+''' + makeCommandExample( '3.4 i 5.6 + nearest_int' ),
 [ 'round', 'floor', 'ceiling', 'mantissa' ] ],
 
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
 '''
+When multiplying more than two values, 'product' can be little more accurate
+than successive uses of 'multiply'.
 ''',
 '''
 ''' + makeCommandExample( '[ 2 3 7 12 ] product' ) + '''
-''' + makeCommandExample( '1 10 range product' ) + '''
-''' + makeCommandExample( '10 !' ) + '''
+How much energy does an average person expend climbing a flight of stairs?
+''' + makeCommandExample( '[ 180 pounds 10 feet gee ] product kilocalories convert', indent=4 ) + '''
+Calculating a facotrial the hard way:
+''' + makeCommandExample( '1 10 range product', indent=4 ) + '''
+''' + makeCommandExample( '10 !', indent=4 ) + '''
 Calculating the magnetic constant:
 ''' + makeCommandExample( '[ 4 pi 10 -7 ** joule/ampere^2*meter ] product', indent=4 ),
 [ 'multiply', 'sum' ] ],
@@ -2264,15 +2306,34 @@ Calculating the magnetic constant:
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
+This is the equivalent of '1 n /', which is valid for any real or complex
+number, except 0.
 ''',
 '''
-''',
+''' + makeCommandExample( '2 reciprocal' ) + '''
+''' + makeCommandExample( '17 reciprocal' ) + '''
+''' + makeCommandExample( '2 i reciprocal' ) + '''
+''' + makeCommandExample( '12 i 13 + reciprocal' ),
 [ 'divide' ] ],
 
     'root_mean_square' : [
 'arithmetic', 'calculates the root mean square of values in list n',
 '''
-https://en.wikipedia.org/wiki/Root_mean_square
+The root mean square is defined as the square root of the mean square (the
+arithmetic mean of the squares of a set of numbers).  The root mean square is
+also known as the quadratic mean and is a particular case of the generalized
+mean with exponent.  Root mean square can also be defined for a continuously
+varying function in terms of an integral of the squares of the instantaneous
+values during a cycle.
+
+For alternating electric current, root mean square is equal to the value of the
+direct current that would produce the same average power dissipation in a
+resistive load.
+
+In estimation theory, the root mean square error of an estimator is a measure
+of the imperfection of the fit of the estimator to the data.
+
+Ref:  https://en.wikipedia.org/wiki/Root_mean_square
 ''',
 '''
 ''' + makeCommandExample( '10 50 random_integer_ root_mean_square' ) + '''
@@ -2353,6 +2414,19 @@ unit circle.
     'stddev' : [
 'arithmetic', 'calculates the standard deviation of values in list n',
 '''
+The standard deviation is a measure that is used to quantify the amount of
+variation or dispersion of a set of data values.  A low standard deviation
+indicates that the data points tend to be close to the mean (also called the
+expected value) of the set, while a high standard deviation indicates that the
+data points are spread out over a wider range of values.
+
+The standard deviation of a random variable, statistical population, data set,
+or probability distribution is the square root of its variance.  It is
+algebraically simpler, though in practice less robust, than the average
+absolute deviation.  A useful property of the standard deviation is that,
+unlike the variance, it is expressed in the same units as the data.
+
+Ref:  https://en.wikipedia.org/wiki/Standard_deviation
 ''',
 '''
 ''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
@@ -2387,6 +2461,9 @@ Subtraction is supported for measurements.
 'arithmetic', 'calculates the sum of values in list n',
 '''
 In addition to numbers, 'sum' can also add up a list of measurements.
+
+When adding more than two values, 'sum' can be a little more accurate
+than successive uses of 'add'.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 8 3 ] sum' ) + '''
@@ -3046,6 +3123,14 @@ is the numerical representation of the string of 'xor'ed bits.
     'advent' : [
 'calendars', 'returns the date of the first Sunday of Advent for the year specified',
 '''
+Advent is a season observed in many Christian churches as a time of expectant
+waiting and preparation for both the celebration of the Nativity of Jesus at
+Christmas and the return of Jesus at the Second Coming.
+
+Advent is celebrated by the Western Christianty starting with the fourth Sunday
+preceding Christmas, and ending on Christmas Eve.
+
+Ref:  https://en.wikipedia.org/wiki/Advent
 ''',
 '''
 ''' + makeCommandExample( '2018 advent' ),
@@ -3103,45 +3188,59 @@ it does not reflect the actual birth day of Jesus, which is unrecorded, and
 is considered likely to have happened in the springtime, some time between
 6 B.C. and 4 A.D.
 
-I originally didn't intend to make this operator, since Christmas is always
-on the same date, but one day, I was checking the number of days until
-Christmas and used the 'christmas' operator instinctively.
+Note:  I originally didn't intend to make this operator, since Christmas
+is always on the same date, but one day, I was checking the number of
+days until Christmas and used the 'christmas' operator instinctively.
 ''',
 '''
 ''' + makeCommandExample( '2017 christmas' ),
 [ 'thanksgiving', 'easter', 'epiphany', 'advent' ] ],
 
     'columbus_day' : [
-'calendars', 'returns the date of Columbus Day as celebrated in the U.S. for the year specified',
+'calendars', 'returns the date of Columbus Day (US) for the year n',
 '''
+Columbus Day is a national holiday in many countries of the Americas and
+elsewhere which officially celebrates the anniversary of Christopher Columbus'
+arrival in the Americas on October 12, 1492 (Julian Calendar).
+
+Christopher Columbus was an Italian explorer who set sail across the Atlantic
+Ocean in search of a faster route to the the Far East only to land at the New
+World.
+
+Ref:  https://en.wikipedia.org/wiki/Columbus_Day
 ''',
 '''
 ''' + makeCommandExample( '2017 columbus_day' ),
 [ 'independence_day', 'veterans_day', 'memorial_day', 'martin_luther_king_day' ] ],
 
     'dst_end' : [
-'calendars', 'calculates the ending date for Daylight Saving Time for the year specified',
+'calendars', 'calculates the ending date for Daylight Saving Time (US) for the year n',
 '''
+This function is specific to the United States.  The history of Daylight Saving
+Time is rather complicated, and this function attempts to return correct
+historical values for every year since DST was adopted.
 ''',
 '''
 ''',
 [ 'dst_start' ] ],
 
     'dst_start' : [
-'calendars', 'calculates the starting date for Daylight Saving Time for the year specified',
+'calendars', 'calculates the starting date for Daylight Saving Time (US) for the year n',
 '''
-The history of Daylight Saving Time is rather complicated, and this function
-attempts to return correct historical values for every year since DST was
-adopted in the United States.
+This function is specific to the United States.  The history of Daylight Saving
+Time is rather complicated, and this function attempts to return correct
+historical values for every year since DST was adopted.
 ''',
 '''
 ''',
 [ 'dst_end' ] ],
 
     'easter' : [
-'calendars', 'calculates the date of Easter for the year specified',
+'calendars', 'calculates the date of Easter for the year n',
 '''
-In the Christian calendar, Easter commemorates the Resurrection of Christ.
+In the Christian calendar, Easter commemorates the Resurrection of Christ.  The
+'easter' operator calculates Easter based on the Roman Catholic calendar, which
+is the traditional date through most of Western Christendom.
 ''',
 '''
 ''' + makeCommandExample( '2016 easter' ) + '''
@@ -3149,7 +3248,7 @@ In the Christian calendar, Easter commemorates the Resurrection of Christ.
 [ 'ash_wednesday', 'good_friday', 'christmas', 'pentecost' ] ],
 
     'election_day' : [
-'calendars', 'calculates the date of Election Day (US) for the year specified',
+'calendars', 'calculates the date of Election Day (US) for the year n',
 '''
 In the U.S., Election Day is defined to be the first Tuesday after the first
 Monday in November.  This definition was established by the U.S. Congress in
@@ -3161,7 +3260,7 @@ Monday in November.  This definition was established by the U.S. Congress in
 [ 'labor_day', 'memorial_day', 'presidents_day' ] ],
 
     'epiphany' : [
-'calendars', 'returns the date of Epiphany for the year specified',
+'calendars', 'returns the date of Epiphany for the year n',
 '''
 ''',
 '''
@@ -3248,7 +3347,8 @@ in June.
 '''
 Good Friday is celebrated by Christians as the day which Jesus was crucified
 and died.  This day is two days before the celebration of Jesus' Resurrection
-on Easter Sunday.
+on Easter Sunday, as determined by the Roman Catholic calendar and celebrated
+by msot of Western Christendom.
 ''',
 '''
 ''' + makeCommandExample( '2017 good_friday' ) + '''
@@ -3256,8 +3356,11 @@ on Easter Sunday.
 [ 'easter', 'ash_wednesday' ] ],
 
     'independence_day' : [
-'calendars', 'returns the date of Independence Day as celebrated in the U.S. for the year specified',
+'calendars', 'returns the date of Independence Day (US) for the year n',
 '''
+Independence Day celebrates the signing of the Declaration of Independence on
+July 4, 1776, which signified the intention of the British colonies to separate
+from England and become their own country.
 ''',
 '''
 ''' + makeCommandExample( '2017 independence_day' ),
@@ -3272,7 +3375,7 @@ on Easter Sunday.
 [ ] ],
 
     'labor_day' : [
-'calendars', 'calculates the date of Labor Day (US) for the year specified',
+'calendars', 'calculates the date of Labor Day (US) for the year n',
 '''
 In the U.S., Labor Day falls on the first Monday of September.
 ''',
@@ -3282,8 +3385,14 @@ In the U.S., Labor Day falls on the first Monday of September.
 [ 'memorial_day', 'election_day', 'presidents_day' ] ],
 
     'martin_luther_king_day' : [
-'calendars', 'returns the date of Martin Luther King Day as celebrated in the U.S. for the year specified',
+'calendars', 'returns the date of Martin Luther King Day (US) for the year n',
 '''
+Martin Luther King Day is a Federal holiday in the United States, celebrating
+the accomplishments of Dr. Martin Luther King, Jr. who was an American Baptist
+minister and influential civil rights spokesperson and activist.
+
+The holiday is celebrated on the third Monday in January, commemorating Dr.
+King's birthday on January 15, 1929.
 ''',
 '''
 ''' + makeCommandExample( '2017 martin_luther_king_day' ),
@@ -11015,7 +11124,7 @@ precision set in rpn.
 [ ] ],
 
     'roll_dice' : [
-'special', 'evaluates a dice expression to simulate rolling dice',
+'special', 'evaluates a dice expression n to simulate rolling dice',
 '''
 This feature simulates dice rolling and can be used to do calculations and
 simulations for role-playing games, war games or anything else that uses dice.
@@ -11087,9 +11196,12 @@ And obviously, this can result in a negative value.
 [ 'roll_dice', 'roll_simple_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
 
     'roll_dice_' : [
-'special', 'evaluates a dice expression to simulate rolling dice k times',
+'special', 'evaluates dice expression n to simulate rolling dice k times',
 '''
 Please see 'roll_dice' for an explanation of the dice expression language.
+
+This operator will output k results of dice simulation based on the syntax
+described for the 'roll_dice' operator.
 ''',
 '''
 ''' + makeCommandExample( '2d6 10 roll_dice_' ) + '''
@@ -11099,6 +11211,7 @@ Please see 'roll_dice' for an explanation of the dice expression language.
     'roll_simple_dice' : [
 'special', 'rolls n dice with k sides each',
 '''
+This operator returns the sum of n randomly generated values from 1 to k.
 ''',
 '''
 ''' + makeCommandExample( '3 6 roll_simple_dice' ) + '''

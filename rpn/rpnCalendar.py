@@ -652,8 +652,8 @@ def getEthiopianCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
 
-    date = ethiopian_date.to_ethiopian( n.year, n.month, n.day )
+    date = list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
 
-    return ethiopianDays[ date[ 2 ] ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
-           ' ' + str( date[ 0 ] )
+    return ethiopianDays[ date[ 2 ] - 1 ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
+                          ' ' + str( date[ 0 ] )
 

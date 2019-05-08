@@ -14,12 +14,12 @@
 
 from hyperop import hyperop
 from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
-                   asec, asech, asin, asinh, atan, atanh, ceil, conj, cos, \
-                   cosh, cot, coth, csc, csch, e, exp, fabs, fadd, fdiv, \
-                   floor, fmod, fmul, fneg, fprod, fsub, hypot, im, lambertw, \
-                   li, ln, log, log10, mp, mpc, mpf, nint, phi, polyexp, \
-                   polylog, power, re, root, sec, sech, sign, sin, sinh, sqrt, \
-                   tan, tanh, unitroots
+                   asec, asech, asin, asinh, atan, atanh, autoprec, ceil, \
+                   conj, cos, cosh, cot, coth, csc, csch, e, exp, fabs, \
+                   fadd, fdiv, floor, fmod, fmul, fneg, fprod, fsub, hypot, \
+                   im, isint, lambertw, li, ln, log, log10, mp, mpc, mpf, \
+                   nint, phi, polyexp, polylog, power, re, root, sec, sech, \
+                   sign, sin, sinh, sqrt, tan, tanh, unitroots
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -201,7 +201,10 @@ def getRoot( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.getRoot( k )
 
-    return power( n, fdiv( 1, real( k ) ) )
+    if not isint( k ):
+        return power( n, fdiv( 1, k ) )
+    else:
+        return root( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSquareRoot( n ):
@@ -398,9 +401,10 @@ def isSquare( n ):
 
 @twoArgFunctionEvaluator( )
 def isPower( n, k ):
-    logN = log( n, k )
-
-    return 1 if logN == floor( logN ) else 0
+    #print( 'log( n )', log( n ) )
+    #print( 'log( k )', log( k ) )
+    #print( 'divide', autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
+    return isInteger( autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
 
 
 # //******************************************************************************
@@ -411,9 +415,28 @@ def isPower( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isKthPower( n, k ):
-    rootN = root( n, real_int( k ) )
+    if not isint( k, gaussian=True ) and isint( k ):
+        raise ValueError( 'integer arguments expected' )
 
-    return 1 if rootN == floor( rootN ) else 0
+    if k == 1:
+        return 1
+    elif k < 1:
+        raise ValueError( 'a positive power k is expected' )
+
+    if im( n ):
+        # I'm not sure why this is necessary...
+        if re( n ) == 0:
+            return isKthPower( im( n ), k )
+
+        # We're looking for a Gaussian integer among any of the roots.
+        for i in [ autoprec( root )( n, k, i ) for i in arange( k ) ]:
+            if isint( i, gaussian=True ):
+                return 1
+
+        return 0
+    else:
+        rootN = autoprec( root )( n, k )
+        return 1 if isint( rootN, gaussian=True ) else 0
 
 
 # //******************************************************************************
@@ -798,7 +821,7 @@ def isZero( n ):
 
 @oneArgFunctionEvaluator( )
 def getMantissa( n ):
-    return fmod( n, 1 )
+    return fmod( real( n ), 1 )
 
 
 # //******************************************************************************

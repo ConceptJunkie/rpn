@@ -241,6 +241,10 @@ def downloadOEISTable( id ):
     pattern = regex.compile( b'(.*?)[\n]', regex.DOTALL )
     lines = pattern.findall( data )
 
+    # check if the last line doesn't end with a linefeed
+    if data[ -1 ] != b'\n':
+        lines.append( data[ data.rfind( b'\n' ) + 1 : ] )
+
     result = [ ]
 
     for line in lines:
@@ -252,7 +256,6 @@ def downloadOEISTable( id ):
         if line[ 0 ] == '#' or len( line ) == 0:
             continue
 
-        #result.append( mpmathify( int( line.split( )[ 1 ] ) ) )
         result.append( int( line.split( )[ 1 ] ) )
 
     return result, True
