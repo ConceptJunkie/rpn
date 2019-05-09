@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1284
+maxExampleCount = 1346
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -61,7 +61,6 @@ checkForPrimeData( )
 
 if not g.primeDataAvailable:
     sys.stderr.write( 'The prime number cache data is not available.\n' );
-    sys.stderr.write( 'The prime number examples will be generated much more slowly...\n\n' );
     sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' );
 
 parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME + ' - ' +
@@ -532,11 +531,6 @@ Using 'for_each_list' on a non-nested list crashes.
 
 -i doesn't work for lists.
 
-It is not currently possible to convert between hertz and 1/second.  The
-dimensional analysis fails.  This is one of only 2 instances where two
-different types are so related (i.e., one is the reciprocal of the other).
-The other instance is 'ohm' and 'mho'.
-
 '(' and ')' (multiple operators) don't work with generators because the
 generator only works once.
 
@@ -558,17 +552,13 @@ Converting negative numbers to different bases gives weird answers.
 Date comparisons before the epoch (1970-01-01) don't work.  It seems to be a
 limitation of the Arrow class.
 
-User-defined functions can't include units.
+User-defined functions can't include measurements.
 
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
 
-Complex numbers don't obey the accuracy level on output (-a).
-
 Cousin primes seem to be broken starting with index 99, according to OEIS.
-
-'duplicate_ops' flat out doesn't work any more.
 
 'reversal_addition' doesn't work with generators.
 
@@ -1205,6 +1195,10 @@ missing it completely.
 Finally, after many years complex numbers are also formatted according to the
 same rules for formatting regular real numbers.
 
+rpnChilada also finally recognizes the Python syntax for imaginary numbers of
+"99.99999j", i.e., any regular number appended with a 'j'.   The 'i' operator
+remains, but can be considered deprecated, as it is no longer needed.
+
 Added more unit tests and the usual bug fixes.
 
 More help text has been filled in.
@@ -1366,7 +1360,7 @@ Unit conversions:
 ''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee 5 minutes * / dhms', indent=8 ) + '''
 
     Now, let's compare the density of Sagittarius A, the black hole at the
-    center of the Milky Way, to the density of gold...
+    center of the Milky Way, to the density of gold:
 ''' + makeCommandExample( '4.3 million solar_mass 4.3 million solar_mass black_hole_radius sphere_volume / Gold element_density /', indent=8 ) + '''
 
 Advanced examples:
@@ -1430,7 +1424,7 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '-a7 1 1 100000 primes sqr 1/x - prod', indent=8, slow=True ) + '''
 ''' + makeCommandExample( '2 zeta 1/x', indent=8 ) + '''
     An approximation of the infinite tetration of i
-''' + makeCommandExample( '-a20 [ 1 i 1000 dup ] power_tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 [ 1j 1000 dup ] power_tower2', indent=8 ) + '''
     Cahen's Constant
 ''' + makeCommandExample( '1 inf lambda x nth_sylvester 1 - 1/x -1 x 1 + ** * nsum', indent=8 ) + '''
     Erdos-Borwein Constant
@@ -1577,8 +1571,6 @@ coefficient.
     'discriminant' : [
 'algebra', 'calculates the discriminant of polynomial n',
 '''
-from https://en.wikipedia.org/wiki/Discriminant:
-
 In algebra, the discriminant of a polynomial is a polynomial function of its
 coefficients, which allows deducing some properties of the roots without
 computing them. For example, the discriminant of the quadratic polynomial is
@@ -1596,6 +1588,8 @@ its generalization as the discriminant of a number field. For factoring a
 polynomial with integer coefficients, the standard method consists in
 factoring first its reduction modulo a prime number not dividing the
 discriminant (and not dividing the leading coefficient).
+
+Ref:  https://en.wikipedia.org/wiki/Discriminant
 ''',
 '''
 ''' + makeCommandExample( '[ 5 4 3 2 1 ] discriminant' ) + '''
@@ -1824,7 +1818,7 @@ increased to the next integral multiple of i.
 '''
 ''' + makeCommandExample( '3.4 ceil' ) + '''
 ''' + makeCommandExample( '-5.8 ceil' ) + '''
-''' + makeCommandExample( '5.1 3.4 i +' ),
+''' + makeCommandExample( '5.1 3.4j +' ),
 [ 'floor', 'nint', 'mantissa', 'round' ] ],
 
     'decrement' : [
@@ -1885,7 +1879,7 @@ decreased to the next lower integral multiple of i.
 '''
 ''' + makeCommandExample( '0.1 floor' ) + '''
 ''' + makeCommandExample( '-6.9 floor' ) + '''
-''' + makeCommandExample( '-2.5 5.7 i + floor' ),
+''' + makeCommandExample( '-2.5 5.7j + floor' ),
 [ 'ceiling', 'round', 'nearest_int', 'mantissa' ] ],
 
     'gcd' : [
@@ -2025,7 +2019,7 @@ otherwise it returns 0.  It is most useful in lambdas.
 '''
 ''' + makeCommandExample( '16 4 is_kth_power' ) + '''
 ''' + makeCommandExample( '32 5 is_kth_power' ) + '''
-''' + makeCommandExample( '2 i 3 + 5 ** 5 is_kth_power' ),
+''' + makeCommandExample( '2j 3 + 5 ** 5 is_kth_power' ),
 [ 'is_square', 'is_power_of_k' ] ],
 
     'is_less' : [
@@ -2127,8 +2121,8 @@ arguments.
 ''' + makeCommandExample( '32 is_square' ) + '''
 This works with complex numbers:
 
-''' + makeCommandExample( '2 i 1 + sqr' ) + '''
-''' + makeCommandExample( '-3 4 i + is_square' ),
+''' + makeCommandExample( '2j 1 + sqr' ) + '''
+''' + makeCommandExample( '-3 4j + is_square' ),
 [ 'is_power_of_k', 'is_kth_power' ] ],
 
     'is_zero' : [
@@ -2140,8 +2134,8 @@ The operator is primarily useful in lambdas.  It is actually idential to the
 '''
 ''' + makeCommandExample( '0 is_zero' ) + '''
 ''' + makeCommandExample( '1 is_zero' ) + '''
-''' + makeCommandExample( '2 i is_zero' ) + '''
-''' + makeCommandExample( '0 i is_zero' ),
+''' + makeCommandExample( '2j is_zero' ) + '''
+''' + makeCommandExample( '0j is_zero' ),
 [ 'is_not_zero', 'is_odd', 'is_even', 'is_equal' ] ],
 
     'larger' : [
@@ -2267,8 +2261,8 @@ This is the equalivent of 'n -1 *'.
 ''' + makeCommandExample( '1 negative' ) + '''
 ''' + makeCommandExample( '-1 negative' ) + '''
 ''' + makeCommandExample( '0 negative' ) + '''
-''' + makeCommandExample( '3 i negative' ) + '''
-''' + makeCommandExample( '-4 5 i + negative' ),
+''' + makeCommandExample( '3j negative' ) + '''
+''' + makeCommandExample( '-4 5j + negative' ),
 [ 'sign', 'abs' ] ],
 
     'nearest_int' : [
@@ -2282,8 +2276,8 @@ different than 'round'.
 ''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
 ''' + makeCommandExample( '0.5 nearest_int' ) + '''
 ''' + makeCommandExample( '1.5 nearest_int' ) + '''
-''' + makeCommandExample( '3.4 i nearest_int' ) + '''
-''' + makeCommandExample( '3.4 i 5.6 + nearest_int' ),
+''' + makeCommandExample( '3.4j nearest_int' ) + '''
+''' + makeCommandExample( '3.4j 5.6 + nearest_int' ),
 [ 'round', 'floor', 'ceiling', 'mantissa' ] ],
 
     'product' : [
@@ -2312,8 +2306,8 @@ number, except 0.
 '''
 ''' + makeCommandExample( '2 reciprocal' ) + '''
 ''' + makeCommandExample( '17 reciprocal' ) + '''
-''' + makeCommandExample( '2 i reciprocal' ) + '''
-''' + makeCommandExample( '12 i 13 + reciprocal' ),
+''' + makeCommandExample( '2j reciprocal' ) + '''
+''' + makeCommandExample( '12j 13 + reciprocal' ),
 [ 'divide' ] ],
 
     'root_mean_square' : [
@@ -2397,7 +2391,7 @@ unit circle.
 ''' + makeCommandExample( '37 sign' ) + '''
 ''' + makeCommandExample( '-8 sign' ) + '''
 ''' + makeCommandExample( '0 sign' ) + '''
-''' + makeCommandExample( '3 4 i + sign' ),
+''' + makeCommandExample( '3 4j + sign' ),
 [ 'negative', 'abs' ] ],
 
     'smaller' : [
@@ -2673,17 +2667,25 @@ is the time.
     'moonrise' : [
 'astronomy', 'calculates the next moonrise time at location n for date-time k',
 '''
+I suppose some discussion of how timezones come into play would be appropriate
+here.  If I knew, I'd explain it.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Leesburg, Virginia" "2019-05-14 13:00:00" moonrise' ) + '''
+''' + makeCommandExample( '"Leesburg, Virginia" "2019-05-14 15:00:00" moonrise' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" 2020-01-01 moonrise' ),
 [ 'moonset', 'moon_phase' ] ],
 
     'moonset' : [
 'astronomy', 'calculates the nenxt moonset time at location n for date-time k',
 '''
+I suppose some discussion of how timezones come into play would be appropriate
+here.  If I knew, I'd explain it.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Sheboygan, Michigan" 2019-06-12 moonrise' ) + '''
+''' + makeCommandExample( '"Tokyo, Japan" "2019-07-23 04:00:00" moonrise' ) + '''
+''' + makeCommandExample( '"Bucharest, Romania" 2019-01-25 moonrise' ),
 [ 'moonrise', 'moon_phase' ] ],
 
     'moon_antitransit' : [
@@ -4279,8 +4281,8 @@ The complex argument, or phase, of a complex number is defined as the
 signed angle between the positive real axis and n in the complex plane.
 ''',
 '''
-''' + makeCommandExample( '3 3 i + arg' ) + '''
-''' + makeCommandExample( '3 3 i + arg radians degrees convert' ),
+''' + makeCommandExample( '3 3j + arg' ) + '''
+''' + makeCommandExample( '3 3j + arg radians degrees convert' ),
 [ 'conjugate', 'real', 'imaginary', 'i' ] ],
 
     'conjugate' : [
@@ -4290,7 +4292,7 @@ The complex conjugate is simply the nunmber with the same real part and an
 imaginary part with the same magnitude but opposite sign.
 ''',
 '''
-''' + makeCommandExample( '3 3 i + conj' ),
+''' + makeCommandExample( '3 3j + conj' ),
 [ 'argument', 'real', 'imaginary', 'i' ] ],
 
     'i' : [
@@ -4298,7 +4300,7 @@ imaginary part with the same magnitude but opposite sign.
 '''
 ''',
 '''
-''' + makeCommandExample( 'e pi i **' ) + '''
+''' + makeCommandExample( 'e pi i * **' ) + '''
 
 There's a rounding error here, but this demonstrates Euler's famous equation:
 
@@ -4312,8 +4314,8 @@ e ^ ( pi * i ) = -1
 ''',
 '''
 ''' + makeCommandExample( '7 imaginary' ) + '''
-''' + makeCommandExample( '7 i imaginary' ) + '''
-''' + makeCommandExample( '3 4 i + imaginary' ),
+''' + makeCommandExample( '7j imaginary' ) + '''
+''' + makeCommandExample( '3 4j + imaginary' ),
 [ 'real', 'i' ] ],
 
     'real' : [
@@ -4322,8 +4324,8 @@ e ^ ( pi * i ) = -1
 ''',
 '''
 ''' + makeCommandExample( '7 real' ) + '''
-''' + makeCommandExample( '7 i real' ) + '''
-''' + makeCommandExample( '3 4 i + real' ),
+''' + makeCommandExample( '7j real' ) + '''
+''' + makeCommandExample( '3 4j + real' ),
 [ 'imaginary', 'i', 'argument', 'conjugate' ] ],
 
 
@@ -4447,7 +4449,7 @@ Ref:  https://en.wikipedia.org/wiki/Faraday_constant
 '''
 ''',
 '''
-''' + makeCommandExample( '1 i 1 i **' ) + '''
+''' + makeCommandExample( 'i i **' ) + '''
 ''' + makeCommandExample( 'itoi' ),
 [ 'i' ] ],
 
@@ -8278,7 +8280,8 @@ n and k cannot both be odd.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range merten' ) + '''
+''' + makeCommandExample( '3563 merten' ),
 [ ] ],
 
     'mobius' : [
@@ -8286,7 +8289,8 @@ n and k cannot both be odd.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range mobius' ) + '''
+''' + makeCommandExample( '4398 mobius' ),
 [ ] ],
 
     'nth_carol' : [
@@ -8294,7 +8298,8 @@ n and k cannot both be odd.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range nth_carol' ) + '''
+''' + makeCommandExample( '25337 nth_carol' ),
 [ ] ],
 
     'nth_harmonic_number' : [
@@ -8317,7 +8322,8 @@ Cletus Emmanuel.  The nth Kynea number is also equal to the nth power of 4
 added to the (n + 1)th Mersenne number.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range nth_kynea' ) + '''
+''' + makeCommandExample( '63598 nth_kynea' ),
 [ ] ],
 
     'nth_jacobsthal' : [
@@ -8325,7 +8331,8 @@ added to the (n + 1)th Mersenne number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range nth_jacobsthal' ) + '''
+''' + makeCommandExample( '4783 nth_jacobsthal' ),
 [ ] ],
 
     'nth_linear_recurrence' : [
@@ -8507,7 +8514,7 @@ The Pentanacci constant:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '5 6 polygamma' ),
 [ ] ],
 
     'phitorial' : [
@@ -8557,7 +8564,8 @@ base.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range riesel' ) + '''
+''' + makeCommandExample( '4528 riesel' ),
 [ ] ],
 
     'radical' : [
@@ -8652,7 +8660,8 @@ The Tetranacci constant:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range thabit' ) + '''
+''' + makeCommandExample( '2375 thabit' ),
 [ ] ],
 
     'tribonacci' : [
@@ -8672,7 +8681,7 @@ The Tribonacci constant:
 This is the equivalent of '1 n polygamma'.
 ''',
 '''
-''',
+''' + makeCommandExample( '23 trigamma' ),
 [ ] ],
 
     'unit_roots' : [
@@ -8690,7 +8699,7 @@ This is the equivalent of '1 n polygamma'.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2 zeta' ),
 [ 'hurwitz_zeta' ] ],
 
     'zeta_zero' : [
@@ -8698,7 +8707,7 @@ This is the equivalent of '1 n polygamma'.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 5 range zeta_zero' ),
 [ ] ],
 
 
@@ -8709,11 +8718,12 @@ This is the equivalent of '1 n polygamma'.
 # //******************************************************************************
 
     'acceleration' : [
-'physics', 'calculates acceleration...',
+'physics', 'calculates acceleration given different measurement types',
 '''
 Calculates constant acceleration from a stationary start, given measurements
 in two different units (in either order), from one of the following
 combinations of units:
+
     velocity, length
     velocity, time
     distance, time
@@ -8850,10 +8860,11 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'distance' : [
-'physics', 'calculates distance...',
+'physics', 'calculates distance given different measurement types',
 '''
 Calculates distance given measurements in two different units (in either
 order), from one of the following combinations of units:
+
     length, time          (trivial case)
     velocity, time
     acceleration, time
@@ -9024,10 +9035,11 @@ at the Moon).
 [ ] ],
 
     'velocity' : [
-'physics', 'calculates velocity given...',
+'physics', 'calculates velocity given different measurement types',
 '''
 Calculates velocity given measurements in two different units (in either
 order), from one of the following combinations of units:
+
     acceleration, length
     acceleration, time
     jerk, length
@@ -9868,7 +9880,7 @@ The operator return x such that (x^x)^x = n.
 ''' + makeCommandExample( '8 cube_super_root' ) + '''
 ''' + makeCommandExample( '4294967296 cube_super_root' ) + '''
 ''' + makeCommandExample( '-73 cube_super_root' ) + '''
-''' + makeCommandExample( '4 -2 i + cube_super_root' ),
+''' + makeCommandExample( '4 -2j + cube_super_root' ),
 [ 'square', 'cube_root', 'root', 'square_root', 'square_super_root' ] ],
 
     'exp' : [
@@ -9884,7 +9896,7 @@ n can be any real or complex value.
 '''
 ''' + makeCommandExample( '2 exp' ) + '''
 ''' + makeCommandExample( '1 10 range exp' ) + '''
-''' + makeCommandExample( '1 i exp' ),
+''' + makeCommandExample( 'i exp' ),
 [ 'log', 'exp10', 'expphi', 'polyexp' ] ],
 
     'exp10' : [
@@ -9900,7 +9912,7 @@ n can be any real or complex value.
 '''
 ''' + makeCommandExample( '2 exp10' ) + '''
 ''' + makeCommandExample( '1 10 range exp10' ) + '''
-''' + makeCommandExample( '1 i exp10' ),
+''' + makeCommandExample( 'i exp10' ),
 [ 'log10', 'exp', 'expphi' ] ],
 
     'expphi' : [
@@ -10013,7 +10025,7 @@ The operator return x such that x^x = n.
 ''' + makeCommandExample( '4 square_super_root' ) + '''
 ''' + makeCommandExample( '16777216 square_super_root' ) + '''
 ''' + makeCommandExample( '-10 square_super_root' ) + '''
-''' + makeCommandExample( '3 i square_super_root' ),
+''' + makeCommandExample( 'i square_super_root' ),
 [ 'square', 'cube_root', 'root', 'square_root', 'cube_super_root' ] ],
 
     'super_root' : [
@@ -10025,7 +10037,7 @@ The operator return x such that x^x = n.
 ''' + makeCommandExample( '8 3 super_root' ) + '''
 ''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_root' ) + '''
 ''' + makeCommandExample( '-73 6 super_root' ) + '''
-''' + makeCommandExample( '12 6 i + 15 super_root' ),
+''' + makeCommandExample( '12 6j + 15 super_root' ),
 [ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_roots' ] ],
 
 #    'super_roots' : [
@@ -10037,7 +10049,7 @@ The operator return x such that x^x = n.
 #''' + makeCommandExample( '8 3 super_roots' ) + '''
 #''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
 #''' + makeCommandExample( '-128 5 super_roots' ) + '''
-#''' + makeCommandExample( '27 4 i + 3 super_roots' ),
+#''' + makeCommandExample( '27 4j + 3 super_roots' ),
 #[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
 
     'tetrate' : [
@@ -11312,14 +11324,10 @@ Koide's Constant... is it really 2/3?
 '''
 The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
 acos( y ) = x.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0 acos' ) + '''
-''' + makeCommandExample( '0.5 acos radians deg convert' ) + '''
+''' + makeCommandExample( '0.5 acos radians degrees convert' ) + '''
 ''' + makeCommandExample( '0.234 acos cos' ) + '''
 ''' + makeCommandExample( '45 degrees cos acos radians degrees convert' ),
 [ 'cos', 'acosh', 'asin', 'atan' ] ],
@@ -11332,10 +11340,6 @@ The hyperbolic arccosine is the inverse of the hyperbolic cosine.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0 acosh' ) + '''
@@ -11347,13 +11351,11 @@ can handle a value in degrees without having to first convert.
 'trigonometry', 'calcuates the arccotangent of n',
 '''
 The arccotangent is the inverse of the cotangent.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '2 sqrt acot cot' ) + '''
+''' + makeCommandExample( '5 acoth' ) + '''
+''' + makeCommandExample( '1 acot radians degrees convert' ),
 [ 'cot', 'acoth', 'acsc', 'asec' ] ],
 
     'acoth' : [
@@ -11364,26 +11366,22 @@ The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '43 acoth coth' ) + '''
+''' + makeCommandExample( '0.3 acoth' ) + '''
+''' + makeCommandExample( '7 acoth radians degrees convert' ),
 [ 'acot', 'coth', 'acsch', 'asech' ] ],
 
     'acsc' : [
 'trigonometry', 'calculates the arccosecant of n',
 '''
 The arccosecant is the inverse of the cosecant.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.1389 acsc csc' ) + '''
+''' + makeCommandExample( '0.75 acsc' ) + '''
+''' + makeCommandExample( '8.113 acsc radians degrees convert' ),
 [ 'csc', 'asec', 'acsch', 'acot' ] ],
 
     'acsch' : [
@@ -11394,26 +11392,24 @@ The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.1237 acsch csch' ) + '''
+''' + makeCommandExample( '0.25 acsch' ) + '''
+''' + makeCommandExample( '0.75 acsch radians degrees convert' ),
 [ 'csch', 'acsc', 'acoth', 'asech' ] ],
 
     'asec' : [
 'trigonometry', 'calculates the arcsecant of n',
 '''
 The arcsecant is the inverse of the secant.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.1237 sec asec' ) + '''
+''' + makeCommandExample( '5 asec radians degrees convert' ) + '''
+asec( x ) is the same as acos( 1/x ):
+''' + makeCommandExample( '2 asec', indent=4 ) + '''
+''' + makeCommandExample( '0.5 acos', indent=4 ),
 [ 'sec', 'asech', 'acsc', 'acot' ] ],
 
     'asech' : [
@@ -11424,13 +11420,11 @@ The hyperbolic arcsecant is the inverse of the hyperbolic secant.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.767 sech asech' ) + '''
+''' + makeCommandExample( '1 asech' ) + '''
+''' + makeCommandExample( '0.5 asech radians degrees convert' ),
 [ 'sech', 'acsch', 'asec', 'acoth' ] ],
 
     'asin' : [
@@ -11438,10 +11432,6 @@ can handle a value in degrees without having to first convert.
 '''
 The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
 asin( y ) = x.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asin' ) + '''
@@ -11458,10 +11448,6 @@ The hyperbolic arcsine is the inverse of the hyperbolic sine.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asinh' ) + '''
@@ -11475,10 +11461,6 @@ can handle a value in degrees without having to first convert.
 '''
 The arctangent is the inverse of tangent.  In other words, if tan( x ) = y, then
 atan( y ) = x.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 atan' ) + '''
@@ -11496,10 +11478,6 @@ The hyperbolic arctangent is the inverse of the hyperbolic tangent.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
-
-All trigonometric operators that take angles assume the arguments are in
-radians.  However, the operators also take measurements as arguments, so they
-can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 atanh' ) + '''
@@ -11520,7 +11498,8 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( 'pi 2 / cos' ) + '''
-''' + makeCommandExample( '60 degrees cos' ),
+''' + makeCommandExample( '60 degrees cos' ) + '''
+''' + makeCommandExample( '-1 pi 2 / * cos' ),
 [ 'sin', 'tan', 'acos', 'cosh' ] ],
 
     'cosh' : [
@@ -11545,7 +11524,8 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( 'pi 4 / cosh' ) + '''
+''' + makeCommandExample( '30 degrees cosh' ),
 [ 'cos', 'acosh', 'sinh', 'tanh' ] ],
 
     'cot' : [
@@ -11554,12 +11534,16 @@ can handle a value in degrees without having to first convert.
 The cotangent cot( n ) is the reciprocal of tan( n ); i.e., the ratio of the
 length of the adjacent side to the length of the opposite side.
 
+cot( x ) = 1 / tan( x )
+
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.2 cot' ) + '''
+''' + makeCommandExample( '0.2 tan 1/x' ) + '''
+''' + makeCommandExample( '30 degrees cot' ),
 [ 'coth', 'acot', 'sec', 'csc' ] ],
 
     'coth' : [
@@ -11582,13 +11566,17 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '2.3 coth' ) + '''
+''' + makeCommandExample( '2.3 tanh 1/x' ) + '''
+''' + makeCommandExample( '67 degrees coth' ),
 [ 'cot', 'acoth', 'csch', 'sech' ] ],
 
     'csc' : [
 'trigonometry', 'calculates the cosecant of n',
 '''
 The cosecant function is defined to be the reciprocal of the sine function.
+
+csc( x ) = 1 / sin( x )
 
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
@@ -11631,12 +11619,18 @@ Comparing csch to sinh:
     'sec' : [
 'trigonometry', 'calculates the secant of n',
 '''
+The secant function is defined to be the reciprocal of the cosine function.
+
+sec( x ) = 1 / cos( x )
+
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '60 degrees sec' ) + '''
+''' + makeCommandExample( 'pi 2 / sec' ) + '''
+''' + makeCommandExample( '0 sec' ),
 [ 'csc', 'sech', 'asec', 'cot' ] ],
 
     'sech' : [
@@ -11646,7 +11640,7 @@ The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 
-The hyperbolic secant can be defined in terms of cosh:
+The hyperbolic secant can be defined in terms of the hyperbolic cosine:
 
 sech( x ) = 1 / cosh( x )
 
@@ -11659,7 +11653,10 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '45 degrees sech' ) + '''
+Comparing sech to cosh:
+''' + makeCommandExample( '73.5 degrees sech 1/x', indent=4 ) + '''
+''' + makeCommandExample( '73.5 degrees cosh', indent=4 ),
 [ 'sec', 'asech', 'csch', 'coth' ] ],
 
     'sin' : [
@@ -11700,7 +11697,11 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 degrees sinh' ) + '''
+''' + makeCommandExample( 'pi 2 / sinh' ) + '''
+Comparing sinh to sin:
+''' + makeCommandExample( '2 sinh', indent=4 ) + '''
+''' + makeCommandExample( '-1j 2j sin *', indent=4 ),
 [ 'asinh', 'cosh', 'tanh', 'sin' ] ],
 
     'tan' : [
@@ -11743,7 +11744,7 @@ can handle a value in degrees without having to first convert.
 Comparing tanh to sinh/cosh and tan:
 ''' + makeCommandExample( '4 pi * 7 / tanh', indent=4 ) + '''
 ''' + makeCommandExample( '4 pi * 7 / ( sinh cosh ) unlist /', indent=4 ) + '''
-''' + makeCommandExample( '-1 i 4 pi * 7 / i * tanh', indent=4 ),
+''' + makeCommandExample( '-1j 4 * pi * 7 / i * tan', indent=4 ),
 [ 'tan', 'atanh', 'cosh', 'sinh' ] ],
 
 }

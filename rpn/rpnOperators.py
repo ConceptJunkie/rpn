@@ -1542,7 +1542,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
 def printHelpMessage( ):
     from rpnOutput import printHelp
-    printHelp( '', True )
+    printHelp( interactive=True )
     return 0
 
 
@@ -1556,11 +1556,11 @@ def printHelpTopic( n ):
     from rpnOutput import printHelp
 
     if isinstance( n, str ):
-        printHelp( n, True )
+        printHelp( [ n ], interactive=True )
     elif isinstance( n, RPNMeasurement ):
         units = n.units
         # help for units isn't implemented yet, but now it will work
-        printHelp( list( units.keys( ) )[ 0 ], True )
+        printHelp( [ list( units.keys( ) )[ 0 ] ], interactive=True )
     else:
         print( 'The \'topic\' operator requires a string argument.' )
 
@@ -2834,8 +2834,8 @@ operators = {
     'conjugate'                      : RPNOperator( getConjugate,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
 
-    'i'                              : RPNOperator( getI,
-                                                    1, [ RPNArgumentType.Real ], [ ] ),
+#    'i'                              : RPNOperator( getI,
+#                                                    1, [ RPNArgumentType.Real ], [ ] ),
 
     'imaginary'                      : RPNOperator( getImaginary,
                                                     1, [ RPNArgumentType.Default ], [ ] ),
@@ -4349,6 +4349,8 @@ operators = {
 
     'topic'                          : RPNOperator( printHelpTopic,
                                                     1, [ RPNArgumentType.String ], [ ] ),
+
+    #'topics' doesn't need to be handled here, see rpn.py, search for 'topics'
 
     'uuid'                           : RPNOperator( generateUUID,
                                                     0, [ ], [ ] ),

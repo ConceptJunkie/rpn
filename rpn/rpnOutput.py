@@ -27,9 +27,10 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadHelpData, loadUnitData
+from rpn.rpnUnitTypes import basicUnitTypes
+from rpn.rpnUtils import addAliases
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
                            RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
-from rpn.rpnUtils import addAliases
 
 import rpn.rpnGlobals as g
 
@@ -475,6 +476,21 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
 # //******************************************************************************
 
 def printCategoryHelp( category, operators, listOperators, modifiers, operatorHelp ):
+    if category in basicUnitTypes:
+        first = True
+
+        units = [ ]
+
+        for unit, unitInfo in g.unitOperators.items( ):
+            if unitInfo.unitType == category:
+                units.append( unit )
+
+        printParagraph( 'The ' + category + ' category includes the following units:' )
+        print( )
+
+        printParagraph( ', '.join( sorted( units ) ), indent=4 )
+        return
+
     printParagraph( 'The ' + category + ' category includes the following operators (with aliases in parentheses):' )
     print( )
 
@@ -494,7 +510,7 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 # //
 # //******************************************************************************
 
-def printHelp( term, interactive = False ):
+def printHelp( terms = [ ], interactive = False ):
     from rpn.rpnOperators import constants, listOperators, modifiers, operators
 
     loadHelpData( )
@@ -502,6 +518,17 @@ def printHelp( term, interactive = False ):
 
     if g.helpVersion != PROGRAM_VERSION:
         print( 'rpn:  help file version mismatch' )
+
+    unitType = False
+
+    if len( terms ) > 0:
+        term = terms[ 0 ]
+    else:
+        term = ''
+
+    if len( terms ) > 1 and terms[ 0 ] == 'unit_type':
+        term = terms[ 1 ]
+        unitType = True
 
     if term == '':
         if interactive:
@@ -514,9 +541,8 @@ def printHelp( term, interactive = False ):
     if term in g.aliases:
         term = g.aliases[ term ]
 
-
     # then look for exact matches in all the lists of terms for which we have help support
-    if term in operators:
+    if term in operators and not unitType:
         printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
     elif term in g.unitOperators:
         printOperatorHelp( term, g.unitOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
@@ -533,17 +559,17 @@ def printHelp( term, interactive = False ):
     elif term in g.operatorCategories:
         printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), 4 )
+        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), indent=4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
         addAliases( unitList, g.aliases )
         for unit in unitList:
-            printParagraph( unit, 4 )
+            printParagraph( unit, indent=4 )
     else:
         # if no exact matches for any topic, let's look for partial matches
         if 'unit_types'.startswith( term ):
             print( 'Interpreting topic as \'unit_types\'.' )
-            printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), indent=4 )
             return
 
         helpTerm = next( ( i for i in g.unitTypeDict if i != term and i.startswith( term ) ), '' )
@@ -551,7 +577,7 @@ def printHelp( term, interactive = False ):
         if helpTerm != '':
             print( )
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
-            printParagraph( ', '.join( sorted( g.unitTypeDict[ helpTerm ] ) ), 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict[ helpTerm ] ) ), indent=4 )
             return
 
         helpTerm = next( ( i for i in operators if i != term and i.startswith( term ) ), '' )
@@ -618,23 +644,7 @@ def printGeneralHelp( ):
     printParagraph(
         '''For help on a specific topic, use 'rpn help' and add a help topic, operator category or a specific operator name.''' )
 
-    print( )
-    print( 'The following is a list of general topics:' )
-    print( )
-
-    helpTopics = list( g.helpTopics.keys( ) )
-    helpTopics.append( 'unit_types' )
-
-    printParagraph( ', '.join( sorted( helpTopics ) ), 4 )
-
-    print( )
-    print( 'The following is a list of operator categories:' )
-    print( )
-
-    operatorCategories = g.operatorCategories
-    operatorCategories.remove( '_null_type' )
-
-    printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
+    printHelpTopics( )
 
 
 # //******************************************************************************
@@ -649,6 +659,16 @@ def printInteractiveHelp( ):
     printParagraph(
         '''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
 
+    printHelpTopics( )
+
+
+# //******************************************************************************
+# //
+# //  printHelpTopics
+# //
+# //******************************************************************************
+
+def printHelpTopics( ):
     print( )
     print( 'The following is a list of general topics:' )
     print( )
@@ -656,13 +676,29 @@ def printInteractiveHelp( ):
     helpTopics = list( g.helpTopics.keys( ) )
     helpTopics.append( 'unit_types' )
 
-    printParagraph( ', '.join( sorted( helpTopics ) ), 4 )
+    printParagraph( ', '.join( sorted( helpTopics ) ), indent=4 )
 
     print( )
     print( 'The following is a list of operator categories:' )
     print( )
 
-    printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
+    operatorCategories = set( g.operatorCategories )
+
+    unitTypes = dict( basicUnitTypes )
+
+    for i in unitTypes:
+        if i in operatorCategories:
+            operatorCategories.remove( i )
+
+    printParagraph( ', '.join( sorted( operatorCategories ) ), indent=4 )
+
+    print( )
+    print( 'The following is a list of unit categories\n(use \'rpn help unit_type name\' for more info):' )
+    print( )
+
+    del unitTypes[ '_null_type' ]
+
+    printParagraph( ', '.join( sorted( unitTypes ) ), indent=4 )
 
 
 # //******************************************************************************

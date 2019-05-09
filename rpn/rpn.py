@@ -348,7 +348,7 @@ def enterHelpMode( terms ):
             printInteractiveHelp( )
         else:
             for term in terms:
-                printHelp( term, True )
+                printHelp( [ term ], interactive=True )
 
 
 # //******************************************************************************
@@ -372,14 +372,14 @@ def rpn( cmd_args ):
 
     # look for help argument before we start setting everything up (because it's faster this way)
     help = False
-    helpArg = ''
+    helpArgs = [ ]
 
     for i in range( 0, len( cmd_args ) ):
         if cmd_args[ i ] == 'help':
             help = True
         else:
             if help:
-                helpArg = cmd_args[ i ]
+                helpArgs.append( cmd_args[ i ] )
 
     if help:
         parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
@@ -398,7 +398,7 @@ def rpn( cmd_args ):
 
         g.aliases.update( operatorAliases )
 
-        printHelp( helpArg )
+        printHelp( helpArgs )
         return
 
     # set up the command-line options parser
@@ -487,7 +487,7 @@ def rpn( cmd_args ):
     if args.help or args.other_help:
         loadUnitNameData( )
 
-        printHelp( '' )
+        printHelp( )
         return
 
     valid, errorString = validateOptions( args )
