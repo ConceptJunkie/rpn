@@ -1031,5 +1031,19 @@ integer assuming two's complement representation.
 This is the smallest number that can be represented by a 16-bit unsigned
 integer assuming two's complement representation.
 ''' ),
+
+    # mathematical constants
+    'i' :
+        RPNConstantInfo( 1j, '', [ 'min_uint16', 'minuint16', 'minushort' ], False,
+                         'i, the square root of -1, which is the same as \'1j\'',
+                         '''
+The imaginary number i is the square root of -1.  Python's normal syntax for
+imaginary numbers uses the 'j' suffix with a number, but for just the value of i
+itself, '1j' seems clumsy, so there's the 'i' constant.
+
+'-i' however cannot be used since that is the command-line switch for
+interactive mode.
+''' ),
+
 }
 

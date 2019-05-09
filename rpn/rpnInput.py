@@ -15,7 +15,7 @@
 import arrow
 import math
 
-from mpmath import fdiv, fneg, mp, mpf, mpmathify
+from mpmath import fdiv, fmul, fneg, mp, mpc, mpf, mpmathify
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -135,6 +135,14 @@ def parseInputValue( term, inputRadix = 10 ):
     else:
         ignoreSpecial = False
 
+    if inputRadix == 10:
+        imaginary = term[ -1 ] in ( 'i', 'j' )
+    else:
+        imaginary = False
+
+    if imaginary:
+        term = term[ : -1 ]
+
     if '.' in term:
         if inputRadix == 10:
             newPrecision = len( term ) + 1
@@ -142,7 +150,10 @@ def parseInputValue( term, inputRadix = 10 ):
             if mp.dps < newPrecision:
                 setAccuracy( newPrecision )
 
-            return mpmathify( term )
+            if imaginary:
+                return mpc( imag = term )
+            else:
+                return mpmathify( term )
 
         decimal = term.find( '.' )
     else:
@@ -203,11 +214,21 @@ def parseInputValue( term, inputRadix = 10 ):
             if mp.dps < newPrecision:
                 setAccuracy( newPrecision )
 
-            return fneg( integer ) if negative else mpmathify( integer )
+            result = fneg( integer ) if negative else mpmathify( integer )
 
-    # finally, we have a non-radix 10 number to parse
+            if imaginary:
+                return mpc( real = '0.0', imag = result )
+            else:
+                return result
+
+    # finally, we have a non-radix 10 number with a mantissa to parse
     result = convertToBase10( integer, mantissa, inputRadix )
-    return fneg( result ) if negative else mpmathify( result )
+    result = fneg( result ) if negative else mpmathify( result )
+
+    if imaginary:
+        return mpc( real = '0.0', imag = result )
+    else:
+        return result
 
 
 # //******************************************************************************
