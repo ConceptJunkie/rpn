@@ -32,6 +32,7 @@ from mpmath import fneg, im, inf, mp, mpc, mpmathify, nan, nstr, re
 from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
+from rpn.rpnBase import specialBaseNames
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -546,28 +547,8 @@ def rpn( cmd_args ):
     setPrecision( args.precision )
 
     # handle -r
-    if args.output_radix == 'phi':
-        g.outputRadix = g.phiBase
-    elif args.output_radix == 'fib':
-        g.outputRadix = g.fibBase
-    elif args.output_radix == 'fac' or args.output_radix == '!':
-        g.outputRadix = g.facBase
-    elif args.output_radix == 'fac2' or args.output_radix == 'double_fac' or args.output_radix == '!!':
-        g.outputRadix = g.doublefacBase
-    elif args.output_radix == 'square' or args.output_radix == 'sqr':
-        g.outputRadix = g.squareBase
-    elif args.output_radix == 'lucas':
-        g.outputRadix = g.lucasBase
-    elif args.output_radix == 'triangular' or args.output_radix == 'tri':
-        g.outputRadix = g.triangularBase
-    elif args.output_radix == 'primorial':
-        g.outputRadix = g.primorialBase
-    elif args.output_radix == 'e':
-        g.outputRadix = g.eBase
-    elif args.output_radix == 'pi':
-        g.outputRadix = g.piBase
-    elif args.output_radix == 'sqrt2':
-        g.outputRadix = g.sqrt2Base
+    if args.output_radix in specialBaseNames:
+        g.outputRadix = specialBaseNames[ args.output_radix ]
     else:
         try:
             # if g.outputRadix was already set (e.g., by -o) then we don't want to override it

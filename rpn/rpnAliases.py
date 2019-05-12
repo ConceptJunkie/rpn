@@ -37,9 +37,6 @@ def dumpAliases( ):
 # //******************************************************************************
 
 operatorAliases = {
-    #'Aluminium'                    : 'Aluminum',
-    #Caesium'                       : 'Cesium',
-    #Sulphur'                       : 'Sulfur',
     '!!'                            : 'double_factorial',
     '!'                             : 'factorial',
     '!='                            : 'is_not_equal',
@@ -138,6 +135,7 @@ operatorAliases = {
     'bernoulli'                     : 'nth_bernoulli',
     'bicron'                        : 'picometer',
     'bits'                          : 'count_bits',
+    'bit_count'                     : 'count_bits',
     'boiling_point'                 : 'element_boiling_point',
     'cal'                           : 'calendar',
     'carol'                         : 'nth_carol',
@@ -266,6 +264,7 @@ operatorAliases = {
     'c_triangular'                  : 'centered_triangular',
     'daily'                         : '1/day',
     'daytime'                       : 'day_time',
+    'day_of_week'                   : 'weekday',
     'deca'                          : 'decagonal',
     'deca?'                         : 'nth_decagonal',
     'decagonal?'                    : 'nth_decagonal',
@@ -349,8 +348,8 @@ operatorAliases = {
     'geo_mean'                      : 'geometric_mean',
     'geo_range'                     : 'geometric_range',
     'geo_recur'                     : 'geometric_recurrence',
+    'get'                           : 'get_variable',
     'get_combinations_with_repeat'  : 'get_repeat_combinations',
-    'get_data'                      : 'get_variable',
     'get_left_trunc'                : 'get_left_truncations',
     'get_permutations_with_repeat'  : 'get_repeat_permutations',
     'get_right_trunc'               : 'get_right_truncations',

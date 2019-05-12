@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1346
+maxExampleCount = 1364
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -64,8 +64,7 @@ if not g.primeDataAvailable:
     sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' );
 
 parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME + ' - ' +
-                                  PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE,
-                                  add_help = False,
+                                  PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE, add_help = False,
                                   formatter_class = argparse.RawTextHelpFormatter,
                                   prefix_chars = '-' )
 
@@ -2037,6 +2036,7 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_not_equal' : [
 'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
 '''
+This is the equivalent of 'is_equal not'.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_not_equal' ) + '''
@@ -2475,81 +2475,101 @@ than successive uses of 'add'.
     'jupiter' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Jupiter for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter "Stuttgart, Germany" 2020-01-01 next_rising' ),
 [ ] ],
 
     'mars' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Mars for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars "San Francisco, California" 2019-05-23 next_setting' ),
 [ ] ],
 
     'mercury' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Mercury for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury "Helsinki, Finland" 2019-04-28 transit_time' ),
 [ ] ],
 
     'moon' : [
 'astronomical_objects', '',
 '''
+This operator represents the Moon for astronomical operators that require an
+astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'moon "Leesburg, VA" "2019-05-10 11:00:00" sky_location' ),
 [ ] ],
 
     'neptune' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Neptune for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune "Sao Paulo, Brazil" 2019-05-23 previous_rising' ),
 [ ] ],
 
     'pluto' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Pluto for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'pluto "2019-05-09 09:23:00" distance_from_earth miles convert -c' ),
 [ ] ],
 
     'saturn' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Saturn for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn now distance_from_earth c / hms' ),
 [ ] ],
 
     'sun' : [
 'astronomical_objects', '',
 '''
+This operator represents the Sun for astronomical operators that require an
+astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun "Richmond, VA" "2019-05-10 13:45:00" sky_location' ),
 [ ] ],
 
     'uranus' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Uranus for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'uranus "Harrisburg, PA" "2019-04-29" antitransit_time hms' ),
 [ ] ],
 
     'venus' : [
 'astronomical_objects', '',
 '''
+This operator represents the planet Venus for astronomical operators that
+require an astronomical object.
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus "Boulder, Colorado" "2019-04-15 06:00:00" next_rising' ),
 [ ] ],
 
 
@@ -2562,6 +2582,8 @@ than successive uses of 'add'.
     'angular_separation' : [
 'astronomy', 'returns the angular separation of astronomical objects a and b in radians, at location c, for date-time d',
 '''
+The angular separation describes the angle between where the two objects
+appear in the sky.
 ''',
 '''
 ''' + makeCommandExample( 'sun moon "Kitty Hawk, NC" "2017-08-21 14:50" angular_separation dms' ),
@@ -2570,17 +2592,21 @@ than successive uses of 'add'.
     'angular_size' : [
 'astronomy', 'returns the angular size of astronomical object a in radians, at location b, for date-time c',
 '''
+The angular size describes the width in the sky of the astronomical body as an
+angle.
 ''',
 '''
 ''' + makeCommandExample( 'sun "Paris, France" now angular_size dms' ),
 [ 'sky_location' ] ],
 
     'antitransit_time' : [
-'astronomy', 'calculates the duration of time from the next setting until the subseqent rising of a body'
+'astronomy', 'calculates the antitransit_time of a body a, at location b, starting with date-time c'
 '''
+The antitransit time is the duration of time from the next setting until the
+subseqent rising of a body.
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus "Ypsilanti, Michigan" "2019-04-15 06:00:00" antitransit_time' ),
 [ 'day_time', 'dawn', 'dusk', 'transit_time', 'night_time' ] ],
 
     'astronomical_dawn' : [
@@ -2624,9 +2650,10 @@ center of the sun is 6 degrees below the horizon.
 [ 'day_time', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'day_time' : [
-'astronomy', 'calculates the duration of the next day (i.e., transit_time for the sun)',
+'astronomy', 'calculates the duration of the next day at location n, starting at time k',
 '''
-This is also the amount of time between sunrise and sunset.
+This is the transit time for the sun, which is also the amount of time between
+sunrise and sunset.
 ''',
 '''
 ''' + makeCommandExample( '"Washington, DC" 2017-04-08 day_time' ) + '''
@@ -2691,9 +2718,11 @@ here.  If I knew, I'd explain it.
     'moon_antitransit' : [
 'astronomy', 'calculates the next moon antitransit time at location n for date-time k',
 '''
+The antitransit time of the moon is the duration between the setting and rising
+of the moon.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Beijing, China" 2019-04-15 moon_antitransit' ),
 [ 'moon_transit' ] ],
 
     'moon_phase' : [
@@ -2704,9 +2733,8 @@ moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
 moon, 75% is the last quarter and 100% is the new moon again.
 ''',
 '''
-What was the phase of the moon the day I was born:
-
-''' + makeCommandExample( '1965-03-31 moon_phase' ) + '''
+What was the phase of the moon when I was born:
+''' + makeCommandExample( '"1965-03-31 05:00:00" moon_phase', indent=4 ) + '''
 ... a waning crescent.
 ''',
 [ 'moonrise', 'moonset' ] ],
@@ -2714,6 +2742,8 @@ What was the phase of the moon the day I was born:
     'moon_transit' : [
 'astronomy', 'calculates the next moon transit time at location n for date k',
 '''
+The transit time of the moon is the duration between the rising and setting of
+the moon.
 ''',
 '''
 ''' + makeCommandExample( '"Washington, DC" 2017-03-08 moon_transit' ),
@@ -2740,7 +2770,7 @@ What was the phase of the moon the day I was born:
 [ 'nautical_dawn', 'dusk', 'astronomical_dusk' ] ],
 
     'next_antitransit' : [
-'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
+'astronomy', 'returns the time of the next antitransit of body a, when viewed from location b, at date c',
 '''
 ''',
 '''
@@ -3084,11 +3114,19 @@ is the numerical representation of the string of 'xor'ed bits.
 [ 'bitwise_and', 'bitwise_or', 'bitwise_nand', 'bitwise_nor', 'bitwise_not' ] ],
 
     'count_bits' : [
-'bitwise', 'returns the number of set bits in the value of n',
+'bitwise', 'returns the number of set bits in the non-negative integer n',
 '''
+In order to count bits in a C integer or IEEE floating point representation,
+use 'uint32', 'float', 'double', etc. and then use that result as an argument
+for 'count_bits'.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range count_bits' ) + '''
+''' + makeCommandExample( '4858773054 count_bits' ) + '''
+Count the bits in an 32-bit C-style (two's complement) integer:
+''' + makeCommandExample( '-372 uint32 count_bits', indent=4 ) + '''
+Count the bits in an IEEE 32-bit float:
+''' + makeCommandExample( '57.651 float count_bits', indent=4 ),
 [ 'parity' ] ],
 
     'parity' : [
@@ -10906,6 +10944,8 @@ There are currently only two configuration settings supported:
     'get_variable' : [
 'special', 'retrieves the value for n in the user config data file',
 '''
+Preceding the variable name with '$' allows accessing the variable without
+having to use the cumbersome 'get_variable' operator.
 ''',
 '''
 ''' + makeCommandExample( 'magic_number 37 set_variable' ) + '''
@@ -10916,6 +10956,8 @@ There are currently only two configuration settings supported:
     'help' : [
 'special', 'displays help text',
 '''
+By itself, help will print general help text.  If an argument is added _after_
+'help' then help on that particular topic will be printed.
 ''',
 '''
 ''',
@@ -10970,9 +11012,8 @@ nine hundred ninety-nine...
 'special', 'downloads the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
-updated, but if it is, the only way to get rpn to download new data is
-to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
-flushing the cache for a particular entry.
+updated, but if it is, the only way to get rpn to download new data is to use
+the -I option, when downloading an entry.
 ''',
 '''
 ''' + makeCommandExample( '10349 oeis' ),
@@ -10982,9 +11023,8 @@ flushing the cache for a particular entry.
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
-updated, but if it is, the only way to get rpn to download new data is
-to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
-flushing the cache for a particular entry.
+updated, but if it is, the only way to get rpn to download new data is to use
+the -I option, when downloading an entry.
 ''',
 '''
 ''' + makeCommandExample( '98593 oeis_comment' ),
@@ -10994,9 +11034,8 @@ flushing the cache for a particular entry.
 'special', 'downloads the extra information field for the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
-updated, but if it is, the only way to get rpn to download new data is
-to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
-flushing the cache for a particular entry.
+updated, but if it is, the only way to get rpn to download new data is to use
+the -I option, when downloading an entry.
 ''',
 '''
 ''' + makeCommandExample( '178 oeis_ex' ),
@@ -11006,9 +11045,8 @@ flushing the cache for a particular entry.
 'special', 'downloads the name of the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
-updated, but if it is, the only way to get rpn to download new data is
-to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
-flushing the cache for a particular entry.
+updated, but if it is, the only way to get rpn to download new data is to use
+the -I option, when downloading an entry.
 ''',
 '''
 ''' + makeCommandExample( '10349 oeis_name' ),
@@ -11018,9 +11056,8 @@ flushing the cache for a particular entry.
 'special', '',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
-updated, but if it is, the only way to get rpn to download new data is
-to delete rpnData/oeis.cache.  Eventually, I'll add a tool to allow
-flushing the cache for a particular entry.
+updated, but if it is, the only way to get rpn to download new data is to use
+the -I option, when downloading an entry.
 ''',
 '''
 ''',
@@ -11525,7 +11562,10 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( 'pi 4 / cosh' ) + '''
-''' + makeCommandExample( '30 degrees cosh' ),
+''' + makeCommandExample( '30 degrees cosh' ) + '''
+Comparing hyperbolic cosine to cosine:
+''' + makeCommandExample( '0.3 cosh', indent=4 ) + '''
+''' + makeCommandExample( '0.3j cos', indent=4 ),
 [ 'cos', 'acosh', 'sinh', 'tanh' ] ],
 
     'cot' : [
@@ -11541,9 +11581,10 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
+''' + makeCommandExample( '30 degrees cot' ) + '''
+Comparing cotangent to tangent:
 ''' + makeCommandExample( '0.2 cot' ) + '''
-''' + makeCommandExample( '0.2 tan 1/x' ) + '''
-''' + makeCommandExample( '30 degrees cot' ),
+''' + makeCommandExample( '0.2 tan 1/x' ),
 [ 'coth', 'acot', 'sec', 'csc' ] ],
 
     'coth' : [
@@ -11566,9 +11607,10 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''' + makeCommandExample( '2.3 coth' ) + '''
-''' + makeCommandExample( '2.3 tanh 1/x' ) + '''
-''' + makeCommandExample( '67 degrees coth' ),
+''' + makeCommandExample( '67 degrees coth' ) + '''
+Comparing hyperbolic cotangent to hyperbolic tangent:
+''' + makeCommandExample( '2.3 coth', indent=4 ) + '''
+''' + makeCommandExample( '2.3 tanh 1/x', indent=4 ),
 [ 'cot', 'acoth', 'csch', 'sech' ] ],
 
     'csc' : [
@@ -11584,7 +11626,7 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '45 degrees csc' ) + '''
-Comparing csc to sin:
+Comparing cosecant to sine:
 ''' + makeCommandExample( '36 degrees csc 1/x', indent=4 ) + '''
 ''' + makeCommandExample( '36 degrees sin', indent=4 ),
 [ 'csch', 'acsc', 'sec', 'cot' ] ],
@@ -11611,7 +11653,7 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( 'pi 5 / radians csch' ) + '''
-Comparing csch to sinh:
+Comparing hyperbolic cosecant to hyperbolic sine:
 ''' + makeCommandExample( 'pi 6 / radians csch 1/x', indent=4 ) + '''
 ''' + makeCommandExample( 'pi 6 / radians sinh', indent=4 ),
 [ 'csc', 'sech', 'acsch', 'coth' ] ],
@@ -11630,7 +11672,10 @@ can handle a value in degrees without having to first convert.
 '''
 ''' + makeCommandExample( '60 degrees sec' ) + '''
 ''' + makeCommandExample( 'pi 2 / sec' ) + '''
-''' + makeCommandExample( '0 sec' ),
+''' + makeCommandExample( '0 sec' ) + '''
+Comparing secant to cosine
+''' + makeCommandExample( 'pi 7 / sec', indent=4 ) + '''
+''' + makeCommandExample( 'pi 7 / cos 1/x', indent=4 ),
 [ 'csc', 'sech', 'asec', 'cot' ] ],
 
     'sech' : [
@@ -11654,7 +11699,7 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '45 degrees sech' ) + '''
-Comparing sech to cosh:
+Comparing hyperbolic secant to hyperbolic cosine:
 ''' + makeCommandExample( '73.5 degrees sech 1/x', indent=4 ) + '''
 ''' + makeCommandExample( '73.5 degrees cosh', indent=4 ),
 [ 'sec', 'asech', 'csch', 'coth' ] ],
@@ -11699,7 +11744,7 @@ can handle a value in degrees without having to first convert.
 '''
 ''' + makeCommandExample( '3 degrees sinh' ) + '''
 ''' + makeCommandExample( 'pi 2 / sinh' ) + '''
-Comparing sinh to sin:
+Comparing hyperbolic sine to sine:
 ''' + makeCommandExample( '2 sinh', indent=4 ) + '''
 ''' + makeCommandExample( '-1j 2j sin *', indent=4 ),
 [ 'asinh', 'cosh', 'tanh', 'sin' ] ],
@@ -11741,10 +11786,10 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 pi * 4 / radians tanh' ) + '''
-Comparing tanh to sinh/cosh and tan:
+Comparing hyperbolic tangent to hyperbolic sine/hyperbolic cosine and tangent:
 ''' + makeCommandExample( '4 pi * 7 / tanh', indent=4 ) + '''
 ''' + makeCommandExample( '4 pi * 7 / ( sinh cosh ) unlist /', indent=4 ) + '''
-''' + makeCommandExample( '-1j 4 * pi * 7 / i * tan', indent=4 ),
+''' + makeCommandExample( '-4j pi * 7 / i * tan', indent=4 ),
 [ 'tan', 'atanh', 'cosh', 'sinh' ] ],
 
 }

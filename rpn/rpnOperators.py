@@ -3705,9 +3705,6 @@ operators = {
     'generate_polydivisibles'        : RPNOperator( generatePolydivisibles,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'get_base_k_digits'              : RPNOperator( getBaseKDigits,
-                                                    2, [ RPNArgumentType.Integer, RPNArgumentType.PositiveInteger ], [ ] ),
-
     'harmonic_fraction'              : RPNOperator( getHarmonicFraction,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 

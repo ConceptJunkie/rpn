@@ -54,7 +54,7 @@ def loadChemistryTables( ):
 
         11 :  [ 'Sodium',         'Na',  1,   3,   's',  'Solid',   'Primordial',  'Alkali metal',            '22.98976927',   '22.98976929',     '0.968',      '307.944',  '1156.090', ],
         12 :  [ 'Magnesium',      'Mg',  2,   3,   's',  'Solid',   'Primordial',  'Alkaline earth metal',    '24.304',        '24.307',          '1.738',      '923',      '1363',     ],
-        13 :  [ 'Aluminium',      'Al',  13,  3,   'p',  'Solid',   'Primordial',  'Post-transition metal',   '26.98153815',   '26.98153885',     '2.70',       '933.47',   '2743',     ],
+        13 :  [ 'Aluminum',       'Al',  13,  3,   'p',  'Solid',   'Primordial',  'Post-transition metal',   '26.98153815',   '26.98153885',     '2.70',       '933.47',   '2743',     ],
         14 :  [ 'Silicon',        'Si',  14,  3,   'p',  'Solid',   'Primordial',  'Metalloid',               '28.084',        '28.086',          '2.33',       '1687',     '3538',     ],
         15 :  [ 'Phosphorus',     'P',   15,  3,   'p',  'Solid',   'Primordial',  'Polyatomic nonmetal',     '30.9737619955', '30.9737620005',   '1.823',      '883',      '550',      ],
         16 :  [ 'Sulfur',         'S',   16,  3,   'p',  'Solid',   'Primordial',  'Polyatomic nonmetal',     '32.059',        '32.076',          '2.08',       '388.36',   '717.8',    ],
@@ -172,11 +172,21 @@ def loadChemistryTables( ):
         118 : [ 'Oganesson',      'Og',  18,  7,   'p',  'unknown', 'Synthetic',   'unknown',                 '294',           '294',             'nan',        'nan',      'nan',      ],
     }
 
+    elementAliases = {
+        'Aluminium'     : 'Aluminum',
+        'Caesium'       : 'Cesium',
+        'Sulphur'       : 'Sulfur',
+        'Wolfram'       : 'Tungsten',
+    }
+
     g.atomic_numbers = { }
 
     for k, v in g.elements.items( ):
         g.atomic_numbers[ v[ 0 ] ] = k
         g.atomic_numbers[ v[ 1 ] ] = k
+
+    for i, j in elementAliases.items( ):
+        g.atomic_numbers[ i ] = g.atomic_numbers[ j ]
 
 
 # //******************************************************************************
@@ -389,7 +399,7 @@ def getAtomicNumber( n ):
         n = convertMeasurementToAtomicSymbol( n )
 
     if n not in g.atomic_numbers:
-        raise ValueError( 'invalid atomic symbol' )
+        raise ValueError( 'invalid atomic symbol or name' )
 
     return g.atomic_numbers[ n ]
 

@@ -982,7 +982,12 @@ def runAstronomyOperatorTests( ):
 
 def runBitwiseOperatorTests( ):
     # bitwise_and
-    testOperator( '0x7777 0xdcba bitwise_and' )
+    expectEqual( '1 1000 range lambda x 2 * x sigma bitwise_and eval', '318468 oeis 1000 left' )
+    expectEqual( '1 1000 2 range2 lambda x 2 * x sigma bitwise_and x x sigma x - bitwise_and 2 * equals filter', '324718 oeis lambda x 1001 not_greater filter' )
+
+    if slow:
+        expectEqual( '1 65537 range lambda x 2 * x sigma bitwise_and eval', '318468 oeis 65537 left' )
+        expectEqual( '1 100000 2 range2 lambda x 2 * x sigma bitwise_and x x sigma x - bitwise_and 2 * equals filter', '324718 oeis lambda x 100001 not_greater filter' )
 
     # bitwise_nand
     testOperator( '-x 0x5543 0x7789 bitwise_nand' )
@@ -991,26 +996,43 @@ def runBitwiseOperatorTests( ):
     testOperator( '-x 0x5543 0x7789 bitwise_nor' )
 
     # bitwise_not
-    testOperator( '0xffffff ~' )
-    testOperator( '142857 bitwise_not' )
-    testOperator( '-x 0xefefefefefefef bitwise_not' )
+    expectEqual( '1 2000 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 2000 left' )
+
+    if slow:
+        expectEqual( '1 16384 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 16384 left' )
+
+    # bitwise_or
+    expectEqual( '1 2000 range lambda x x sigma x - bitwise_or eval', '318456 oeis 2000 left' )
+
+    if slow:
+        expectEqual( '1 65537 range lambda x x sigma x - bitwise_or eval', '318456 oeis 65537 left' )
 
     # bitwise_xor
-    testOperator( '0x1939 0x3948 bitwise_xor' )
+    expectEqual( '1 1000 range lambda x x sigma x - bitwise_xor eval', '318457 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 65537 range lambda x x sigma x - bitwise_xor eval', '318457 oeis 65537 left' )
 
     # count_bits
-    testOperator( '0xffff count_bits' )
+    expectEqual ( '1 1000 range lambda x count_bits x factors count_bits sum equals x is_composite and filter', '278909 oeis lambda x 1000 not_greater filter' )
+
+    if slow:
+        expectEqual ( '1 158692 range lambda x count_bits x factors count_bits sum equals x is_composite and filter', '278909 oeis lambda x 158692 not_greater filter' )
 
     # parity
-    testOperator( '0xff889d8f parity' )
-
+    expectEqual( '1 10000 range parity', '1 10000 range count_bits is_odd' )
     expectEqual( '0 20000 range parity nonzero', '69 oeis 10001 left' )
 
     # shift_left
-    testOperator( '-x 0x10 3 shift_left' )
+    expectEqual( '0x01 1 shift_left', '0x02' )
+    expectEqual( '0x10 3 shift_left', '0x80' )
+    expectEqual( '0xffff 4 shift_left', '0xffff0' )
 
     # shift_right
-    testOperator( '-x 0x1000 4 shift_right' )
+    expectEqual( '0x1000 4 shift_right', '0x100' )
+    expectEqual( '0x4444 1 shift_right', '0x2222' )
+    expectEqual( '0x7 3 shift_right', '0' )
+    expectEqual( '0x11111111 1 shift_right', '0x08888888' )
 
 
 # //******************************************************************************
@@ -1541,8 +1563,6 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '1 5 range 2 get_permutations' )
 
     # lah
-    testOperator( '5 6 lah' )
-
     expectEqual( '-a170 1 100 range lambda x 1 x range lah eval flatten', '8297 oeis 5050 left' )
 
     # menage
@@ -2475,6 +2495,10 @@ def runLexicographyOperatorTests( ):
     # combine_digits
     expectResult( '1 9 range combine_digits', 123456789 )
     expectEqual( '1 150 range lambda x 1 range combine_digits eval', '422 oeis 150 left' )
+    expectEqual( '1 3000 range lambda x 2 get_base_k_digits combine_digits is_prime filter', '36952 oeis lambda x 3000 not_greater filter' )
+
+    if slow:
+        expectEqual( '1 324087 range lambda x 2 get_base_k_digits combine_digits is_prime filter', '36952 oeis lambda x 324087 not_greater filter' )
 
     # count_different_digits
     expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )

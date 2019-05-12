@@ -40,6 +40,37 @@ specialBaseFunctions = {
 
 # //******************************************************************************
 # //
+# //  specialBaseNames
+# //
+# //******************************************************************************
+
+specialBaseNames = {
+    'phi'               : g.phiBase,
+    'fib'               : g.fibBase,
+    'fibonacci'         : g.fibBase,
+    'fac'               : g.facBase,
+    'factorial'         : g.facBase,
+    '!'                 : g.facBase,
+    'factorial2'        : g.doublefacBase,
+    'double_factorial'  : g.doublefacBase,
+    'fac2'              : g.doublefacBase,
+    'double_fac'        : g.doublefacBase,
+    '!!'                : g.doublefacBase,
+    'square'            : g.squareBase,
+    'sqr'               : g.squareBase,
+    'lucas'             : g.lucasBase,
+    'triangular'        : g.triangularBase,
+    'tri'               : g.triangularBase,
+    'primorial'         : g.primorialBase,
+    'e'                 : g.eBase,
+    'pi'                : g.piBase,
+    'root2'             : g.sqrt2Base,
+    'sqrt2'             : g.sqrt2Base,
+}
+
+
+# //******************************************************************************
+# //
 # //  convertToBaseN
 # //
 # //******************************************************************************
@@ -141,7 +172,7 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
     This version supports arbitrary non-constant bases.  The place value is
     determined by the function passed in.  The function takes a single argument
     which represents the place, and it returns the value that that place
-    represents.   As an example for base 10, the function would return 10^n for
+    represents.  As an example for base 10, the function would return 10^n for
     argument n.
     '''
     if value == 0:

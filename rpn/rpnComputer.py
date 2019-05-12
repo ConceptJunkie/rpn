@@ -28,38 +28,6 @@ import rpn.rpnGlobals as g
 
 # //******************************************************************************
 # //
-# //  getInvertedBits
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def getInvertedBits( n ):
-    value = real_int( n )
-
-    # determine how many groups of bits we will be looking at
-    if value == 0:
-        groupings = 1
-    else:
-        groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
-
-    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
-    multiplier = mpmathify( 1 )
-    remaining = value
-
-    result = mpmathify( 0 )
-
-    for i in range( 0, groupings ):
-        result = fadd( fmul( fsum( [ placeValue,
-                                     fneg( fmod( remaining, placeValue ) ), -1 ] ),
-                             multiplier ), result )
-        remaining = floor( fdiv( remaining, placeValue ) )
-        multiplier = fmul( multiplier, placeValue )
-
-    return result
-
-
-# //******************************************************************************
-# //
 # //  convertToSignedInt
 # //
 # //  two's compliment logic is in effect here
@@ -96,6 +64,40 @@ def convertToLongLong( n ):
 @oneArgFunctionEvaluator( )
 def convertToQuadLong( n ):
     return convertToSignedInt( n, 128 )
+
+
+# //******************************************************************************
+# //
+# //  getInvertedBits
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getInvertedBits( n ):
+    value = real_int( n )
+
+    # determine how many groups of bits we will be looking at
+    if value == 0:
+        groupings = 1
+    else:
+        groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+
+    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
+    multiplier = mpmathify( 1 )
+    remaining = value
+
+    result = mpmathify( 0 )
+
+    for i in range( 0, groupings ):
+        # Let's let Python do the actual inverting
+        group = fmod( ~int( fmod( remaining, placeValue ) ), placeValue )
+
+        result += fmul( group, multiplier )
+
+        remaining = floor( fdiv( remaining, placeValue ) )
+        multiplier = fmul( multiplier, placeValue )
+
+    return result
 
 
 # //******************************************************************************
@@ -169,11 +171,11 @@ def getBitwiseXor( n, k ):
 
 @twoArgFunctionEvaluator( )
 def shiftLeft( n, k ):
-    return performBitwiseOperation( n, k, lambda x, y: x << y )
+    return fmul( n, 1 << int( k ) )
 
 @twoArgFunctionEvaluator( )
 def shiftRight( n, k ):
-    return performBitwiseOperation( n, k, lambda x, y: x >> y )
+    return floor( fdiv( n, 1 << int( k ) ) )
 
 
 # //******************************************************************************
@@ -183,26 +185,31 @@ def shiftRight( n, k ):
 # //******************************************************************************
 
 def getBitCount( n ):
+    n = real_int( n )
+
+    if real_int( n ) < 0:
+        raise ValueError( '\'bit_count\' requires a positive integer value' )
+
     result = 0
 
     if isinstance( n, RPNMeasurement ):
-        value = real_int( n.value )
+        value = n.value
     else:
-        value = real_int( n )
+        value = n
 
     while ( value ):
-        value &= value - 1
-        result += 1
+        result += fmod( value, 2 )
+        value = floor( fdiv( value, 2 ) )
 
     return result
 
 @oneArgFunctionEvaluator( )
 def getBitCountOperator( n ):
-    return getBitCount( n ) & 1
+    return getBitCount( n )
 
 @oneArgFunctionEvaluator( )
 def getParity( n ):
-    return getBitCount( n ) & 1
+    return fmod( getBitCount( n ), 2 )
 
 
 # //******************************************************************************

@@ -300,8 +300,7 @@ class RPNOperator( object ):
                 argList.append( arg if isinstance( arg, ( list, RPNGenerator ) ) else [ arg ] )
 
             # argument validation
-            #for i, arg in enumerate( argList ):
-            #    self.validateArgType( term, arg, self.argTypes[ i ] )
+            #self.validateArgTypes( term, *reverse( argList ), self.argTypes[ i ] )
 
             #print( 'argList', *reversed( argList ) )
             #print( 'self.function', self.function )
