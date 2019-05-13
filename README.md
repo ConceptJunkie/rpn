@@ -95,24 +95,7 @@ See "rpn help settings" for more information.
 
 rpn is written in Python 3, and requires several libraries for the hard math stuff (gmpy2 is optional, but recommended for improved performance).
 
-You will need to install the following prerequisites:
-
-```
-arrow>=0.13.1
-convertdate>=2.1.3
-ephem>=3.7.6.0
-geopy>=1.19.0
-gmpy2>=2.0.8
-importlib_resources>=1.0.2
-mpmath>=1.1.0
-numpy>=1.16.2
-pyreadline>=2.1
-pytz>=2018.9
-rpnChiladaData>=1.0.0
-skyfield>=1.10
-timezonefinder>=4.0.2
-tzlocal>=1.5.1
-```
+Please see requirements.txt for a list of required Python packages.
 
 Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
 
