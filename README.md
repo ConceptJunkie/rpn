@@ -6,6 +6,10 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - May 13, 2019
+
+Version 8.1.1 is released.   This version includes several new operators, a number of fixes, and a bunch of additions to the help.  Most operators now have help text and examples.
+
 ### Update - April 26, 2019
 
 Version 8 is released.   This version includes a small number of new features, but the primary focus was a significant refactor of the unit conversion code.  The 'convert' operator is more powerful and easier to use.
@@ -83,7 +87,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 8.0.0.
+The current release is 8.1.1.
 
 See "rpn help settings" for more information.
 

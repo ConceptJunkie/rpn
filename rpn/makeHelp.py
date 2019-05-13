@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1364
+maxExampleCount = 1366
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1166,6 +1166,10 @@ Added 'to_ethiopian', 'to_ethiopian_name' and 'from_ethiopian' operators for
 converting to and from the Ethiopian calendar.
 
 Added more unit tests and the usual bug fixes.
+
+8.1.1
+
+As usual, I messed up something with the release and have to fix it.
 
 8.1.0
 

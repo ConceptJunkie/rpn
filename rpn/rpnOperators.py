@@ -1493,8 +1493,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
             if isinstance( currentValueList[ -1 ], RPNFunction ):
                 # make sure the code has been built so we can determine argCount correctly
-                if not self.code:
-                    self.buildCode( )
+                if not currentValueList[ -1 ].code:
+                    currentValueList[ -1 ].buildCode( )
 
                 if currentValueList[ -1 ].argCount == 0:
                     if not operators[ 'eval0' ].evaluate( 'eval0', index, currentValueList ):

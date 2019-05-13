@@ -50,8 +50,9 @@ conversions (comparable to GNU Units) and much, much more.   There are over
 800 unique operators.  rpnChilada supports lists, but not matrices.
 
 rpnChilada comes with integrated help, which isn't complete, but has at
-least a basic description of every operator, and over 1100 built-in
-examples.  Help now includes descriptions for constants and units as well.
+least a basic description of every operator, and over 1300 built-in
+examples.  Help now includes descriptions for constants and units as well,
+although a lot of these still need to be filled in.
 
 rpnChilada also comes with an extensive test suite, which is being constantly
 improved.  Many of the functions are validated against the OEIS.
