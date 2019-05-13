@@ -632,8 +632,8 @@ def saveUserFunctionsFile( ):
 
     config[ 'User Functions' ] = { }
 
-    for key in g.userFunctions.keys( ):
-        config[ 'User Functions' ][ key ] = g.userFunctions[ key ].getCode( )
+    for key, value in g.userFunctions.items( ):
+        config[ 'User Functions' ][ key ] = value.getCode( )
 
     import os.path
 
@@ -1490,7 +1490,12 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 return False
 
             # handle a user-defined function
+
             if isinstance( currentValueList[ -1 ], RPNFunction ):
+                # make sure the code has been built so we can determine argCount correctly
+                if not self.code:
+                    self.buildCode( )
+
                 if currentValueList[ -1 ].argCount == 0:
                     if not operators[ 'eval0' ].evaluate( 'eval0', index, currentValueList ):
                         return False
