@@ -13,12 +13,15 @@
 # //******************************************************************************
 
 import shlex
+import time
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
 from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
+
+import rpn.rpnGlobals as g
 
 
 # //******************************************************************************
@@ -82,10 +85,11 @@ def compareResults( result1, result2 ):
                 if isinf( result2[ i ] ):
                     return True
                 else:
-                    raise ValueError( 'unit test failed' )
                     print( '**** error in results comparison' )
                     print( type( result1[ i ] ), type( result2[ i ] ) )
                     print( result1[ i ], result2[ i ], 'are not equal' )
+
+                    raise ValueError( 'unit test failed' )
 
             if not compareValues( result1[ i ], result2[ i ] ):
                 digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
@@ -104,6 +108,7 @@ def compareResults( result1, result2 ):
             print( '**** error in results comparison' )
             print( '    result 1: ', result1 )
             print( '    result 2: ', result2 )
+
             raise ValueError( 'unit test failed' )
 
 
@@ -161,6 +166,9 @@ def expectException( command ):
 
 #@pysnooper.snoop( )
 def expectEqual( command1, command2 ):
+    if g.timeIndividualTests:
+        startTime = time.process_time( )
+
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
@@ -179,7 +187,11 @@ def expectEqual( command1, command2 ):
     compareResults( result1, result2 )
 
     print( '    both are equal!' )
-    print( '' )
+
+    if g.timeIndividualTests:
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+
+    print( )
 
 
 # //******************************************************************************
@@ -214,6 +226,9 @@ def areListsEquivalent( list1, list2 ):
 # //******************************************************************************
 
 def expectEquivalent( command1, command2 ):
+    if g.timeIndividualTests:
+        startTime = time.process_time( )
+
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
@@ -233,6 +248,10 @@ def expectEquivalent( command1, command2 ):
         raise ValueError( 'unit test failed' )
 
     print( '    both are equal!' )
+
+    if g.timeIndividualTests:
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+
     print( '' )
 
 
@@ -243,6 +262,9 @@ def expectEquivalent( command1, command2 ):
 # //******************************************************************************
 
 def testOperator( command, ignoreCache = True ):
+    if g.timeIndividualTests:
+        startTime = time.process_time( )
+
     print( 'rpn', command )
 
     if ignoreCache:
@@ -257,6 +279,10 @@ def testOperator( command, ignoreCache = True ):
         handleOutput( result )
 
     print( '    operator works!' )
+
+    if g.timeIndividualTests:
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+
     print( '' )
 
 
@@ -267,6 +293,9 @@ def testOperator( command, ignoreCache = True ):
 # //******************************************************************************
 
 def expectResult( command, expected ):
+    if g.timeIndividualTests:
+        startTime = time.process_time( )
+
     print( 'rpn', command )
     result = rpn( shlex.split( command + ' -I' ) )[ 0 ]
 
@@ -289,5 +318,9 @@ def expectResult( command, expected ):
     compareResults( result, compare )
 
     print( '    test passed!' )
+
+    if g.timeIndividualTests:
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+
     print( '' )
 

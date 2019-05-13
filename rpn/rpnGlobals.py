@@ -90,6 +90,7 @@ tempIdentifyMode = False
 tempLeadingZeroMode = False
 tempOctalMode = False
 tempTimerMode = False
+timeIndividualTests = False
 timeLimit = 0
 timer = False
 useYAFU = True
