@@ -260,7 +260,10 @@ def findCenteredDecagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthPentagonalTriangularNumber( n ):
-    return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], fsub( real_int( n ), 1 ) )
+    if real_int( n ) == 0:
+        return 0
+
+    return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], fsub( n, 1 ) )
 
 
 # //******************************************************************************
@@ -474,27 +477,16 @@ def getNthOctagonalHeptagonalNumber( n ):
 # //
 # //  getNthNonagonalTriangularNumber
 # //
-# //  From http://oeis.org/A048907:
+# //  From http://oeis.org/A048909:
 # //
-# //  a( n ) = ( 5 / 14 ) +
-# //           ( 9 / 28 ) * { [ 8 - 3 * sqrt( 7 ) ] ^ n + [ 8 + 3 * sqrt( 7 ) ] ^ n } +
-# //           ( 3 / 28 ) * sqrt( 7 ) * { [ 8 + 3 * sqrt( 7 ) ] ^ n - [ 8 - 3 * sqrt( 7 ) ] ^ n }
+# //  LinearRecurrence[{255, -255, 1}, {1, 325, 82621}, 12];
 # //
 # //******************************************************************************
 
-# TODO:  fix me
-
 @oneArgFunctionEvaluator( )
 def getNthNonagonalTriangularNumber( n ):
-    a = fmul( 3, sqrt( 7 ) )
-    b = fadd( 8, a )
-    c = fsub( 8, a )
-
-    return nint( fsum( [ fdiv( 5, 14 ),
-                         fmul( fdiv( 9, 28 ), fadd( power( b, real_int( n ) ), power( c, n ) ) ),
-                         fprod( [ fdiv( 3, 28 ),
-                                  sqrt( 7 ),
-                                  fsub( power( b, n ), power( c, n ) ) ] ) ] ) )
+    n = fsub( real_int( n ), 1 )
+    return getNthLinearRecurrence( [ 1, -255, 255 ], [ 1, 325, 82621 ], n )
 
 
 # //******************************************************************************
@@ -990,7 +982,7 @@ def getNthCenteredIcosahedralNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthTruncatedOctahedralNumber( n ):
-    return polyval( [ 16, -33, 24, 6 ], real_int( n ) )
+    return polyval( [ 16, -33, 24, -6 ], real_int( n ) )
 
 
 # //******************************************************************************
@@ -1010,7 +1002,7 @@ def getNthTruncatedOctahedralNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthRhombicDodecahedralNumber( n ):
-    return polyval( [ 4, 6, 4, 1 ], real_int( n ) )
+    return polyval( [ 4, 6, 4, 1 ], fsub( real_int( n ), 1 ) )
 
 
 # //******************************************************************************
