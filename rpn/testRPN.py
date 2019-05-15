@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  testRPN
+# //  testRPN.py
 # //
-# //  main test script for RPN
+# //  rpnChilada main test script
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -41,12 +41,24 @@ PROGRAM_NAME = 'testRPN'
 PROGRAM_DESCRIPTION = 'rpnChilada test suite'
 
 slow = False
+filterArg = False
 
 for arg in sys.argv[ 1 : ]:
+    if filterArg:
+        g.testFilter = arg
+        filterArg = False
+        continue
+
     if arg == '-s':
         slow = True
     elif arg == '-t':
         g.timeIndividualTests = True
+    elif arg == '-f':
+        filterArg = True
+
+if filterArg:
+    print( '-f requires an additional argument that describes the filter' )
+    exit( )
 
 
 # //******************************************************************************
@@ -369,7 +381,10 @@ def runArithmeticOperatorTests( ):
 
     # equals_one_of
     if g.primeDataAvailable:
-        expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
+        expectEqual( '1 5000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 184 left' )
+
+        if slow:
+            expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
 
     # floor
     expectResult( '-0.4 floor', -1 )
@@ -432,7 +447,11 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '0 2810 range lambda x 2 has_digits x 2 is_divisible or filter', '92451 oeis 2001 left' )
     expectEqual( '0 2944 range lambda x 9 has_digits x 9 is_divisible or filter', '92457 oeis 1001 left' )
-    expectEqual( '2 14349 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis 1000 left' )
+
+    expectEqual( '2 2000 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis lambda x 2000 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '2 14349 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis lambda x 14349 is_not_greater filter' )
 
     expectException( '1 0 is_divisible' )       # division by zero
     expectException( '20j 4 is_divisible' )    # real arguments required
@@ -2008,7 +2027,7 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '1 1000 range centered_square', '1844 oeis 1000 left' )
 
     # centered_tetrahedral
-    expectEqual( '1 39 range centered_tetrahedral', '5894 oeis 39 left' )
+    expectEqual( '0 39 range centered_tetrahedral', '5894 oeis 40 left' )
 
     # centered_triangular
     expectEqual( '1 10000 range centered_triangular', '5448 oeis 10000 left' )
@@ -2095,7 +2114,10 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '-a300 1 200 range nonagonal_square', '36411 oeis 200 left' )
 
     # nonagonal_triangular
-    expectEqual( '-a500 1 416 range nonagonal_triangular', '48909 oeis 416 left' )
+    expectEqual( '-a500 1 50 range nonagonal_triangular', '48909 oeis 50 left' )
+
+    if slow:
+        expectEqual( '-a500 1 416 range nonagonal_triangular', '48909 oeis 416 left' )
 
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )
@@ -2201,8 +2223,12 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '1 100 range 9 polygonal', '1 100 range nonagonal' )
     expectEqual( '1 100 range 10 polygonal', '1 100 range decagonal' )
 
+    expectEqual( '0 1000 range 27 polygonal', '255186 oeis 1001 left' )
+    expectEqual( '0 40 range 100 polygonal', '261276 oeis 41 left' )
+
     # polytope
-    expectEqual( '1 100 range 3 polytope', '1 100 range triangular' )  # Is this right?
+    expectEqual( '1 100 range 2 polytope', '1 100 range triangular' )
+    expectEqual( '1 100 range 3 polytope', '1 100 range tetrahedral' )
 
     # pyramid
     expectEqual( '0 1000 range pyramid', '330 oeis 1001 left' )
@@ -2224,7 +2250,10 @@ def runFigurateNumberOperatorTests( ):
 
     # triangular
     expectEqual( '1 102 range triangular lambda x count_different_digits 3 equals filter', '162304 oeis 47 left' )
-    expectEqual( '0 30000 range triangular', '217 oeis 30001 left' )
+    expectEqual( '0 1000 range triangular', '217 oeis 1001 left' )
+
+    if slow:
+        expectEqual( '0 30000 range triangular', '217 oeis 30001 left' )
 
     # truncated_octahedral
     expectEqual( '1 1000 range truncated_octahedral', '5910 oeis 1000 left' )
@@ -2386,7 +2415,10 @@ def runGeometryOperatorTests( ):
        expectEqual( '[ 1 1697 range 1 1697 range ] multiplex lambda x 0 element x 1 element hypotenuse for_each_list unique sort lambda x is_integer filter lambda x 1697 is_not_greater filter', '9003 oeis lambda x 1697 is_not_greater filter' )
 
     # icosahedron_area
-    expectEqual( '0 9999 range icosahedron_area value round', '71398 oeis 10000 left' )
+    expectEqual( '0 999 range icosahedron_area value round', '71398 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '0 9999 range icosahedron_area value round', '71398 oeis 10000 left' )
 
     # icosahedron_volume
     expectEqual( '-a1001 1 icosahedron_volume value 10 1001 ** * get_digits 1000 left', '102208 oeis 1000 left' )
@@ -2521,7 +2553,10 @@ def runLexicographyOperatorTests( ):
 
     # count_different_digits
     expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )
-    expectEqual( '1 20000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 36 left' )
+    expectEqual( '1 5000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 32 left' )
+
+    if slow:
+        expectEqual( '1 100000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 39 left' )
 
     # count_digits
 
@@ -2581,6 +2616,9 @@ def runLexicographyOperatorTests( ):
 
     # has_only_digits
     expectEqual( '1 20000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 15 left' )
+
+    if slow:
+        expectEqual( '1 60000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 17 left' )
 
     # is_automorphic
     testOperator( '1 100 range lambda x is_automorphic filter' )
@@ -2696,7 +2734,9 @@ def runLexicographyOperatorTests( ):
     expectEqual( '12345 permute_digits', '30299 oeis 153 left 120 right' )
     expectEqual( '123456 permute_digits', '30299 oeis 873 left 720 right' )
     expectEqual( '1234567 permute_digits', '30299 oeis 5913 left 5040 right' )
-    expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
+
+    if slow:
+        expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
 
     # persistence
     expectResult( '77 persistence', 4 )
@@ -3255,7 +3295,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a1000 -p1100 0 36 range hyperfactorial', '2109 oeis 37 left' )
 
     # is_abundant
-    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
+    expectEqual( '1 2000 range lambda x is_abundant filter', '5101 oeis lambda x 2000 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '1 100000 range lambda x is_abundant filter', '5101 oeis lambda x 100000 is_not_greater filter' )
 
     # is_achilles
     expectEqual( '1 500 range lambda x is_achilles filter', '52486 oeis lambda x 500 is_not_greater filter' )
@@ -3264,7 +3307,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 1000 range lambda x is_antiharmonic filter', '20487 oeis 47 left' )
 
     # is_carmichael
-    expectEqual( '1 10000 2 interval_range lambda x is_carmichael filter', '2997 oeis 7 left' )
+    expectEqual( '1 5000 2 interval_range lambda x is_carmichael filter', '2997 oeis lambda x 5000 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '1 100000 2 interval_range lambda x is_carmichael filter', '2997 oeis lambda x 100000 is_not_greater filter' )
 
     expectResult( '2997 oeis 200 left is_carmichael and_all', 1 )
 
@@ -3305,11 +3351,14 @@ def runNumberTheoryOperatorTests( ):
 
     # is_k_semiprime
     expectEqual( '1 500 range lambda x 2 is_k_semiprime filter', '1 500 range lambda x is_semiprime filter' )
-    expectEqual( '1 1000 range lambda x 3 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x is_sphenic filter' )
-    expectEqual( '1 1000 range lambda x 4 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x 4 is_k_sphenic filter' )
-    expectEqual( '1 1000 range lambda x 5 is_k_semiprime x is_squarefree and filter', '1 1000 range lambda x 5 is_k_sphenic filter' )
+    expectEqual( '1 500 range lambda x 3 is_k_semiprime x is_squarefree and filter', '1 500 range lambda x is_sphenic filter' )
+    expectEqual( '1 500 range lambda x 4 is_k_semiprime x is_squarefree and filter', '1 500 range lambda x 4 is_k_sphenic filter' )
+    expectEqual( '1 500 range lambda x 5 is_k_semiprime x is_squarefree and filter', '1 500 range lambda x 5 is_k_sphenic filter' )
 
-    expectEqual( '-a30 1 50 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis lambda x 50 is_not_greater filter' )
+    expectEqual( '-a30 1 30 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis lambda x 30 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '-a30 1 250 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis lambda x 250 is_not_greater filter' )
 
     expectResult( '210 4 is_k_semiprime', 1 )
 
@@ -3375,7 +3424,11 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '[ 2 3 5 ] prod is_sphenic', 1 )
 
     expectEqual( '1 500 range lambda x is_sphenic filter 53 left', '7304 oeis 53 left' )
-    expectEqual( '-a30 1 11 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 20 left' )
+
+    expectEqual( '1 8 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort', '268582 oeis 16 left' )
+
+    if slow:
+        expectEqual( '-a20 1 19 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort', '268582 oeis 26 left' )
 
     if slow:
         expectEqual( '-a30 1 20 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 26 left' )
@@ -3531,7 +3584,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
     # octanacci
-    expectEqual( '-a30 0 99 range octanacci', '79262 oeis 100 left' )
+    expectEqual( '-a30 0 49 range octanacci', '79262 oeis 50 left' )
 
     if slow:
         expectEqual( '-a1000 0 207 range octanacci', '79262 oeis 208 left' )
@@ -3547,6 +3600,22 @@ def runNumberTheoryOperatorTests( ):
 
     # polygamma
     expectEqual( '-a105 1 1 5 sqrt + 4 / polygamma 1 3 5 sqrt + 4 / polygamma - 2 / 10 105 ** * get_digits 102 left', '91659 oeis 102 left' )
+
+    # polygorial
+    expectEqual( '-a40 0 243 range 5 polygorial', '84939 oeis 244 left' )
+
+    if slow:
+        expectEqual( '-a2300 0 20 range 5 polygorial', '84939 oeis 21 left' )
+
+    expectEqual( '-a120 0 14 range 7 polygorial', '84940 oeis 15 left' )
+    expectEqual( '-a150 0 14 range 8 polygorial', '84941 oeis 15 left' )
+    expectEqual( '-a160 0 13 range 9 polygorial', '84942 oeis 14 left' )
+    expectEqual( '-a190 0 13 range 10 polygorial', '84943 oeis 14 left' )
+
+    expectEqual( '-a50 0 20 range 11 polygorial', '84944 oeis 21 left' )
+
+    if slow:
+        expectEqual( '-a6300 0 220 range 11 polygorial', '84944 oeis 221 left' )
 
     # phitorial
     expectEqual( '-a400 1 200 range phitorial', '1783 oeis 200 left' )
@@ -3640,20 +3709,20 @@ def runNumberTheoryOperatorTests( ):
     # sums_of_k_powers
     expectEqual( '0 576 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 left' )
     expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
-    expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 1 equals filter', '294524 oeis 7 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 2 equals filter', '295150 oeis 10 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 3 equals filter', '295151 oeis 11 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 4 equals filter', '295152 oeis 9 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 5 equals filter', '295153 oeis 12 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 6 equals filter', '295154 oeis 9 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 7 equals filter', '295155 oeis 9 left' )
-    expectEqual( '0 109 range lambda x 5 2 sums_of_k_powers count 8 equals filter', '295156 oeis 11 left' )
-    expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 9 equals filter', '295157 oeis 11 left' )
-    expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 10 equals filter', '295158 oeis 4 left' )
+    expectEqual( '0 49 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 50 left' )
+    expectEqual( '0 49 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 50 left' )
+    expectEqual( '0 59 range lambda x 5 2 sums_of_k_powers count 1 equals filter', '294524 oeis 7 left' )
+    expectEqual( '0 59 range lambda x 5 2 sums_of_k_powers count 2 equals filter', '295150 oeis 10 left' )
+    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 3 equals filter', '295151 oeis 11 left' )
+    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 4 equals filter', '295152 oeis 9 left' )
+    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 5 equals filter', '295153 oeis 12 left' )
 
     if slow:
+        expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 6 equals filter', '295154 oeis 9 left' )
+        expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 7 equals filter', '295155 oeis 9 left' )
+        expectEqual( '0 109 range lambda x 5 2 sums_of_k_powers count 8 equals filter', '295156 oeis 11 left' )
+        expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 9 equals filter', '295157 oeis 11 left' )
+        expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 10 equals filter', '295158 oeis 4 left' )
         expectEqual( '0 4999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 5000 left' )
         expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 left' )
         expectEqual( '0 999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 1000 left' )    # The full 10000 would take days.  This is "slow", but not "glacial".
@@ -3699,7 +3768,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a150 1 10 range lambda 2 x * zeta pi 2 x * ** / 2 x * fraction eval lambda x 1 element for_each_list', '2432 oeis 10 left' )
 
     # zeta_zero
-    expectEqual( '1 100 range zeta_zero im nint', '2410 oeis 100 left' )
+    expectEqual( '1 30 range zeta_zero im nint', '2410 oeis 30 left' )    # The mpmath function is really slow... it does a lot of math!
 
     if slow:
         expectEqual( '1 1000 range zeta_zero im nint', '2410 oeis 1000 left' )
@@ -4020,26 +4089,58 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '-a50 [ 0.25 1000 dup ] power_tower2', '0.5' )
 
     # powmod
-    expectEqual( '0 21000 range lambda 2 x x sqr 1 + powmod x sqr equals filter', '247220 oeis 5 left' )
+    expectEqual( '0 1000 range lambda 2 x x sqr 1 + powmod x sqr equals filter', '247220 oeis lambda x 1000 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '0 60000 range lambda 2 x x sqr 1 + powmod x sqr equals filter', '247220 oeis lambda x 60000 is_not_greater filter' )
 
     # pseudoprimes to base 2
-    expectEqual( '3 100000 2 range2 lambda x is_prime not filter lambda 2 x 1 - x powmod 1 equals filter',
-                 '1567 oeis lambda x 100000 is_less filter' )
+    expectEqual( '3 2000 2 range2 lambda x is_prime not filter lambda 2 x 1 - x powmod 1 equals filter',
+                 '1567 oeis lambda x 2000 is_less filter' )
+
+    if slow:
+        expectEqual( '3 1000000 2 range2 lambda x is_prime not filter lambda 2 x 1 - x powmod 1 equals filter',
+                     '1567 oeis lambda x 1000000 is_less filter' )
+
     # pseudoprimes to base 3
-    expectEqual( '2 50000 range lambda x is_prime not filter lambda 3 x 1 - x powmod 1 equals filter',
-                 '5935 oeis lambda x 50000 is_less filter' )
+    expectEqual( '2 2000 range lambda x is_prime not filter lambda 3 x 1 - x powmod 1 equals filter',
+                 '5935 oeis lambda x 2000 is_less filter' )
+
+    if slow:
+        expectEqual( '2 1000000 range lambda x is_prime not filter lambda 3 x 1 - x powmod 1 equals filter',
+                     '5935 oeis lambda x 1000000 is_less filter' )
+
     # pseudoprimes to base 4
-    expectEqual( '2 50000 range lambda x is_prime not filter lambda 4 x 1 - x powmod 1 equals filter',
-                 '20136 oeis lambda x 50000 is_less filter' )
+    expectEqual( '2 2000 range lambda x is_prime not filter lambda 4 x 1 - x powmod 1 equals filter',
+                 '20136 oeis lambda x 2000 is_less filter' )
+
+    if slow:
+        expectEqual( '2 1000000 range lambda x is_prime not filter lambda 4 x 1 - x powmod 1 equals filter',
+                     '20136 oeis lambda x 1000000 is_less filter' )
+
     # pseudoprimes to base 5
-    expectEqual( '2 50000 range lambda x is_prime not filter lambda 5 x 1 - x powmod 1 equals filter',
-                 '5936 oeis lambda x 50000 is_less filter' )
+    expectEqual( '2 2000 range lambda x is_prime not filter lambda 5 x 1 - x powmod 1 equals filter',
+                 '5936 oeis lambda x 2000 is_less filter' )
+
+    if slow:
+        expectEqual( '2 1000000 range lambda x is_prime not filter lambda 5 x 1 - x powmod 1 equals filter',
+                     '5936 oeis lambda x 1000000 is_less filter' )
+
     # pseudoprimes to base 6
-    expectEqual( '2 50000 range lambda x is_prime not filter lambda 6 x 1 - x powmod 1 equals filter',
-                 '5937 oeis lambda x 50000 is_less filter' )
+    expectEqual( '2 5000 range lambda x is_prime not filter lambda 6 x 1 - x powmod 1 equals filter',
+                 '5937 oeis lambda x 5000 is_less filter' )
+
+    if slow:
+        expectEqual( '2 1000000 range lambda x is_prime not filter lambda 6 x 1 - x powmod 1 equals filter',
+                     '5937 oeis lambda x 1000000 is_less filter' )
+
     # psuedoprimes to base 100
-    expectEqual( '2 50000 range lambda x is_prime not filter lambda 100 x 1 - x powmod 1 equals filter',
-                 '20228 oeis lambda x 50000 is_less filter' )
+    expectEqual( '2 5000 range lambda x is_prime not filter lambda 100 x 1 - x powmod 1 equals filter',
+                 '20228 oeis lambda x 5000 is_less filter' )
+
+    if slow:
+        expectEqual( '2 1000000 range lambda x is_prime not filter lambda 100 x 1 - x powmod 1 equals filter',
+                     '20228 oeis lambda x 1000000 is_less filter' )
 
     expectException( '9j 6 4 powmod' )
     expectException( '3 12j 5 powmod' )
@@ -4794,7 +4895,9 @@ def printHelpText( text=None ):
     print( 'Usage:' )
     print( )
     print( 'flags -  -D - debug output' )
+    print( '         -f x - filter tests by string x' )
     print( '         -s - run longer, slower tests' )
+    print( '         -t - time each operation, in addition to the whole test' )
     print( '         -? - print this help text' )
     print( )
     print( 'arguments - zero or more of the following (zero arguments means \'run all tests\'):' )
@@ -4814,9 +4917,17 @@ def main( ):
 
     args = [ ]
 
+    filterArg = False
+
     for arg in sys.argv[ 1 : ]:
+        if filterArg:
+            filterArg = False
+            continue
+
         if arg == '-D':
             g.debugMode = True
+        elif arg == '-f':
+            filterArg = True
         elif arg == '-?':
             printHelpText( )
             return
