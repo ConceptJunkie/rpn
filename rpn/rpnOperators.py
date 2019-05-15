@@ -4,7 +4,7 @@
 # //
 # //  rpnOperators.py
 # //
-# //  RPN command-line calculator operator definitions
+# //  rpnChilada operator definitions
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -3171,10 +3171,13 @@ operators = {
     'polygonal'                      : RPNOperator( getNthPolygonalNumberOperator,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'polygonal_pyramidal'            : RPNOperator( getNthPolygonalPyramidalNumber,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
     'polytope'                       : RPNOperator( getNthPolytopeNumber,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'pyramid'                        : RPNOperator( getNthPyramidalNumber,
+    'pyramidal'                      : RPNOperator( getNthPyramidalNumber,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'rhombic_dodecahedral'           : RPNOperator( getNthRhombicDodecahedralNumber,
@@ -3874,6 +3877,9 @@ operators = {
 
     'polygamma'                      : RPNOperator( getPolygamma,
                                                     2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Default ], [ ] ),
+
+    'polygorial'                     : RPNOperator( getNthKPolygorial,
+                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'primorial'                      : RPNOperator( getNthPrimorial,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),

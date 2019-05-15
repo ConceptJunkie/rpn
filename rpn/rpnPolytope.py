@@ -4,7 +4,7 @@
 # //
 # //  rpnPolytope.py
 # //
-# //  RPN command-line calculator polytope operators
+# //  rpnChilada polytope operators
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -821,6 +821,7 @@ def getNthSquareTriangularNumber( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthPolygonalPyramidalNumber( n, k ):
     return fprod( [ real_int( n ), fadd( n, 1 ),
                     fsub( fmul( fsub( k, 2 ), n ), fsub( k, 5 ) ),
@@ -829,7 +830,6 @@ def getNthPolygonalPyramidalNumber( n, k ):
 @oneArgFunctionEvaluator( )
 def getNthPyramidalNumber( n ):
     return getNthPolygonalPyramidalNumber( n, 4 )
-
 
 
 # // A002415         4-dimensional pyramidal numbers: n^2*(n^2-1)/12.
@@ -852,18 +852,12 @@ def getNthPyramidalNumber( n ):
 # // A002817         Doubly triangular numbers: n*(n+1)*(n^2+n+2)/8.
 # //                 a(n) = 3*binomial(n+2, 4)+binomial(n+1, 2).
 # //
-# // A007588         Stella octangula numbers: n*(2*n^2 - 1).
-# //
-# // A005803         Second-order Eulerian numbers: 2^n - 2*n.
-# //
 # // A060888         n^6-n^5+n^4-n^3+n^2-n+1.      -- general form of this
 # //
 # // A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
 # //
 # // A005894         Centered tetrahedral numbers.
 # //                 a(n)=(2*n+1)*(n^2+n+3)/3
-# //
-# // A046176         Indices of square numbers which are also hexagonal.
 # //
 # // A056105         First spoke of a hexagonal spiral.
 # //
@@ -879,15 +873,7 @@ def getNthPyramidalNumber( n ):
 # //
 # // A195142         Concentric 10-gonal numbers.
 # //
-# // A000453         Stirling numbers of the second kind, S(n,4).
-# //
 # // A005915         Hexagonal prism numbers: (n + 1)*(3*n^2 + 3*n + 1).
-# //
-# // A002418         4-dimensional figurate numbers: (5*n-1)*binomial(n+2,3)/4.
-# //
-# // A005165         Alternating factorials: n! - (n-1)! + (n-2)! - ... 1!.
-# //
-# // A006007         4-dimensional analogue of centered polygonal numbers: a(n) = n(n+1)*(n^2+n+4)/12.
 # //
 # // A104621         Heptanacci-Lucas numbers.
 # //
@@ -923,12 +909,14 @@ def getNthCenteredCubeNumber( n ):
 # //
 # //  getNthCenteredTetrahedralNumber
 # //
+# //  https://oeis.org/A005894
+# //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredTetrahedralNumber( n ):
-    arg = real_int( fsub( n, 1 ) )
-    return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 1, 1, 3 ], arg ), 3 ) )
+    n = real_int( n )
+    return fdiv( fmul( fadd( fmul( n, 2 ), 1 ), fsum( [ power( n, 2 ), n, 3 ] ) ), 3 )
 
 
 # //******************************************************************************
@@ -1009,11 +997,7 @@ def getNthRhombicDodecahedralNumber( n ):
 # //
 # //  getNthPentatopeNumber
 # //
-# //  1/24n ( n + 1 )( n + 2 )( n + 3 )
-# //
-# //  1/24 n^4 + 1/4 n^3 + 11/24 n^2 + 1/4 n
-# //
-# //  1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
+# //  1/24n ( n + 1 )( n + 2 )( n + 3 ) == 1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
 # //
 # //  from Conway and Guy's "The Book of Numbers"
 # //
@@ -1039,13 +1023,14 @@ def getNthPentatopeNumber( n ):
 @twoArgFunctionEvaluator( )
 def getNthPolytopeNumber( n, d ):
     result = real_int( n )
-    m = n + 1
+    d = real_int( d )
+    m = fadd( n, 1 )
 
-    for i in arange( 1, d - 1 ):
+    for i in arange( 1, d ):
         result = fmul( result, m )
-        m += 1
+        m = fadd( m, 1 )
 
-    return fdiv( result, fac( d - 1 ) )
+    return fdiv( result, fac( d ) )
 
 
 # //******************************************************************************
@@ -1058,21 +1043,47 @@ def getNthPolytopeNumber( n, d ):
 
 @oneArgFunctionEvaluator( )
 def getNthStarNumber( n ):
-    arg = real_int( n )
-    return fadd( fmul( fmul( 6, n ), fsub( n, 1 ) ), 1 )
+    return getNthCenteredPolygonalNumber( n, 12 )
 
+
+# //******************************************************************************
+# //
+# //  getNthDodecahedralNumber
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDodecahedralNumber( n ):
     return polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], real( n ) )
 
+
+# //******************************************************************************
+# //
+# //  getNthIcosahedralNumber
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getNthIcosahedralNumber( n ):
     return polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], real( n ) )
 
+
+# //******************************************************************************
+# //
+# //  getNthOctahedralNumber
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getNthOctahedralNumber( n ):
     return polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], real( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthTetrahedralNumber
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthTetrahedralNumber( n ):

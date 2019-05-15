@@ -4,7 +4,7 @@
 # //
 # //  rpnNumberTheory.py
 # //
-# //  RPN command-line calculator number theory operators
+# //  rpnChilada number theory operators
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -2412,6 +2412,25 @@ def getNthPhitorial( n ):
             result = fmul( result, i )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getNthKPolygorial
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getNthKPolygorial( n, k ):
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative, real integer expected' )
+
+    if real_int( k ) < 3:
+        raise ValueError( 'polygorials are defined for k >= 3' )
+
+    return fmul( fdiv( fac( n ), power( 2, n ) ),
+                 fdiv( fmul( power( fsub( k, 2 ), n ), gamma( fdiv( fadd( fsub( fmul( n, k ), fmul( 2, n ) ), 2 ), fsub( k, 2 ) ) ) ),
+                       gamma( fdiv( 2, fsub( k, 2 ) ) ) ) )
 
 
 # //******************************************************************************

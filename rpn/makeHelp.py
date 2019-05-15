@@ -4,10 +4,10 @@
 # //
 # //  makeHelp
 # //
-# //  RPN command-line calculator help file generator
+# //  rpnChilada help file generator
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
-# //  NOTE:  Don't run this file directly.  Use ../makeHelp.py.
+# //  *** NOTE:  Don't run this file directly.  Use ../makeHelp.py.
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -45,9 +45,9 @@ g.checkForSingleResults = True
 # //******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
+PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1366
+maxExampleCount = 1378
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -8559,6 +8559,17 @@ The Pentanacci constant:
 ''' + makeCommandExample( '5 6 polygamma' ),
 [ ] ],
 
+    'polygorial' : [
+'number_theory', 'calculates the polygamma function for n',
+'''
+http://danieldockery.com/res/math/polygorials.pdf
+''',
+'''
+''' + makeCommandExample( '1 10 range 3 polygorial' ) + '''
+''' + makeCommandExample( '1 10 range 4 polygorial' ) + '''
+''' + makeCommandExample( '5 6 polygorial' ),
+[ ] ],
+
     'phitorial' : [
 'number_theory', 'calculates the nth photorial',
 '''
@@ -8586,7 +8597,8 @@ Numbers are relatively prime if their great common denominator is 1.
 ''',
 '''
 ''' + makeCommandExample( '5 8 relatively_prime' ) + '''
-''' + makeCommandExample( '1 20 range lambda y x relatively_prime filter_integers' ),
+All the numbers from 1-20 that are relatively prime with 20:
+''' + makeCommandExample( '1 20 range lambda y x relatively_prime filter_integers', indent=4 ),
 [ 'reduce', 'lcm', 'gcd', 'gcd2' ] ],
 
     'repunit' : [
@@ -9781,22 +9793,37 @@ triangular.
 ''' + makeCommandExample( '13 triangular' ) + '''
 ''' + makeCommandExample( '13 3 polygonal' ) + '''
 ''' + makeCommandExample( '-a25 387 8925662618878671 polygonal' ),
-[ ] ],
+[ 'polygonal_pyramidal' ] ],
+
+    'polygonal_pyramidal' : [
+'figurate_numbers', 'calculates the nth pyramidal number with k sides',
+'''
+''',
+'''
+''' + makeCommandExample( '23 pyramidal' ) + '''
+''' + makeCommandExample( '23 4 polygonal_pyramidal' ) + '''
+''' + makeCommandExample( '-a25 387 129 polygonal_pyramidal' ),
+[ 'polygonal' ] ],
 
     'polytope' : [
 'figurate_numbers', 'calculates nth polytope number of dimension k',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range triangular' ) + '''
+''' + makeCommandExample( '1 10 range 2 polytope' ) + '''
+''' + makeCommandExample( '1 10 range tetrahedral' ) + '''
+''' + makeCommandExample( '1 10 range 3 polytope' ) + '''
+''' + makeCommandExample( '-a25 387 129 polytope' ),
 [ ] ],
 
-    'pyramid' : [
+    'pyramidal' : [
 'figurate_numbers', 'calculates the nth square pyramidal number',
 '''
+This is the equivalent of 'n 4 polygonal_pyramidal'.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range pyramidal' ),
 [ ] ],
 
     'rhombic_dodecahedral' : [
@@ -9820,10 +9847,12 @@ triangular.
     'star' : [
 'figurate_numbers', 'calculates the nth star number',
 '''
+Star numbers are the same as centered dodecagonal numbers, so this is
+equivalent to 'n 12 centered_polygonal'.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range star' ),
-[ ] ],
+[ 'polygonal' ] ],
 
     'stella_octangula' : [
 'figurate_numbers', 'calculates the nth stella octangula number',
@@ -10619,6 +10648,8 @@ distributed with data files calculated through several billion primes.
     'twin_prime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
 '''
+Twin primes are prime numbers separated by 2.  The first twin prime pair
+consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
@@ -10631,6 +10662,8 @@ distributed with data files calculated through several billion primes.
     'twin_prime_' : [
 'prime_numbers', 'returns the nth set of twin primes',
 '''
+Twin primes are prime numbers separated by 2.  The first twin prime pair
+consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
@@ -10830,6 +10863,7 @@ This operator is not implemented yet!
     'delete_config' : [
 'special', 'delete configuration setting n',
 '''
+This operator deletes the entry for n in the configuration file.
 ''',
 '''
 ''',
@@ -10841,8 +10875,10 @@ This operator is not implemented yet!
 Currently, this is only for informational purposes.
 ''',
 '''
-''' + makeCommandExample( '60 mph' ) + '''
-''' + makeCommandExample( '300 coulombs' ),
+''' + makeCommandExample( '60 mph dimensions' ) + '''
+''' + makeCommandExample( 'newton dimensions' ) + '''
+''' + makeCommandExample( 'volt dimensions' ) + '''
+''' + makeCommandExample( 'coulomb dimensions' ),
 [ 'base_units' ] ],
 
     'dump_config' : [
@@ -10861,7 +10897,7 @@ actual return value of the operator is the integer argument, so from RPN's
 point of view, it doesn't actually do anything.
 ''',
 '''
-''',
+''' + makeCommandExample( '55 describe' ),
 [ ] ],
 
     'echo' : [
@@ -10975,7 +11011,7 @@ By itself, help will print general help text.  If an argument is added _after_
 '''
 ''' + makeCommandExample( '1 2 true if' ) + '''
 ''' + makeCommandExample( '1 2 false if' ),
-[ ] ],
+[ 'not', 'is_equal' ] ],
 
     'list_from_file' : [
 'special', 'reads a list of values from a file',
