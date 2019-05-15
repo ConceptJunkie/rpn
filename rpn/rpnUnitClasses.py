@@ -4,7 +4,7 @@
 # //
 # //  rpnUnitClasses.py
 # //
-# //  RPN command-line calculator, unit class declarations
+# //  rpnChilada unit class declarations
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more

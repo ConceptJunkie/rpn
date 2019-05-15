@@ -4,10 +4,10 @@
 # //
 # //  preparePrimeData.py
 # //
-# //  RPN command-line calculator prime number data file compiler
+# //  rpnChilada prime number data file compiler
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
-# //  NOTE:  Don't run this file directly.  Use ../preparePrimeData.py.
+# //  *** NOTE:  Don't run this file directly.  Use ../preparePrimeData.py.
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -59,7 +59,7 @@ def preparePrimeData( baseName ):
 # //******************************************************************************
 
 def main( ):
-    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + ' - RPN command-line prime number data file converter' )
+    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + ' - rpnChilada prime number data file converter' )
     print( COPYRIGHT_MESSAGE )
     print( )
 

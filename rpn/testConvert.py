@@ -13,7 +13,7 @@
 # //******************************************************************************
 
 from rpn.rpnTestUtils import *
-from rpn.rpnPersistence import loadUnitData
+from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitType
 
 import rpn.rpnGlobals as g
@@ -29,6 +29,9 @@ def runConvertTests( ):
     # unit types... make sure every unit can be converted to every other unit
     if not g.unitOperators:
         loadUnitData( )
+
+    if not g.unitConversionMatrix:
+        loadUnitConversionMatrix( )
 
     for unit in g.unitOperators:
         unitInfo = g.unitOperators[ unit ]

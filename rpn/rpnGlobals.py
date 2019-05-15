@@ -4,7 +4,7 @@
 # //
 # //  rpnGlobals.py
 # //
-# //  RPN command-line calculator global declarations
+# //  rpnChilada global declarations
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -63,6 +63,7 @@ operandsToRemove = 0
 operatorList = False            # whether we are in the process of creating an operator list (between '(' and ')' operators)
 operatorsInList = 0
 startTime = 0
+testFilter = ''
 useMembers = 0
 
 # options

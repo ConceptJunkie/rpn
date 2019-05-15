@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  testRPN
+# //  rpnTestUtils.py
 # //
-# //  main test script for RPN
+# //  rpnChilada test utility functions
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -118,7 +118,6 @@ def compareResults( result1, result2 ):
 # //
 # //******************************************************************************
 
-#@pysnooper.snoop( )
 def compareValues( result1, result2 ):
     if isinstance( result1, RPNMeasurement ) != isinstance( result2, RPNMeasurement ):
         return False
@@ -145,6 +144,10 @@ def compareValues( result1, result2 ):
 # //******************************************************************************
 
 def expectException( command ):
+    if g.testFilter:
+        if g.testFilter not in command:
+            return
+
     print( 'rpn', command )
 
     result = rpn( shlex.split( command + ' -I' ) )
@@ -166,6 +169,10 @@ def expectException( command ):
 
 #@pysnooper.snoop( )
 def expectEqual( command1, command2 ):
+    if g.testFilter:
+        if g.testFilter not in command1 and g.testFilter not in command2:
+            return
+
     if g.timeIndividualTests:
         startTime = time.process_time( )
 
@@ -223,9 +230,16 @@ def areListsEquivalent( list1, list2 ):
 # //
 # //  expectEquivalent
 # //
+# //  This is the same as expectEqual, but the results don't need to be in the
+# //  same order.
+# //
 # //******************************************************************************
 
 def expectEquivalent( command1, command2 ):
+    if g.testFilter:
+        if g.testFilter not in command1 and g.testFilter not in command2:
+            return
+
     if g.timeIndividualTests:
         startTime = time.process_time( )
 
@@ -262,6 +276,10 @@ def expectEquivalent( command1, command2 ):
 # //******************************************************************************
 
 def testOperator( command, ignoreCache = True ):
+    if g.testFilter:
+        if g.testFilter not in command:
+            return
+
     if g.timeIndividualTests:
         startTime = time.process_time( )
 
@@ -293,6 +311,10 @@ def testOperator( command, ignoreCache = True ):
 # //******************************************************************************
 
 def expectResult( command, expected ):
+    if g.testFilter:
+        if g.testFilter not in command:
+            return
+
     if g.timeIndividualTests:
         startTime = time.process_time( )
 

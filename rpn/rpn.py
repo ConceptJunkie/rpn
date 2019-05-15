@@ -4,10 +4,10 @@
 # //
 # //  rpn.py
 # //
-# //  RPN command-line calculator
+# //  rpnChilada - RPN command-line calculator
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
-# //  NOTE:  Don't run this file directly.  Use ../rpn.py.
+# //  *** NOTE:  Don't run this file directly.  Use ../rpn.py.
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).

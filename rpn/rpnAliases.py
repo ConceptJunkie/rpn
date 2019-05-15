@@ -4,7 +4,7 @@
 # //
 # //  rpnAliases.py
 # //
-# //  RPN command-line calculator alias declarations
+# //  rpnChilada alias declarations
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -699,7 +699,8 @@ operatorAliases = {
     'primepi'                       : 'prime_pi',
     'prod'                          : 'product',
     'puff'                          : 'picofarad',
-    'pyr'                           : 'pyramid',
+    'pyr'                           : 'pyramidal',
+    'pyramid'                       : 'pyramidal',
     'qP'                            : 'planck_charge',
     'quadprime'                     : 'quadruplet_prime',
     'quadprime?'                    : 'next_quadruplet_prime',
@@ -810,6 +811,7 @@ operatorAliases = {
     'squaretri'                     : 'square_triangular',
     'square_tri'                    : 'square_triangular',
     'sright'                        : 'shift_right',
+    'star_number'                   : 'star',
     'stefan_boltzmann'              : 'stefan_boltzmann_constant',
     'stefan_constant'               : 'stefan_boltzmann_constant',
     'stelloct'                      : 'stella_octangula',

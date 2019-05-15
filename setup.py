@@ -4,7 +4,7 @@
 # //
 # //  setup.py
 # //
-# //  RPN command-line calculator, setup script for the rpnChilada wheel
+# //  rpnChilada setup script for the rpnChilada wheel
 # //  copyright (c) 2018, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more

@@ -4,7 +4,7 @@
 # //
 # //  rpnGeometry.py
 # //
-# //  RPN command-line calculator geometric operators
+# //  rpnChilada geometry operators
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more

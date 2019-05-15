@@ -4,7 +4,7 @@
 # //
 # //  rpnKeyboard.py
 # //
-# //  RPN command-line calculator utility functions
+# //  rpnChilada keyboard utility functions
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -39,5 +39,4 @@ class DelayedKeyboardInterrupt( object ):
 
         if self.signal_received:
             self.old_handler( *self.signal_received )
-
 
