@@ -1226,3 +1226,35 @@ def filterOnFlagsGenerator( n, k ):
 def filterOnFlags( n, k ):
     return RPNGenerator.createGenerator( filterOnFlagsGenerator, [ n, k ] )
 
+
+# //******************************************************************************
+# //
+# //  filterMaxGenerator
+# //
+# //******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+def filterMaxGenerator( n, k ):
+    for item in n:
+        if item <= k:
+            yield item
+
+def filterMax( n, k ):
+    return RPNGenerator.createGenerator( filterMaxGenerator, [ n, k ] )
+
+
+# //******************************************************************************
+# //
+# //  filterMinGenerator
+# //
+# //******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+def filterMinGenerator( n, k ):
+    for item in n:
+        if item >= k:
+            yield item
+
+def filterMin( n, k ):
+    return RPNGenerator.createGenerator( filterMinGenerator, [ n, k ] )
+

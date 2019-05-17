@@ -1688,6 +1688,13 @@ def evaluateFunction2( n, k, func ):
 def evaluateFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
+
+# //******************************************************************************
+# //
+# //  evaluateListFunction
+# //
+# //******************************************************************************
+
 @listAndOneArgFunctionEvaluator( )
 def evaluateListFunction( n, func ):
     return func.evaluate( n )
@@ -1698,36 +1705,115 @@ def evaluateListFunction2( n, k, func ):
 def evaluateListFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
-@listAndOneArgFunctionEvaluator( )
+
+# //******************************************************************************
+# //
+# //  filterListOfLists
+# //
+# //******************************************************************************
+
 def filterListOfLists( n, func ):
-    return func.evaluate( n )
+    if not isinstance( k, RPNFunction ):
+        if invert:
+            raise ValueError( '\'unfilter_lists\' expects a function argument' )
+        else:
+            raise ValueError( '\'filter_lists\' expects a function argument' )
+
+    for i in n:
+        value = k.evaluate( i )
+
+        if ( value != 0 ) != invert:
+            yield i
+
+
+# //******************************************************************************
+# //
+# //  evaluateLimit
+# //
+# //******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n )
 
+
+# //******************************************************************************
+# //
+# //  evaluateReverseLimit
+# //
+# //******************************************************************************
+
 @twoArgFunctionEvaluator( )
 def evaluateReverseLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n, direction = -1 )
 
+
+# //******************************************************************************
+# //
+# //  evaluateProduct
+# //
+# //******************************************************************************
+
 def evaluateProduct( start, end, func ):
     return nprod( lambda x: func.evaluate( x ), [ start, end ] )
+
+
+# //******************************************************************************
+# //
+# //  evaluateSum
+# //
+# //******************************************************************************
 
 def evaluateSum( start, end, func ):
     return nsum( lambda x: func.evaluate( x, func ), [ start, end ] )
 
+
+# //******************************************************************************
+# //
+# //  createExponentialRange
+# //
+# //******************************************************************************
+
 def createExponentialRange( a, b, c ):
     return RPNGenerator.createExponential( a, b, c )
 
+
+# //******************************************************************************
+# //
+# //  createGeometricRange
+# //
+# //******************************************************************************
+
 def createGeometricRange( a, b, c ):
     return RPNGenerator.createGeometric( a, b, c )
+
+
+# //******************************************************************************
+# //
+# //  createRange
+# //
+# //******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def createRange( start, end ):
     return RPNGenerator.createRange( start, end )
 
+
+# //******************************************************************************
+# //
+# //  createIntervalRangeOperator
+# //
+# //******************************************************************************
+
 def createIntervalRangeOperator( a, b, c ):
     return RPNGenerator.createRange( a, b, c )
+
+
+# //******************************************************************************
+# //
+# //  createSizedRangeOperator
+# //
+# //******************************************************************************
 
 def createSizedRangeOperator( a, b, c ):
     return RPNGenerator.createSizedRange( a, b, c )
@@ -1946,6 +2032,9 @@ listOperators = {
     'for_each'              : RPNOperator( lambda n, k: RPNGenerator( forEach( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
 
+    #'for_each_list'         : RPNOperator( lambda n, k: RPNGenerator( [ ( yield k.evaluate( i ) ) for i in n ] ),
+    #                                       2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
+
     'for_each_list'         : RPNOperator( lambda n, k: RPNGenerator( forEachList( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Function ], [ ] ),
 
@@ -2004,6 +2093,12 @@ listOperators = {
 
     'enumerate'             : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.Integer ], [ ] ),
+
+    'filter_max'            : RPNOperator( lambda n, k: RPNGenerator( filterMax( n, k ) ),
+                                           2, [ RPNArgumentType.List, RPNArgumentType.Real ], [ ] ),
+
+    'filter_min'            : RPNOperator( lambda n, k: RPNGenerator( filterMin( n, k ) ),
+                                           2, [ RPNArgumentType.List, RPNArgumentType.Real ], [ ] ),
 
     'filter_on_flags'       : RPNOperator( lambda n, k: RPNGenerator( filterOnFlags( n, k ) ),
                                            2, [ RPNArgumentType.List, RPNArgumentType.List ], [ ] ),

@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1378
+maxExampleCount = 1383
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -483,9 +483,10 @@ equivalent to the '-i" command-line option.
 
 identify_mode:  Aliased to '-i'.
 
-input_radix:
+input_radix:  This sets the radix that rpn will use to interpret input values.
 
-integer_grouping:
+integer_grouping:  This specifies the number of digits in a group when printing
+an integer
 
 leading_zero:
 
@@ -493,7 +494,7 @@ leading_zero_mode:  Aliased to '-z'.
 
 octal_mode:  Aliased to '-o'.
 
-output_radix:  s
+output_radix:
 
 precision:
 
@@ -1205,6 +1206,19 @@ remains, but can be considered deprecated, as it is no longer needed.
 Added more unit tests and the usual bug fixes.
 
 More help text has been filled in.
+
+8.2.0
+
+Added 'filter_max' and 'filter_min' which are shortcuts for much wordier lambda
+constructions.
+
+Added 'polygonal_pyramidal' and 'polygorial' operators.
+
+The unit test suite has been streamlined so that it runs faster, since it's
+used so much.  Added the -t argument to time individual tests.  Added the -f
+argument to allow filtering which tests will be run (based on a text filter).
+
+And the usual bug fixes.
     ''',
     'license' :
     '''
@@ -5357,6 +5371,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
+''' + makeCommandExample( '-a20 1 100 range lambda x is_square filter' ) + '''
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
@@ -6093,6 +6108,24 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 '''
 ''',
 [ ] ],
+
+    'filter_max' : [
+'functions', 'filters all values greater than k from list n',
+'''
+This operator is a shortcut for 'n lambda x k is_not_greater filter'.
+''',
+'''
+''' + makeCommandExample( '1 30 range 10 filter_max' ),
+[ 'filter_min', 'filter', 'filter_integers', 'filter_on_flags' ] ],
+
+    'filter_min' : [
+'functions', 'filters all values less than k from list n',
+'''
+This operator is a shortcut for 'n lambda x k is_not_less filter'.
+''',
+'''
+''' + makeCommandExample( '1 30 range 20 filter_min' ),
+[ 'filter_max', 'filter', 'filter_integers', 'filter_on_flags' ] ],
 
     'filter_on_flags' : [
 'functions', 'filters the list n based on the nonzero values of the list k',
@@ -10897,7 +10930,40 @@ actual return value of the operator is the integer argument, so from RPN's
 point of view, it doesn't actually do anything.
 ''',
 '''
-''' + makeCommandExample( '55 describe' ),
+c:\>rpn 55 describe
+
+55 is:
+    odd
+    composite
+    the 10th triangular number
+    the 5th heptagonal number
+    the 4th centered nonagonal number
+    the 10th Fibonacci number
+    deficient
+    11-smooth
+    5-rough
+    semiprime
+    unusual
+    a base-2 Smith number
+    a base-4 Smith number
+    a Kaprekar number
+
+55 has:
+    2 digits
+    a digit sum of 10
+    a digit product of 25
+    2 prime factors: 5, 11
+    4 divisors
+    a sum of divisors of 72
+    a Stern value of 11
+    a Calkin-Wilf value of 11/3
+    a Mobius value of 1
+    a radical of 55
+    a Euler phi value of 40
+    a digital root of 1
+    a multiplicative persistence of 3
+    an Erdos persistence of 3
+''',
 [ ] ],
 
     'echo' : [

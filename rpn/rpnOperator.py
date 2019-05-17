@@ -294,7 +294,8 @@ class RPNOperator( object ):
                 else:
                     arg = checkForVariable( currentValueList.pop( ) )
 
-                    if term != 'set' and isinstance( arg, RPNVariable ):
+                    if term != 'set_variable' and isinstance( arg, RPNVariable ):
+                        raise ValueError( 'fred' )
                         arg = arg.getValue( )
 
                 argList.append( arg if isinstance( arg, ( list, RPNGenerator ) ) else [ arg ] )

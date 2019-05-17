@@ -943,13 +943,13 @@ def getExtendedGCD( a, b ):
 def getLCMOfList( args ):
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getLCMOfList( arg ) for arg in args ]
-    else:
-        result = 1
 
-        for arg in args:
-            result = fdiv( fmul( result, arg ), getGCD( result, arg ) )
+    result = 1
 
-        return result
+    for arg in args:
+        result = fdiv( fmul( result, arg ), getGCD( result, arg ) )
+
+    return result
 
 @twoArgFunctionEvaluator( )
 def getLCM( n, k ):

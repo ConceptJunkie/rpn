@@ -215,6 +215,8 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
         useIndent = False
         print( indentString + '[ ', end='', file=file )
 
+    #print( 'result type', type( result ) )
+
     for item in result:
         newString = ''
 
