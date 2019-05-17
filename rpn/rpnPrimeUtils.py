@@ -1707,19 +1707,6 @@ def getMaxPrime( name ):
 
 # //******************************************************************************
 # //
-# //  printStats
-# //
-# //******************************************************************************
-
-def printStats( cacheName, name ):
-    count = countCache( cacheName )
-    key, value = getMaxPrime( cacheName )
-
-    print( '{:10,} {:23} max: {:14,} ({:,})'.format( count, name, key, value ) )
-
-
-# //******************************************************************************
-# //
 # //  miller_rabin_pass
 # //
 # //  https://gist.github.com/sharnett/5479106

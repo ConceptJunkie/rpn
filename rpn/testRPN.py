@@ -347,7 +347,7 @@ def runArithmeticOperatorTests( ):
 
     # nested lambdas would look something like this:
     # rpn 1 10 range lambda 1 x range lambda x' x gcd2 1 equals filter anitharmonic_mean is_integer eval eval
-    expectEqual( '1 100 range 1 200 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags',
+    expectEqual( '1 100 range 1 100 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags',
                  '179871 oeis 100 filter_max' )
 
     if slow:
@@ -1563,52 +1563,82 @@ def runCombinatoricsOperatorTests( ):
     # denomination_combinations
     expectResult( '[ 1 5 10 25 50 100 ] 100 denomination_combinations', 293 )
 
-    expectEqual( '0 999 range lambda [ 1 5 10 ] x denomination_combinations eval',
-                 '187243 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 ] x denomination_combinations eval',
-                 '8 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 5 10 25 ] x denomination_combinations eval',
-                 '1299 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 5 10 25 50 ] x denomination_combinations eval',
-                 '1300 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 25 ] x denomination_combinations eval',
-                 '1301 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 25 50 ] x denomination_combinations eval',
-                 '1302 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 4 10 20 40 100 ] x denomination_combinations eval',
-                 '1310 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 50 100 ] x denomination_combinations eval',
-                 '1312 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 20 50 ] x denomination_combinations eval',
-                 '1313 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 2 5 10 20 50 ] x denomination_combinations eval',
-                 '1319 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 4 10 ] x denomination_combinations eval',
-                 '1362 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 5 10 20 50 100 ] x denomination_combinations eval',
-                 '1343 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 2 4 12 24 48 96 120 ] x denomination_combinations eval',
-                 '1364 oeis 1000 left' )
-    expectEqual( '0 999 range lambda [ 1 5 10 25 50 100 ] x denomination_combinations eval',
-                 '169718 oeis 1000 left' )
+    expectEqual( '0 99 range lambda [ 1 5 10 ] x denomination_combinations eval',
+                 '187243 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 ] x denomination_combinations eval',
+                 '8 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 5 10 25 ] x denomination_combinations eval',
+                 '1299 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 5 10 25 50 ] x denomination_combinations eval',
+                 '1300 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 25 ] x denomination_combinations eval',
+                 '1301 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 25 50 ] x denomination_combinations eval',
+                 '1302 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 4 10 20 40 100 ] x denomination_combinations eval',
+                 '1310 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 ] x denomination_combinations eval',
+                 '1312 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 ] x denomination_combinations eval',
+                 '1313 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 2 5 10 20 50 ] x denomination_combinations eval',
+                 '1319 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 4 10 ] x denomination_combinations eval',
+                 '1362 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 5 10 20 50 100 ] x denomination_combinations eval',
+                 '1343 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 2 4 12 24 48 96 120 ] x denomination_combinations eval',
+                 '1364 oeis 100 left' )
+    expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x denomination_combinations eval',
+                 '169718 oeis 100 left' )
     expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x denomination_combinations eval',
                  '67996 oeis 55 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x denomination_combinations eval',
-                 '57537 oeis 1000 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x denomination_combinations eval',
+                 '57537 oeis 100 left' )
     expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x 100 * denomination_combinations eval',
                  '85502 oeis 100 left' )
-    expectEqual( '0 999 range lambda [ 1 2 5 10 50 100 200 500 ] x denomination_combinations eval',
-                 '182086 oeis 1000 left' )
+    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 200 500 ] x denomination_combinations eval',
+                 '182086 oeis 100 left' )
     expectEqual( '0 20 range lambda [ 1 5 10 25 ] x 100 * denomination_combinations eval',
                  '160551 oeis 21 left' )
 
     if slow:
+        expectEqual( '0 999 range lambda [ 1 5 10 ] x denomination_combinations eval',
+                     '187243 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 5 10 ] x denomination_combinations eval',
+                     '8 oeis 1000 left' )
         expectEqual( '0 9999 range lambda [ 1 5 10 25 ] x denomination_combinations eval',
                      '1299 oeis 10000 left' )
         expectEqual( '0 9999 range lambda [ 1 5 10 25 50 ] x denomination_combinations eval',
                      '1300 oeis 10000 left' )
-        expectEqual( '0 999 range lambda [ 1 5 10 25 50 100 ] x 100 * denomination_combinations eval',
-                     '85502 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 5 10 25 ] x denomination_combinations eval',
+                     '1301 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 5 10 25 50 ] x denomination_combinations eval',
+                     '1302 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 4 10 20 40 100 ] x denomination_combinations eval',
+                     '1310 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 5 10 50 100 ] x denomination_combinations eval',
+                     '1312 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 5 10 20 50 ] x denomination_combinations eval',
+                     '1313 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 2 5 10 20 50 ] x denomination_combinations eval',
+                     '1319 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 4 10 ] x denomination_combinations eval',
+                     '1362 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 5 10 20 50 100 ] x denomination_combinations eval',
+                     '1343 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 2 4 12 24 48 96 120 ] x denomination_combinations eval',
+                     '1364 oeis 1000 left' )
+        expectEqual( '0 999 range lambda [ 1 5 10 25 50 100 ] x denomination_combinations eval',
+                     '169718 oeis 1000 left' )
+        expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x denomination_combinations eval',
+                     '67996 oeis 55 left' )
+        expectEqual( '0 10000 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x denomination_combinations eval',
+                     '57537 oeis 10001 left' )      # OEIS goes to 65536, but that would take about 2 hours
+        expectEqual( '0 1000 range lambda [ 1 5 10 25 50 100 ] x 100 * denomination_combinations eval',
+                     '85502 oeis 1001 left' )
+        expectEqual( '0 1000 range lambda [ 1 2 5 10 50 100 200 500 ] x denomination_combinations eval',
+                     '182086 oeis 1001 left' )
 
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )
@@ -1630,14 +1660,14 @@ def runCombinatoricsOperatorTests( ):
                  '58360 oeis 11 element' )
     expectEqual( '14 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
                  '58360 oeis 13 element' )
-    expectEqual( '23 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
-                 '58360 oeis 22 element' )
-    expectEqual( '29 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
-                 '58360 oeis 28 element' )
-    expectEqual( '32 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
-                 '58360 oeis 31 element' )
 
     if slow:
+        expectEqual( '23 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
+                     '58360 oeis 22 element' )
+        expectEqual( '29 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
+                     '58360 oeis 28 element' )
+        expectEqual( '32 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
+                     '58360 oeis 31 element' )
         expectEqual( '35 get_partitions lambda x 1/x sum for_each_list lambda x is_integer filter count',
                      '58360 oeis 34 element' )
         expectEqual( '40 get_partitions lambda x is_prime and_all for_each_list nonzero count',
@@ -1679,13 +1709,13 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-a15 1 27 range lambda x 1 x range narayana eval flatten 364 left', '1263 oeis 364 left' )
 
     # nth_apery
-    expectEqual( '0 99 range nth_apery', '5259 oeis 100 left' )
+    expectEqual( '0 49 range nth_apery', '5259 oeis 50 left' )
 
     if slow:
         expectEqual( '0 656 range nth_apery', '5259 oeis 657 left' )
 
     # nth_bell
-    expectEqual( '-a845 0 100 range nth_bell', '-a20 110 oeis 101 left' )
+    expectEqual( '-a845 0 50 range nth_bell', '-a20 110 oeis 51 left' )
 
     if slow:
         expectEqual( '-a845 0 500 range nth_bell', '-a20 110 oeis 501 left' )
@@ -1716,13 +1746,13 @@ def runCombinatoricsOperatorTests( ):
         expectEqual( '-a383 1 1001 range nth_pell', '129 oeis 1001 left' )
 
     # nth_schroeder
-    expectEqual( '1 100 range nth_schroeder', '6318 oeis 100 left' )
+    expectEqual( '1 50 range nth_schroeder', '6318 oeis 50 left' )
 
     if slow:
         expectEqual( '-a1600 1 2000 range nth_schroeder', '6318 oeis 2000 left' )
 
     # nth_schroeder_hipparchus
-    expectEqual( '0 99 range nth_schroeder_hipparchus', '1003 oeis 100 left' )
+    expectEqual( '0 49 range nth_schroeder_hipparchus', '1003 oeis 50 left' )
 
     if slow:
         expectEqual( '-a1000 0 1311 range nth_schroeder_hipparchus', '1003 oeis 1312 left' )
@@ -2053,34 +2083,55 @@ def runDateTimeOperatorTests( ):
 
 def runFigurateNumberOperatorTests( ):
     # centered_cube
-    expectEqual( '1 1000 range centered_cube', '5898 oeis 1000 left' )
+    expectEqual( '1 101 range centered_cube', '5898 oeis 101 left' )
+
+    if slow:
+        expectEqual( '1 1001 range centered_cube', '5898 oeis 1001 left' )
 
     # centered_decagonal
-    expectEqual( '1 1000 range centered_decagonal', '62786 oeis 1000 left' )
+    expectEqual( '1 100 range centered_decagonal', '62786 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range centered_decagonal', '62786 oeis 1000 left' )
 
     # centered_dodecahedral
     expectEqual( '1 36 range centered_dodecahedral', '5904 oeis 36 left' )
 
     # centered_heptagonal
-    expectEqual( '1 1000 range centered_heptagonal', '69099 oeis 1000 left' )
+    expectEqual( '1 100 range centered_heptagonal', '69099 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range centered_heptagonal', '69099 oeis 1000 left' )
 
     # centered_hexagonal
-    expectEqual( '1 1000 range centered_hexagonal', '3215 oeis 1000 left' )
+    expectEqual( '1 100 range centered_hexagonal', '3215 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1001 range centered_hexagonal', '3215 oeis 1001 left' )
 
     # centered_icosahedral
     expectEqual( '1 36 range centered_icosahedral', '5902 oeis 36 left' )
 
     # centered_nonagonal
-    expectEqual( '1 1000 range centered_nonagonal', '60544 oeis 1000 left' )
+    expectEqual( '1 100 range centered_nonagonal', '60544 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range centered_nonagonal', '60544 oeis 1000 left' )
 
     # centered_octagonal
-    expectEqual( '1 1000 range centered_octagonal', '16754 oeis 1000 left' )
+    expectEqual( '1 100 range centered_octagonal', '16754 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1001 range centered_octagonal', '16754 oeis 1001 left' )
 
     # centered_octahedral
     expectEqual( '1 40 range centered_octahedral', '1845 oeis 40 left' )
 
     # centered_pentagonal
-    expectEqual( '1 1000 range centered_pentagonal', '5891 oeis 1000 left' )
+    expectEqual( '1 100 range centered_pentagonal', '5891 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1001 range centered_pentagonal', '5891 oeis 1001 left' )
 
     # centered_polygonal
     testOperator( '1 100 3 centered_polygonal', '1 100 centered_triangular' )
@@ -2093,19 +2144,28 @@ def runFigurateNumberOperatorTests( ):
     testOperator( '1 100 10 centered_polygonal', '1 100 centered_decagonal' )
 
     # centered_square
-    expectEqual( '1 1000 range centered_square', '1844 oeis 1000 left' )
+    expectEqual( '1 100 range centered_square', '1844 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1001 range centered_square', '1844 oeis 1001 left' )
 
     # centered_tetrahedral
     expectEqual( '0 39 range centered_tetrahedral', '5894 oeis 40 left' )
 
     # centered_triangular
-    expectEqual( '1 1000 range centered_triangular', '5448 oeis 1000 left' )
+    expectEqual( '1 100 range centered_triangular', '5448 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 10000 range centered_triangular', '5448 oeis 10000 left' )
 
     if slow:
         expectEqual( '1 10000 range centered_triangular', '5448 oeis 10000 left' )
 
     # decagonal
-    expectEqual( '0 1000 range decagonal', '1107 oeis 1001 left' )
+    expectEqual( '0 100 range decagonal', '1107 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 1000 range decagonal', '1107 oeis 1001 left' )
 
     # decagonal_centered_square
     expectEqual( '-a1000 1 317 range decagonal_centered_square', '133142 oeis 317 left' )
@@ -2132,10 +2192,16 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '0 1000 range dodecahedral', '6566 oeis 1001 left' )
 
     # generalized_pentagonal
-    testOperator( '1 1000 generalized_pentagonal', '1318 oeis 1000 left' )
+    testOperator( '1 100 generalized_pentagonal', '1318 oeis 100 left' )
+
+    if slow:
+        testOperator( '1 1001 generalized_pentagonal', '1318 oeis 1001 left' )
 
     # heptagonal
-    expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
+    expectEqual( '0 100 range heptagonal', '566 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
 
     # heptagonal_hexagonal
     expectEqual( '-a500 1 200 range heptagonal_hexagonal', '48901 oeis 200 left hexagonal' )
@@ -2304,10 +2370,13 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '-a2000 1 1000 range octagonal_triangular', '46181 oeis 1000 left octagonal' )
 
     # pentagonal
-    expectEqual( '0 1000 range pentagonal', '326 oeis 1001 left' )
+    expectEqual( '0 100 range pentagonal', '326 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 1000 range pentagonal', '326 oeis 1001 left' )
 
     # pentagonal_square
-    expectEqual( '-a2000 1 100 range pentagonal_square', '46172 oeis 100 left pentagonal' )
+    expectEqual( '-a400 1 100 range pentagonal_square', '46172 oeis 100 left pentagonal' )
 
     if slow:
         expectEqual( '-a2000 1 503 range pentagonal_square', '46172 oeis 503 left pentagonal' )
@@ -2319,7 +2388,10 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 500 range pentagonal_triangular', '46174 oeis 501 left pentagonal' )
 
     # pentatope
-    expectEqual( '1 999 range pentatope', '332 oeis 1003 left 999 right' )
+    expectEqual( '1 99 range pentatope', '332 oeis 103 left 99 right' )
+
+    if slow:
+        expectEqual( '1 999 range pentatope', '332 oeis 1003 left 999 right' )
 
     # polygonal
     expectEqual( '1 100 range 3 polygonal', '1 100 range triangular' )
@@ -2331,7 +2403,11 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '1 100 range 9 polygonal', '1 100 range nonagonal' )
     expectEqual( '1 100 range 10 polygonal', '1 100 range decagonal' )
 
-    expectEqual( '0 1000 range 27 polygonal', '255186 oeis 1001 left' )
+    expectEqual( '0 100 range 27 polygonal', '255186 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 1000 range 27 polygonal', '255186 oeis 1001 left' )
+
     expectEqual( '0 40 range 100 polygonal', '261276 oeis 41 left' )
 
     # polytope
@@ -2351,23 +2427,36 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '1 43 range star', '3154 oeis 43 left' )
 
     # stella_octangula
-    expectEqual( '0 10000 range stella_octangula', '7588 oeis 10001 left' )
+    expectEqual( '0 100 range stella_octangula', '7588 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 10000 range stella_octangula', '7588 oeis 10001 left' )
 
     # tetrahedral
-    expectEqual( '0 10000 range tetrahedral', '292 oeis 10001 left' )
+    expectEqual( '0 100 range tetrahedral', '292 oeis 101 left' )
+
+    if slow:
+        expectEqual( '0 10000 range tetrahedral', '292 oeis 10001 left' )
 
     # triangular
     expectEqual( '1 102 range triangular lambda x count_different_digits 3 equals filter', '162304 oeis 47 left' )
-    expectEqual( '0 1000 range triangular', '217 oeis 1001 left' )
+
+    expectEqual( '0 100 range triangular', '217 oeis 101 left' )
 
     if slow:
         expectEqual( '0 30000 range triangular', '217 oeis 30001 left' )
 
     # truncated_octahedral
-    expectEqual( '1 1000 range truncated_octahedral', '5910 oeis 1000 left' )
+    expectEqual( '1 100 range truncated_octahedral', '5910 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 2000 range truncated_octahedral', '5910 oeis 2000 left' )
 
     # truncated_tetrahedral
-    expectEqual( '1 10000 range truncated_tetrahedral', '5906 oeis 10000 left' )
+    expectEqual( '1 100 range truncated_tetrahedral', '5906 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 10001 range truncated_tetrahedral', '5906 oeis 10001 left' )
 
 
 # //******************************************************************************
@@ -3118,7 +3207,10 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 11 20 range union' )
 
     # unique
-    expectEqual( '2 1000 range lambda x factor unique sum eval', '8472 oeis 1000 left 999 right' )
+    expectEqual( '2 100 range lambda x factor unique sum eval', '8472 oeis 100 left 99 right' )
+
+    if slow:
+        expectEqual( '2 100000 range lambda x factor unique sum eval', '8472 oeis 100000 left 999 right' )
 
     # zero
     expectEqual( '-10 10 range zero', '[ 10 ]' )
@@ -3342,9 +3434,10 @@ def runNumberTheoryOperatorTests( ):
 
     # euler_phi
     expectEqual( '1 100 range euler_phi', '10 oeis 100 left' )
-    expectEqual( '1 1000 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis 1000 filter_max' )
+    expectEqual( '1 100 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis 100 filter_max' )
 
     if slow:
+        expectEqual( '1 10000 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis 10000 filter_max' )
         expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
         expectEqual( '1 32753 range lambda x x euler_phi gcd2 1 equals filter', '3277 oeis 32753 filter_max' )
 
@@ -3478,7 +3571,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-a1000 -p1100 0 36 range hyperfactorial', '2109 oeis 37 left' )
 
     # is_abundant
-    expectEqual( '1 1000 range lambda x is_abundant filter', '5101 oeis 1000 filter_max' )
+    expectEqual( '1 100 range lambda x is_abundant filter', '5101 oeis 100 filter_max' )
 
     if slow:
         expectEqual( '1 100000 range lambda x is_abundant filter', '5101 oeis 100000 filter_max' )
@@ -3515,7 +3608,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '[ 220 264 ] is_friendly' )
 
     # is_harmonic_divisor_number
-    expectEqual( '1 500 range lambda x is_harmonic_divisor_number filter', '1599 oeis 500 filter_max' )
+    expectEqual( '1 100 range lambda x is_harmonic_divisor_number filter', '1599 oeis 100 filter_max' )
 
     if slow:
         expectEqual( '1 100000 range lambda x is_harmonic_divisor_number filter', '1599 oeis 100000 filter_max' )
@@ -3543,7 +3636,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
 
     # is_k_semiprime
-    expectEqual( '1 500 range lambda x 2 is_k_semiprime filter', '1 500 range lambda x is_semiprime filter' )
+    expectEqual( '1 100 range lambda x 2 is_k_semiprime filter', '1 100 range lambda x is_semiprime filter' )
     expectEqual( '1 100 range lambda x 3 is_k_semiprime x is_squarefree and filter',
                  '1 100 range lambda x is_sphenic filter' )
     expectEqual( '10 300 10 range2 lambda x 4 is_k_semiprime x is_squarefree and filter',
@@ -3685,15 +3778,21 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 1000000 range lambda x 8 is_strong_pseudoprime filter', '20234 oeis 1000000 filter_max' )
 
     expectResult( '1262 oeis 2 is_strong_pseudoprime and_all', 1 )
-    expectResult( '20229 oeis 3 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20229 oeis 1000 left 3 is_strong_pseudoprime and_all', 1 )
     expectResult( '20230 oeis 4 is_strong_pseudoprime and_all', 1 )
     expectResult( '20231 oeis 5 is_strong_pseudoprime and_all', 1 )
     expectResult( '20232 oeis 6 is_strong_pseudoprime and_all', 1 )
     expectResult( '20233 oeis 7 is_strong_pseudoprime and_all', 1 )
     expectResult( '20234 oeis 8 is_strong_pseudoprime and_all', 1 )
 
+    if slow:
+        expectResult( '20229 oeis 3 is_strong_pseudoprime and_all', 1 )
+
     # is_unusual
-    expectEqual( '1 1389 range lambda x is_unusual filter', '64052 oeis 1000 left' )
+    expectEqual( '1 200 range lambda x is_unusual filter', '64052 oeis 200 filter_max' )
+
+    if slow:
+        expectEqual( '1 1389 range lambda x is_unusual filter', '64052 oeis 1000 left' )
 
     # k_fibonacci
     expectResult( '0 100 range 2 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
@@ -3702,7 +3801,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
     expectResult( '200 20 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 200, 20 ) )
 
-    expectEqual( '0 100 range 5 k_fibonacci', '0 100 range pentanacci' )
+    expectEqual( '0 50 range 5 k_fibonacci', '0 50 range pentanacci' )
 
     # leyland
     expectEqual( '-a121 [ 2 60 range 2 60 range ] permute_lists lambda x y leyland for_each unique 76980 oeis intersection sort',
@@ -3818,7 +3917,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
     # octanacci
-    expectEqual( '-a30 0 49 range octanacci', '79262 oeis 50 left' )
+    expectEqual( '-a30 0 29 range octanacci', '79262 oeis 30 left' )
 
     if slow:
         expectEqual( '-a1000 0 207 range octanacci', '79262 oeis 208 left' )
@@ -3872,8 +3971,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a20 89 24 reversal_addition' )
     testOperator( '-a20 80 89 range 24 reversal_addition' )
     testOperator( '-a20 89 16 24 range reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
+
+    expectResult( '-a90 14,104,229,999,995 185 reversal_addition 1 right is_palindrome', 1 )
 
     expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
 
@@ -3950,15 +4049,15 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 199 range subfactorial', '166 oeis 200 left 199 right' )
 
     # sums_of_k_powers
-    expectEqual( '0 200 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 filter_max' )
-    expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
+    expectEqual( '0 100 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 100 filter_max' )
+    expectEqual( '0 49 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 50 left' )
     expectEqual( '0 49 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 50 left' )
     expectEqual( '0 49 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 50 left' )
-    expectEqual( '0 59 range lambda x 5 2 sums_of_k_powers count 1 equals filter', '294524 oeis 59 filter_max' )
-    expectEqual( '0 59 range lambda x 5 2 sums_of_k_powers count 2 equals filter', '295150 oeis 59 filter_max' )
-    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 3 equals filter', '295151 oeis 79 filter_max' )
-    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 4 equals filter', '295152 oeis 79 filter_max' )
-    expectEqual( '0 79 range lambda x 5 2 sums_of_k_powers count 5 equals filter', '295153 oeis 79 filter_max' )
+    expectEqual( '0 29 range lambda x 5 2 sums_of_k_powers count 1 equals filter', '294524 oeis 29 filter_max' )
+    expectEqual( '0 29 range lambda x 5 2 sums_of_k_powers count 2 equals filter', '295150 oeis 29 filter_max' )
+    expectEqual( '0 39 range lambda x 5 2 sums_of_k_powers count 3 equals filter', '295151 oeis 39 filter_max' )
+    expectEqual( '0 39 range lambda x 5 2 sums_of_k_powers count 4 equals filter', '295152 oeis 39 filter_max' )
+    expectEqual( '0 39 range lambda x 5 2 sums_of_k_powers count 5 equals filter', '295153 oeis 39 filter_max' )
 
     if slow:
         expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count 6 equals filter', '295154 oeis 99 filter_max' )
@@ -4006,7 +4105,11 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '7 unit_roots -s1' )
 
     # zeta
-    expectEqual( '-a20005 3 zeta 10 20001 ** * floor get_digits', '2117 oeis 20002 left' )
+    expectEqual( '-a2005 3 zeta 10 2001 ** * floor get_digits', '2117 oeis 2002 left' )
+
+    if slow:
+        expectEqual( '-a20005 3 zeta 10 20001 ** * floor get_digits', '2117 oeis 20002 left' )
+
     expectEqual( '-a10000 2 zeta', '-a10000 pi sqr 6 /' )
     expectEqual( '-a150 1 10 range lambda 2 x * zeta pi 2 x * ** / 2 x * fraction eval lambda x 1 element for_each_list',
                  '2432 oeis 10 left' )
@@ -4014,10 +4117,11 @@ def runNumberTheoryOperatorTests( ):
     # zeta_zero
     expectEqual( '1 30 range zeta_zero im nint', '2410 oeis 30 left' )    # The mpmath function is really slow... it does a lot of math!
 
+    expectEqual( '-a105 1 zeta_zero im 10 98 ** * get_digits', '58303 oeis 100 left' )
+
     if slow:
         expectEqual( '1 1000 range zeta_zero im nint', '2410 oeis 1000 left' )
-
-    expectEqual( '-a1005 1 zeta_zero im 10 998 ** * get_digits', '58303 oeis 1000 left' )
+        expectEqual( '-a1005 1 zeta_zero im 10 998 ** * get_digits', '58303 oeis 1000 left' )
 
 
 # //******************************************************************************
@@ -4261,8 +4365,13 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '4294967296 cube_super_root', '4' )
 
     # exp
-    expectEqual( '2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval',
-                 '58209 oeis 2000 left' )
+    expectEqual( '2 201 range lambda euler_constant exp x log log x * * floor x sigma - eval',
+                 '58209 oeis 200 left' )
+
+    if slow:
+        expectEqual( '2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval',
+                     '58209 oeis 2000 left' )
+
     expectEqual( '1 999 range lambda x x sin exp * ceiling eval', '134892 oeis 999 left' )
 
     # exp10
@@ -4503,7 +4612,10 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '-c 6 13 ** 1 + next_prime' )
     testOperator( '-c 7 13 ** 1 + next_prime' )
 
-    expectEqual( '-a202 0 199 range lambda 10 x ** next_prime 10 x ** - eval', '33873 oeis 200 left' )
+    expectEqual( '-a20 0 19 range lambda 10 x ** next_prime 10 x ** - eval', '33873 oeis 20 left' )
+
+    if slow:
+        expectEqual( '-a202 0 199 range lambda 10 x ** next_prime 10 x ** - eval', '33873 oeis 200 left' )
 
     # next_primes
     testOperator( '35 100 next_primes' )
@@ -4550,7 +4662,10 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1000 100 previous_primes' )
 
     expectEqual( '220 47 previous_primes sort', '1 47 primes' )
-    expectEqual( '-a202 1 200 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 200 left' )
+    expectEqual( '-a102 1 100 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 100 left' )
+
+    if slow:
+        expectEqual( '-a1002 1 1000 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 1000 left' )
 
     # prime
     testOperator( '1 101 range prime' )
@@ -4600,7 +4715,7 @@ def runPrimeNumberOperatorTests( ):
 
     # safe_prime
     testOperator( '45 safe_prime' )
-    testOperator( '5199846 safe_prime' )
+    testOperator( '5199046 safe_prime' )
 
     # sextuplet_prime
     testOperator( '29 sextuplet_prime' )
@@ -4645,7 +4760,8 @@ def runPrimeNumberOperatorTests( ):
     # sexy_quadruplet
     testOperator( '1 10 range sexy_quadruplet' )
     testOperator( '29 sexy_quadruplet' )
-    testOperator( '-c 289747 sexy_quadruplet' )
+    testOperator( '-c 289007 sexy_quadruplet' )
+
     #expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval', '46124 oeis 39 left' )
 
     # sexy_quadruplet_
@@ -4671,8 +4787,6 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '6,500,000 sophie_prime' )
 
     expectEqual( '1 100 range sophie_prime', '5384 oeis 100 left' )
-    expectEqual( '9900 10000 range sophie_prime', '5384 oeis 10000 left 101 right' )
-    expectEqual( '99900 100000 range sophie_prime', '5384 oeis 100000 left 101 right' )
 
     if slow:
         expectEqual( '1 100000 range sophie_prime', '5384 oeis 100000 left' )
@@ -4704,9 +4818,6 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '1001 1100 range twin_prime', '1359 oeis 1100 left 100 right' )
     expectEqual( '3001 3100 range twin_prime 2 +', '6512 oeis 3100 left 100 right' )
     expectEqual( '5001 5100 range twin_prime', '1359 oeis 5100 left 100 right' )
-    expectEqual( '20001 20100 range twin_prime', '1359 oeis 20100 left 100 right' )
-    expectEqual( '60001 60100 range twin_prime', '1359 oeis 60100 left 100 right' )
-    expectEqual( '99901 100000 range twin_prime', '1359 oeis 100000 left 100 right' )
 
     if slow:
         expectEqual( '1 100000 range twin_prime', '1359 oeis 100000 left' )

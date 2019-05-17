@@ -204,16 +204,14 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         elif isinstance( result, list ):
             formatListOutput( result, indent=indent, file=file )
         else:
-            if isinstance( result, RPNVariable ):
-                result = result.getValue( )
-            elif isinstance( result, RPNDateTime ):
+            # single result
+            if isinstance( result, RPNDateTime ):
                 outputString = formatDateTime( result )
             elif isinstance( result, str ):
                 result = checkForVariable( result )
                 outputString = result
             else:
                 # output the answer with all the extras according to command-line arguments
-
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
                     outputString = formatOutput( nstr( result.value, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )

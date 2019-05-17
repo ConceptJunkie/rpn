@@ -21,8 +21,8 @@ from functools import lru_cache, reduce
 from mpmath import arange, fadd, floor, im, log10, mag, mp, mpmathify, nint, \
                    nstr, workdps
 
-from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnDebug import debugPrint
+from rpn.rpnGenerator import RPNGenerator
 
 import rpn.rpnGlobals as g
 
@@ -810,4 +810,6 @@ def setAccuracyForN( n ):
 
     if mp.prec < magnitude:
         mp.prec = magnitude
+
+
 

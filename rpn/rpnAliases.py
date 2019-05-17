@@ -896,6 +896,7 @@ operatorAliases = {
     '_dump_ops'                     : '_dump_operators',
     '_operators'                    : '_dump_operators',
     '_ops'                          : '_dump_operators',
+    '_primes'                       : '_dump_prime_cache',
     '_stats'                        : '_dump_stats',
     '_units'                        : '_dump_units',
     '|'                             : 'is_divisible',

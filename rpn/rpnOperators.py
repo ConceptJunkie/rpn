@@ -598,8 +598,6 @@ def addZ( valueList ):
         raise ValueError( '\'z\' requires \'lambda\' to start a function declaration' )
 
     valueList[ -1 ].add( 'z' )
-
-
 # //******************************************************************************
 # //
 # //  loadUserFunctionsFile
@@ -679,8 +677,6 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
            points = 10000 )
     return 0
-
-
 # //******************************************************************************
 # //
 # //  evaluateRecurrence
@@ -847,30 +843,6 @@ def breakOnCondition( arguments, condition, func ):
             return value
 
     return value
-
-
-# //******************************************************************************
-# //
-# //  createRange
-# //
-# //  Used by 'lambda'.
-# //
-# //******************************************************************************
-
-def createRange( start, end ):
-    return arange( start, fadd( end, 1 ) )
-
-
-# //******************************************************************************
-# //
-# //  createSizedRange
-# //
-# //  Used by 'lambda'.
-# //
-# //******************************************************************************
-
-def createSizedRange( start, interval, size ):
-    return arange( start, fadd( start, fmul( interval, size ) ), interval )
 
 
 # //******************************************************************************
@@ -1215,6 +1187,19 @@ def dumpUnitConversions( ):
     print( )
 
     return len( g.unitConversionMatrix )
+
+
+# //******************************************************************************
+# //
+# //  printStats
+# //
+# //******************************************************************************
+
+def printStats( cacheName, name ):
+    count = countCache( cacheName )
+    key, value = getMaxPrime( cacheName )
+
+    print( '{:10,} {:23} max: {:14,} ({:,})'.format( count, name, key, value ) )
 
 
 # //******************************************************************************
@@ -4577,6 +4562,9 @@ operators = {
 
     '_dump_operators'                : RPNOperator( dumpOperators,
                                                     0, [ ], [ ] ),
+
+    '_dump_prime_cache'              : RPNOperator( dumpPrimeCache,
+                                                    1, [ RPNArgumentType.String ], [ ] ),
 
     '_dump_stats'                    : RPNOperator( dumpStats,
                                                     0, [ ], [ ] ),
