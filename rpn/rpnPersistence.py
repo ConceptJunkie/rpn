@@ -28,7 +28,7 @@ from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnSettings import setPrecision
-from rpn.rpnUtils import getDataPath, getUserDataPath
+from rpn.rpnUtils import getDataPath, getUserDataPath, oneArgFunctionEvaluator
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -292,6 +292,31 @@ def openPrimeCache( name ):
 
 # //******************************************************************************
 # //
+# //  dumpPrimeCache
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def dumpPrimeCache( name ):
+    if name not in g.cursors:
+        if not doesCacheExist( name ):
+            raise ValueError( 'cache \'' + name + '\' does not exist.' )
+
+        openPrimeCache( name )
+
+    rows = g.cursors[ name ].execute(
+            '''SELECT id, value FROM cache ORDER BY id''' ).fetchall( )
+
+    rows.sort( key=lambda x: x[ 0 ] )
+
+    for row in rows:
+        print( '{:13} {}'.format( row[ 0 ], row[ 1 ] ) )
+
+    return len( rows )
+
+
+# //******************************************************************************
+# //
 # //  class PersistentDict
 # //
 # //  http://stackoverflow.com/questions/9320463/persistent-memoization-in-python
@@ -489,11 +514,12 @@ def deleteFromFunctionCache( name, key ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def dumpFunctionCache( name ):
-    if not doesCacheExist( name[ 0 ] ):
-        raise ValueError( 'cache \'' + name[ 0 ] + '\' does not exist.' )
+    if not doesCacheExist( name ):
+        raise ValueError( 'cache \'' + name + '\' does not exist.' )
 
-    cache = openFunctionCache( name[ 0 ] )
+    cache = openFunctionCache( name )
 
     keys = sorted( cache.keys( ) )
 
@@ -506,6 +532,9 @@ def dumpFunctionCache( name ):
 # //******************************************************************************
 # //
 # //  cachedFunction
+# //
+# //  This is a decorator for any function that wishes to cache its calculations
+# //  to disk.
 # //
 # //******************************************************************************
 
@@ -539,7 +568,7 @@ def cachedFunction( name, overrideIgnore=False ):
 # //
 # //  cachedOEISFunction
 # //
-# //  This is a modified version of cachedFunction that will ignore (and
+# //  This is a modified version of cachedFunction( ) that will ignore (and
 # //  overwrite) the cached result if it equals 0.  This prevents a failed
 # //  HTTP connection from polluting the OEIS cache with invalid data.
 # //
@@ -612,4 +641,5 @@ def saveUserConfigurationFile( ):
 
     with open( getUserConfigurationFileName( ), 'w' ) as userConfigurationFile:
         config.write( userConfigurationFile )
+
 

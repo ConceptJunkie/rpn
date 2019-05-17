@@ -5884,7 +5884,7 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
 
     '_dump_cache' : [
 'internal', 'dumps the contents of cache n',
@@ -5898,7 +5898,7 @@ e.g.,  "rpn 'next_prime _dump_cache"
 ''',
 '''
 ''',
-[ '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
     '_dump_constants' : [
 'internal', 'dumps the list of constants',
@@ -5907,7 +5907,7 @@ The operator returns number of constants.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
     '_dump_conversions' : [
 'internal', 'dumps the list of unit conversions',
@@ -5916,7 +5916,7 @@ The operator returns number of unit conversions.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases' ] ],
+[ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5926,6 +5926,15 @@ require at least one list argument), modifier operators (which work outside of
 the RPN syntax), and internal operators, which describe RPN itself.
 
 The operator returns number of operators.
+''',
+'''
+''',
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
+
+    '_dump_prime_cache' : [
+'internal', 'dumps the contents of a prime number cache file',
+'''
+The operator returns the number of key-value pairs stored in the cache.
 ''',
 '''
 ''',
@@ -5942,7 +5951,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
 
     '_dump_units' : [
 'internal', 'lists all rpn units',
@@ -5951,7 +5960,7 @@ The operator returns number of units.
 ''',
 '''
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants', '_dump_prime_cache' ] ],
 
 
 # //******************************************************************************
