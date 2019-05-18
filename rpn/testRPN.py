@@ -248,7 +248,7 @@ def runAlgebraOperatorTests( ):
     expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '-a50 151 pascal_triangle' )
 
     if slow:
-        expectEqual( '-a300 [ 1 1 ] 1000 polynomial_power', '-a300 1000 pascal_triangle' )
+        expectEqual( '-a300 [ 1 1 ] 1000 polynomial_power', '-a300 1001 pascal_triangle' )
 
     expectException( '1 10 range polynomial_power' )    # too few arguments
 
@@ -628,7 +628,7 @@ def runArithmeticOperatorTests( ):
     expectEqual( '-p180 1 3000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 2 left' )
 
     if slow:
-        expectEqual( '-p180 1 322000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter',
+        expectEqual( '-p1000 1 322000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter',
                      '127029 oeis 35 left' )
 
     # max
