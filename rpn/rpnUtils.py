@@ -713,13 +713,19 @@ def loadAstronomyData( ):
     if g.astroDataLoaded:
         return
 
-    from skyfield.api import Loader
-    load = Loader( getUserDataPath( ) )
+    try:
+        from skyfield.api import Loader
+        load = Loader( getUserDataPath( ) )
 
-    from skyfield.api import load_file
-    from skyfield import api
+        from skyfield.api import load_file
+        from skyfield import api
 
-    g.timescale = load.timescale( )
+        g.timescale = load.timescale( )
+    except:
+        print( "Downloading the astronomy data failed.  Some astronomical functions will not be available.", file=sys.stderr )
+        g.astroDataLoaded = True
+        g.astroDataAvailable = False
+        return
 
     try:
         g.planets = load( 'de405.bsp' )

@@ -14,6 +14,7 @@
 
 import collections
 import itertools
+import numpy as np
 import random
 
 from fractions import Fraction
@@ -798,6 +799,60 @@ def makePythagoreanTriple( n, k ):
     result.append( fadd( fmul( n, n ), fmul( k, k ) ) )
 
     return sorted( result )
+
+
+# //******************************************************************************
+# //
+# //  generatePythagoreanTriples
+# //
+# //  https://stackoverflow.com/questions/575117/generating-unique-ordered-pythagorean-triplets
+# //
+# //******************************************************************************
+
+def generatePythagoreanTriplesOld( n ):
+    for x in arange( 1, n + 1 ):
+        y = x + 1
+        z = y + 1
+
+        while z <= n:
+            while z * z < x * x + y* y:
+                z += 1
+
+            if z * z == x * x + y * y and z <= n:
+                yield [ x, y, z ]
+
+            y += 1
+
+import numpy as np
+
+def generatePythagoreanTriples( limit ):
+    u = np.mat( ' 1  2  2; -2 -1 -2; 2 2 3' )
+    a = np.mat( ' 1  2  2;  2  1  2; 2 2 3' )
+    d = np.mat( '-1 -2 -2;  2  1  2; 2 2 3' )
+
+    uad = np.array( [ u, a, d ] )
+
+    m = np.array( [ 3, 4, 5 ] )
+
+    while m.size:
+        m = m.reshape( -1, 3 )
+
+        if limit:
+            m = m[ m[ :, 2 ] <= limit ]
+
+        for i in range( m.size // 3 ):
+            if m[ i ][ 1 ] > m[ i ][ 0 ]:
+                yield [ m[ i ][ 0 ], m[ i ][ 1 ], m[ i ][ 2 ] ]
+            else:
+                yield [ m[ i ][ 1 ], m[ i ][ 0 ], m[ i ][ 2 ] ]
+
+        m = np.dot( m, uad )
+
+
+@oneArgFunctionEvaluator( )
+def makePythagoreanTriples( n ):
+    n = real_int( n )
+    return RPNGenerator.createGenerator( generatePythagoreanTriples, n )
 
 
 # //******************************************************************************

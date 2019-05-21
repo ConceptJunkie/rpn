@@ -14,6 +14,7 @@
 
 import os
 import sys
+import time
 import wolframalpha
 
 from collections import OrderedDict
@@ -24,6 +25,7 @@ from rpn.rpnAliases import operatorAliases
 from rpn.rpnOperators import constants
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import cachedFunction, loadUnitNameData
+from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
 from rpn.rpnUtils import getDataPath
 
@@ -51,9 +53,9 @@ def initializeAlpha( ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'wolfram' )
+@cachedFunction( 'wolfram', overrideIgnore=True )
 def queryAlpha( query ):
-    print( 'client', client )
+    client = initializeAlpha( )
     res = client.query( query )
     return next( res.results ).text
 
@@ -63,7 +65,7 @@ def queryAlpha( query ):
 # //  testOperator just evaluates an RPN expression to make sure nothing throws
 # //  an exception.
 # //
-# //  expectResult actually tests that the result from RPN matches the value
+# //  expectEqual actually tests that the result from RPN matches the value
 # //  given.
 # //
 # //  expectEqual evaluates two RPN expressions and verifies that the results
@@ -93,12 +95,13 @@ def runAlgebraOperatorTests( ):
 
 def runArithmeticOperatorTests( ):
     # gcd
-    expectEqual( '[ 124 324 ] gcd', queryAlpha( 'gcd of 324 and 124' ) )
-    expectEqual( '[ 1296 1440 ] gcd', queryAlpha( 'gcd of 1296 and 1440' ) )
+    #expectEqual( '[ 124 324 ] gcd', queryAlpha( 'gcd of 324 and 124' ) )
+    #expectEqual( '[ 1296 1440 ] gcd', queryAlpha( 'gcd of 1296 and 1440' ) )
 
     # lcm
-    expectEqual( '[ 3 12 36 65 10 ] lcm', queryAlpha( 'least common multiple of 3 12 36 65 10' ) )
-    expectEqual( '[ 1296 728 3600 460 732 ] lcm', queryAlpha( 'least common multiple of 1296 728 3600 460 732' ) )
+    #expectEqual( '[ 3 12 36 65 10 ] lcm', queryAlpha( 'least common multiple of 3 12 36 65 10' ) )
+    #expectEqual( '[ 1296 728 3600 460 732 ] lcm', queryAlpha( 'least common multiple of 1296 728 3600 460 732' ) )
+    pass
 
 
 # //******************************************************************************
@@ -139,8 +142,9 @@ def runCalendarOperatorTests( ):
 
 def runCombinatoricsOperatorTests( ):
     # binomial
-    expectEqual( '12 9 binomial', queryAlpha( '12 choose 9' ) )
-    expectEqual( '-a20 120 108 binomial', queryAlpha( '120 choose 108' ) )
+    #expectEqual( '12 9 binomial', queryAlpha( '12 choose 9' ) )
+    #expectEqual( '-a20 120 108 binomial', queryAlpha( '120 choose 108' ) )
+    pass
 
 
 # //******************************************************************************
@@ -271,8 +275,9 @@ def runModifierOperatorTests( ):
 
 def runNumberTheoryOperatorTests( ):
     # frobenius
-    expectEqual( '[ 4, 7, 12 ] frobenius', queryAlpha( 'Frobenius number {4, 7, 12}' ) )
-    expectEqual( '[ 23, 29, 47 ] frobenius', queryAlpha( 'Frobenius number {23, 29, 47}' ) )
+    #expectEqual( '[ 4, 7, 12 ] frobenius', queryAlpha( 'Frobenius number {4, 7, 12}' ) )
+    #expectEqual( '[ 23, 29, 47 ] frobenius', queryAlpha( 'Frobenius number {23, 29, 47}' ) )
+    pass
 
 
 # //******************************************************************************
@@ -293,7 +298,8 @@ def runPhysicsOperatorTests( ):
 
 def runPolygonalOperatorTests( ):
     # triangular
-    expectEqual( '203 triangular', queryAlpha( '203rd triangular number' ) )
+    #expectEqual( '203 triangular', queryAlpha( '203rd triangular number' ) )
+    pass
 
 
 # //******************************************************************************
@@ -323,7 +329,13 @@ def runPowersAndRootsOperatorTests( ):
 # //******************************************************************************
 
 def runPrimeNumberOperatorTests( ):
-    pass
+    for i in range( 150 ):
+        print( 'ready!' )
+        rpnSide = str( ( i + 1 ) * 100000000 ) + ' prime'
+        alphaSide = str( ( i + 1 ) * 100000000 ) + 'th prime number'
+
+        expectEqual( rpnSide, str( queryAlpha( alphaSide ) ) )
+        time.sleep( 5 )
 
 
 # //******************************************************************************
@@ -439,7 +451,7 @@ def runTests( tests ):
 
 def main( ):
     loadUnitNameData( )
-    client = initializeAlpha( )
+    checkForPrimeData( )
 
     runTests( sys.argv[ 1 : ] )
 

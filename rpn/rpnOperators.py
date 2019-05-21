@@ -2858,6 +2858,9 @@ operators = {
     'get_partitions'                 : RPNOperator( getIntegerPartitions,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'get_partitions_with_limit'      : RPNOperator( getPartitionsWithLimit,
+                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
     'lah'                            : RPNOperator( getLahNumber,
                                                     2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
@@ -3899,10 +3902,10 @@ operators = {
                                                     2, [ RPNArgumentType.Real, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'make_pyth_3'                    : RPNOperator( makePythagoreanTriple,
-                                                    2, [ RPNArgumentType.NonnegativeReal, RPNArgumentType.NonnegativeReal ], [ ] ),
+                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger], [ ] ),
 
     'make_pyth_4'                    : RPNOperator( makePythagoreanQuadruple,
-                                                    2, [ RPNArgumentType.NonnegativeReal, RPNArgumentType.NonnegativeReal ], [ ] ),
+                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'merten'                         : RPNOperator( getNthMerten,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
@@ -3962,6 +3965,9 @@ operators = {
                                                     2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'primorial'                      : RPNOperator( getNthPrimorial,
+                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'pythagorean_triples'            : RPNOperator( makePythagoreanTriples,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'radical'                        : RPNOperator( getRadical,
