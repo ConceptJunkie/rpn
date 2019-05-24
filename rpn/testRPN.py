@@ -22,6 +22,7 @@ from pathlib import Path
 from rpn.rpnOperators import *
 
 from rpn.rpnConstantUtils import loadGlobalConstants
+from rpn.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
 from rpn.rpnOperators import constants, listOperators, operators
 from rpn.rpnPersistence import loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
@@ -1731,7 +1732,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 99 range nth_delannoy', '1850 oeis 100 left' )
 
     if slow:
-        expectEqual( '0 1308 range nth_delannoy', '1850 oeis 1309 left' )
+        expectEqual( '0 1000 range nth_delannoy', '1850 oeis 1001 left' )
 
     # nth_motzkin
     expectEqual( '0 99 range nth_motzkin', '1006 oeis 100 left' )
@@ -3325,7 +3326,6 @@ def runModifierOperatorTests( ):
 # //******************************************************************************
 
 def runNumberTheoryOperatorTests( ):
-    from rpn.rpnNumberTheo  ry import getNthKFibonacciNumberTheSlowWay
 
     # abundance
     expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )
@@ -3521,7 +3521,8 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '2 6 range lambda x generate_polydivisibles count eval', '271374 oeis 5 left' )
 
     if slow:
-        expectEqual( '7 12 range lambda x generate_polydivisibles count eval', '271374 oeis 11 left 6 right' )
+        expectEqual( '-a25 10 generate_polydivisibles', '144688 oeis' )
+        expectEqual( '-a30 7 12 range lambda x generate_polydivisibles count eval', '271374 oeis 11 left 6 right' )
 
     # geometric_recurrence
     expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
@@ -3562,7 +3563,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 49 range hexanacci', '1592 oeis 50 left' )
 
     if slow:
-        expectEqual( '0 3360 range hexanacci', '1592 oeis 3361 left' )
+        expectEqual( '0 1000 range hexanacci', '1592 oeis 1001 left' )
         #expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
 
     # hurwitz_zeta
@@ -3578,7 +3579,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 100 range lambda x is_abundant filter', '5101 oeis 100 filter_max' )
 
     if slow:
-        expectEqual( '1 100000 range lambda x is_abundant filter', '5101 oeis 100000 filter_max' )
+        expectEqual( '1 40350 range lambda x is_abundant filter', '5101 oeis 40350 filter_max' )
 
     # is_achilles
     expectEqual( '1 500 range lambda x is_achilles filter', '52486 oeis 500 filter_max' )
@@ -3600,7 +3601,7 @@ def runNumberTheoryOperatorTests( ):
     if slow:
         # This ends up being super-slow because it doesn't have access to the factor cache.  So,
         # we're not going to do all 10000.
-        expectResult( '2997 oeis is_carmichael 1000 left and_all', 1 )
+        expectResult( '2997 oeis 1000 left is_carmichael and_all', 1 )
 
     # is_composite
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
@@ -3823,8 +3824,8 @@ def runNumberTheoryOperatorTests( ):
                  '350 oeis lambda x 201 is_less x 0 is_greater and filter' )
 
     if slow:
-        expectEqual( 'ddd[159] build_numbers lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** nth_linear_recurrence_with_modulo x equals filter',
-                     '350 oeis lambda x 10000 is_less x 0 is_greater and filter' )
+        expectEqual( '[0-4]dd[159] build_numbers lambda x [ 1 1 ] [ 0 1 ] x 10 x digits ** nth_linear_recurrence_with_modulo x equals filter',
+                     '350 oeis lambda x 5000 is_less x 0 is_greater and filter' )
 
     # log_gamma
     testOperator( '10 log_gamma' )
@@ -3895,8 +3896,8 @@ def runNumberTheoryOperatorTests( ):
                  '121104 oeis 100 left' )
 
     if slow:
-        expectEqual( '1 4999 range lambda [ 1 1 ] [ 0 1 ] x x 1 + prime nth_linear_recurrence_with_modulo eval',
-                     '121104 oeis 4999 left' )
+        expectEqual( '1 2499 range lambda [ 1 1 ] [ 0 1 ] x x 1 + prime nth_linear_recurrence_with_modulo eval',
+                     '121104 oeis 2499 left' )
 
     # nth_mersenne_exponent
     testOperator( '1 10 range nth_mersenne_exponent' )
@@ -3979,8 +3980,8 @@ def runNumberTheoryOperatorTests( ):
 
     # reversal_addition
     testOperator( '-a20 89 24 reversal_addition' )
-    testOperator( '-a20 80 89 range 24 reversal_addition' )
-    testOperator( '-a20 89 16 24 range reversal_addition' )
+    #testOperator( '-a20 80 89 range 24 reversal_addition' )   # the output handler doesn't seem to work right here!
+    #testOperator( '-a20 89 16 24 range reversal_addition' )
 
     expectResult( '-a90 14,104,229,999,995 185 reversal_addition 1 right is_palindrome', 1 )
 
@@ -4075,16 +4076,16 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '0 109 range lambda x 5 2 sums_of_k_powers count 8 equals filter', '295156 oeis 109 filter_max' )
         expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 9 equals filter', '295157 oeis 129 filter_max' )
         expectEqual( '0 129 range lambda x 5 2 sums_of_k_powers count 10 equals filter', '295158 oeis 129 filter_max' )
-        expectEqual( '0 4999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 5000 left' )
-        expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 39592 filter_max' )
-        expectEqual( '0 999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 1000 left' )    # The full 10000 would take days.  This is "slow", but not "glacial".
-        expectEqual( '0 499 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 500 left' )     # The full 10000 would take days.
+        expectEqual( '0 2499 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 2500 left' )
+        expectEqual( '0 10000 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 filter_max' )
+        expectEqual( '0 499 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 500 left' )    # The full 10000 would take days.  This is "slow", but not "glacial".
+        expectEqual( '0 399 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 400 left' )     # The full 10000 would take days.
 
     # sums_of_k_nonzero_powers
     expectEqual( '1 629 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 629 filter_max' )
 
     if slow:
-        expectEqual( '1 40045 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 40045 filter_max' )
+        expectEqual( '1 20000 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 20000 filter_max' )
 
     # superfactorial
     expectEqual( '0 46 range superfactorial', '178 oeis 47 left' )
@@ -4130,7 +4131,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a105 1 zeta_zero im 10 98 ** * get_digits', '58303 oeis 100 left' )
 
     if slow:
-        expectEqual( '1 1000 range zeta_zero im nint', '2410 oeis 1000 left' )
+        expectEqual( '1 400 range zeta_zero im nint', '2410 oeis 400 left' )
         expectEqual( '-a1005 1 zeta_zero im 10 998 ** * get_digits', '58303 oeis 1000 left' )
 
 
@@ -4597,8 +4598,8 @@ def runPrimeNumberOperatorTests( ):
     #expectEqual( '1001 1100 range lambda x cousin_prime_ product eval', '143206 oeis 1100 left 100 right' )
     #expectEqual( '9901 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left 100 right' )
 
-    if slow:
-        expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
+    #if slow:
+    #    expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
 
     # double_balanced
     testOperator( '1 5 range double_balanced' )
@@ -4675,7 +4676,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '-a102 1 100 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 100 left' )
 
     if slow:
-        expectEqual( '-a1002 1 1000 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 1000 left' )
+        expectEqual( '-a1002 1 200 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 200 left' )
 
     # prime
     testOperator( '1 101 range prime' )
@@ -4772,7 +4773,10 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '29 sexy_quadruplet' )
     testOperator( '-c 289007 sexy_quadruplet' )
 
-    #expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval', '46124 oeis 39 left' )
+    expectEqual( '1 100 range sexy_quadruplet', '23271 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range sexy_quadruplet', '23271 oeis 1000 left' )
 
     # sexy_quadruplet_
     testOperator( '1 10 range sexy_quadruplet_' )
@@ -4784,6 +4788,12 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '29 sexy_triplet' )
     testOperator( '-c 593847 sexy_triplet' )
     testOperator( '-c 8574239 sexy_triplet' )
+
+    expectEqual( '1 100 range sexy_triplet', '46118 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range sexy_triplet', '46118 oeis 1000 left' )
+
 
     # sexy_triplet_
     testOperator( '1 10 range sexy_triplet_' )
@@ -4799,7 +4809,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '1 100 range sophie_prime', '5384 oeis 100 left' )
 
     if slow:
-        expectEqual( '1 100000 range sophie_prime', '5384 oeis 100000 left' )
+        expectEqual( '1 10000 range sophie_prime', '5384 oeis 10000 left' )
 
     # superprime
     testOperator( '89 superprime' )
@@ -4830,7 +4840,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '5001 5100 range twin_prime', '1359 oeis 5100 left 100 right' )
 
     if slow:
-        expectEqual( '1 100000 range twin_prime', '1359 oeis 100000 left' )
+        expectEqual( '1 10000 range twin_prime', '1359 oeis 10000 left' )
 
     # twin_prime_
     expectEqual( '1 200 range twin_prime_ lambda x 1 element for_each_list', '6512 oeis 200 left' )

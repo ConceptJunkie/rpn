@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1383
+maxExampleCount = 1386
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1208,6 +1208,10 @@ Added more unit tests and the usual bug fixes.
 More help text has been filled in.
 
 8.2.0
+
+Added the 'pythagorean_triples' and 'get_partitions_with_limit' operators.
+
+Added the '_dump_prime_cache' operator.
 
 Added 'filter_max' and 'filter_min' which are shortcuts for much wordier lambda
 constructions.
@@ -6925,6 +6929,29 @@ Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
 ''' + makeCommandExample( '4 get_partitions' ),
 [ 'get_combinations', 'get_permutations', 'get_partitions' ] ],
 
+    'get_partitions_with_limit' : [
+'list_operators', 'generates all integer partitions of n that are no greater than k',
+'''
+This operator creates a list of integer partitions of n which is a subset of
+what 'get_partitions' creates.  No individual partition can be larger than k.
+If k is equal to n, then all integer partitions will be created.
+
+For example, 4 can be partitioned in three distinct ways that no partition is
+greater than 2:
+    2 + 2
+    2 + 1 + 1
+    1 + 1 + 1 + 1
+
+This operator generates the list of partitions as a list of lists of integers,
+where each nested list is a different, unique partitioning of n into integers.
+
+Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
+''',
+'''
+''' + makeCommandExample( '4 2 get_partitions_with_limit -s1' ) + '''
+''' + makeCommandExample( '5 3 get_partitions_with_limit -s1' ),
+[ 'get_combinations', 'get_permutations', 'get_partitions' ] ],
+
     'get_permutations' : [
 'list_operators', 'generates all permutations of k members of list n',
 '''
@@ -8615,8 +8642,8 @@ http://danieldockery.com/res/math/polygorials.pdf
     'phitorial' : [
 'number_theory', 'calculates the nth photorial',
 '''
-This function calculates the product of all numbers between 1 and n, inclusive,
-which are relatively prime to n.
+This function calculates the product of all numbers between 1 and n, which are
+relatively prime to n.
 ''',
 '''
 The first several phitorial numbers:
@@ -8630,6 +8657,16 @@ This function calculates the product of the first n prime numbers.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range primorial' ),
+[ ] ],
+
+    'pythagorean_triples' : [
+'number_theory', 'calculates all primitive pythagorean triples with a hypotenuse length up to n',
+'''
+Primitive pythagorean triples are triples where the individual numbers do not
+a common factor.
+''',
+'''
+''' + makeCommandExample( '50 pythagorean_triples -s1' ),
 [ ] ],
 
     'relatively_prime' : [

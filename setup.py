@@ -57,7 +57,7 @@ although a lot of these still need to be filled in.
 rpnChilada also comes with an extensive test suite, which is being constantly
 improved.  Many of the functions are validated against the OEIS.
 
-Version 8 represents a major rehaul of the unit conversion code.  Unit
+Version 8 represents a major overhaul of the unit conversion code.  Unit
 conversion is now significantly smarter than it used to be, and intermediate
 conversions are no longer necessary.
 
@@ -70,6 +70,9 @@ gmpy2:
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
 
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#gmpy
+
+Linux users will need the development versions of the GMP, MPC and MFPR
+libraries.
 
 rpnChilada can be launched with 'rpnChilada' or 'rpn' in the Python Scripts/
 directory.
