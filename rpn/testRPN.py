@@ -4666,6 +4666,12 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '4 3 polyprime' )
     testOperator( '5 8 polyprime' )
 
+    expectEqual( '1 95 range 2 polyprime', '49076 oeis lambda x 2 is_not_less eval nonzero 1 + prime' )
+    expectEqual( '1 24 range 3 polyprime', '49076 oeis lambda x 3 is_not_less eval nonzero 1 + prime' )
+    expectEqual( '1 9 range 4 polyprime', '49076 oeis lambda x 4 is_not_less eval nonzero 1 + prime' )
+    expectEqual( '1 4 range 5 polyprime', '49076 oeis lambda x 5 is_not_less eval nonzero 1 + prime' )
+    expectEqual( '1 2 range 6 polyprime', '49076 oeis lambda x 6 is_not_less eval nonzero 1 + prime' )
+
     # previous_prime
     testOperator( '10 previous_prime' )
 
@@ -4712,6 +4718,11 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '17 quadruplet_prime' )
     testOperator( '99831 quadruplet_prime' )
 
+    expectEqual( '1 200 range quadruplet_prime', '7530 oeis 200 left' )
+
+    if slow:
+        expectEqual( '1 1000 range quadruplet_prime', '7530 oeis 1000 left' )
+
     # quadruplet_prime_
     testOperator( '17 quadruplet_prime_' )
     testOperator( '55731 quadruplet_prime_' )
@@ -4719,6 +4730,11 @@ def runPrimeNumberOperatorTests( ):
     # quintuplet_prime
     testOperator( '18 quintuplet_prime' )
     testOperator( '9387 quintuplet_prime' )
+
+    expectEqual( '1 200 range quintuplet_prime', '22006 oeis 22007 oeis append sort 200 left' )
+
+    if slow:
+        expectEqual( '1 10000 range quintuplet_prime', '22006 oeis 22007 oeis append sort 10000 left' )
 
     # quintuplet_prime_
     testOperator( '62 quintuplet_prime_' )
@@ -4732,6 +4748,11 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '29 sextuplet_prime' )
     testOperator( '1176 sextuplet_prime' )
     testOperator( '556 sextuplet_prime' )
+
+    expectEqual( '1 200 range sextuplet_prime', '22008 oeis 200 left' )
+
+    if slow:
+        expectEqual( '1 1000 range sextuplet_prime', '22008 oeis 1000 left' )
 
     # sextuplet_prime_
     testOperator( '1 sextuplet_prime_' )
@@ -4789,17 +4810,16 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '-c 593847 sexy_triplet' )
     testOperator( '-c 8574239 sexy_triplet' )
 
-    expectEqual( '1 100 range sexy_triplet', '46118 oeis 100 left' )
+    expectEqual( '1 200 range sexy_triplet', '46118 oeis 200 left' )
 
     if slow:
         expectEqual( '1 1000 range sexy_triplet', '46118 oeis 1000 left' )
-
 
     # sexy_triplet_
     testOperator( '1 10 range sexy_triplet_' )
     testOperator( '52 sexy_triplet_' )
     testOperator( '5298 sexy_triplet_' )
-    testOperator( '-c 10984635 sexy_triplet_' )
+    testOperator( '-c 984635 sexy_triplet_' )
 
     # sophie_prime
     testOperator( '1 10 range sophie_prime' )
@@ -4813,6 +4833,12 @@ def runPrimeNumberOperatorTests( ):
 
     # superprime
     testOperator( '89 superprime' )
+
+    expectEqual( '1 200 range superprime', '6450 oeis 200 left' )
+    expectEqual( '1 1000 range 2 polyprime', '1 1000 range superprime' )
+
+    if slow:
+        expectEqual( '1 100000 range superprime', '6450 oeis 100000 left' )
 
     # triple_balanced
     testOperator( '1 10 range triple_balanced' )

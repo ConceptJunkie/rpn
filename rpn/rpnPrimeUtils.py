@@ -1164,8 +1164,6 @@ def getNthSexyTriplet( arg ):
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
-        return 5
-    elif n == 2:
         return 7
     elif g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_triplets' )
@@ -1180,7 +1178,7 @@ def getNthSexyTriplet( arg ):
         startingPlace, p = g.cursors[ 'sexy_triplets' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
-        startingPlace = 2
+        startingPlace = 1
         p = 7
 
     f = p % 10
@@ -1334,6 +1332,18 @@ def getNthTripletPrime( arg ):
 
 # //******************************************************************************
 # //
+# //  getNthQuadrupletPrimeList
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getNthQuadrupletPrimeList( arg ):
+    p = getNthQuadrupletPrime( arg )
+    return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ) ]
+
+
+# //******************************************************************************
+# //
 # //  getNextQuintupletPrimeCandidate
 # //
 # //  For ( p - 10 ) mod 30, the only quintuplet prime candidates are:
@@ -1343,30 +1353,14 @@ def getNthTripletPrime( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNextQuintupletPrimeCandidate( p ):
-    f = ( p - 10 ) % 30
+    f = p % 30
 
-    if f == 1:
-        p += 6
-    elif f == 7:
-        p += 14
-    elif f == 21:
-        p += 6
-    else:  # f == 27
+    if f == 7:
         p += 4
+    else:
+        p += 26
 
     return p
-
-
-# //******************************************************************************
-# //
-# //  getNthQuadrupletPrimeList
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def getNthQuadrupletPrimeList( arg ):
-    p = getNthQuadrupletPrime( arg )
-    return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ) ]
 
 
 # //******************************************************************************
@@ -1406,9 +1400,9 @@ def getNthQuintupletPrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p, getNextQuintupletPrimeCandidate )
 
-        f = ( p - 10 ) % 30
+        f = p % 30
 
-        if ( ( f == 1 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
+        if ( ( f == 11 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
            ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) ):
             currentIndex += 1
 
@@ -1500,7 +1494,9 @@ def getNthSextupletPrime( arg ):
         raise ValueError( 'index must be > 0' )
     elif n == 1:
         return 7
-    elif g.primeDataAvailable and n >= 10:
+    elif n == 2:
+        return 97
+    elif g.primeDataAvailable:
         openPrimeCache( 'sext_primes' )
 
         maxIndex = g.cursors[ 'sext_primes' ].execute(
@@ -1513,12 +1509,12 @@ def getNthSextupletPrime( arg ):
         startingPlace, p = g.cursors[ 'sext_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
-        startingPlace = 1
-        p = 7
+        startingPlace = 2
+        p = 97
 
-    # all sets of prime sextuplets must start with 30x+7
+    # all sets of prime sextuplets must start with 210x+97
     while n > startingPlace:
-        p += 30
+        p += 210
 
         if isPrimeNumber( p ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and \
            isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) + isPrimeNumber( p + 16 ):

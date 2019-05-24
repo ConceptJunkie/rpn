@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1386
+maxExampleCount = 1416
 
 os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -10529,14 +10529,19 @@ distributed with data files calculated through several billion primes.
     'safe_prime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
+A safe prime is a prime number p such that ( p - 1 ) / 2 is also prime.  The
+number ( p - 1 ) / 2 is a Sophie Germain prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 10 range safe_prime' ) + '''
+''' + makeCommandExample( '48365 safe_prime' ) + '''
+''' + makeCommandExample( '1 10 range safe_prime 1 - 2 /' ) + '''
+''' + makeCommandExample( '1 10 range sophie_prime' ),
+[ 'sophie_prime' ] ],
 
     'sextuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
@@ -10547,7 +10552,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sextuplet_prime' ) + '''
+''' + makeCommandExample( '2939 sextuplet_prime' ),
 [ ] ],
 
     'sextuplet_prime_' : [
@@ -10559,7 +10565,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sextuplet_prime_ -s1' ) + '''
+''' + makeCommandExample( '387 sextuplet_prime' ),
 [ ] ],
 
     'sexy_prime' : [
@@ -10570,8 +10577,9 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
 nth set of sexy primes, so the value of the result + 6 will also be prime.
 ''',
 '''
+''' + makeCommandExample( '1 10 range sexy_prime' ) + '''
 ''' + makeCommandExample( '16387 sexy_prime' ) + '''
-''' + makeCommandExample( '1 10 range sexy_prime' ),
+''' + makeCommandExample( '10000 10010 range sexy_prime' ),
 [ ] ],
 
     'sexy_prime_' : [
@@ -10586,6 +10594,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
+''' + makeCommandExample( '1 10 range sexy_prime_' ) + '''
 ''' + makeCommandExample( '819 sexy_prime_' ) + '''
 ''' + makeCommandExample( '1001 1010 range sexy_prime_' ),
 [ ] ],
@@ -10599,7 +10608,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sexy_triplet' ) + '''
+''' + makeCommandExample( '294785 sexy_triplet' ),
 [ ] ],
 
     'sexy_triplet_' : [
@@ -10611,7 +10621,9 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sexy_triplet_ -s1' ) + '''
+''' + makeCommandExample( '283751 sexy_triplet_' ) + '''
+''' + makeCommandExample( '8845 sexy_triplet_ is_prime and_all' ),
 [ ] ],
 
     'sexy_quadruplet' : [
@@ -10623,7 +10635,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sexy_quadruplet' ) + '''
+''' + makeCommandExample( '751 sexy_quadruplet' ),
 [ ] ],
 
     'sexy_quadruplet_' : [
@@ -10635,19 +10648,26 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sexy_quadruplet_ -s1' ) + '''
+''' + makeCommandExample( '2337 sexy_quadruplet_' ) + '''
+''' + makeCommandExample( '6465 sexy_quadruplet_ is_prime and_all' ),
 [ ] ],
 
     'sophie_prime' : [
 'prime_numbers', 'returns the nth Sophie Germain prime',
 '''
+A Sophie Germain prime is a prime number p such that 2p + 1 is also prime.  The
+number 2p + 1 is a safe prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range sophie_prime' ) + '''
+''' + makeCommandExample( '34875 sophie_prime' ) + '''
+''' + makeCommandExample( '1 10 range sophie_prime 2 * 1 +' ) + '''
+''' + makeCommandExample( '1 10 range safe_prime' ),
 [ ] ],
 
     'superprime' : [
@@ -10659,7 +10679,9 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range superprime' ) + '''
+''' + makeCommandExample( '34 superprime' ) + '''
+''' + makeCommandExample( '34 prime prime' ),
 [ ] ],
 
     'triple_balanced' : [
@@ -10673,6 +10695,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
+''' + makeCommandExample( '1 10 range triple_balanced' ) + '''
 ''' + makeCommandExample( '2 triple_balanced' ),
 [ ] ],
 
@@ -10735,7 +10758,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range twin_prime' ) + '''
+''' + makeCommandExample( '85749 twin_prime' ),
 [ ] ],
 
     'twin_prime_' : [
@@ -10749,11 +10773,10 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
+''' + makeCommandExample( '1 10 range twin_prime_' ) + '''
 ''' + makeCommandExample( '157 twin_prime_' ) + '''
-''' + makeCommandExample( '1 20 range twin_prime_' ) + '''
 An _extremely_ crude estimation of Brun's twin prime constant:
-
-''' + makeCommandExample( '1 100 range twin_primes_ 1/x sum sum' ),
+''' + makeCommandExample( '1 100 range twin_primes_ 1/x sum sum', indent=4 ),
 [ ] ],
 
 
