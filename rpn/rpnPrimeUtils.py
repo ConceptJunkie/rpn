@@ -102,6 +102,8 @@ def isPrimeNumberSimple( n ):
 # //
 # //  rpn 10 4 primorial 10 + range lambda x 5 prime is_rough filter 10 -
 # //
+# //  Rick, you're an idiot.  Why aren't you generating this table programmatically.
+# //
 # //******************************************************************************
 
 nextPrimeModuloTable = [
