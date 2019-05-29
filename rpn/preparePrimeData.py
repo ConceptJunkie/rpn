@@ -46,7 +46,10 @@ def preparePrimeData( baseName ):
                 key, value = line.split( )
                 saveToCache( db, cursor, key, value, commit=False )
             except:
+                print( 'key', key )
+                print( 'value', value )
                 print( 'parsing error in file ' + inputFileName + ': \'' + line + '\'' )
+                break
 
     db.commit( )
     db.close( )

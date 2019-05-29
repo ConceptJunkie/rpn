@@ -31,7 +31,7 @@ mp.dps = 52
 from rpn.rpnConstantOperators import *
 from rpn.rpnMeasurement import specialUnitConversionMatrix
 from rpn.rpnUnits import *
-from rpn.rpnUtils import getDataPath
+from rpn.rpnUtils import getUserDataPath
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
@@ -532,7 +532,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     print( 'Saving everything...' )
 
     # save the list of unit operator names and aliases
-    fileName = getDataPath( ) + os.sep + 'unit_names.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'unit_names.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -541,7 +541,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
         pickle.dump( newAliases, pickleFile )
 
     # save the actual unit data
-    fileName = getDataPath( ) + os.sep + 'units.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'units.pckl.bz2'
 
     testAllCombinations( unitTypeTable, unitConversionMatrix )
 
@@ -554,7 +554,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( constantOperators, pickleFile )
 
-    fileName = getDataPath( ) + os.sep + 'unit_conversions.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'unit_conversions.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( unitConversionMatrix, pickleFile )
@@ -567,7 +567,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     for unit, unitInfo in unitOperators.items( ):
         unitTypeDict[ unitInfo.unitType ].append( unit )
 
-    fileName = getDataPath( ) + os.sep + 'unit_help.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'unit_help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( unitTypeDict, pickleFile )

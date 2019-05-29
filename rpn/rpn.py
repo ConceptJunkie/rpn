@@ -54,7 +54,7 @@ from rpn.rpnPrimeUtils import checkForPrimeData
 
 from rpn.rpnSpecial import handleIdentify
 
-from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
+from rpn.rpnUtils import debugPrint, getCurrentArgList, getUserDataPath, \
                          parseNumerals, validateArguments, validateOptions
 
 from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, \
@@ -649,7 +649,7 @@ def rpn( cmd_args ):
 def main( ):
     checkForPrimeData( )
 
-    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getUserDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     os.chdir( getDataPath( ) )     # SkyField doesn't like running in the root directory
 
@@ -657,7 +657,7 @@ def main( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
-    helpFile = Path( getDataPath( ) + os.sep + 'help.pckl.bz2' )
+    helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
         print( 'Please run "makeHelp" to initialize the help files.' )

@@ -29,7 +29,7 @@ from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnPrimeUtils import checkForPrimeData
-from rpn.rpnUtils import getDataPath
+from rpn.rpnUtils import getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, \
                            PROGRAM_NAME, RPN_PROGRAM_NAME
 
@@ -49,7 +49,7 @@ PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
 maxExampleCount = 1416
 
-os.chdir( getDataPath( ) )    # SkyField doesn't like running in the root directory
+os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
 startTime = time.process_time( )
 
@@ -60,7 +60,7 @@ print( )
 checkForPrimeData( )
 
 if not g.primeDataAvailable:
-    sys.stderr.write( 'The prime number cache data is not available.\n' );
+    sys.stderr.write( 'The prime number data cache is not available.\n' );
     sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' );
 
 parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME + ' - ' +
@@ -11978,7 +11978,7 @@ Comparing hyperbolic tangent to hyperbolic sine/hyperbolic cosine and tangent:
 
 def makeHelp( helpTopics ):
     '''Builds the help data file.'''
-    fileName = getDataPath( ) + os.sep + 'help.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -11995,7 +11995,7 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getUserDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )

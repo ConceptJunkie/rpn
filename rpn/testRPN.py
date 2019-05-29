@@ -27,7 +27,7 @@ from rpn.rpnOperators import constants, listOperators, operators
 from rpn.rpnPersistence import loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
-from rpn.rpnUtils import getDataPath, loadAstronomyData
+from rpn.rpnUtils import getUserDataPath, loadAstronomyData
 from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 from rpn.testConvert import *
 from rpn.testHelp import *
@@ -5332,7 +5332,7 @@ def printHelpText( text=None ):
 # //******************************************************************************
 
 def main( ):
-    os.chdir( getDataPath( ) )     # SkyField doesn't like running in the root directory
+    os.chdir( getUserDataPath( ) )     # SkyField doesn't like running in the root directory
 
     args = [ ]
 
@@ -5357,13 +5357,13 @@ def main( ):
 
     checkForPrimeData( )
 
-    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getUserDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
-    helpFile = Path( getDataPath( ) + os.sep + 'help.pckl.bz2' )
+    helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
         print( 'Please run "makeHelp" to initialize the help files.' )

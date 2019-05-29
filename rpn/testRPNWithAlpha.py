@@ -27,7 +27,7 @@ from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import cachedFunction, loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
-from rpn.rpnUtils import getDataPath
+from rpn.rpnUtils import getUserDataPath
 
 from mpmath import *
 
@@ -41,7 +41,7 @@ client = None
 # //******************************************************************************
 
 def initializeAlpha( ):
-    with open( getDataPath( ) + os.sep + 'wolframalpha.key', "r" ) as input:
+    with open( getUserDataPath( ) + os.sep + 'wolframalpha.key', "r" ) as input:
         key = input.read( ).replace( '\n', '' )
 
     return wolframalpha.Client( key )

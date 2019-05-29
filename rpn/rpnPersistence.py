@@ -28,7 +28,7 @@ from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnSettings import setPrecision
-from rpn.rpnUtils import getDataPath, getUserDataPath, oneArgFunctionEvaluator
+from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -53,7 +53,7 @@ def loadFactorCache( ):
 
 def loadUnitNameData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
             g.unitOperatorNames = pickle.load( pickleFile )
             g.constantOperatorNames = pickle.load( pickleFile )
@@ -76,7 +76,7 @@ def loadUnitNameData( ):
 
 def loadUnitConversionMatrix( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
         print( 'rpn:  Unable to load unit conversion data.  Run "makeUnits" to generate the unit data files.' )
@@ -90,7 +90,7 @@ def loadUnitConversionMatrix( ):
 
 def loadUnitData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
@@ -117,7 +117,7 @@ def loadHelpData( ):
         return
 
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.helpVersion = pickle.load( pickleFile )
             g.helpTopics = pickle.load( pickleFile )
             g.operatorHelp = pickle.load( pickleFile )
@@ -125,7 +125,7 @@ def loadHelpData( ):
         raise ValueError( 'rpn:  Unable to load help.  Run "makeHelp" to generate the help data files.' )
 
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
     except FileNotFoundError:
         raise ValueError( 'rpn:  Unable to load unit help data.  Run "makeHelp" to generate the help data files.' )
@@ -181,7 +181,7 @@ def saveResult( result ):
 
 def loadConstants( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
             constants = pickle.load( pickleFile )
     except FileNotFoundError:
         constants = { }
@@ -197,7 +197,7 @@ def loadConstants( ):
 
 def saveConstants( constants ):
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( constants, pickleFile )
 
 
@@ -220,7 +220,7 @@ def getCacheFileName( name ):
 
 @lru_cache( 10 )
 def getPrimeCacheFileName( name ):
-    return getDataPath( ) + os.sep + name + '.cache'
+    return getUserDataPath( ) + os.sep + name + '.cache'
 
 
 # //******************************************************************************
