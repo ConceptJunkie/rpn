@@ -48,6 +48,7 @@ def getGCD( n, k ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def getGCDOfList( args ):
     if isinstance( args, RPNGenerator ):
         args = list( args )
@@ -143,6 +144,7 @@ def compareLists( arg1, arg2 ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def countElements( args ):
     if isinstance( args, list ):
         return len( args )
@@ -175,6 +177,7 @@ def interleave( arg1, arg2 ):
 # //
 # //******************************************************************************
 
+@listArgFunctionEvaluator( )
 def collate( argList ):
     if not isinstance( argList, list ):
         yield argList
@@ -264,6 +267,7 @@ def getIndexOfMax( args ):
 # //
 # //******************************************************************************
 
+#@listArgFunctionEvaluator( )
 def getIndexOfMin( args ):
     minimum = inf
     result = -1
