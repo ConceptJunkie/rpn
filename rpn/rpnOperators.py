@@ -3855,6 +3855,9 @@ operators = {
     'is_perfect'                     : RPNOperator( isPerfect,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
+    'is_pernicious'                    : RPNOperator( isPernicious,
+                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
+
     'is_polydivisible'               : RPNOperator( isPolydivisible,
                                                     1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 

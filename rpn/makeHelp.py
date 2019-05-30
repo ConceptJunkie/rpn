@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1416
+maxExampleCount = 1475
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1209,6 +1209,8 @@ More help text has been filled in.
 
 8.2.0
 
+Added the 'is_pernicious' operator.
+
 Added the 'pythagorean_triples' and 'get_partitions_with_limit' operators.
 
 Added the '_dump_prime_cache' operator.
@@ -1221,6 +1223,9 @@ Added 'polygonal_pyramidal' and 'polygorial' operators.
 The unit test suite has been streamlined so that it runs faster, since it's
 used so much.  Added the -t argument to time individual tests.  Added the -f
 argument to allow filtering which tests will be run (based on a text filter).
+
+A number of bug fixes and improvements have been made to the prime number
+functions and data.
 
 And the usual bug fixes.
     ''',
@@ -2768,6 +2773,7 @@ The transit time of the moon is the duration between the rising and setting of
 the moon.
 ''',
 '''
+''' + makeCommandExample( '"Tokyo, Japan" 2017-12-12 moon_transit' ) + '''
 ''' + makeCommandExample( '"Washington, DC" 2017-03-08 moon_transit' ),
 [ 'moon_antitransit', 'moonrise', 'moonset' ] ],
 
@@ -2792,11 +2798,12 @@ the moon.
 [ 'nautical_dawn', 'dusk', 'astronomical_dusk' ] ],
 
     'next_antitransit' : [
-'astronomy', 'returns the time of the next antitransit of body a, when viewed from location b, at date c',
+'astronomy', 'returns the time of the next antitransit of body a, when viewed from location b, at date-time c',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars "Yakima, Washington" 2019-04-07 next_antitransit' ) + '''
+''' + makeCommandExample( 'venus "Roanoke Rapids, NC" 2019-05-12 next_antitransit' ),
 [ 'previous_antitransit', 'next_transit', 'next_rising', 'next_setting' ] ],
 
     'next_first_quarter_moon' : [
@@ -2840,7 +2847,8 @@ the moon.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter "London, UK" now next_rising' ) + '''
+''' + makeCommandExample( 'saturn "Beijing, China" 2019-05-31 next_rising' ),
 [ 'previous_rising', 'next_setting', 'next_transit', 'next_antitransit' ] ],
 
     'next_setting' : [
@@ -2848,7 +2856,8 @@ the moon.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune "Paris, France" now next_setting' ) + '''
+''' + makeCommandExample( 'mercury "Gary, Indiana" 2019-06-30 next_setting' ),
 [ 'previous_setting', 'next_rising', 'next_transit', 'next_antitransit' ] ],
 
     'next_transit' : [
@@ -2856,7 +2865,8 @@ the moon.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'moon "Albuquerque, NM" 2019-05-03 next_transit' ) + '''
+''' + makeCommandExample( 'uranus "Lexington, KY" 2016-03-30 next_transit' ),
 [ 'previous_transit', 'next_rising', 'next_setting', 'next_antitransit' ] ],
 
     'night_time' : [
@@ -2874,7 +2884,8 @@ This is also the amount of time between sunset and sunrise.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury "Tulsa, OK" 2019-06-03 previous_antitransit' ) + '''
+''' + makeCommandExample( 'pluto "Lincoln, NE" 2018-01-12 previous_antitransit' ),
 [ 'next_antitransit', 'previous_rising', 'previous_setting', 'previous_transit' ] ],
 
     'previous_first_quarter_moon' : [
@@ -2919,7 +2930,8 @@ This is also the amount of time between sunset and sunrise.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn "New York City, NY" 2012-12-11 previous_rising' ) + '''
+''' + makeCommandExample( 'mars "San Diego, CA" 2019-06-30 previous_rising' ),
 [ 'next_rising', 'previous_setting', 'previous_transit', 'previous_antitransit' ] ],
 
     'previous_setting' : [
@@ -2927,7 +2939,8 @@ This is also the amount of time between sunset and sunrise.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune "Paris, France" now previous_setting' ) + '''
+''' + makeCommandExample( 'mercury "Gary, Indiana" 2019-06-30 previous_setting' ),
 [ 'next_setting', 'previous_rising', 'previous_transit', 'previous_antitransit' ] ],
 
     'previous_transit' : [
@@ -2935,7 +2948,8 @@ This is also the amount of time between sunset and sunrise.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune "Paris, France" now previous_transit' ) + '''
+''' + makeCommandExample( 'mercury "Gary, Indiana" 2019-06-30 previous_transit' ),
 [ 'next_transit', 'previous_rising', 'previous_setting', 'previous_antitransit' ] ],
 
     'sky_location' : [
@@ -2954,7 +2968,8 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 solar_noon' ) + '''
+''' + makeCommandExample( '"Leesburg, VA" 2019-05-30 solar_noon' ),
 [ 'dawn', 'dusk' ] ],
 
     'summer_solstice' : [
@@ -2962,7 +2977,8 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2010 summer_solstice' ) + '''
+''' + makeCommandExample( '2019 2022 range summer_solstice' ),
 [ 'winter_solstice', 'autumnal_equinox', 'vernal_equinox' ] ],
 
     'sunrise' : [
@@ -2970,7 +2986,8 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 sunrise' ) + '''
+''' + makeCommandExample( '"Leesburg, VA" 2019-05-30 sunrise' ),
 [ 'sunset', 'solar_noon' ] ],
 
     'sunset' : [
@@ -2978,7 +2995,8 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 sunset' ) + '''
+''' + makeCommandExample( '"Leesburg, VA" 2019-05-30 sunset' ),
 [ 'sunrise', 'solar_noon' ] ],
 
     'sun_antitransit' : [
@@ -3004,7 +3022,8 @@ a is an astronomical object, b is a location and c is a date-time value
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2014 vernal_equinox' ) + '''
+''' + makeCommandExample( '2019 2022 range vernal_equinox' ),
 [ 'summer_solstice', 'autumnal_equinox', 'winter_solstice' ] ],
 
     'winter_solstice' : [
@@ -3012,7 +3031,8 @@ a is an astronomical object, b is a location and c is a date-time value
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1987 winter_solstice' ) + '''
+''' + makeCommandExample( '2019 2022 range winter_solstice' ),
 [ 'autumnal_equinox', 'summer_solstice', 'vernal_equinox' ] ],
 
 
@@ -3154,25 +3174,34 @@ Count the bits in an IEEE 32-bit float:
     'parity' : [
 'bitwise', 'returns the bit parity of n (0 == even, 1 == odd)',
 '''
+0 means there are an even number of ones in the binary representation of n.
+1 means there are an odd number of ones in the binary representation of n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1987 parity' ) + '''
+''' + makeCommandExample( '1 20 range parity' ),
 [ 'count_bits' ] ],
 
     'shift_left' : [
 'bitwise', 'performs a bitwise left shift of value n by k bits',
 '''
+This is effectively the same as multiplying by 2.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 3 shift_left' ) + '''
+''' + makeCommandExample( '16 4 shift_left' ) + '''
+''' + makeCommandExample( '1 20 range 1 shift_left' ),
 [ 'shift_right' ] ],
 
     'shift_right' : [
 'bitwise', 'performs a bitwise right shift of value n by k bits',
 '''
+This is effectively the same as dividing by 2 and dropping the remainder.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 1 shift_right' ) + '''
+''' + makeCommandExample( '31 3 shift_right' ) + '''
+''' + makeCommandExample( '1 20 range 1 shift_right' ),
 [ 'shift_left' ] ],
 
 
@@ -3326,7 +3355,8 @@ Monday in November.  This definition was established by the U.S. Congress in
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2011 epiphany' ) + '''
+''' + makeCommandExample( '2019 2022 range epiphany' ),
 [ 'christmas', 'easter' ] ],
 
     'fathers_day' : [
@@ -3700,7 +3730,8 @@ names are used.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2018-12-13 to_ordinal_date' ) + '''
+''' + makeCommandExample( '2019-01-04 to_ordinal_date' ),
 [ ] ],
 
     'to_persian' : [
@@ -8048,7 +8079,7 @@ The first several abundant numbers:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 1000 range lambda x is_achilles filter' ),
 [ ] ],
 
     'is_antiharmonic' : [
@@ -8067,7 +8098,7 @@ The first several antiharmonic numbers:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10000 range lambda x is_carmichael filter' ),
 [ ] ],
 
     'is_composite' : [
@@ -8075,7 +8106,7 @@ The first several antiharmonic numbers:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range lambda x is_composite filter' ),
 [ ] ],
 
     'is_deficient' : [
@@ -8169,6 +8200,15 @@ The first few perfect numbers:
 ''' + makeCommandExample( '1 500 range lambda x is_perfect filter' ),
 [ 'nth_perfect_number', 'is_abundant', 'is_deficient', 'is_k_perfect', 'is_k_hyperperfect' ] ],
 
+    'is_pernicious' : [
+'number_theory', 'returns whether n is pernicious',
+'''
+A pernicious number has a prime number of ones in its binary representation.
+''',
+'''
+''' + makeCommandExample( '1 30 range is_pernicious' ),
+[ ] ],
+
     'is_polydivisible' : [
 'number_theory', 'returns whether or not n is polydivisible',
 '''
@@ -8193,16 +8233,6 @@ faster Miller-Rabin test without being unsure of the result.
 
 Right now it's kind of dumb.  It just calls the old algorithm
 for numbers smaller than a trillion.
-''',
-'''
-''',
-[ ] ],
-
-    'is_prime_old' : [
-'number_theory', 'returns whether n is prime',
-'''
-This uses the much, much faster Miller-Rabin code, but it can't be 100% sure
-beyond a certain size.
 ''',
 '''
 ''',
@@ -10311,18 +10341,25 @@ distributed with data files calculated through several billion primes.
     'isolated_prime' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
+A prime is considered isolated if it is separated from its two prime neighbors
+by more than 2.  An alternate definition is that an isolated prime is a prime
+that is not part of a twin prime pair.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 and is distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range isolated_prime' ) + '''
+''' + makeCommandExample( '500 isolated_prime' ),
 [ ] ],
 
     'next_prime' : [
 'prime_numbers', 'returns the next prime number greater than or equal to n',
 '''
+This function does not require the use of the prime data files, so arbitrarily
+large values can be used.  Thanks to gmpy2, rpn can calculate the next prime
+for numbers of a thousand digits or more in relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '10 next_prime' ) + '''
@@ -10334,6 +10371,9 @@ Generate a random 200-digit prime:
     'next_primes' : [
 'prime_numbers', 'returns the next k prime numbers greater than or equal to n',
 '''
+This function does not require the use of the prime data files, so arbitrarily
+large values can be used.  Thanks to gmpy2, rpn can calculate the next prime
+for numbers of a thousand digits or more in relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '100 10 next_primes' ) + '''
@@ -10415,6 +10455,9 @@ distributed with data files calculated through several billion primes.
     'previous_prime' : [
 'prime_numbers', 'returns the previous prime number less than n',
 '''
+This function does not require the use of the prime data files, so arbitrarily
+large values can be used.  Thanks to gmpy2, rpn can calculate the previous
+prime for numbers of a thousand digits or more in relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '10 previous_prime' ) + '''
@@ -10424,6 +10467,9 @@ distributed with data files calculated through several billion primes.
     'previous_primes' : [
 'prime_numbers', 'returns the previous k prime numbers less than n',
 '''
+This function does not require the use of the prime data files, so arbitrarily
+large values can be used.  Thanks to gmpy2, rpn can calculate the previous
+prime for numbers of a thousand digits or more in relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '100 10 previous_primes' ) + '''
@@ -10433,14 +10479,17 @@ distributed with data files calculated through several billion primes.
     'prime' : [
 'prime_numbers', 'returns the nth prime',
 '''
+Calculates the nth prime number.  For calculating ranges of primes, the
+'primes' operator is much faster.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
-[ 'primes', 'prime_range' ] ],
+''' + makeCommandExample( '1,000,000 prime' ) + '''
+''' + makeCommandExample( '1,000,000,000 prime' ),
+[ 'primes', 'prime_range', 'next_prime', 'previous_prime' ] ],
 
     'primes' : [
 'prime_numbers', 'generates a range of k primes starting from index n',
@@ -10453,16 +10502,22 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 20 primes' ) + '''
-''' + makeCommandExample( '3206 10 primes' ),
+''' + makeCommandExample( '3206 10 primes' ) + '''
+''' + makeCommandExample( '1,000,000 10 primes' ),
 [ 'prime', 'prime_range' ] ],
 
     'prime_pi' : [
 'prime_numbers', 'calculates the count of prime numbers up to and including n',
 '''
+This will return an exact answer for relatively small values (based on the
+prime number data), and a range for larger values, which are estimated.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '541 prime_pi' ) + '''
+''' + makeCommandExample( '100 prime' ) + '''
+''' + makeCommandExample( '10 10 ** prime_pi' ) + '''
+''' + makeCommandExample( '10 100 ** prime_pi' ),
+[ 'prime', 'primes', 'nth_prime' ] ],
 
     'prime_range' : [
 'prime_numbers', 'generates a range of primes starting from index n to index k',
@@ -10475,8 +10530,9 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 21 prime_range' ) + '''
-''' + makeCommandExample( '934 960 prime_range' ),
-[ 'prime', 'primes' ] ],
+''' + makeCommandExample( '934 960 prime_range' ) + '''
+''' + makeCommandExample( '999,990 1,000,000 prime_range' ),
+[ 'prime', 'primes', 'next_prime', 'previous_prime' ] ],
 
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
@@ -10487,7 +10543,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range quadruplet_prime' ),
 [ ] ],
 
     'quadruplet_prime_' : [
@@ -10499,7 +10555,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range quadruplet_prime_ -s1' ),
 [ ] ],
 
     'quintuplet_prime' : [
@@ -10511,7 +10567,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range quintuplet_prime' ),
 [ ] ],
 
     'quintuplet_prime_' : [
@@ -10523,7 +10579,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range quintuplet_prime_ -s1' ),
 [ ] ],
 
     'safe_prime' : [
@@ -11012,6 +11068,7 @@ c:\>rpn 55 describe
     11-smooth
     5-rough
     semiprime
+    pernicious
     unusual
     a base-2 Smith number
     a base-4 Smith number
@@ -11032,6 +11089,8 @@ c:\>rpn 55 describe
     a digital root of 1
     a multiplicative persistence of 3
     an Erdos persistence of 3
+
+55
 ''',
 [ ] ],
 

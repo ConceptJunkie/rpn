@@ -3677,6 +3677,12 @@ def runNumberTheoryOperatorTests( ):
     if slow:
         expectResult( '-a400 396 oeis 15 left is_perfect and_all', 1 )
 
+    # is_pernicious
+    expectEqual( '0 1000 range lambda x is_pernicious filter', '52294 oeis 1000 filter_max' )
+
+    if slow:
+        expectEqual( '0 27267 range lambda x is_pernicious filter', '52294 oeis 27267 filter_max' )
+
     # is_polydivisible
     expectResult( '3608528850368400786036725 is_polydivisible', 1 )
 

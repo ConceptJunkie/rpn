@@ -507,7 +507,6 @@ def getNthPrime( arg ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def findPrime( arg ):
     target = int( arg )
 

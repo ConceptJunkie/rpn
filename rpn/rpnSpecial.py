@@ -47,8 +47,8 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthRieselNumber, getNthSubfactorial, getNthStern, getNthSuperfactorial, \
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
                                 isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
-                                isKHyperperfect, isKPerfect, isPolydivisible, isPowerful, isPronic, \
-                                isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
+                                isKHyperperfect, isKPerfect, isPernicious, isPolydivisible, isPowerful, \
+                                isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
 from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
@@ -743,9 +743,14 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' superfactorial number' )
 
+    # pernicious
+    if isPernicious( n ):
+        print( indent + 'pernicious' )
+
     # pronic
     if isPronic( n ):
         print( indent + 'pronic' )
+
 
     # Achilles
     if isAchillesNumber( n ):

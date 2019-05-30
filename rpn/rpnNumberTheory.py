@@ -24,16 +24,17 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
                    fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
                    fprod, fsub, fsum, gamma, harmonic, hyperfac, isint, \
                    libmp, log10, loggamma, mp, mpc, mpf, mpmathify, nint, phi, \
-                   polyroots, polyval, power, primepi, psi, re, root, \
+                   polyroots, polyval, power, primepi2, psi, re, root, \
                    superfac, sqrt, unitroots, zeta, zetazero
 
+from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnList import calculateHarmonicMean, getGCD, getGCDOfList, \
                         calculatePowerTower2, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
-from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
+from rpn.rpnPrimeUtils import findPrime, isPrime, getPreviousPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
                          setAccuracyForN, twoArgFunctionEvaluator, real, real_int
@@ -190,7 +191,15 @@ def getNthBaseKRepunit( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getPrimePi( n ):
-    return primepi( real( n ) )
+    if n <= 15000000000:  # max huge prime... figure it out!
+        return findPrime( n )[ 0 ]
+
+    result = primepi2( real_int( n ) )
+
+    if result.a == result.b:
+        return mpf( result.a )
+    else:
+        return [ mpf( result.a ), mpf( result.b ) ]
 
 
 # //******************************************************************************
@@ -1526,6 +1535,20 @@ def isSmoothOperator( n, k ):
         raise ValueError( "'is_smooth' requires a prime number for the second argument" )
 
     return isSmooth( n, k )
+
+
+# //******************************************************************************
+# //
+# //  isPernicious
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isPernicious( n ):
+    if real_int( n ) < 1:
+        return 0
+
+    return 1 if isPrime( getBitCount( n ) ) else 0
 
 
 # //******************************************************************************
