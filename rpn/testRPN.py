@@ -3646,10 +3646,19 @@ def runNumberTheoryOperatorTests( ):
                  '1 100 range lambda x is_sphenic filter' )
     expectEqual( '10 300 10 range2 lambda x 4 is_k_semiprime x is_squarefree and filter',
                  '10 300 2 range2 lambda x 4 is_k_sphenic filter' )
-    expectEqual( '10 2500 10 range2 lambda x 5 is_k_semiprime x is_squarefree and filter',
-                 '10 2500 10 range2 lambda x 5 is_k_sphenic filter' )
+    expectEqual( '10 1000 10 range2 lambda x 5 is_k_semiprime x is_squarefree and filter',
+                 '10 1000 10 range2 lambda x 5 is_k_sphenic filter' )
 
-    expectEqual( '-a30 1 30 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis 30 filter_max' )
+    expectEqual( '1 100 range lambda x 4 is_k_semiprime filter', '14613 oeis 100 filter_max' )
+    expectEqual( '1 100 range lambda x 5 is_k_semiprime filter', '14614 oeis 100 filter_max' )
+    expectEqual( '1 200 range lambda x 6 is_k_semiprime filter', '46306 oeis 200 filter_max' )
+
+    if slow:
+        expectEqual( '1 54328 range lambda x 4 is_k_semiprime filter', '14613 oeis 54328 filter_max' )
+        expectEqual( '1 89896 range lambda x 5 is_k_semiprime filter', '14614 oeis 89896 filter_max' )
+        expectEqual( '1 162712 range lambda x 6 is_k_semiprime filter', '46306 oeis 162712 filter_max' )
+
+    expectEqual( '1 ', '101757 oeis 30 filter_max' )
 
     if slow:
         expectEqual( '-a30 1 250 range lambda x tribonacci 2 is_k_semiprime filter',
