@@ -1250,7 +1250,6 @@ def dumpStats( printTitle=True ):
         printStats( 'cousin_primes', 'cousin primes' )
         printStats( 'isolated_primes', 'isolated primes' )
         printStats( 'sophie_primes', 'Sophie Germain primes' )
-        printStats( 'super_primes', 'super primes' )
 
         print( )
 
@@ -4282,7 +4281,7 @@ operators = {
     'sophie_prime'                   : RPNOperator( getNthSophiePrime,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'superprime'                     : RPNOperator( getNthSuperPrime,
+    'super_prime'                    : RPNOperator( getNthSuperPrime,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'triplet_prime'                  : RPNOperator( getNthTripletPrime,

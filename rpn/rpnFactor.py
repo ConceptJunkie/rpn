@@ -143,7 +143,7 @@ def runYAFU( n ):
 
     full_out = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
                                  g.userConfiguration[ 'yafu_binary' ], str( int( n ) ), '-xover', '120' ],
-                             stdout=subprocess.PIPE, cwd=g.userConfiguration[ 'yafu_path' ] ).stdout.decode( 'ascii' )
+                               stdout=subprocess.PIPE, cwd=g.userConfiguration[ 'yafu_path' ] ).stdout.decode( 'ascii' )
 
     #print( 'out', full_out )
 

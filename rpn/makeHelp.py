@@ -51,7 +51,7 @@ maxExampleCount = 1475
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
-startTime = time.process_time( )
+startTime = time.time_ns( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
 print( COPYRIGHT_MESSAGE )
@@ -10726,17 +10726,14 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '1 10 range safe_prime' ),
 [ ] ],
 
-    'superprime' : [
-'prime_numbers', 'returns the nth superprime (the nth primeth prime)',
+    'super_prime' : [
+'prime_numbers', 'returns the nth super prime (the nth primeth prime)',
 '''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+This is equivalent to 'n 2 polyprime'.
 ''',
 '''
-''' + makeCommandExample( '1 10 range superprime' ) + '''
-''' + makeCommandExample( '34 superprime' ) + '''
+''' + makeCommandExample( '1 10 range super_prime' ) + '''
+''' + makeCommandExample( '34 super_prime' ) + '''
 ''' + makeCommandExample( '34 prime prime' ),
 [ ] ],
 
@@ -12084,7 +12081,7 @@ def main( ):
     makeHelp( helpTopics )
 
     print( )
-    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
 
 
 # //******************************************************************************

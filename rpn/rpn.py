@@ -244,7 +244,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( time.process_time( ) - g.startTime ), file=file )
+        print( '\n' + indentString + '{:.3f} seconds'.format( ( time.time_ns( ) - g.startTime ) / 1000000000 ), file=file )
 
 
 # //******************************************************************************
@@ -299,7 +299,7 @@ def enterInteractiveMode( ):
             enterHelpMode( terms[ 1 : ] )
         else:
             if g.timer or g.tempTimerMode:
-                g.startTime = time.process_time( )
+                g.startTime = time.time_ns( )
 
             #newTerms = preprocessTerms( terms )
             #print( 'newTerms', newTerms )
@@ -635,7 +635,7 @@ def rpn( cmd_args ):
         print( *sys.argv )
 
     if g.timer:
-        g.startTime = time.process_time( )
+        g.startTime = time.time_ns( )
 
     return evaluate( terms )
 

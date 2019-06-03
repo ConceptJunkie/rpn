@@ -823,6 +823,7 @@ operatorAliases = {
     'sum_dig'                       : 'sum_digits',
     'sun_transit'                   : 'solar_noon',
     'superfac'                      : 'superfactorial',
+    'superprime'                    : 'super_prime',
     'super_catalan'                 : 'nth_schroeder_hipparchus',
     'syl'                           : 'nth_sylvester',
     'sylvester'                     : 'nth_sylvester',

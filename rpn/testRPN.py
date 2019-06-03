@@ -5368,7 +5368,7 @@ def main( ):
         elif arg != '-s' and arg != '-t':
             args.append( arg )
 
-    startTime = time.process_time( )
+    startTime = time.time_ns( )
 
     checkForPrimeData( )
 
@@ -5432,7 +5432,7 @@ def main( ):
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
-    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
 
 
 # //******************************************************************************
