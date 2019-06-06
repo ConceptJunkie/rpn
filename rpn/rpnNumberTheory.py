@@ -34,7 +34,7 @@ from rpn.rpnList import calculateHarmonicMean, getGCD, getGCDOfList, \
                         calculatePowerTower2, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
-from rpn.rpnPrimeUtils import findPrime, isPrime, getPreviousPrime
+from rpn.rpnPrimeUtils import findPrime, getNthPrime, getPreviousPrime, isPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
                          setAccuracyForN, twoArgFunctionEvaluator, real, real_int
@@ -192,7 +192,12 @@ def getNthBaseKRepunit( n, k ):
 @oneArgFunctionEvaluator( )
 def getPrimePi( n ):
     if n <= 15000000000:  # max huge prime... figure it out!
-        return findPrime( n )[ 0 ]
+        result = findPrime( n )[ 0 ]
+
+        if getNthPrime( result ) > n:
+            result -= 1
+
+        return result
 
     result = primepi2( real_int( n ) )
 

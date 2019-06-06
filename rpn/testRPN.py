@@ -3658,7 +3658,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 89896 range lambda x 5 is_k_semiprime filter', '14614 oeis 89896 filter_max' )
         expectEqual( '1 162712 range lambda x 6 is_k_semiprime filter', '46306 oeis 162712 filter_max' )
 
-    expectEqual( '1 ', '101757 oeis 30 filter_max' )
+    expectEqual( '1 50 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis 50 filter_max' )
 
     if slow:
         expectEqual( '-a30 1 250 range lambda x tribonacci 2 is_k_semiprime filter',
@@ -4587,16 +4587,16 @@ def runPrimeNumberOperatorTests( ):
         return
 
     # balanced_prime
-    testOperator( '1 10 range balanced' )
-    testOperator( '53 balanced' )
-    testOperator( '153 balanced' )
-    testOperator( '2153 balanced' )
+    expectEqual( '1 100 range balanced_prime', '6562 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 10000 range balanced_prime', '6562 oeis 10000 left' )
 
     # balanced_prime_
-    testOperator( '1 10 range balanced_' )
-    testOperator( '53 balanced_' )
-    testOperator( '153 balanced_' )
-    testOperator( '2153 balanced_' )
+    #expectEqual( '1 100 balanced_prime_', '6562 oeis 100 left' )
+
+    #if slow:
+    #    expectEqual( '1 10000 balanced_prime_', '6562 oeis 10000 left' )
 
     # cousin_prime
     testOperator( '1 10 range cousin_prime' )
@@ -4609,22 +4609,24 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '192765 cousin_prime_' )
 
     # cousin primes are currently wrong starting with #99
-    #expectEqual( '1 100 range lambda x cousin_prime_ product eval', '143206 oeis 100 left' )
-    #expectEqual( '1001 1100 range lambda x cousin_prime_ product eval', '143206 oeis 1100 left 100 right' )
-    #expectEqual( '9901 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left 100 right' )
+    expectEqual( '1 100 range lambda x cousin_prime_ product eval', '143206 oeis 100 left' )
+    expectEqual( '1001 1100 range lambda x cousin_prime_ product eval', '143206 oeis 1100 left 100 right' )
+    expectEqual( '9901 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left 100 right' )
 
-    #if slow:
-    #    expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
+    if slow:
+        expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
 
     # double_balanced
-    testOperator( '1 5 range double_balanced' )
-    testOperator( '54 double_balanced' )
-    testOperator( '82154 double_balanced' )
+    expectEqual( '1 100 range double_balanced', '51795 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 10000 range double_balanced', '51795 oeis 10000 left' )
 
     # double_balanced_
-    testOperator( '1 5 range double_balanced_' )
-    testOperator( '54 double_balanced_' )
-    testOperator( '100000 double_balanced_' )
+    #expectEqual( '1 100 double_balanced_', '51795 oeis 100 left' )
+
+    #if slow:
+    #    expectEqual( '1 10000 double_balanced_', '51795 oeis 10000 left' )
 
     # isolated_prime
     testOperator( '102 isolated_prime' )
@@ -4856,12 +4858,16 @@ def runPrimeNumberOperatorTests( ):
         expectEqual( '1 100000 range superprime', '6450 oeis 100000 left' )
 
     # triple_balanced
-    testOperator( '1 10 range triple_balanced' )
-    testOperator( '5588 triple_balanced' )
+    expectEqual( '1 100 range triple_balanced', '81415 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range triple_balanced', '81415 oeis 1000 left' )
 
     # triple_balanced_
-    testOperator( '1 10 range triple_balanced_' )
-    testOperator( '6329 triple_balanced_' )
+    #expectEqual( '1 100 triple_balanced_', '81415 oeis 100 left' )
+
+    #if slow:
+    #    expectEqual( '1 1000 triple_balanced_', '81415 oeis 1000 left' )
 
     # triplet_prime
     expectEqual( '1 200 range triplet_prime', '22004 oeis 22005 oeis append sort 23741 filter_max' )

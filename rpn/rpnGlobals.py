@@ -14,7 +14,6 @@
 
 # general globals
 dataDir = 'rpndata'
-ecm = True
 
 # base identifiers
 phiBase = -1

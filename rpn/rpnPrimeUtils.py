@@ -760,10 +760,8 @@ def getNthBalancedPrime( arg ):
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
-        return 3
-    elif n == 2:
         return 5
-    elif g.primeDataAvailable and n >= 100:
+    elif g.primeDataAvailable:
         openPrimeCache( 'balanced_primes' )
 
         maxIndex = g.cursors[ 'balanced_primes' ].execute(
@@ -775,8 +773,9 @@ def getNthBalancedPrime( arg ):
 
         currentIndex, p = g.cursors[ 'balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
-        prevPrime = 0
-        secondPrevPrime = 0
+
+        prevPrime = p
+        secondPrevPrime = getPreviousPrime( p )
     else:
         currentIndex = 2
         p = 11
@@ -793,7 +792,7 @@ def getNthBalancedPrime( arg ):
             secondPrevPrime = prevPrime
             prevPrime = p
 
-    return secondPrevPrime
+    return p
 
 
 # //******************************************************************************
