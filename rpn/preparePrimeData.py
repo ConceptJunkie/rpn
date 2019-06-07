@@ -72,6 +72,8 @@ def main( ):
     preparePrimeData( "huge_primes" )
     preparePrimeData( "isolated_primes" )
     preparePrimeData( "large_primes" )
+    preparePrimeData( "octy_primes" )
+    preparePrimeData( "quadruple_balanced_primes" )
     preparePrimeData( "quad_primes" )
     preparePrimeData( "quint_primes" )
     preparePrimeData( "sext_primes" )

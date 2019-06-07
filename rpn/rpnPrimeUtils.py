@@ -969,6 +969,86 @@ def getNthTripleBalancedPrime( arg ):
 
 # //******************************************************************************
 # //
+# //  getNthQuadrupleBalancedPrimeElement
+# //
+# //******************************************************************************
+
+def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
+    n = int( real_int( arg ) )
+
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
+        return 98303927
+
+    if g.primeDataAvailable:
+        openPrimeCache( 'quadruple_balanced_primes' )
+
+        maxIndex = g.cursors[ 'quadruple_balanced_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+
+        if n > maxIndex:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                              format( n, maxIndex ) )
+
+        currentIndex, p = g.cursors[ 'quadruple_balanced_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+    else:
+        if n > 10:
+            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
+
+        # no cache... we'll do this the hard way
+        currentIndex = 1
+        p = 98303927
+
+    primes = [ p ]
+
+    for i in range( 0, 8 ):
+        p = getNextPrime( p )
+        primes.append( p )
+
+    while n > currentIndex:
+        p = getNextPrime( p )
+
+        primes.append( p )
+        del primes[ 0 ]
+
+        if ( ( primes[ 4 ] - primes[ 3 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
+             ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 6 ] - primes[ 5 ] ) and
+             ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 7 ] - primes[ 6 ] ) and
+             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 8 ] - primes[ 7 ] ) ):
+            currentIndex += 1
+
+    result = primes[ 0 ] if first else primes[ 3 ]
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getNthQuadrupleBalancedPrimeList
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getNthQuadrupleBalancedPrimeList( arg ):
+    p = getNthQuadrupleBalancedPrimeElement( arg, first = True )
+    result = [ p ]
+
+    for i in range( 0, 6 ):
+        p = getNextPrime( p )
+        result.append( p )
+
+    return result
+
+
+@oneArgFunctionEvaluator( )
+def getNthQuadrupleBalancedPrime( arg ):
+    return getNthQuadrupleBalancedPrimeElement( arg )
+
+
+# //******************************************************************************
+# //
 # //  getNthSophiePrime
 # //
 # //******************************************************************************
@@ -1256,6 +1336,93 @@ def getNthSexyQuadruplet( arg ):
 def getNthSexyQuadrupletList( arg ):
     p = getNthSexyQuadruplet( arg )
     return [ p, fadd( p, 6 ), fadd( p, 12 ), fadd( p, 18 ) ]
+
+
+# //******************************************************************************
+# //
+# //  getNextOctyPrimeCandidate
+# //
+# //  For a number ( p - 10 ) mod 30, the only sexy candidates are 1, 3, 9, 11,
+# //  13, 19, 21, 23 and 29.
+# //
+# //******************************************************************************
+
+def getNextOctyPrimeCandidate( p ):
+    f = ( p - 10 ) % 30
+
+    if f == 1:
+        p += 2
+    elif f == 3:
+        p += 6
+    elif f == 9:
+        p += 2
+    elif f == 11:
+        p += 2
+    elif f == 13:
+        p += 6
+    elif f == 19
+        p += 2
+    elif f == 21
+        p += 2
+    elif f == 23
+        p += 6
+    else:  # 29
+        p += 2
+
+    return p
+
+
+# //******************************************************************************
+# //
+# //  getNthOctyPrime
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getNthOctyPrime( arg ):
+    n = int( real_int( arg ) )
+
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
+        return 3
+    elif n == 2:
+        return 5
+    elif g.primeDataAvailable:
+        openPrimeCache( 'octy_primes' )
+
+        maxIndex = g.cursors[ 'octy_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+
+        if n > maxIndex:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                              format( n, maxIndex ) )
+
+        startingPlace, p = g.cursors[ 'octy_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+    else:
+        startingPlace = 3
+        p = 11
+
+    while n > startingPlace:
+        p = getNextPrime( p, getNextOctyPrimeCandidate )
+
+        if isPrimeNumber( p + 8 ):
+            n -= 1
+
+    return p
+
+
+# //******************************************************************************
+# //
+# //  getNthSexyPrimeList
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getNthOctyPrimeList( arg ):
+    p = getNthOctyPrime( arg )
+    return [ p, fadd( p, 8 ) ]
 
 
 # //******************************************************************************

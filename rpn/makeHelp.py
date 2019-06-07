@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1475
+maxExampleCount = 1485
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -787,9 +787,9 @@ logic).
 
 5.28.3
 
-The operators 'double_balanced', double_balanced_', 'triple_balanced', and
-'triple_balanced_' now work correctly.  The data files have been significantly
-expanded as well.
+The operators 'double_balanced_prime', double_balanced_prime_',
+'triple_balanced_prime', and 'triple_balanced_prime' now work correctly.  The
+data files have been significantly expanded as well.
 
 5.28.4
 
@@ -10307,7 +10307,7 @@ distributed with data files calculated through several billion primes.
 ''',
 [ ] ],
 
-    'double_balanced' : [
+    'double_balanced_prime' : [
 'prime_numbers', 'returns the nth double balanced prime',
 '''
 A double balanced prime is a primes which is the average of its immediate
@@ -10318,11 +10318,11 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '5 double_balanced' ) + '''
-''' + makeCommandExample( '1 10 range double_balanced' ),
+''' + makeCommandExample( '5 double_balanced_prime' ) + '''
+''' + makeCommandExample( '1 10 range double_balanced_prime' ),
 [ ] ],
 
-    'double_balanced_' : [
+    'double_balanced_prime_' : [
 'prime_numbers', 'returns the nth double balanced prime and its neighbors',
 '''
 A double balanced prime is a primes which is the average of its immediate
@@ -10334,8 +10334,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '10 double_balanced_' ) + '''
-''' + makeCommandExample( '10 double_balanced_ diffs' ),
+''' + makeCommandExample( '10 double_balanced_prime' ) + '''
+''' + makeCommandExample( '10 double_balanced_prime_ diffs' ),
 [ ] ],
 
     'isolated_prime' : [
@@ -10440,6 +10440,40 @@ distributed with data files calculated through several billion primes.
 ''',
 [ ] ],
 
+    'octy_prime' : [
+'prime_numbers', 'returns the first of the nth set of octy primes',
+'''
+Octy primes are defined to be a pair of numbers, n and n + 8, which are both
+prime.  n + 2, n + 4 or n + 6 may also be prime.  This operator returns the
+smaller of nth set of octy primes, so the value of the result + 8 will also be
+prime.
+
+Even though there are sexy triplets and sexy quadruplets, octy triplets and
+octy quadruplets do not exist.
+''',
+'''
+''' + makeCommandExample( '1 10 range octy_prime' ) + '''
+''' + makeCommandExample( '5473 octy_prime' ) + '''
+''' + makeCommandExample( '1000 1012 range octy_prime' ),
+[ ] ],
+
+    'octy_prime_' : [
+'prime_numbers', 'returns the nth set of octy primes',
+'''
+Octy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
+of the nth set of octy primes, which will differ by 6.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through several billion primes.
+''',
+'''
+''' + makeCommandExample( '1 10 range octy_prime_' ) + '''
+''' + makeCommandExample( '2384 octy_prime_' ) + '''
+''' + makeCommandExample( '1001 1010 range octy_prime_' ),
+[ ] ],
+
     'polyprime' : [
 'prime_numbers', 'returns the nth prime, recursively k times',
 '''
@@ -10533,6 +10567,37 @@ distributed with data files calculated through several billion pribmes.
 ''' + makeCommandExample( '934 960 prime_range' ) + '''
 ''' + makeCommandExample( '999,990 1,000,000 prime_range' ),
 [ 'prime', 'primes', 'next_prime', 'previous_prime' ] ],
+
+    'quadruple_balanced_prime' : [
+'prime_numbers', 'returns the nth quadruple balanced prime',
+'''
+A quadruple balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors and its third neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through several billion primes.
+''',
+'''
+''' + makeCommandExample( '1 10 range quadruple_balanced_prime' ) + '''
+''' + makeCommandExample( '2 quadruple_balanced_prime' ),
+[ ] ],
+
+    'quadruple_balanced_prime_' : [
+'prime_numbers', 'returns the nth quadruple balanced prime and its neighbors',
+'''
+A quadruple balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors and its third neighbors.  This operator also
+returns the neighbors, second neighbors, and third neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through several billion primes.
+''',
+'''
+''' + makeCommandExample( '3 quadruple_balanced_prime_' ) + '''
+''' + makeCommandExample( '3 quadruple_balanced_prime_ diffs' ),
+[ ] ],
 
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
@@ -10737,7 +10802,7 @@ This is equivalent to 'n 2 polyprime'.
 ''' + makeCommandExample( '34 prime prime' ),
 [ ] ],
 
-    'triple_balanced' : [
+    'triple_balanced_prime' : [
 'prime_numbers', 'returns the nth triple balanced prime',
 '''
 A triple balanced prime is a primes which is the average of its immediate
@@ -10748,11 +10813,11 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range triple_balanced' ) + '''
-''' + makeCommandExample( '2 triple_balanced' ),
+''' + makeCommandExample( '1 10 range triple_balanced_prime' ) + '''
+''' + makeCommandExample( '2 triple_balanced_prime' ),
 [ ] ],
 
-    'triple_balanced_' : [
+    'triple_balanced_prime_' : [
 'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
 '''
 A triple balanced prime is a primes which is the average of its immediate
@@ -10764,8 +10829,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '3 triple_balanced_' ) + '''
-''' + makeCommandExample( '3 triple_balanced_ diffs' ),
+''' + makeCommandExample( '3 triple_balanced_prime_' ) + '''
+''' + makeCommandExample( '3 triple_balanced_prime_ diffs' ),
 [ ] ],
 
     'triplet_prime' : [

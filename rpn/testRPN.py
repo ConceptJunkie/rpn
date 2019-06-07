@@ -4629,8 +4629,10 @@ def runPrimeNumberOperatorTests( ):
     #    expectEqual( '1 10000 double_balanced_', '51795 oeis 10000 left' )
 
     # isolated_prime
-    testOperator( '102 isolated_prime' )
-    testOperator( '1902 isolated_prime' )
+    expectEqual( '1 100 range isolated_prime', '7510 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 10000 range isolated_prime', '7510 oeis 10000 left' )
 
     # next_prime
     testOperator( '1 100 range next_prime' )
@@ -4730,6 +4732,18 @@ def runPrimeNumberOperatorTests( ):
 
     expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
     expectEqual( '1 10000 primes', '40 oeis 10000 left' )
+
+    # quadruple_balanced_prime
+    expectEqual( '1 100 range quadruple_balanced_prime', '96710 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range quadruple_balanced_prime', '96710 oeis 1000 left' )
+
+    # quadruple_balanced_prime_
+    #expectEqual( '1 100 range triple_balanced_prime', '96710 oeis 100 left' )
+
+    #if slow:
+    #    expectEqual( '1 1000 range triple_balanced_prime', '96710 oeis 1000 left' )
 
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )
@@ -4857,17 +4871,17 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 100000 range superprime', '6450 oeis 100000 left' )
 
-    # triple_balanced
-    expectEqual( '1 100 range triple_balanced', '81415 oeis 100 left' )
+    # triple_balanced_prime
+    expectEqual( '1 100 range triple_balanced_prime', '81415 oeis 100 left' )
 
     if slow:
-        expectEqual( '1 1000 range triple_balanced', '81415 oeis 1000 left' )
+        expectEqual( '1 1000 range triple_balanced_prime', '81415 oeis 1000 left' )
 
-    # triple_balanced_
-    #expectEqual( '1 100 triple_balanced_', '81415 oeis 100 left' )
+    # triple_balanced_prime_
+    #expectEqual( '1 100 triple_balanced_prime_', '81415 oeis 100 left' )
 
     #if slow:
-    #    expectEqual( '1 1000 triple_balanced_', '81415 oeis 1000 left' )
+    #    expectEqual( '1 1000 triple_balanced_prime_', '81415 oeis 1000 left' )
 
     # triplet_prime
     expectEqual( '1 200 range triplet_prime', '22004 oeis 22005 oeis append sort 23741 filter_max' )
