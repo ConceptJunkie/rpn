@@ -4603,6 +4603,13 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '77 cousin_prime' )
     testOperator( '5176 cousin_prime' )
 
+    expectEqual( '1 100 range cousin_prime', '23200 oeis 100 left' )
+    expectEqual( '1001 1100 range cousin_prime', '23200 oeis 1100 left 100 right' )
+    expectEqual( '9901 10000 range cousin_prime', '23200 oeis 10000 left 100 right' )
+
+    if slow:
+        expectEqual( '1 10000 range cousin_prime', '23200 oeis 10000 left' )
+
     # cousin_prime_
     testOperator( '1 10 range cousin_prime_' )
     testOperator( '4486 cousin_prime_' )

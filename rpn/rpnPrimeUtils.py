@@ -749,7 +749,7 @@ def getNthTwinPrimeList( arg ):
 # //
 # //  getNthBalancedPrime
 # //
-# //  returns the first of a set of 3 balanced primes
+# //  returns the first balanced prime
 # //
 # //******************************************************************************
 
@@ -774,13 +774,13 @@ def getNthBalancedPrime( arg ):
         currentIndex, p = g.cursors[ 'balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
 
-        prevPrime = p
-        secondPrevPrime = getPreviousPrime( p )
+        secondPrevPrime = p
+        prevPrime = getNextPrime( p )
     else:
-        currentIndex = 2
+        currentIndex = 1
         p = 11
-        prevPrime = 7
-        secondPrevPrime = 5
+        prevPrime = 11
+        secondPrevPrime = 7
 
     while n > currentIndex:
         p = getNextPrime( p )
@@ -792,7 +792,7 @@ def getNthBalancedPrime( arg ):
             secondPrevPrime = prevPrime
             prevPrime = p
 
-    return p
+    return prevPrime
 
 
 # //******************************************************************************
@@ -822,7 +822,7 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
-        return 18713
+        return 18731
 
     primes = [ ]
 
@@ -843,7 +843,7 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
 
         # no cache... we'll do this the hard way
         currentIndex = 1
-        p = 18713
+        p = 18731
 
     primes = [ p ]
 
@@ -874,7 +874,7 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
 
 @oneArgFunctionEvaluator( )
 def getNthDoubleBalancedPrimeList( arg ):
-    p = getNthDoubleBalancedPrimeElement( arg, first = True )
+    p = getNthDoubleBalancedPrimeElement( arg, first = False )
     result = [ p ]
 
     for i in range( 0, 4 ):
@@ -1360,11 +1360,11 @@ def getNextOctyPrimeCandidate( p ):
         p += 2
     elif f == 13:
         p += 6
-    elif f == 19
+    elif f == 19:
         p += 2
-    elif f == 21
+    elif f == 21:
         p += 2
-    elif f == 23
+    elif f == 23:
         p += 6
     else:  # 29
         p += 2
