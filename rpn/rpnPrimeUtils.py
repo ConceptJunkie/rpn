@@ -774,23 +774,25 @@ def getNthBalancedPrime( arg ):
         currentIndex, p = g.cursors[ 'balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
 
+        if n == currentIndex:
+            return p
+
         secondPrevPrime = p
         prevPrime = getNextPrime( p )
+        p = getNextPrime( prevPrime )
     else:
         currentIndex = 1
         p = 11
-        prevPrime = 11
-        secondPrevPrime = 7
+        prevPrime = 7
+        secondPrevPrime = 5
 
     while n > currentIndex:
-        p = getNextPrime( p )
-
         if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
             currentIndex += 1
 
-        if n > currentIndex:
-            secondPrevPrime = prevPrime
-            prevPrime = p
+        secondPrevPrime = prevPrime
+        prevPrime = p
+        p = getNextPrime( p )
 
     return prevPrime
 
@@ -819,12 +821,13 @@ def getNthBalancedPrimeList( arg ):
 def getNthDoubleBalancedPrimeElement( arg, first = False ):
     n = int( real_int( arg ) )
 
+    numberOfPrimes = 5
+    center = numberOfPrimes // 2
+
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
         return 18731
-
-    primes = [ ]
 
     if g.primeDataAvailable:
         openPrimeCache( 'double_balanced_primes' )
@@ -837,6 +840,9 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
                               format( n, maxIndex ) )
         currentIndex, p = g.cursors[ 'double_balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+
+        if currentIndex == n:
+            return p
     else:
         if n > 50:
             sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
@@ -845,25 +851,31 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
         currentIndex = 1
         p = 18731
 
-    primes = [ p ]
+    primes = [ 0 ] * numberOfPrimes
 
-    for i in range( 0, 4 ):
-        p = getNextPrime( p )
-        primes.append( p )
+    primes[ center ] = p
+
+    for i in range( 1, center + 1 ):
+        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
+        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
 
     while n > currentIndex:
         p = getNextPrime( p )
-
         primes.append( p )
         del primes[ 0 ]
 
-        if ( ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 3 ] - primes[ 2 ] ) and
-             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
+        balanced = True
+
+        for i in range( 1, center + 1 ):
+            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
+               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+                balanced = False
+                break
+
+        if balanced:
             currentIndex += 1
 
-    result = primes[ 0 ] if first else primes[ 2 ]
-
-    return result
+    return primes[ 0 ] if first else primes[ center ]
 
 
 # //******************************************************************************
@@ -897,10 +909,13 @@ def getNthDoubleBalancedPrime( arg ):
 def getNthTripleBalancedPrimeElement( arg, first = False ):
     n = int( real_int( arg ) )
 
+    numberOfPrimes = 7
+    center = numberOfPrimes // 2
+
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
-        return 683747
+        return 683783
 
     if g.primeDataAvailable:
         openPrimeCache( 'triple_balanced_primes' )
@@ -914,34 +929,42 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
 
         currentIndex, p = g.cursors[ 'triple_balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+
+        if n == currentIndex:
+            return p
     else:
         if n > 10:
             sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
 
         # no cache... we'll do this the hard way
         currentIndex = 1
-        p = 683747
+        p = 683783
 
-    primes = [ p ]
+    primes = [ 0 ] * numberOfPrimes
 
-    for i in range( 0, 6 ):
-        p = getNextPrime( p )
-        primes.append( p )
+    primes[ center ] = p
+
+    for i in range( 1, center + 1 ):
+        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
+        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
 
     while n > currentIndex:
         p = getNextPrime( p )
-
         primes.append( p )
         del primes[ 0 ]
 
-        if ( ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 4 ] - primes[ 3 ] ) and
-             ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
-             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
+        balanced = True
+
+        for i in range( 1, center + 1 ):
+            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
+               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+                balanced = False
+                break
+
+        if balanced:
             currentIndex += 1
 
-    result = primes[ 0 ] if first else primes[ 3 ]
-
-    return result
+    return primes[ 0 ] if first else primes[ center ]
 
 
 # //******************************************************************************
@@ -976,6 +999,9 @@ def getNthTripleBalancedPrime( arg ):
 def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
     n = int( real_int( arg ) )
 
+    numberOfPrimes = 9
+    center = numberOfPrimes // 2
+
     if n < 1:
         raise ValueError( 'index must be > 0' )
     elif n == 1:
@@ -993,6 +1019,9 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
 
         currentIndex, p = g.cursors[ 'quadruple_balanced_primes' ].execute(
             '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+
+        if n == currentIndex:
+            return p
     else:
         if n > 10:
             sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
@@ -1001,27 +1030,31 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
         currentIndex = 1
         p = 98303927
 
-    primes = [ p ]
+    primes = [ 0 ] * numberOfPrimes
 
-    for i in range( 0, 8 ):
-        p = getNextPrime( p )
-        primes.append( p )
+    primes[ center ] = p
+
+    for i in range( 1, center + 1 ):
+        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
+        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
 
     while n > currentIndex:
         p = getNextPrime( p )
-
         primes.append( p )
         del primes[ 0 ]
 
-        if ( ( primes[ 4 ] - primes[ 3 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
-             ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 6 ] - primes[ 5 ] ) and
-             ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 7 ] - primes[ 6 ] ) and
-             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 8 ] - primes[ 7 ] ) ):
+        balanced = True
+
+        for i in range( 1, center + 1 ):
+            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
+               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+                balanced = False
+                break
+
+        if balanced:
             currentIndex += 1
 
-    result = primes[ 0 ] if first else primes[ 3 ]
-
-    return result
+    return primes[ 0 ] if first else primes[ center ]
 
 
 # //******************************************************************************

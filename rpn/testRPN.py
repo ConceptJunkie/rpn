@@ -43,6 +43,7 @@ PROGRAM_DESCRIPTION = 'rpnChilada test suite'
 
 slow = False
 filterArg = False
+yafu = False
 
 for arg in sys.argv[ 1 : ]:
     if filterArg:
@@ -3625,20 +3626,22 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '701 2100 range lambda x 12 is_k_hyperperfect filter', '[ 2041 ]' )
 
     # is_k_perfect
-    expectEqual( '154345556085770649600 6 is_k_perfect', '1' )
-    expectEqual( '8268099687077761372899241948635962893501943883292455548843932421413884476391773708366277840568053624227289196057256213348352000000000 8 is_k_perfect', '1' )
+    if yafu:
+        expectEqual( '154345556085770649600 6 is_k_perfect', '1' )
+        expectEqual( '8268099687077761372899241948635962893501943883292455548843932421413884476391773708366277840568053624227289196057256213348352000000000 8 is_k_perfect', '1' )
 
     expectEqual( '1 700 range lambda x 3 is_k_perfect filter', '5820 oeis 1000 filter_max' )
     expectEqual( '5820 oeis 3 is_k_perfect and_all', '1' )
 
-    expectEqual( '27687 oeis 10 left 4 is_k_perfect and_all', '1' )
-    expectEqual( '46060 oeis 10 left 5 is_k_perfect and_all', '1' )
-    expectEqual( '46061 oeis 20 left 6 is_k_perfect and_all', '1' )
+    if yafu:
+        expectEqual( '27687 oeis 10 left 4 is_k_perfect and_all', '1' )
+        expectEqual( '46060 oeis 10 left 5 is_k_perfect and_all', '1' )
+        expectEqual( '46061 oeis 20 left 6 is_k_perfect and_all', '1' )
 
-    if slow:
-        expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
-        expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
-        expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
+        if slow:
+            expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
+            expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
+            expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
 
     # is_k_semiprime
     expectEqual( '1 100 range lambda x 2 is_k_semiprime filter', '1 100 range lambda x is_semiprime filter' )

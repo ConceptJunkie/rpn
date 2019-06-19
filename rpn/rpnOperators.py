@@ -1199,7 +1199,7 @@ def printStats( cacheName, name ):
     count = countCache( cacheName )
     key, value = getMaxPrime( cacheName )
 
-    print( '{:10,} {:23} max: {:14,} ({:,})'.format( count, name, key, value ) )
+    print( '{:10,} {:27} max: {:14,} ({:,})'.format( count, name, key, value ) )
 
 
 # //******************************************************************************
@@ -1236,6 +1236,7 @@ def dumpStats( printTitle=True ):
         printStats( 'balanced_primes', 'balanced primes' )
         printStats( 'double_balanced_primes', 'double balanced primes' )
         printStats( 'triple_balanced_primes', 'triple balanced primes' )
+        printStats( 'quadruple_balanced_primes', 'quadruple balanced primes' )
         print( )
         printStats( 'twin_primes', 'twin primes' )
         printStats( 'triplet_primes', 'triplet primes' )
