@@ -4639,7 +4639,7 @@ def runPrimeNumberOperatorTests( ):
     #    expectEqual( '1 10000 double_balanced_', '51795 oeis 10000 left' )
 
     # isolated_prime
-    expectEqual( '1 100 range isolated_prime', '7510 oeis 100 left' )
+    expectEqual( '1 110 range isolated_prime', '7510 oeis 110 left' )
 
     if slow:
         expectEqual( '1 10000 range isolated_prime', '7510 oeis 10000 left' )

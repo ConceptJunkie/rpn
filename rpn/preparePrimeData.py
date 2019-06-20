@@ -18,6 +18,7 @@ import bz2
 import contextlib
 import os
 import pickle
+import time
 
 import rpn.rpnGlobals as g
 
@@ -66,6 +67,8 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
+    startTime = time.time_ns( )
+
     preparePrimeData( "balanced_primes" )
     preparePrimeData( "cousin_primes" )
     preparePrimeData( "double_balanced_primes" )
@@ -87,6 +90,8 @@ def main( ):
     preparePrimeData( "twin_primes" )
 
     print( )
+    print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+
 
 
 # //******************************************************************************

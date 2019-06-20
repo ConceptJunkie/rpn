@@ -566,13 +566,16 @@ def findQuadrupletPrimes( arg ):
         return 1, [ 5, 7, 11, 13 ]
     elif n < 11:
         return 2, [ 11, 13, 17, 19 ]
+    elif g.primeDataAvailable:
+        openPrimeCache( 'quad_primes' )
 
-    openPrimeCache( 'quad_primes' )
-
-    currentIndex, p = g.cursors[ 'quad_primes' ].execute(
-        '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+        currentIndex, p = g.cursors[ 'quad_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+    else:
+        p == 11
 
     while True:
+        # All quadruplet primes mod 30 == 11
         p += 30
 
         if isPrimeNumber( p ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ):
@@ -649,7 +652,7 @@ def getNthIsolatedPrime( arg ):
         return 2
     elif n == 2:
         return 23
-    elif n >= 1000:
+    elif g.primeDataAvailable:
         openPrimeCache( 'isolated_primes' )
 
         currentIndex, p = g.cursors[ 'isolated_primes' ].execute(
