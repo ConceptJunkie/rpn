@@ -247,10 +247,12 @@ def runAlgebraOperatorTests( ):
 
     expectEqual( '[ 1 1 ] 5 polynomial_power', '6 pascal_triangle' )
     expectEqual( '[ 1 1 ] 15 polynomial_power', '16 pascal_triangle' )
-    expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '-a50 151 pascal_triangle' )
+    expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '151 pascal_triangle' )
+
+    expectEqual( '5 500 range pascal_triangle lambda x 4 element for_each_list', '332 oeis 500 left 496 right' )
 
     if slow:
-        expectEqual( '-a300 [ 1 1 ] 1000 polynomial_power', '-a300 1001 pascal_triangle' )
+        expectEqual( '-a300 [ 1 1 ] 1000 polynomial_power', '1001 pascal_triangle' )
 
     expectException( '1 10 range polynomial_power' )    # too few arguments
 
@@ -1059,8 +1061,10 @@ def runBitwiseOperatorTests( ):
 
     # bitwise_xor
     expectEqual( '1 200 range lambda x x sigma x - bitwise_xor eval', '318457 oeis 200 left' )
+    expectEqual( '0 1000 range lambda x 2 ** x 2 ** x bitwise_xor - eval', '174375 oeis 1001 left' )
 
     if slow:
+        expectEqual( '0 8192 range lambda x 2 ** x 2 ** x bitwise_xor - eval', '174375 oeis 8193 left' )
         expectEqual( '1 65537 range lambda x x sigma x - bitwise_xor eval', '318457 oeis 65537 left' )
 
     # count_bits
@@ -3133,6 +3137,13 @@ def runListOperatorTests( ):
     # occurrences
     testOperator( '4 100 random_integer_ occurrences' )
 
+    expectEqual( '100 999 range sum_digits occurrences lambda x 1 element for_each_list', '71817 oeis' )
+    expectEqual( '1000 9999 range sum_digits occurrences lambda x 1 element for_each_list', '90579 oeis' )
+
+    if slow:
+        expectEqual( '10000 99999 range sum_digits occurrences lambda x 1 element for_each_list', '90580 oeis' )
+        expectEqual( '100000 999999 range sum_digits occurrences lambda x 1 element for_each_list', '90581 oeis' )
+
     # occurrence_cumulative
     testOperator( '4 100 random_integer_ occurrence_cumulative' )
 
@@ -4630,7 +4641,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '1 100 range double_balanced', '51795 oeis 100 left' )
 
     if slow:
-        expectEqual( '1 10000 range double_balanced', '51795 oeis 10000 left' )
+        expectEqual( '1 2000 range double_balanced', '51795 oeis 2000 left' )
 
     # double_balanced_
     #expectEqual( '1 100 double_balanced_', '51795 oeis 100 left' )
@@ -4775,7 +4786,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '1 200 range quintuplet_prime', '22006 oeis 22007 oeis append sort 200 left' )
 
     if slow:
-        expectEqual( '1 10000 range quintuplet_prime', '22006 oeis 22007 oeis append sort 10000 left' )
+        expectEqual( '1 1000 range quintuplet_prime', '22006 oeis 22007 oeis append sort 1000 left' )
 
     # quintuplet_prime_
     testOperator( '62 quintuplet_prime_' )
