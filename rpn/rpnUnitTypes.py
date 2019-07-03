@@ -103,11 +103,17 @@ expandedUnitTypes = {
 # //      length, mass, time, charge, temperature, angle, electric_potential
 # //      information_entropy, luminous_intensity
 # //
-# //  baseUnit:  The standard or customary unit of measurement for this unit
-# //      type
+# //  baseUnit:
+# //      the standard or customary unit of measurement for this unit type
 # //
-# //  estimateTable : The table of estimates, expressed in terms of the base
-# //      unit, used for the 'estimate' operator.
+# //  primitiveUnit:
+# //      the primitive unit (or combinations of units), which only uses
+# //      the "primitive" types (second, meter, mole, radian, kilogram,
+# //      bit, ampere, kelvin, candela)
+# //
+# //  estimateTable :
+# //      the table of estimates, expressed in terms of the base unit,
+# //      used for the 'estimate' operator
 # //
 # //  Constant is not a 'real' unit type, but it is useful for it to act like
 # //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
@@ -198,7 +204,7 @@ basicUnitTypes = {
     'density' : RPNUnitTypeInfo(
         'mass/length^3',
         'kilogram/liter',
-        'kilogram/liter',
+        'kilogram/meter^3',
         densityTable,
     ),
 

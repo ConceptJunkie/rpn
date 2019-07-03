@@ -21,6 +21,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
                                getUnitType, RPNUnits
+from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import debugPrint, flattenList, getPowerset, \
                          oneArgFunctionEvaluator
 
@@ -229,6 +230,7 @@ class RPNMeasurement( object ):
     def multiply( self, other ):
         if isinstance( other, RPNMeasurement ):
             factor, newUnits = self.units.combineUnits( other.units )
+            newUnits = RPNMeasurement( 1, newUnits ).simplifyUnits( ).units
             return RPNMeasurement( fmul( fmul( self.value, other.value ), factor ), newUnits ).normalizeUnits( )
         else:
             return RPNMeasurement( fmul( self.value, other ), self.units ).normalizeUnits( )
@@ -236,6 +238,7 @@ class RPNMeasurement( object ):
     def divide( self, other ):
         if isinstance( other, RPNMeasurement ):
             factor, newUnits = self.units.combineUnits( other.units.inverted( ) )
+            newUnits = RPNMeasurement( 1, newUnits ).simplifyUnits( ).units
             return RPNMeasurement( fmul( fdiv( self.value, other.value ), factor ), newUnits ).normalizeUnits( )
         else:
             return RPNMeasurement( fdiv( self.value, other ), self.units ).normalizeUnits( )
@@ -276,7 +279,7 @@ class RPNMeasurement( object ):
                 else:
                     name = getOrdinalName( operand )
 
-                baseUnits = self.convertToBaseUnits( )
+                baseUnits = self.convertToPrimitiveUnits( )
 
                 if ( baseUnits != self ):
                     return baseUnits.getRoot( operand )
@@ -522,9 +525,9 @@ class RPNMeasurement( object ):
     def doDimensionsCancel( self ):
         return self.units.doDimensionsCancel( )
 
-    def convertToBaseUnits( self ):
+    def convertToPrimitiveUnits( self ):
         debugPrint( )
-        debugPrint( 'convertToBaseUnits:', self.value, self.units )
+        debugPrint( 'convertToPrimitiveUnits:', self.value, self.units )
 
         if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
@@ -549,7 +552,7 @@ class RPNMeasurement( object ):
                 else:
                     if unit == '1' and newUnits == '_null_unit':
                         reduced = RPNMeasurement( value, units )
-                        debugPrint( 'convertToBaseUnits 2:', reduced.value, reduced.units )
+                        debugPrint( 'convertToPrimitiveUnits 2:', reduced.value, reduced.units )
                         return reduced
                     else:
                         raise ValueError( 'cannot find a conversion for ' + unit + ' and ' + newUnits )
@@ -564,9 +567,41 @@ class RPNMeasurement( object ):
             debugPrint( 'value', value )
 
         baseUnits = RPNMeasurement( value, units )
-        debugPrint( 'convertToBaseUnits 3:', baseUnits.value, baseUnits.units )
+        debugPrint( 'convertToPrimitiveUnits 3:', baseUnits.value, baseUnits.units )
         debugPrint( )
         return baseUnits
+
+    def simplifyUnits( self ):
+        '''
+        This is a subset of convertToPrimitiveUnits' functionality.  It calls
+        convertToPrimitiveUnits( ), but if the value changes (i.e., there's a conversion
+        factor needed, then it will ignore the conversion.   The reason we are doing
+        this is because we want joules/watt to convert to seconds, but we don't want
+        miles/hour to convert to meters/second.
+        '''
+        originalValue = self.value
+
+        # Try converting to base units, but only keep it if there's no conversion factor.
+        baseUnits = self.convertToPrimitiveUnits( )
+
+        if baseUnits.value == originalValue:
+            result = baseUnits
+        else:
+            result = self
+
+        # Let's see if we have a base unit type, and use it if we do, since that's a great
+        # simplification.  This way you can multiply watts by seconds and get joules.  However,
+        # again we don't want a conversion factor.  e.g., meters^3 should not be converted to liters.
+        for name, unitTypeInfo in basicUnitTypes.items( ):
+            if result.getUnitName( ) == unitTypeInfo.primitiveUnit:
+                test = RPNMeasurement( result )
+
+                if test.convert( unitTypeInfo.baseUnit ).value == result.value:
+                    result = RPNMeasurement( originalValue, unitTypeInfo.baseUnit )
+
+                break
+
+        return result
 
     def convert( self, other ):
         if isinstance( other, RPNMeasurement ):
@@ -667,7 +702,7 @@ class RPNMeasurement( object ):
         else:
             # TODO:  Should we just convert to base units regardless?  It would be safer...
             if other.doDimensionsCancel( ):
-                other = other.convertToBaseUnits( )
+                other = other.convertToPrimitiveUnits( )
                 units2 = other.units
                 value = fdiv( value, other.value )
 
@@ -704,11 +739,11 @@ class RPNMeasurement( object ):
                     debugPrint( )
                     debugPrint( 'didn\'t find a conversion, try reducing' )
                     debugPrint( )
-                    reduced = self.convertToBaseUnits( )
+                    reduced = self.convertToPrimitiveUnits( )
 
                     debugPrint( 'reduced:', self.units, 'becomes', reduced.units )
 
-                    reducedOther = other.convertToBaseUnits( )
+                    reducedOther = other.convertToPrimitiveUnits( )
 
                     reduced.value = fdiv( reduced.value, reducedOther.value )
 
@@ -1083,7 +1118,21 @@ def getDimensions( n ):
 @oneArgFunctionEvaluator( )
 def convertToBaseUnits( n ):
     if isinstance( n, RPNMeasurement ):
-        return n.convertToBaseUnits( )
+        return n.convertToPrimitiveUnits( )
+    else:
+        return n
+
+
+# //******************************************************************************
+# //
+# //  convertToPrimitiveUnits
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def convertToPrimitiveUnits( n ):
+    if isinstance( n, RPNMeasurement ):
+        return n.convertToPrimitiveUnits( )
     else:
         return n
 

@@ -4429,11 +4429,12 @@ operators = {
     'ordinal_name'                   : RPNOperator( getOrdinalName,
                                                     1, [ RPNArgumentType.Integer ], [ ] ),
 
-    'result'                         : RPNOperator( loadResult,
-                                                    0, [ ], [ ] ),
-
     'permute_dice'                   : RPNOperator( permuteDiceGenerator,
                                                     1, [ RPNArgumentType.String ], [ ] ),
+
+    'primitive_units'                : RPNOperator( convertToPrimitiveUnits,
+                                                    1, [ RPNArgumentType.Measurement ], [ ],
+                                                    RPNOperator.measurementsAllowed ),
 
     'random'                         : RPNOperator( getRandomNumber,
                                                     0, [ ], [ ] ),
@@ -4446,6 +4447,9 @@ operators = {
 
     'random_integer_'                : RPNOperator( getRandomIntegersGenerator,
                                                     2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'result'                         : RPNOperator( loadResult,
+                                                    0, [ ], [ ] ),
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNArgumentType.String ], [ ] ),

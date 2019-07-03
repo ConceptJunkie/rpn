@@ -891,12 +891,13 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
 @oneArgFunctionEvaluator( )
 def getNthDoubleBalancedPrimeList( arg ):
     p = getNthDoubleBalancedPrimeElement( arg, first = False )
+
     result = [ 0, 0, p, 0, 0 ]
     middle = 2
 
     for i in range( 0, 2 ):
-        p[ middle + i + 1 ] = getPreviousPrime( p[ middle + i ] )
-        p[ middle - ( i + 1 ) ] = getNextPrime( p[ middle - i ] )
+        result[ middle + i + 1 ] = getNextPrime( result[ middle + i ] )
+        result[ middle - ( i + 1 ) ] = getPreviousPrime( result[ middle - i ] )
 
     return result
 
@@ -986,8 +987,8 @@ def getNthTripleBalancedPrimeList( arg ):
     middle = 3
 
     for i in range( 0, 3 ):
-        p[ middle + i + 1 ] = getPreviousPrime( p[ middle + i ] )
-        p[ middle - ( i + 1 ) ] = getNextPrime( p[ middle - i ] )
+        result[ middle + i + 1 ] = getNextPrime( result[ middle + i ] )
+        result[ middle - ( i + 1 ) ] = getPreviousPrime( result[ middle - i ] )
 
     return result
 
@@ -1079,8 +1080,8 @@ def getNthQuadrupleBalancedPrimeList( arg ):
     middle = 4
 
     for i in range( 0, 4 ):
-        p[ middle + i + 1 ] = getPreviousPrime( p[ middle + i ] )
-        p[ middle - ( i + 1 ) ] = getNextPrime( p[ middle - i ] )
+        result[ middle + i + 1 ] = getNextPrime( result[ middle + i ] )
+        result[ middle - ( i + 1 ) ] = getPreviousPrime( result[ middle - i ] )
 
     return result
 

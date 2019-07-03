@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1485
+maxExampleCount = 1489
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -527,16 +527,18 @@ this happens, but it's probably something stupid on my part.
 
 Using 'for_each' on a nested list should give a nice error message.
 
-Using 'for_each_list' on a non-nested list crashes.
+'rpn [ 1 2 3 ] lambda x 2 + for_each' crashes.  Honestly, the distinction
+between 'for_each' and 'eval' is pretty vague.  I'm not sure 'for_each'
+really needs to exist.
 
 -i doesn't work for lists.
 
 '(' and ')' (multiple operators) don't work with generators because the
-generator only works once.
+generator only works once.   The structure of the evaluator won't allow me to
+fix this, I think..  It may have to wait until I convert all rpn expressions to
+Python before this can be fixed.
 
 'collate' does not work with generators.
-
-'unlist' doesn't seem to do anything any more.
 
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
 related operators probably do the same thing.
@@ -558,8 +560,6 @@ User-defined functions can't include measurements.
 operators that take more than 2 arguments don't handle recursive list
 arguments.
 
-Cousin primes seem to be broken starting with index 99, according to OEIS.
-
 'reversal_addition' doesn't work with generators.
 
 See 'rpn help TODO'.
@@ -570,26 +570,49 @@ This is my informal, short-term todo list for rpn.  It often grows and seldom
 gets smaller.
 
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
-*  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
-*  support date comparisons, etc. before the epoch (Arrow doesn't work before the epoch apparently!)
+
+*  'name' should handle fractions smaller than 1 gracefully (right now it
+   prints nothing)
+
+*  support date comparisons, etc. before the epoch (Arrow doesn't work before
+   the epoch apparently!)
+
 *  create an output handler for RPNLocation
+
 *  'result' doesn't work with measurements
+
 *  https://en.wikipedia.org/wiki/American_wire_gauge
+
 *  'mean' should work with measurements
+
 *  units aren't supported in user-defined functions
-*  http://en.wikipedia.org/wiki/Physical_constant
+
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-*  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
-*  *_primes_ operators seem to be unreasonably slow
+
+*  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes
+   on that
+
 *  'fraction' needs to figure out what precision is needed and set it itself
 
 Long-term goals
 
-*  Performance, performance, performance.  There's a lot of functionality in rpn which is way too slow.
-*  This is a big one, and may not be possible with the current syntax, but I would love to support nested lambdas.
-*  Turn rpn into a full-blown scripting language.  It's 2/3 of the way there.  Why not go all the way?
-*  Redesign the parsing logic.  It's excessively complex has lots of edge cases where it breaks down.
-*  Lambdas are converted into Python code, compiled and run.  Perhaps all expressions should work this way!
+*  The biggest change I want to do is completely rewrite parsing and evaluating.
+   I want the parser to generate Python code, then the evaluator can simply go
+   away, because Python will do it for us!   The current parsing logic has been
+   extended beyond all reasonableness.  It's excessively complex has lots of
+   edge cases where it breaks down.
+
+*  Performance, performance, performance.  There's a lot of functionality in
+   rpn which is way too slow.
+
+*  Converting to using numpy arrays instead of lists should improve performance.
+
+*  I would love to support nested lambdas, but this won't happen until the
+   parser is redesigned.
+
+*  Turn rpn into a full-blown scripting language.  It's 2/3 of the way there.
+   Why not go all the way?  Once the parser generates Python, I think I'll be
+   90% of the way there.
 
 See 'rpn help bugs'.
     ''',
@@ -1878,7 +1901,9 @@ Division is supported for measurements.
 '''
 ''' + makeCommandExample( '1440 24 /' ) + '''
 ''' + makeCommandExample( '2520 1 10 range /' ) + '''
-''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ),
+''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ) + '''
+How long would 4 AA batteries power a Raspberry Pi 4, which draws 7 watts?
+''' + makeCommandExample( '4 aa_battery 7 watts / hms', indent=4 ),
 [ 'multiply', 'add', 'subtract', 'reciprocal' ] ],
 
     'equals_one_of' : [
@@ -4941,7 +4966,7 @@ text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 ''' + makeCommandExample( '78 kg [ pound ounce ] convert' ) + '''
 This conversions suffers from a minor rounding error I haven't been able to
 fix yet:
-''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert' ),
+''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert', indent=4 ),
 [ ] ],
 
     'dhms' : [
@@ -11063,13 +11088,15 @@ rpn (3)>5 12 **
     'base_units' : [
 'special', 'returns a measurement converted to base units',
 '''
-Currently, this is only for informational purposes.
+Currently, this is only for informational purposes.  This operator also
+currently does the same thing as 'primitive_units'.   I have plans for it,
+though.
 ''',
 '''
-''' + makeCommandExample( '50 watts' ) + '''
-''' + makeCommandExample( '120 millivolts' ) + '''
-''' + makeCommandExample( '300 kilonewtons' ),
-[ 'dimensions' ] ],
+''' + makeCommandExample( '50 watts base_units' ) + '''
+''' + makeCommandExample( '120 millivolts base_units' ) + '''
+''' + makeCommandExample( '300 kilonewtons base_units' ),
+[ 'dimensions', 'primitive_units' ] ],
 
     'constant' : [
 'special', 'creates a user-defined constant',
@@ -11099,7 +11126,7 @@ Currently, this is only for informational purposes.
 ''' + makeCommandExample( 'newton dimensions' ) + '''
 ''' + makeCommandExample( 'volt dimensions' ) + '''
 ''' + makeCommandExample( 'coulomb dimensions' ),
-[ 'base_units' ] ],
+[ 'base_units', 'primitive_units' ] ],
 
     'dump_config' : [
 'special', 'dumps all configuration settings',
@@ -11397,6 +11424,19 @@ the two lowest for all outcomes.
 As can be seen the change for an 18 goes from 1.6% with '4d6x1' to 3.5% with
 '5d6x2'.''',
 [ 'roll_dice', 'roll_dice_', 'enumerate_dice', 'enumerate_dice_' ] ],
+
+    'primitive_units' : [
+'special', 'returns a measurement converted to primitive units',
+'''
+Currently, this is only for informational purposes.  This operator also
+currently does the same thing as 'base_units'.   I have plans to change
+'base_units'.
+''',
+'''
+''' + makeCommandExample( '50 watts primitive_units' ) + '''
+''' + makeCommandExample( '120 millivolts primitive_units' ) + '''
+''' + makeCommandExample( '300 kilonewtons primitive_units' ),
+[ 'dimensions', 'base_units' ] ],
 
     'random_integer' : [
 'special', 'returns a random integer from 0 to n - 1',
