@@ -3408,7 +3408,7 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '-a20 0 12 range ! count_divisors', '27423 oeis 13 left' )
 
-    if slow:
+    if slow and yafu:
         expectEqual( '-a100 0 50 range ! count_divisors', '27423 oeis 51 left' )
 
     # crt
@@ -3672,11 +3672,11 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 89896 range lambda x 5 is_k_semiprime filter', '14614 oeis 89896 filter_max' )
         expectEqual( '1 162712 range lambda x 6 is_k_semiprime filter', '46306 oeis 162712 filter_max' )
 
-    expectEqual( '1 50 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis 50 filter_max' )
+        if yafu:
+            expectEqual( '-a30 1 250 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis 250 filter_max' )
+        else:
+            expectEqual( '1 50 range lambda x tribonacci 2 is_k_semiprime filter', '101757 oeis 50 filter_max' )
 
-    if slow:
-        expectEqual( '-a30 1 250 range lambda x tribonacci 2 is_k_semiprime filter',
-                     '101757 oeis 250 filter_max' )
         expectEqual( '1 100000 range lambda x 3 is_k_semiprime x is_squarefree and filter',
                      '1 100000 range lambda x is_sphenic filter' )
         expectEqual( '1 100000 range lambda x 4 is_k_semiprime x is_squarefree and filter',
@@ -3697,7 +3697,7 @@ def runNumberTheoryOperatorTests( ):
     # is_perfect
     expectResult( '396 oeis 7 left is_perfect and_all', 1 )
 
-    if slow:
+    if slow and yafu:
         expectResult( '-a400 396 oeis 15 left is_perfect and_all', 1 )
 
     # is_pernicious
@@ -3774,12 +3774,8 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 8 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort',
                  '268582 oeis 16 left' )
 
-    if slow:
+    if slow and yafu:
         expectEqual( '-a20 1 19 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort',
-                     '268582 oeis 26 left' )
-
-    if slow:
-        expectEqual( '-a30 1 20 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left',
                      '268582 oeis 26 left' )
 
     # is_squarefree
