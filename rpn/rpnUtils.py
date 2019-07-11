@@ -520,6 +520,74 @@ def twoArgFunctionEvaluator( ):
 
 # //******************************************************************************
 # //
+# //  twoArgFunctionEvaluatorNew
+# //
+# //******************************************************************************
+
+from collections.abc import Iterable
+
+def NEWtwoArgFunctionEvaluator( ):
+    def twoArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateTwoArgs( _arg1, _arg2 ):
+            if isinstance( _arg1, Iterable ):
+                if isinstance( _arg2, Iterable ):
+                    iter1 = iter( _arg1 )
+                    iter2 = iter( _arg2 )
+
+                    result = [ ]
+
+                    while True:
+                        try:
+                            i1 = iter1.__next__( )
+                            i2 = iter2.__next__( )
+                        except:
+                            break
+
+                        print( 'fred1' )
+                        result.append( func( i1, i2 ) )
+                else:
+                    iter1 = iter( _arg1 )
+
+                    result = [ ]
+
+                    while True:
+                        try:
+                            i1 = iter1.__next__( )
+                        except:
+                            break
+
+                        print( 'fred2' )
+                        result.append( func( i1, _arg2 ) )
+            elif isinstance( _arg2, Iterable ):
+                iter2 = iter( _arg2 )
+
+                result = [ ]
+
+                while True:
+                    try:
+                        i2 = iter2.__next__( )
+                    except:
+                        break
+
+                    print( 'fred3' )
+                    result.append( func( _arg1, i2 ) )
+            else:
+                print( 'fred4' )
+                print( '_arg1', _arg1 )
+                print( '_arg2', _arg2 )
+                result = func( _arg1, _arg2 )
+
+            return result
+
+        return evaluateTwoArgs
+
+    return twoArgFunction
+
+
+# //******************************************************************************
+# //
 # //  listAndOneArgFunctionEvaluator
 # //
 # //******************************************************************************

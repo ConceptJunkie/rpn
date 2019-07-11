@@ -1191,10 +1191,6 @@ converting to and from the Ethiopian calendar.
 
 Added more unit tests and the usual bug fixes.
 
-8.1.1
-
-As usual, I messed up something with the release and have to fix it.
-
 8.1.0
 
 Added the 'get_partitions', 'nth_linear_recurrence' and
@@ -1229,6 +1225,10 @@ remains, but can be considered deprecated, as it is no longer needed.
 Added more unit tests and the usual bug fixes.
 
 More help text has been filled in.
+
+8.1.1
+
+As usual, I messed up something with the release and have to fix it.
 
 8.2.0
 
