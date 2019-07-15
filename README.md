@@ -6,7 +6,7 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 
 ## Updates
 
-### Update - May 21, 2019
+### Update - July 11, 2019
 
 Version 8.2.0 is released.   This version has a few new operators and streamlined unit tests, as well as the usual bug fixes.
 
@@ -327,18 +327,18 @@ next_transit night_time nonagonal nonagonal_heptagonal nonagonal_hexagonal
 nonagonal_octagonal nonagonal_pentagonal nonagonal_square nonagonal_triangular 
 nonzero nor nor_all not november now nprod nsum nth_apery nth_bell 
 nth_bernoulli nth_carol nth_catalan nth_centered_decagonal 
-nth_centered_heptagonal nth_centered_hexagonal nth_centered_nonagonal
-nth_centered_octagonal nth_centered_pentagonal nth_centered_polygonal
-nth_centered_square nth_centered_triangular nth_decagonal nth_delannoy
+nth_centered_heptagonal nth_centered_hexagonal nth_centered_nonagonal 
+nth_centered_octagonal nth_centered_pentagonal nth_centered_polygonal 
+nth_centered_square nth_centered_triangular nth_decagonal nth_delannoy 
 nth_harmonic_number nth_heptagonal nth_hexagonal nth_jacobsthal nth_kynea 
 nth_leonardo nth_linear_recurrence nth_linear_recurrence_with_modulo nth_menage 
-nth_mersenne_exponent nth_mersenne_prime nth_motzkin nth_nonagonal
-nth_octagonal nth_padovan nth_pell nth_pentagonal nth_perfect_number
-nth_polygonal nth_prime nth_quadruplet_prime nth_quintuplet_prime nth_schroeder
-nth_schroeder_hipparchus nth_square nth_stern nth_sylvester nth_thue_morse
-nth_triangular nth_weekday nth_weekday_of_year nuclear_magneton occurrences
-occurrence_cumulative occurrence_ratios octagonal octagonal_heptagonal
-octagonal_hexagonal octagonal_pentagonal octagonal_square octagonal_triangular
+nth_mersenne_exponent nth_mersenne_prime nth_motzkin nth_nonagonal 
+nth_octagonal nth_padovan nth_pell nth_pentagonal nth_perfect_number 
+nth_polygonal nth_prime nth_quadruplet_prime nth_quintuplet_prime nth_schroeder 
+nth_schroeder_hipparchus nth_square nth_stern nth_sylvester nth_thue_morse 
+nth_triangular nth_weekday nth_weekday_of_year nuclear_magneton occurrences 
+occurrence_cumulative occurrence_ratios octagonal octagonal_heptagonal 
+octagonal_hexagonal octagonal_pentagonal octagonal_square octagonal_triangular 
 octahedral octahedron_area octahedron_volume octal_mode octanacci october 
 octy_prime octy_prime_ oeis oeis_comment oeis_ex oeis_name oeis_offset 
 omega_constant or orbital_mass orbital_period orbital_radius orbital_velocity 
@@ -356,9 +356,9 @@ pluto_radius pluto_revolution pluto_volume polyexp polygamma polygonal
 polygonal_pyramidal polygon_area polygorial polylog polynomial_power 
 polynomial_product polynomial_sum polyprime polytope power powerset power_tower 
 power_tower2 powmod precision presidents_day previous previous_antitransit 
-previous_first_quarter_moon previous_full_moon previous_last_quarter_moon
-previous_new_moon previous_prime previous_primes previous_rising
-previous_setting previous_transit prevost_constant prime primes prime_pi
+previous_first_quarter_moon previous_full_moon previous_last_quarter_moon 
+previous_new_moon previous_prime previous_primes previous_rising 
+previous_setting previous_transit prevost_constant prime primes prime_pi 
 prime_range primitive_units primorial prism_area prism_volume product 
 proton_mass pyramidal pythagorean_triples quadlong quadruplet_prime 
 quadruplet_prime_ quadruple_balanced_prime quadruple_balanced_prime_ 

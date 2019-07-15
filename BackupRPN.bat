@@ -14,7 +14,7 @@ iff "%1" == "" then
 endiff
 
 set VERSION=%@execstr[grep "VERSION " rpn\rpnVersion.py | cut -d' ' -f3  | tr -d -c 01234567890.]
-set RPN_FILES=__init__.py;rpn*.py;makeHelp.py;makeRPNPrimes.py;makeUnits.py;makeConstants.py;setup_rpn.py;test*.py;profile*.py;rpnTest.txt;rpn.ico;rpn32.iss;rpn64.iss;BuildRPN.bat;BuildRPNInstaller.bat;factorise.py;requirements.txt;setup.cfg;MANIFEST.in;setup.py;unpickle.py;preparePrimeData.py;BackupRPN.bat;rpnConstants.txt;baillie_psw.py;jacobi_symbol.py;lucas_pp.py;miller_rabin.py;rpn.py;makeHelp.py;makeUnits.py;preparePrimes.py;testRPN.py
+set RPN_FILES=__init__.py;rpn*.py;makeHelp.py;makeRPNPrimes.py;makeUnits.py;makeConstants.py;setup_rpn.py;test*.py;profile*.py;rpnTest.txt;rpn.ico;rpn32.iss;rpn64.iss;BuildRPN.bat;BuildRPNInstaller.bat;factorise.py;requirements.txt;setup.cfg;MANIFEST.in;setup.py;unpickle.py;preparePrimeData.py;BackupRPN.bat;rpnConstants.txt;baillie_psw.py;jacobi_symbol.py;lucas_pp.py;miller_rabin.py;rpn.py;makeHelp.py;makeUnits.py;preparePrimes.py;testRPN.py;README.md
 
 echo %VERSION
 
