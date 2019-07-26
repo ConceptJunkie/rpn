@@ -1262,3 +1262,45 @@ def filterMinGenerator( n, k ):
 def filterMin( n, k ):
     return RPNGenerator.createGenerator( filterMinGenerator, [ n, k ] )
 
+
+# //******************************************************************************
+# //
+# //  doesListRepeat
+# //
+# //******************************************************************************
+
+def doesListRepeat( n ):
+    length = len( n )
+
+    if length == 0:
+        return 0
+
+    for i in range( 1, ( length // 2 ) + 1 ):
+        substring = n[ 0 : i ]
+
+        start = i
+        end = start + i
+
+        foundRepeats = True
+
+        while end <= length:
+            if n[ start : end ] != substring:
+                foundRepeats = False
+                break
+
+            start += i
+            end += i
+
+        if not foundRepeats:
+            continue
+
+        # Check the remainder, if there is one.
+        if ( start < length ) and \
+           ( n[ end - i : length ] != substring[ : length - ( end - i ) ] ):
+            foundRepeats = False
+
+        if foundRepeats:
+            return i
+
+    return 0
+

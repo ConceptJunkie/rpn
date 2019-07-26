@@ -3070,6 +3070,35 @@ def runListOperatorTests( ):
     testOperator( '1 10 range diffs' )
     testOperator( '1 10 range fib diffs' )
 
+    # does_list_repeat
+    expectResult( '[ 0 ] does_list_repeat', 0 )
+    expectResult( '[ 0 0 ] does_list_repeat', 1 )
+    expectResult( '[ 0 0 0 ] does_list_repeat', 1 )
+
+    expectResult( '[ 1 ] does_list_repeat', 0 )
+    expectResult( '[ 1 1 ] does_list_repeat', 1 )
+    expectResult( '[ 1 1 1 ] does_list_repeat', 1 )
+
+    expectResult( '[ 1 2 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 1 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 1 2 ] does_list_repeat', 2 )
+    expectResult( '[ 1 2 1 2 3 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 1 2 1 ] does_list_repeat', 2 )
+    expectResult( '[ 1 2 1 2 1 2 ] does_list_repeat', 2 )
+    expectResult( '[ 1 2 1 2 1 2 3 ] does_list_repeat', 0 )
+
+    expectResult( '[ 1 2 3 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 3 1 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 3 1 2 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 3 1 2 3 ] does_list_repeat', 3 )
+    expectResult( '[ 1 2 3 1 2 3 4 ] does_list_repeat', 0 )
+    expectResult( '[ 1 2 3 1 2 3 1 ] does_list_repeat', 3 )
+    expectResult( '[ 1 2 3 1 2 3 1 2 ] does_list_repeat', 3 )
+    expectResult( '[ 1 2 3 1 2 3 1 2 3 ] does_list_repeat', 3 )
+    expectResult( '[ 1 2 3 1 2 3 1 2 3 4 ] does_list_repeat', 0 )
+
+    expectResult( '[ 1 2 3 4 1 2 3 4 1 2 3 4 ] does_list_repeat', 4 )
+
     # element
     expectResult( '1 10 range 5 element', 6 )
     testOperator( '-a25 1 100 range fibonacci 55 element' )

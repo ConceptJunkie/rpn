@@ -19,8 +19,8 @@
 # //******************************************************************************
 
 PROGRAM_NAME = 'rpnChilada'
-PROGRAM_VERSION = '8.2.0'
-PROGRAM_VERSION_NAME = '8.2.0'
+PROGRAM_VERSION = '8.2.991'
+PROGRAM_VERSION_NAME = '8.3.0 beta 1'
 COPYRIGHT_MESSAGE = 'copyright (c) 2019 (1988), Rick Gutleber (rickg@his.com)'
 
 if PROGRAM_VERSION != PROGRAM_VERSION_NAME:

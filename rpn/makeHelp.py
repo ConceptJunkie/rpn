@@ -47,7 +47,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1489
+maxExampleCount = 1501
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -6856,9 +6856,12 @@ This simply counts the number of elements in the list.
     'cumulative_diffs' : [
 'list_operators', 'returns a list with the differences between each element of list n with the first element',
 '''
+The list returned will be one shorter than the length of the list n.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 0 1 2 3 4 5 ] cumulative_diffs' ) + '''
+''' + makeCommandExample( '[ 1 3 6 10 15 21 28 36 45 55 ] cumulative_diffs' ) + '''
+''' + makeCommandExample( '[ 100 200 300 400 500 ] cumulative_diffs' ),
 [ 'diffs', 'ratios', 'cumulative_ratios' ] ],
 
     'cumulative_ratios' : [
@@ -6883,9 +6886,28 @@ This operator is analogous to the 'cumulative_diffs' operator.
     'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',
 '''
+The list returned will be one shorter than the length of the list n.
 ''',
 '''
+''' + makeCommandExample( '[ 0 1 2 3 4 5 ] diffs' ) + '''
+''' + makeCommandExample( '[ 0 1 3 6 10 15 21 28 36 45 55 ] diffs' ) + '''
+''' + makeCommandExample( '[ 0 1 4 9 16 25 36 49 64 81 100 ] diffs' ),
+[ 'cumulative_diffs', 'ratios', 'cumulative_ratios' ] ],
+
+    'does_list_repeat' : [
+'list_operators', 'returns the length of the repeated elements in the list',
+'''
+This operator returns true if one or more of the initial elements of the list
+are repeated in their entirety at least once, and any partial remainders are
+equal to the partial amount of the original sublist of repeated elements.
 ''',
+'''
+''' + makeCommandExample( '[ 1 ] does_list_repeat' ) + '''
+''' + makeCommandExample( '[ 1 1 ] does_list_repeat' ) + '''
+''' + makeCommandExample( '[ 1 1 1 ] does_list_repeat' ) + '''
+''' + makeCommandExample( '[ 1 2 1 2 1 ] does_list_repeat' ) + '''
+''' + makeCommandExample( '[ 1 2 1 2 1 2 ] does_list_repeat' ) + '''
+''' + makeCommandExample( '[ 1 2 3 1 2 3 1 2 3 1 2 3 ] does_list_repeat' ),
 [ 'cumulative_diffs', 'ratios', 'cumulative_ratios' ] ],
 
     'element' : [
@@ -7735,13 +7757,13 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
 ''' + makeCommandExample( '1000000000000000000000000000000000 calkin_wilf' ),
 [ ] ],
 
-    'cf' : [
+    'continued_fraction' : [
 'number_theory', 'interprets list n as a continued fraction',
 '''
 ''',
 '''
 ''',
-[ ] ],
+[ 'make_continued_fraction' ] ],
 
     'collatz' : [
 'number_theory', 'returns the first k members of the Collatz sequence of n',
@@ -8416,13 +8438,13 @@ sequence.
 ''' + makeCommandExample( '1 17 range lucas' ),
 [ ] ],
 
-    'make_cf' : [
+    'make_continued_fraction' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
 '''
 ''',
-[ ] ],
+[ 'continued_fraction' ] ],
 
     'make_pyth_3' : [
 'number_theory', 'makes a pythagorean triple given two integers, n and k, as seeds',

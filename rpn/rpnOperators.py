@@ -2079,6 +2079,9 @@ listOperators = {
     'diffs'                 : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
                                            1, [ RPNArgumentType.Generator ], [ ] ),
 
+    'does_list_repeat'      : RPNOperator( doesListRepeat,
+                                           1, [ RPNArgumentType.List ], [ ] ),
+
     'element'               : RPNOperator( getListElement,
                                            2, [ RPNArgumentType.List, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
@@ -2205,7 +2208,7 @@ listOperators = {
     'base'                  : RPNOperator( interpretAsBaseOperator,
                                            2, [ RPNArgumentType.List, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'cf'                    : RPNOperator( convertFromContinuedFraction,
+    'continued_fraction'    : RPNOperator( convertFromContinuedFraction,
                                            1, [ RPNArgumentType.List ], [ ] ),
 
     'crt'                   : RPNOperator( calculateChineseRemainderTheorem,
@@ -3907,7 +3910,7 @@ operators = {
     'lucas'                          : RPNOperator( getNthLucasNumber,
                                                     1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'make_cf'                        : RPNOperator( makeContinuedFraction,
+    'make_continued_fraction'        : RPNOperator( makeContinuedFraction,
                                                     2, [ RPNArgumentType.Real, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'make_pyth_3'                    : RPNOperator( makePythagoreanTriple,
