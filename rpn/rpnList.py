@@ -1270,6 +1270,7 @@ def filterMin( n, k ):
 # //******************************************************************************
 
 def doesListRepeat( n ):
+    n = list( n )
     length = len( n )
 
     if length == 0:
