@@ -5067,7 +5067,7 @@ def runSpecialOperatorTests( ):
     testOperator( '150 teaspoons estimate' )
     testOperator( '150 tesla estimate' )
     testOperator( '150 tons estimate' )
-    testOperator( '150 tTNT estimate' )
+    testOperator( '150 ton_of_tnt estimate' )
     testOperator( '150 volts estimate' )
     testOperator( '150 watts estimate' )
     testOperator( '150 weeks estimate' )

@@ -95,6 +95,9 @@ French-language initials "SI").  In 1978 the CIPM decided that it was
 permissible to use the gal "with the SI until the CIPM considers that [its] use
 is no longer necessary".  However, use of the gal is deprecated by ISO
 80000-3:2006.
+
+Ref:  https://en.wikipedia.org/wiki/Gal_(unit)
+
 ''' ),
 
     'leo' :
@@ -110,111 +113,192 @@ Ref:  http://automationwiki.com/index.php/Engineering_Units_-_Leo
     'meter/second^2' :
         RPNUnitInfo( 'acceleration', 'meters/second^2', '', [ ], [ 'SI' ],
                      '''
-''' ),
+The metre per second squared is the unit of acceleration in the International
+System of Units (SI).  As a derived unit, it is composed from the SI base
+units of length, the metre, and time, the second.
 
+Newton's Second Law states that force equals mass multiplied by acceleration.
+The unit of force is the newton (N), and mass has the SI unit kilogram (kg).
+One newton equals one kilogram metre per second squared.  Therefore, the unit
+metre per second squared is equivalent to newton per kilogram, N/kg.
+
+Ref:  https://en.wikipedia.org/wiki/Metre_per_second_squared
+''' ),
 
     # amount of substance
     'mole' :
         RPNUnitInfo( 'amount_of_substance', 'moles', 'mol', [ 'einstein', 'einsteins' ], [ 'SI' ],
                      '''
+This is the standard SI unit for measuring the amount of a substance.  By
+definition, one mole of a substance contains a number of molecules, atoms, ions
+or electrons, etc., equal to Avogadro's number, which is now defined to be
+exactly 6.02214076 x 10^23.
 ''' ),
 
     # angle
     'arcminute' :
         RPNUnitInfo( 'angle', 'arcminutes', '', [ 'arcmin', 'arcmins' ], [ 'astronomy', 'mathematics' ],
                      '''
+Arcminute is defined to be 1/60th of a degree.  Angles are commonly referred to
+with the units degrees, minutes and seconds.  The name "arcminute" is used to
+is used to distinguish the unit of angle from the unit of time.
 ''' ),
 
     'arcsecond' :
         RPNUnitInfo( 'angle', 'arcseconds', 'arcsec',
                      [ 'arcsec', 'arcsecs' ], [ 'astronomy', 'mathematics' ],
                      '''
+Arcsecond is defined to be 1/60th of an arcminute.  Angles are commonly
+referred to with the units degrees, minutes and seconds.  The name "arcsecond"
+is used to distinguish the unit of angle from the unit of time.
 ''' ),
 
     'centrad' :
         RPNUnitInfo( 'angle', 'centrads', '',
                      [ ], [ 'mathematics', 'science' ],
                      '''
+The centrad is defined to be 1/100th of a radian.  It is a synonym for
+centiradian.
 ''' ),
 
     'circle' :
-        RPNUnitInfo( 'angle', 'circles', '', [ ], [ 'mathematics' ],
+        RPNUnitInfo( 'angle', 'circles', '', [ 'turn', 'turns' ], [ 'mathematics' ],
                      '''
-The whole circle, all 360 degrees.
+The angle of a whole circle, which is 360 degrees.
 ''' ),
 
     'degree' :
         RPNUnitInfo( 'angle', 'degrees', 'deg',
                      [ ], [ 'astronomy', 'mathematics', 'traditional' ],
                      '''
-The traditional degree, 1/360th of a circle.
+A degree (in full, a degree of arc, arc degree, or arcdegree), usually denoted
+by the degree symbol, is a measurement of a plane angle, defined so that a full
+rotation is 360 degrees.
+
+It is not an SI unit, as the SI unit of angular measure is the radian, but it
+is mentioned in the SI brochure as an accepted unit.  Because a full rotation
+equals 2 pi radians, one degree is equivalent to pi/180 radians.
+
+Ref:  https://en.wikipedia.org/wiki/Degree_(angle)
 ''' ),
 
     'furman' :
         RPNUnitInfo( 'angle', 'furmans', '', [ ], [ 'non-standard' ],
                      '''
-From https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Furman:
-
 The Furman is a unit of angular measure equal to 1/65,536 of a circle, or just
 under 20 arcseconds.  It is named for Alan T. Furman, the American
 mathematician who adapted the CORDIC algorithm for 16-bit fixed-point
 arithmetic sometime around 1980.
+
+From https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Furman
 ''' ),
 
-    'grad' :
-        RPNUnitInfo( 'angle', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ],
+    'gradian' :
+        RPNUnitInfo( 'angle', 'gradians', '', [ 'grad', 'grads', 'grade', 'grades', 'gon', 'gons' ], [ 'mathematics' ],
                      '''
+The gradian is a unit of measurement of an angle, equivalent to 1/400 of a
+turn, 9/10 of a degree, or pi/200 of a radian. The gradian is defined as 1/100
+of the right angle (in other words, there are 100 gradians in the right angle),
+which implies a full turn being 400 gradians.
+
+It is also known as gon (from Greek "gonia" for angle), grad, or grade.  In
+continental Europe, the French term centigrade was in use for one hundredth of
+a grad.  This was one reason for the adoption of the term Celsius to replace
+centigrade as the name of the temperature scale.
+
+Ref:  https://en.wikipedia.org/wiki/Gradian
 ''' ),
 
     'octant' :
         RPNUnitInfo( 'angle', 'octants', '', [ ], [ 'mathematics' ],
                      '''
+The angle of 1/8 of a whole circle, which is 45 degrees.
 ''' ),
 
     'pointangle' :
         RPNUnitInfo( 'angle', 'pointangles', '', [ ], [ 'navigation' ],
                      '''
+The angle of 1/32 of a whole circle, which is 11.25 degrees.
 ''' ),
 
     'quadrant' :
         RPNUnitInfo( 'angle', 'quadrants', '', [ ], [ 'mathematics' ],
                      '''
+The angle of 1/4 of a whole circle, which is 90 degrees.
 ''' ),
 
     'quintant' :
         RPNUnitInfo( 'angle', 'quintants', '', [ ], [ 'mathematics' ],
                      '''
+The angle of 1/5 of a whole circle, which is 72 degrees.
 ''' ),
 
     'radian' :
         RPNUnitInfo( 'angle', 'radians', '', [ ], [ 'mathematics', 'SI' ],
                      '''
+The radian is the standard SI unit for measuring angles.  It is defined so that
+2 pi radians is the angle of a whole circle (360 degrees).  This means the
+radian measures approximately 57.3 degrees.
 ''' ),
 
     'sextant' :
         RPNUnitInfo( 'angle', 'sextants', '', [ 'flat', 'flats' ], [ 'mathematics' ],
                      '''
+The angle of 1/6 of a whole circle, which is 60 degrees.
 ''' ),
 
     'streck' :
         RPNUnitInfo( 'angle', 'strecks', '', [ ], [ 'Sweden' ],
                      '''
+The streck is a recently deprecated Swedish unit of angle measurement,
+equal to 1/6300 of a circle.
+
+Ref:  https://en.wikipedia.org/wiki/Milliradian
 ''' ),
 
     # area
     'acre' :
         RPNUnitInfo( 'area', 'acres', 'ac', [ ], [ 'U.S.', 'U.K.' ],
                      '''
+The acre is a unit of land area used in the imperial and US customary systems.
+It is traditionally defined as the area of one chain by one furlong (66 by 660
+feet), which is exactly equal to 10 square chains, 1/640 of a square mile, or
+43,560 square feet, and approximately 4,047 m^2, or about 40% of a hectare.
+Based upon the International yard and pound agreement of 1959, an acre may be
+declared as exactly 4,046.8564224 square metres.  The acre is a statute measure
+in the United States and was formerly one in the United Kingdom and almost all
+countries of the former British Empire, although informal use continues.
+
+Ref:  https://en.wikipedia.org/wiki/Acre
 ''' ),
 
     'are' :
         RPNUnitInfo( 'area', 'ares', 'a', [ ], [ 'SI' ],
                      '''
+The are is a unit of area, equal to 100 square metres (10 m x 10 m), used for
+measuring land area.  It was defined by older forms of the metric system, but is
+now outside the modern International System of Units (SI).  It is still commonly
+used in colloquial speech to measure real estate, in particular in Indonesia,
+India, and in various European countries.
+
+Ref:  https://en.wikipedia.org/wiki/Hectare
 ''' ),
 
     'barn' :
         RPNUnitInfo( 'area', 'barns', '', [ 'bethe', 'bethes', 'oppenheimer', 'oppenheimers' ], [ 'science' ],
                      '''
+A barn is a unit of area equal to 10^-28 m2 (or 100 fm^2).  Originally used in
+nuclear physics for expressing the cross sectional area of nuclei and nuclear
+reactions, today it is also used in all fields of high-energy physics to
+express the cross sections of any scattering process, and is best understood as
+a measure of the probability of interaction between small particles.  A barn is
+approximately the cross-sectional area of a uranium nucleus.  The barn is also
+the unit of area used in nuclear quadrupole resonance and nuclear magnetic
+resonance to quantify the interaction of a nucleus with an electric field
+gradient.  While the barn is not an SI unit, the SI standards body acknowledges
+its existence due to its continued use in particle physics.
+
+Ref:  https://en.wikipedia.org/wiki/Barn_(unit)
 ''' ),
 
     'bovate' :
@@ -230,14 +314,18 @@ arithmetic sometime around 1980.
     'circular_inch' :
         RPNUnitInfo( 'area', 'circular_inch', '', [ ], [ 'U.S.' ],
                      '''
+This unit is defined in relation to circular mil, and is equal to 1,000,000
+cicular mils.   It is the area of a circle with a diameter of one inch.
+
+Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
     'circular_mil' :
         RPNUnitInfo( 'area', 'circular_mils', 'cmil', [ ], [ 'U.S.' ],
                      '''
 A circular mil is a unit of area, equal to the area of a circle with a
-diameter of one mil (one thousandth of an inch).  It corresponds to 5.067x10e-4
-mm^2.  It is a unit intended for referring to the area of a wire with a
+diameter of one mil (one thousandth of an inch).  It corresponds to 5.067 x
+10^-4 mm^2.  It is a unit intended for referring to the area of a wire with a
 circular cross section.  As the area in circular mils can be calculated without
 reference to pi, the unit makes conversion between cross section and diameter
 of a wire considerably easier.
@@ -248,6 +336,10 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
     'foot^2' :
         RPNUnitInfo( 'area', 'foot^2', '', [ ], [ 'U.S.' ],
                      '''
+A square foot is the area of a square whose sides are one foot in length.
+
+This unit isn't strictly needed to be defined, but several other area units are
+defined in terms of square feet, so this unit was created for convenience.
 ''' ),
 
     'homestead' :
@@ -263,41 +355,106 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
     'meter^2' :
         RPNUnitInfo( 'area', 'meter^2', '', [ ], [ 'SI' ],
                      '''
+The square metre (international spelling as used by the International Bureau
+of Weights and Measures) or square meter (American spelling) is the SI derived
+unit of area with symbol m^2.
+
+Ref:  https://en.wikipedia.org/wiki/Square_metre
 ''' ),
 
     'morgen' :
         RPNUnitInfo( 'area', 'morgens', '', [ ], [ 'obsolete' ],
                      '''
+A morgen ("morning" in Dutch and German) was approximately the amount of land
+tillable by one man behind an ox in the morning hours of a day.  This was an
+official unit of measurement in South Africa until the 1970s, and was defined
+in November 2007 by the South African Law Society as having a conversion factor
+of 1 Morgen = 0.856532 hectares.  This unit of measure was also used in the
+Dutch colonial province of New Netherland (later New York and parts of New
+England).
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Morgen
 ''' ),
 
     'nanoacre' :
         RPNUnitInfo( 'area', 'nanoacres', 'nac', [ ], [ 'computing' ],
                      '''
+The nanoacre is a unit of real estate on a Very Large Scale Integration (VLSI)
+chip equal to 0.00627264 sq. in. (4.0468564224 mm^2) or the area of a square of
+side length 0.0792 in. (2.01168 mm).  VLSI nanoacres have similar total costs
+to acres in Silicon Valley.
+
+https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Nanoacre
 ''' ),
 
     'outhouse' :
         RPNUnitInfo( 'area', 'outhouse', '', [ ], [ 'science', 'humorous' ],
                      '''
+A barn is a serious unit of area used by nuclear physicists to quantify the
+scattering or absorption cross-section of very small particles, such as atomic
+nuclei.  It is one of the very few units which are accepted to be used with SI
+units, and one of the most recent units to have been established (cf. the knot
+and the bar, other non-SI units acceptable in limited circumstances).  One barn
+is equal to 1.0 x 10^-28 m^2.  The name derives from the folk expression
+"Couldn't hit the broad side of a barn", used by particle accelerator
+physicists to refer to the difficulty of achieving a collision between
+particles. The outhouse (1.0 x 10^-6 barns, one microbarn) and shed (1.0 x
+10^-24 barns, one yoctobarn) are derived by analogy.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_outhouse,_shed
 ''' ),
 
     'rood' :
         RPNUnitInfo( 'area', 'roods', '', [ 'farthingdale' ], [ 'U.K.' ],
                      '''
+Ref:  https://en.wikipedia.org/wiki/Acre
 ''' ),
 
     'section' :
         RPNUnitInfo( 'area', 'sections', '', [ ], [ 'U.S.' ],
                      '''
+In U.S. land surveying under the Public Land Survey System (PLSS), a section is
+an area nominally one square mile (2.6 square kilometers), containing 640 acres
+(260 hectares), with 36 sections making up one survey township on a rectangular
+grid.
+
+Ref:  https://en.wikipedia.org/wiki/Section_(United_States_land_surveying)
 ''' ),
 
     'shed' :
         RPNUnitInfo( 'area', 'sheds', '', [ ], [ 'science' ],
                      '''
+A barn is a serious unit of area used by nuclear physicists to quantify the
+scattering or absorption cross-section of very small particles, such as atomic
+nuclei.  It is one of the very few units which are accepted to be used with SI
+units, and one of the most recent units to have been established (cf. the knot
+and the bar, other non-SI units acceptable in limited circumstances).  One barn
+is equal to 1.0 x 10^-28 m^2.  The name derives from the folk expression
+"Couldn't hit the broad side of a barn", used by particle accelerator
+physicists to refer to the difficulty of achieving a collision between
+particles. The outhouse (1.0 x 10^-6 barns, one microbarn) and shed (1.0 x
+10^-24 barns, one yoctobarn) are derived by analogy.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_outhouse,_shed
+''' ),
+
+    'survey_acre' :
+        RPNUnitInfo( 'area', 'survey_acres', '', [ ], [ 'U.S.' ],
+                     '''
+Ref:  https://en.wikipedia.org/wiki/Acre
 ''' ),
 
     'township' :
         RPNUnitInfo( 'area', 'townships', '', [ ], [ 'U.S.' ],
                      '''
+Survey township, sometimes called Congressional township, as used by the United
+States Public Land Survey System, refers to a square unit of land, that is
+nominally six (U.S. Survey) miles (~9.7 km) on a side.  Each 36-square-mile
+(~93 km^2) township is divided into 36 one-square-mile (~2.6 km^2) sections,
+that can be further subdivided for sale, and each section covers a nominal 640
+acres (2.6 km^2).
+
+Ref:  https://en.wikipedia.org/wiki/Survey_township
 ''' ),
 
     'virgate' :
@@ -396,12 +553,16 @@ organizations recommend use of the katal.  It replaces the non-SI enzyme unit
 of catalytic activity.  Enzyme units are, however, still more commonly used
 than the katal, especially in biochemistry.
 
+The katal is defined to be one mole per second.
+
 Ref:  https://en.wikipedia.org/wiki/Katal
 ''' ),
 
     'mole/second' :
         RPNUnitInfo( 'catalysis', 'mole/second', '', [ ], [ 'SI' ],
                      '''
+This unit is the equivalent of the katal and is defined to allow conversion of
+katals to other units.
 ''' ),
 
 
@@ -973,7 +1134,7 @@ properties.  It is twice the reciprocal of the von Klitzing constant (2/RK).
 https://en.wikipedia.org/wiki/Conductance_quantum
 ''' ),
 
-    'ampere^2*second^3/kilogram*meter^2':
+    'ampere^2*second^3/kilogram*meter^2' :
         RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', '', [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -1130,9 +1291,12 @@ Ref:  https://www.ibiblio.org/units/dictK.html
                      '''
 ''' ),
 
-    'pound_of_TNT' :
-        RPNUnitInfo( 'energy', 'pounds_of_TNT', 'pTNT', [ ], [ 'informal' ],
+    'pound_of_tnt' :
+        RPNUnitInfo( 'energy', 'pounds_of_tnt', 'pTNT', [ ], [ 'informal' ],
                      '''
+This constant is defined to be 1/2000 of the ton_of_tnt constant
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Tons_of_TNT_equivalent
 ''' ),
 
     'quad' :
@@ -1181,9 +1345,17 @@ http://www.unc.edu/~rowlett/units/dictT.html
                      '''
 ''' ),
 
-    'ton_of_TNT' :
-        RPNUnitInfo( 'energy', 'tons_of_TNT', 'tTNT', [ ], [ 'informal' ],
+    'ton_of_tnt' :
+        RPNUnitInfo( 'energy', 'tons_of_tnt', 'tTNT', [ ], [ 'informal' ],
                      '''
+The energy of various amounts of the explosive TNT (kiloton, megaton, gigaton)
+is often used as a unit of explosion energy, and sometimes of asteroid impacts
+and violent explosive volcanic eruptions.  One ton of TNT produces 4.184 x 10^9
+joules, or (by arbitrary definition) exactly 10^9 thermochemical calories
+(approximately 3.964 x 10^6 BTU).  This definition is only loosely based on the
+actual physical properties of TNT.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Tons_of_TNT_equivalent
 ''' ),
 
     # force
@@ -1368,7 +1540,7 @@ Ref:  https://en.wikipedia.org/wiki/Hartley_(unit)
     'kilogram*meter^2/kelvin*second^2' :
         RPNUnitInfo( 'information_entropy', 'kilogram*meter^2/kelvin*second^2', '', [ ], [ 'physics' ],
                      '''
-This is the unit of the Boltzmann constant.
+This is the unit definition of the Boltzmann constant.
 ''' ),
 
     'library_of_congress' :
@@ -1384,6 +1556,8 @@ Library of Congress, estimated to be the equivalent of 10 terabytes in size.
                      '''
 A nybble is a half-byte, or 4 bits.  A nybble can be represented by a single
 hexadecimal digit.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Nibble
 ''' ),
 
     'nat' :
@@ -1485,6 +1659,17 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'astronomical_unit' :
         RPNUnitInfo( 'length', 'astronomical_units', 'au', [ ], [ 'science' ],
                      '''
+The astronomical unit (symbol: au, ua, or AU) is a unit of length, roughly the
+distance from Earth to the Sun.  However, that distance varies as Earth orbits
+the Sun, from a maximum (aphelion) to a minimum (perihelion) and back again
+once a year.  Originally conceived as the average of Earth's aphelion and
+perihelion, since 2012 it has been defined as exactly 149,597,870,700 metres,
+or about 150 million kilometres (93 million miles).  The astronomical unit is
+used primarily for measuring distances within the Solar System or around other
+stars.  It is also a fundamental component in the definition of another unit
+of astronomical length, the parsec.
+
+Ref:  https://en.wikipedia.org/wiki/Astronomical_unit
 ''' ),
 
     'barleycorn' :
@@ -1505,6 +1690,13 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'chain' :
         RPNUnitInfo( 'length', 'chains', '', [ ], [ 'U.S.' ],
                      '''
+The chain is a unit of length equal to 66 feet (22 yards).  It is subdivided
+into 100 links or 4 rods.  There are 10 chains in a furlong, and 80 chains in
+one statute mile.  In metric terms, it is 20.1168 m long.  By extension,
+chainage (running distance) is the distance along a curved or straight survey
+line from a fixed commencing point, as given by an odometer.
+
+Ref:  https://en.wikipedia.org/wiki/Chain_(unit)
 ''' ),
 
     'cicero' :
@@ -1541,6 +1733,10 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'fathom' :
         RPNUnitInfo( 'length', 'fathoms', '', [ ], [ 'imperial' ],
                      '''
+A fathom is a unit of length in the imperial and the U.S. customary systems
+equal to 6 feet (1.8288 m), used especially for measuring the depth of water.
+
+Ref:  https://en.wikipedia.org/wiki/Fathom
 ''' ),
 
     'finger' :
@@ -1556,6 +1752,13 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'foot' :
         RPNUnitInfo( 'length', 'feet', 'ft', [ ], [ 'traditional', 'FPS' ],
                      '''
+The foot (pl. feet; abbreviation: ft; symbol: ', the prime symbol) is a unit of
+length in the imperial and US customary systems of measurement.  Since the
+International Yard and Pound Agreement of 1959, one foot is defined as 0.3048
+meter exactly.  In customary and imperial units, the foot comprises 12 inches
+and three feet compose a yard.
+
+Ref:  https://en.wikipedia.org/wiki/Foot_(unit)
 ''' ),
 
     'french' :
@@ -1573,6 +1776,20 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'furlong' :
         RPNUnitInfo( 'length', 'furlongs', '', [ ], [ 'U.S.' ],
                      '''
+A furlong is a measure of distance in imperial units and U.S. customary units
+equal to one eighth of a mile, equivalent to 660 feet, 220 yards, 40 rods, or
+10 chains.
+
+Using the international definition of the inch as exactly 25.4 millimetres, one
+furlong is 201.168 metres.  However, the United States does not uniformly use
+this conversion ratio.  Older ratios are in use for surveying purposes in some
+states, leading to variations in the length of the furlong of two parts per
+million, or about 0.4 millimetre (1/64 inch).  This variation is too small to
+have practical consequences in most applications.  Five furlongs are about 1
+kilometre (1.00584 km is the exact value, according to the international
+conversion).
+
+Ref:  https://en.wikipedia.org/wiki/Furlong
 ''' ),
 
     'furshlugginer_potrzebie' :
@@ -1599,6 +1816,12 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'hand' :
         RPNUnitInfo( 'length', 'hands', '', [ ], [ 'imperial' ],
                      '''
+The hand is a non-SI unit of length equal to exactly 4 inches (101.6 mm).  It
+is normally used to measure the height of horses in some English-speaking
+countries, including Australia, Canada, the United Kingdom, Ireland and the
+United States
+                     .
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Hand
 ''' ),
 
     'handbreadth' :
@@ -1614,6 +1837,17 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'inch' :
         RPNUnitInfo( 'length', 'inches', 'in', [ ], [ 'U.S.' ],
                      '''
+The inch (abbreviation: in or ") is a unit of length in the (British) imperial
+and United States customary systems of measurement.  It is equal to 1/36 yard
+or 1/12 of a foot.  Derived from the Roman uncia ("twelfth"), the word inch is
+also sometimes used to translate similar units in other measurement systems,
+usually understood as deriving from the width of the human thumb.
+
+Standards for the exact length of an inch have varied in the past, but since
+the adoption of the international yard during the 1950s and 1960s it has been
+based on the metric system and defined as exactly 25.4 mm.
+
+Ref:  https://en.wikipedia.org/wiki/Inch
 ''' ),
 
     'ken' :
@@ -1634,16 +1868,39 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'league' :
         RPNUnitInfo( 'length', 'leagues', '', [ ], [ 'imperial' ],
                      '''
+A league is a unit of length.  It was common in Europe and Latin America, but
+is no longer an official unit in any nation.  The word originally meant the
+distance a person could walk in an hour.  Since the Middle Ages, many values
+have been specified in several countries.
+
+On land, the league is most commonly defined as three miles, though the length
+of a mile could vary from place to place and depending on the era.  At sea, a
+league is three nautical miles (3.452 miles; 5.556 kilometres).
+
+Ref:  https://en.wikipedia.org/wiki/League_(unit)
 ''' ),
 
     'light-second' :
         RPNUnitInfo( 'length', 'light-seconds', '', [ ], [ 'science' ],
                      '''
+The light-second is a unit of length useful in astronomy, telecommunications
+and relativistic physics.  It is defined as the distance that light travels in
+free space in one second, and is equal to exactly 299,792,458 metres
+(approximately 983,571,056 ft).
+
+Ref:  https://en.wikipedia.org/wiki/Light-second
 ''' ),
 
     'light-year' :
         RPNUnitInfo( 'length', 'light-years', 'ly', [ 'a1' ], [ 'science' ],
                      '''
+The light-year is a unit of length used to express astronomical distances and
+measures about 9.46 trillion kilometres (9.46 x 10^12 km) or 5.88 trillion
+miles (5.88 x 10^12 mi).  As defined by the International Astronomical Union
+(IAU), a light-year is the distance that light travels in vacuum in one Julian
+year (365.25 days).
+
+Ref:  https://en.wikipedia.org/wiki/Light-year
 ''' ),
 
     'liniya' :
@@ -1654,6 +1911,21 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'link' :
         RPNUnitInfo( 'length', 'links', '', [ ], [ 'informal' ],
                      '''
+The link, sometimes called a Gunter's link, is a unit of length formerly used
+in many English-speaking countries.  A link is exactly 66/100 of a foot, or
+exactly 7.92 inches or 20.1168 cm.
+
+The unit is based on Gunter's chain, a metal chain 66 feet long with 100 links,
+that was formerly used in land surveying.  Even after the original tool was
+replaced by later instruments of higher precision, the unit itself was commonly
+used in this application throughout the English-speaking world  (e.g. in the
+United States customary system of measurements and the Imperial system).  The
+length of the foot, and hence the link, varied slightly from place to place and
+time to time, but in modern times the difference between, say, the US survey
+foot and the international foot is two parts per million.  The link fell out of
+general use in the 20th century.
+
+Ref:  https://en.wikipedia.org/wiki/Link_(unit)
 ''' ),
 
     'long_cubit' :
@@ -1679,6 +1951,19 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'meter' :
         RPNUnitInfo( 'length', 'meters', 'm', [ 'metre', 'metres' ], [ 'SI' ],
                      '''
+The metre (Commonwealth spelling and BIPM spelling) or meter (American spelling)
+is the base unit of length in the International System of Units (SI). The SI
+unit symbol is m.  The metre is defined as the length of the path travelled by
+light in a vacuum in 1/299,792,458 of a second.
+
+The metre was originally defined in 1793 as one ten-millionth of the distance
+from the equator to the North Pole - as a result, the Earth's circumference is
+approximately 40,000 km today.  In 1799, it was redefined in terms of a
+prototype metre bar (the actual bar used was changed in 1889).  In 1960, the
+metre was redefined in terms of a certain number of wavelengths of a certain
+emission line of krypton-86.  In 1983, the current definition was adopted.
+
+Ref:  https://en.wikipedia.org/wiki/Metre
 ''' ),
 
     'metric_foot' :
@@ -1689,16 +1974,38 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'micron' :
         RPNUnitInfo( 'length', 'microns', '', [ ], [ 'science' ],
                      '''
+The micrometre (International spelling as used by the International Bureau of
+Weights and Measures) or micrometer (American spelling), also commonly known by
+the previous name micron, is an SI derived unit of length equalling 10^-6 metre
+(SI standard prefix "micro-" = 10^-6); that is, one millionth of a metre (or
+one thousandth of a millimetre, 0.001 mm, or about 0.000039 inch).
+
+https://en.wikipedia.org/wiki/Micrometre
 ''' ),
 
     'mil' :
         RPNUnitInfo( 'length', 'mils', '', [ 'thou' ], [ 'U.S.' ],
                      '''
+A thousandth of an inch is a derived unit of length in a system of units using
+inches.  Equal to 1/1000 of an inch, it is normally referred to as a thou, a
+thousandth, or (particularly in the United States) a mil.
+
+In the United States, mil was once the more common term, but as use of the
+metric system has become more common, thou has replaced mil among most
+technical users to avoid confusion with millimetres.  Today both terms are
+used, but in specific contexts one is traditionally preferred over the other.
+
+Ref:  https://en.wikipedia.org/wiki/Thousandth_of_an_inch
 ''' ),
 
     'mile' :
         RPNUnitInfo( 'length', 'miles', 'mi', [ ], [ 'U.S.' ],
                      '''
+The mile is an English unit of length of linear measure equal to 5,280 feet, or
+1,760 yards, and standardised as exactly 1,609.344 metres by international
+agreement in 1959.
+
+Ref:  https://en.wikipedia.org/wiki/Mile
 ''' ),
 
     'nail' :
@@ -1709,11 +2016,35 @@ https://en.wikipedia.org/wiki/French_catheter_scale
     'nautical_mile' :
         RPNUnitInfo( 'length', 'nautical_miles', '', [ ], [ 'nautical' ],
                      '''
+A nautical mile is a unit of measurement used in both air and marine navigation,
+and for the definition of territorial waters.  Historically, it was defined as
+one minute (1/60 of a degree) of latitude along any line of longitude.  Today
+the international nautical mile is defined as exactly 1852 metres.  This
+converts to about 1.15 imperial/US miles.  The derived unit of speed is the
+knot, one nautical mile per hour.
+
+Ref:  https://en.wikipedia.org/wiki/Nautical_mile
 ''' ),
 
     'parsec' :
         RPNUnitInfo( 'length', 'parsecs', 'pc', [ ], [ 'science' ],
                      '''
+The parsec (symbol: pc) is a unit of length used to measure large distances to
+astronomical objects outside the Solar System.  A parsec is defined as the
+distance at which one astronomical unit subtends an angle of one arcsecond,
+which corresponds to 648000/pi astronomical units.  One parsec is equal to
+about 3.26 light-years or 31 trillion kilometres (31 x 10^12 km) or 19 trillion
+miles (19 x 10^12 mi).  The nearest star, Proxima Centauri, is about 1.3
+parsecs (4.2 light-years) from the Sun.
+
+In August 2015, the International Astronomical Union (IAU) passed Resolution
+B2, which, as part of the definition of a standardized absolute and apparent
+bolometric magnitude scale, mentioned an existing explicit definition of the
+parsec as exactly 648000/pi astronomical units, or approximately
+3.08567758149137 x 10^16 metres (based on the IAU 2012 exact SI definition of the
+astronomical unit).
+
+Ref:  https://en.wikipedia.org/wiki/Parsec
 ''' ),
 
     'pica' :
@@ -1756,6 +2087,15 @@ https://en.wikipedia.org/wiki/Rack_unit
     'rod' :
         RPNUnitInfo( 'length', 'rods', '', [ 'pole', 'poles', 'perch', 'perches' ], [ 'U.S.' ],
                      '''
+The rod or perch or pole is a surveyor's tool and unit of length exactly equal
+to 5 1/2 yards, 16 1/2 feet, 1/320 of a statute mile, or one-fourth of a
+surveyor's chain (approximately 5.0292 meters).  The rod is useful as a unit of
+length because whole number multiples of it can form one acre of square measure.
+The 'perfect acre' is a rectangular area of 43,560 square feet, bounded by sides
+of length 660 feet and 66 feet (220 yards and 22 yards) or, equivalently, 40
+rods and 4 rods.  An acre is therefore 160 square rods.
+
+Ref:  https://en.wikipedia.org/wiki/Rod_(unit)
 ''' ),
 
     'rope' :
@@ -1791,6 +2131,12 @@ Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
     'siriometer' :
         RPNUnitInfo( 'length', 'siriometers', '', [ ], [ 'science' ],  # proposed in 1911 by Cark V. L. Charlier
                      '''
+The siriometer is a rarely used astronomical measure equal to one million
+astronomical units, i.e., one million times the average distance between the
+Sun and Earth.  This distance is equal to about 15.8 light-years, 149.6 Pm or
+4.8 parsecs, and is about twice the distance from Earth to the star Sirius.
+
+https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siriometer
 ''' ),
 
     'skein' :
@@ -1997,6 +2343,23 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'dalton' :
         RPNUnitInfo( 'mass', 'daltons', '', [ 'amu', 'atomic_mass_unit' ], [ 'science' ],
                      '''
+The dalton or unified atomic mass unit (SI symbols: Da or u) is a unit of mass
+widely used in physics and chemistry.  It is defined precisely as 1/12 of the
+mass of an unbound neutral atom of carbon-12 in its nuclear and electronic
+ground state and at rest.  A mass of 1 Da is also referred to as the atomic
+mass constant and denoted by m-sub-u.
+
+The definition of unified atomic mass unit was not affected by the 2019
+redefinition of SI base units, that is, 1 Da in the SI is still 1/12 of the
+mass of a carbon-12 atom, a quantity that must be determined experimentally in
+terms of SI units.  However, the definition of a mole was changed to be the
+amount of substance consisting of exactly 6.02214076 x 10^23 entities, and the
+definition of the kilogram was changed too.  As a consequence, the molar mass
+constant is no longer exactly 1 g/mol, meaning that the number of grams in the
+mass of one mole of any substance is no longer exactly equal to the number of
+daltons in its molecular mass.
+
+Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
 ''' ),
 
     'dolya' :
@@ -2057,11 +2420,25 @@ This conversion is required to do mass-energy equivalence calculations.
     'ounce' :
         RPNUnitInfo( 'mass', 'ounces', 'oz', [ ], [ 'traditional' ],
                      '''
+The ounce (abbreviated oz) is a unit of mass, weight, or volume used in most
+British derived customary systems of measurement.  The common avoirdupois ounce
+(approximately 28.3 g) is 1/16 of a common avoirdupois pound; this is the
+United States customary and British imperial ounce.  It is primarily used in
+the United States to measure packaged foods and food portions, postal items,
+areal density of fabric and paper, boxing gloves, and so on; but sometimes also
+elsewhere in the Anglosphere.
+
+Ref:  https://en.wikipedia.org/wiki/Ounce
 ''' ),
 
     'pennyweight' :
         RPNUnitInfo( 'mass', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ],
                      '''
+A pennyweight (abbreviated dwt, d being the symbol of an old British penny) is a
+unit of mass that is equal to 24 grains, 1/20 of a troy ounce, 1/240 of a troy
+pound, approximately 0.054857 avoirdupois ounce and exactly 1.55517384 grams.
+
+Ref:  https://en.wikipedia.org/wiki/Pennyweight
 ''' ),
 
     'pfund' :
@@ -2308,6 +2685,13 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'solid_angle', 'degree^2', '',
                      [ 'square_degree', 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
                      '''
+A square degree (deg^2) is a non-SI-compliant unit measure of solid angle.
+Just as degrees are used to measure parts of a circle, square degrees are used
+to measure parts of a sphere. Analogous to one degree being equal to pi/180
+radians, a square degree is equal to (pi/180)^2 squared radians (i.e.
+steradians or sr), or about 1/3283 sr = 3.0462 x 10e-4 sr (0.30462 msr).
+
+Ref:  https://en.wikipedia.org/wiki/Square_degree
 ''' ),
 
     'grad^2' :
@@ -2360,6 +2744,14 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'solid_angle', 'steradians', 'sr',
                      [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
                      '''
+The steradian (symbol: sr) or square radian is the SI unit of solid angle.  It
+is used in three-dimensional geometry, and is analogous to the radian, which
+quantifies planar angles.  Whereas an angle in radians, projected onto a
+circle, gives a length on the circumference, a solid angle in steradians,
+projected onto a sphere, gives an area on the surface.  The name is derived
+from the Greek stereos 'solid' + radian.
+
+Ref:  https://en.wikipedia.org/wiki/Steradian
 ''' ),
 
     # temperature
@@ -2468,6 +2860,9 @@ Ref:  https://en.wikipedia.org/wiki/Rankine_scale
     'fortnight' :
         RPNUnitInfo( 'time', 'fortnights', '', [ ], [ 'traditional' ],
                      '''
+A fortnight is a unit of time equal to 14 days (2 weeks).
+
+Ref:  https://en.wikipedia.org/wiki/Fortnight
 ''' ),
 
     'gregorian_year' :
@@ -2492,6 +2887,14 @@ Ref:  https://en.wikipedia.org/wiki/Hour
     'jiffy' :
         RPNUnitInfo( 'time', 'jiffies', '', [ ], [ 'computing' ],
                      '''
+The term "jiffy" is sometimes used in computer animation as a method of
+defining playback rate, with the delay interval between individual frames
+specified in 1/100th-of-a-second (10 ms) jiffies, particularly in Autodesk
+Animator .FLI sequences (one global frame frequency setting) and animated
+Compuserve .GIF images (each frame having an individually defined display
+time measured in 1/100 s).
+
+Ref:  https://en.wikipedia.org/wiki/Jiffy_(time)
 ''' ),
 
     'lustrum' :
@@ -2507,11 +2910,23 @@ Ref:  https://en.wikipedia.org/wiki/Hour
     'microcentury' :
         RPNUnitInfo( 'time', 'microcenturies', '', [ ], [ 'humorous', 'computing' ],
                      '''
+According to Gian-Carlo Rota, the mathematician John von Neumann used the term
+microcentury to denote the maximum length of a lecture.  One microcentury is 52
+minutes and 35.76 seconds - one millionth of a century.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Microcentury
 ''' ),
 
     'microfortnight' :
         RPNUnitInfo( 'time', 'microfortnights', '', [ ], [ 'humorous', 'computing' ],
                      '''
+One unit derived from the FFF system of units is the microfortnight, one
+millionth of the fundamental time unit of FFF, which equals 1.2096 seconds.
+This is a fairly representative example of "hacker humor", and is occasionally
+used in operating systems; for example, the OpenVMS TIMEPROMPTWAIT parameter
+is measured in microfortnights.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Microfortnight
 ''' ),
 
     'mingo' :
@@ -2526,7 +2941,7 @@ The minute is a unit of time or angle (the minute angle unit in rpn is the
 'arcminute').  As a unit of time, the minute is most of times equal to 1/60 of
 an hour, or 60 seconds.
 
-https://en.wikipedia.org/wiki/Minute
+Ref:  https://en.wikipedia.org/wiki/Minute
 ''' ),
 
     'month' :
@@ -2537,6 +2952,13 @@ https://en.wikipedia.org/wiki/Minute
     'nanocentury' :
         RPNUnitInfo( 'time', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ],
                      '''
+A unit sometimes used in computing, the term is believed to have been coined by
+IBM in 1969 from the design objective "never to let the user wait more than a
+few nanocenturies for a response".  A nanocentury is one-billionth of a century
+or approximately 3.156 seconds.  Tom Duff is cited as saying that, to within
+half a percent, a nanocentury is pi seconds.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Nanocentury
 ''' ),
 
     'second' :
@@ -2560,26 +2982,49 @@ Ref:  https://en.wikipedia.org/wiki/Second
     'shake' :
         RPNUnitInfo( 'time', 'shakes', '', [ ], [ 'science' ],
                      '''
+A shake is an informal unit of time equal to 10 nanoseconds, or 10^-8 seconds.
+It has applications in nuclear physics, helping to conveniently express the
+timing of various events in a nuclear reaction, especially neutron reactions.
+The typical time required for one step in the chain reaction (i.e. the typical
+time for each neutron to cause a fission event, which releases more neutrons)
+is of the order of 1 shake, and the chain reaction is typically complete by 50
+to 100 shakes.
+
+Ref:  https://en.wikipedia.org/wiki/Shake_(unit)
 ''' ),
 
     'sidereal_day' :
         RPNUnitInfo( 'time', 'sidereal_days', '', [ 'earth_day', 'earth_days' ], [ 'science' ],
                      '''
+The sidereal day is based on the Earth's rotation rate relative to fixed stars,
+rather than the Sun.  A sidereal day is approximately 23 hours, 56 minutes,
+4.0905 SI seconds.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sidereal_day
 ''' ),
 
     'sidereal_hour' :
         RPNUnitInfo( 'time', 'sidereal_hours', '', [ ], [ 'science' ],
                      '''
+The sidereal hour is defined to be 1/24th of a sidereal day.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sidereal_day
 ''' ),
 
     'sidereal_minute' :
         RPNUnitInfo( 'time', 'sidereal_minutes', '', [ ], [ 'science' ],
                      '''
+The sidereal minute is defined to be 1/1440th of a sidereal day.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sidereal_day
 ''' ),
 
     'sidereal_second' :
         RPNUnitInfo( 'time', 'sidereal_seconds', '', [ ], [ 'science' ],
                      '''
+The sidereal second is defined to be 1/86400th of a sidereal day.
+
+Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sidereal_day
 ''' ),
 
     'svedberg' :
@@ -2634,11 +3079,32 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'meter/second' :
         RPNUnitInfo( 'velocity', 'meter/second', 'mps', [ 'benz' ], [ 'SI' ],
                      '''
+The metre per second (American English: meter per second) is an SI derived unit
+of both speed (scalar) and velocity (vector quantity which specifies both
+magnitude and a specific direction), defined by distance in metres divided by
+time in seconds.
+
+The benz, named in honour of Karl Benz, has been proposed as a name for one
+metre per second.  Although it has seen some support as a practical unit,
+primarily from German sources, it was rejected as the SI unit of velocity and
+has not seen widespread use or acceptance.
+
+Ref:  https://en.wikipedia.org/wiki/Metre_per_second
 ''' ),
 
     'knot' :
-        RPNUnitInfo( 'velocity', 'knots', 'kt', [ ], [ 'nautical' ],
+        RPNUnitInfo( 'velocity', 'knots', 'kn', [ 'kt' ], [ 'nautical' ],
                      '''
+The knot is a unit of speed equal to one nautical mile per hour, exactly 1.852
+km/h (approximately 1.15078 mph).  The ISO standard symbol for the knot is kn.
+The same symbol is preferred by the Institute of Electrical and Electronics
+Engineers (IEEE); kt is also common, especially in aviation, where it is the
+form recommended by the International Civil Aviation Organization (ICAO).  The
+knot is a non-SI unit.  Worldwide, the knot is used in meteorology, and in
+maritime and air navigation - for example, a vessel travelling at 1 knot along a
+meridian travels approximately one minute of geographic latitude in one hour.
+
+Ref:  https://en.wikipedia.org/wiki/Knot_(unit)
 ''' ),
 
     'mach' :
@@ -2655,19 +3121,19 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'balthazar' :
         RPNUnitInfo( 'volume', 'balthazars', '', [ 'belshazzar', 'belshazzars' ], [ 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
+https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'beer_barrel' :
         RPNUnitInfo( 'volume', 'beer_barrel', '', [ ], [ 'U.S.', 'beer' ],
                      '''
-https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
+Ref:: https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
     'beer_keg' :
         RPNUnitInfo( 'volume', 'beer_kegs', '', [ ], [ 'U.S.', 'beer' ],
                      '''
-https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
     'bucket' :
@@ -2720,7 +3186,7 @@ instead.
 
 In the U.S., the cup is defined to be 8 fluid ounces.
 
-https://en.wikipedia.org/wiki/Cup_(unit)
+Ref:  https://en.wikipedia.org/wiki/Cup_(unit)
 ''' ),
 
     'dash' :
@@ -3420,7 +3886,7 @@ integralMetricUnits = [
     'light-year',
     'ton',
     'tonne',
-    'ton_of_TNT',
+    'ton_of_tnt',
     'year',
 ]
 
@@ -3569,7 +4035,7 @@ unitConversionMatrix = {
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'furman' )                              : mpmathify( '65536' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
-    ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
+    ( 'gradian',                    'degree' )                              : mpmathify( '0.9' ),
     ( 'octant',                     'degree' )                              : mpmathify( '45' ),
     ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
     ( 'quadrant',                   'degree' )                              : mpmathify( '90' ),
@@ -3580,8 +4046,9 @@ unitConversionMatrix = {
 
     # area
 
-    ( 'acre',                       'foot^2' )                              : mpmathify( '43560' ),
+    ( 'acre',                       'meter^2' )                             : mpmathify( '4046.8564224' ),  # exact!
     ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
+    ( 'acre',                       'rood' )                                : mpmathify( '4' ),
     ( 'are',                        'meter^2' )                             : mpmathify( '100' ),
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
@@ -3594,7 +4061,6 @@ unitConversionMatrix = {
     ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
     ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
-    ( 'rood',                       'foot^2' )                              : mpmathify( '272.25' ),   # same as a square rod!
     ( 'section',                    'acre' )                                : mpmathify( '640' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),   # 36 square miles
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
@@ -3759,8 +4225,8 @@ unitConversionMatrix = {
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
     ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
-    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
-    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
+    ( 'ton_of_tnt',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'ton_of_tnt',                 'pound_of_tnt' )                        : mpmathify( '2000' ),
 
     # force
 
@@ -3824,7 +4290,7 @@ unitConversionMatrix = {
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
-    ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
+    ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870700' ),
     ( 'barleycorn',                 'poppyseed' )                           : mpmathify( '4' ),
     ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
@@ -3856,7 +4322,7 @@ unitConversionMatrix = {
     ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
     ( 'league',                     'mile' )                                : mpmathify( '3' ),
     ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
-    ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
+    ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),    # seconds per Julian year (365.25 days)
     ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
     ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
     ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
@@ -3870,7 +4336,7 @@ unitConversionMatrix = {
     ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
-    ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
+    ( 'parsec',                     'meter' )                               : fmul( 149597870700, fdiv( 648000, pi ) ),  # based on AU
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
@@ -3886,6 +4352,7 @@ unitConversionMatrix = {
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
     ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
+    ( 'survey_acre',                'meter^2' )                             : fadd( 4046, fdiv( 13525426, 15499969 ) ),   # exact!
     ( 'survey_foot',                'meter' )                               : fdiv( 1200, 3937 ),
     ( 'versta',                     'meter' )                               : mpmathify( '1066.8' ),
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
@@ -3934,7 +4401,7 @@ unitConversionMatrix = {
     ( 'blintz',                     'gram' )                                : mpmathify( '36.42538631' ),
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
-    ( 'dalton',                     'gram' )                                : mpmathify( '1.660539040e-24' ),
+    ( 'dalton',                     'gram' )                                : mpmathify( '1.66053906660e-24' ),  # based on best measurements
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
     ( 'funt',                       'dolya' )                               : mpmathify( '9216' ),
@@ -3943,8 +4410,8 @@ unitConversionMatrix = {
     ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
     ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
-    ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),
-    ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
+    ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),  # exact!
+    ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),   # exact!
     ( 'pfund',                      'gram' )                                : mpmathify( '500' ),
     ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
@@ -4057,7 +4524,7 @@ unitConversionMatrix = {
     ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
     ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
-    ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
+    ( 'knot',                       'meter/second' )                        : fdiv( 1852, 3600 ),   # exact!
     ( 'speed_of_sound',             'meter/second' )                        : mpmathify( '343' ),
 
     # volume

@@ -9137,7 +9137,7 @@ E = mc^2, which solved for m gives, m = E/c^2
 ''',
 '''
 ''' + makeCommandExample( '1 gallon_of_gasoline mass_equivalence' ) + '''
-''' + makeCommandExample( '1 ton_of_TNT mass_equivalence' ),
+''' + makeCommandExample( '1 ton_of_tnt mass_equivalence' ),
 [ 'energy_equivalence' ] ],
 
     'orbital_mass' : [

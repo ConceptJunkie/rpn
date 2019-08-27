@@ -139,7 +139,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
                          '',
                          '''
 The (superconducting) magnetic flux quantum F0 = h/2e =~
-2.067833831(13)x10e-15 Wb is a combination of fundamental physical constants:
+2.067833831(13) x 10e-15 Wb is a combination of fundamental physical constants:
 the Planck constant h and the electron charge e.  Its value is, therefore, the
 same for any superconductor.
 
@@ -217,15 +217,26 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 ''' ),
 
     'gallon_of_ethanol' :
-        RPNConstantInfo( '8.4e7', 'joule', [ ], True,
+        RPNConstantInfo( '8.087e7', 'joule', [ ], True,
                          'Energy content of a U.S. gallon of ethanol',
                          '''
+This unit is calculated from the relative energy content of ethanol compared to
+gasoline.
+
+https://en.wikipedia.org/wiki/Gasoline_gallon_equivalent#Gasoline_gallon_equivalent_tables
 ''' ),
 
     'gallon_of_gasoline' :
-        RPNConstantInfo( '1.2e8', 'joule', [ ], True,
+        RPNConstantInfo( '1.213e8', 'joule', [ ], True,
                          'Typical energy content of a U.S. gallon of gasoline',
                          '''
+In 2011 the United States Environmental Protection Agency introduced the gallon
+gasoline equivalent as a unit of energy because their research showed most
+U.S. citizens do not understand the standard units.  The gallon gasoline
+equivalent is defined as 33.7 kWh, or about 1.213 x 10^8 joules.
+
+https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Gasoline_gallon_equivalent
+https://en.wikipedia.org/wiki/Gasoline_gallon_equivalent
 ''' ),
 
     'density_of_water' :
@@ -273,8 +284,8 @@ Ref:  https://en.wikipedia.org/wiki/Deuterium#Deuteron_mass_and_radius
                          '''
 The electron rest mass is the mass of a stationary electron, also known as the
 invariant mass of the electron.  It is one of the fundamental constants of
-physics.  It has a value of about 9.109x10^-31 kilograms or about 5.486x10^-4
-atomic mass units, equivalent to an energy of about 8.187xe10^-14 joules or about
+physics.  It has a value of about 9.109 x 10^-31 kilograms or about 5.486 x 10^-4
+atomic mass units, equivalent to an energy of about 8.187 x 10^-14 joules or about
 0.5110 MeV.
 
 https://en.wikipedia.org/wiki/Electron_rest_mass
