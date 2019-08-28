@@ -65,6 +65,9 @@ def compareResults( result1, result2 ):
             return
 
     if isinstance( result1, RPNMeasurement ) and isinstance( result2, RPNMeasurement ):
+        #print( result1.value, result1.units )
+        #print( result2.value, result2.units )
+
         if result1 != result2:
             print( '**** error in results comparison' )
             print( type( result1 ), type( result2 ) )

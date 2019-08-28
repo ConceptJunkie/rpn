@@ -703,6 +703,7 @@ operatorAliases = {
     'prev_primes'                   : 'previous_primes',
     'prime?'                        : 'next_prime',
     'primepi'                       : 'prime_pi',
+    'primitive'                     : 'primitive_units',
     'prod'                          : 'product',
     'puff'                          : 'picofarad',
     'pyr'                           : 'pyramidal',

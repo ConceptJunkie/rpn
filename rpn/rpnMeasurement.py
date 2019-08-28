@@ -156,7 +156,7 @@ class RPNMeasurement( object ):
     units = RPNUnits( )
 
     def __init__( self, value, units = RPNUnits( ) ):
-        if isinstance( value, str ):
+        if isinstance( value, ( str, int ) ):
             self.value = mpmathify( value )
             self.units = RPNUnits( units )
         elif isinstance( value, RPNMeasurement ):
@@ -1021,6 +1021,9 @@ def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
         value = RPNMeasurement( number, term )
         value = value.normalizeUnits( )
+
+        if value.units == RPNUnits( '_null_unit' ):
+            value = mpmathify( 1 )
     elif constant:
         if ( g.constantOperators[ term ].unit ):
             value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),

@@ -21,6 +21,7 @@ import itertools
 import os
 import pickle
 import sys
+import textwrap
 import time
 
 from mpmath import almosteq, mp, fdiv, fmul, fneg
@@ -48,6 +49,19 @@ PROGRAM_NAME = 'makeUnits'
 PROGRAM_DESCRIPTION = 'rpnChilada unit conversion data generator'
 
 validationPrecision = 20
+
+
+# //******************************************************************************
+# //
+# //  printParagraph
+# //
+# //******************************************************************************
+
+def printParagraph( text, indent = 0 ):
+    lines = textwrap.wrap( text, 80 - ( indent + 1 ) )
+
+    for line in lines:
+        print( ' ' * indent + line )
 
 
 # //******************************************************************************
@@ -576,6 +590,44 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     print( '{:,} unit operators'.format( len( unitOperators ) ) )
     print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( '{:,} aliases'.format( len( newAliases ) ) )
+
+    missingHelp = [ ]
+
+    for unit, unitInfo in unitOperators.items( ):
+        found = False
+
+        for i in unitInfo.helpText:
+            if i.isalnum( ):
+                found = True
+                break
+
+        if not found:
+            missingHelp.append( unit )
+
+    if missingHelp:
+        print( )
+        print( 'The following {} units do not have help text:'.format( len( missingHelp ) ) )
+        print( )
+        printParagraph( ', '.join( sorted( missingHelp ) ) )
+
+    missingHelp = [ ]
+
+    for constant, constantInfo in constantOperators.items( ):
+        found = False
+
+        for i in constantInfo.helpText:
+            if i.isalnum( ):
+                found = True
+                break
+
+        if not found:
+            missingHelp.append( constant )
+
+    if missingHelp:
+        print( )
+        print( 'The following {} constants do not have help text:'.format( len( missingHelp ) ) )
+        print( )
+        printParagraph( ', '.join( sorted( missingHelp ) ) )
 
 
 # //******************************************************************************

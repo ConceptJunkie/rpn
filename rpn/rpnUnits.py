@@ -302,13 +302,51 @@ Ref:  https://en.wikipedia.org/wiki/Barn_(unit)
 ''' ),
 
     'bovate' :
-        RPNUnitInfo( 'area', 'bovates', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'bovates', '', [ 'oxgang', 'oxgangs' ], [ 'imperial' ],
                      '''
+An oxgang or bovate (Old English: oxangang; Danish: oxgang; Scottish Gaelic:
+damh-imir; Medieval Latin: bovata) is an old land measurement formerly used in
+Scotland and England as early as the 16th century sometimes referred to as an
+oxgait.  It averaged around 20 English acres, but was based on land fertility
+and cultivation, and so could be as low as 15.
+
+In England, the oxgang was a unit typically used in the area conquered by the
+Vikings which became the Danelaw, for example in Domesday Book, where it is
+found as a bovata, or 'bovate.'  The oxgang represented the amount of land
+which could be ploughed using one ox, in a single annual season.  As land was
+normally ploughed by a team of eight oxen, an oxgang was thus one eighth the
+size of a ploughland or carucate.  Although these areas were not fixed in size
+and varied from one village to another, an oxgang averaged 15 acres (61,000
+m^2), and a ploughland or carucate 100-120 acres (0.40-0.49 km^2).  However, in
+the rest of England a parallel system was used, from which the Danelaw system
+of carucates and bovates seen in Domesday Book was derived.  There, the virgate
+represented land which could be ploughed by a pair of oxen, and so amounted to
+two oxgangs or bovates, and was a quarter of a hide, the hide and the carucate
+being effectively synonymous.
+
+rpnChilada uses 15 acres as the value for the bovate.
+
+Ref:  https://en.wikipedia.org/wiki/Oxgang
 ''' ),
 
     'carucate' :
         RPNUnitInfo( 'area', 'carucates', '', [ ], [ 'imperial' ],
                      '''
+The carucate was named for the carruca heavy plough that began to appear in
+England in the 9th century, introduced by the Viking invasions of England.
+It was also known as a ploughland or plough (Old English: plogesland, "plough's
+land") in the Danelaw usually but not always excluded the land's suitability
+for winter vegetables and desirability to remain fallow in crop rotation.  The
+tax levied on each carucate came to be known as "carucage".  Though a carucate
+might nominally be regarded as an area of 120 acres (49 hectares), and can
+usefully be equated to certain definitions of the hide, its variation over time
+and depending on soil and fertility makes its actual figure wildly variable.
+The Danelaw carucates were subdivided into eighths: oxgangs or bovates based on
+the area a single ox could till in a year.
+
+rpnChilada uses the value of 120 acres, or 8 bovates (oxgangs) for the carucate.
+
+Ref:  https://en.wikipedia.org/wiki/Carucate
 ''' ),
 
     'circular_inch' :
@@ -333,23 +371,19 @@ of a wire considerably easier.
 Ref:  https://en.wikipedia.org/wiki/Circular_mil
 ''' ),
 
-    'foot^2' :
-        RPNUnitInfo( 'area', 'foot^2', '', [ ], [ 'U.S.' ],
-                     '''
-A square foot is the area of a square whose sides are one foot in length.
-
-This unit isn't strictly needed to be defined, but several other area units are
-defined in terms of square feet, so this unit was created for convenience.
-''' ),
-
     'homestead' :
         RPNUnitInfo( 'area', 'homesteads', '', [ ], [ 'U.S.' ],
                      '''
-''' ),
+Survey township, sometimes called Congressional township, as used by the United
+States Public Land Survey System, refers to a square unit of land, that is
+nominally six (U.S. Survey) miles (~9.7 km) on a side.  Each 36-square-mile
+(~93 km^2) township is divided into 36 one-square-mile (~2.6 km^2) sections,
+that can be further subdivided for sale, and each section covers a nominal 640
+acres (2.6 km^2).  The townships are referenced by a numbering system that
+locates the township in relation to a principal meridian (north-south) and a
+base line (east-west).
 
-    'imperial_square' :
-        RPNUnitInfo( 'area', 'imperial_squares', '', [ ], [ 'imperial' ],
-                     '''
+Ref:  https://en.wikipedia.org/wiki/Survey_township
 ''' ),
 
     'meter^2' :
@@ -471,12 +505,23 @@ Ref:  https://en.wikipedia.org/wiki/Survey_township
     'ampere^2*second^4/kilogram*meter^2' :
         RPNUnitInfo( 'capacitance', 'ampere^2*second^4/kilogram*meter^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit farad (F), and is the SI unit
+representation of capacitance.
 ''' ),
 
     'farad' :
         RPNUnitInfo( 'capacitance', 'farads', 'F', [ ], [ 'SI' ],
                      '''
-The SI unit for capacitance.
+The farad (symbol: F) is the SI derived unit of electrical capacitance, the
+ability of a body to store an electrical charge.  It is named after the English
+physicist Michael Faraday.
+
+One farad is defined as the capacitance across which, when charged with one
+coulomb, there is a potential difference of one volt.  Equally, one farad can
+be described as the capacitance which stores a one-coulomb charge across a
+potential difference of one volt.
+
+Ref:  https://en.wikipedia.org/wiki/Farad
 ''' ),
 
     'jar' :
@@ -498,6 +543,25 @@ The SI unit for capacitance.
     'coulomb' :
         RPNUnitInfo( 'charge', 'coulombs', 'C', [ ], [ 'SI' ],
                      '''
+The coulomb (symbol: C) is the International System of Units (SI) unit of
+electric charge.  It is the charge (symbol: Q or q) transported by a constant
+current of one ampere in one second:
+
+1 coulomb = 1 ampere x 1 second
+
+Thus, it is also the amount of excess charge on a capacitor of one farad
+charged to a potential difference of one volt:
+
+1 coulomb = 1 farad x 1 volt
+
+Under the 2019 redefinition of the SI base units, which took effect on 20 May
+2019, the elementary charge (the charge of the proton) is exactly 1.602176634 x
+10^-19 coulombs.  Thus the coulomb is exactly the charge of 1 / ( 1.602176634 x
+10^-19) protons, which is approximately 6.2415090744 x 10^18 protons (1.036 x
+10^-5 mol).  The same number of electrons has the same magnitude but opposite
+sign of charge, that is, a charge of -1 C.
+
+Ref:  https://en.wikipedia.org/wiki/Coulomb
 ''' ),
 
     'franklin' :
@@ -1021,6 +1085,21 @@ One centillion:  10e303
         RPNUnitInfo( 'current', 'amperes', 'A',
                      [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ],
                      '''
+The ampere (symbol: A), often shortened to "amp", is the base unit of electric
+current in the International System of Units (SI).  It is named after
+Andre-Marie Ampere (1775-1836), French mathematician and physicist, considered
+the father of electrodynamics.
+
+The International System of Units defines the ampere in terms of other base
+units by measuring the electromagnetic force between electrical conductors
+carrying electric current.  The earlier CGS measurement system had two
+different definitions of current, one essentially the same as the SI's and the
+other using electric charge as the base unit, with the unit of charge defined
+by measuring the force between two charged metal plates.  The ampere was then
+defined as one coulomb of charge per second.  In SI, the unit of charge, the
+coulomb, is defined as the charge carried by one ampere during one second.
+
+Ref:  https://en.wikipedia.org/wiki/Ampere
 ''' ),
 
     'statampere' :
@@ -1033,78 +1112,243 @@ One centillion:  10e303
     'bit/second' :
         RPNUnitInfo( 'data_rate', 'bits/second', 'bps', [ 'bips' ], [ 'computing' ],
                      '''
+In telecommunications and computing, bit rate (bitrate or as a variable R) is
+the number of bits that are conveyed or processed per unit of time.
+
+The bit rate is quantified using the bits per second unit (symbol: "bit/s"),
+often in conjunction with an SI prefix such as "kilo" (1 kbit/s = 1,000 bit/s),
+"mega" (1 Mbit/s = 1,000 kbit/s), "giga" (1 Gbit/s = 1,000 Mbit/s) or "tera"
+(1 Tbit/s = 1000 Gbit/s).  The non-standard abbreviation "bps" is often used to
+replace the standard symbol "bit/s", so that, for example, "1 Mbps" is used to
+mean one million bits per second.
+
+Ref:  https://en.wikipedia.org/wiki/Bit_rate
 ''' ),
 
     'byte/second' :
         RPNUnitInfo( 'data_rate', 'bytes/second', 'Bps', [ ], [ 'computing' ],
                      '''
+In telecommunications and computing, bit rate (bitrate or as a variable R) is
+the number of bits that are conveyed or processed per unit of time.
+
+Sometimes data rates are measured in bytes/second, which has a similar
+abbreviation conversion with bits/second (i.e. bps), but capital 'B' is used to
+distinguish bytes/second with bits/second, so that byte rates are abbreviated as
+Bps, kBps, MBps, GBps, etc.
+
+Ref:  https://en.wikipedia.org/wiki/Bit_rate
+
 ''' ),
 
     'oc1' :
         RPNUnitInfo( 'data_rate', 'x_oc1', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc1 represents a data rate of 51.84 Mbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc3' :
         RPNUnitInfo( 'data_rate', 'x_oc3', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc3 represents a data rate of 155.52 Mbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc12' :
         RPNUnitInfo( 'data_rate', 'x_oc12', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc12 represents a data rate of 622.08 Mbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc24' :
         RPNUnitInfo( 'data_rate', 'x_oc24', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc24 represents a data rate of 1244.16 Mbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc48' :
         RPNUnitInfo( 'data_rate', 'x_oc24', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc48 represents a data rate of 2488.32 Mbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc192' :
         RPNUnitInfo( 'data_rate', 'x_oc192', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc192 represents a data rate of 9.95328 Gbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'oc768' :
         RPNUnitInfo( 'data_rate', 'x_oc768', '', [ ], [ 'computing' ],
                      '''
+Optical Carrier transmission rates are a standardized set of specifications of
+transmission bandwidth for digital signals that can be carried on Synchronous
+Optical Networking (SONET) fiber optic networks.  Transmission rates are
+defined by rate of the bitstream of the digital signal and are designated by
+hyphenation of the acronym OC and an integer value of the multiple of the basic
+unit of rate, e.g., OC-48.  The base unit is 51.84 Mbit/s.  Thus, the speed of
+optical-carrier-classified lines labeled as OC-n is n x 51.84 Mbit/s.
+
+oc768 represents a data rate of 39.81312 Gbps.
+
+https://en.wikipedia.org/wiki/Optical_Carrier_transmission_rates
 ''' ),
 
     'usb1' :
         RPNUnitInfo( 'data_rate', 'x_usb1', '', [ ], [ 'computing' ],
                      '''
+Released in January 1996, USB 1.0 specified data rates of 1.5 Mbit/s (Low
+Bandwidth or Low Speed) and 12 Mbit/s (Full Speed).
+
+usb1 represents the full speed data rate of 12 Mbps.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB_1.x
 ''' ),
 
     'usb2' :
         RPNUnitInfo( 'data_rate', 'x_usb2', '', [ ], [ 'computing' ],
                      '''
+USB 2.0 was released in April 2000, adding a higher maximum signaling rate of
+480 Mbit/s (60 MB/s) named High Speed or High Bandwidth, in addition to the USB
+1.x Full Speed signaling rate of 12 Mbit/s.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB_2.0
 ''' ),
 
-    'usb3.0' :
-        RPNUnitInfo( 'data_rate', 'x_usb3.0', '', [ ], [ 'computing' ],
+    'usb3' :
+        RPNUnitInfo( 'data_rate', 'x_usb3', '', [ 'usb3.0', 'x_usb3.0' ], [ 'computing' ],
                      '''
+The USB 3.0 specification was released on 12 November 2008, with its management
+transferring from USB 3.0 Promoter Group to the USB Implementers Forum
+(USB-IF), and announced on 17 November 2008 at the SuperSpeed USB Developers
+Conference.
+
+USB 3.0 adds a SuperSpeed transfer mode, with associated backward compatible
+plugs, receptacles, and cables.  SuperSpeed plugs and receptacles are
+identified with a distinct logo and blue inserts in standard format
+receptacles.
+
+The SuperSpeed bus provides for a transfer mode at a nominal rate of 5.0
+Gbit/s, in addition to the three existing transfer modes.  Its efficiency is
+dependent on a number of factors including physical symbol encoding and link
+level overhead.  At a 5 Gbit/s signaling rate with 8b/10b encoding, each byte
+needs 10 bits to be transmitted, so the raw throughput is 500 MB/s.  When flow
+control, packet framing and protocol overhead are considered, it is realistic
+for 400 MB/s (3.2 Gbit/s) or more to be delivered to an application.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB_3.x
+
 ''' ),
 
     'usb3.1' :
         RPNUnitInfo( 'data_rate', 'x_usb3.1', '', [ ], [ 'computing' ],
                      '''
+USB 3.1, released in July 2013 has two variants.  The first one preserves USB
+3.0's SuperSpeed transfer mode and is labeled USB 3.1 Gen 1, and the second
+version introduces a new SuperSpeed+ transfer mode under the label of USB 3.1
+Gen 2.  SuperSpeed+ doubles the maximum data signaling rate to 10 Gbit/s, while
+reducing line encoding overhead to just 3% by changing the encoding scheme to
+128b/132b.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB_3.x
+''' ),
+
+    'usb3.2' :
+        RPNUnitInfo( 'data_rate', 'x_usb3.2', '', [ ], [ 'computing' ],
+                     '''
+USB 3.2, released in September 2017, preserves existing USB 3.1 SuperSpeed and
+SuperSpeed+ data modes but introduces two new SuperSpeed+ transfer modes over
+the USB-C connector with data rates of 10 and 20 Gbit/s (1.25 and 2.5 GB/s).
+The increase in bandwidth is a result of multi-lane operation over existing
+wires that were intended for flip-flop capabilities of the USB-C connector.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB_3.x
+''' ),
+
+    'usb4' :
+        RPNUnitInfo( 'data_rate', 'x_usb4', '', [ ], [ 'computing' ],
+                     '''
+The impending release of USB4 specification was announced by USB Promoter Group
+in March 2019.  The USB4 architecture is based on the Thunderbolt 3 protocol
+specification.  It supports 40 Gbit/s throughput, is compatible with
+Thunderbolt 3, and backwards compatible with USB 3.2 and USB 2.0.  The
+architecture defines a method to share a single high-speed link with multiple
+end device types dynamically that best serves the transfer of data by type and
+application.
+
+Ref:  https://en.wikipedia.org/wiki/USB#USB4
 ''' ),
 
     # density
     'kilogram/meter^3' :
         RPNUnitInfo( 'density', 'kilogram/meter^3', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of density (i.e., mass per volume).
 ''' ),
 
     # dynamic_viscosity
     'kilogram/meter*second' :
         RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of dynamic viscosity.
 ''' ),
 
     'poise' :
@@ -1131,17 +1375,31 @@ point contact, and, more generally, is a key component of Landauer formula
 which relates the electrical conductance of a quantum conductor to its quantum
 properties.  It is twice the reciprocal of the von Klitzing constant (2/RK).
 
-https://en.wikipedia.org/wiki/Conductance_quantum
+Ref:  https://en.wikipedia.org/wiki/Conductance_quantum
 ''' ),
 
     'ampere^2*second^3/kilogram*meter^2' :
         RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit siemens (S), and is the SI unit
+representation of capacitance.
 ''' ),
 
     'siemens' :
         RPNUnitInfo( 'electrical_conductance', 'siemens', 'S', [ 'mho', 'mhos' ], [ 'SI' ],
                      '''
+The siemens (symbol: S) is the derived unit of electric conductance, electric
+susceptance, and electric admittance in the International System of Units (SI).
+Conductance, susceptance, and admittance are the reciprocals of resistance,
+reactance, and impedance respectively; hence one siemens is redundantly equal
+to the reciprocal of one ohm, and is also referred to as the mho.  The 14th
+General Conference on Weights and Measures approved the addition of the siemens
+as a derived unit in 1971.
+
+The unit is named after Ernst Werner von Siemens.  In English, the same form
+siemens is used both for the singular and plural.
+
+Ref:  https://en.wikipedia.org/wiki/Siemens_(unit)
 ''' ),
 
     'statmho' :
@@ -1168,11 +1426,26 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     'kilogram*meter^2/ampere*second^3' :
         RPNUnitInfo( 'electric_potential', 'kilogram*meter^2/ampere*second^3', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit volt (V), and is the SI unit
+representation of electric potential.
 ''' ),
 
     'volt' :
         RPNUnitInfo( 'electric_potential', 'volts', 'V', [ ], [ 'SI' ],
                      '''
+The volt (symbol: V) is the derived unit for electric potential, electric
+potential difference (voltage), and electromotive force.  It is named after
+the Italian physicist Alessandro Volta (1745-1827).
+
+One volt is defined as the difference in electric potential between two points
+of a conducting wire when an electric current of one ampere dissipates one watt
+of power between those points.  It is also equal to the potential difference
+between two parallel, infinite planes spaced 1 meter apart that create an
+electric field of 1 newton per coulomb.  Additionally, it is the potential
+difference between two points that will impart one joule of energy per coulomb
+of charge that passes through it.
+
+Ref:  https://en.wikipedia.org/wiki/Volt
 ''' ),
 
     'statvolt' :
@@ -1184,6 +1457,8 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     '1/siemens' :
         RPNUnitInfo( 'electrical_resistance', '1/siemens', '', [ ], [ 'SI' ],
                      '''
+This unit is necessary to relate siements and ohm as units that are reciprocal
+to each other.
 ''' ),
 
     'abohm' :
@@ -1205,6 +1480,8 @@ https://en.wikipedia.org/wiki/Conductance_quantum
         RPNUnitInfo( 'electrical_resistance', 'kilogram*meter^2/ampere^2*second^3', '',
                      [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit ohm, and is the SI unit
+representation of electrical resistance.
 ''' ),
 
     'matthiessen' :
@@ -1216,6 +1493,16 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     'ohm' :
         RPNUnitInfo( 'electrical_resistance', 'ohms', 'O', [ ], [ 'SI' ],
                      '''
+The ohm is the SI derived unit of electrical resistance, named after German
+physicist Georg Simon Ohm.  Although several empirically derived standard units
+for expressing electrical resistance were developed in connection with early
+telegraphy practice, the British Association for the Advancement of Science
+proposed a unit derived from existing units of mass, length and time and of a
+convenient size for practical work as early as 1861.  The definition of the ohm
+was revised several times.  Today, the definition of the ohm is expressed from
+the quantum Hall effect.
+
+Ref:  https://en.wikipedia.org/wiki/Ohm
 ''' ),
 
     'statohm' :
@@ -1243,6 +1530,17 @@ https://en.wikipedia.org/wiki/Conductance_quantum
     'electron-volt' :
         RPNUnitInfo( 'energy', 'electron-volts', 'eV', [ 'electronvolt', 'electronvolts' ], [ 'science' ],
                      '''
+In physics, the electronvolt (symbol eV, also written electron-volt and
+electron volt) is a unit of energy equal to exactly 1.602176634 x 10^-19 joules
+(symbol J) in SI units.
+
+Historically, the electronvolt was devised as a standard unit of measure
+through its usefulness in electrostatic particle accelerator sciences, because
+a particle with electric charge q has an energy E = qV after passing through
+the potential V; if q is quoted in integer units of the elementary charge and
+the potential in volts, one gets an energy in eV.
+
+Ref:  https://en.wikipedia.org/wiki/Electronvolt
 ''' ),
 
     'erg' :
@@ -1274,6 +1572,15 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
     'joule' :
         RPNUnitInfo( 'energy', 'joules', 'J', [ ], [ 'SI' ],
                      '''
+The joule (symbol: J) is a derived unit of energy in the International System
+of Units.  It is equal to the energy transferred to (or work done on) an object
+when a force of one newton acts on that object in the direction of the force's
+motion through a distance of one metre (1 newton metre).  It is also the energy
+dissipated as heat when an electric current of one ampere passes through a
+resistance of one ohm for one second.  It is named after the English physicist
+James Prescott Joule (1818-1889).
+
+Ref:  https://en.wikipedia.org/wiki/Joule
 ''' ),
 
     'kayser' :
@@ -1289,6 +1596,8 @@ Ref:  https://www.ibiblio.org/units/dictK.html
     'kilogram*meter^2/second^2' :
         RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit joule (J), and is the SI unit
+representation of energy.
 ''' ),
 
     'pound_of_tnt' :
@@ -1373,7 +1682,8 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Tons_of
     'kilogram*meter/second^2' :
         RPNUnitInfo( 'force', 'kilogram*meter/second^2', '', [ ], [ 'SI' ],
                      '''
-This is the definition of the SI derived unit Newton (N).
+This is the definition of the SI derived unit newton (N), and is the SI unit
+representation of force.
 ''' ),
 
     'newton' :
@@ -1405,11 +1715,19 @@ This is the definition of the SI derived unit Newton (N).
     '1/second' :
         RPNUnitInfo( 'frequency', '1/second', '', [ ], [ 'traditional' ],
                      '''
+This unit is necessary to relate seconds and hertz as units that are reciprocal
+to each other.
 ''' ),
 
     'hertz' :
         RPNUnitInfo( 'frequency', 'hertz', 'Hz', [ 'cycle', 'cycles', 'every_second' ], [ 'SI' ],
                      '''
+The hertz (symbol: Hz) is the derived unit of frequency in the International
+System of Units (SI) and is defined as one cycle per second.  It is named after
+Heinrich Rudolf Hertz, the first person to provide conclusive proof of the
+existence of electromagnetic waves.
+
+Ref:  https://en.wikipedia.org/wiki/Hertz
 ''' ),
 
     'becquerel' :
@@ -1431,6 +1749,8 @@ This is the definition of the SI derived unit Newton (N).
     'candela*radian^2/meter^2' :
         RPNUnitInfo( 'illuminance', 'candela*radian^2/meter^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit candela (cd), and is the SI unit
+representation of luminous flux.
 ''' ),
 
     'flame' :
@@ -1446,11 +1766,22 @@ This is the definition of the SI derived unit Newton (N).
     'lux' :
         RPNUnitInfo( 'illuminance', 'lux', 'lx', [ ], [ 'SI' ],
                      '''
+The lux (symbol: lx) is the SI derived unit of illuminance and luminous
+emittance, measuring luminous flux per unit area.  It is equal to one lumen per
+square metre.  In photometry, this is used as a measure of the intensity, as
+perceived by the human eye, of light that hits or passes through a surface.  It
+is analogous to the radiometric unit watt per square metre, but with the power
+at each wavelength weighted according to the luminosity function, a
+standardized model of human visual brightness perception.  In English, "lux"
+is used as both the singular and plural form.
+
+Ref:  https://en.wikipedia.org/wiki/Lux
 ''' ),
 
     'lumen/meter^2' :
         RPNUnitInfo( 'illuminance', 'lumen/meter^2', '', [ ], [ 'SI' ],
                      '''
+This copnversion unit relates lumens to lux.
 ''' ),
 
     'nox' :
@@ -1472,11 +1803,21 @@ This is the definition of the SI derived unit Newton (N).
     'henry' :
         RPNUnitInfo( 'inductance', 'henries', 'H', [ ], [ 'SI' ],
                      '''
+The henry (symbol: H) is the SI derived unit of electrical inductance.  If a
+current of 1 ampere flowing through the coil produces flux linkage of 1 weber
+turn, the coil has a self inductance of 1 henry.  The unit is named after
+Joseph Henry (1797-1878), the American scientist who discovered electromagnetic
+induction independently of and at about the same time as Michael Faraday
+(1791-1867) in England.
+
+Ref:  https://en.wikipedia.org/wiki/Henry_(unit)
 ''' ),
 
     'kilogram*meter^2/ampere^2*second^2' :
         RPNUnitInfo( 'inductance', 'kilogram*meter^2/ampere^2*second^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit henry (H), and is the SI unit
+representation of inductance.
 ''' ),
 
     'stathenry' :
@@ -1535,6 +1876,8 @@ Ref:  https://en.wikipedia.org/wiki/Hartley_(unit)
     'joule/kelvin' :
         RPNUnitInfo( 'information_entropy', 'joule/kelvin', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit farad (F), and is the SI unit
+representation of capacitance.
 ''' ),
 
     'kilogram*meter^2/kelvin*second^2' :
@@ -1615,6 +1958,8 @@ by Knuth.
     'meter/second^3' :
         RPNUnitInfo( 'jerk', 'meter/second^3', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of jerk, which is itself a representation of
+the change of acceleration over time.
 ''' ),
 
     'stapp' :
@@ -1633,6 +1978,8 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'meter/second^4' :
         RPNUnitInfo( 'jounce', 'meter/second^4', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of jerk, which is itself a representation of
+jerk over time, where jerk is the change of acceleration over time.
 ''' ),
 
     # length
@@ -1728,6 +2075,17 @@ Ref:  https://en.wikipedia.org/wiki/Chain_(unit)
         RPNUnitInfo( 'length', 'farshimmelt_potrzebies', 'fpz',
                      [ 'far-potrzebie', 'far-potrzebies' ], [ 'Potrzebie', 'humorous' ],
                      '''
+The "farshimmelt" prefix is based on the Yiddish word "farshimmelt", meaning a
+confused state of mind, disorientation, or feeblemindedness, and which is in
+turn related to the German word "verschimmelt", meaning moldy, antiquated or
+obsolete.
+
+In the Potrzebie system, farshimmelt represents a factor of a millionth, so a
+farshimmelt potrzebie is equal to one millionth of a potrzebie, or what might be
+called a micropotrzebie.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'fathom' :
@@ -1796,6 +2154,19 @@ Ref:  https://en.wikipedia.org/wiki/Furlong
         RPNUnitInfo( 'length', 'furshlugginer_potrzebies', 'Fpz',
                      [ 'fur-potrzebie', 'fur-potrzebies', 'Fur-potrzebie', 'Fur-potrzebies' ], [ 'Potrzebie', 'humorous' ],
                      '''
+From the Yiddish; one of several words Anglicized and popularized by the
+original writers of MAD Magazine.  The word comes from shlogn ("to hit") with
+the prefix far- which often indicates the one so described is taking on the
+quality named.  Thus, in Yiddish it means something that is old, battered, or
+junky.
+
+In the Potrzebie system, furshlugginer represents a factor of million, so a
+furshlugginer potrzebie is equal to one million potrzebies, or what might be
+called a megapotrzebie.
+
+Ref:  https://en.wiktionary.org/wiki/furshlugginer
+      https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'fut' :
@@ -1822,11 +2193,6 @@ countries, including Australia, Canada, the United Kingdom, Ireland and the
 United States
                      .
 Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Hand
-''' ),
-
-    'handbreadth' :
-        RPNUnitInfo( 'length', 'handbreadths', '', [ 'handsbreadth' ], [ 'obsolete' ],
-                     '''
 ''' ),
 
     'hubble' :
@@ -2026,6 +2392,22 @@ knot, one nautical mile per hour.
 Ref:  https://en.wikipedia.org/wiki/Nautical_mile
 ''' ),
 
+    'palm' :
+        RPNUnitInfo( 'length', 'palms', '', [ 'handbreadth', 'handbreadths', 'handsbreadth' ], [ 'obsolete' ],
+                     '''
+The palm is an obsolete anthropic unit of length, originally based on the width
+of the human palm and then variously standardized.  The same name is also used
+for a second, rather larger unit based on the length of the human hand.
+
+The Ancient Egyptian palm (Ancient Egyptian: shesep) has been reconstructed as
+about 75 mm or 3 inches.  The unit is attested as early as the reign of Djer,
+third pharaoh of the First Dynasty, and appears on many surviving cubit-rods.
+
+rpnChilada uses the definition of 3 inches.
+
+Ref:  https://en.wikipedia.org/wiki/Palm_(unit)
+''' ),
+
     'parsec' :
         RPNUnitInfo( 'length', 'parsecs', 'pc', [ ], [ 'science' ],
                      '''
@@ -2119,8 +2501,8 @@ is taken for the value of that wavelength, would equal 2.263347539605392 mm.
 The Potrzebie units are included in rpnChilada as a tribute to Knuth, and
 because it is a very silly system that amuses the author.
 
-Ref:  https://en.wikipedia.org/wiki/Potrzebie
-Ref:  https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'sazhen' :
@@ -2202,6 +2584,14 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'yard' :
         RPNUnitInfo( 'length', 'yards', 'yd', [ ], [ 'U.S.' ],
                      '''
+The yard (abbreviation: yd) is an English unit of length, in both the British
+imperial and US customary systems of measurement, that comprises 3 feet or 36
+inches.
+
+Since 1959 it is by international agreement standardized as exactly 0.9144
+meters.
+
+Ref:  https://en.wikipedia.org/wiki/Yard
 ''' ),
 
     # luminance
@@ -2250,11 +2640,23 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'lumen' :
         RPNUnitInfo( 'luminous_flux', 'lumens', 'lm', [ ], [ 'SI' ],
                      '''
+The lumen (symbol: lm) is the SI derived unit of luminous flux, a measure of
+the total quantity of visible light emitted by a source per unit of time.
+Luminous flux differs from power (radiant flux) in that radiant flux includes
+all electromagnetic waves emitted, while luminous flux is weighted according
+to a model (a "luminosity function") of the human eye's sensitivity to various
+wavelengths.  Lumens are related to lux in that one lux is one lumen per square
+meter.
+
+Ref:  https://en.wikipedia.org/wiki/Lumen_(unit)
 ''' ),
 
     'candela*radian^2' :
         RPNUnitInfo( 'luminous_flux', 'candela*radian^2', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of luminous flux, which is equivalent to
+candela x radian^2 (or steradian) / meter^2.
+
 ''' ),
 
     # luminous_intensity
@@ -2262,6 +2664,20 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
         RPNUnitInfo( 'luminous_intensity', 'candelas', 'cd',
                      [ 'candle', 'candles', 'bougie', 'bougies' ], [ 'SI' ],
                      '''
+The candela (symbol: cd) is the base unit of luminous intensity in the
+International System of Units (SI); that is, luminous power per unit solid
+angle emitted by a point light source in a particular direction.  Luminous
+intensity is analogous to radiant intensity, but instead of simply adding up
+the contributions of every wavelength of light in the source's spectrum, the
+contribution of each wavelength is weighted by the standard luminosity
+function (a model of the sensitivity of the human eye to different
+wavelengths).  A common wax candle emits light with a luminous intensity of
+roughly one candela.
+
+The word candela is Latin for candle.  The old name "candle" is still sometimes
+used, as in foot-candle and the modern definition of candlepower.
+
+Ref:  https://en.wikipedia.org/wiki/Candela
 ''' ),
 
     'hefnerkerze' :
@@ -2284,8 +2700,9 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'kilogram*meter^2/ampere*second^2' :
         RPNUnitInfo( 'magnetic_flux', 'kilogram*meter^2/ampere*second^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit weber (Wb), and is the SI unit
+representation of magnetic flux.
 ''' ),
-
 
     'maxwell' :
         RPNUnitInfo( 'magnetic_flux', 'maxwells', 'Mx', [ 'line', 'lines' ], [ 'CGS' ],
@@ -2300,6 +2717,18 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'weber' :
         RPNUnitInfo( 'magnetic_flux', 'webers', 'Wb', [ 'promaxwell', 'promaxwells' ], [ 'SI' ],
                      '''
+In physics, the weber (symbol: Wb) is the SI derived unit of magnetic flux.  A
+flux density of one Wb/m2 (one weber per square metre) is one tesla.
+
+The weber is named after the German physicist Wilhelm Eduard Weber (1804-1891).
+
+The weber may be defined in terms of Faraday's law, which relates a changing
+magnetic flux through a loop to the electric field around the loop.  A change
+in flux of one weber per second will induce an electromotive force of one volt
+(produce an electric potential difference of one volt across two open-circuited
+terminals).
+
+Ref:  https://en.wikipedia.org/wiki/Weber_(unit)
 ''' ),
 
     # magnetic_flux_density
@@ -2311,11 +2740,22 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'kilogram/ampere*second^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit tesla (T), and is the SI unit
+representation of magnetic flux density.
 ''' ),
 
     'tesla' :
         RPNUnitInfo( 'magnetic_flux_density', 'teslas', 'T', [ ], [ 'SI' ],
                      '''
+The tesla (symbol: T) is a derived unit of the magnetic induction (also,
+magnetic flux density) in the International System of Units.
+
+One tesla is equal to one weber per square metre.  The unit was announced
+during the General Conference on Weights and Measures in 1960 and is named in
+honour of Nikola Tesla, upon the proposal of the Slovenian electrical engineer
+France Avcin.
+
+Ref:  https://en.wikipedia.org/wiki/Tesla_(unit)
 ''' ),
 
     # mass
@@ -2338,6 +2778,26 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
         RPNUnitInfo( 'mass', 'x chandrasekhar_limit', '',
                      [ 'chandrasekhar', 'chandrasekhars' ], [ 'science' ],
                      '''
+The Chandrasekhar limit is the maximum mass of a stable white dwarf star.  The
+currently accepted value of the Chandrasekhar limit is about 1.4 times the mass
+of Earth (2.765 x 10^30 kg).
+
+White dwarfs resist gravitational collapse primarily through electron
+degeneracy pressure (compare main sequence stars, which resist collapse through
+thermal pressure).  The Chandrasekhar limit is the mass above which electron
+degeneracy pressure in the star's core is insufficient to balance the star's own
+gravitational self-attraction.  Consequently, a white dwarf with a mass greater
+than the limit is subject to further gravitational collapse, evolving into a
+different type of stellar remnant, such as a neutron star or black hole.  Those
+with masses under the limit remain stable as white dwarfs.
+
+The limit was named after Subrahmanyan Chandrasekhar, an Indian astrophysicist
+who improved upon the accuracy of the calculation in 1930, at the age of 20, in
+India by calculating the limit for a polytrope model of a star in hydrostatic
+equilibrium, and comparing his limit to the earlier limit found by E. C. Stoner
+for a uniform density star.
+
+https://en.wikipedia.org/wiki/Chandrasekhar_limit
 ''' ),
 
     'dalton' :
@@ -2376,6 +2836,17 @@ Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
         RPNUnitInfo( 'mass', 'farshimmelt_blintzes', 'fb',
                      [ 'far-blintz', 'far-blintzes' ], [ 'Potrzebie', 'humorous' ],
                      '''
+The "farshimmelt" prefix is based on the Yiddish word "farshimmelt", meaning a
+confused state of mind, disorientation, or feeblemindedness, and which is in
+turn related to the German word "verschimmelt", meaning moldy, antiquated or
+obsolete.
+
+In the Potrzebie system, farshimmelt represents a factor of a millionth, so a
+farshimmelt blintz is equal to one millionth of a blintz, or what might be
+called a microblintz.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'funt' :
@@ -2387,6 +2858,19 @@ Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
         RPNUnitInfo( 'mass', 'furshlugginer_blintzes', 'Fb',
                      [ 'fur-blintz', 'fur-blintzes', 'Fur-blintz', 'Fur-blintzes' ], [ 'Potrzebie', 'humorous' ],
                      '''
+From the Yiddish; one of several words Anglicized and popularized by the
+original writers of MAD Magazine.  The word comes from shlogn ("to hit") with
+the prefix far- which often indicates the one so described is taking on the
+quality named.  Thus, in Yiddish it means something that is old, battered, or
+junky.
+
+In the Potrzebie system, furshlugginer represents a factor of million, so a
+furshlugginer blintz is equal to one million blintzes, or what might be
+called a megablintz.
+
+Ref:  https://en.wiktionary.org/wiki/furshlugginer
+      https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'grain' :
@@ -2397,6 +2881,16 @@ Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
     'gram' :
         RPNUnitInfo( 'mass', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ],
                      '''
+The gram (alternative spelling: gramme; SI unit symbol: g; Latin: gramma, from
+Greek gramma) is a metric system unit of mass.
+
+Originally defined as "the absolute weight of a volume of pure water equal to
+the cube of the hundredth part of a metre [1 cm^3], and at the temperature of
+melting ice" (later at 4 degrees C, the temperature of maximum density of
+water).  However, in a reversal of reference and defined units, a gram is now
+defined as one thousandth of the SI base unit, the kilogram, or 1 x 10^-3 kg.
+
+Ref:  https://en.wikipedia.org/wiki/Gram
 ''' ),
 
 # hyl, metric_slug, technical_mass_unit, technische_masseseinheit, 9.80665 kg
@@ -2454,6 +2948,18 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
     'pound' :
         RPNUnitInfo( 'mass', 'pounds', 'lb', [ ], [ 'U.S.', 'traditional', 'FPS' ],
                      '''
+The pound or pound-mass is a unit of mass used in the imperial, United States
+customary and other systems of measurement.  Various definitions have been
+used; the most common today is the international avoirdupois pound, which is
+legally defined as exactly 0.45359237 kilograms, and which is divided into 16
+avoirdupois ounces.  The international standard symbol for the avoirdupois
+pound is lb;[2] an alternative symbol is lbm (for most pound definitions).
+
+Usage of the unqualified term pound reflects the historical conflation of mass
+and weight.  This accounts for the modern distinguishing terms pound-mass and
+pound-force.
+
+Ref:  https://en.wikipedia.org/wiki/Pound_(mass)
 ''' ),
 
     'quintal' :
@@ -2546,6 +3052,8 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
     'kilogram*meter^2/second^3' :
         RPNUnitInfo( 'power', 'kilogram*meter^2/second^3', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit watt (W), and is the SI unit
+representation of power.
 ''' ),
 
     'pferdestarke' :
@@ -2587,6 +3095,8 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
     'kilogram/meter*second^2' :
         RPNUnitInfo( 'pressure', 'kilogram/meter*second^2', '', [ ], [ 'SI' ],
                      '''
+This is the definition of the SI derived unit pascal (Pa), and is the SI unit
+representation of pressure.
 ''' ),
 
     'pascal' :
@@ -2627,6 +3137,8 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
         RPNUnitInfo( 'radiation_dose', 'meter^2/second^2', '',
                      [ ], [ 'SI' ],   # This doesn't seem to make sense, but joule/kilogram reduces to this!
                      '''
+This is the definition of the SI derived unit gray, and is the SI unit
+representation of radiation dose.
 ''' ),
 
     'rem' :
@@ -2643,6 +3155,7 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
     'coulomb/kilogram' :
         RPNUnitInfo( 'radiation_exposure', 'coulomb/kilogram', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of radiation exposure.
 ''' ),
 
     'rad' :
@@ -2660,6 +3173,7 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
     'kilogram/second^3' :
         RPNUnitInfo( 'radiosity', 'kilogram/second^3', '', [ ], [ 'SI' ],
                      '''
+This is the SI unit representation of radiosity.
 ''' ),
 
     # ratio
@@ -2694,10 +3208,14 @@ steradians or sr), or about 1/3283 sr = 3.0462 x 10e-4 sr (0.30462 msr).
 Ref:  https://en.wikipedia.org/wiki/Square_degree
 ''' ),
 
-    'grad^2' :
-        RPNUnitInfo( 'solid_angle', 'grad^2', '',
-                     [ 'square_grad', 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
+    'gradian^2' :
+        RPNUnitInfo( 'solid_angle', 'gradian^2', '',
+                     [ 'square_grad', 'square_grads', 'sqgrad', 'sqgradian' 'sqgradians', 'square_gon', 'square_gons',
+                       'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'spherical_gon', 'spherical_gons', 'spherical_grad',
+                       'spherical_grads', 'spherical_gradian', 'spherical_gradians' ],
+                     [ 'mathematics' ],
                      '''
+
 ''' ),
 
     'hemisphere' :
@@ -3040,6 +3558,11 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siderea
     'week' :
         RPNUnitInfo( 'time', 'weeks', 'wk', [ 'sennight', 'sennights' ], [ 'traditional' ],
                      '''
+A week is a time unit equal to seven days.  It is the standard time period used
+for cycles of rest days in most parts of the world, mostly alongside - although
+not strictly part of - the Gregorian calendar.
+
+Ref:  https://en.wikipedia.org/wiki/Week
 ''' ),
 
     'wolverton' :
@@ -3056,6 +3579,23 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siderea
         RPNUnitInfo( 'time', 'years', '',
                      [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ], [ 'traditional', 'years' ],
                      '''
+A calendar year is an approximation of the number of days of the Earth's
+orbital period as counted in a given calendar.  The Gregorian calendar, or
+modern calendar, presents its calendar year to be either a common year of 365
+days or a leap year of 366 days, as do the Julian calendars; see below.  For
+the Gregorian calendar, the average length of the calendar year (the mean year)
+across the complete leap cycle of 400 years is 365.2425 days.  The ISO standard
+ISO 80000-3, Annex C, supports the symbol a (for Latin annus) to represent a
+year of either 365 or 366 days.  In English, the abbreviations y and yr are
+commonly used.
+
+In astronomy, the Julian year is a unit of time; it is defined as 365.25 days
+of exactly 86,400 seconds (SI base unit), totalling exactly 31,557,600 seconds
+in the Julian astronomical year.
+
+In rpnChilada, the year unit represents the Julian year.
+
+Ref:  https://en.wikipedia.org/wiki/Year
 ''' ),
 
     # velocity
@@ -3139,12 +3679,26 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
     'bucket' :
         RPNUnitInfo( 'volume', 'buckets', '', [ ], [ 'U.S.' ],
                      '''
+As an obsolete unit of measurement, at least one source documents a bucket as
+being equivalent to 4 imperial gallons.
+
+Ref:  https://en.wikipedia.org/wiki/Bucket
 ''' ),
 
     'bushel' :
         RPNUnitInfo( 'volume', 'bushels', 'bu', [ ], [ 'U.S.', 'dry_measure' ],
+
                      '''
-Ref:  https://en.wikipedia.org/wiki/United_States_customary_units
+A bushel (abbreviation: bsh. or bu.) is an imperial and US customary unit of
+volume based upon an earlier measure of dry capacity.  The old bushel was equal
+to 2 kennings (obsolete), 4 pecks or 8 dry gallons and was used mostly for
+agricultural products such as wheat.  In modern usage, the volume is nominal,
+with bushels denoting a mass defined differently for each commodity.
+
+rpnChilada uses the U.S. definition for a a bushel.
+
+Ref:  https://en.wikipedia.org/wiki/United_States_customary_units,
+      https://en.wikipedia.org/wiki/Bushel
 ''' ),
 
     'butt' :
@@ -3279,6 +3833,17 @@ https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
         RPNUnitInfo( 'volume', 'farshimmelt_ngogns', 'fn',
                      [ 'far-ngogn', 'far-ngogns', 'farshimmelt-ngogn', 'farshimmelt-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
+The "farshimmelt" prefix is based on the Yiddish word "farshimmelt", meaning a
+confused state of mind, disorientation, or feeblemindedness, and which is in
+turn related to the German word "verschimmelt", meaning moldy, antiquated or
+obsolete.
+
+In the Potrzebie system, farshimmelt represents a factor of a millionth, so a
+farshimmelt ngogn is equal to one millionth of a ngogn, or what might be
+called a microngogn.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'fifth' :
@@ -3324,6 +3889,19 @@ https://en.wikipedia.org/wiki/Cubic_foot
         RPNUnitInfo( 'volume', 'furshlugginer_ngogns', 'Fn',
                      [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns', 'furshlugginer-ngogn', 'furshlugginer-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
+From the Yiddish; one of several words Anglicized and popularized by the
+original writers of MAD Magazine.  The word comes from shlogn ("to hit") with
+the prefix far- which often indicates the one so described is taking on the
+quality named.  Thus, in Yiddish it means something that is old, battered, or
+junky.
+
+In the Potrzebie system, furshlugginer represents a factor of million, so a
+furshlugginer ngogn is equal to one million ngogns, or what might be
+called a megangogn.
+
+Ref:  https://en.wiktionary.org/wiki/furshlugginer
+      https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'gallon' :
@@ -3537,6 +4115,8 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
     'meter^3' :
         RPNUnitInfo( 'volume', 'meter^3', '', [ ], [ 'SI' ],
                      '''
+This unit relates the meter to volume, and allows for conversions of the
+multiplication of three length units to volume units.
 ''' ),
 
     'methuselah' :
@@ -4055,9 +4635,7 @@ unitConversionMatrix = {
     ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
     ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ), # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
-    ( 'imperial_square',            'foot^2' )                              : mpmathify( '100' ),
     ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
-    ( 'meter^2',                    'foot^2' )                              : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ),  # (meter/foot)^2
     ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
     ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
@@ -4173,9 +4751,11 @@ unitConversionMatrix = {
     ( 'oc48',                       'oc1' )                                 : mpmathify( '48' ),
     ( 'oc768',                      'oc1' )                                 : mpmathify( '768' ),
     ( 'usb1',                       'bit/second' )                          : mpmathify( '1.2e7' ),
-    ( 'usb2',                       'bit/second' )                          : mpmathify( '2.8e8' ),
-    ( 'usb3.0',                     'bit/second' )                          : mpmathify( '5.0e9' ),
+    ( 'usb2',                       'bit/second' )                          : mpmathify( '4.8e8' ),
+    ( 'usb3',                       'bit/second' )                          : mpmathify( '5.0e9' ),
     ( 'usb3.1',                     'bit/second' )                          : mpmathify( '1.0e10' ),
+    ( 'usb3.2',                     'bit/second' )                          : mpmathify( '2.0e10' ),
+    ( 'usb4',                       'bit/second' )                          : mpmathify( '4.0e10' ),
 
     # density
 
@@ -4213,7 +4793,7 @@ unitConversionMatrix = {
 
     ( 'btu',                        'joule' )                               : mpmathify( '1054.5' ),
     ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
-    ( 'electron-volt',              'joule' )                               : mpmathify( '1.6021766208e-19' ),
+    ( 'electron-volt',              'joule' )                               : mpmathify( '1.602176634e-19' ),
     ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
     ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
     ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
@@ -4307,7 +4887,6 @@ unitConversionMatrix = {
     ( 'fut',                        'foot' )                                : mpmathify( '1' ),
     ( 'greek_cubit',                'inch' )                                : mpmathify( '18.22' ),
     ( 'hand',                       'inch' )                                : mpmathify( '4' ),
-    ( 'handbreadth',                'inch' )                                : mpmathify( '3' ),
     ( 'hubble',                     'light-year' )                          : mpmathify( '1.0e9' ),
     ( 'inch',                       'barleycorn' )                          : mpmathify( '3' ),
     ( 'inch',                       'caliber' )                             : mpmathify( '100' ),
@@ -4336,8 +4915,8 @@ unitConversionMatrix = {
     ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
+    ( 'palm',                       'inch' )                                : mpmathify( '3' ),
     ( 'parsec',                     'meter' )                               : fmul( 149597870700, fdiv( 648000, pi ) ),  # based on AU
-    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
     ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
@@ -4345,6 +4924,7 @@ unitConversionMatrix = {
     ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
+    ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
     ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
@@ -4478,7 +5058,7 @@ unitConversionMatrix = {
     ( 'sphere',                     'hemisphere' )                          : mpmathify( '2' ),
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'steradian',                  'degree^2' )                            : power( fdiv( 180, pi ), 2 ),
-    ( 'steradian',                  'grad^2' )                              : power( fdiv( 200, pi ), 2 ),
+    ( 'steradian',                  'gradian^2' )                           : power( fdiv( 200, pi ), 2 ),
     ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
 
     # temperature
@@ -4531,7 +5111,6 @@ unitConversionMatrix = {
 
     # volume - U.S. measures
 
-    ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
     ( 'cup',                        'gill' )                                : mpmathify( '2' ),
@@ -4601,6 +5180,7 @@ unitConversionMatrix = {
 
     # volume - imperial
 
+    ( 'bucket',                     'imperial_gallon' )                     : mpmathify( '4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
     ( 'imperial_cup',               'imperial_gill' )                       : mpmathify( '2' ),

@@ -1358,6 +1358,10 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
             else:
                 isConstant = False
                 term = RPNUnits.parseUnitString( term )
+                term = RPNMeasurement( 1, term ).simplifyUnits( ).units.normalizeUnits( )
+
+                if term == RPNUnits( ):
+                    term = RPNUnits( '_null_unit' )
 
             if multipliable:
                 # look for unit without a value (in which case we give it a value of 1)
@@ -1481,7 +1485,6 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 return False
 
             # handle a user-defined function
-
             if isinstance( currentValueList[ -1 ], RPNFunction ):
                 # make sure the code has been built so we can determine argCount correctly
                 if not currentValueList[ -1 ].code:
