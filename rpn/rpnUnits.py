@@ -2986,21 +2986,43 @@ Ref:  https://en.wikipedia.org/wiki/Pound_(mass)
     'stone' :
         RPNUnitInfo( 'mass', 'stones', '', [ ], [ 'traditional', 'England' ],
                      '''
+The stone or stone weight is an English and imperial unit of weight now equal
+to 14 pounds.
+
+Ref:  https://en.wikipedia.org/wiki/Stone_(unit)
 ''' ),
 
     'stone_us' :
         RPNUnitInfo( 'mass', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'U.S.' ],
                      '''
+The U.S. version of the stone or stone weight is equivalent to 12.5 pounds.
 ''' ),
 
     'ton' :
         RPNUnitInfo( 'mass', 'tons', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
+The ton is a unit of measure.  It has a long history and has acquired a number
+of meanings and uses over the years.  It is used principally as a unit of mass.
+Its original use as a measurement of volume has continued in the capacity of
+cargo ships and in terms such as the freight ton.  It can also be used as a
+measure of energy, for truck classification, or as a colloquial term.
+
+In the United States and Canada a ton is defined to be 2,000 pounds (907 kg).
+
+Ref:  https://en.wikipedia.org/wiki/Ton
 ''' ),
 
     'tonne' :
-        RPNUnitInfo( 'mass', 'tonnes', '', [ 'metric_ton', 'metric_tons' ], [ 'MTS' ],
+        RPNUnitInfo( 'mass', 'tonnes', 't', [ 'metric_ton', 'metric_tons' ], [ 'MTS' ],
                      '''
+The tonne (non-SI unit, symbol: t), commonly referred to as the metric ton in
+the United States and Canada, is a non-SI metric unit of mass equal to 1,000
+kilograms or one megagram (symbol: Mg).  It is equivalent to approximately
+2,204.6 pounds, 1.102 short tons (US) or 0.984 long tons (UK).  Although not
+part of the SI, the tonne is accepted for use with SI units and prefixes by
+the International Committee for Weights and Measures.
+
+Ref:  https://en.wikipedia.org/wiki/Tonne
 ''' ),
 
     'troy_ounce' :
@@ -3069,6 +3091,24 @@ representation of power.
     'watt' :
         RPNUnitInfo( 'power', 'watts', 'W', [ ], [ 'SI' ],
                      '''
+The watt (symbol: W) is a unit of power.  In the International System of Units
+(SI) it is defined as a derived unit of 1 joule per second, and is used to
+quantify the rate of energy transfer.
+
+When an object's velocity is held constant at one meter per second against a
+constant opposing force of one newton, the rate at which work is done is 1
+watt.
+
+The watt is named after the Scottish inventor James Watt.  This unit was
+proposed initially by C. William Siemens in August 1882 in his President's
+Address to the Fifty-Second Congress of the British Association for the
+Advancement of Science.  Noting that units in the practical system of units
+were named after leading physicists, Siemens proposed that Watt might be an
+appropriate name for a unit of power.  Siemens defined the unit consistently
+within the then-existing system of practical units as "the power conveyed by
+a current of an Ampere through the difference of potential of a Volt."
+
+Ref:  https://en.wikipedia.org/wiki/Watt
 ''' ),
 
     # pressure
@@ -3348,6 +3388,7 @@ Ref:  https://en.wikipedia.org/wiki/Rankine_scale
     'century' :
         RPNUnitInfo( 'time', 'centuries', '', [ ], [ 'traditional', 'years' ],
                      '''
+A century is a period of 100 years.
 ''' ),
 
     'clarke' :
@@ -3368,6 +3409,7 @@ Ref:  https://en.wikipedia.org/wiki/Rankine_scale
     'decade' :
         RPNUnitInfo( 'time', 'decades', '', [ ], [ 'traditional', 'years' ],
                      '''
+A decade is a period of 10 years.
 ''' ),
 
     'eon' :
@@ -3465,6 +3507,16 @@ Ref:  https://en.wikipedia.org/wiki/Minute
     'month' :
         RPNUnitInfo( 'time', 'months', 'mo', [ ], [ 'traditional' ],
                      '''
+A month is a unit of time, used with calendars, which is approximately as long
+as a natural period related to the motion of the Moon; month and Moon are
+cognates.  The traditional concept arose with the cycle of Moon phases; such
+months (lunations) are synodic months and last approximately 29.53 days.  From
+excavated tally sticks, researchers have deduced that people counted days in
+relation to the Moon's phases as early as the Paleolithic age.  Synodic months,
+based on the Moon's orbital period with respect to the Earth-Sun line, are
+still the basis of many calendars today, and are used to divide the year.
+
+rpnChilada uses a value of 30 days for a month.
 ''' ),
 
     'nanocentury' :
@@ -3548,11 +3600,26 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siderea
     'svedberg' :
         RPNUnitInfo( 'time', 'svedbergs', '', [ ], [ ],
                      '''
+A Svedberg unit (symbol S, sometimes Sv) is a non-metric unit for sedimentation
+coefficient.  The Svedberg unit offers a measure of a particle's size based on
+its sedimentation rate, i.e. how fast a particle of given size and shape
+'settles' to the bottom of a solution.  The Svedberg is a measure of time,
+defined as exactly 10^-13 seconds (100 femtoseconds).
+
+Ref:  https://en.wikipedia.org/wiki/Svedberg
 ''' ),
 
     'tropical_month' :
         RPNUnitInfo( 'time', 'tropical_months', '', [ ], [ 'science' ],
                      '''
+It is customary to specify positions of celestial bodies with respect to the
+vernal equinox.  Because of Earth's precession of the equinoxes, this point
+moves back slowly along the ecliptic.  Therefore, it takes the Moon less time
+to return to an ecliptic longitude of 0 degrees than to the same point amid the
+fixed stars: 27.321582 days (27 d 7 h 43 min 4.7 s).  This slightly shorter
+period is known as the tropical month; compare the analogous tropical year.
+
+Ref:  https://en.wikipedia.org/wiki/Lunar_month#Tropical_month
 ''' ),
 
     'week' :
