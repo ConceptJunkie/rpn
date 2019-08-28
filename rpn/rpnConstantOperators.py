@@ -214,6 +214,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
         RPNConstantInfo( '15400', 'joule', [ ], True,
                          'Typical energy charge of a fully-charged alkaline AA battery',
                          '''
+The is the typical energy charge of a fully-charged alkaline AA battery.
 ''' ),
 
     'gallon_of_ethanol' :
@@ -243,6 +244,7 @@ https://en.wikipedia.org/wiki/Gasoline_gallon_equivalent
         RPNConstantInfo( '997.0474', 'kilogram/meter^3', [ 'water' ], True,
                          'Density of pure water at 25 degress Celsius',
                          '''
+The is the density of pure water at 25 degrees Celsius.
 ''' ),
 
     'solar_constant' :
@@ -411,6 +413,8 @@ Ref:  https://en.wikipedia.org/wiki/Watt
         RPNConstantInfo( '1.988500e30', 'kilogram', [ 'solar_mass' ], True,
                          '',
                          '''
+This is the estimated mass of the Sun.
+
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ),
 
@@ -418,12 +422,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
         RPNConstantInfo( '6.9599e8', 'meter', [ 'solar_radius' ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the Sun.
 ''' ),
 
     'sun_volume' :
         RPNConstantInfo( '1.412e27', 'meter^3', [ 'solar_volume' ], True,
                          '',
                          '''
+This is the estimated volume of the Sun.
 ''' ),
 
 
@@ -431,6 +437,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
         RPNConstantInfo( '3.301e26', 'kilogram', [ ], True,
                          'the mass of the planet Mercury',
                          '''
+This is the estimated mass of the planet Mercury.
 ''' ),
 
     # equitorial radius
@@ -438,6 +445,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
         RPNConstantInfo( '2.4397e6', 'meter', [ ], True,
                          'the radius of the planet Mercury',
                          '''
+This is the estimated equitorial radius of the planet Mercury.
 ''' ),
 
     # sidereal orbit period
@@ -445,42 +453,49 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
         RPNConstantInfo( '87.969', 'day', [ 'mercury_year' ], True,
                          'the revolution time of the planet Mercury around the Sun',
                          '''
+This is the observed sidereal orbit period (year) of the planet Mercury.
 ''' ),
 
     'mercury_volume' :
         RPNConstantInfo( '6.083e19', 'meter^3', [ ], True,
                          'the volume of the planet Mercury',
                          '''
+This is the estimated volume of the planet Mercury.
 ''' ),
 
     'venus_mass' :
         RPNConstantInfo( '4.8689952e24', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Venus.
 ''' ),
 
     'venus_radius' :
         RPNConstantInfo( '6.0518e6', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Venus.
 ''' ),
 
     'venus_revolution' :
         RPNConstantInfo( '224.701', 'day', [ 'venus_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Venus.
 ''' ),
 
     'venus_volume' :
         RPNConstantInfo( '9.2843e20', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Venus.
 ''' ),
 
     'earth_density' :
         RPNConstantInfo( '5.514', 'gram/centimeter^3', [ ], True,   # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
                          '',
                          '''
+This is the estimate average density of the planet Earth.
 ''' ),
 
     'earth_gravity' :
@@ -488,30 +503,35 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
                          [ 'earth_gravities', 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], True,
                          '',
                          '''
+This is the average surface gravity of the planet Earth.
 ''' ),
 
     'earth_mass' :
         RPNConstantInfo( '5.9640955e24', 'kilogram', [ ], True,     # based on earth_radius and earth_gravity
                          '',
                          '''
+This is the estimated mass of the planet Earth.
 ''' ),
 
     'earth_radius' :
         RPNConstantInfo( '6371800', 'meter', [ ], True,             # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
                          '',
                          '''
+This is the estimated equitorial radius of the planet Earth.
 ''' ),
 
     'earth_volume' :
         RPNConstantInfo( '1.083207324897e21', 'meter^3', [ ], True, # based on earth_radius
                          '',
                          '''
+This is the estimated volume of the planet Earth.
 ''' ),
 
     'sidereal_year' :
         RPNConstantInfo( '365.256360417', 'day', [ ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Earth.
 ''' ),
 
     'tropical_year' :
@@ -527,12 +547,14 @@ The definition used is the calculation of the mean tropical year on
                          [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ], True,
                          '',
                          '''
+This is the average surface gravity of the Moon.
 ''' ),
 
     'moon_mass' :
         RPNConstantInfo( '7.342e22', 'kilogram', [ 'lunar_mass' ], True,
                          '',
                          '''
+This is the estimated mass of the Moon.
 ''' ),
 
 
@@ -540,144 +562,169 @@ The definition used is the calculation of the mean tropical year on
         RPNConstantInfo( '1.7381e6', 'meter', [ 'lunar_radius' ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the Moon.
 ''' ),
 
     'moon_revolution' :
         RPNConstantInfo( '27.321662', 'day', [ 'sidereal_month', 'lunar_revolution' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period of the Moon around the Earth.
 ''' ),
 
     'moon_volume' :
         RPNConstantInfo( '2.1958e19', 'meter^3', [ 'lunar_volume' ], True,
                          '',
                          '''
+This is the estimated volume of the Moon.
 ''' ),
 
     'mars_mass' :
         RPNConstantInfo( '6.4191269e23', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Mars.
 ''' ),
 
     'mars_radius' :
         RPNConstantInfo( '3.3962e6', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Mars.
 ''' ),
 
     'mars_revolution' :
         RPNConstantInfo( '686.980', 'day', [  'mars_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Mars.
 ''' ),
 
     'mars_volume' :
         RPNConstantInfo( '1.6318e20', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Mars.
 ''' ),
 
     'jupiter_mass' :
         RPNConstantInfo( '1.8983e27', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Jupiter.
 ''' ),
 
     'jupiter_radius' :
         RPNConstantInfo( '7.1492e7', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Jupiter.
 ''' ),
 
     'jupiter_revolution' :
         RPNConstantInfo( '11.862', 'year', [ 'jupiter_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Jupiter.
 ''' ),
 
     'jupiter_volume' :
         RPNConstantInfo( '1.43128e24', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Jupiter.
 ''' ),
 
     'saturn_mass' :
         RPNConstantInfo( '5.6836e26', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Saturn.
 ''' ),
 
     'saturn_radius' :
         RPNConstantInfo( '6.0268e7', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Saturn.
 ''' ),
 
     'saturn_revolution' :
         RPNConstantInfo( '29.457', 'year', [ 'saturn_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Saturn.
 ''' ),
 
     'saturn_volume' :
         RPNConstantInfo( '8.2713e23', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Saturn.
 ''' ),
 
     'uranus_mass' :
         RPNConstantInfo( '8.6816e25', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Uranus.
 ''' ),
 
     'uranus_radius' :
         RPNConstantInfo( '2.5559e7', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Uranus.
 ''' ),
 
     'uranus_revolution' :
         RPNConstantInfo( '84.011', 'year', [ 'uranus_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Uranus.
 ''' ),
 
     'uranus_volume' :
         RPNConstantInfo( '6.833e22', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Uranus.
 ''' ),
 
     'neptune_mass' :
         RPNConstantInfo( '1.0242e26', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Neptune.
 ''' ),
 
     'neptune_radius' :
         RPNConstantInfo( '2.4764e7', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Neptune.
 ''' ),
 
     'neptune_revolution' :
         RPNConstantInfo( '164.79', 'year', [ 'neptune_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Neptune.
 ''' ),
 
     'neptune_volume' :
         RPNConstantInfo( '6.254e22', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Neptune.
 ''' ),
 
     'pluto_mass' :
         RPNConstantInfo( '1.0303e22', 'kilogram', [ ], True,
                          '',
                          '''
+This is the estimated mass of the planet Pluto.
+
 Yes, I still count Pluto as a planet.
 ''' ),
 
@@ -685,6 +732,8 @@ Yes, I still count Pluto as a planet.
         RPNConstantInfo( '1.185e6', 'meter', [ ], True,
                          '',
                          '''
+This is the estimated equitorial radius of the planet Pluto.
+
 Yes, I still count Pluto as a planet.
 ''' ),
 
@@ -692,6 +741,8 @@ Yes, I still count Pluto as a planet.
         RPNConstantInfo( '247.94', 'year', [ 'pluto_year' ], True,
                          '',
                          '''
+This is the observed sidereal orbit period (year) of the planet Pluto.
+
 Yes, I still count Pluto as a planet.
 ''' ),
 
@@ -699,6 +750,8 @@ Yes, I still count Pluto as a planet.
         RPNConstantInfo( '6.97e18', 'meter^3', [ ], True,
                          '',
                          '''
+This is the estimated volume of the planet Pluto.
+
 Yes, I still count Pluto as a planet.
 ''' ),
 
@@ -707,23 +760,21 @@ Yes, I still count Pluto as a planet.
         RPNConstantInfo( '-1', '', [ ], False,
                          '\'default\' simply evaluates to -1',
                          '''
-used with settings operators
-
+This is defined for convenience for used with settings operators.
 ''' ),
 
     'false' :
         RPNConstantInfo( 0, '', [ ], False,
                          '\'false\' simply evaluates to 0',
                          '''
-used with boolean settings operators
-
+This is defined for convenience for used with settings operators.
 ''' ),
 
     'true' :
         RPNConstantInfo( 1, '', [ ], False,
                          '\'true\' simply evaluates to 1',
                          '''
-used with boolean settings operators
+This is defined for convenience for used with settings operators.
 
 rpn (1)>5 12 **
 244140625
@@ -738,43 +789,56 @@ rpn (3)>5 12 **
         RPNConstantInfo( 1, '', [ 'mon' ], False,
                          '',
                          '''
-This is defined for convenience for use with date operators.
+This is defined for convenience for use with date operators and has a value of
+1.
 ''' ),
 
     'tuesday' :
         RPNConstantInfo( 2, '', [ 'tue', 'tues' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+2.
 ''' ),
 
     'wednesday' :
         RPNConstantInfo( 3, '', [ 'wed' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+3.
 ''' ),
 
     'thursday' :
         RPNConstantInfo( 4, '', [ 'thu', 'thur','thurs' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+4.
 ''' ),
 
     'friday' :
         RPNConstantInfo( 5, '', [ 'fri' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+5.
 ''' ),
 
     'saturday' :
         RPNConstantInfo( 6, '', [ 'sat' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+6.
 ''' ),
 
     'sunday' :
         RPNConstantInfo( 7, '', [ ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+7.
 ''' ),
 
     # month constants
@@ -782,72 +846,96 @@ This is defined for convenience for use with date operators.
         RPNConstantInfo( 1, '', [ 'jan' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+1.
 ''' ),
 
     'february' :
         RPNConstantInfo( 2, '', [ 'feb' ],  False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+2.
 ''' ),
 
     'march' :
         RPNConstantInfo( 3, '', [ 'mar' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+3.
 ''' ),
 
     'april' :
         RPNConstantInfo( 4, '', [ 'apr' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+4.
 ''' ),
 
     'may' :
         RPNConstantInfo( 5, '', [ ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+5.
 ''' ),
 
     'june' :
         RPNConstantInfo( 6, '', [ 'jun' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+6.
 ''' ),
 
     'july' :
         RPNConstantInfo( 7, '', [ 'jul' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+7.
 ''' ),
 
     'august' :
         RPNConstantInfo( 8, '', [ 'aug' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+8.
 ''' ),
 
     'september' :
         RPNConstantInfo( 9, '', [ 'sep' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+9.
 ''' ),
 
     'october' :
         RPNConstantInfo( 10, '', [ 'oct' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+10.
 ''' ),
 
     'november' :
         RPNConstantInfo( 11, '', [ 'nov' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+11.
 ''' ),
 
     'december' :
         RPNConstantInfo( 12, '', [ 'dec' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators and has a value of
+12.
 ''' ),
 
     # programming integer constants
