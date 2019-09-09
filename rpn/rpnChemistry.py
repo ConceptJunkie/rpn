@@ -380,6 +380,12 @@ def convertMeasurementToAtomicSymbol( n ):
     if n.units == RPNMeasurement( 1, 'terasecond' ).units:
         return 'Ts'
 
+    if n.units == RPNMeasurement( 1, 'petatonne' ).units:
+        return 'Pt'
+
+    if n.units == RPNMeasurement( 1, 'megatonne' ).units:
+        return 'Mt'
+
     # No matches?  Then let an exception be thrown.
     return n
 
