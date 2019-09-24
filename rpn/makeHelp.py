@@ -7907,7 +7907,7 @@ take advantage of YAFU, please set the following configuration values:
 e.g.:
 
 rpn yafu_binary 'yafu-x64.core2.exe set_config
-rpn yafu_path 'c:\app\yafu set_config
+rpn yafu_path 'c:\\app\\yafu set_config
 ''',
 '''
 ''' + makeCommandExample( '8675309 factor' ) + '''
