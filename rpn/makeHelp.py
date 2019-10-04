@@ -25,6 +25,11 @@ import os
 import sys
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
@@ -51,7 +56,7 @@ maxExampleCount = 1501
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
-startTime = time.time_ns( )
+startTime = time_ns( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
 print( COPYRIGHT_MESSAGE )
@@ -12208,7 +12213,7 @@ def main( ):
     makeHelp( helpTopics )
 
     print( )
-    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 # //******************************************************************************

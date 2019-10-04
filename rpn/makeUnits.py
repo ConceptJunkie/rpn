@@ -24,6 +24,12 @@ import sys
 import textwrap
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
+
 from mpmath import almosteq, mp, fdiv, fmul, fneg
 
 #  This has to go here so the mpf's in the import get created with 52 places of precision.
@@ -653,12 +659,12 @@ def main( ):
 
     validateConversions = args.validate_conversions
 
-    startTime = time.time_ns( )
+    startTime = time_ns( )
 
     initializeConversionMatrix( unitConversionMatrix, validateConversions )
 
     print( )
-    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 # //******************************************************************************

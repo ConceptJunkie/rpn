@@ -20,6 +20,11 @@ import os
 import pickle
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
 import rpn.rpnGlobals as g
 
 from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
@@ -67,7 +72,7 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
-    startTime = time.time_ns( )
+    startTime = time_ns( )
 
     preparePrimeData( "balanced_primes" )
     preparePrimeData( "cousin_primes" )
@@ -90,7 +95,7 @@ def main( ):
     preparePrimeData( "twin_primes" )
 
     print( )
-    print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 

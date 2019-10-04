@@ -16,6 +16,11 @@ import os
 import sys
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
 from collections import OrderedDict
 from pathlib import Path
 
@@ -5434,7 +5439,7 @@ def main( ):
         elif arg != '-s' and arg != '-t':
             args.append( arg )
 
-    startTime = time.time_ns( )
+    startTime = time_ns( )
 
     checkForPrimeData( )
 
@@ -5498,7 +5503,7 @@ def main( ):
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
-    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 # //******************************************************************************

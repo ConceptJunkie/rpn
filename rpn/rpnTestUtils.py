@@ -15,6 +15,11 @@
 import shlex
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
@@ -177,7 +182,7 @@ def expectEqual( command1, command2 ):
             return
 
     if g.timeIndividualTests:
-        startTime = time.time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command1 )
     print( 'rpn', command2 )
@@ -199,7 +204,7 @@ def expectEqual( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( )
 
@@ -244,7 +249,7 @@ def expectEquivalent( command1, command2 ):
             return
 
     if g.timeIndividualTests:
-        startTime = time.time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command1 )
     print( 'rpn', command2 )
@@ -267,7 +272,7 @@ def expectEquivalent( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 
@@ -284,7 +289,7 @@ def testOperator( command, ignoreCache = True ):
             return
 
     if g.timeIndividualTests:
-        startTime = time.time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command )
 
@@ -302,7 +307,7 @@ def testOperator( command, ignoreCache = True ):
     print( '    operator works!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 
@@ -319,7 +324,7 @@ def expectResult( command, expected ):
             return
 
     if g.timeIndividualTests:
-        startTime = time.time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command )
     result = rpn( shlex.split( command + ' -I' ) )[ 0 ]
@@ -345,7 +350,7 @@ def expectResult( command, expected ):
     print( '    test passed!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time.time_ns( ) - startTime ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 

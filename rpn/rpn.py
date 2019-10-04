@@ -27,6 +27,11 @@ import sys
 import signal
 import time
 
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
 from contextlib import contextmanager
 from mpmath import fneg, im, inf, mp, mpc, mpmathify, nan, nstr, re
 from pathlib import Path
@@ -244,7 +249,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( ( time.time_ns( ) - g.startTime ) / 1000000000 ), file=file )
+        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1000000000 ), file=file )
 
 
 # //******************************************************************************
@@ -299,7 +304,7 @@ def enterInteractiveMode( ):
             enterHelpMode( terms[ 1 : ] )
         else:
             if g.timer or g.tempTimerMode:
-                g.startTime = time.time_ns( )
+                g.startTime = time_ns( )
 
             #newTerms = preprocessTerms( terms )
             #print( 'newTerms', newTerms )
@@ -635,7 +640,7 @@ def rpn( cmd_args ):
         print( *sys.argv )
 
     if g.timer:
-        g.startTime = time.time_ns( )
+        g.startTime = time_ns( )
 
     return evaluate( terms )
 
