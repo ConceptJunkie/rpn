@@ -1304,10 +1304,18 @@ def getAliquotSequenceGenerator( n, k ):
 
     a = n
 
+    results = [ a ]
+
     for i in arange( 0, real( k ) - 1 ):
         b = fsub( getSigma( a ), a )
         yield b
+
+        if b in results:
+            break
+
         a = b
+
+        results.append( a )
 
 @twoArgFunctionEvaluator( )
 def getAliquotSequence( n, k ):
@@ -1328,14 +1336,18 @@ def getLimitedAliquotSequenceGenerator( n, k ):
 
     a = n
 
+    results = [ a ]
+
     while log10( a ) <= k and a != 0:
         b = fsub( getSigma( a ), a )
         yield b
 
-        if a == b:    # This will break on perfect numbers, but not amicable loops
+        if b in results:
             break
 
         a = b
+
+        results.append( a )
 
 
 def getLimitedAliquotSequence( n, k ):
