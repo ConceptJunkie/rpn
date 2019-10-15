@@ -1063,6 +1063,9 @@ class hyperop_left( hyperop ):
         return reduce( lambda x, y: self.lower( x, y ), self._repeat( a, b ) )
 
 def calculateNthHyperoperator( a, b, c ):
+    if a == 0:
+        return c + 1
+
     if b == 0:
         if c == 1:
             return 0
@@ -1072,14 +1075,17 @@ def calculateNthHyperoperator( a, b, c ):
     if c == 0:
         return 1
 
-    if b == 1:
+    if a > 1 and b == 1:
         return 1
 
-    if c == 1:
+    if a > 1 and c == 1:
         return b
 
     if b == 2 and c == 2:
-        return 4
+        if a == 0:
+            return 3
+        else:
+            return 4
 
     return hyperop_left( a )( b, c )
 
@@ -1091,6 +1097,9 @@ def calculateNthHyperoperator( a, b, c ):
 # //******************************************************************************
 
 def calculateNthRightHyperoperator( a, b, c ):
+    if a == 0:
+        return c + 1
+
     if b == 0:
         if c == 1:
             return 0
@@ -1100,14 +1109,17 @@ def calculateNthRightHyperoperator( a, b, c ):
     if c == 0:
         return 1
 
-    if b == 1:
+    if a > 1 and b == 1:
         return 1
 
-    if c == 1:
+    if a > 1 and c == 1:
         return b
 
     if b == 2 and c == 2:
-        return 4
+        if a == 0:
+            return 3
+        else:
+            return 4
 
     return hyperop( a )( b, c )
 
