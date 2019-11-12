@@ -885,5 +885,3 @@ def setAccuracyForN( n ):
     if mp.prec < magnitude:
         mp.prec = magnitude
 
-
-

@@ -21,9 +21,7 @@ import os
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
-from rpn.rpnPhysics import calculateDistance
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
@@ -239,6 +237,9 @@ def getTimeZone( location ):
 
 @twoArgFunctionEvaluator( )
 def getDistance( location1, location2 ):
+    from rpn.rpnMeasurement import RPNMeasurement
+    from rpn.rpnPhysics import calculateDistance
+
     # if measurements were passed in, we want the physics version of 'distance'
     if isinstance( location1, RPNMeasurement ) or isinstance( location2, RPNMeasurement ):
         return calculateDistance( location1, location2 )

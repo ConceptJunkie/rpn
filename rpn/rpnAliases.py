@@ -685,6 +685,7 @@ operatorAliases = {
     'poly_9_6'                      : 'nonagonal_hexagonal',
     'poly_9_7'                      : 'nonagonal_heptagonal',
     'poly_9_8'                      : 'nonagonal_octagonal',
+    'poly_mult'                     : 'multiply_polynomials',
     'poly_power'                    : 'polynomial_power',
     'poly_prod'                     : 'polynomial_product',
     'poly_product'                  : 'polynomial_product',

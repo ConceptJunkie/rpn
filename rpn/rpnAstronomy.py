@@ -18,7 +18,8 @@ from mpmath import acos, fabs, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqr
 from pytz import timezone
 
 from rpn.rpnDateTime import RPNDateTime
-from rpn.rpnLocation import getLocation, RPNLocation, getTimeZone
+from rpn.rpnLocation import getLocation, getTimeZone, RPNLocation
+from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
@@ -106,39 +107,99 @@ class RPNAstronomicalObject( object ):
 
         return result
 
-    def getNextRising( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+    def getNextRising( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    def getNextSetting( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
 
-    def getNextTransit( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.next_transit, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
 
-    def getNextAntitransit( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.next_antitransit, horizon, useCenter, matchUSNO )
+    def getNextSetting( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    def getPreviousRising( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.previous_rising, horizon, useCenter, matchUSNO )
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
 
-    def getPreviousSetting( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.previous_setting, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
 
-    def getPreviousTransit( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.previous_transit, horizon, useCenter, matchUSNO )
+    def getNextTransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    def getPreviousAntitransit( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        return self.getAstronomicalEvent( location, date, ephem.Observer.previous_antitransit, horizon, useCenter, matchUSNO )
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
 
-    def getTransitTime( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        result1 = self.getAstronomicalEvent( location, date, ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
-        result2 = self.getAstronomicalEvent( location, result1, ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_transit, horizon, useCenter, matchUSNO )
+
+    def getNextAntitransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_antitransit, horizon, useCenter, matchUSNO )
+
+    def getPreviousRising( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_rising, horizon, useCenter, matchUSNO )
+
+    def getPreviousSetting( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_setting, horizon, useCenter, matchUSNO )
+
+    def getPreviousTransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_transit, horizon, useCenter, matchUSNO )
+
+    def getPreviousAntitransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_antitransit, horizon, useCenter, matchUSNO )
+
+    def getTransitTime( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1, ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
 
         return subtract( result2, result1 )
 
-    def getAntitransitTime( self, location, date, horizon=None, useCenter=False, matchUSNO=False ):
-        result1 = self.getAstronomicalEvent( location, date, ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
-        result2 = self.getAstronomicalEvent( location, result1, ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+    def getAntitransitTime( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
+        validUnitTypes = [ [ 'location', 'datetime' ] ]
+        arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+        if not arguments:
+            raise ValueError( 'unexpected arguments' )
+
+        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1, ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
 
         return subtract( result2, result1 )
 
@@ -290,15 +351,15 @@ def getMoonPhase( n ):
 # //
 # //******************************************************************************
 
-def getSkyLocation( body, location, date ):
+def getSkyLocation( arg1, arg2, arg3 ):
     '''Returns the location of an astronomical object in the sky in terms of azimuth and altitude.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    az, alt = body.getAzimuthAndAltitude( location, date )
+    az, alt = arguments[ 'body' ].getAzimuthAndAltitude( arguments[ 'location' ], arguments[ 'datetime' ] )
 
     return [ az.convert( 'degree' ), alt.convert( 'degree' ) ]
 
@@ -309,15 +370,15 @@ def getSkyLocation( body, location, date ):
 # //
 # //******************************************************************************
 
-def getAngularSize( body, location, date ):
+def getAngularSize( arg1, arg2, arg3 ):
     '''Returns the angular size of an astronomical object in radians.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    return body.getAngularSize( location, date )
+    return arguments[ 'body' ].getAngularSize( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 # //******************************************************************************
@@ -344,16 +405,16 @@ def getAngularSeparation( body1, body2, location, date ):
 # //
 # //******************************************************************************
 
-def getNextRising( body, location, date ):
+def getNextRising( arg1, arg2, arg3 ):
     '''Returns the next rising time for an astronomical object.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getNextRising( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getNextRising( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunrise( n, k ):
@@ -370,17 +431,16 @@ def getNextMoonRise( n, k ):
 # //
 # //******************************************************************************
 
-def getNextSetting( body, location, date ):
+def getNextSetting( arg1, arg2, arg3 ):
     '''Returns the next setting time for an astronomical object.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getNextSetting( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunset( n, k ):
@@ -397,16 +457,15 @@ def getNextMoonSet( n, k ):
 # //
 # //******************************************************************************
 
-def getNextTransit( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getNextTransit( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getNextTransit( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getNextTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getSolarNoon( n, k ):
@@ -423,16 +482,15 @@ def getNextMoonTransit( n, k ):
 # //
 # //******************************************************************************
 
-def getNextAntitransit( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getNextAntitransit( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getNextAntitransit( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getNextAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunAntitransit( n, k ):
@@ -449,15 +507,14 @@ def getNextMoonAntitransit( n, k ):
 # //
 # //******************************************************************************
 
-def getTransitTime( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getTransitTime( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    return body.getTransitTime( location, date )
+    return arguments[ 'body' ].getTransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 @twoArgFunctionEvaluator( )
 def getDayTime( n, k ):
@@ -470,15 +527,14 @@ def getDayTime( n, k ):
 # //
 # //******************************************************************************
 
-def getAntitransitTime( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getAntitransitTime( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    return body.getAntitransitTime( location, date )
+    return arguments[ 'body' ].getAntitransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 @twoArgFunctionEvaluator( )
 def getNightTime( n, k ):
@@ -491,17 +547,16 @@ def getNightTime( n, k ):
 # //
 # //******************************************************************************
 
-def getPreviousRising( body, location, date ):
+def getPreviousRising( arg1, arg2, arg3 ):
     '''Returns the previous rising time for an astronomical object.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getPreviousRising( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
 # //******************************************************************************
@@ -510,17 +565,16 @@ def getPreviousRising( body, location, date ):
 # //
 # //******************************************************************************
 
-def getPreviousSetting( body, location, date ):
+def getPreviousSetting( arg1, arg2, arg3 ):
     '''Returns the previous setting time for an astronomical object.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getPreviousSetting( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
 # //******************************************************************************
@@ -529,16 +583,15 @@ def getPreviousSetting( body, location, date ):
 # //
 # //******************************************************************************
 
-def getPreviousTransit( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getPreviousTransit( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getPreviousTransit( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
 # //******************************************************************************
@@ -547,16 +600,15 @@ def getPreviousTransit( body, location, date ):
 # //
 # //******************************************************************************
 
-def getPreviousAntitransit( body, location, date ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getPreviousAntitransit( arg1, arg2, arg3 ):
+    validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
 
-    if not isinstance( body, RPNAstronomicalObject ) or not isinstance( location, RPNLocation ) or \
-       not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = body.getPreviousAntitransit( location, date )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
 # //******************************************************************************
@@ -569,15 +621,15 @@ def getPreviousAntitransit( body, location, date ):
 # //
 # //******************************************************************************
 
-def getNextDawn( location, date, horizon = -6 ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getNextDawn( arg1, arg2, horizon = -6 ):
+    validUnitTypes = [ [ 'location', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected location and date-time arguments' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( location, date, horizon=horizon )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( arguments[ 'location' ], arguments[ 'datetime' ], horizon=horizon )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextCivilDawn( n, k ):
@@ -602,15 +654,15 @@ def getNextAstronomicalDawn( n, k ):
 # //
 # //******************************************************************************
 
-def getNextDusk( location, date, horizon = -6 ):
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getNextDusk( arg1, arg2, horizon = -6 ):
+    validUnitTypes = [ [ 'location', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected location and date-time arguments' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( location, date, horizon=horizon )
-    return result.getLocalTime( timezone( getTimeZone( location ) ) )
+    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ], horizon=horizon )
+    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextCivilDusk( n, k ):
@@ -632,11 +684,14 @@ def getNextAstronomicalDusk( n, k ):
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getDistanceFromEarth( n, k ):
-    if not isinstance( n, RPNAstronomicalObject ) or not isinstance( k, RPNDateTime ):
-        raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
+def getDistanceFromEarth( arg1, arg2 ):
+    validUnitTypes = [ [ 'body', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    return RPNMeasurement( n.getDistanceFromEarth( k ), 'meters' )
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
+
+    return RPNMeasurement( arguments[ 'body' ].getDistanceFromEarth( arguments[ 'datetime' ] ), 'meters' )
 
 
 # //******************************************************************************
@@ -672,16 +727,16 @@ def getCircleIntersectionTerm( radius1, radius2, separation ):
 # //
 # //******************************************************************************
 
-def getEclipseTotality( body1, body2, location, date ):
+def getEclipseTotality( body1, body2, arg1, arg2 ):
     '''Returns the angular size of an astronomical object in radians.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+    validUnitTypes = [ [ 'location', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
-    if not isinstance( body1, RPNAstronomicalObject ) or not isinstance( body2, RPNAstronomicalObject ) and \
-       not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+    if not isinstance( body1, RPNAstronomicalObject ) or not isinstance( body2, RPNAstronomicalObject ) or \
+       not arguments:
         raise ValueError( 'expected two astronomical objects, a location and a date-time' )
 
-    separation = body1.getAngularSeparation( body2, location, date ).value
+    separation = body1.getAngularSeparation( body2, arguments[ 'location' ], arguments[ 'datetime' ] ).value
 
     radius1 = body1.getAngularSize( ).value
     radius2 = body2.getAngularSize( ).value
@@ -689,8 +744,8 @@ def getEclipseTotality( body1, body2, location, date ):
     if separation > fadd( radius1, radius2 ):
         return 0
 
-    distance1 = body1.getDistanceFromEarth( date )
-    distance2 = body2.getDistanceFromEarth( date )
+    distance1 = body1.getDistanceFromEarth( arguments[ 'datetime' ] )
+    distance2 = body2.getDistanceFromEarth( arguments[ 'datetime' ] )
 
     area1 = fmul( pi, power( radius1, 2 ) )
     area2 = fmul( pi, power( radius2, 2 ) )
@@ -707,7 +762,6 @@ def getEclipseTotality( body1, body2, location, date ):
         return 1
     else:
         return result
-
 
 
 #function [Az El] = RaDec2AzEl(Ra,Dec,lat,lon,time)

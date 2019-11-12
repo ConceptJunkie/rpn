@@ -1256,6 +1256,12 @@ A number of bug fixes and improvements have been made to the prime number
 functions and data.
 
 And the usual bug fixes.
+
+8.3.0
+    The astronomy operators now don't care which order the arguments are in,
+    except for 'angular_separation', which expects the first two arguments to
+    be astronomical bodies.
+
     ''',
     'license' :
     '''

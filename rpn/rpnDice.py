@@ -24,6 +24,57 @@ from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEval
 import rpn.rpnGlobals as g
 
 
+# TODO:  write a function to enumerate the number of outcomes for a dice expression
+#        without actually permuting them.  i.e., rpn <dice_expr> permute_dice occurrences
+#
+#        Is that possible?  It's definitely possible without including x and h.  With them
+#        it becomes a problem that's harder than I can solve, probably.
+#
+# c:\>rpn [ 1 6 dup ] 3 poly_power 3 enumerate -s1
+# [
+#     [ 3, 1 ],
+#     [ 4, 3 ],
+#     [ 5, 6 ],
+#     [ 6, 10 ],
+#     [ 7, 15 ],
+#     [ 8, 21 ],
+#     [ 9, 25 ],
+#     [ 10, 27 ],
+#     [ 11, 27 ],
+#     [ 12, 25 ],
+#     [ 13, 21 ],
+#     [ 14, 15 ],
+#     [ 15, 10 ],
+#     [ 16, 6 ],
+#     [ 17, 3 ],
+#     [ 18, 1 ]
+# ]
+#
+# c:\>rpn 3d6 permute_dice occurrences -s1
+# [
+#     [ 3, 1 ],
+#     [ 4, 3 ],
+#     [ 5, 6 ],
+#     [ 6, 10 ],
+#     [ 7, 15 ],
+#     [ 8, 21 ],
+#     [ 9, 25 ],
+#     [ 10, 27 ],
+#     [ 11, 27 ],
+#     [ 12, 25 ],
+#     [ 13, 21 ],
+#     [ 14, 15 ],
+#     [ 15, 10 ],
+#     [ 16, 6 ],
+#     [ 17, 3 ],
+#     [ 18, 1 ]
+# ]
+#
+# Make a new data type (dict) and then write an operator for summing multiple dicts.  Piece o' cake.
+#
+#
+
+
 # //******************************************************************************
 # //
 # //  rollDice

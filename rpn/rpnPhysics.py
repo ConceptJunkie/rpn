@@ -18,7 +18,8 @@ from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
-from rpn.rpnMeasurement import getWhichUnitType, matchUnitTypes, RPNMeasurement
+from rpn.rpnMatchUnitTypes import getWhichUnitType, matchUnitTypes
+from rpn.rpnMeasurement import RPNMeasurement
 
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 

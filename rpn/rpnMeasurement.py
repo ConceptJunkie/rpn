@@ -1041,65 +1041,6 @@ def applyNumberValueToUnit( number, term, constant ):
 
 # //******************************************************************************
 # //
-# //  getWhichUnitType
-# //
-# //******************************************************************************
-
-def getWhichUnitType( measurement, unitTypes ):
-    for unitType in unitTypes:
-        if measurement.isOfUnitType( unitType ):
-            return unitType
-
-    return None
-
-
-# //******************************************************************************
-# //
-# //  matchUnitTypes
-# //
-# //******************************************************************************
-
-def matchUnitTypes( args, validUnitTypes ):
-    result = { }
-
-    for unitTypeList in validUnitTypes:
-        unitTypes = list( unitTypeList )
-
-        #print( 'unitTypes', unitTypes )
-
-        if len( args ) != len( unitTypes ):
-            raise ValueError( 'argument count mismatch in matchUnitTypes( )' )
-
-        for arg in args:
-            if isinstance( arg, mpf ):
-                if 'constant' in unitTypes:
-                    result[ 'constant' ] = arg
-                    continue
-                else:
-                    result = { }
-                    break
-
-            unitType = getWhichUnitType( arg, unitTypes )
-            #print( 'found unit type', unitType )
-
-            if unitType:
-                #print( 'setting unitType', unitType )
-                result[ unitType ] = arg
-            else:
-                result = { }
-                #print( 'breaking...' )
-                #print( )
-                break
-
-            unitTypes.remove( unitType )
-        else:
-            return result
-
-    return None
-
-
-# //******************************************************************************
-# //
 # //  getDimensions
 # //
 # //******************************************************************************
