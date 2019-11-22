@@ -299,12 +299,12 @@ def convertToUnixTime( n ):
 @oneArgFunctionEvaluator( )
 def convertFromUnixTime( n ):
     try:
-        result = RPNDateTime.parseDateTime( real( n ) )
+        result = RPNDateTime.parseDateTime( real_int( n ) )
     except OverflowError:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
         return nan
     except TypeError:
-        print( 'rpn:  expected time value for \'from_unix_time\'' )
+        print( 'rpn:  expected integer for \'from_unix_time\'' )
         return nan
 
     return result

@@ -2832,6 +2832,11 @@ Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
                      '''
 ''' ),
 
+    'esterling' :
+        RPNUnitInfo( 'mass', 'esterlings', '', [ ], [ 'obsolete' ],
+                     '''
+''' ),
+
     'farshimmelt_blintz' :
         RPNUnitInfo( 'mass', 'farshimmelt_blintzes', 'fb',
                      [ 'far-blintz', 'far-blintzes' ], [ 'Potrzebie', 'humorous' ],
@@ -5057,6 +5062,7 @@ unitConversionMatrix = {
     ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
     ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
+    ( 'ounce',                      'esterling' )                           : mpmathify( '20' ),
     ( 'ounce',                      'gram' )                                : mpmathify( '28.349523125' ),  # exact!
     ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),   # exact!
     ( 'pfund',                      'gram' )                                : mpmathify( '500' ),

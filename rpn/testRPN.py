@@ -1053,7 +1053,7 @@ def runBitwiseOperatorTests( ):
     testOperator( '-x 0x5543 0x7789 bitwise_nor' )
 
     # bitwise_not
-    expectEqual( '1 1000 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 1000 left' )
+    expectEqual( '0 999 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 1000 left' )
 
     if slow:
         expectEqual( '1 16384 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 16384 left' )
@@ -4761,7 +4761,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '367981443 prime' )
     testOperator( '9113486725 prime' )
 
-    expectEqual( '1 15 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 15 left' )
+    expectEqual( '0 14 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 15 left' )
 
     if slow:
         expectEqual( '1 21 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 21 left' )
