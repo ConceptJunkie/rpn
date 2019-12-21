@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpn.py
-# //
-# //  rpnChilada - RPN command-line calculator
-# //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
-# //
-# //  *** NOTE:  Don't run this file directly.  Use ../rpn.py.
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpn.py
+#
+#  rpnChilada - RPN command-line calculator
+#  copyright (c) 2019, Rick Gutleber (rickg@his.com)
+#
+#  *** NOTE:  Don't run this file directly.  Use ../rpn.py.
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 #  https://en.wikipedia.org/wiki/Medieval_weights_and_measures
 
@@ -412,42 +412,37 @@ def rpn( cmd_args ):
                                       formatter_class = argparse.RawTextHelpFormatter,
                                       prefix_chars = '-' )
 
-    parser.add_argument( '-a', '--output_accuracy', nargs = '?', type = int, action = 'store',
-                         default = g.defaultOutputAccuracy, const = g.defaultOutputAccuracy )
-    parser.add_argument( '-b', '--input_radix', type = str, action = 'store',
-                         default = g.defaultInputRadix )
-    parser.add_argument( '-c', '--comma', action = 'store_true' )
-    parser.add_argument( '-d', '--decimal_grouping', nargs = '?', type = int, action = 'store',
-                         default = 0, const = g.defaultDecimalGrouping )
-    parser.add_argument( '-D', '--DEBUG', action = 'store_true' )
-    parser.add_argument( '-e', '--profile', action = 'store_true' )
-    parser.add_argument( '-E', '--echo_command', action = 'store_true' )
-    parser.add_argument( '-g', '--integer_grouping', nargs = '?', type = int, action = 'store',
-                         default = 0, const = g.defaultIntegerGrouping )
-    parser.add_argument( '-h', '--help', action = 'store_true' )
-    parser.add_argument( '-i', '--identify', action = 'store_true' )
-    parser.add_argument( '-I', '--ignore_cache', action = 'store_true' )
-    parser.add_argument( '-l', '--line_length', type = int, action = 'store',
-                         default = g.defaultLineLength )
-    parser.add_argument( '-m', '--maximum_fixed', type = int, action = 'store', default = g.defaultMaximumFixed )
-    parser.add_argument( '-n', '--numerals', type = str, action = 'store', default = g.defaultNumerals )
-    parser.add_argument( '-o', '--octal', action = 'store_true' )
-    parser.add_argument( '-p', '--precision', type = int, action = 'store', default = g.defaultPrecision )
-    parser.add_argument( '-r', '--output_radix', type = str, action = 'store',
-                         default = g.defaultOutputRadix )
-    parser.add_argument( '-s', '--list_format_level', nargs = '?', type = int, action = 'store', default = 0,
-                         const = g.defaultListFormatLevel )
-    parser.add_argument( '-t', '--timer', action = 'store_true' )
-    parser.add_argument( '-T', '--time_limit', nargs = '?', type = int, action = 'store',
-                         default = 0, const = g.timeLimit )
-    parser.add_argument( '-V', '--version', action = 'store_true' )
-    parser.add_argument( '-v', '--verbose', action = 'store_true' )
-    parser.add_argument( '-w', '--bitwise_group_size', type = int, action = 'store',
-                         default = g.defaultBitwiseGroupSize )
-    parser.add_argument( '-x', '--hex', action = 'store_true' )
-    parser.add_argument( '-z', '--leading_zero', action = 'store_true' )
-    parser.add_argument( '-!', '--print_options', action = 'store_true' )
-    parser.add_argument( '-?', '--other_help', action = 'store_true' )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, default=g.defaultOutputAccuracy,
+                         const=g.defaultOutputAccuracy )
+    parser.add_argument( '-b', '--input_radix', type=str, default=g.defaultInputRadix )
+    parser.add_argument( '-c', '--comma', action='store_true' )
+    parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, default=0,
+                         const=g.defaultDecimalGrouping )
+    parser.add_argument( '-D', '--DEBUG', action='store_true' )
+    parser.add_argument( '-e', '--profile', action='store_true' )
+    parser.add_argument( '-E', '--echo_command', action='store_true' )
+    parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, default=0,
+                         const=g.defaultIntegerGrouping )
+    parser.add_argument( '-h', '--help', action='store_true' )
+    parser.add_argument( '-i', '--identify', action='store_true' )
+    parser.add_argument( '-I', '--ignore_cache', action='store_true' )
+    parser.add_argument( '-l', '--line_length', type=int, default=g.defaultLineLength )
+    parser.add_argument( '-m', '--maximum_fixed', type=int, default=g.defaultMaximumFixed )
+    parser.add_argument( '-n', '--numerals', type=str, default=g.defaultNumerals )
+    parser.add_argument( '-o', '--octal', action='store_true' )
+    parser.add_argument( '-p', '--precision', type=int, default=g.defaultPrecision )
+    parser.add_argument( '-r', '--output_radix', type=str, default=g.defaultOutputRadix )
+    parser.add_argument( '-s', '--list_format_level', nargs='?', type=int, default=0,
+                         const=g.defaultListFormatLevel )
+    parser.add_argument( '-t', '--timer', action='store_true' )
+    parser.add_argument( '-T', '--time_limit', nargs='?', type=int, default=0, const=g.timeLimit )
+    parser.add_argument( '-V', '--version', action='store_true' )
+    parser.add_argument( '-v', '--verbose', action='store_true' )
+    parser.add_argument( '-w', '--bitwise_group_size', type = int, default = g.defaultBitwiseGroupSize )
+    parser.add_argument( '-x', '--hex', action='store_true' )
+    parser.add_argument( '-z', '--leading_zero', action='store_true' )
+    parser.add_argument( '-!', '--print_options', action='store_true' )
+    parser.add_argument( '-?', '--other_help', action='store_true' )
 
     # pull out the options and the terms
     options = [ ]

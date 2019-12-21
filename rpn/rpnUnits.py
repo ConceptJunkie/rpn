@@ -157,8 +157,8 @@ is used to distinguish the unit of angle from the unit of time.
         RPNUnitInfo( 'angle', 'centrads', '',
                      [ ], [ 'mathematics', 'science' ],
                      '''
-The centrad is defined to be 1/100th of a radian.  It is a synonym for
-centiradian.
+The centrad is defined to be 1/100th of a radian.  It is a synonym for,
+and contraction of, the name centiradian.
 ''' ),
 
     'circle' :
@@ -386,6 +386,25 @@ base line (east-west).
 Ref:  https://en.wikipedia.org/wiki/Survey_township
 ''' ),
 
+    'hide' :
+        RPNUnitInfo( 'area', 'hides', '', [ ], [ 'imperial' ],
+                     '''
+The hide was an English unit of land measurement originally intended to
+represent the amount of land sufficient to support a household.  It was
+traditionally taken to be 120 acres (49 hectares), but was in fact a measure
+of value and tax assessment, including obligations for food-rent (feorm),
+maintenance and repair of bridges and fortifications, manpower for the army
+(fyrd), and (eventually) the geld land tax.  The hide's method of calculation
+is now obscure:  different properties with the same hidage could vary greatly
+in extent even in the same county.  Following the Norman Conquest of England,
+the hidage assessments were recorded in the Domesday Book and there was a
+tendency for land producing £1 of income per year to be assessed at 1 hide.
+The Norman kings continued to use the unit for their tax assessments until
+the end of the 12th century.
+
+https://en.wikipedia.org/wiki/Hide_(unit)
+''' ),
+
     'meter^2' :
         RPNUnitInfo( 'area', 'meter^2', '', [ ], [ 'SI' ],
                      '''
@@ -441,7 +460,7 @@ Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_
     'rood' :
         RPNUnitInfo( 'area', 'roods', '', [ 'farthingdale' ], [ 'U.K.' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Acre
+A historical British unit of area equal to one quarter of an acre.
 ''' ),
 
     'section' :
@@ -494,12 +513,22 @@ Ref:  https://en.wikipedia.org/wiki/Survey_township
     'virgate' :
         RPNUnitInfo( 'area', 'virgates', '', [ ], [ 'imperial' ],
                      '''
+The virgate, yardland, or yard of land was an English unit of land.  Primarily
+a measure of tax assessment rather than area, the virgate was usually (but not
+always) reckoned as ​1⁄4 hide and notionally (but seldom exactly) equal to 30
+acres.  It was equivalent to two of the Danelaw's oxgangs.
+
+https://en.wikipedia.org/wiki/Virgate
 ''' ),
 
     # capacitance
     'abfarad' :
         RPNUnitInfo( 'capacitance', 'abfarads', 'abF', [ ], [ 'CGS' ],
                      '''
+The abfarad (abbreviated abF) is an obsolete CGS unit of capacitance equal to
+10e9 farads (1 gigafarad, GF).
+
+https://en.wikipedia.org/wiki/Farad#CGS_units
 ''' ),
 
     'ampere^2*second^4/kilogram*meter^2' :
@@ -532,12 +561,23 @@ Ref:  https://en.wikipedia.org/wiki/Farad
     'statfarad' :
         RPNUnitInfo( 'capacitance', 'statfarads', 'statF', [ ], [ 'CGS' ],
                      '''
+The statfarad (abbreviated statF) is a rarely used CGS unit equivalent to the
+capacitance of a capacitor with a charge of 1 statcoulomb across a potential
+difference of 1 statvolt. It is 1/(10e-5*c^2) farad, approximately 1.1126
+picofarads.
+
+https://en.wikipedia.org/wiki/Farad#CGS_units
 ''' ),
 
     # charge
     'abcoulomb' :
         RPNUnitInfo( 'charge', 'abcoulombs', 'abC', [ ], [ 'CGS' ],
                      '''
+The abcoulomb (abC or aC) or electromagnetic unit of charge (emu of charge) is
+the derived physical unit of electric charge in the cgs-emu system of units.
+One abcoulomb is equal to ten coulombs.
+
+https://en.wikipedia.org/wiki/Abcoulomb
 ''' ),
 
     'coulomb' :
@@ -564,19 +604,19 @@ sign of charge, that is, a charge of -1 C.
 Ref:  https://en.wikipedia.org/wiki/Coulomb
 ''' ),
 
-    'franklin' :
-        RPNUnitInfo( 'charge', 'franklins', 'Fr', [ ], [ 'CGS' ],
-                     '''
-''' ),
-
     'faraday' :
         RPNUnitInfo( 'charge', 'faradays', 'Fd', [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
                      '''
 ''' ),
 
     'statcoulomb' :
-        RPNUnitInfo( 'charge', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ],
+        RPNUnitInfo( 'charge', 'statcoulombs', 'statC', [ 'esu_charge', 'franklin' ], [ 'CGS' ],
                      '''
+The statcoulomb (statC) or franklin (Fr) or electrostatic unit of charge (esu)
+is the physical unit for electrical charge used in the esu-cgs
+(centimetre–gram–second system of units) and Gaussian units.
+
+https://en.wikipedia.org/wiki/Statcoulomb
 ''' ),
 
     # catalysis
@@ -1077,8 +1117,15 @@ One centillion:  10e303
     # current
     'abampere' :
         RPNUnitInfo( 'current', 'abamperes', 'abA',
-                     [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ],
+                     [ 'abamp', 'abamps', 'biot', 'biots', 'Bi' ], [ 'CGS' ],
                      '''
+The abampere (abA), also called the biot (Bi) after Jean-Baptiste Biot, is the
+derived electromagnetic unit of electric current in the emu-cgs system of
+units (electromagnetic cgs).  One abampere is equal to ten amperes in the SI
+system of units.  An abampere of current in a circular path of one centimeter
+radius produces a magnetic field of 2 pi oersteds at the center of the circle.
+
+https://en.wikipedia.org/wiki/Abampere
 ''' ),
 
     'ampere' :
@@ -1106,6 +1153,14 @@ Ref:  https://en.wikipedia.org/wiki/Ampere
         RPNUnitInfo( 'current', 'statamperes', 'statA',
                      [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
                      '''
+The unit of current in the CGS-ESU system of measurements.  It is equal to
+1/299,792,458 ampere.
+
+All electromagnetic units in ESU CGS system that do not have proper names are
+denoted by a corresponding SI name with an attached prefix "stat" or with
+a separate abbreviation "esu".
+
+https://en.wikipedia.org/wiki/Centimetre%E2%80%93gram%E2%80%93second_system_of_units#Electrostatic_units_(ESU)
 ''' ),
 
     # data_rate
@@ -1365,6 +1420,11 @@ This is the SI unit representation of dynamic viscosity.
     'abmho' :
         RPNUnitInfo( 'electrical_conductance', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ],
                      '''
+Abmho or absiemens is a unit of electrical conductance in the centimetre gram
+second (emu-cgs) system of units.  It's equal to gigasiemens (inverse of
+nano-ohm).
+
+https://en.wikipedia.org/wiki/Abmho
 ''' ),
 
     'conductance_quantum' :
@@ -1405,17 +1465,21 @@ Ref:  https://en.wikipedia.org/wiki/Siemens_(unit)
     'statmho' :
         RPNUnitInfo( 'electrical_conductance', 'statmhos', '', [ ], [ 'CGS' ],
                      '''
-''' ),
+The statmho is the unit of electrical conductance in the electrostatic system
+of units (ESU), an extension of the centimeter-gram-second (CGS) system to
+cover electrical units.
 
-    'statsiemens' :
-        RPNUnitInfo( 'electrical_conductance', 'statsiemens', 'statS', [ ], [ 'SI' ],
-                     '''
+https://en.wikipedia.org/wiki/Statmho
 ''' ),
 
     # electric_potential
     'abvolt' :
         RPNUnitInfo( 'electric_potential', 'abvolts', 'abV', [ ], [ 'CGS' ],
                      '''
+The abvolt (abV) is one option for the unit of potential difference in the
+EMU-CGS system of units, and is equal to 10e−8 volts in the SI system.
+
+https://en.wikipedia.org/wiki/Abvolt
 ''' ),
 
     'decibel-volt' :
@@ -1451,6 +1515,11 @@ Ref:  https://en.wikipedia.org/wiki/Volt
     'statvolt' :
         RPNUnitInfo( 'electric_potential', 'statvolts', 'statV', [ 'esu_potential' ], [ 'CGS' ],
                      '''
+The statvolt is a unit of voltage and electrical potential used in the ESU-CGS
+and gaussian system of units.  The conversion to the SI system is exactly 1
+statvolt = 299.792458 volts.
+
+https://en.wikipedia.org/wiki/Statvolt
 ''' ),
 
     # electrical_resistance
@@ -1464,6 +1533,12 @@ to each other.
     'abohm' :
         RPNUnitInfo( 'electrical_resistance', 'abohms', 'o', [ ], [ 'CGS' ],
                      '''
+The abohm is the derived unit of electrical resistance in the emu-cgs
+(centimeter-gram-second) system of units (emu stands for "electromagnetic
+units").  One abohm is equal to 10e−9 ohms in the SI system of units; one
+abohm is a nanoohm.
+
+https://en.wikipedia.org/wiki/Abohm
 ''' ),
 
     'german_mile' :
@@ -1508,6 +1583,11 @@ Ref:  https://en.wikipedia.org/wiki/Ohm
     'statohm' :
         RPNUnitInfo( 'electrical_resistance', 'statohms', 'statO', [ ], [ 'SI' ],
                      '''
+The statohm is the unit of electrical resistance in the electrostatic system
+of units which was part of the CGS system of units based upon the centimetre,
+gram and second.
+
+https://en.wikipedia.org/wiki/Statohm
 ''' ),
 
     'varley' :
@@ -1798,6 +1878,10 @@ This copnversion unit relates lumens to lux.
     'abhenry' :
         RPNUnitInfo( 'inductance', 'abhenries', 'abH', [ ], [ 'CGS' ],
                      '''
+Abhenry is the CGS (centimeter-gram-second) electromagnetic unit of
+inductance, equal to one billionth of a henry.
+
+https://en.wikipedia.org/wiki/Abhenry
 ''' ),
 
     'henry' :
@@ -1823,6 +1907,8 @@ representation of inductance.
     'stathenry' :
         RPNUnitInfo( 'inductance', 'stathenries', 'statH', [ ], [ 'CGS' ],
                      '''
+The stathenry (abbreviation 'statH') is the unit of conductance in the CSG
+system.
 ''' ),
 
     # information_entropy
@@ -2403,7 +2489,7 @@ The Ancient Egyptian palm (Ancient Egyptian: shesep) has been reconstructed as
 about 75 mm or 3 inches.  The unit is attested as early as the reign of Djer,
 third pharaoh of the First Dynasty, and appears on many surviving cubit-rods.
 
-rpnChilada uses the definition of 3 inches.
+rpnChilada uses the definition of 3 inches for a palm.
 
 Ref:  https://en.wikipedia.org/wiki/Palm_(unit)
 ''' ),
@@ -2762,6 +2848,9 @@ Ref:  https://en.wikipedia.org/wiki/Tesla_(unit)
     'berkovets' :
         RPNUnitInfo( 'mass', 'berkovets', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+A berkovets is equal to 10 poods.
+
+https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
 ''' ),
 
     'blintz' :
@@ -2857,6 +2946,12 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
     'funt' :
         RPNUnitInfo( 'mass', 'funts', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The Russian pound (funt) is an obsolete Russian unit of measurement of mass.
+It is equal to 409.51718 grams.  In 1899, the Russian pound was the basic unit
+of weight, and all other units of weight were formed from it; in partiticular,
+a zolotnik was 1/96 of a funt, and a pood was 40 funts.
+
+https://en.wikipedia.org/wiki/Pound_(mass)#Russian_funt
 ''' ),
 
     'furshlugginer_blintz' :
@@ -2914,6 +3009,16 @@ This conversion is required to do mass-energy equivalence calculations.
     'lot' :
         RPNUnitInfo( 'mass', 'lots', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+A lot is an old unit of weight used in many European countries since the
+Middle Ages until the beginning of the 20th century.  Most often it was
+defined as either ​1⁄30 or ​1⁄32 of a pound (or more precisely of whatever
+mass value one local pound had at the time). Recorded values range from
+10 to 50 grams.
+
+rpnChilada sets the value of the lot to be 1/32 of the funt.
+
+https://en.wikipedia.org/wiki/Lot_(unit)
+https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
 ''' ),
 
     'ounce' :
@@ -2946,8 +3051,13 @@ Ref:  https://en.wikipedia.org/wiki/Pennyweight
 ''' ),
 
     'pood' :
-        RPNUnitInfo( 'mass', 'poods', '', [ ], [ 'Russia', 'obsolete' ],
+        RPNUnitInfo( 'mass', 'pudi', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+Pood is a unit of mass equal to 40 funt.  Plural: pudi or pudy.  Since 1899 it
+is approximately set to 16.38 kilograms (36.11 pounds).  It was used in
+Russia, Belarus, and Ukraine.
+
+https://en.wikipedia.org/wiki/Pood
 ''' ),
 
     'pound' :
@@ -3048,11 +3158,36 @@ Ref:  https://en.wikipedia.org/wiki/Tonne
     'zentner' :
         RPNUnitInfo( 'mass', 'zentners', '', [ ], [ 'Germany' ],
                      '''
+The zentner (German Zentner, from Latin centenarius, derived from centum
+meaning "hundred") is an obsolete name for a unit of mass which was used
+predominantly in Germany, Austria, and Switzerland, although it was also
+sometimes used in the United Kingdom – for example, as a measure of the
+weight of certain crops including hops for beer production – and similar
+units were used in Scandinavia.  Like the notion of hundredweight, the
+zentner is the weight of 100 units, where the value of the unit depends
+on the time and location.  Traditionally the unit was one hundred pounds
+(German Pfund), or roughly 50000 grams – the precise value being
+context-dependent – making one zentner equal to about 50 kilograms.
+
+rpnChilada uses a value of 50 kilograms as the value for a zentner.
+
+https://en.wikipedia.org/wiki/Zentner
 ''' ),
 
     'zolotnik' :
         RPNUnitInfo( 'mass', 'zolotniks', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+A zolotnik (abbr.: zol.) was a small Russian unit of weight, equal to 0.1505
+avoirdupois ounces, or 4.2658 grams (about 65.83 grains).  Used from the 10th
+to 20th centuries, its name is derived from the Russian word zoloto, meaning
+gold.  As a unit, the zolotnik was the standard for silver manufacture, much
+as the troy ounce is currently used for gold and other precious metals.
+
+This unit was originally based on a coin of the same name.  The zolotnik
+circulated in the Kievan Rus until the 11th century; it was equal in weight to
+the Byzantine Empire's solidus.
+
+https://en.wikipedia.org/wiki/Zolotnik
 ''' ),
 
     # power
@@ -3404,6 +3539,21 @@ A century is a period of 100 years.
     'cowznofski' :
         RPNUnitInfo( 'time', 'cowznofskis', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'cowznofki' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the cowznofski is equal to 100 days.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'day' :
@@ -3447,6 +3597,21 @@ Ref:  https://en.wikipedia.org/wiki/Hour
     'kovac' :
         RPNUnitInfo( 'time', 'kovacs', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'kovac' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the kovac is equal to 1/100000th of a day, or 0.864 seconds.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'jiffy' :
@@ -3470,6 +3635,21 @@ Ref:  https://en.wikipedia.org/wiki/Jiffy_(time)
     'martin' :
         RPNUnitInfo( 'time', 'martins', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'martin' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the martin is equal to 1/1000th of a day, or 86.4 seconds.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'microcentury' :
@@ -3497,6 +3677,21 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Microfo
     'mingo' :
         RPNUnitInfo( 'time', 'mingoes', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'mingo' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the mingo is equal to 10 days.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'minute' :
@@ -3640,11 +3835,47 @@ Ref:  https://en.wikipedia.org/wiki/Week
     'wolverton' :
         RPNUnitInfo( 'time', 'wolvertons', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'wolverton' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the wolverton is equal to 1/100,000,000 of a day, or 0.864
+milliseconds.
+
+Please note that the original Potrzebie article seems to have an inconsistency
+in it, giving two possible interpretations of the value for the wolverton.
+rpnChilada uses the interpretation that seems to be the intent:  a value
+comparable to the millisecond.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'wood' :
         RPNUnitInfo( 'time', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+'wood' is a time measurement in the humorous Potrzebie system of measures.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarks make a mingo
+10 mingos make a cowznofski
+
+Therefore, the wood is equal to 2.4 hours, or 8640 seconds.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie,
+      https://blog.codinghorror.com/the-enduring-art-of-computer-programming/
 ''' ),
 
     'year' :
@@ -4706,6 +4937,7 @@ unitConversionMatrix = {
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
     ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
     ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ), # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
+    ( 'hide',                       'acre' )                                : mpmathify( '120' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
     ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
@@ -4713,7 +4945,7 @@ unitConversionMatrix = {
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
     ( 'section',                    'acre' )                                : mpmathify( '640' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),   # 36 square miles
-    ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
+    ( 'virgate',                    'bovate' )                              : mpmathify( '2' ),
 
     # capacitance
 
@@ -4733,7 +4965,6 @@ unitConversionMatrix = {
     ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
     ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
     ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
-    ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
 
     # constant
 
@@ -4841,8 +5072,7 @@ unitConversionMatrix = {
     ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
     ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
-    ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
-    ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
+    ( 'siemens',                    'statmho' )                             : mpmathify( '89875522.4015' ),
 
     # electrical_resistance
 
@@ -5148,7 +5378,7 @@ unitConversionMatrix = {
     ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
     ( 'century',                    'year' )                                : mpmathify( '100' ),
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
-    ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
+    ( 'clarke',                     'wood' )                                : mpmathify( '10' ),
     ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
     ( 'day',                        'beat' )                                : mpmathify( '1000' ),
     ( 'day',                        'hour' )                                : mpmathify( '24' ),
@@ -5157,7 +5387,7 @@ unitConversionMatrix = {
     ( 'fortnight',                  'microfortnight' )                      : mpmathify( '1.0e6' ),
     ( 'gregorian_year',             'second' )                              : mpmathify( '31556952' ),
     ( 'hour',                       'minute' )                              : mpmathify( '60' ),
-    ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),
+    ( 'kovac',                      'wolverton' )                           : mpmathify( '1000' ),
     ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
     ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
     ( 'mingo',                      'clarke' )                              : mpmathify( '10' ),
