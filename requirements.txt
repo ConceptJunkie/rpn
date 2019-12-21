@@ -12,7 +12,7 @@ pyreadline>=2.1
 pytz>=2018.9
 rpnChiladaData>=1.0.0
 setuptools
-skyfield>=1.10
+skyfield>=1.15
 timezonefinder>=4.0.2
 tzlocal>=1.5.1
 wheel
