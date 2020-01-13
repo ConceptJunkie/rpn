@@ -4082,8 +4082,8 @@ operators = {
     'heat_index'                     : RPNOperator( calculateHeatIndex,
                                                     2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
 
-    'horizon_distance'               : RPNOperator( lambda n: calculateHorizonDistance( n, constants[ 'earth_radius' ].function( ) ),
-                                                    1, [ RPNArgumentType.Measurement ], [ ] ),
+    'horizon_distance'               : RPNOperator( calculateHorizonDistance,
+                                                    2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),
 
     'kinetic_energy'                 : RPNOperator( calculateKineticEnergy,
                                                     2, [ RPNArgumentType.Measurement, RPNArgumentType.Measurement ], [ ] ),

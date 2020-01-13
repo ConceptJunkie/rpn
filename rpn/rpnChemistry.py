@@ -365,6 +365,9 @@ def convertMeasurementToAtomicSymbol( n ):
     if n.units == RPNMeasurement( 1, 'petabit' ).units:
         return 'Pb'
 
+    if n.units == RPNMeasurement( 1, 'abampere' ).units:
+        return 'Bi'
+
     if n.units == RPNMeasurement( 1, 'franklin' ).units:
         return 'Fr'
 

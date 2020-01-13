@@ -4201,12 +4201,12 @@ def runNumberTheoryOperatorTests( ):
 # //******************************************************************************
 
 def runPhysicsOperatorTests( ):
-    # distance
-    testOperator( '10 feet 10 seconds distance' )   # trivial version
-    testOperator( '65 mph 10 seconds distance' )
-    testOperator( 'gee 10 seconds distance' )
-    testOperator( '10 m/s^3 10 seconds distance' )
-    testOperator( '10 m/s^4 10 seconds distance' )
+    # acceleration
+    testOperator( '10 feet minute / 10 feet acceleration' )
+    testOperator( '60 mph 10 seconds acceleration' )
+    testOperator( '1 light-year 1 year acceleration' )
+    testOperator( '100 m/s^2 10 seconds acceleration' )  # trivial case
+    testOperator( '400 m/s^2 10 feet  acceleration' )  # trivial case
 
     # black_hole_entropy
     testOperator( 'sun_mass black_hole_entropy' )
@@ -4298,11 +4298,22 @@ def runPhysicsOperatorTests( ):
     testOperator( '1000 miles black_hole_surface_tides' )
     testOperator( '1/second^2 black_hole_surface_tides' )
 
+    # distance
+    testOperator( '10 feet 10 seconds distance' )   # trivial version
+    testOperator( '65 mph 10 seconds distance' )
+    testOperator( 'gee 10 seconds distance' )
+    testOperator( '10 m/s^3 10 seconds distance' )
+    testOperator( '10 m/s^4 10 seconds distance' )
+
     # energy_equivalence
     testOperator( '1 gram energy_equivalence' )
 
     # escape_velocity
     testOperator( 'earth_mass earth_radius escape_velocity' )
+
+    # horizon_distance
+    testOperator( '10 feet earth_radius horizon_distance' )
+    testOperator( '10 feet moon_radius horizon_distance' )
 
     # kinetic_energy
     testOperator( '310 pounds 65 mph kinetic_energy' )

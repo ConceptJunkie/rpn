@@ -9125,7 +9125,7 @@ Ref:  https://en.wikipedia.org/wiki/Heat_index
 [ 'wind_chill' ] ],
 
     'horizon_distance' : [
-'physics', 'calculates the distance to the horizon for altitude n (assuming the Earth is a perfect sphere)'
+'physics', 'calculates the distance to the horizon for altitude n on a body of radius k (assuming the body is a perfect sphere)'
 '''
 ''',
 '''
