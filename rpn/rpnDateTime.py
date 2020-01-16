@@ -5,7 +5,7 @@
 # //  rpnDateTime.py
 # //
 # //  rpnChilada date and time operations
-# //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -875,7 +875,7 @@ def calculateAscensionThursday( year ):
     I don't know why it's 39 days after Easter instead of 40, but that's how
     the math works out.  It's the 40th day of the Easter season.
 
-    Or as John Wright says, "Catholics can't count."
+Or as John Wright says, "Catholics can't count."
     '''
     return RPNDateTime( *calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) ).getYMD( ),
                         dateOnly = True )
