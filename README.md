@@ -72,11 +72,18 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.3.0
+8.3.0 (beta)
 
 The astronomy operators now don't care which order the arguments are in, except
 for 'angular_separation', which expects the first two arguments to be
 astronomical bodies.
+
+The aliquot operators now detect if an amicable number chain has been found and
+terminate.
+
+Help has been filled in for all constants and most of the units.
+
+Added 'does_list_repeat' operator.
 
 8.2.0
 
