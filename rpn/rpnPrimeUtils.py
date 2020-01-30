@@ -1485,6 +1485,8 @@ def getNthTripletPrimeList( arg ):
         return [ 5, 7, 11 ]
     elif n == 2:
         return [ 7, 11, 13 ]
+    elif n == 3:
+        return [ 11, 13, 17 ]
 
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'triplet_primes' )
