@@ -228,3 +228,5 @@ rpn/rpndata/deltat.data
 rpn/rpndata/deltat.preds
 rpn/rpndata/Leap_Second.dat
 
+rpn/rpndata/deltat.old1.data
+rpn/rpndata/Leap_Second.old1.dat
