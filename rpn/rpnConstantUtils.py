@@ -601,8 +601,11 @@ def getPlanckAcceleration( ):
 
 @lru_cache( 1 )
 def getStefanBoltzmannConstant( ):
-    return getProduct( [ 4, getPower( pi, 5 ), getPower( g.k, 4 ) ] ).divide(
-                   getProduct( [ 15, getPower( g.h, 3 ), getPower( g.c, 2 ) ] ) )
+    N_sub_A = RPNMeasurement( getConstant( 'avogadro_number' ), 'mole^-1' )
+
+    return getProduct( [ 2, getPower( pi, 5 ), getPower( getConstant( 'molar_gas_constant' ), 4 ) ] ).divide(
+                   getProduct( [ 15, getPower( g.h, 3 ), getPower( g.c, 2 ),
+                               getPower( N_sub_A, 4 ) ] ) )
 
 
 # //******************************************************************************

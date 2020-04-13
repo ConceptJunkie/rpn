@@ -72,11 +72,21 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 ''' ),
 
     'electric_constant' :
-        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3',
+        RPNConstantInfo( '8.8541878128e-12', 'ampere^2*second^4/kilogram*meter^3',
                          [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], False,
                          '',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
+The physical constant e_0 (pronounced as "epsilon nought" or "epsilon zero"),
+commonly called the vacuum permittivity, permittivity of free space or
+dielectric constant or the distributed capacitance of the vacuum, is an ideal,
+(baseline) physical constant, which is the value of the absolute dielectric
+permittivity of classical vacuum.
+
+It is the capability of an electric field to permeate a vacuum.  This constant
+relates the units for electric charge to mechanical quantities such as length
+and force.
+
+Ref:  https://en.wikipedia.org/wiki/Vacuum_permittivity
 ''' ),
 
     'electron_charge' :
@@ -109,11 +119,11 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 
 # TODO
 # https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
-# The luminous efficacy Kcd of monochromatic radiation of frequency 540×1012 Hz is exactly 683 lumens per watt (lm·W-1).
-# Kcd = 683 cd·sr·s3·kg-1·m-2
+# The luminous efficacy Kcd of monochromatic radiation of frequency 540Ã—1012 Hz is exactly 683 lumens per watt (lmÂ·W-1).
+# Kcd = 683 cdÂ·srÂ·s3Â·kg-1Â·m-2
 
     'magnetic_constant' :
-        RPNConstantInfo( fprod( [ 4, pi, mpmathify( '1.00000000082e-7' ) ] ), 'newton/ampere^2',
+        RPNConstantInfo( '1.25663706212e-6', 'newton/ampere^2',
                          [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], False,
                          '',
                          '''
@@ -123,12 +133,6 @@ the magnetic permeability in a classical vacuum.  Vacuum permeability is
 derived from production of a magnetic field by an electric current or by a
 moving electric charge and in all other formulas for magnetic-field production
 in a vacuum.
-
-As of May 20, 2019, the vacuum permeability mu_0 is no longer a defined
-constant (per the former definition of the SI ampere), but rather needs to be
-determined experimentally; 4pi x 1.000 000 000 82 (20) 10e-7 H/m (or N/A^2) is a
-recently measured value in the revised SI.  It is proportional to the
-dimensionless fine-structure constant with no other dependencies.
 
 Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 ''' ),
@@ -174,7 +178,8 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
         RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], False,
                          '',
                          '''
-Ref:  https://en.wikipedia.org/wiki/Planck_constant
+Ref:  https://en.wikipedia.org/wiki/Planck_constant
+
 The Planck constant (denoted h, also called Planck's constant) is a physical
 constant that is the quantum of electromagnetic action, which relates the
 energy carried by a photon to its frequency.  A photon's energy is equal to

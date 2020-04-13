@@ -118,6 +118,8 @@ constants = {
                                                    0, [ ] ),
     'silver_ratio'                  : RPNOperator( lambda: fadd( 1, sqrt( 2 ) ),
                                                    0, [ ] ),
+    'tau'                           : RPNOperator( lambda: fmul( mpf( pi ), 2 ),
+                                                   0, [ ] ),
     'thue_morse_constant'           : RPNOperator( getThueMorseConstant,
                                                    0, [ ] ),
 
@@ -716,6 +718,33 @@ def repeatGenerator( n, func ):
 @twoArgFunctionEvaluator( )
 def repeat( n, func ):
     return RPNGenerator( repeatGenerator( n, func ) )
+
+
+# //******************************************************************************
+# //
+# //  sequenceGenerator
+# //
+# //******************************************************************************
+
+def sequenceGenerator( n, k, func ):
+    value = n
+
+    if k > 0:
+      yield value
+
+    for i in arange( 1, k ):
+        value = func.evaluate( value )
+        yield value
+
+
+# //******************************************************************************
+# //
+# //  getSequence
+# //
+# //******************************************************************************
+
+def getSequence( n, k, func ):
+    return RPNGenerator( sequenceGenerator( n, k, func ) )
 
 
 # //******************************************************************************
@@ -1861,6 +1890,7 @@ functionOperators = [
     'plotc',
     'recurrence',
     'repeat',
+    'sequence',
     'unfilter',
     'unfilter_by_index',
 ]
@@ -3367,6 +3397,9 @@ operators = {
 
     'repeat'                        : RPNOperator( repeat,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Function ], [ ] ),
+
+    'sequence'                      : RPNOperator( getSequence,
+                                                   3, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger, RPNArgumentType.Function ], [ ] ),
 
     # geography
     'geo_distance'                  : RPNOperator( getDistance,

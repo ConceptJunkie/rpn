@@ -1885,6 +1885,7 @@ def runConstantOperatorTests( ):
     testOperator( 'prevost_constant' )
     testOperator( 'robbins_constant' )
     testOperator( 'silver_ratio' )
+    testOperator( 'tau' )
 
     expectEqual( '-a150 e 0 300 range ** floor', '149 oeis 301 left' )
     expectEqual( '1 10000 range phi * floor', '201 oeis 10000 left' )
@@ -5312,6 +5313,7 @@ def runAdvancedTests( ):
     expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter',
                  '[ 3816547290 ]' )
 
+    testOperator( ' 400 watt meter sqr / stefan_boltzmann / 4 root' )
 
 
 # //******************************************************************************
