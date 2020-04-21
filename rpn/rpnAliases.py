@@ -852,7 +852,6 @@ operatorAliases = {
     'sylvester'                     : 'nth_sylvester',
     'tP'                            : 'planck_time',
     'tangent'                       : 'tan',
-    'tau'                           : 'count_divisors',
     'thue_morse'                    : 'nth_thue_morse',
     'to_jalali'                     : 'to_persian',
     'to_lilian'                     : 'to_lilian_day',

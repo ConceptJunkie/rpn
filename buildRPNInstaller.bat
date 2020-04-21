@@ -4,6 +4,8 @@ setlocal
 
 if not exist mkdir dist
 
+if exist version.txt rm version.txt
+
 echos VERSION= > version.txt
 type rpn\rpnVersion.py | grep PROGRAM_VERSION | cut -d"'" -f2 >> version.txt
 

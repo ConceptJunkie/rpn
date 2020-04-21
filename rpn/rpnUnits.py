@@ -2070,8 +2070,14 @@ jerk over time, where jerk is the change of acceleration over time.
 
     # length
     'aln' :
-        RPNUnitInfo( 'length', 'alns', '', [ 'alen', 'alens' ], [ 'obsolete' ],
+        RPNUnitInfo( 'length', 'alnar', '', [ 'alns', 'alen', 'alens' ], [ 'obsolete', 'Sweden' ],
                      '''
+The aln is an archaic Swedish unit of length.  The name means 'forearm' (pl.
+alnar).  After 1863, 59.37 cm (1.948 ft).  Before that, from 1605, 59.38 cm
+as defined by King Carl IX of Sweden in Norrkoeping 1604, based on
+Rydaholmsalnen.
+
+Ref:  https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length
 ''' ),
 
     'angstrom' :
@@ -2684,6 +2690,11 @@ Ref:  https://en.wikipedia.org/wiki/Yard
     'apostilb' :
         RPNUnitInfo( 'luminance', 'apostilbs', 'asb', [ 'blondel', 'blondels' ], [ 'CGS' ],
                      '''
+The apostilb is an obsolete unit of luminance.  The SI unit of luminance is the
+candela per square metre (cd/m^2).  In 1942 Parry Moon proposed to rename the
+apostilb the blondel, after the French physicist Andre Blondel.
+
+Ref:  https://en.wikipedia.org/wiki/Apostilb
 ''' ),
 
     'bril' :
@@ -2856,6 +2867,9 @@ https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
     'blintz' :
         RPNUnitInfo( 'mass', 'blintzes', 'bl', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+A blintz is a unit of mass in the Potrzebie system of measurements that is
+equal to the mass of one ngogn of halavah, which works out to approximately
+36.4 grams.
 ''' ),
 
     'carat' :
@@ -3570,6 +3584,7 @@ A decade is a period of 10 years.
     'eon' :
         RPNUnitInfo( 'time', 'eons', '', [ ], [ 'traditional', 'years' ],
                      '''
+An eon is defined to be one billion years.
 ''' ),
 
     'fortnight' :
@@ -3953,6 +3968,20 @@ Ref:  https://en.wikipedia.org/wiki/Knot_(unit)
     'mach' :
         RPNUnitInfo( 'velocity', 'mach', '', [ ], [ 'U.S.' ],
                      '''
+In fluid dynamics, the Mach number (M or Ma) is a dimensionless quantity
+representing the ratio of flow velocity past a boundary to the local
+speed of sound.
+
+The Mach number is named after Austrian physicist and philosopher Ernst Mach,
+and is a designation proposed by aeronautical engineer Jakob Ackeret in 1929.
+As the Mach number is a dimensionless quantity rather than a unit of measure,
+the number comes after the unit; the second Mach number is Mach 2 instead of 2
+Mach (or Machs).
+
+rpnChilada, however, does not support this form of expression and does treat
+'mach' as a unit of measure.
+
+Ref:  https://en.wikipedia.org/wiki/Mach_number
 ''' ),
 
     'speed_of_sound' :
@@ -4466,19 +4495,40 @@ Ref:  https://en.wikipedia.org/wiki/Peck
 ''' ),
 
     'piccolo' :
-        RPNUnitInfo( 'volume', 'piccolos', '', [ ], [ 'wine' ],
+        RPNUnitInfo( 'volume', 'piccolos', '', [ 'pony', 'snipe', 'split' ], [ 'wine' ],
                      '''
+"Piccolo" is the name of a quarter bottle of wine.  It is also known as a pony,
+snipe or split. They are commonly served in packs of 4 bottles.  rpnChilada uses
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
+https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'pinch' :
         RPNUnitInfo( 'volume', 'pinches', '', [ ], [ 'traditional', 'cooking' ],
                      '''
+A pinch is a small, indefinite amount of a substance, typically a powder like
+salt, sugar, spice, or snuff.[1] It is the "amount that can be taken between
+the thumb and forefinger".
+
+Some manufacturers of measuring spoons and some U.S. cookbooks give more
+precise equivalents, typically ​1⁄8, ​1⁄16, or even ​1⁄24 teaspoon, but there
+is no generally accepted standard.
+
+rpnChilada uses the value of 16 pinches per teaspoon.
+
+Ref:  https://en.wikipedia.org/wiki/Pinch_(unit)
 ''' ),
 
     'pin' :
         RPNUnitInfo( 'volume', 'pins', '', [ ], [ 'imperial', 'beer' ],
                      '''
+A pin is equal to half a firkin (4.5 imp gal or 20 L).  Plastic versions of
+these casks are known as "polypins" and are popular in homebrewing and the
+off-trade (deliveries for home consumption).  They are also popular at beer
+festivals where non-standard beers are sold.
+
+Ref:  https://en.wikipedia.org/wiki/English_brewery_cask_units#Pin_(Imperial)
 ''' ),
 
     'pint' :
@@ -4488,12 +4538,7 @@ The pint, symbol pt, is a unit of volume or capacity in both the imperial and
 United States customary measurement systems.  In both of those systems it is
 traditionally one-eighth of a gallon.
 
-https://en.wikipedia.org/wiki/Pint
-''' ),
-
-    'pony' :
-        RPNUnitInfo( 'volume', 'ponies', '', [ ], [ 'U.S.', 'liquor' ],
-                     '''
+Ref:  https://en.wikipedia.org/wiki/Pint
 ''' ),
 
     'pony_keg' :
@@ -5505,7 +5550,6 @@ unitConversionMatrix = {
 
     ( 'jigger',                     'fluid_ounce' )                         : mpmathify( '1.5' ),
     ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
-    ( 'pony',                       'fluid_ounce' )                         : mpmathify( '1' ),
 
     # volume - Potrzebie
 

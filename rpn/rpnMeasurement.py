@@ -277,7 +277,7 @@ class RPNMeasurement( object ):
                 elif operand == 3:
                     name = 'cube'
                 else:
-                    name = getOrdinalName( operand )
+                    name = str( int( operand ) ) + 'th' #getOrdinalName( operand )
 
                 baseUnits = self.convertToPrimitiveUnits( )
 

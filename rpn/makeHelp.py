@@ -52,7 +52,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1501
+maxExampleCount = 1502
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4657,7 +4657,7 @@ decimal places.
 ''',
 '''
 ''' + makeCommandExample( 'pi' ),
-[ 'e', 'phi' ] ],
+[ 'e', 'phi', 'tau' ] ],
 
     'planck_area' : [
 'constants', 'returns the Planck area',
@@ -4913,9 +4913,34 @@ Ref:  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
 ''' + makeCommandExample( 'stefan_boltzmann_constant' ),
 [ ] ],
 
+    'tau' : [
+'constants', 'returns tau (twice Archimedes\' constant, or 2 pi)',
+'''
+In 2001, Robert Palais proposed using the number of radians in a turn as the
+fundamental circle constant instead of pi, which amounts to the number of
+radians in half a turn, in order to make mathematics simpler and more
+intuitive.
+
+In 2010, Michael Hartl proposed to use tau to represent Palais' circle
+constant: tau = 2 pi.  He offered two reasons.  First, tau is the number of
+radians in one turn, which allows fractions of a turn to be expressed more
+directly: for instance, a 3/4 turn would be represented as 3/4 tau rad instead
+of 3/2 pi rad.
+
+Ref:  https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
+''',
+'''
+''' + makeCommandExample( 'tau' ),
+[ 'e', 'phi', 'pi' ] ],
+
     'thue_morse_constant' : [
 'constants', 'calculates the Thue-Morse constant',
 '''
+In mathematics, the Prouhet–Thue–Morse constant, named for Eugene Prouhet, Axel
+Thue, and Marston Morse, is the number whose binary expansion
+.01101001100101101001011001101001... is given by the Thue–Morse sequence.
+
+Ref:  https://en.wikipedia.org/wiki/Prouhet%E2%80%93Thue%E2%80%93Morse_constant
 ''',
 '''
 ''' + makeCommandExample( 'thue_morse_constant' ),
@@ -5483,7 +5508,7 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 9 ] [ 4 3 ] ] lambda x y power for_each' ),
-[ 'for_each_list', 'repeat' ] ],
+[ 'for_each_list', 'repeat', 'sequence' ] ],
 
     'for_each_list' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list argument',
@@ -5492,7 +5517,7 @@ Which of the first 80 fibonacci numbers is prime?
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 6 7 ] [ 8 9 ] ] lambda x -1 element for_each_list' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 ] [ 3 4 ] [ 5 6 ] [ 7 8 ] ] lambda x sum for_each_list' ),
-[ 'for_each', 'repeat' ] ],
+[ 'for_each', 'repeat', 'sequence' ] ],
 
     'function': [
 'functions', 'creates a user-defined function k named n',
@@ -5618,7 +5643,15 @@ This feature only works with one-argument functions."
 ''',
 '''
 ''',
-[ 'eval0', 'eval', 'filter', 'lambda' ] ],
+[ 'eval0', 'eval', 'filter', 'lambda', 'sequence' ] ],
+
+    'sequence' : [
+'functions', 'evaluates a 1-arg function c with initial argument a, b times',
+'''
+''',
+'''
+''',
+[ 'eval', 'filter', 'lambda', 'repeat' ] ],
 
     'unfilter' : [
 'functions', 'filters a list n using the inverse of function k',

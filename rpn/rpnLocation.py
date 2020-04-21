@@ -15,8 +15,9 @@
 import bz2
 import contextlib
 import pickle
-import ephem
 import os
+import skyfield
+import ephem
 
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 
