@@ -785,8 +785,8 @@ def loadAstronomyData( ):
         from skyfield.api import Loader
         load = Loader( getUserDataPath( ) )
 
-        from skyfield.api import load_file
-        from skyfield import api
+        #from skyfield.api import load_file
+        #from skyfield import api
 
         g.timescale = load.timescale( )
     except:

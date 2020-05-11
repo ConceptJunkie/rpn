@@ -1103,6 +1103,71 @@ def getFrobeniusNumber( args ):
 
 # //******************************************************************************
 # //
+# //  solveFrobenius
+# //
+# //******************************************************************************
+
+def solveFrobenius( n, k, translate, prefix=[ ] ):
+    #print( )
+    #print( 'n', n )
+    #print( 'k', k )
+    #print( 'prefix', prefix )
+
+    size = len( n ) + len( prefix )
+
+    if len( n ) == 1:
+        if isDivisible( k, n[ 0 ] ):
+            result = prefix + [ fdiv( k, n[ 0 ] ) ]
+            yield [ result[ int( translate[ i ] ) ] for i in range( len( result ) ) ]
+
+        return
+
+    count = ceil( fdiv( k, n[ 0 ] ) ) + 1
+    #print( 'count', count )
+
+    result = [ ]
+
+    for i in arange( count ):
+        remainder = fsub( k, fmul( n[ 0 ], i ) )
+
+        if remainder == 0:
+            result = prefix + [ i ]
+            result.extend( [ 0 ] * ( size - len( result ) ) )
+            yield [ result[ int( translate[ i ] ) ] for i in range( len( result ) ) ]
+            return
+
+        yield from solveFrobenius( n[ 1 : ], remainder, translate, prefix + [ i ] )
+
+
+@listAndOneArgFunctionEvaluator( )
+def solveFrobeniusOperator( n, k ):
+    if len( n ) > 1 and getGCDOfList( n ) > 1:
+        raise ValueError( "the 'solve_frobenius' operator is only valid for lists of values that have a great common denominator of 1" )
+
+    sortedArgs = sorted( n, reverse=True )
+
+    old = 0
+
+    indices = { }
+
+    for i, item in enumerate( n ):
+        indices[ item ] = i
+
+    translate = [ ]
+
+    for arg in sortedArgs:
+        if arg == old:
+            raise ValueError( "'solve_frobenius' requires a list of unique values for operand n" )
+
+        old = arg
+
+        translate.append( indices[ arg ] )
+
+    return RPNGenerator.createGenerator( solveFrobenius, [ sortedArgs, k, translate ] )
+
+
+# //******************************************************************************
+# //
 # //  _crt
 # //
 # //  Helper function for calculateChineseRemainderTheorem

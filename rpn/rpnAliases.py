@@ -252,6 +252,7 @@ operatorAliases = {
     'count_div'                     : 'count_divisors',
     'countbits'                     : 'count_bits',
     'countdiv'                      : 'count_divisors',
+    'denomination_combinations'     : 'count_frobenius',
     'cousin'                        : 'cousin_prime',
     'cousin?'                       : 'cousin_prime',
     'cousin_'                       : 'cousin_prime_',

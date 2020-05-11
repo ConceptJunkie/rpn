@@ -743,7 +743,7 @@ def getNthBernoulli( n ):
 
 # //******************************************************************************
 # //
-# //  getDenominationCombinations
+# //  countFrobenius
 # //
 # //  https://math.stackexchange.com/questions/176363/keep-getting-generating-function-wrong-making-change-for-a-dollar/176397#176397
 # //
@@ -753,7 +753,7 @@ def getNthBernoulli( n ):
 # //
 # //******************************************************************************
 
-def getDenominationCombinations( denominations, target ):
+def countFrobenius( denominations, target ):
     target = int( target )
     data = [ 0 ] * ( target + 1 )
     data[ 0 ] = 1

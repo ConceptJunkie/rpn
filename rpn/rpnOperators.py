@@ -2016,7 +2016,7 @@ listOperators = {
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     # combinatoric
-    'denomination_combinations'     : RPNOperator( getDenominationCombinations,
+    'count_frobenius'               : RPNOperator( countFrobenius,
                                                    2, [ RPNArgumentType.List, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'multinomial'                   : RPNOperator( getMultinomial,
@@ -2274,6 +2274,9 @@ listOperators = {
     'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: getNthLinearRecurrenceWithModulo( a, b, c, d ),
                                            4, [ RPNArgumentType.List, RPNArgumentType.List,
                                                 RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'solve_frobenius'               : RPNOperator( solveFrobeniusOperator,
+                                                   2, [ RPNArgumentType.List, RPNArgumentType.PositiveInteger ], [ ] ),
 
     # powers_and_roots
     'power_tower'                   : RPNOperator( calculatePowerTower,

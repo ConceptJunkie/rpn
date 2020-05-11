@@ -1568,88 +1568,88 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '6 3 compositions' )
     testOperator( '7 2 4 range compositions' )
 
-    # debruijn
-    testOperator( '4 3 debruijn' )
+    # count_frobenius
+    expectResult( '[ 1 5 10 25 50 100 ] 100 count_frobenius', 293 )
 
-    # denomination_combinations
-    expectResult( '[ 1 5 10 25 50 100 ] 100 denomination_combinations', 293 )
-
-    expectEqual( '0 99 range lambda [ 1 5 10 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 5 10 ] x count_frobenius eval',
                  '187243 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 ] x count_frobenius eval',
                  '8 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 5 10 25 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 5 10 25 ] x count_frobenius eval',
                  '1299 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 5 10 25 50 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 5 10 25 50 ] x count_frobenius eval',
                  '1300 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 25 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 25 ] x count_frobenius eval',
                  '1301 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 25 50 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 25 50 ] x count_frobenius eval',
                  '1302 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 4 10 20 40 100 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 4 10 20 40 100 ] x count_frobenius eval',
                  '1310 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 ] x count_frobenius eval',
                  '1312 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 ] x count_frobenius eval',
                  '1313 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 2 5 10 20 50 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 2 5 10 20 50 ] x count_frobenius eval',
                  '1319 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 4 10 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 4 10 ] x count_frobenius eval',
                  '1362 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 5 10 20 50 100 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 5 10 20 50 100 ] x count_frobenius eval',
                  '1343 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 4 12 24 48 96 120 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 4 12 24 48 96 120 ] x count_frobenius eval',
                  '1364 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x count_frobenius eval',
                  '169718 oeis 100 left' )
-    expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x denomination_combinations eval',
+    expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x count_frobenius eval',
                  '67996 oeis 55 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x count_frobenius eval',
                  '57537 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x 100 * denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 5 10 25 50 100 ] x 100 * count_frobenius eval',
                  '85502 oeis 100 left' )
-    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 200 500 ] x denomination_combinations eval',
+    expectEqual( '0 99 range lambda [ 1 2 5 10 50 100 200 500 ] x count_frobenius eval',
                  '182086 oeis 100 left' )
-    expectEqual( '0 20 range lambda [ 1 5 10 25 ] x 100 * denomination_combinations eval',
+    expectEqual( '0 20 range lambda [ 1 5 10 25 ] x 100 * count_frobenius eval',
                  '160551 oeis 21 left' )
 
     if slow:
-        expectEqual( '0 999 range lambda [ 1 5 10 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 5 10 ] x count_frobenius eval',
                      '187243 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 5 10 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 5 10 ] x count_frobenius eval',
                      '8 oeis 1000 left' )
-        expectEqual( '0 9999 range lambda [ 1 5 10 25 ] x denomination_combinations eval',
+        expectEqual( '0 9999 range lambda [ 1 5 10 25 ] x count_frobenius eval',
                      '1299 oeis 10000 left' )
-        expectEqual( '0 9999 range lambda [ 1 5 10 25 50 ] x denomination_combinations eval',
+        expectEqual( '0 9999 range lambda [ 1 5 10 25 50 ] x count_frobenius eval',
                      '1300 oeis 10000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 5 10 25 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 5 10 25 ] x count_frobenius eval',
                      '1301 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 5 10 25 50 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 5 10 25 50 ] x count_frobenius eval',
                      '1302 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 4 10 20 40 100 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 4 10 20 40 100 ] x count_frobenius eval',
                      '1310 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 5 10 50 100 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 5 10 50 100 ] x count_frobenius eval',
                      '1312 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 5 10 20 50 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 5 10 20 50 ] x count_frobenius eval',
                      '1313 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 2 5 10 20 50 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 2 5 10 20 50 ] x count_frobenius eval',
                      '1319 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 4 10 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 4 10 ] x count_frobenius eval',
                      '1362 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 5 10 20 50 100 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 5 10 20 50 100 ] x count_frobenius eval',
                      '1343 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 2 4 12 24 48 96 120 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 2 4 12 24 48 96 120 ] x count_frobenius eval',
                      '1364 oeis 1000 left' )
-        expectEqual( '0 999 range lambda [ 1 5 10 25 50 100 ] x denomination_combinations eval',
+        expectEqual( '0 999 range lambda [ 1 5 10 25 50 100 ] x count_frobenius eval',
                      '169718 oeis 1000 left' )
-        expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x denomination_combinations eval',
+        expectEqual( '0 54 range lambda [ 1 2 3 5 10 20 25 50 100 ] x count_frobenius eval',
                      '67996 oeis 55 left' )
-        expectEqual( '0 10000 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x denomination_combinations eval',
+        expectEqual( '0 10000 range lambda [ 1 2 5 10 20 50 100 200 500 1000 2000 5000 10000 20000 50000 ] x count_frobenius eval',
                      '57537 oeis 10001 left' )      # OEIS goes to 65536, but that would take about 2 hours
-        expectEqual( '0 1000 range lambda [ 1 5 10 25 50 100 ] x 100 * denomination_combinations eval',
+        expectEqual( '0 1000 range lambda [ 1 5 10 25 50 100 ] x 100 * count_frobenius eval',
                      '85502 oeis 1001 left' )
-        expectEqual( '0 1000 range lambda [ 1 2 5 10 50 100 200 500 ] x denomination_combinations eval',
+        expectEqual( '0 1000 range lambda [ 1 2 5 10 50 100 200 500 ] x count_frobenius eval',
                      '182086 oeis 1001 left' )
+
+    # debruijn
+    testOperator( '4 3 debruijn' )
 
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )

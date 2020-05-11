@@ -52,7 +52,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1502
+maxExampleCount = 1503
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4092,13 +4092,13 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''' + makeCommandExample( '3 3 debruijn' ),
 [ ] ],
 
-    'denomination_combinations' : [
+    'count_frobenius' : [
 'combinatorics', 'calculates the number of combinations of items on n that add up to k',
 '''
 ''',
 '''
-''' + makeCommandExample( '[ 1 5 10 25 50 100 ] 100 denomination_combinations' ),
-[ ] ],
+''' + makeCommandExample( '[ 1 5 10 25 50 100 ] 100 count_frobenius' ),
+[ 'frobenius', 'solve_frobenius' ] ],
 
     'lah' : [
 'combinatorics', 'calculate the Lah number for n and k',
@@ -5650,7 +5650,9 @@ This feature only works with one-argument functions."
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 lambda x 2 * 3 + sequence' ) + '''
+The Collatz sequence for 19:
+''' + makeCommandExample( '19 21 lambda 3 x * 1 + x 2 / x is_odd if sequence' ),
 [ 'eval', 'filter', 'lambda', 'repeat' ] ],
 
     'unfilter' : [
@@ -8027,7 +8029,7 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'solve_frobenius', 'count_frobenius' ] ],
 
     'gamma' : [
 'number_theory', 'calculates the gamma function for n',
@@ -8853,6 +8855,14 @@ Here's a list of deficient numbers from 1 to 100:
 ''' + makeCommandExample( '1 10 range 3 sigma_k' ) + '''
 ''' + makeCommandExample( '1 10 range 4 sigma_k' ),
 [ 'sigma' ] ],
+
+    'solve_frobenius' : [
+'number_theory', 'produces a list of coefficients of solutions to Frobenius equation n equal to k'
+'''
+''',
+'''
+''',
+[ 'frobenius', 'count_frobenius' ] ],
 
     'subfactorial' : [
 'number_theory', 'calculates the subfactorial of n',

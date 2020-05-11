@@ -371,7 +371,10 @@ def tetrateRight( i, j ):
 
 @twoArgFunctionEvaluator( )
 def isDivisible( n, k ):
-    return 1 if fmod( real( n ), real( k ) ) == 0 else 0
+    if n == 0:
+        return 1
+
+    return 1 if ( n >= k ) and ( fmod( real( n ), real( k ) ) == 0 ) else 0
 
 
 # //******************************************************************************
