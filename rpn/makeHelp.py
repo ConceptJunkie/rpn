@@ -52,7 +52,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1503
+maxExampleCount = 1504
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
