@@ -6,15 +6,22 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 
 ## Updates
 
-### Update - July 11, 2019
+### Update - May 17, 2020
 
-Version 8.2.0 is released.   This version has a few new operators and streamlined unit tests, as well as the usual bug fixes.
+Version 8.3.0 is released.   This is another incremental release with a few new operators.  I've also been focusing on
+filling in help text for all the units.  Right now there are 172 units that don't have help text.
 
 ---
 
-The current release is 8.2.0.
+The current release is 8.3.0.
 
 See "rpn help settings" for more information.
+
+## Installing from PyPI
+
+In theory, you just need to do "pip install rpnChilada".
+
+Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
 
 ## Installing RPN on Debian-based Linux:
 
@@ -26,13 +33,13 @@ I don't think this is correct yet.
 
 ## Running RPN using the source:
 
-rpn is written in Python 3, and requires several libraries for the hard math stuff (gmpy2 is optional, but recommended for improved performance).
+rpn is written in Python 3, and requires several libraries for the hard math stuff.
 
 Please see requirements.txt for a list of required Python packages.
 
 Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
 
-Using rpnChilada:
+## Using rpnChilada
 
 rpnChilada is very easy to use.  It's just like any RPN calculator: Operands go first, then the operators. All examples assume `rpn` is an alias for `python /<path-to-rpn>/rpn.py`.  In interactive mode, you leave off the `rpn`.
 I always create an alias for "python rpn.py" called "rpn".  If you are using the package installed with pip, there are commands in the scripts directories called "rpn" and "rpnChilada" to launch rpnChilada.
@@ -45,13 +52,17 @@ For instance:
 
 will calculate 2 + 2.
 
-rpn supports more than 900 operators. (`rpn _dump_operators` will list them all.)
+rpnChilada supports more than 1000 operators. (`rpn _dump_operators` will list them all.)
 
 The entire operator list is also included at the bottom of this document.
+
+## Built-in Help
 
 rpn has pretty extensive built-in help, although the help files are not complete. However, all operators have at least a brief description, and most are obvious enough to use easily.
 
 Start with `rpn help` for an overview. To dive right in, see `rpn help examples`. In interactive mode, typing `help` will launch help mode. Then, `topics` will print out a list of help topics and `exit` will return to rpn.
+
+## Data Files
 
 The data files are stored in the same location as `rpn.py` in a subdirectory called `rpndata/`.
 
@@ -74,7 +85,12 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.3.0 (beta)
+8.3.0
+
+Added the 'solve_frobenius' operator and renamed 'denomination_combinations' to
+'count_frobenius'.
+
+Added the 'sequence' and 'tau' operators.
 
 The astronomy operators now don't care which order the arguments are in, except
 for 'angular_separation', which expects the first two arguments to be
