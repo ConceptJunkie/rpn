@@ -654,7 +654,7 @@ def main( ):
     os.chdir( getUserDataPath( ) )     # SkyField doesn't like running in the root directory
 
     if not unitsFile.is_file( ):
-        print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
+        print( 'Please run "rpnMakeUnits" (or makeUnits.py) to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
     helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )

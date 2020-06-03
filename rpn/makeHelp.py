@@ -12235,7 +12235,7 @@ def main( ):
     unitsFile = Path( getUserDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
-        print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
+        print( 'Please run "rpnMakeUnits" (or makeUnits.py) to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
     from rpn.rpnConstantOperators import constantOperators

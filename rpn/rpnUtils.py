@@ -76,7 +76,7 @@ def getDataPath( ):
 @lru_cache( 1 )
 def getUserDataPath( ):
     '''Returns the path for the cache files.'''
-    if os.name == 'nt':
+    if sys.platform in ( 'win32', 'darwin' ):
         userDataPath = getDataPath( )
     else:
         userDataPath = os.path.expanduser( '~' ) + os.sep + '.' + g.dataDir

@@ -31,7 +31,6 @@ def read( *paths ):
 setup(
     name = 'rpnChilada',
     version = PROGRAM_VERSION_NAME,
-    #description = 'command-line RPN calculator with arbitrary precision',
     description = 'command-line RPN calculator',
     long_description =
 '''
@@ -50,7 +49,7 @@ conversions (comparable to GNU Units) and much, much more.   There are over
 800 unique operators.  rpnChilada supports lists, but not matrices.
 
 rpnChilada comes with integrated help, which isn't complete, but has at
-least a basic description of every operator, and over 1300 built-in
+least a basic description of every operator, and over 1500 built-in
 examples.  Help now includes descriptions for constants and units as well,
 although a lot of these still need to be filled in.
 
@@ -116,9 +115,9 @@ access.
         'console_scripts': [
             'rpn = rpn.rpn:main',
             'rpnChilada = rpn.rpn:main',
-            #'makeRPNHelp = rpn.makeHelp:main',
-            #'makeRPNUnits = rpn.makeUnits:main',
-            #'prepareRPNPrimeData = rpn.preparePrimeData:main',
+            'rpnMakeHelp = rpn.makeHelp:main',
+            'rpnMakeUnits = rpn.makeUnits:main',
+            #'rpnPreparePrimeData = rpn.preparePrimeData:main',
             'testRPN = rpn.testRPN:main',
         ],
     }
