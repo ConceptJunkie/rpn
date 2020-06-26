@@ -23,7 +23,7 @@ from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, mpmathify, power
 # //
 # //******************************************************************************
 
-class RPNGenerator( object ):
+class RPNGenerator( ):
     '''This class implements generators for rpn values, which allows rpn to
     avoid having to expand ranges to complete lists when evaluating them.'''
     def __init__( self, generator = None, count = -1 ):
@@ -143,12 +143,12 @@ def rangeGenerator( start, end, step ):
 
     current = start
 
-    if ( step > 0 ):
-        while ( current <= end ):
+    if step > 0:
+        while current <= end:
             yield current
             current = fadd( current, step )
     else:
-        while ( current >= end ):
+        while current >= end:
             yield current
             current = fadd( current, step )
 
@@ -162,7 +162,7 @@ def rangeGenerator( start, end, step ):
 def geometricRangeGenerator( value, step, count ):
     current = value
 
-    for i in arange( 0, count ):
+    for _ in arange( 0, count ):
         yield current
         current = fmul( current, step )
 
@@ -176,7 +176,7 @@ def geometricRangeGenerator( value, step, count ):
 def exponentialRangeGenerator( value, step, count ):
     current = value
 
-    for i in arange( 0, count ):
+    for _ in arange( 0, count ):
         yield current
         current = power( current, step )
 
@@ -202,7 +202,7 @@ def evaluateNestedArgs( func, i ):
 
 def chainedGenerator( generator, func ):
     for i in generator:
-        yield( evaluateNestedArgs( func, i ) )
+        yield evaluateNestedArgs( func, i )
 
 
 # //******************************************************************************
@@ -214,7 +214,7 @@ def chainedGenerator( generator, func ):
 def filterGenerator( generator, func, invert=False ):
     for i in generator:
         if func( i ) != invert:
-            yield( i )
+            yield i
 
 
 # //******************************************************************************

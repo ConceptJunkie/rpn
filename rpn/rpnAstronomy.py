@@ -14,7 +14,7 @@
 
 import ephem
 
-from mpmath import acos, fabs, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
+from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from pytz import timezone
 
 from rpn.rpnDateTime import RPNDateTime
@@ -80,8 +80,6 @@ class RPNAstronomicalObject( object ):
         return RPNMeasurement( mpmathify( self.object.az ), 'radians' ), \
                RPNMeasurement( mpmathify( self.object.alt ), 'radians' )
 
-        return self.getAzimuthAndAltitude( )
-
     def getAstronomicalEvent( self, location, date, func, horizon=None, useCenter=False, matchUSNO=False ):
         if isinstance( location, str ):
             location = getLocation( location )
@@ -93,7 +91,7 @@ class RPNAstronomicalObject( object ):
             location.pressure = 0
             horizon -= 34/60        # 34 arcminutes
 
-        old_horizon = location.observer.horizon
+        oldHorizon = location.observer.horizon
 
         location.observer.date = date.to( 'utc' ).format( )
         location.observer.horizon = str( horizon )
@@ -103,7 +101,7 @@ class RPNAstronomicalObject( object ):
         else:
             result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) )
 
-        location.observer.horizon = old_horizon
+        location.observer.horizon = oldHorizon
 
         return result
 
@@ -114,7 +112,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
 
     def getNextSetting( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -123,7 +122,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
 
     def getNextTransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -132,7 +132,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_transit, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.next_transit, horizon, useCenter, matchUSNO )
 
     def getNextAntitransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -141,7 +142,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_antitransit, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.next_antitransit, horizon, useCenter, matchUSNO )
 
     def getPreviousRising( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -150,7 +152,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_rising, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.previous_rising, horizon, useCenter, matchUSNO )
 
     def getPreviousSetting( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -159,7 +162,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_setting, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.previous_setting, horizon, useCenter, matchUSNO )
 
     def getPreviousTransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -168,7 +172,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_transit, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.previous_transit, horizon, useCenter, matchUSNO )
 
     def getPreviousAntitransit( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -177,7 +182,8 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.previous_antitransit, horizon, useCenter, matchUSNO )
+        return self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                          ephem.Observer.previous_antitransit, horizon, useCenter, matchUSNO )
 
     def getTransitTime( self, arg1, arg2, horizon=None, useCenter=False, matchUSNO=False ):
         validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -186,8 +192,10 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
-        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1, ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                             ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1,
+                                             ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
 
         return subtract( result2, result1 )
 
@@ -198,8 +206,10 @@ class RPNAstronomicalObject( object ):
         if not arguments:
             raise ValueError( 'unexpected arguments' )
 
-        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ], ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
-        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1, ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
+        result1 = self.getAstronomicalEvent( arguments[ 'location' ], arguments[ 'datetime' ],
+                                             ephem.Observer.next_setting, horizon, useCenter, matchUSNO )
+        result2 = self.getAstronomicalEvent( arguments[ 'location' ], result1,
+                                             ephem.Observer.next_rising, horizon, useCenter, matchUSNO )
 
         return subtract( result2, result1 )
 
@@ -218,11 +228,11 @@ def getSeason( n, season ):
     loadAstronomyData( )
 
     if not g.astroDataAvailable:
-        raise ValueError( "Astronomy functions are unavailable." )
+        raise ValueError( 'Astronomy functions are unavailable.' )
 
-    t, y = almanac.find_discrete( g.timescale.utc( real_int( n ), 1, 1 ),
-                                  g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
-    result = RPNDateTime.parseDateTime( t[ season ].utc_datetime( ) )
+    times, _ = almanac.find_discrete( g.timescale.utc( real_int( n ), 1, 1 ),
+                                      g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
+    result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
 
 
@@ -628,7 +638,8 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( arguments[ 'location' ], arguments[ 'datetime' ], horizon=horizon )
+    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( arguments[ 'location' ],
+                                                                  arguments[ 'datetime' ], horizon=horizon )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
@@ -661,7 +672,8 @@ def getNextDusk( arg1, arg2, horizon = -6 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ], horizon=horizon )
+    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( arguments[ 'location' ],
+                                                                   arguments[ 'datetime' ], horizon=horizon )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
@@ -750,13 +762,13 @@ def getEclipseTotality( body1, body2, arg1, arg2 ):
     area1 = fmul( pi, power( radius1, 2 ) )
     area2 = fmul( pi, power( radius2, 2 ) )
 
-    area_of_intersection = fadd( getCircleIntersectionTerm( radius1, radius2, separation ),
-                                 getCircleIntersectionTerm( radius2, radius1, separation ) )
+    areaOfIntersection = fadd( getCircleIntersectionTerm( radius1, radius2, separation ),
+                               getCircleIntersectionTerm( radius2, radius1, separation ) )
 
     if distance1 > distance2:
-        result = fdiv( area_of_intersection, area1 )
+        result = fdiv( areaOfIntersection, area1 )
     else:
-        result = fdiv( area_of_intersection, area2 )
+        result = fdiv( areaOfIntersection, area2 )
 
     if result > 1:
         return 1

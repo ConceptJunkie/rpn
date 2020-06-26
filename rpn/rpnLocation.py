@@ -14,10 +14,9 @@
 
 import bz2
 import contextlib
-import pickle
-import os
-import skyfield
 import ephem
+import os
+import pickle
 
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 
@@ -110,7 +109,8 @@ class RPNLocation( object ):
 
 def loadLocationCache( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'locations.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
+                                              'locations.pckl.bz2', 'rb' ) ) as pickleFile:
             locationCache = pickle.load( pickleFile )
     except FileNotFoundError:
         locationCache = { }
@@ -128,7 +128,8 @@ def saveLocationCache( locationCache ):
     from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
+                                              'locations.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( locationCache, pickleFile )
 
 
@@ -214,20 +215,20 @@ def getLocationInfo( location ):
 def getTimeZone( location ):
     from timezonefinder import TimezoneFinder
 
-    tf = TimezoneFinder( )
+    tzFinder = TimezoneFinder( )
 
     if isinstance( location, str ):
         location = getLocation( location )
     elif not isinstance( location, RPNLocation ):
         raise ValueError( 'location name or location object expected' )
 
-    timezone_name = tf.timezone_at( lat = location.getLat( ), lng = location.getLong( ) )
+    timezoneName = tzFinder.timezone_at( lat = location.getLat( ), lng = location.getLong( ) )
 
-    if timezone_name is None:
-        timezone_name = tf.closest_timezone_at( lat = location.getLat( ),
-                                                lng = location.getLong( ) )
+    if timezoneName is None:
+        timezoneName = tzFinder.closest_timezone_at( lat = location.getLat( ),
+                                                     lng = location.getLong( ) )
 
-    return timezone_name
+    return timezoneName
 
 
 # //******************************************************************************

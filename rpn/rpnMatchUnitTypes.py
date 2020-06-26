@@ -40,10 +40,10 @@ def getWhichUnitType( measurement, unitTypes ):
 # //******************************************************************************
 
 def matchUnitTypes( args, validUnitTypes ):
+    # imported here to avoid circular dependencies
     from rpn.rpnAstronomy import RPNAstronomicalObject
     from rpn.rpnDateTime import RPNDateTime
     from rpn.rpnLocation import getLocation, RPNLocation
-    from rpn.rpnMeasurement import RPNMeasurement
 
     result = { }
 
@@ -60,41 +60,41 @@ def matchUnitTypes( args, validUnitTypes ):
                 if 'constant' in unitTypes:
                     result[ 'constant' ] = arg
                     continue
-                else:
-                    result = { }
-                    break
+
+                result = { }
+                break
 
             if isinstance( arg, RPNDateTime ):
                 if 'datetime' in unitTypes:
                     result[ 'datetime' ] = arg
                     continue
-                else:
-                    result = { }
-                    break
+
+                result = { }
+                break
 
             if isinstance( arg, str ):
                 if 'location' in unitTypes:
                     result[ 'location' ] = getLocation( arg )
                     continue
-                else:
-                    result = { }
-                    break
+
+                result = { }
+                break
 
             if isinstance( arg, RPNLocation ):
                 if 'location' in unitTypes:
                     result[ 'location' ] = arg
                     continue
-                else:
-                    result = { }
-                    break
+
+                result = { }
+                break
 
             if isinstance( arg, RPNAstronomicalObject ):
                 if 'body' in unitTypes:
                     result[ 'body' ] = arg
                     continue
-                else:
-                    result = { }
-                    break
+
+                result = { }
+                break
 
             unitType = getWhichUnitType( arg, unitTypes )
             #print( 'found unit type', unitType )

@@ -954,7 +954,7 @@ def describeInteger( n ):
         print( indent + str( divisorCount ) + ' divisor' + ( 's' if divisorCount > 1 else '' ) )
 
     if n <= largestNumberToFactor:
-        print( indent + 'a sum of divisors of ' + str( int( getSigma( n ) ) ) )
+        print( indent + 'a divisor sum of ' + str( int( getSigma( n ) ) ) )
         print( indent + 'a Stern value of ' + str( int( getNthStern( n ) ) ) )
         calkin_wilf = getNthCalkinWilf( n )
         print( indent + 'a Calkin-Wilf value of ' + str( int( calkin_wilf[ 0 ] ) ) + '/' + str( int( calkin_wilf[ 1 ] ) ) )

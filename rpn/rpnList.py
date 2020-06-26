@@ -16,11 +16,11 @@ import collections
 import itertools
 import random
 
-from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, \
-                   inf, power, root, sqrt
+from mpmath import arange, fadd, fdiv, fmod, fneg, fprod, fsub, fsum, inf, \
+                   power, root, sqrt
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMath import add, subtract, divide
+from rpn.rpnMath import add, square, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, \
@@ -123,7 +123,7 @@ def appendLists( arg1, arg2 ):
 
 # //******************************************************************************
 # //
-# //  comparedLists
+# //  compareLists
 # //
 # //******************************************************************************
 
@@ -131,8 +131,8 @@ def compareLists( arg1, arg2 ):
     if len( arg1 ) != len( arg2 ):
         return 0
 
-    for i in range( len( arg1 ) ):
-        if arg1[ i ] != arg2[ i ]:
+    for i, arg in enumerate( arg1 ):
+        if arg != arg2[ i ]:
             return 0
 
     return 1
@@ -151,9 +151,10 @@ def countElements( args ):
     elif isinstance( args, RPNGenerator ) and args.getCount( ) > -1:
         return args.getCount( )
 
+    # args might be a generator, so we need to iterate
     count = 0
 
-    for i in args:
+    for _ in args:
         count += 1
 
     return count
@@ -369,9 +370,9 @@ def getLeft( args, count ):
 
     if isinstance( count, list ):
         for i in count:
-            result.append( [ j for j in args ][ : int( i ) ] )
+            result.append( args[ : int( i ) ] )
     else:
-        result.append( [ j for j in args ][ : int( count ) ] )
+        result.append( args[ : int( count ) ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -390,9 +391,9 @@ def getRight( args, count ):
 
     if isinstance( count, list ):
         for i in count:
-            result.append( [ j for j in args ][ int( fneg( i ) ) : ] )
+            result.append( args[ int( fneg( i ) ) : ] )
     else:
-        result.append( [ j for j in args ][ int( fneg( count ) ) : ] )
+        result.append( args[ int( fneg( count ) ) : ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -411,7 +412,7 @@ def getListDiffs( args ):
 
     for i in args:
         if old is not None:
-            yield( subtract( i, old ) )
+            yield subtract( i, old )
 
         old = i
 
@@ -423,8 +424,6 @@ def getListDiffs( args ):
 # //******************************************************************************
 
 def getCumulativeListDiffs( args ):
-    result = [ ]
-
     first = None
 
     for i in args:
@@ -445,7 +444,7 @@ def getListRatios( args ):
 
     for i in args:
         if old is not None:
-            yield( divide( i, old ) )
+            yield divide( i, old )
 
         old = i
 
@@ -457,8 +456,6 @@ def getListRatios( args ):
 # //******************************************************************************
 
 def getCumulativeListRatios( args ):
-    result = [ ]
-
     first = None
 
     for i in args:
@@ -475,6 +472,7 @@ def getCumulativeListRatios( args ):
 # //******************************************************************************
 
 def getReverse( args ):
+    # These list comprehensions _are_ needed.
     return [ i for i in reversed( [ j for j in args ] ) ]
 
 
@@ -492,8 +490,8 @@ def shuffleList( args ):
     elif isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         result = [ ]
 
-        for i in range( 0, len( args ) ):
-            result.append( shuffleList( args[ i ] ) )
+        for arg in args:
+            result.append( shuffleList( arg ) )
 
         return result
     else:
@@ -522,8 +520,8 @@ def sortAscending( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-        for i in range( 0, len( args ) ):
-            result.append( sorted( args[ i ] ) )
+        for arg in args:
+            result.append( sorted( arg ) )
 
         return result
     else:
@@ -540,8 +538,8 @@ def sortDescending( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-        for i in range( 0, len( args ) ):
-            result.append( sorted( args[ i ], reverse = True ) )
+        for arg in args:
+            result.append( sorted( arg, reverse = True ) )
 
         return result
     else:
@@ -604,7 +602,7 @@ def getSum( n ):
 
     try:
         result = fsum( n )
-    except:
+    except TypeError:
         result = n[ 0 ]
 
         for i in n[ 1 : ]:
@@ -731,12 +729,12 @@ def calculateHarmonicMean( args ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ calculateHarmonicMean( list( arg ) ) for arg in args ]
         else:
-            sum = 0
+            result = 0
 
             for arg in args:
-                sum = fadd( sum, fdiv( 1, arg ) )
+                result = fadd( result, fdiv( 1, arg ) )
 
-            return fdiv( len( args ), sum )
+            return fdiv( len( args ), result )
     else:
         return args
 
@@ -783,7 +781,8 @@ def calculateArithmeticMean( args ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ calculateArithmeticMean( list( arg ) ) for arg in args ]
         elif isinstance( args[ 0 ], RPNMeasurement ):
-            pass # TODO: handle measurements
+            # TODO: handle measurements
+            raise ValueError( '\'mean\' doesn\'t support measurements' )
         else:
             return fdiv( fsum( args ), len( args ) )
     else:
@@ -810,7 +809,8 @@ def calculateRootMeanSquare( args ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ calculateRootMeanSquare( list( arg ) ) for arg in args ]
         elif isinstance( args[ 0 ], RPNMeasurement ):
-            pass # TODO: handle measurements
+            # TODO: handle measurements
+            raise ValueError( '\'root_mean_square\' doesn\'t support measurements' )
         else:
             return sqrt( fdiv( fsum( args, squared=True ), len( args ) ) )
     else:
@@ -1194,7 +1194,7 @@ def getListPowerset( n ):
 def findInList( target, k ):
     try:
         result = k.index( target )
-    except:
+    except AttributeError:
         return -1
 
     return result
@@ -1223,9 +1223,9 @@ def isPalindromeList( n ):
 # //******************************************************************************
 
 def filterOnFlagsGenerator( n, k ):
-    for n_item, k_item in zip( n, k ):
-        if k_item:
-            yield n_item
+    for nItem, kItem in zip( n, k ):
+        if kItem:
+            yield nItem
 
 def filterOnFlags( n, k ):
     return RPNGenerator.createGenerator( filterOnFlagsGenerator, [ n, k ] )

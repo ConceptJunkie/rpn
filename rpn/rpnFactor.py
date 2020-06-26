@@ -12,24 +12,15 @@
 # //
 # //******************************************************************************
 
-import bz2
 import collections
-import contextlib
-import fractions
 import os
-import pickle
-import random
 
-from mpmath import ceil, fabs, fdiv, floor, fmod, fneg, fprod, log, log10, mp, \
-                   mpmathify, power
+from mpmath import fdiv, floor, fmod, fneg, fprod, log10, mpmathify
 
-from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
 from rpn.rpnPrimeUtils import isPrimeNumber
-from rpn.rpnSettings import setAccuracy
-from rpn.rpnUtils import debugPrint, getExpandedFactorList, oneArgFunctionEvaluator, \
-                         real, real_int
+from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 
@@ -76,7 +67,7 @@ def getFactors( target ):
 
         return result
 
-    except ValueError as error:
+    except ValueError:
         pass
 
     if g.useYAFU and n > g.minValueForYAFU:
@@ -141,23 +132,23 @@ def factorByTrialDivision( n ):
 def runYAFU( n ):
     import subprocess
 
-    full_out = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
-                                 g.userConfiguration[ 'yafu_binary' ], '-xover', '120' ],
-                                 input='factor(' + str( int( n ) ) + ')\n', encoding='ascii', stdout=subprocess.PIPE,
-                                 cwd=g.userConfiguration[ 'yafu_path' ] ).stdout
+    fullOut = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
+                                g.userConfiguration[ 'yafu_binary' ], '-xover', '120' ],
+                              input='factor(' + str( int( n ) ) + ')\n', encoding='ascii', stdout=subprocess.PIPE,
+                              cwd=g.userConfiguration[ 'yafu_path' ] ).stdout
 
-    #print( 'out', full_out )
+    #print( 'out', fullOut )
 
-    out = full_out[ full_out.find( '***factors found***' ) : ]
+    out = fullOut[ fullOut.find( '***factors found***' ) : ]
 
     if len( out ) < 2:
         if log10( n ) > 40:
             raise ValueError( 'yafu seems to have crashed trying to factor ' + str( int( n ) ) +
-                              '.\n\nyafu output follows:\n' + full_out )
-        else:
-            debugPrint( 'yafu seems to have crashed, switching to built-in factoring code' )
-            from rpn.factorise import factorise
-            return factorise( int( n ) )
+                              '.\n\nyafu output follows:\n' + fullOut )
+
+        debugPrint( 'yafu seems to have crashed, switching to built-in factoring code' )
+        from rpn.factorise import factorise
+        return factorise( int( n ) )
 
     result = [ ]
 

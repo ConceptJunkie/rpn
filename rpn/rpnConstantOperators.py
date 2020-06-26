@@ -12,10 +12,9 @@
 # //
 # //******************************************************************************
 
-from mpmath import exp, fadd, fdiv, fmul, fprod, log, mpf, mpmathify, power
+from mpmath import fdiv, fmul, mpmathify, pi
 
-from rpn.rpnConstantUtils import *
-from rpn.rpnOperator import RPNOperator
+from rpn.rpnConstantUtils import getMaxDouble, getMaxFloat, getMinDouble, getMinFloat
 from rpn.rpnUnitClasses import RPNConstantInfo
 
 
@@ -42,7 +41,8 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
     'boltzmann_constant' :
         RPNConstantInfo( '1.380649e-23', 'kilogram*meter^2/second^2*kelvin',
                          [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], False,
-                         'The Boltzmann constant relates the average kinetic energy of particles in a gas to the temperature of the gas',
+                         'The Boltzmann constant relates the average kinetic energy of particles '
+                         'in a gas to the temperature of the gas',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Boltzmann_constant
       https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
@@ -73,7 +73,8 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 
     'electric_constant' :
         RPNConstantInfo( '8.8541878128e-12', 'ampere^2*second^4/kilogram*meter^3',
-                         [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], False,
+                         [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity',
+                           'vacuum_permittivity' ], False,
                          '',
                          '''
 The physical constant e_0 (pronounced as "epsilon nought" or "epsilon zero"),
@@ -117,10 +118,11 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 ''' ),
 
 
-# TODO
-# https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
-# The luminous efficacy Kcd of monochromatic radiation of frequency 540×1012 Hz is exactly 683 lumens per watt (lm·W-1).
-# Kcd = 683 cd·sr·s3·kg-1·m-2
+    # TODO
+    # https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
+    # The luminous efficacy Kcd of monochromatic radiation of frequency 540×1012 Hz is
+    # exactly 683 lumens per watt (lm·W-1).
+    # Kcd = 683 cd·sr·s3·kg-1·m-2
 
     'magnetic_constant' :
         RPNConstantInfo( '1.25663706212e-6', 'newton/ampere^2',
@@ -139,7 +141,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 
     'magnetic_flux_quantum' :
         RPNConstantInfo( '2.067833831e-15', 'weber',
-                          [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
+                         [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
                          '',
                          '''
 The (superconducting) magnetic flux quantum F0 = h/2e =~
@@ -153,7 +155,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 
     'molar_gas_constant' :
         RPNConstantInfo( '8.3144598', 'joule/mole*kelvin',
-                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
+                         [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
                          '',
                          '''
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
@@ -497,8 +499,8 @@ This is the estimated volume of the planet Venus.
 ''' ),
 
     'earth_density' :
-        RPNConstantInfo( '5.514', 'gram/centimeter^3', [ ], True,   # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
-                         '',
+        # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
+        RPNConstantInfo( '5.514', 'gram/centimeter^3', [ ], True,                            '',
                          '''
 This is the estimate average density of the planet Earth.
 ''' ),
@@ -519,8 +521,8 @@ This is the estimated mass of the planet Earth.
 ''' ),
 
     'earth_radius' :
-        RPNConstantInfo( '6371800', 'meter', [ ], True,             # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
-                         '',
+        # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
+        RPNConstantInfo( '6371800', 'meter', [ ], True,                                      '',
                          '''
 This is the estimated equitorial radius of the planet Earth.
 ''' ),

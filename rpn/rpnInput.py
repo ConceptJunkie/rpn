@@ -48,8 +48,8 @@ def convertToBase10( integer, mantissa, inputRadix ):
 
     base = fdiv( 1, inputRadix )
 
-    for i in range( 0, len( mantissa ) ):
-        digit = validNumerals.find( mantissa[ i ] )
+    for i, e in enumerate( mantissa ):
+        digit = validNumerals.find( e )
 
         if digit == -1:
             raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
@@ -114,14 +114,14 @@ def parseInputValue( term, inputRadix = 10 ):
         # 'd' means a dice expression, '[' means a build_number expression, so don't treat it as a date
         if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( '[' not in term ):
             # try:
-                datetime = arrow.get( term )
-                datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
-                                        datetime.hour, datetime.minute, datetime.second,
-                                        datetime.microsecond )
+            datetime = arrow.get( term )
+            datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
+                                    datetime.hour, datetime.minute, datetime.second,
+                                    datetime.microsecond )
             # except:
             #     raise ValueError( 'error parsing datetime' )
 
-                return datetime
+            return datetime
 
     if term == '0':
         return mpmathify( 0 )

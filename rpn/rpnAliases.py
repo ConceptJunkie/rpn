@@ -22,7 +22,7 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def dumpAliases( ):
-    for alias in sorted( [ key for key in g.aliases ] ):
+    for alias in sorted( g.aliases.keys( ) ):
         print( alias, g.aliases[ alias ] )
 
     print( )

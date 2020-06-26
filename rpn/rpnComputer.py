@@ -14,8 +14,7 @@
 
 import struct
 
-from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
-                   mpmathify, power
+from mpmath import fadd, fdiv, floor, fmod, fmul, fsub, fsum, log, mpf, mpmathify, power
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
@@ -88,7 +87,7 @@ def getInvertedBits( n ):
 
     result = mpmathify( 0 )
 
-    for i in range( 0, groupings ):
+    for _ in range( 0, groupings ):
         # Let's let Python do the actual inverting
         group = fmod( ~int( fmod( remaining, placeValue ) ), placeValue )
 
@@ -136,7 +135,7 @@ def performBitwiseOperation( i, j, operation ):
 
     result = mpmathify( 0 )
 
-    for i in range( 0, groupings ):
+    for _ in range( 0, groupings ):
         mod1 = fmod( remaining1, placeValue )
         mod2 = fmod( remaining2, placeValue )
 
@@ -197,7 +196,7 @@ def getBitCount( n ):
     else:
         value = n
 
-    while ( value ):
+    while value:
         result += fmod( value, 2 )
         value = floor( fdiv( value, 2 ) )
 

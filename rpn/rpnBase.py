@@ -13,7 +13,7 @@
 # //******************************************************************************
 
 from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
-                   log, mp, mpmathify, nint, power
+                   log, mp, mpmathify, nint, phi, power
 
 from rpn.rpnNumberTheory import getNthLucasNumber
 from rpn.rpnPolytope import getNthPolygonalNumber
@@ -82,10 +82,13 @@ def convertToBaseN( value, base, outputBaseDigits=False, numerals=g.defaultNumer
     allows us to support up to base 62.
     '''
     if outputBaseDigits:
-        if ( base < 2 ):
+        if base < 2:
             raise ValueError( 'base must be greater than 1' )
+
+        if value < 0:
+            raise ValueError( '\'get_base_k_digits\' does not support negative numbers.' )
     else:
-        if not ( 2 <= base <= len( numerals ) ):
+        if not 2 <= base <= len( numerals ):
             raise ValueError( 'base must be from 2 to {0}'.format( len( numerals ) ) )
 
     if value == 0:
@@ -122,10 +125,10 @@ def convertToBaseN( value, base, outputBaseDigits=False, numerals=g.defaultNumer
 
 def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
     if outputBaseDigits:
-        if ( base < 2 ):
+        if base < 2:
             raise ValueError( 'base must be greater than 1' )
     else:
-        if not ( 2 <= base <= len( g.numerals ) ):
+        if not 2 <= base <= len( g.numerals ):
             raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
 
     if 0 > value >= 1.0:
@@ -179,7 +182,7 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
         return 0
 
     if value < 0:
-        return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
+        raise ValueError( 'Negative numbers are not supported.' )
 
     if outputBaseDigits:
         result = [ ]
@@ -226,6 +229,7 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
 # //******************************************************************************
 
 def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
+    # TODO:  implement me!
     return 'fred'
 
 
@@ -312,7 +316,7 @@ def convertToPhiBase( num ):
             for i in range( previousPlace, place + 1, -1 ):
                 output += '0'
 
-                if ( i == 1 ):
+                if i == 1:
                     integer = output
                     output = ''
 

@@ -20,8 +20,7 @@
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
 from functools import lru_cache
-from mpmath import arange, cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, \
-                   mpf, mpmathify, nsum, pi, power, sqrt
+from mpmath import arange, cbrt, fadd, fdiv, fmul, fsub, log, mp, mpf, mpmathify, pi, sqrt
 
 from rpn.rpnComputer import interpretAsDouble, interpretAsFloat
 from rpn.rpnInput import convertToBase10
@@ -31,7 +30,6 @@ from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnNumberTheory import getNthThueMorse
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPrimeUtils import getNthPrime
-from rpn.rpnUtils import debugPrint
 
 import rpn.rpnGlobals as g
 
@@ -378,7 +376,7 @@ def getPlanckCharge( ):
 @lru_cache( 1 )
 def getPlanckTemperature( ):
     return getRoot( g.h_bar.multiply( getPower( g.c, 5 ) ).
-        divide( g.G.multiply( getPower( g.k, 2 ) ) ), 2 )
+                    divide( g.G.multiply( getPower( g.k, 2 ) ) ), 2 )
 
 
 # //******************************************************************************
@@ -604,8 +602,8 @@ def getStefanBoltzmannConstant( ):
     N_sub_A = RPNMeasurement( getConstant( 'avogadro_number' ), 'mole^-1' )
 
     return getProduct( [ 2, getPower( pi, 5 ), getPower( getConstant( 'molar_gas_constant' ), 4 ) ] ).divide(
-                   getProduct( [ 15, getPower( g.h, 3 ), getPower( g.c, 2 ),
-                               getPower( N_sub_A, 4 ) ] ) )
+        getProduct( [ 15, getPower( g.h, 3 ), getPower( g.c, 2 ),
+                      getPower( N_sub_A, 4 ) ] ) )
 
 
 # //******************************************************************************

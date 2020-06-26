@@ -2818,6 +2818,8 @@ def runLexicographyOperatorTests( ):
         expectEqual( '0 1000000 range lambda x 2 get_base_k_digits sum x 10 get_base_k_digits sum equals filter',
                      '37308 oeis 1000000 filter_max' )
 
+    expectException( '-9999 8 get_base_k_digits' )   # doesn't support negative numbers
+
     # get_digits
     expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
 

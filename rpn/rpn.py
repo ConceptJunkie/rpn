@@ -27,14 +27,14 @@ import sys
 import signal
 import time
 
+from pathlib import Path
+
 if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 
-from contextlib import contextmanager
 from mpmath import fneg, im, inf, mp, mpc, mpmathify, nan, nstr, re
-from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
 from rpn.rpnBase import specialBaseNames
@@ -43,11 +43,11 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
-from rpn.rpnOperator import checkForVariable, RPNVariable
+from rpn.rpnOperator import checkForVariable
 
 from rpn.rpnOperators import evaluateTerm, functionOperators, loadUnitNameData, \
-                             loadUserFunctionsFile, preprocessTerms, RPNFunction, \
-                             saveResult, saveUserFunctionsFile, setAccuracy, setPrecision
+                             loadUserFunctionsFile, RPNFunction, saveResult, \
+                             saveUserFunctionsFile, setAccuracy, setPrecision
 
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
@@ -403,7 +403,7 @@ def rpn( cmd_args ):
         g.aliases.update( operatorAliases )
 
         printHelp( helpArgs )
-        return
+        return None
 
     # set up the command-line options parser
     parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
@@ -487,13 +487,13 @@ def rpn( cmd_args ):
         loadUnitNameData( )
 
         printHelp( )
-        return
+        return None
 
     valid, errorString = validateOptions( args )
 
     if not valid:
         print( 'rpn:  ' + errorString )
-        return
+        return None
 
     # these are either globals or can be modified by other options (like -x)
     g.bitwiseGroupSize = args.bitwise_group_size
@@ -615,21 +615,21 @@ def rpn( cmd_args ):
     # enter interactive mode if there are no arguments
     if not terms:
         if not loadUnitNameData( ):
-            return
+            return None
 
         enterInteractiveMode( )
-        return
+        return None
 
     # let's check out the arguments before we start to do any calculations
     if not validateArguments( terms ):
-        return
+        return None
 
     #newTerms = preprocessTerms( terms )
     #print( 'newTerms', newTerms )
 
     # waiting until we've validated the arguments to do this because it's slow
     if not loadUnitNameData( ):
-        return
+        return None
 
     if g.echo_command:
         print( *sys.argv )

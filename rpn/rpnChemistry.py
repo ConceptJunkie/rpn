@@ -281,7 +281,7 @@ def getElementAttribute( n, k ):
     if int( n ) < 1 or n > 118:
         raise ValueError( 'invalid atomic number' )
 
-    if ( 0 > k > 7 ):
+    if 0 > k > 7:
         raise ValueError( 'invalid element attribute' )
 
     if g.elements is None:

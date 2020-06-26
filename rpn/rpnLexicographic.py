@@ -111,7 +111,10 @@ def getLeftDigits( n, k ):
 # //******************************************************************************
 
 def getBaseKDigitList( n, base, dropZeroes = False ):
-    if base < 63:
+    if 1 < base < 63:
+        if n < 0:
+            raise ValueError( '\'get_base_k_digits\' does not support negative numbers.' )
+
         ascii_digits = gmpy2.digits( int( n ), int( base ) )
 
         digits = [ ]
@@ -965,7 +968,7 @@ def getLeftTruncations( n ):
 
     str = getMPFIntegerAsString( n )
 
-    for i, e in enumerate( str ):
+    for i, _ in enumerate( str ):
         yield mpmathify( str[ i : ] )
 
 @oneArgFunctionEvaluator( )

@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, \
-                   hypot, power, pi, root, sin, sqrt, tan
+from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, gamma, power, pi, \
+                   root, sin, sqrt, tan
 
 from rpn.rpnList import getProduct, getSum
 from rpn.rpnMath import add, divide, getPower, getRoot, multiply, subtract
@@ -545,8 +545,8 @@ def getAntiprismVolume( n, k ):
         raise ValueError( '\'antiprism_volume\' argument 2 must be a length' )
 
     result = getProduct( [ fdiv( fprod( [ n, sqrt( fsub( fmul( 4, cos( cos( fdiv( pi, fmul( n, 2 ) ) ) ) ), 1 ) ),
-                                   sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ) ] ),
-                           fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
+                                          sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ) ] ),
+                                 fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
                            sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ),
                            getPower( k, 3 ) ] )
 

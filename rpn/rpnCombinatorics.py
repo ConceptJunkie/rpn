@@ -12,14 +12,12 @@
 # //
 # //******************************************************************************
 
-import itertools
-
 from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
                    fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
-                   power, fprod, sqrt, stirling1, stirling2
+                   power, sqrt, stirling1, stirling2
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
+from rpn.rpnNumberTheory import getNthLinearRecurrence
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
@@ -334,7 +332,8 @@ def getCompositions( n, k ):
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
-    elif n in ( 0, 1 ):
+
+    if n in ( 0, 1 ):
         return 1
 
     total = 0
@@ -486,7 +485,8 @@ def getPartitionNumber( n ):
 
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
-    elif n in ( 0, 1 ):
+
+    if n in ( 0, 1 ):
         return 1
 
     sign = 1
@@ -499,7 +499,6 @@ def getPartitionNumber( n ):
         mp.dps = estimate + 5
 
     partitionList = [ ]
-    signList = [ ]
 
     while n - k >= 0:
         partitionList.append( ( fsub( n, k ), sign ) )
