@@ -43,7 +43,7 @@ def getNthAperyNumber( n ):
 
     precision = int( fmul( n, 1.6 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     result = 0
@@ -72,7 +72,7 @@ def getNthDelannoyNumber( n ):
 
     precision = int( fmul( n, 0.8 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     result = 0
@@ -104,7 +104,7 @@ def getNthSchroederNumber( n ):
 
     precision = int( fmul( n, 0.8 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     for k in arange( 0, fadd( n, 1 ) ):
@@ -130,14 +130,14 @@ def getNthMotzkinNumber( n ):
     '''
     precision = int( n )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     result = 0
 
     for j in arange( 0, floor( fdiv( real( n ), 3 ) ) + 1 ):
         result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
-                                      binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
+                                        binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
 
     return fdiv( result, fadd( n, 1 ) )
 
@@ -162,7 +162,7 @@ def getNthSchroederHipparchusNumber( n ):
 
     precision = int( fmul( n, 0.8 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     result = 0
@@ -191,7 +191,7 @@ def getNthPellNumber( n ):
 
     precision = int( fmul( n, 0.4 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
@@ -205,7 +205,7 @@ def getNthPellNumber( n ):
 
 @twoArgFunctionEvaluator( )
 def getPermutations( n, r ):
-    if ( real( r ) > real( n ) ):
+    if real( r ) > real( n ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
@@ -219,7 +219,7 @@ def getPermutations( n, r ):
 
 @twoArgFunctionEvaluator( )
 def getCombinations( n, r ):
-    if ( real( r ) > real( n ) ):
+    if real( r ) > real( n ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fmul( fac( fsub( n, r ) ), fac( r ) ) )
@@ -251,7 +251,7 @@ def getNthSylvesterNumber( n ):
     else:
         list = [ 2, 3 ]
 
-        for i in arange( 2, n ):
+        for _ in arange( 2, n ):
             list.append( fprod( list ) + 1 )
 
     return list[ -1 ]
@@ -324,12 +324,12 @@ def getCompositions( n, k ):
 
 # //******************************************************************************
 # //
-# //  OLDgetPartitionNumber
+# //  oldGetPartitionNumber2
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def OLDgetPartitionNumber( n ):
+def oldGetPartitionNumber2( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
 
@@ -363,7 +363,7 @@ def OLDgetPartitionNumber( n ):
 #    return sum;
 #}
 
-def partitions_with_limit( n, k=None ):
+def partitionsWithLimit( n, k=None ):
     """Generate all partitions of integer n (>= 0) using integers no
     greater than k (default, None, allows the partition to contain n).
 
@@ -417,8 +417,8 @@ def partitions_with_limit( n, k=None ):
 
     result = [ ]
 
-    for k, v in ms.items( ):
-        result.extend( [ k ] * v )
+    for key, value in ms.items( ):
+        result.extend( [ key ] * value )
 
     yield result
 
@@ -451,8 +451,8 @@ def partitions_with_limit( n, k=None ):
 
         result = [ ]
 
-        for k, v in ms.items( ):
-            result.extend( [ k ] * v )
+        for key, value in ms.items( ):
+            result.extend( [ key ] * value )
 
         yield result
 
@@ -462,7 +462,7 @@ def getPartitionsWithLimit( n, k ):
     if real_int( k ) > real_int( n ):
         k = n
 
-    return RPNGenerator( partitions_with_limit( n, k ) )
+    return RPNGenerator( partitionsWithLimit( n, k ) )
 
 
 @oneArgFunctionEvaluator( )
@@ -521,7 +521,7 @@ def getPartitionNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'old_partition' )
-def OLDgetPartitionNumber( n ):
+def oldGetPartitionNumber( n ):
     if n < 0:
         return 0
 
@@ -536,7 +536,8 @@ def OLDgetPartitionNumber( n ):
         #n2 = n - k * ( 3 * k + 1 ) / 2
         n2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
 
-        result = fadd( result, fmul( power( -1, fadd( k, 1 ) ), fadd( getPartitionNumber( n1 ), getPartitionNumber( n2 ) ) ) )
+        result = fadd( result, fmul( power( -1, fadd( k, 1 ) ), \
+                       fadd( getPartitionNumber( n1 ), getPartitionNumber( n2 ) ) ) )
 
         if n1 <= 0:
             break
@@ -676,7 +677,8 @@ def getMultinomial( args ):
 
 @twoArgFunctionEvaluator( )
 def getLahNumber( n, k ):
-    return fmul( power( -1, n ), fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
+    return fmul( power( -1, n ), fdiv( fmul( binomial( real( n ), real( k ) ),
+                                             fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
 
 # //******************************************************************************
@@ -713,7 +715,8 @@ def getNthCatalanNumber( n ):
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )
-    elif n == 1:
+
+    if n == 1:
         return -1
     elif n == 2:
         return 0
@@ -721,7 +724,7 @@ def getNthMenageNumber( n ):
         return 1
     else:
         return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
-                                            fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
+                                              fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
 
 @twoArgFunctionEvaluator( )
 def getBellPolynomial( n, k ):

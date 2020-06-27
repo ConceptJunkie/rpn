@@ -15,7 +15,7 @@
 import collections
 import string
 
-from mpmath import fadd, fdiv, fmul, fsub, mpmathify
+from mpmath import fadd, fdiv, fmul, mpmathify
 
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator
@@ -40,6 +40,7 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def loadChemistryTables( ):
+    # pylint: disable=line-too-long
     g.elements = {
         1 :   [ 'Hydrogen',       'H',   1,   1,   's',  'Gas',     'Primordial',  'Diatomic nonmetal',       '1.00784',       '1.00811',         '0.00008988', '13.99',    '20.271',   ],
         2 :   [ 'Helium',         'He',  18,  1,   's',  'Gas',     'Primordial',  'Noble gas',               '4.002601',      '4.002603',        '0.0001786',  '0',        '4.222',    ],
@@ -302,92 +303,40 @@ def convertMeasurementToAtomicSymbol( n ):
     if n.value != 1:
         return n
 
-    if n.units == RPNMeasurement( 1, 'henry' ).units:
-        return 'H'
+    measurementAtomicSymbolLookUp = {
+        'henry'           : 'H',
+        'byte'            : 'B',
+        'coulomb'         : 'C',
+        'newton'          : 'N',
+        'ohm'             : 'O',
+        'farad'           : 'F',
+        'megagram'        : 'Mg',
+        'siemens'         : 'S',
+        'kelvin'          : 'K',
+        'volt'            : 'V',
+        'gigare'          : 'Ga',
+        'ampere*second'   : 'As',
+        'barye'           : 'Ba',
+        'petameter'       : 'Pm',
+        'terabit'         : 'Tb',
+        'terameter'       : 'Tm',
+        'yottabit'        : 'Yb',
+        'terare'          : 'Te',
+        'watt'            : 'W',
+        'reaumur'         : 'Re',
+        'petabit'         : 'Pb',
+        'abampere'        : 'Bi',
+        'franklin'        : 'Fr',
+        'petare'          : 'Pa',
+        'ampere*minute'   : 'Am',
+        'exasecond'       : 'Es',
+        'terasecond'      : 'Ts',
+        'petatonne'       : 'Pt',
+        'megatonne'       : 'Mt',
+    }
 
-    if n.units == RPNMeasurement( 1, 'byte' ).units:
-        return 'B'
-
-    if n.units == RPNMeasurement( 1, 'coulomb' ).units:
-        return 'C'
-
-    if n.units == RPNMeasurement( 1, 'newton' ).units:
-        return 'N'
-
-    if n.units == RPNMeasurement( 1, 'ohm' ).units:
-        return 'O'
-
-    if n.units == RPNMeasurement( 1, 'farad' ).units:
-        return 'F'
-
-    if n.units == RPNMeasurement( 1, 'megagram' ).units:
-        return 'Mg'
-
-    if n.units == RPNMeasurement( 1, 'siemens' ).units:
-        return 'S'
-
-    if n.units == RPNMeasurement( 1, 'kelvin' ).units:
-        return 'K'
-
-    if n.units == RPNMeasurement( 1, 'volt' ).units:
-        return 'V'
-
-    if n.units == RPNMeasurement( 1, 'gigare' ).units:
-        return 'Ga'
-
-    if n.units == RPNMeasurement( 1, 'ampere*second' ).units:
-        return 'As'
-
-    if n.units == RPNMeasurement( 1, 'barye' ).units:
-        return 'Ba'
-
-    if n.units == RPNMeasurement( 1, 'petameter' ).units:
-        return 'Pm'
-
-    if n.units == RPNMeasurement( 1, 'terabit' ).units:
-        return 'Tb'
-
-    if n.units == RPNMeasurement( 1, 'terameter' ).units:
-        return 'Tm'
-
-    if n.units == RPNMeasurement( 1, 'yottabit' ).units:
-        return 'Yb'
-
-    if n.units == RPNMeasurement( 1, 'terare' ).units:
-        return 'Te'
-
-    if n.units == RPNMeasurement( 1, 'watt' ).units:
-        return 'W'
-
-    if n.units == RPNMeasurement( 1, 'reaumur' ).units:
-        return 'Re'
-
-    if n.units == RPNMeasurement( 1, 'petabit' ).units:
-        return 'Pb'
-
-    if n.units == RPNMeasurement( 1, 'abampere' ).units:
-        return 'Bi'
-
-    if n.units == RPNMeasurement( 1, 'franklin' ).units:
-        return 'Fr'
-
-    if n.units == RPNMeasurement( 1, 'petare' ).units:
-        return 'Pa'
-
-    if n.units == RPNMeasurement( 1, 'ampere*minute' ).units:
-        return 'Am'
-
-    if n.units == RPNMeasurement( 1, 'exasecond' ).units:
-        return 'Es'
-
-    if n.units == RPNMeasurement( 1, 'terasecond' ).units:
-        return 'Ts'
-
-    if n.units == RPNMeasurement( 1, 'petatonne' ).units:
-        return 'Pt'
-
-    if n.units == RPNMeasurement( 1, 'megatonne' ).units:
-        return 'Mt'
+    if n.units.getUnitString( ) in measurementAtomicSymbolLookUp:
+        return measurementAtomicSymbolLookUp[ n.units.getUnitString( ) ]
 
     # No matches?  Then let an exception be thrown.
     return n

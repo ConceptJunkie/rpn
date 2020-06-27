@@ -13,15 +13,15 @@
 # //******************************************************************************
 
 import itertools
+import re
 
 from collections import Counter
-from mpmath import arange
 from random import randrange
+
+from mpmath import arange
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator
-
-import rpn.rpnGlobals as g
 
 
 # TODO:  write a function to enumerate the number of outcomes for a dice expression
@@ -97,7 +97,7 @@ def rollDice( expression ):
 def rollMultipleDice( expression, times ):
     dice = parseDiceExpression( expression )
 
-    for i in arange( 0, times ):
+    for _ in arange( 0, times ):
         values, modifier = evaluateDiceExpression( dice )
         yield sum( values ) + modifier
 
@@ -128,7 +128,7 @@ def enumerateDiceGenerator( n ):
 def enumerateMultipleDice( expression, count ):
     dice = parseDiceExpression( expression )
 
-    for i in arange( 0, count ):
+    for _ in arange( 0, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
 
 @twoArgFunctionEvaluator( )
@@ -228,22 +228,21 @@ def permuteDiceGenerator( n ):
 def parseDiceExpression( arg ):
     counter = Counter( arg )
 
-    if ( counter[ 'a' ] > 1 ):
+    if counter[ 'a' ] > 1:
         raise ValueError( 'dice expressions can only contain a single \'x\'' )
 
-    if ( counter[ 'h' ] > 1 ):
+    if counter[ 'h' ] > 1:
         raise ValueError( 'dice expressions can only contain a single \'h\'' )
 
-    if ( counter[ '+' ] > 1 ):
+    if counter[ '+' ] > 1:
         raise ValueError( 'dice expressions can only contain a single \'+\'' )
 
-    if ( counter[ '-' ] > 1 ):
+    if counter[ '-' ] > 1:
         raise ValueError( 'dice expressions can only contain a single \'-\'' )
 
-    if ( counter[ '+' ] + counter[ '-' ] > 1 ):
+    if counter[ '+' ] + counter[ '-' ] > 1:
         raise ValueError( 'dice expressions can only have a single modifier (\'+\' or \'-\')' )
 
-    import re
     expressions = re.split( ',', arg )
 
     result = [ ]
@@ -288,7 +287,7 @@ def parseDiceExpression( arg ):
             elif state == diceValueState:
                 diceValue = int( piece )
 
-                if ( diceValue < 2 ):
+                if diceValue < 2:
                     raise ValueError( 'dice value must be greater than 1' )
 
                 state = defaultState
@@ -298,7 +297,7 @@ def parseDiceExpression( arg ):
                 else:
                     dropLowestCount = int( piece )
 
-                if ( dropLowestCount < 1 ):
+                if dropLowestCount < 1:
                     raise ValueError( 'drop lowest count must be positive' )
 
                 state = defaultState
@@ -308,7 +307,7 @@ def parseDiceExpression( arg ):
                 else:
                     dropHighestCount = int( piece )
 
-                if ( dropHighestCount < 1 ):
+                if dropHighestCount < 1:
                     raise ValueError( 'drop highest count must be positive' )
 
             elif state == plusModifierState:
@@ -361,22 +360,25 @@ def parseDiceExpression( arg ):
 
 def evaluateDiceExpression( args, sumIfPossible=True ):
     result = [ ]
+    modifierSum = 0    # currently only a single modifier is allowed
 
     if sumIfPossible:
         result = [ 0 ]
 
     for diceCount, diceValue, dropLowestCount, dropHighestCount, modifier in args:
+        modifierSum += modifier
+
         if dropLowestCount == 0 and dropHighestCount == 0:
             if sumIfPossible:
-                for i in range( 0, diceCount ):
+                for _ in range( 0, diceCount ):
                     result[ 0 ] += ( randrange( diceValue ) + 1 )
             else:
-                for i in range( 0, diceCount ):
+                for _ in range( 0, diceCount ):
                     result.append( randrange( diceValue ) + 1 )
         else:
             dice = [ ]
 
-            for i in range( 0, diceCount ):
+            for _ in range( 0, diceCount ):
                 dice.append( randrange( diceValue ) + 1 )
 
             dice.sort( )
@@ -389,7 +391,7 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
                 debugPrint( 'drop', dice[ dropLowestCount : ] )
                 result.extend( dice[ dropLowestCount : ] )
 
-    return result, modifier
+    return result, modifierSum
 
 
 # //******************************************************************************

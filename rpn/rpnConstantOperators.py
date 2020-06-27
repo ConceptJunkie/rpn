@@ -117,13 +117,6 @@ Ref:  https://en.wikipedia.org/wiki/Second#%22Atomic%22_second
 Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
 ''' ),
 
-
-    # TODO
-    # https://en.wikipedia.org/wiki/2019_redefinition_of_SI_base_units
-    # The luminous efficacy Kcd of monochromatic radiation of frequency 540×1012 Hz is
-    # exactly 683 lumens per watt (lm·W-1).
-    # Kcd = 683 cd·sr·s3·kg-1·m-2
-
     'magnetic_constant' :
         RPNConstantInfo( '1.25663706212e-6', 'newton/ampere^2',
                          [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], False,

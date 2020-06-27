@@ -112,28 +112,28 @@ hebrewDays = [
 ]
 
 indianCivilDays = [
-    "Somavara",     # Monday
-    "Mangalavara",
-    "Budhavara",
-    "Guruvara",
-    "Sukravara",
-    "Sanivara",
-    "Ravivara",
+    'Somavara',     # Monday
+    'Mangalavara',
+    'Budhavara',
+    'Guruvara',
+    'Sukravara',
+    'Sanivara',
+    'Ravivara',
 ]
 
 indianCivilMonths = [
-    "Chaitra",
-    "Vaishakha",
-    "Jyeshtha",
-    "Ashadha",
-    "Shravana",
-    "Bhaadra",
-    "Ashwin",
-    "Kartika",
-    "Agrahayana",
-    "Pausha",
-    "Magha",
-    "Phalguna",
+    'Chaitra',
+    'Vaishakha',
+    'Jyeshtha',
+    'Ashadha',
+    'Shravana',
+    'Bhaadra',
+    'Ashwin',
+    'Kartika',
+    'Agrahayana',
+    'Pausha',
+    'Magha',
+    'Phalguna',
 ]
 
 islamicMonths = [
@@ -453,7 +453,7 @@ def getMayanCalendarDate( n ):
 
 def convertMayanDate( baktun, katun, tun, uinal, kin ):
     return RPNDateTime( *mayan.to_gregorian( real_int( baktun ), real_int( katun ), real_int( tun ),
-                        real_int( uinal ), real_int( kin ) ), dateOnly = True )
+                                             real_int( uinal ), real_int( kin ) ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -637,8 +637,8 @@ def getEthiopianCalendarDate( n ):
 # //******************************************************************************
 
 def convertEthiopianDate( year, month, day ):
-    eth_date = ethiopian_date.to_gregorian( real_int( year ), real_int( month ), real_int( day ) )
-    return RPNDateTime( eth_date.year, eth_date.month, eth_date.day )
+    ethDate = ethiopian_date.to_gregorian( real_int( year ), real_int( month ), real_int( day ) )
+    return RPNDateTime( ethDate.year, ethDate.month, ethDate.day )
 
 
 # //******************************************************************************

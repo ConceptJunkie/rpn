@@ -12,21 +12,21 @@
 # //
 # //******************************************************************************
 
-import arrow
 import calendar
 import datetime
 import pytz
-import tzlocal
+
+import arrow
 
 from dateutil import tz
+
+from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement, convertUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, real, real_int
 
 import rpn.rpnGlobals as g
-
-from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
 
 # //******************************************************************************
@@ -35,26 +35,26 @@ from mpmath import floor, fmod, fmul, fneg, fsub, nan
 # //
 # //******************************************************************************
 
-Monday = 1
-Tuesday = 2
-Wednesday = 3
-Thursday = 4
-Friday = 5
-Saturday = 6
-Sunday = 7
+MONDAY = 1
+TUESDAY = 2
+WEDNESDAY = 3
+THURSDAY = 4
+FRIDAY = 5
+SATURDAY = 6
+SUNDAY = 7
 
-January = 1
-February = 2
-March = 3
-April = 4
-May = 5
-June = 6
-July = 7
-August = 8
-September = 9
-October = 10
-November = 11
-December = 12
+JANUARY = 1
+FEBRUARY = 2
+MARCH = 3
+APRIL = 4
+MAY = 5
+JUNE = 6
+JULY = 7
+AUGUST = 8
+SEPTEMBER = 9
+OCTOBER = 10
+NOVEMBER = 11
+DECEMBER = 12
 
 
 # //******************************************************************************
@@ -65,7 +65,7 @@ December = 12
 
 def getLocalTimeZone( ):
     if 'time_zone' in g.userVariables:
-        return pytz( g.userVariables[ 'time_zone' ] )
+        return pytz.timezone( g.userVariables[ 'time_zone' ] )
     elif tz.tzlocal( ) is None:
         return pytz.timezone( 'US/Eastern' )
     else:
@@ -105,13 +105,13 @@ class RPNDateTime( arrow.Arrow ):
         return ( self.year, self.month, self.day )
 
     @staticmethod
-    def getUTCOffset( tz = getLocalTimeZone( ) ):
-        d = datetime.datetime.now( tz )
-        return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
+    def getUTCOffset( timeZone = getLocalTimeZone( ) ):
+        dateTime = datetime.datetime.now( timeZone )
+        return RPNMeasurement( dateTime.utcoffset( ).total_seconds( ), 'seconds' )
 
-    def getLocalTime( self, tz = getLocalTimeZone( ) ):
+    def getLocalTime( self, timeZone = getLocalTimeZone( ) ):
         result = self
-        result = result.add( self.getUTCOffset( tz ) )
+        result = result.add( self.getUTCOffset( timeZone ) )
         #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
         return result
 
@@ -123,13 +123,13 @@ class RPNDateTime( arrow.Arrow ):
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
     @staticmethod
-    def convertFromArrow( arrow ):
-        return RPNDateTime( arrow.year, arrow.month, arrow.day, arrow.hour,
-                            arrow.minute, arrow.second, arrow.microsecond, arrow.tzinfo )
+    def convertFromArrow( arrowDT ):
+        return RPNDateTime( arrowDT.year, arrowDT.month, arrowDT.day, arrowDT.hour,
+                            arrowDT.minute, arrowDT.second, arrowDT.microsecond, arrowDT.tzinfo )
 
     @staticmethod
-    def convertFromEphemDate( ephem_date ):
-        dateValues = list( ephem_date.tuple( ) )
+    def convertFromEphemDate( ephemDate ):
+        dateValues = list( ephemDate.tuple( ) )
 
         dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
         dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
@@ -170,14 +170,14 @@ class RPNDateTime( arrow.Arrow ):
         elif self.microsecond > value.microsecond:
             return -1
         else:
-             return 0
+            return 0
 
     def incrementMonths( self, months ):
         newDay = self.day
         newMonth = self.month + int( months )
         newYear = self.year
 
-        if not ( 1 < newMonth < 12 ):
+        if not 1 < newMonth < 12:
             newYear += ( newMonth - 1 ) // 12
             newMonth = ( ( newMonth - 1 ) % 12 ) + 1
 
@@ -213,14 +213,14 @@ class RPNDateTime( arrow.Arrow ):
                 return nan
 
     def format( self ):
-        return "{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}".format( self.year, self.month, self.day,
+        return '{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}'.format( self.year, self.month, self.day,
                                                                         self.hour, self.minute, self.second )
 
     def formatDate( self ):
-        return "{0:4d}-{1:02d}-{2:02d}".format( self.year, self.month, self.day )
+        return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
 
     def formatTime( self ):
-        return "{0:02d}:{1:02d}:{2:02d}".format( self.hour, self.minute, self.second )
+        return '{0:02d}:{1:02d}:{2:02d}'.format( self.hour, self.minute, self.second )
 
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
@@ -249,23 +249,23 @@ class RPNDateTime( arrow.Arrow ):
             raise ValueError( 'incompatible type for subtracting from an absolute time' )
 
     def __gt__( self, value ):
-        return ( self.compare( value ) > 0 )
+        return self.compare( value ) > 0
 
     def __lt__( self, value ):
-        return ( self.compare( value ) < 0 )
+        return self.compare( value ) < 0
 
     def __eq__( self, value ):
-        return ( self.compare( value ) == 0 )
+        return self.compare( value ) == 0
 
     def __ge__( self, value ):
-        return ( self.compare( value ) >= 0 )
+        return self.compare( value ) >= 0
 
     def __le__( self, value ):
-        return ( self.compare( value ) <= 0 )
+        return self.compare( value ) <= 0
 
-    def _isdst( dt ):
+    def _isdst( self, dateTime ):
         try:
-            return super( RPNDateTime, self )._isdst( dt )
+            return super( RPNDateTime, self )._isdst( dateTime )
         except:
             return False
 
@@ -509,8 +509,8 @@ def calculateEaster( year ):
 
 @oneArgFunctionEvaluator( )
 def calculateAshWednesday( year ):
-    ash_wednesday = calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
-    return RPNDateTime( *ash_wednesday.getYMD( ), dateOnly = True )
+    ashWednesday = calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
+    return RPNDateTime( *ashWednesday.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -523,8 +523,8 @@ def calculateAshWednesday( year ):
 
 @oneArgFunctionEvaluator( )
 def calculateGoodFriday( year ):
-    good_friday = calculateEaster( real( year ) ).add( RPNMeasurement( -2, 'day' ) )
-    return RPNDateTime( *good_friday.getYMD( ), dateOnly = True )
+    goodFriday = calculateEaster( real( year ) ).add( RPNMeasurement( -2, 'day' ) )
+    return RPNDateTime( *goodFriday.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -589,7 +589,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 # //******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
-    if real( weekday ) > Sunday or weekday < Monday:
+    if real( weekday ) > SUNDAY or weekday < MONDAY:
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
     if isinstance( year, RPNDateTime ):
@@ -630,7 +630,7 @@ def calculateThanksgiving( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, November, 4, Thursday )
+    return calculateNthWeekdayOfMonth( year, NOVEMBER, 4, THURSDAY )
 
 
 # //******************************************************************************
@@ -648,7 +648,7 @@ def calculateLaborDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, September, 1, Monday )
+    return calculateNthWeekdayOfMonth( year, SEPTEMBER, 1, MONDAY )
 
 
 # //******************************************************************************
@@ -666,7 +666,7 @@ def calculateElectionDay( year ):
     else:
         year = real_int( year )
 
-    result = calculateNthWeekdayOfMonth( year, November, 1, Monday)
+    result = calculateNthWeekdayOfMonth( year, NOVEMBER, 1, MONDAY )
     result.replace( day = result.day + 1 )
 
     return RPNDateTime( *result.getYMD( ), dateOnly = True )
@@ -687,7 +687,7 @@ def calculateMemorialDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, May, -1, Monday )
+    return calculateNthWeekdayOfMonth( year, MAY, -1, MONDAY )
 
 
 # //******************************************************************************
@@ -705,7 +705,7 @@ def calculatePresidentsDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, February, 3, Monday )
+    return calculateNthWeekdayOfMonth( year, FEBRUARY, 3, MONDAY )
 
 
 # //******************************************************************************
@@ -723,7 +723,7 @@ def calculateMartinLutherKingDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, January, 3, Monday )
+    return calculateNthWeekdayOfMonth( year, JANUARY, 3, MONDAY )
 
 
 # //******************************************************************************
@@ -741,7 +741,7 @@ def calculateColumbusDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, October, 2, Monday )
+    return calculateNthWeekdayOfMonth( year, OCTOBER, 2, MONDAY )
 
 
 # //******************************************************************************
@@ -759,7 +759,7 @@ def calculateMothersDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, May, 2, Sunday )
+    return calculateNthWeekdayOfMonth( year, MAY, 2, SUNDAY )
 
 
 # //******************************************************************************
@@ -777,7 +777,7 @@ def calculateFathersDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, June, 3, Sunday )
+    return calculateNthWeekdayOfMonth( year, JUNE, 3, SUNDAY )
 
 
 # //******************************************************************************
@@ -788,7 +788,7 @@ def calculateFathersDay( year ):
 
 @oneArgFunctionEvaluator( )
 def getNewYearsDay( year ):
-    return RPNDateTime( year, 1, 1, dateOnly = True )
+    return RPNDateTime( year, JANUARY, 1, dateOnly = True )
 
 
 # //******************************************************************************
@@ -799,7 +799,7 @@ def getNewYearsDay( year ):
 
 @oneArgFunctionEvaluator( )
 def getVeteransDay( year ):
-    return RPNDateTime( year, 11, 11, dateOnly = True )
+    return RPNDateTime( year, NOVEMBER, 11, dateOnly = True )
 
 
 # //******************************************************************************
@@ -810,7 +810,7 @@ def getVeteransDay( year ):
 
 @oneArgFunctionEvaluator( )
 def getIndependenceDay( year ):
-    return RPNDateTime( year, 7, 4, dateOnly = True )
+    return RPNDateTime( year, JULY, 4, dateOnly = True )
 
 
 # //******************************************************************************
@@ -821,7 +821,7 @@ def getIndependenceDay( year ):
 
 @oneArgFunctionEvaluator( )
 def getChristmasDay( year ):
-    return RPNDateTime( year, 12, 25, dateOnly = True )
+    return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
 
 
 # //******************************************************************************
@@ -872,10 +872,10 @@ def calculatePentecostSunday( year ):
 @oneArgFunctionEvaluator( )
 def calculateAscensionThursday( year ):
     '''
-    I don't know why it's 39 days after Easter instead of 40, but that's how
-    the math works out.  It's the 40th day of the Easter season.
+I don't know why it's 39 days after Easter instead of 40, but that's how
+the math works out.  It's the 40th day of the Easter season.
 
-Or as John Wright says, "Catholics can't count."
+Or as John Wright says, "Catholics can't count."
     '''
     return RPNDateTime( *calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) ).getYMD( ),
                         dateOnly = True )
@@ -897,11 +897,11 @@ def calculateDSTStart( year ):
         year = real_int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, March, 2, Sunday )
+        return calculateNthWeekdayOfMonth( year, MARCH, 2, SUNDAY )
     elif year == 1974:
-        return RPNDateTime( 1974, January, 7, dateOnly = True )
+        return RPNDateTime( 1974, JANUARY, 7, dateOnly = True )
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, April, 1, Sunday )
+        return calculateNthWeekdayOfMonth( year, APRIL, 1, SUNDAY )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -922,11 +922,11 @@ def calculateDSTEnd( year ):
         year = real_int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, November, 1, Sunday )
+        return calculateNthWeekdayOfMonth( year, NOVEMBER, 1, SUNDAY )
     elif year == 1974:
-        return RPNDateTime( 1974, December, 31, dateOnly = True )  # technically DST never ended in 1974
+        return RPNDateTime( 1974, DECEMBER, 31, dateOnly = True )  # technically DST never ended in 1974
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, October, -1, Sunday )
+        return calculateNthWeekdayOfMonth( year, OCTOBER, -1, SUNDAY )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -1060,6 +1060,6 @@ def getSecond( n ):
 # //
 # //******************************************************************************
 
-def isDST( t, tz ):
-    return t.astimezone( tz ).dst( ) != datetime.timedelta( 0 )
+def isDST( dateTime, timeZone ):
+    return dateTime.astimezone( timeZone ).dst( ) != datetime.timedelta( 0 )
 

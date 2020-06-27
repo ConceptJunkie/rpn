@@ -13,7 +13,6 @@
 # //******************************************************************************
 
 import signal
-import sys
 
 
 # //******************************************************************************
@@ -24,19 +23,23 @@ import sys
 # //
 # //******************************************************************************
 
-class DelayedKeyboardInterrupt( object ):
+class DelayedKeyboardInterrupt( ):
     '''This class is used to mask keyboard interrupts.'''
+    def __init__( self ):
+        self.signalReceived = False
+        self.oldHandler = None
+
     def __enter__( self ):
-        self.signal_received = False
-        self.old_handler = signal.getsignal( signal.SIGINT )
+        self.signalReceived = False
+        self.oldHandler = signal.getsignal( signal.SIGINT )
         signal.signal( signal.SIGINT, self.handler )
 
-    def handler( self, signal, frame ):
-        self.signal_received = ( signal, frame )
+    def handler( self, signalType, frame ):
+        self.signalReceived = ( signalType, frame )
 
-    def __exit__( self, type, value, traceback ):
-        signal.signal( signal.SIGINT, self.old_handler )
+    def __exit__( self, signalType, value, traceback ):
+        signal.signal( signal.SIGINT, self.oldHandler )
 
-        if self.signal_received:
-            self.old_handler( *self.signal_received )
+        if self.signalReceived:
+            self.oldHandler( *self.signalReceived )
 

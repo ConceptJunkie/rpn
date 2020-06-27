@@ -12,10 +12,11 @@
 # //
 # //******************************************************************************
 
-import arrow
 import math
 
-from mpmath import fdiv, fmul, fneg, mp, mpc, mpf, mpmathify
+import arrow
+
+from mpmath import fdiv, fneg, mp, mpc, mpf, mpmathify
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
@@ -238,17 +239,16 @@ def parseInputValue( term, inputRadix = 10 ):
 # //******************************************************************************
 
 def readListFromFileGenerator( filename ):
-    result = [ ]
 
     with open( filename ) as file:
         for i in file:
             if i == '\n':
                 continue
-            else:
-                try:
-                    yield parseInputValue( i )
-                except:
-                    pass
+
+            try:
+                yield parseInputValue( i )
+            except:
+                pass
 
 @oneArgFunctionEvaluator( )
 def readListFromFile( filename ):
