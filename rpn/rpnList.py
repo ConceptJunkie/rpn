@@ -473,6 +473,7 @@ def getCumulativeListRatios( args ):
 
 def getReverse( args ):
     # These list comprehensions _are_ needed.
+    # pylint: disable=unnecessary-comprehension
     return [ i for i in reversed( [ j for j in args ] ) ]
 
 

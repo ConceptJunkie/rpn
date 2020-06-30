@@ -245,6 +245,8 @@ class RPNFunction( object ):
         elif self.argCount == 3:
             return self.function( x, y, z )
 
+        raise ValueError( 'too many arguments for a user-defined function' )
+
     def setCode( self, code ):
         if code.find( 'rpnInternalFunction( ):' ) != -1:
             self.argCount = 0

@@ -12,15 +12,19 @@
 # //
 # //******************************************************************************
 
-from enum import Enum
-from mpmath import exp, fadd, fmul, nan, nstr
+import random
 
+from enum import Enum
+
+from mpmath import exp, fadd, fmul, floor, im, nan, nstr
+
+from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnLocation import RPNLocation
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded
 
-import random
 
 import rpn.rpnGlobals as g
 
@@ -38,7 +42,8 @@ class RPNArgumentType( Enum ):
     Integer = 3
     PositiveInteger = 4         # integer >= 1
     NonnegativeInteger = 5      # integer >= 0
-    PrimeInteger = 6,
+    PrimeInteger = 649
+
     String = 7
     DateTime = 8
     Location = 9                # location object (operators will automatically convert a string)
@@ -46,7 +51,7 @@ class RPNArgumentType( Enum ):
     Measurement = 11
     AstronomicalObject = 12
     List = 13                   # the argument must be a list
-    Generator = 14              # Generator needs to be a separate type now, but eventually it should be equivalent to List
+    Generator = 14              # Generator is a separate type now, but eventually it should be equivalent to List
     Function = 15
 
 
@@ -165,7 +170,7 @@ argumentGenerators = {
 # //
 # //******************************************************************************
 
-class RPNVariable( object ):
+class RPNVariable( ):
     '''
     This class represents a variable in rpn, and it maintains a global
     dictionary of all variables keyed by name.
@@ -190,7 +195,7 @@ class RPNVariable( object ):
         if self.isHistory:
             prompt = int( self.name )
 
-            if ( 0 < prompt < g.promptCount ):
+            if 0 < prompt < g.promptCount:
                 self.value = g.results[ prompt ]
             else:
                 raise ValueError( 'result index out of range' )
@@ -229,7 +234,8 @@ class RPNOperator( object ):
     # This method isn't used yet, but I hope to start using it soon.
     @staticmethod
     def validateArgType( self, term, arg, argType ):
-        if isinstance( arg, ( list, RPNGenerator ) ) and argType not in ( RPNArgumentType.List, RPNArgumentType.Generator ):
+        if isinstance( arg, ( list, RPNGenerator ) ) and \
+           argType not in ( RPNArgumentType.List, RPNArgumentType.Generator ):
             return True
 
         if argType == RPNArgumentType.Default:

@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import fabs, fdiv, floor, fmod, mpf, power
+from mpmath import fabs, fdiv, floor, fmod, power
 
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, real_int
@@ -27,19 +27,23 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, real_int
 def getModifiedOnesName( name, code ):
     if ( 'n' in code ) and ( name in [ 'septe', 'nove' ] ):
         return name + 'n'
-    elif ( 'm' in code ) and ( name in [ 'septe', 'nove' ] ):
+
+    if ( 'm' in code ) and ( name in [ 'septe', 'nove' ] ):
         return name + 'm'
-    elif ( 's' in code ) and ( name in [ 'tre', 'se' ] ):
+
+    if ( 's' in code ) and ( name in [ 'tre', 'se' ] ):
         return name + 's'
-    elif ( 'x' in code ):
-        if ( name == 'tre' ):
+
+    if 'x' in code:
+        if name == 'tre':
             return name + 's'
-        elif ( name == 'se' ):
+
+        if name == 'se':
             return name + 'x'
-        else:
-            return name
-    else:
+
         return name
+
+    return name
 
 
 # //******************************************************************************
@@ -248,7 +252,7 @@ def getNumberName( n, ordinal = False ):
     if isinstance( n, RPNMeasurement ):
         value = n.value
 
-        if value == 1 or value == -1:
+        if value in [ 1, -1 ]:
             units = n.getUnitName( )
         else:
             units = n.getPluralUnitName( )

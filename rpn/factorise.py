@@ -38,8 +38,12 @@ verbose = False
 class Polynomial:
     """A polynomial used for the Self-Initializing Quadratic Sieve."""
 
-    def __init__(self, coeff=[], a=None, b=None):
-        self.coeff = coeff
+    def __init__(self, coeff=None, a=None, b=None):
+        if coeff is None:
+            self.coeff = [ ]
+        else:
+            self.coeff = coeff
+
         self.a = a
         self.b = b
 

@@ -12,34 +12,30 @@
 # //
 # //******************************************************************************
 
-import collections
-import itertools
-import numpy as np
 import random
 
 from fractions import Fraction
 from functools import reduce
 
-from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
-                   fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
-                   fprod, fsub, fsum, gamma, harmonic, hyperfac, isint, \
-                   libmp, log10, loggamma, mp, mpc, mpf, mpmathify, nint, phi, \
-                   polyroots, polyval, power, primepi2, psi, re, root, \
-                   superfac, sqrt, unitroots, zeta, zetazero
+import numpy as np
+
+from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, cyclotomic, \
+                   e, fabs, fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
+                   fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log10, \
+                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, \
+                   polyval, power, primepi2, psi, re, root, superfac, sqrt, \
+                   unitroots, zeta, zetazero
 
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnList import calculateHarmonicMean, getGCD, getGCDOfList, \
-                        calculatePowerTower2, reduceList
+from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
-from rpn.rpnPrimeUtils import findPrime, getNthPrime, getPreviousPrime, isPrime
+from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
                          setAccuracyForN, twoArgFunctionEvaluator, real, real_int
-
-import rpn.rpnGlobals as g
 
 
 # //******************************************************************************
@@ -150,7 +146,7 @@ def getNthLucasNumber( n ):
     else:
         precision = int( fdiv( fmul( n, 2 ), 8 ) )
 
-        if ( mp.dps < precision ):
+        if mp.dps < precision:
             mp.dps = precision
 
         return floor( fadd( power( phi, n ), 0.5 ) )
@@ -231,20 +227,21 @@ def getNthFibonacci( n ):
 def getNthFibonacciPolynomial( n ):
     if real( n ) < 2:
         raise ValueError( 'argument >= 2 expected' )
-    elif n == 2:
+
+    if n == 2:
         return [ 2, -1 ]
-    else:
-        result = [ ]
 
-        i = int( n )
+    result = [ ]
 
-        for j in range( -1, i - 3 ):
-            result.append( j )
+    i = int( n )
 
-        result.append( ( i - 1 ) * 2 )
-        result.append( -1 )
+    for j in range( -1, i - 3 ):
+        result.append( j )
 
-        return result
+    result.append( ( i - 1 ) * 2 )
+    result.append( -1 )
+
+    return result
 
 
 # //******************************************************************************
@@ -268,7 +265,7 @@ def getNthKFibonacciNumber( n, k ):
 
     precision = int( fdiv( fmul( n, k ), 8 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     poly = [ 1 ]
@@ -330,7 +327,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     '''
     precision = int( fdiv( fmul( int( n ), real( k ) ), 8 ) )
 
-    if ( mp.dps < precision ):
+    if mp.dps < precision:
         mp.dps = precision
 
     return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], n )
@@ -359,6 +356,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getNthPadovanNumber( arg ):
+    # pylint: disable=invalid-name
     n = fadd( real( arg ), 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
@@ -416,8 +414,8 @@ class RPNContinuedFraction( list ):
 
         frac = Fraction( 1, int( self[ terms ] ) )
 
-        for t in reversed( self[ 1 : terms ] ):
-            frac = 1 / ( frac + int( t ) )
+        for term in reversed( self[ 1 : terms ] ):
+            frac = 1 / ( frac + int( term ) )
 
         frac += int( self[ 0 ] )
 
@@ -441,7 +439,7 @@ def convertFromContinuedFraction( n ):
         n = [ n ]
 
     if ( len( n ) == 1 ) and ( n[ 0 ] <= 0 ):
-        raise ValueError( "invalid input for evaluating a continued fraction" )
+        raise ValueError( 'invalid input for evaluating a continued fraction' )
 
     fraction = RPNContinuedFraction( n ).getFraction( )
 
@@ -467,7 +465,7 @@ def makeContinuedFraction( n, k ):
 
 @twoArgFunctionEvaluator( )
 def interpretAsFraction( n, k ):
-    if ( mp.dps < real_int( k ) ):
+    if mp.dps < real_int( k ):
         mp.dps = k
 
     cutoff = fmul( n, power( 10, -10 ) )
@@ -519,14 +517,14 @@ def interpretAsBaseOperator( args, base ):
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getGreedyEgyptianFraction( n, d ):
-    if real( n ) > real( d ):
+def getGreedyEgyptianFraction( nominator, denominator ):
+    if real_int( nominator ) > real_int( denominator ):
         raise ValueError( "'egypt' requires the numerator to be smaller than the denominator" )
 
     # Create a list to store the Egyptian fraction representation.
     result = [ ]
 
-    rational = Fraction( int( n ), int( d ) )
+    rational = Fraction( int( nominator ), int( denominator ) )
 
     # Now, iteratively subtract out the largest unit fraction that may be
     # subtracted out until we arrive at a unit fraction.
@@ -824,6 +822,7 @@ def makePythagoreanTriple( n, k ):
 # //******************************************************************************
 
 def generatePythagoreanTriplesOld( n ):
+    # pylint: disable=invalid-name
     for x in arange( 1, n + 1 ):
         y = x + 1
         z = y + 1
@@ -837,9 +836,8 @@ def generatePythagoreanTriplesOld( n ):
 
             y += 1
 
-import numpy as np
-
 def generatePythagoreanTriples( limit ):
+    # pylint: disable=invalid-name
     u = np.mat( ' 1  2  2; -2 -1 -2; 2 2 3' )
     a = np.mat( ' 1  2  2;  2  1  2; 2 2 3' )
     d = np.mat( '-1 -2 -2;  2  1  2; 2 2 3' )
@@ -891,6 +889,7 @@ def makePythagoreanTriples( n ):
 
 @twoArgFunctionEvaluator( )
 def makePythagoreanQuadruple( a, b ):
+    # pylint: disable=invalid-name
     if a < 0 or b < 0:
         raise ValueError( "'make_pyth_4' requires positive arguments" )
 
@@ -915,11 +914,12 @@ def makePythagoreanQuadruple( a, b ):
         else:
             p = random.choice( div[ : ( len( div ) - 1 ) // 2 ] )
     else:
-        if ( fmod( sumsqr, 2 ) == 1 ):
+        if fmod( sumsqr, 2 ) == 1:
             raise ValueError( "'make_pyth_4' oops, can't make one!" )
-        else:
-            div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] if fmod( sumsqr, fmul( i, 2 ) ) == 0 and fmod( i, 2 ) == 0 ]
-            p = random.choice( div )
+
+        div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] \
+              if fmod( sumsqr, fmul( i, 2 ) ) == 0 and fmod( i, 2 ) == 0 ]
+        p = random.choice( div )
 
     psqr = fmul( p, p )
     result.append( fdiv( fsub( sumsqr, psqr ), fmul( p, 2 ) ) )
@@ -940,6 +940,7 @@ def makePythagoreanQuadruple( a, b ):
 # //******************************************************************************
 
 def makeEulerBrick( _a, _b, _c ):
+    # pylint: disable=invalid-name
     a, b, c = sorted( [ real( _a ), real( _b ), real( _c ) ] )
 
     if fadd( power( a, 2 ), power( b, 2 ) ) != power( c, 2 ):
@@ -984,6 +985,7 @@ def getNthFibonorial( n ):
 
 @twoArgFunctionEvaluator( )
 def getExtendedGCD( a, b ):
+    # pylint: disable=invalid-name
     '''
     Euclid's Extended GCD Algorithm
 
@@ -1042,6 +1044,7 @@ def getLCM( n, k ):
 # //******************************************************************************
 
 def getFrobeniusNumber( args ):
+    # pylint: disable=invalid-name
     '''
     http://ccgi.gladman.plus.com/wp/?page_id=1500
 
@@ -1072,12 +1075,13 @@ def getFrobeniusNumber( args ):
             a = [ ]
 
             if getGCDOfList( args ) > 1:
-                raise ValueError( "the 'frobenius' operator is only valid for lists of values that have a great common denominator of 1" )
+                raise ValueError( 'the \'frobenius\' operator is only valid for lists '
+                                  'of values that have a great common denominator of 1' )
 
             for i in sorted( args ):
                 a.append( int( i ) )
 
-            def __residue_table( a ):
+            def getResidueTable( a ):
                 n = [ 0 ] + [ None ] * ( a[ 0 ] - 1 )
 
                 for i in range( 1, len( a ) ):
@@ -1089,14 +1093,14 @@ def getFrobeniusNumber( args ):
                             continue
 
                         if nn is not None:
-                            for c in range( a[ 0 ] // d ):
+                            for _ in range( a[ 0 ] // d ):
                                 nn += a[ i ]
                                 p = nn % a[ 0 ]
                                 nn = min( nn, n[ p ] ) if n[ p ] is not None else nn
                                 n[ p ] = nn
                 return [ i for i in n if i is not None ]
 
-            return max( __residue_table( sorted( a ) ) ) - min( a )
+            return max( getResidueTable( sorted( a ) ) ) - min( a )
     else:
         return 1 if args > 1 else -1
 
@@ -1107,11 +1111,14 @@ def getFrobeniusNumber( args ):
 # //
 # //******************************************************************************
 
-def solveFrobenius( n, k, translate, prefix=[ ] ):
+def solveFrobenius( n, k, translate, prefix=None ):
     #print( )
     #print( 'n', n )
     #print( 'k', k )
     #print( 'prefix', prefix )
+
+    if prefix is None:
+        prefix = [ ]
 
     size = len( n ) + len( prefix )
 
@@ -1142,7 +1149,8 @@ def solveFrobenius( n, k, translate, prefix=[ ] ):
 @listAndOneArgFunctionEvaluator( )
 def solveFrobeniusOperator( n, k ):
     if len( n ) > 1 and getGCDOfList( n ) > 1:
-        raise ValueError( "the 'solve_frobenius' operator is only valid for lists of values that have a great common denominator of 1" )
+        raise ValueError( 'the \'solve_frobenius\' operator is only valid for lists '
+                          'of values that have a great common denominator of 1' )
 
     sortedArgs = sorted( n, reverse=True )
 
@@ -1175,6 +1183,7 @@ def solveFrobeniusOperator( n, k ):
 # //******************************************************************************
 
 def _crt( a, b, m, n ):
+    # pylint: disable=invalid-name
     d = getGCD( m, n )
 
     if fmod( fsub( a, b ), d ) != 0:
@@ -1183,7 +1192,7 @@ def _crt( a, b, m, n ):
     x = floor( fdiv( m, d ) )
     y = floor( fdiv( n, d ) )
     z = floor( fdiv( fmul( m, n ), d ) )
-    p, q, r = getExtendedGCD( x, y )
+    p, q, _ = getExtendedGCD( x, y )
 
     return fmod( fadd( fprod( [ b, p, x ] ), fprod( [ a, q, y ] ) ), z )
 
@@ -1200,6 +1209,7 @@ def _crt( a, b, m, n ):
 # //******************************************************************************
 
 def calculateChineseRemainderTheorem( values, mods ):
+    # pylint: disable=invalid-name
     '''
     The Chinese Remainder Theorem (CRT)
 
@@ -1371,7 +1381,7 @@ def getAliquotSequenceGenerator( n, k ):
 
     results = [ a ]
 
-    for i in arange( 0, real( k ) - 1 ):
+    for _ in arange( 0, real( k ) - 1 ):
         b = fsub( getSigma( a ), a )
         yield b
 
@@ -1396,6 +1406,8 @@ def getAliquotSequence( n, k ):
 @twoArgFunctionEvaluator( )
 def getLimitedAliquotSequenceGenerator( n, k ):
     '''
+    This generates aliquots until the usual termination conditions of
+    getAliquotSequence, or the number exceeds k decimal digits in size.
     '''
     yield real( floor( n ) )
 
@@ -1498,16 +1510,19 @@ def getEulerPhi( n ):
 # //
 # //******************************************************************************
 
-def getPowMod( x, y, z ):
-    "Calculate (x ** y) % z efficiently."
+def getPowMod( a, b, c ):
+    '''
+    Calculate (a ** y) % z efficiently.
+    '''
+
     result = 1
 
-    while y:
-        if fmod( y, 2 ) == 1:
-            result = fmod( fmul( result, x ), z )
+    while b:
+        if fmod( b, 2 ) == 1:
+            result = fmod( fmul( result, a ), c )
 
-        y = floor( fdiv( y, 2 ) )
-        x = fmod( fmul( x, x ), z )
+        b = floor( fdiv( b, 2 ) )
+        a = fmod( fmul( a, a ), c )
 
     return result
 
@@ -1877,7 +1892,6 @@ def joinNumber( digits, base ):
 
 def generatePolydivisiblesGenerator( _base ):
     base = int( _base )
-    result = list( range( 1, base ) )
     newItems = list( range( 1, base ) )
 
     yield 0
@@ -2130,7 +2144,10 @@ def getNthThueMorse( n ):
 # //
 # //******************************************************************************
 
-def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
+def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=None ):
+    if prefix is None:
+        prefix = [ ]
+
     # If we are looking for only one power, then we only have one choice
     if k == 1:
         if n == 0:
@@ -2283,7 +2300,7 @@ def getCollatzSequenceGenerator( n, k ):
 
     a = n
 
-    for i in arange( 0, real( k ) - 1 ):
+    for _ in arange( 0, real( k ) - 1 ):
         if isEven( a ):
             b = fdiv( a, 2 )
         else:
@@ -2430,23 +2447,30 @@ def calculateAckermannFunction( n, k ):
     # shortcuts to help with excessive recursion
     if n == 1:
         return fadd( k, 2 )
-    elif n == 2:
+
+    if n == 2:
         return fadd( fmul( 2, k ), 3 )
-    elif n == 3:
+
+    if n == 3:
         return fsub( power( 2, fadd( k, 3 ) ), 3 )
-    elif n == 4:
+
+    if n == 4:
         return fsub( calculatePowerTower2( [ 2 ] * ( int( k ) + 3 ) ), 3 )
 
     # Here's the real algorithm...
     if n == 0:
         #print( k + 1 )
         return fadd( k, 1 )
-    elif n > 0 and k == 0:
+
+    if n > 0 and k == 0:
         #print( "ackermann( ", n - 1, ",", 1, " ) " )
         return calculateAckermannFunction( fsub( n, 1 ), 1 )
-    elif n > 0 and k > 0:
+
+    if n > 0 and k > 0:
         #print( "Ackermann( ", n - 1, ",", "Ackermann( ", n, ",", k- 1, " )", " )" )
         return calculateAckermannFunction( fsub( n, 1 ), calculateAckermannFunction( n, fsub( k, 1 ) ) )
+
+    raise ValueError( 'invalid arguments' )
 
 
 # //******************************************************************************
@@ -2589,7 +2613,8 @@ def getNthKPolygorial( n, k ):
         raise ValueError( 'polygorials are defined for k >= 3' )
 
     return fmul( fdiv( fac( n ), power( 2, n ) ),
-                 fdiv( fmul( power( fsub( k, 2 ), n ), gamma( fdiv( fadd( fsub( fmul( n, k ), fmul( 2, n ) ), 2 ), fsub( k, 2 ) ) ) ),
+                 fdiv( fmul( power( fsub( k, 2 ), n ),
+                             gamma( fdiv( fadd( fsub( fmul( n, k ), fmul( 2, n ) ), 2 ), fsub( k, 2 ) ) ) ),
                        gamma( fdiv( 2, fsub( k, 2 ) ) ) ) )
 
 
@@ -2660,11 +2685,14 @@ def getNthKPolygorial( n, k ):
 #                if fact==oldfact:
 #                        carlambda_comp = (carlambda_comp*fact)
 #                else:
-#                        if ((oldfact == 2) and (carlambda_comp >= 4)): carlambda_comp /= 2 # Z_(2**e) is not cyclic for e>=3
+#                        if ((oldfact == 2) and (carlambda_comp >= 4)):
+#                           carlambda_comp /= 2 # Z_(2**e) is not cyclic for e>=3
+#
 #                        if carlambda == 1:
 #                                carlambda = carlambda_comp
 #                        else:
 #                                carlambda = (carlambda * carlambda_comp)/gcd(carlambda,carlambda_comp)
+#
 #                        carlambda_comp = fact-1
 #                        oldfact = fact
 #        return carlambda

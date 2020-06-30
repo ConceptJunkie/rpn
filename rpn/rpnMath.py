@@ -12,19 +12,20 @@
 # //
 # //******************************************************************************
 
+from functools import reduce
+
 from hyperop import hyperop
 from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    asec, asech, asin, asinh, atan, atanh, autoprec, ceil, \
-                   conj, cos, cosh, cot, coth, csc, csch, e, exp, fabs, \
-                   fadd, fdiv, floor, fmod, fmul, fneg, fprod, fsub, hypot, \
-                   im, isint, lambertw, li, ln, log, log10, mp, mpc, mpf, \
-                   nint, phi, polyexp, polylog, power, re, root, sec, sech, \
-                   sign, sin, sinh, sqrt, tan, tanh, unitroots
+                   conj, cos, cosh, cot, coth, csc, csch, e, exp, fabs, fadd, \
+                   fdiv, floor, fmod, fmul, fneg, fsub, hypot, im, isint, \
+                   lambertw, li, ln, log, log10, mpc, mpf, nint, phi, polyexp, \
+                   polylog, power, re, root, sec, sech, sign, sin, sinh, sqrt, \
+                   tan, tanh, unitroots
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement, RPNUnits
-from rpn.rpnName import getOrdinalName
+from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real, real_int
 
 
@@ -334,7 +335,7 @@ def getNearestInt( n ):
 def tetrate( i, j ):
     result = i
 
-    for x in arange( 1, j ):
+    for _ in arange( 1, j ):
         result = power( result, i )
 
     return result
@@ -355,7 +356,7 @@ def tetrate( i, j ):
 def tetrateRight( i, j ):
     result = i
 
-    for x in arange( 1, j ):
+    for _ in arange( 1, j ):
         result = power( i, result )
 
     return result
@@ -390,8 +391,8 @@ def isSquare( n ):
     #mod = fmod( n, 16 )
 
     #if mod in [ 0, 1, 4, 9 ]:
-        sqrtN = sqrt( n )
-        return 1 if sqrtN == floor( sqrtN ) else 0
+    sqrtN = sqrt( n )
+    return 1 if sqrtN == floor( sqrtN ) else 0
     #else:
     #    return 0
 
@@ -853,7 +854,7 @@ def getModulo( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getAGM( n, k ):
-    return agm( n, k ),
+    return agm( n, k )
 
 
 # //******************************************************************************
@@ -1049,9 +1050,7 @@ def calculateHypotenuse( n, k ):
 # //
 # //******************************************************************************
 
-from functools import reduce
-
-class hyperop_left( hyperop ):
+class hyperopLeft( hyperop ):
     def __call__( self, a, b ):
         '''
         Evaluate and return expression H[n](a,b).
@@ -1090,7 +1089,7 @@ def calculateNthHyperoperator( a, b, c ):
         else:
             return 4
 
-    return hyperop_left( a )( b, c )
+    return hyperopLeft( a )( b, c )
 
 
 # //******************************************************************************

@@ -12,13 +12,13 @@
 # //
 # //******************************************************************************
 
-import gmpy2
 import itertools
 import string
 
-from functools import reduce
-from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fneg, fprod, \
-                   fsub, fsum, log10, mpf, mpmathify, nint, power
+from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, \
+                   fsum, log10, mpf, mpmathify, nint, power
+
+import gmpy2
 
 from rpn.rpnBase import convertToBaseN
 from rpn.rpnFactor import getFactors
@@ -43,11 +43,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
 
 @oneArgFunctionEvaluator( )
 def splitNumberByDigits( n ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    split = len( str ) // 2
+    split = len( n ) // 2
 
-    return mpmathify( str[ : split ] ), mpmathify( str[ split : ] )
+    return mpmathify( n[ : split ] ), mpmathify( n[ split : ] )
 
 
 # //******************************************************************************
@@ -57,11 +57,9 @@ def splitNumberByDigits( n ):
 # //******************************************************************************
 
 def getDigitList( n, dropZeroes = False ):
-    str = getMPFIntegerAsString( n )
-
     result = [ ]
 
-    for c in str:
+    for c in getMPFIntegerAsString( n ):
         if dropZeroes and c == '0':
             continue
 
@@ -115,7 +113,7 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
         if n < 0:
             raise ValueError( '\'get_base_k_digits\' does not support negative numbers.' )
 
-        ascii_digits = gmpy2.digits( int( n ), int( base ) )
+        asciiDigits = gmpy2.digits( int( n ), int( base ) )
 
         digits = [ ]
 
@@ -123,10 +121,10 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
         orda = ord( 'a' )
         ordA = ord( 'A' )
 
-        for i in ascii_digits:
-            if i >= '0' and i <= '9':
+        for i in asciiDigits:
+            if '0' <= i <= '9':
                 digits.append( ord( i ) - ord0 )
-            elif i >= 'a' and i <= 'z':
+            elif 'a' <= i <= 'z':
                 digits.append( ord( i ) - orda )
             else:
                 digits.append( ord( i ) - ordA )
@@ -135,11 +133,11 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
 
     result = [ ]
 
-    for c in digits:
-        if dropZeroes and c == 0:
+    for digit in digits:
+        if dropZeroes and digit == 0:
             continue
 
-        result.append( c )
+        result.append( digit )
 
     return result
 
@@ -180,11 +178,9 @@ def isBaseKPandigital( n, base ):
 
 @oneArgFunctionEvaluator( )
 def sumDigits( n ):
-    str = getMPFIntegerAsString( n )
-
     result = 0
 
-    for c in str:
+    for c in getMPFIntegerAsString( n ):
         result = fadd( result, int( c ) )
 
     return result
@@ -199,10 +195,11 @@ def sumDigits( n ):
 def multiplyDigitList( n, exponent = 1, dropZeroes = False ):
     if exponent < 1:
         raise ValueError( 'multiplyDigitList( ) expects a positive integer for \'exponent\'' )
-    elif exponent == 1:
+
+    if exponent == 1:
         return fprod( getDigitList( n, dropZeroes ) )
-    else:
-        return fprod( [ power( i, exponent ) for i in getDigitList( n, dropZeroes ) ] )
+
+    return fprod( [ power( i, exponent ) for i in getDigitList( n, dropZeroes ) ] )
 
 @oneArgFunctionEvaluator( )
 def multiplyDigits( n ):
@@ -270,6 +267,7 @@ def combineDigits( n ):
     listResult = False
 
     for i in n:
+        # TODO:  This whole list handling stuff is not right.
         if isinstance( i, ( list, RPNGenerator ) ) and result == 0:
             listResult = True
             result = [ combineDigits( i ) ]
@@ -317,17 +315,13 @@ def duplicateDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def duplicateNumber( n, k ):
-    if real( k ) < 0:
+    if real_int( k ) == 0:
+        return 0
+
+    if k < 0:
         raise ValueError( "'duplicate_number' requires a non-negative integer for the second argument" )
 
-    str = getMPFIntegerAsString( n )
-
-    target = ''
-
-    for i in arange( k ):
-        target += str
-
-    return mpmathify( target )
+    return mpmathify( getMPFIntegerAsString( n ) * int( k ) )
 
 
 # //******************************************************************************
@@ -349,12 +343,12 @@ def reverseDigits( n ):
 
 @oneArgFunctionEvaluator( )
 def isPalindrome( n ):
-    str = getMPFIntegerAsString( n )
+    result = getMPFIntegerAsString( n )
 
-    length = len( str )
+    length = len( result )
 
     for i in range( 0, length // 2 ):
-        if str[ i ] != str[ -( i + 1 ) ]:
+        if result[ i ] != result[ -( i + 1 ) ]:
             return 0
 
     return 1
@@ -368,9 +362,9 @@ def isPalindrome( n ):
 
 @oneArgFunctionEvaluator( )
 def isPandigital( n ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    length = len( str )
+    length = len( n )
 
     if length < 10:
         digitsToCheck = string.digits[ 1 : length + 1 ]
@@ -378,7 +372,7 @@ def isPandigital( n ):
         digitsToCheck = string.digits
 
     for c in digitsToCheck:
-        if c not in str:
+        if c not in n:
             return 0
 
     return 1
@@ -392,13 +386,13 @@ def isPandigital( n ):
 
 @twoArgFunctionEvaluator( )
 def containsDigits( n, k ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
     if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     for c in k:
-        if c not in str:
+        if c not in n:
             return 0
 
     return 1
@@ -412,13 +406,13 @@ def containsDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def containsAnyDigits( n, k ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
     if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     for c in k:
-        if c in str:
+        if c in n:
             return 1
 
     return 0
@@ -432,12 +426,10 @@ def containsAnyDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def containsOnlyDigits( n, k ):
-    str = getMPFIntegerAsString( n )
-
     if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
-    for c in str:
+    for c in getMPFIntegerAsString( n ):
         if c not in k:
             return 0
 
@@ -452,7 +444,7 @@ def containsOnlyDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def countDigits( n, k ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
     if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
@@ -460,7 +452,7 @@ def countDigits( n, k ):
     result = 0
 
     for c in k:
-        result += str.count( c )
+        result += n.count( c )
 
     return result
 
@@ -484,8 +476,7 @@ def getDigitCount( n ):
 
 @oneArgFunctionEvaluator( )
 def countDifferentDigits( n ):
-    str = getMPFIntegerAsString( n )
-    return len( list( set( str ) ) )
+    return len( list( set( getMPFIntegerAsString( n ) ) ) )
 
 
 # //******************************************************************************
@@ -501,9 +492,7 @@ def getNthReversalAdditionGenerator( n, k ):
     next = int( real_int( n ) )
     yield next
 
-    previous = next
-
-    for i in arange( k ):
+    for _ in arange( k ):
         next = fadd( reverseDigits( next ), next )
 
         yield next
@@ -547,10 +536,9 @@ def isNarcissistic( n ):
     count = len( digits )
 
     sum = 0
-    oldsum = 0
 
-    for d in digits:
-        sum = fadd( sum, power( d, count ) )
+    for digit in digits:
+        sum = fadd( sum, power( digit, count ) )
 
         if sum > n:
             return 0
@@ -575,8 +563,8 @@ def isPerfectDigitalInvariant( n ):
     while True:
         sum = 0
 
-        for d in digits:
-            sum = fadd( sum, power( d, exponent ) )
+        for digit in digits:
+            sum = fadd( sum, power( digit, exponent ) )
 
             if sum > n:
                 return 0
@@ -605,8 +593,8 @@ def isBaseKNarcissistic( n, k ):
 
     sum = 0
 
-    for d in digits:
-        sum = fadd( sum, power( d, count ) )
+    for digit in digits:
+        sum = fadd( sum, power( digit, count ) )
 
         if sum > n:
             return 0
@@ -642,11 +630,11 @@ def isPerfectDigitToDigitInvariant( n, k ):
 
     sum = 0
 
-    for d in digits:
-        d = int( d )
+    for digit in digits:
+        digit = int( digit )
 
-        if d != 0:
-            sum = fadd( sum, power( d, d ) )
+        if digit != 0:
+            sum = fadd( sum, power( digit, digit ) )
 
         if sum > n:
             return 0
@@ -709,7 +697,7 @@ def isKaprekar( n ):
 
 def convertStringsToNumbers( values ):
     for i in values:
-        yield( mpmathify( i ) )
+        yield mpmathify( i )
 
 
 # //******************************************************************************
@@ -722,7 +710,7 @@ def convertStringsToNumbers( values ):
 def buildNumbers( expression ):
     digitLists = parseNumbersExpression( expression )
 
-    if ( len( digitLists ) == 1 ):
+    if len( digitLists ) == 1:
         return RPNGenerator.createGenerator( convertStringsToNumbers, digitLists )
     else:
         return RPNGenerator.createStringProduct( digitLists )
@@ -743,10 +731,7 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
 
     for i in range( minLength, maxLength + 1 ):
         for item in itertools.product( digits, repeat=i ):
-            number = ''
-
-            for digit in item:
-                number += digit
+            number = ''.join( item )
 
             yield number
 
@@ -854,9 +839,9 @@ def parseNumbersExpression( arg ):
             if '0' <= ch <= '9':
                 if ch <= lastDigit:
                     raise ValueError( 'invalid digit range' )
-                else:
-                    for i in range( int( lastDigit ), int( ch ) + 1 ):
-                        currentGroup.add( str( i ) )
+
+                for i in range( int( lastDigit ), int( ch ) + 1 ):
+                    currentGroup.add( str( i ) )
 
                 state = digitState
         elif state == numberLengthRange1:
@@ -916,9 +901,9 @@ def hasUniqueDigits( n ):
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
-def hasDigits( value, digits ):
-    pass
+#@twoArgFunctionEvaluator( )
+#def hasDigits( value, digits ):
+#    pass
 
 
 # //******************************************************************************
@@ -966,10 +951,10 @@ def getLeftTruncations( n ):
     if n < 0:
         raise ValueError( '\'get_left_truncations\' requires a positive argument' )
 
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    for i, _ in enumerate( str ):
-        yield mpmathify( str[ i : ] )
+    for i, _ in enumerate( n ):
+        yield mpmathify( n[ i : ] )
 
 @oneArgFunctionEvaluator( )
 def getLeftTruncationsGenerator( n ):
@@ -987,10 +972,10 @@ def getRightTruncations( n ):
     if n < 0:
         raise ValueError( '\'get_right_truncations\' requires a positive argument' )
 
-    str = getMPFIntegerAsString( n )
+    result = getMPFIntegerAsString( n )
 
-    for i in range( len( str ), 0, -1 ):
-        yield mpmathify( str[ 0 : i ] )
+    for i in range( len( result ), 0, -1 ):
+        yield mpmathify( result[ 0 : i ] )
 
 @oneArgFunctionEvaluator( )
 def getRightTruncationsGenerator( n ):
@@ -1010,7 +995,8 @@ def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persisten
     if n <= 1:
         return persistence
     else:
-        return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ), exponent, dropZeroes, persistence + 1 )
+        return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ),
+                                             exponent, dropZeroes, persistence + 1 )
 
 @oneArgFunctionEvaluator( )
 def getPersistence( n ):
@@ -1083,10 +1069,10 @@ def permuteDigits( n ):
 
 @oneArgFunctionEvaluator( )
 def isIncreasing( n ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    for i in range( 1, len( str ) ):
-        if str[ i ] < str[ i - 1 ]:
+    for i in range( 1, len( n ) ):
+        if n[ i ] < n[ i - 1 ]:
             return 0
 
     return 1
@@ -1100,10 +1086,10 @@ def isIncreasing( n ):
 
 @oneArgFunctionEvaluator( )
 def isDecreasing( n ):
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    for i in range( 1, len( str ) ):
-        if str[ i ] > str[ i - 1 ]:
+    for i in range( 1, len( n ) ):
+        if n[ i ] > n[ i - 1 ]:
             return 0
 
     return 1
@@ -1131,18 +1117,18 @@ def isBouncy( n ):
 
 @twoArgFunctionEvaluator( )
 def rotateDigitsLeft( n, k ):
-    if ( k < 0 ):
+    if k < 0:
         return rotateDigitsRight( n, fneg( k ) )
 
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    if k > len( str ):
+    if k > len( n ):
         raise ValueError( 'cannot rotate more digits than the number has' )
 
     rotate = int( k )
 
-    str = str[ rotate : ] + str[ : rotate ]
-    return mpmathify( str )
+    n = n[ rotate : ] + n[ : rotate ]
+    return mpmathify( n )
 
 
 # //******************************************************************************
@@ -1153,18 +1139,18 @@ def rotateDigitsLeft( n, k ):
 
 @twoArgFunctionEvaluator( )
 def rotateDigitsRight( n, k ):
-    if ( k < 0 ):
+    if k < 0:
         return rotateDigitsLeft( n, fneg( k ) )
 
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    if k > len( str ):
+    if k > len( n ):
         raise ValueError( 'cannot rotate more digits than the number has' )
 
     rotate = int( k )
 
-    str = str[ -rotate : ] + str[ : -rotate ]
-    return mpmathify( str )
+    n = n[ -rotate : ] + n[ : -rotate ]
+    return mpmathify( n )
 
 
 # //******************************************************************************
@@ -1177,11 +1163,11 @@ def rotateDigitsRight( n, k ):
 def getCyclicPermutations( n ):
     result = [ n ]
 
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    for i in range( len( str ) - 1 ):
-        str = str[ 1 : ] + str[ : 1 ]
-        result.append( mpmathify( str ) )
+    for _ in range( len( n ) - 1 ):
+        n = n[ 1 : ] + n[ : 1 ]
+        result.append( mpmathify( n ) )
 
     return result
 
@@ -1258,10 +1244,10 @@ def isStepNumber( n ):
     if n < 10:
         return 0
 
-    str = getMPFIntegerAsString( n )
+    n = getMPFIntegerAsString( n )
 
-    for i in range( 1, len( str ) ):
-        if abs( int( str[ i ] ) - int( str[ i - 1 ] ) ) != 1:
+    for i in range( 1, len( n ) ):
+        if abs( int( n[ i ] ) - int( n[ i - 1 ] ) ) != 1:
             return 0
 
     return 1
@@ -1315,8 +1301,8 @@ def buildStepNumbersGenerator( maxLength ):
 
         stepNumbers = newStepNumbers
 
-        for i in stepNumbers:
-            yield combineDigits( i )
+        for j in stepNumbers:
+            yield combineDigits( j )
 
 @oneArgFunctionEvaluator( )
 def buildStepNumbers( n ):
@@ -1387,7 +1373,8 @@ def isOrderKSmithNumber( n, k ):
         return 0
 
     sum1 = fsum( [ power( i, k ) for i in getDigits( n ) ] )
-    sum2 = fsum( [ power( j, k ) for j in [ item for sublist in [ getDigits( m ) for m in getFactors( n ) ] for item in sublist ] ] )
+    sum2 = fsum( [ power( j, k ) for j in [ item for sublist in \
+                        [ getDigits( m ) for m in getFactors( n ) ] for item in sublist ] ] )
 
     return 1 if sum1 == sum2 else 0
 

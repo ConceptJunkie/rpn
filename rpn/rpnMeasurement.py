@@ -12,18 +12,14 @@
 # //
 # //******************************************************************************
 
-import collections
-
-from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, fprod, frac, \
+from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, \
                    fsub, log10, mpf, mpmathify, nstr, power, root
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnPersistence import loadUnitConversionMatrix
-from rpn.rpnUnitClasses import getUnitDimensionList, getUnitDimensions, \
-                               getUnitType, RPNUnits
+from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
+from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnUtils import debugPrint, flattenList, getPowerset, \
-                         oneArgFunctionEvaluator
+from rpn.rpnUtils import debugPrint, getPowerset, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 
@@ -51,6 +47,7 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 specialUnitConversionMatrix = {
+    # pylint: disable=line-too-long
     ( 'celsius', 'delisle' )                    : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
     ( 'celsius', 'fahrenheit' )                 : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
     ( 'celsius', 'kelvin' )                     : lambda c: fadd( c, mpf( '273.15' ) ),
@@ -149,7 +146,7 @@ def getSimpleUnitType( unit ):
 # //
 # //******************************************************************************
 
-class RPNMeasurement( object ):
+class RPNMeasurement( ):
     '''This class represents a measurement, which includes a numerical value
     and an RPNUnits instance.'''
     value = mpf( )
@@ -206,7 +203,7 @@ class RPNMeasurement( object ):
         self.units[ unit ] += amount
 
     def decrement( self, unit, amount = 1 ):
-        increment( self, unit, -amount )
+        self.increment( unit, -amount )
 
     def add( self, other ):
         if isinstance( other, RPNMeasurement ):
@@ -253,7 +250,7 @@ class RPNMeasurement( object ):
             return RPNMeasurement( fmod( self.value, other ), self.units ).normalizeUnits( )
 
     def exponentiate( self, exponent ):
-        if ( floor( exponent ) != exponent ):
+        if floor( exponent ) != exponent:
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
 
         exponent = int( exponent )
@@ -265,7 +262,7 @@ class RPNMeasurement( object ):
         return RPNMeasurement( newValue, self.units )
 
     def getRoot( self, operand ):
-        if ( floor( operand ) != operand ):
+        if floor( operand ) != operand:
             raise ValueError( 'cannot take a fractional root of a measurement' )
 
         newUnits = RPNUnits( self.units )
@@ -281,7 +278,7 @@ class RPNMeasurement( object ):
 
                 baseUnits = self.convertToPrimitiveUnits( )
 
-                if ( baseUnits != self ):
+                if baseUnits != self:
                     return baseUnits.getRoot( operand )
                 else:
                     raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', self.units )
@@ -331,15 +328,15 @@ class RPNMeasurement( object ):
 
         nElements = [ ]
 
-        for n in numerator:
-            for i in range( min( numerator[ n ], 3 ) ):
-                nElements.append( n )
+        for nUnit in numerator:
+            for i in range( min( numerator[ nUnit ], 3 ) ):
+                nElements.append( nUnit )
 
         dElements = [ ]
 
-        for d in denominator:
-            for i in range( min( denominator[ d ], 3 ) ):
-                dElements.append( d )
+        for dUnit in denominator:
+            for i in range( min( denominator[ dUnit ], 3 ) ):
+                dElements.append( dUnit )
 
         debugPrint( 'nOriginalElements', nOriginalElements )
         debugPrint( 'nElements', nElements )
@@ -370,39 +367,39 @@ class RPNMeasurement( object ):
                         newNSubset = [ ]
                         newDSubset = [ ]
 
-                        for n in nSubset:
-                            baseUnit = g.basicUnitTypes[ getUnitType( n ) ].baseUnit
+                        for nUnit in nSubset:
+                            baseUnit = g.basicUnitTypes[ getUnitType( nUnit ) ].baseUnit
 
-                            if n != baseUnit:
-                                debugPrint( 'conversion added:', n, baseUnit )
-                                conversionsNeeded.append( ( n, baseUnit ) )
+                            if nUnit != baseUnit:
+                                debugPrint( 'conversion added:', nUnit, baseUnit )
+                                conversionsNeeded.append( ( nUnit, baseUnit ) )
 
                             newNSubset.append( baseUnit )
 
-                        for d in dSubset:
-                            baseUnit = g.basicUnitTypes[ getUnitType( d ) ].baseUnit
+                        for dUnit in dSubset:
+                            baseUnit = g.basicUnitTypes[ getUnitType( dUnit ) ].baseUnit
 
-                            if d != baseUnit:
-                                debugPrint( 'conversion added:', d, baseUnit )
-                                conversionsNeeded.append( ( d, baseUnit ) )
+                            if dUnit != baseUnit:
+                                debugPrint( 'conversion added:', dUnit, baseUnit )
+                                conversionsNeeded.append( ( dUnit, baseUnit ) )
 
                             newDSubset.append( baseUnit )
 
-                        # TODO:  This maybe isn't quite what we want.
+                        # This maybe isn't quite what we want.
                         debugPrint( 'conversions added', '*'.join( sorted( newNSubset ) ),
-                                                         '*'.join( sorted( newDSubset ) ) )
+                                    '*'.join( sorted( newDSubset ) ) )
                         conversionsNeeded.append( ( '*'.join( sorted( newNSubset ) ),
                                                     '*'.join( sorted( newDSubset ) ) ) )
                         matchFound = True
 
-                        for n in nSubset:
-                            #print( 'nOriginalElements', nOriginalElements, 'n', n )
-                            nOriginalElements.remove( n )
+                        for nUnit in nSubset:
+                            #print( 'nOriginalElements', nOriginalElements, 'n', nUnit )
+                            nOriginalElements.remove( nUnit )
                             changed = True
 
-                        for d in dSubset:
-                            #print( 'dOriginalElements', dOriginalElements, 'd', d )
-                            dOriginalElements.remove( d )
+                        for dUnit in dSubset:
+                            #print( 'dOriginalElements', dOriginalElements, 'd', dUnit )
+                            dOriginalElements.remove( dUnit )
                             changed = True
 
                         break
@@ -432,8 +429,8 @@ class RPNMeasurement( object ):
         units = RPNUnits( '*'.join( nOriginalElements ) )
         denominator = RPNUnits( '*'.join( dOriginalElements ) )
 
-        for d in denominator:
-            units[ d ] += denominator[ d ] * -1
+        for dUnit in denominator:
+            units[ dUnit ] += denominator[ dUnit ] * -1
 
         debugPrint( 'normalizeUnits final units', units )
         debugPrint( )
@@ -546,7 +543,8 @@ class RPNMeasurement( object ):
                 debugPrint( 'unit vs newUnits:', unit, newUnits )
 
                 if ( unit, newUnits ) in g.unitConversionMatrix:
-                    value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnits ) ] ), self.units[ unit ] ) )
+                    value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnits ) ] ),
+                                                self.units[ unit ] ) )
                 elif ( unit, newUnits ) in specialUnitConversionMatrix:
                     value = power( specialUnitConversionMatrix[ ( unit, newUnits ) ]( value ), self.units[ unit ] )
                 else:
@@ -592,7 +590,7 @@ class RPNMeasurement( object ):
         # Let's see if we have a base unit type, and use it if we do, since that's a great
         # simplification.  This way you can multiply watts by seconds and get joules.  However,
         # again we don't want a conversion factor.  e.g., meters^3 should not be converted to liters.
-        for name, unitTypeInfo in basicUnitTypes.items( ):
+        for _, unitTypeInfo in basicUnitTypes.items( ):
             if result.getUnitName( ) == unitTypeInfo.primitiveUnit:
                 test = RPNMeasurement( result )
 
@@ -617,21 +615,21 @@ class RPNMeasurement( object ):
 
     def isLarger( self, other ):
         newValue = self.convertValue( other.units )
-        return ( newValue > other.value )
+        return newValue > other.value
 
     def isNotLarger( self, other ):
         return not self.isLarger( other )
 
     def isSmaller( self, other ):
         newValue = self.convertValue( other.units )
-        return ( newValue < other.value )
+        return newValue < other.value
 
     def isNotSmaller( self, other ):
         return not self.isSmaller( other )
 
     def isEqual( self, other ):
         newValue = self.convertValue( other.units )
-        return ( newValue == other.value )
+        return newValue == other.value
 
     def isNotEqual( self, other ):
         return not self.isEqual( other )
@@ -648,7 +646,8 @@ class RPNMeasurement( object ):
 
     def convertValue( self, other ):
         if not isinstance( other, ( RPNUnits, RPNMeasurement, str, list ) ):
-            raise ValueError( 'convertValue must be called with an RPNUnits object, an RPNMeasurement object, a string or a list of RPNMeasurement' )
+            raise ValueError( 'convertValue must be called with an RPNUnits object, '
+                              'an RPNMeasurement object, a string or a list of RPNMeasurement' )
 
         if isinstance( other, ( str, RPNUnits ) ):
             other = RPNMeasurement( 1, other )
@@ -664,7 +663,7 @@ class RPNMeasurement( object ):
         if isinstance( other, list ):
             # a list of length one is treated the same as a single measurement
             if len( other ) == 1:
-                return convertValue( other[ 0 ] )
+                return self.convertValue( other[ 0 ] )
             else:
                 listToConvert = [ ]
 
@@ -732,8 +731,6 @@ class RPNMeasurement( object ):
                         exponents[ ( unit1, unit2 ) ] = units1[ unit1 ]
                         foundConversion = True
                         break
-
-                skip = False
 
                 if not foundConversion:
                     debugPrint( )
@@ -880,18 +877,20 @@ class RPNMeasurement( object ):
             try:
                 return inverted.convert( other )
             except:
-                raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitName( ) + ' and ' + otherUnit )
+                raise ValueError( 'incompatible units cannot be converted: ' +
+                                  self.getUnitName( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
             debugPrint( '----->', self.getUnitName( ), baseUnit1, baseUnit2, otherUnit )
             result = RPNMeasurement( self )
 
-            if ( unit != baseUnit1 ):
+            if unit != baseUnit1:
                 result = self.convert( baseUnit1 )
 
-            result = RPNMeasurement( specialUnitConversionMatrix[ ( baseUnit1, baseUnit2 ) ]( result.value ), baseUnit2 )
+            result = RPNMeasurement( specialUnitConversionMatrix[ ( baseUnit1, baseUnit2 ) ]( result.value ),
+                                     baseUnit2 )
 
-            if ( baseUnit2 != otherUnit ):
+            if baseUnit2 != otherUnit:
                 result = result.convert( otherUnit )
 
             return result
@@ -1025,7 +1024,7 @@ def applyNumberValueToUnit( number, term, constant ):
         if value.units == RPNUnits( '_null_unit' ):
             value = mpmathify( 1 )
     elif constant:
-        if ( g.constantOperators[ term ].unit ):
+        if g.constantOperators[ term ].unit:
             value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),
                                     g.constantOperators[ term ].unit )
         else:

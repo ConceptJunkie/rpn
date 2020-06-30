@@ -14,9 +14,10 @@
 
 import bz2
 import contextlib
-import ephem
 import os
 import pickle
+
+import ephem
 
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 

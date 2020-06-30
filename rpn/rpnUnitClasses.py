@@ -17,7 +17,7 @@ import itertools
 
 from mpmath import fdiv, mpmathify
 
-from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
+from rpn.rpnPersistence import loadUnitConversionMatrix
 from rpn.rpnUtils import debugPrint
 
 import rpn.rpnGlobals as g

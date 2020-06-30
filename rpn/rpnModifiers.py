@@ -76,7 +76,7 @@ def endOperatorList( valueList ):
 
     result = [ ]
 
-    for i in range( 0, g.operatorsInList ):
+    for _ in range( 0, g.operatorsInList ):
         operator = valueList.pop( )
         #print( 'operator', operator )
         result.insert( 0, operator )
@@ -94,7 +94,7 @@ def duplicateTerm( valueList ):
     count = valueList.pop( )
     value = valueList.pop( )
 
-    for i in range( 0, int( count ) ):
+    for _ in range( 0, int( count ) ):
         if isinstance( value, list ):
             for j in value:
                 valueList.append( j )
