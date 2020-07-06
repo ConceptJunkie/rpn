@@ -673,12 +673,12 @@ def isHarshadNumber( n, k ):
 
 # //******************************************************************************
 # //
-# //  isKaprekar
+# //  isKaprekarNumber
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def isKaprekar( n ):
+def isKaprekarNumber( n ):
     if n == 1:
         return 1
     elif n < 9:

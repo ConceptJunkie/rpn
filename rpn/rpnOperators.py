@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # //******************************************************************************
 # //
@@ -15,48 +15,265 @@
 import configparser
 import difflib
 import inspect
-import itertools
-import struct
+import os
+import string
 
-from enum import Enum
-from mpmath import apery, catalan, cplot, euler, fadd, glaisher, khinchin, \
-                   lambertw, limit, mertens, nprod, nsum, phi, pi, plot, \
-                   splot
+from shutil import copyfile
 
-from random import randrange
+import ephem
+
+from mpmath import apery, arange, catalan, cplot, e, euler, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
+                   lambertw, limit, mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 
 from rpn.rpnAliases import dumpAliases
 from rpn.rpnOperator import callers, RPNArgumentType, RPNOperator
 from rpn.rpnOutput import printTitleScreen
-from rpn.rpnVersion import PROGRAM_DESCRIPTION
+from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
-from rpn.rpnAstronomy import *
-from rpn.rpnCalendar import *
-from rpn.rpnChemistry import *
-from rpn.rpnCombinatorics import *
-from rpn.rpnComputer import *
-from rpn.rpnConstantUtils import *
-from rpn.rpnDateTime import *
-from rpn.rpnDice import *
-from rpn.rpnFactor import *
-from rpn.rpnGeometry import *
-from rpn.rpnInput import *
-from rpn.rpnLexicographic import *
-from rpn.rpnList import *
-from rpn.rpnLocation import *
-from rpn.rpnMath import *
-from rpn.rpnMeasurement import *
-from rpn.rpnModifiers import *
-from rpn.rpnName import *
-from rpn.rpnNumberTheory import *
-from rpn.rpnPersistence import *
-from rpn.rpnPhysics import *
-from rpn.rpnPolynomials import *
-from rpn.rpnPolytope import *
-from rpn.rpnPrimeUtils import *
-from rpn.rpnSettings import *
-from rpn.rpnSpecial import *
-from rpn.rpnUtils import *
+from rpn.rpnAstronomy import getAngularSeparation, getAngularSize, getAntitransitTime, getAutumnalEquinox, \
+                             getNextAstronomicalDawn, getDayTime, getDistanceFromEarth, getEclipseTotality, \
+                             getMoonPhase, getNextAntitransit, getNextAstronomicalDusk, getNextCivilDawn, \
+                             getNextCivilDusk, getNextFirstQuarterMoon, getNextFullMoon, getNextLastQuarterMoon, \
+                             getNextMoonAntitransit, getNextMoonRise, getNextMoonSet, getNextMoonTransit, \
+                             getNextNauticalDawn, getNextNauticalDusk, getNextNewMoon, getNextRising, \
+                             getNextSetting, getNextSunAntitransit, getNextSunrise, getNextSunset, getNextTransit, \
+                             getNightTime, getPreviousAntitransit, getPreviousFirstQuarterMoon, \
+                             getPreviousFullMoon, getPreviousLastQuarterMoon, getPreviousNewMoon, \
+                             getPreviousRising, getPreviousSetting, getPreviousTransit, getSkyLocation, \
+                             getSolarNoon, getSummerSolstice, getTransitTime, getVernalEquinox, getWinterSolstice, \
+                             RPNAstronomicalObject
+
+from rpn.rpnCalendar import convertBahaiDate, convertEthiopianDate, convertHebrewDate, convertIndianCivilDate, \
+                            convertIslamicDate, convertJulianDate, convertMayanDate, convertPersianDate, \
+                            generateMonthCalendar, generateYearCalendar, getBahaiCalendarDate, \
+                            getBahaiCalendarDateName, getEthiopianCalendarDate, getEthiopianCalendarDateName, \
+                            getHebrewCalendarDate, getHebrewCalendarDateName, getIndianCivilCalendarDate, \
+                            getIndianCivilCalendarDateName, getIslamicCalendarDate, getIslamicCalendarDateName, \
+                            getISODate, getISODateName, getJulianCalendarDate, getJulianDay, getLilianDay, \
+                            getMayanCalendarDate, getOrdinalDate, getPersianCalendarDate, \
+                            getPersianCalendarDateName
+
+from rpn.rpnChemistry import getAtomicNumber, getAtomicSymbol, getAtomicWeight, getElementBlock, \
+                             getElementBoilingPoint, getElementDensity, getElementDescription, \
+                             getElementGroup, getElementMeltingPoint, getElementName, getElementOccurrence, \
+                             getElementPeriod, getElementState, getMolarMass
+
+from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynomial, getBinomial, \
+                                 getCombinations, getCompositions, getDeBruijnSequence, getIntegerPartitions, \
+                                 getLahNumber, getMultinomial, getNarayanaNumber, getNthAperyNumber, getNthBell, \
+                                 getNthBernoulli, getNthCatalanNumber, getNthDelannoyNumber,getNthMenageNumber, \
+                                 getNthMotzkinNumber, getNthMultifactorial, getNthPellNumber, getNthSchroederNumber, \
+                                 getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
+                                 getPartitionsWithLimit, getPermutations, getStirling1, getStirling2
+
+from rpn.rpnComputer import andOperands, convertToChar, convertToDouble, convertToFloat, convertToLong, \
+                            convertToLongLong, convertToQuadLong, convertToShort, convertToSignedIntOperator, \
+                            convertToUnsignedChar, convertToUnsignedInt, convertToUnsignedLong, \
+                            convertToUnsignedLongLong, convertToUnsignedQuadLong, convertToUnsignedShort, \
+                            getBitCountOperator, getBitwiseAnd, getBitwiseNand, getBitwiseNor, getBitwiseOr, \
+                            getBitwiseXor, getInvertedBits, getParity, nandOperands, orOperands, norOperands, \
+                            notOperand, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperands, xorOperands
+
+from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
+                                 getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
+                                 getPlanckAngularFrequency, getPlanckArea, getPlanckCharge, getPlanckCurrent, \
+                                 getPlanckDensity, getPlanckEnergy, getPlanckElectricalInductance, \
+                                 getPlanckEnergyDensity, getPlanckForce, getPlanckImpedance, getPlanckIntensity, \
+                                 getPlanckLength, getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, \
+                                 getPlanckPower, getPlanckPressure, getPlanckTemperature, getPlanckTime, \
+                                 getPlanckViscosity, getPlanckVoltage, getPlanckVolume, getPlanckVolumetricFlowRate, \
+                                 getPlasticConstant, getRadiationConstant, getRobbinsConstant, \
+                                 getStefanBoltzmannConstant, getThueMorseConstant, getVacuumImpedance, \
+                                 getvonKlitzingConstant, interpretAsDouble, interpretAsFloat
+
+from rpn.rpnDateTime import calculateAdvent, calculateAscensionThursday, calculateAshWednesday, calculateColumbusDay, \
+                            calculateDSTEnd, calculateDSTStart, calculateEaster, calculateElectionDay, \
+                            calculateFathersDay, calculateGoodFriday, calculateLaborDay, calculateMartinLutherKingDay, \
+                            calculateMemorialDay, calculateMothersDay, calculateNthWeekdayOfMonth, \
+                            calculateNthWeekdayOfYear, calculatePentecostSunday, calculatePresidentsDay, \
+                            calculateThanksgiving, convertFromUnixTime, convertToDHMS, convertToHMS, convertToYDHMS, \
+                            convertToUnixTime, getChristmasDay, getDay, getEpiphanyDay, getHour, getIndependenceDay, \
+                            getISODay, getMinute, getMonth, getNewYearsDay, getSecond, getToday, getTomorrow, \
+                            getVeteransDay, getWeekday, getWeekdayName, getYear, getYesterday, makeDateTime, \
+                            makeISOTime, makeJulianTime, RPNDateTime
+
+from rpn.rpnDice import enumerateDiceGenerator, enumerateMultipleDiceGenerator, permuteDiceGenerator, rollDice, \
+                        rollMultipleDiceGenerator, rollSimpleDice
+
+from rpn.rpnFactor import getFactors
+
+from rpn.rpnGenerator import RPNGenerator
+
+from rpn.rpnGeometry import getAntiprismSurfaceArea, getAntiprismVolume, getConeSurfaceArea, getConeVolume, \
+                            getDodecahedronSurfaceArea, getDodecahedronVolume, getIcosahedronSurfaceArea, \
+                            getIcosahedronVolume, getKSphereSurfaceAreaOperator, getKSphereRadiusOperator, \
+                            getKSphereVolumeOperator, getOctahedronSurfaceArea, getOctahedronVolume, \
+                            getRegularPolygonAreaOperator, getPrismSurfaceArea, getPrismVolume, getSphereArea, \
+                            getSphereRadius, getSphereVolume, getTetrahedronSurfaceArea, getTetrahedronVolume, \
+                            getTorusSurfaceArea, getTorusVolume, getTriangleArea
+
+from rpn.rpnInput import parseInputValue, readListFromFile
+
+from rpn.rpnLexicographic import addDigits, buildNumbers, buildStepNumbers, combineDigits, containsAnyDigits, \
+                                 containsDigits, containsOnlyDigits, countDifferentDigits, countDigits, \
+                                 duplicateDigits, duplicateNumber, findPalindrome, generateSquareDigitChain, \
+                                 getBaseKDigits, getCyclicPermutations, getDigitCount, getDigits, getErdosPersistence, \
+                                 getPersistence, getKPersistence, getLeftDigits, getLeftTruncationsGenerator, \
+                                 getNonzeroBaseKDigits, getNonzeroDigits, getNthReversalAddition, getRightDigits, \
+                                 getRightTruncationsGenerator, isAutomorphic, isBaseKNarcissistic, isBaseKPandigital, \
+                                 isBaseKSmithNumber, isBouncy, isDecreasing, isDigitalPermutation, \
+                                 isGeneralizedDudeneyNumber, isHarshadNumber, isIncreasing, isKaprekarNumber, \
+                                 isKMorphicOperator, isNarcissistic, isOrderKSmithNumber, isPalindrome, isPandigital, \
+                                 isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, isSmithNumber, \
+                                 isStepNumber, isSumProductNumber, isTrimorphic, multiplyDigits, multiplyDigitPowers, \
+                                 multiplyNonzeroDigitPowers, multiplyNonzeroDigits, permuteDigits, replaceDigits, \
+                                 reverseDigits, rotateDigitsLeft, rotateDigitsRight, showErdosPersistence, \
+                                 showKPersistence, showPersistence, sumDigits
+
+from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMean, calculateArithmeticMean, \
+                        calculateGeometricMean, calculateHarmonicMean, calculatePowerTower, calculatePowerTower2, \
+                        calculateRootMeanSquare, collate, compareLists, countElements, doesListRepeat, \
+                        enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, flatten, \
+                        getAlternatingSum, getAndAll, getCumulativeListDiffs, getCumulativeListRatios, \
+                        getCumulativeOccurrenceRatios, getDifference, getGCD, getGCDOfList, getListCombinations, \
+                        getListCombinationsWithRepeats, getLeft, getListDiffs, getListPowerset, getListRatios, \
+                        getRight, getIndexOfMax, getIndexOfMin, getListElement, getListPermutations, \
+                        getListPermutationsWithRepeats, getNandAll, getNonzeroes, getNorAll, getProduct, \
+                        getOccurrences, getOccurrenceRatios, getOrAll, getRandomElement, getReverse, getSlice, \
+                        getStandardDeviation, getSublist, getSum, getUniqueElements, getZeroes, groupElements, \
+                        interleave, isPalindromeList, listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, \
+                        permuteLists, reduceList, shuffleList, sortAscending, sortDescending
+
+from rpn.rpnLocation import convertLatLongToNAC, getDistance, getLocation, getLocationInfo, getTimeZone
+
+from rpn.rpnMath import add, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
+                        cube, decrement, exp, divide, getAbsoluteValue, getAGM, getArgument, getCeiling, \
+                        getConjugate, getCubeRoot, getCubeSuperRoot, getExp, getExp10, getExpPhi, getFloor, \
+                        getImaginary, getLambertW, getLarger, getLI, getLog, getLog10, getLog2, getLogXY, \
+                        getMantissa, getMaximum, getMinimum, getModulo, getNearestInt, getNegative, getPolyexp, \
+                        getPolylog, getPower, getReal, getReciprocal, getRoot, getSign, getSmaller, getSquareRoot, \
+                        getSquareSuperRoot, getSuperRoot, getValue, get_acos, get_acot, get_acoth, get_acosh, \
+                        get_acsc, get_acsch, get_asec, get_asech, get_asin, get_asinh, get_atan, get_atanh, get_cot, \
+                        get_coth, get_csc, get_csch, get_cos, get_cosh, get_sec, get_sech, get_sin, get_sinh, \
+                        get_tan, get_tanh, increment, isDivisible, isEqual, isEven, isGreater, isKthPower, isLess, \
+                        isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, isZero, multiply, \
+                        roundByDigits, roundByValue, roundOff, square, subtract, tetrate, tetrateRight
+
+from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
+                               convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
+
+from rpn.rpnModifiers import decrementNestedListLevel, duplicateOperation, duplicateTerm, endOperatorList, \
+                             getPrevious, incrementNestedListLevel, startOperatorList, unlist
+
+from rpn.rpnName import getName, getOrdinalName
+
+from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunction, calculateChineseRemainderTheorem, \
+                                convertFromContinuedFraction, findNthSumOfCubes, findNthSumOfSquares, \
+                                findSumsOfKNonzeroPowers, findSumsOfKPowers, generatePolydivisibles, getAbundance, \
+                                getAbundanceRatio, getAliquotSequence, getAlternatingHarmonicFraction, getAltZeta, \
+                                getBarnesG, getBeta, getCollatzSequence, getCyclotomic, getDigamma, getDigitalRoot, \
+                                getDivisorCount, getDivisors, getEulerPhi, getFrobeniusNumber, getGamma, \
+                                getGeometricRecurrence, getHarmonicFraction, getHarmonicResidue, getHurwitzZeta, \
+                                getLCM, getLCMOfList, getLeyland, getLimitedAliquotSequence, getLinearRecurrence, \
+                                getLinearRecurrenceWithModulo, getLogGamma, getNthAlternatingFactorial, \
+                                getGreedyEgyptianFraction, getNthBaseKRepunit, getNthCarolNumber, \
+                                getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, getNthFibonacci, \
+                                getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, getNthHexanacci, \
+                                getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
+                                getNthKyneaNumber, getNthLeonardoNumber, getNthLinearRecurrence, \
+                                getNthLinearRecurrenceWithModulo, getNthLucasNumber, getNthMersenneExponent, \
+                                getNthMersennePrime, getNthMerten, getNthMobiusNumber, getNthPadovanNumber, \
+                                getNthPhitorial, getNthOctanacci, getNthPascalLine, getNthPentanacci, \
+                                getNthPerfectNumber, getNthKPolygorial, getNthRieselNumber, getNthSternNumber, \
+                                getNthSubfactorial, getNthSuperfactorial, getNthTetranacci, getNthThabitNumber, \
+                                getNthThueMorseNumber, getNthTribonacci, getNthZetaZero, getPolygamma, \
+                                getPowModOperator, getPrimePi, getRadical, getSigmaK, getSigmaOperator, getTrigamma, \
+                                getUnitRoots, getZeta, interpretAsBaseOperator, interpretAsFraction, isAbundant, \
+                                isAchillesNumber, isAntiharmonic, isCarmichaelNumberOperator, isDeficient, \
+                                isFriendly, isHarmonicDivisorNumber, isInteger, isKHyperperfect, isKPerfect, \
+                                isKSemiprimeOperator, isKSphenic, isPerfect, isPernicious, isPolydivisible, \
+                                isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, isSemiprime, \
+                                isSmoothOperator, isSphenic, isSquareFree, isUnusual, makeContinuedFraction, \
+                                makeEulerBrick, makePythagoreanQuadruple, makePythagoreanTriple, \
+                                makePythagoreanTriples, solveFrobeniusOperator
+
+from rpn.rpnPersistence import dumpFunctionCache, dumpPrimeCache, getUserFunctionsFileName, loadResult
+
+from rpn.rpnPhysics import calculateAcceleration, calculateBlackHoleEntropy, calculateBlackHoleLifetime, \
+                           calculateBlackHoleLuminosity, calculateBlackHoleMass, calculateBlackHoleRadius, \
+                           calculateBlackHoleSurfaceArea, calculateBlackHoleSurfaceGravity, \
+                           calculateBlackHoleSurfaceTides, calculateBlackHoleTemperature, calculateDistance, \
+                           calculateEnergyEquivalence, calculateEscapeVelocity, calculateHeatIndex, \
+                           calculateHorizonDistance, calculateKineticEnergy, calculateMassEquivalence, \
+                           calculateOrbitalMass, calculateOrbitalPeriod, calculateOrbitalRadius, \
+                           calculateOrbitalVelocity, calculateSurfaceGravity, calculateTidalForce, \
+                           calculateTimeDilation, calculateVelocity, calculateWindChill
+
+from rpn.rpnPolynomials import addPolynomials, evaluatePolynomial, exponentiatePolynomial, getPolynomialDiscriminant, \
+                               multiplyPolynomials, multiplyPolynomialList, solveCubicPolynomial, \
+                               solveQuadraticPolynomial, solveQuarticPolynomial, solvePolynomial, sumPolynomialList
+
+from rpn.rpnPolytope import findCenteredDecagonalNumber, findCenteredHeptagonalNumber, findCenteredHexagonalNumber, \
+                            findCenteredNonagonalNumber, findCenteredOctagonalNumber, findCenteredPentagonalNumber, \
+                            findCenteredPolygonalNumberOperator, findCenteredSquareNumber, \
+                            findCenteredTriangularNumber, findDecagonalNumber, findHeptagonalNumber, \
+                            findHexagonalNumber, findNonagonalNumber, findOctagonalNumber, findPentagonalNumber, \
+                            findPolygonalNumberOperator, findSquareNumber, findTriangularNumber, \
+                            getNthCenteredCubeNumber, getNthCenteredDecagonalNumber, \
+                            getNthCenteredDodecahedralNumber, getNthCenteredHeptagonalNumber, \
+                            getNthCenteredHexagonalNumber, getNthCenteredIcosahedralNumber, \
+                            getNthCenteredNonagonalNumber, getNthCenteredOctagonalNumber, \
+                            getNthCenteredOctahedralNumber, getNthCenteredPentagonalNumber, \
+                            getNthCenteredPolygonalNumberOperator, getNthCenteredSquareNumber, \
+                            getNthCenteredTetrahedralNumber, getNthCenteredTriangularNumber, \
+                            getNthDecagonalCenteredSquareNumber, getNthDecagonalHeptagonalNumber, \
+                            getNthDecagonalHexagonalNumber, getNthDecagonalNonagonalNumber, \
+                            getNthDecagonalNumber, getNthDecagonalOctagonalNumber, \
+                            getNthDecagonalPentagonalNumber, getNthDecagonalTriangularNumber, \
+                            getNthDodecahedralNumber, getNthGeneralizedPentagonalNumber, \
+                            getNthHeptagonalHexagonalNumber, getNthHeptagonalNumber, getNthHeptagonalPentagonalNumber, \
+                            getNthHeptagonalSquareNumber, getNthHeptagonalTriangularNumber, getNthHexagonalNumber, \
+                            getNthHexagonalPentagonalNumber, getNthHexagonalSquareNumber, getNthIcosahedralNumber, \
+                            getNthNonagonalHeptagonalNumber, getNthNonagonalHexagonalNumber, getNthNonagonalNumber, \
+                            getNthNonagonalOctagonalNumber, getNthNonagonalPentagonalNumber, \
+                            getNthNonagonalSquareNumber, getNthNonagonalTriangularNumber, \
+                            getNthOctagonalHeptagonalNumber, getNthOctagonalHexagonalNumber, getNthOctagonalNumber, \
+                            getNthOctagonalPentagonalNumber, getNthOctagonalSquareNumber, \
+                            getNthOctagonalTriangularNumber, getNthTruncatedOctahedralNumber, getNthOctahedralNumber, \
+                            getNthPentagonalNumber, getNthPentagonalSquareNumber, getNthPentagonalTriangularNumber, \
+                            getNthPentatopeNumber, getNthPolygonalNumberOperator, getNthPolygonalPyramidalNumber, \
+                            getNthPolytopeNumber, getNthPyramidalNumber, getNthRhombicDodecahedralNumber, \
+                            getNthSquareTriangularNumber, getNthStarNumber, getNthStellaOctangulaNumber, \
+                            getNthTetrahedralNumber, getNthTruncatedTetrahedralNumber, getNthTriangularNumber
+
+from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
+                              findQuintupletPrimeOperator, getMaxPrime, getNextPrimeOperator, getNextPrimesOperator, \
+                              getNextQuadrupletPrime, getNextQuintupletPrime, getNthBalancedPrime, \
+                              getNthBalancedPrimeList, getNthCousinPrime, getNthCousinPrimeList, \
+                              getNthDoubleBalancedPrime, getNthDoubleBalancedPrimeList, getNthIsolatedPrime, \
+                              getNthOctyPrime, getNthOctyPrimeList, getNthPolyPrime, getNthPrime, getNthPrimorial, \
+                              getNthQuadrupleBalancedPrime, getNthQuadrupleBalancedPrimeList, getNthQuadrupletPrime, \
+                              getNthQuadrupletPrimeList, getNthQuintupletPrime, getNthQuintupletPrimeList, \
+                              getNthSextupletPrime, getNthSextupletPrimeList, getNthSexyPrime, getNthSexyPrimeList, \
+                              getNthSexyQuadruplet, getNthSexyQuadrupletList, getNthSexyTriplet, \
+                              getNthSexyTripletList, getNthSophiePrime, getNthSuperPrime, getNthTripleBalancedPrime, \
+                              getNthTripleBalancedPrimeList, getNthTripletPrime, getNthTripletPrimeList, \
+                              getNthTwinPrime, getNthTwinPrimeList, getSafePrime, getPreviousPrimeOperator, \
+                              getPreviousPrimesOperator, getPrimeRange, getPrimesGenerator, isComposite, isPrime, \
+                              isStrongPseudoprime
+
+from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMode, setIdentify, \
+                            setIdentifyMode, setInputRadix, setIntegerGrouping, setLeadingZero, \
+                            setLeadingZeroMode, setAccuracy, setPrecision, setOctalMode, setOutputRadix, \
+                            setTimer, setTimerMode
+
+from rpn.rpnSpecial import describeInteger, downloadOEISComment, downloadOEISExtra, downloadOEISName, \
+                           downloadOEISOffset, downloadOEISSequence, findPolynomial, generateRandomUUID, \
+                           generateUUID, getMultipleRandomsGenerator, getRandomInteger, \
+                           getRandomIntegersGenerator, getRandomNumber
+
+from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, debugPrint, oneArgFunctionEvaluator, \
+                         twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
 
@@ -208,7 +425,7 @@ constants = {
 # //
 # //******************************************************************************
 
-class RPNFunction( object ):
+class RPNFunction( ):
     '''This class represents a user-defined function in rpn.'''
     def __init__( self, valueList = None, startingIndex = 0 ):
         self.valueList = [ ]
@@ -223,7 +440,7 @@ class RPNFunction( object ):
 
         self.startingIndex = startingIndex
         self.code = ''
-        self.code_locals = { }
+        self.codeLocals = { }
         self.compiled = None
         self.function = None
         self.argCount = 0
@@ -355,7 +572,8 @@ class RPNFunction( object ):
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) - 1 ] + ' )'
+                    function = function[ function.find( className ) + len( className ) :
+                                         function.find( '\n' ) - 1 ] + ' )'
 
                 function += '( )'
 
@@ -397,7 +615,8 @@ class RPNFunction( object ):
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) -1 ] + ' )'
+                    function = function[ function.find( className ) + len( className ) :
+                                         function.find( '\n' ) -1 ] + ' )'
 
                 function += '( '
 
@@ -411,13 +630,13 @@ class RPNFunction( object ):
                     if len( listArgs[ listDepth - 1 ] ) < operands:
                         raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
-                    for i in range( 0, operands ):
+                    for _ in range( 0, operands ):
                         argList.insert( 0, listArgs[ listDepth - 1 ].pop( ) )
                 else:
                     if len( args ) < operands:
                         raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
-                    for i in range( 0, operands ):
+                    for _ in range( 0, operands ):
                         argList.insert( 0, args.pop( ) )
 
                 for arg in argList:
@@ -448,7 +667,8 @@ class RPNFunction( object ):
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) -1 ] + ' )'
+                    function = function[ function.find( className ) + len( className ) :
+                                         function.find( '\n' ) -1 ] + ' )'
 
                 function += '( '
 
@@ -461,7 +681,7 @@ class RPNFunction( object ):
                 if len( args ) < operands:
                     raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
-                for i in range( 0, operands ):
+                for _ in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
 
                 for arg in argList:
@@ -500,7 +720,7 @@ class RPNFunction( object ):
                 if len( args ) < operands:
                     raise ValueError( '{0} expects {1} operands'.format( term, operands ) )
 
-                for i in range( 0, operands ):
+                for _ in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
 
                 for arg in argList:
@@ -548,8 +768,8 @@ class RPNFunction( object ):
 
         self.compiled = compile( self.code, '<string>', 'exec' )
 
-        exec( self.compiled, globals( ), self.code_locals )
-        self.function = self.code_locals[ 'rpnInternalFunction' ]
+        exec( self.compiled, globals( ), self.codeLocals )
+        self.function = self.codeLocals[ 'rpnInternalFunction' ]
 
 
 # //******************************************************************************
@@ -602,6 +822,8 @@ def addZ( valueList ):
         raise ValueError( '\'z\' requires \'lambda\' to start a function declaration' )
 
     valueList[ -1 ].add( 'z' )
+
+
 # //******************************************************************************
 # //
 # //  loadUserFunctionsFile
@@ -637,10 +859,7 @@ def saveUserFunctionsFile( ):
     for key, value in g.userFunctions.items( ):
         config[ 'User Functions' ][ key ] = value.getCode( )
 
-    import os.path
-
     if os.path.isfile( getUserFunctionsFileName( ) ):
-        from shutil import copyfile
         copyfile( getUserFunctionsFileName( ), getUserFunctionsFileName( ) + '.backup' )
 
     with open( getUserFunctionsFileName( ), 'w' ) as userFunctionsFile:
@@ -693,7 +912,7 @@ def evaluateRecurrence( start, count, func ):
     arg = start
     result = [ start ]
 
-    for i in arange( count ):
+    for _ in arange( count ):
         arg = func.evaluate( arg )
         result.append( arg )
 
@@ -707,7 +926,7 @@ def evaluateRecurrence( start, count, func ):
 # //******************************************************************************
 
 def repeatGenerator( n, func ):
-    for i in arange( 0, n ):
+    for _ in arange( 0, n ):
         yield func.evaluate( )
 
 
@@ -732,9 +951,9 @@ def sequenceGenerator( n, k, func ):
     value = n
 
     if k > 0:
-      yield value
+        yield value
 
-    for i in arange( 1, k ):
+    for _ in arange( 1, k ):
         value = func.evaluate( value )
         yield value
 
@@ -755,15 +974,15 @@ def getSequence( n, k, func ):
 # //
 # //******************************************************************************
 
-def filterList( n, k, invert = False ):
+def filterList( n, k, invert=False ):
     if isinstance( n, mpf ):
         n = [ n ]
 
     if not isinstance( k, RPNFunction ):
         if invert:
             raise ValueError( '\'unfilter\' expects a function argument' )
-        else:
-            raise ValueError( '\'filter\' expects a function argument' )
+
+        raise ValueError( '\'filter\' expects a function argument' )
 
     for i in n:
         value = k.evaluate( i )
@@ -778,15 +997,15 @@ def filterList( n, k, invert = False ):
 # //
 # //******************************************************************************
 
-def filterListByIndex( n, k, invert = False ):
+def filterListByIndex( n, k, invert=False ):
     if isinstance( n, mpf ):
         n = [ n ]
 
     if not isinstance( k, RPNFunction ):
         if invert:
             raise ValueError( '\'unfilter_by_index\' expects a function argument' )
-        else:
-            raise ValueError( '\'filter_by_index\' expects a function argument' )
+
+        raise ValueError( '\'filter_by_index\' expects a function argument' )
 
     for index, item in enumerate( n ):
         value = k.evaluate( index )
@@ -811,7 +1030,7 @@ def filterIntegersGenerator( n, k ):
     for i in arange( 1, fadd( n, 1 ) ):
         value = k.evaluate( i, n )
 
-        if ( value != 0 ):
+        if value != 0:
             yield i
 
 
@@ -832,11 +1051,11 @@ def filterIntegers( n, func ):
 # //
 # //******************************************************************************
 
-def forEach( list, func ):
+def forEach( listArg, func ):
     if not isinstance( func, RPNFunction ):
         raise ValueError( '\'for_each\' expects a function argument' )
 
-    for i in list:
+    for i in listArg:
         yield func.evaluate( *i )
 
 
@@ -846,11 +1065,11 @@ def forEach( list, func ):
 # //
 # //******************************************************************************
 
-def forEachList( list, func ):
+def forEachList( listArg, func ):
     if not isinstance( func, RPNFunction ):
         raise ValueError( '\'for_each_list\' expects a function argument' )
 
-    for i in list:
+    for i in listArg:
         yield func.evaluate( i )
 
 
@@ -965,8 +1184,6 @@ def evaluateConstantOperator( term, index, currentValueList ):
 # //******************************************************************************
 
 def handleOneArgListOperator( func, args, currentValueList ):
-    recursive = False
-
     if isinstance( args, RPNGenerator ):
         args = list( args )
 
@@ -988,8 +1205,6 @@ def handleOneArgListOperator( func, args, currentValueList ):
 # //******************************************************************************
 
 def handleOneArgGeneratorOperator( func, args, currentValueList ):
-    recursive = False
-
     if isinstance( args, list ):
         args = RPNGenerator.create( args )
 
@@ -1083,7 +1298,7 @@ def evaluateListOperator( term, index, currentValueList ):
     else:
         argList = [ ]
 
-        for i in range( 0, argsNeeded ):
+        for _ in range( 0, argsNeeded ):
             argList.insert( 0, currentValueList.pop( ) )
 
         if argTypes[ 0 ] == RPNArgumentType.Generator:
@@ -1105,11 +1320,11 @@ def dumpOperators( totalsOnly=False ):
     if not totalsOnly:
         print( 'regular operators:' )
 
-    regular_operators = 0
+    regularOperators = 0
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
         # print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-        regular_operators += 1
+        regularOperators += 1
 
         if not totalsOnly:
             print( '   ' + i )
@@ -1118,32 +1333,32 @@ def dumpOperators( totalsOnly=False ):
         print( )
         print( 'list operators:' )
 
-        for i in sorted( [ key for key in listOperators ] ):
+        for i in sorted( listOperators.keys( ) ):
             print( '   ' + i )
 
         print( )
         print( 'constant operators:' )
 
-    constantNames = [ key for key in g.constantOperators ]
-    constantNames.extend( [ key for key in constants ] )
+    constantNames = list( g.constantOperators.keys( ) )
+    constantNames.extend( constants.keys( ) )
 
     if not totalsOnly:
         for i in sorted( constantNames ):
             print( '   ' + i )
 
         print( )
-        print( 'modifer operators:' )
+        print( 'modifier operators:' )
 
-        for i in sorted( [ key for key in modifiers ] ):
+        for i in sorted( modifiers.keys( ) ):
             print( '   ' + i )
 
         print( )
         print( 'internal operators:' )
 
-    internal_operators = 0
+    internalOperators = 0
 
     for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
-        internal_operators += 1
+        internalOperators += 1
 
         if not totalsOnly:
             print( '   ' + i )
@@ -1151,11 +1366,11 @@ def dumpOperators( totalsOnly=False ):
     if not totalsOnly:
         print( )
 
-    print( '{:10,} regular operators'.format( regular_operators ) )
+    print( '{:10,} regular operators'.format( regularOperators ) )
     print( '{:10,} list operators'.format( len( listOperators ) ) )
     print( '{:10,} modifier operators'.format( len( modifiers ) ) )
     print( '{:10,} constant operators'.format( len( constantNames ) ) )
-    print( '{:10,} internal operators'.format( internal_operators ) )
+    print( '{:10,} internal operators'.format( internalOperators ) )
 
     total = len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
 
@@ -1177,7 +1392,7 @@ def dumpConstants( ):
         loadUnitData( )
         loadConstants( )
 
-    for i in sorted( [ key for key in g.constantOperators ] ):
+    for i in sorted( g.constantOperators ):
         print( i, g.constantOperators[ i ].value )
 
     print( )
@@ -1196,7 +1411,7 @@ def dumpUnits( ):
         loadUnitData( )
         loadConstants( )
 
-    for i in sorted( [ key for key in g.unitOperators ] ):
+    for i in sorted( g.unitOperators ):
         print( i )
 
     print( )
@@ -1214,7 +1429,7 @@ def dumpUnitConversions( ):
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
-    for i in sorted( [ key for key in g.unitConversionMatrix ] ):
+    for i in sorted( g.unitConversionMatrix ):
         print( i, g.unitConversionMatrix[ i ] )
 
     print( )
@@ -1340,7 +1555,7 @@ def preparseForUnits( term ):
                 return term
 
             try:
-                value = int( splits[ 1 ] )
+                _ = int( splits[ 1 ] )
             except:
                 return term
         else:
@@ -1368,7 +1583,6 @@ def preparseForUnits( term ):
 def evaluateTerm( term, index, currentValueList, lastArg = True ):
     isList = isinstance( term, list )
     isGenerator = isinstance( term, RPNGenerator )
-    listDepth = 0
 
     try:
         term = preparseForUnits( term )
@@ -1486,8 +1700,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
                 if g.debugMode:
                     raise
-                else:
-                    return False
+
+                return False
 
             except ( AttributeError, TypeError ):
                 if not lastArg:
@@ -1505,11 +1719,13 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
                 guess = difflib.get_close_matches( term, g.keywords, 1 )
 
-                if ( len( guess ) == 1 ):
+                if len( guess ) == 1:
                     guess = guess[ 0 ]
 
                     if guess in g.aliases:
-                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.format( term, guess, g.aliases[ guess ] ) )
+                        print( 'rpn:  Unrecognized operator \'{0}\'.  '
+                               'Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.
+                               format( term, guess, g.aliases[ guess ] ) )
                     else:
                         print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\'?'.format( term, guess ) )
                 else:
@@ -1543,16 +1759,16 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
         if g.debugMode:
             raise
-        else:
-            return False
+
+        return False
 
     except ZeroDivisionError as error:
         print( 'rpn:  division by zero' )
 
         if g.debugMode:
             raise
-        else:
-            return False
+
+        return False
 
     except IndexError as error:
         print( 'rpn:  index error for list operator at arg ' + format( index ) +
@@ -1560,8 +1776,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
         if g.debugMode:
             raise
-        else:
-            return False
+
+        return False
 
     return True
 
@@ -1610,7 +1826,7 @@ def getUserVariable( key ):
     if key in g.userVariables:
         return g.userVariables[ key ]
     else:
-        return ""
+        return ''
 
 
 # //******************************************************************************
@@ -1638,7 +1854,7 @@ def getUserConfiguration( key ):
     if key in g.userConfiguration:
         return g.userConfiguration[ key ]
     else:
-        return ""
+        return ''
 
 
 # //******************************************************************************
@@ -1680,7 +1896,7 @@ def deleteUserConfiguration( key ):
 
 def dumpUserConfiguration( ):
     for i in g.userConfiguration:
-        print( i + ':', '"' + g.userConfiguration[ i ] + '"' );
+        print( i + ':', '"' + g.userConfiguration[ i ] + '"' )
 
     print( )
 
@@ -1739,15 +1955,15 @@ def evaluateListFunction3( a, b, c, func ):
 # //
 # //******************************************************************************
 
-def filterListOfLists( n, func ):
-    if not isinstance( k, RPNFunction ):
+def filterListOfLists( n, func, invert=False ):
+    if not isinstance( func, RPNFunction ):
         if invert:
             raise ValueError( '\'unfilter_lists\' expects a function argument' )
-        else:
-            raise ValueError( '\'filter_lists\' expects a function argument' )
+
+        raise ValueError( '\'filter_lists\' expects a function argument' )
 
     for i in n:
-        value = k.evaluate( i )
+        value = func.evaluate( i )
 
         if ( value != 0 ) != invert:
             yield i
@@ -1951,6 +2167,8 @@ modifiers = {
 # //******************************************************************************
 
 listOperators = {
+    # pylint: disable=line-too-long
+
     # algebra
     'add_polynomials'               : RPNOperator( addPolynomials,
                                                    2, [ RPNArgumentType.List, RPNArgumentType.List ], [ ] ),
@@ -1967,10 +2185,10 @@ listOperators = {
     'polynomial_power'              : RPNOperator( exponentiatePolynomial,
                                                    2, [ RPNArgumentType.List, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'polynomial_product'            : RPNOperator( multiplyListOfPolynomials,
+    'polynomial_product'            : RPNOperator( multiplyPolynomialList,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
-    'polynomial_sum'                : RPNOperator( sumListOfPolynomials,
+    'polynomial_sum'                : RPNOperator( sumPolynomialList,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'solve'                         : RPNOperator( solvePolynomial,
@@ -2266,16 +2484,16 @@ listOperators = {
                                                         RPNArgumentType.PositiveInteger ], [ ] ),
 
     'linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModulo( a, b, c, d ) ),
-                                           4, [ RPNArgumentType.List, RPNArgumentType.List,
-                                                RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+                                                   4, [ RPNArgumentType.List, RPNArgumentType.List,
+                                                        RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_linear_recurrence'         : RPNOperator( lambda a, b, c: getNthLinearRecurrence( a, b, c ),
                                                    3, [ RPNArgumentType.List, RPNArgumentType.List,
                                                         RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: getNthLinearRecurrenceWithModulo( a, b, c, d ),
-                                           4, [ RPNArgumentType.List, RPNArgumentType.List,
-                                                RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+                                                       4, [ RPNArgumentType.List, RPNArgumentType.List,
+                                                            RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'solve_frobenius'               : RPNOperator( solveFrobeniusOperator,
                                                    2, [ RPNArgumentType.List, RPNArgumentType.PositiveInteger ], [ ] ),
@@ -2310,9 +2528,11 @@ listOperators = {
 # //******************************************************************************
 
 operators = {
+    # pylint: disable=line-too-long
+
     # algebra
     'find_polynomial'               : RPNOperator( findPolynomial,
-                                                  2, [ RPNArgumentType.Default, RPNArgumentType.PositiveInteger ], [ ] ),
+                                                   2, [ RPNArgumentType.Default, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'solve_cubic'                   : RPNOperator( solveCubicPolynomial,
                                                    4, [ RPNArgumentType.Default, RPNArgumentType.Default,
@@ -2971,8 +3191,8 @@ operators = {
     'conjugate'                     : RPNOperator( getConjugate,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
 
-#    'i'                             : RPNOperator( getI,
-#                                                   1, [ RPNArgumentType.Real ], [ ] ),
+    #    'i'                             : RPNOperator( getI,
+    #                                                   1, [ RPNArgumentType.Real ], [ ] ),
 
     'imaginary'                     : RPNOperator( getImaginary,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
@@ -3452,15 +3672,15 @@ operators = {
 
     'k_sphere_area'                 : RPNOperator( getKSphereSurfaceAreaOperator,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.NonnegativeReal ], [ ],
-                                                        RPNOperator.measurementsAllowed ),
+                                                   RPNOperator.measurementsAllowed ),
 
     'k_sphere_radius'               : RPNOperator( getKSphereRadiusOperator,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.NonnegativeReal ], [ ],
-                                                            RPNOperator.measurementsAllowed ),
+                                                   RPNOperator.measurementsAllowed ),
 
     'k_sphere_volume'               : RPNOperator( getKSphereVolumeOperator,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.NonnegativeReal ], [ ],
-                                                        RPNOperator.measurementsAllowed ),
+                                                   RPNOperator.measurementsAllowed ),
 
     'octahedron_area'               : RPNOperator( getOctahedronSurfaceArea,
                                                    1, [ RPNArgumentType.NonnegativeReal ], [ ] ),
@@ -3559,7 +3779,7 @@ operators = {
     'get_nonzero_digits'            : RPNOperator( getNonzeroDigits,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
 
-    'get_right_digits'               : RPNOperator( getRightDigits,
+    'get_right_digits'              : RPNOperator( getRightDigits,
                                                    2, [ RPNArgumentType.Integer, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'get_right_truncations'         : RPNOperator( getRightTruncationsGenerator,
@@ -3601,7 +3821,7 @@ operators = {
     'is_increasing'                 : RPNOperator( isIncreasing,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_kaprekar'                   : RPNOperator( isKaprekar,
+    'is_kaprekar'                   : RPNOperator( isKaprekarNumber,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_k_morphic'                  : RPNOperator( isKMorphicOperator,
@@ -3816,7 +4036,7 @@ operators = {
 
     'euler_brick'                   : RPNOperator( makeEulerBrick,
                                                    3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
-                                                   RPNArgumentType.PositiveInteger ], [ ] ),
+                                                        RPNArgumentType.PositiveInteger ], [ ] ),
 
     'euler_phi'                     : RPNOperator( getEulerPhi,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
@@ -3902,7 +4122,7 @@ operators = {
     'is_perfect'                    : RPNOperator( isPerfect,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_pernicious'                   : RPNOperator( isPernicious,
+    'is_pernicious'                 : RPNOperator( isPernicious,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_polydivisible'              : RPNOperator( isPolydivisible,
@@ -3965,7 +4185,7 @@ operators = {
     'merten'                        : RPNOperator( getNthMerten,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'mobius'                        : RPNOperator( getMobius,
+    'mobius'                        : RPNOperator( getNthMobiusNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_carol'                     : RPNOperator( getNthCarolNumber,
@@ -3995,10 +4215,10 @@ operators = {
     'nth_perfect_number'            : RPNOperator( getNthPerfectNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_stern'                     : RPNOperator( getNthStern,
+    'nth_stern'                     : RPNOperator( getNthSternNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_thue_morse'                : RPNOperator( getNthThueMorse,
+    'nth_thue_morse'                : RPNOperator( getNthThueMorseNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'octanacci'                     : RPNOperator( getNthOctanacci,

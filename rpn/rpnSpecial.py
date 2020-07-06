@@ -27,35 +27,45 @@ from functools import reduce
 from rpn.rpnCombinatorics import getNthAperyNumber, getNthDelannoyNumber, getNthMenageNumber, \
                                  getNthMotzkinNumber, getNthPellNumber, getNthSchroederNumber, \
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber
+
 from rpn.rpnFactor import getFactors
+
 from rpn.rpnGenerator import RPNGenerator
+
 from rpn.rpnLexicographic import getErdosPersistence, getPersistence, \
                                  hasUniqueDigits, isAutomorphic, isBaseKPandigital, isBaseKSmithNumber, \
-                                 isDecreasing, isBouncy, isIncreasing, isKaprekar, \
+                                 isDecreasing, isBouncy, isIncreasing, isKaprekarNumber, \
                                  isKMorphic, isNarcissistic, isOrderKSmithNumber, isPandigital, \
                                  isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, isSmithNumber, \
                                  isStepNumber, isTrimorphic, multiplyDigits, multiplyNonzeroDigits, \
                                  sumDigits
+
 from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
+
 from rpn.rpnName import getNumberName, getShortOrdinalName
+
 from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFactorial, getEulerPhi, \
-                                getMobius, getNthAlternatingFactorial, getNthBaseKRepunit, getNthCalkinWilf, \
-                                getNthCarolNumber, getNthFactorial, getNthFibonorial, getNthHyperfactorial, \
-                                getNthJacobsthalNumber, getNthKFibonacciNumber, getNthKyneaNumber, \
-                                getNthLeonardoNumber, getNthLucasNumber, getNthMersenneExponent, \
-                                getNthMersennePrime, getNthPadovanNumber, getNthPerfectNumber, \
-                                getNthRieselNumber, getNthSubfactorial, getNthStern, getNthSuperfactorial, \
+                                getNthMobiusNumber, getNthAlternatingFactorial, getNthBaseKRepunit, \
+                                getNthCalkinWilf, getNthCarolNumber, getNthFactorial, getNthFibonorial, \
+                                getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
+                                getNthKyneaNumber, getNthLeonardoNumber, getNthLucasNumber, \
+                                getNthMersenneExponent, getNthMersennePrime, getNthPadovanNumber, \
+                                getNthPerfectNumber, getNthRieselNumber, getNthSubfactorial, \
+                                getNthSternNumber, getNthSuperfactorial, \
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
                                 isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
                                 isKHyperperfect, isKPerfect, isPernicious, isPolydivisible, isPowerful, \
                                 isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
+
 from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
+
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
+
 from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         real_int
+
+from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
 
@@ -838,7 +848,7 @@ def describeInteger( n ):
         print( indent + 'a perfect digit-to-digit invariant in base 10' )
 
     # Kaprekar
-    if isKaprekar( n ):
+    if isKaprekarNumber( n ):
         print( indent + 'a Kaprekar number' )
 
     # automorphic
@@ -955,10 +965,10 @@ def describeInteger( n ):
 
     if n <= largestNumberToFactor:
         print( indent + 'a divisor sum of ' + str( int( getSigma( n ) ) ) )
-        print( indent + 'a Stern value of ' + str( int( getNthStern( n ) ) ) )
+        print( indent + 'a Stern value of ' + str( int( getNthSternNumber( n ) ) ) )
         calkin_wilf = getNthCalkinWilf( n )
         print( indent + 'a Calkin-Wilf value of ' + str( int( calkin_wilf[ 0 ] ) ) + '/' + str( int( calkin_wilf[ 1 ] ) ) )
-        print( indent + 'a Mobius value of ' + str( int( getMobius( n ) ) ) )
+        print( indent + 'a Mobius value of ' + str( int( getNthMobiusNumber( n ) ) ) )
         print( indent + 'a radical of ' + str( int( getRadical( n ) ) ) )
         print( indent + 'a Euler phi value of ' + str( int( getEulerPhi( n ) ) ) )
 

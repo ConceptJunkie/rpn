@@ -535,17 +535,17 @@ def solvePolynomial( args ):
 
 # //******************************************************************************
 # //
-# //  multiplyListOfPolynomials
+# //  multiplyPolynomialList
 # //
 # //******************************************************************************
 
-def multiplyListOfPolynomials( args ):
+def multiplyPolynomialList( args ):
     '''Interprets args as a list of polynomials and returns the polynomial
     product.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
     elif isinstance( args[ 0 ][ 0 ], ( list, RPNGenerator ) ):
-        return [ multiplyListOfPolynomials( arg ) for arg in args ]
+        return [ multiplyPolynomialList( arg ) for arg in args ]
     elif not isinstance( args, list ):
         args = [ args ]
 
@@ -567,16 +567,16 @@ def multiplyListOfPolynomials( args ):
 
 # //******************************************************************************
 # //
-# //  sumListOfPolynomials
+# //  sumPolynomialList
 # //
 # //******************************************************************************
 
-def sumListOfPolynomials( args ):
+def sumPolynomialList( args ):
     '''Interprets args as a list of polynomials and returns the polynomial sum.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
     elif isinstance( args[ 0 ][ 0 ], ( list, RPNGenerator ) ):
-        return [ sumListOfPolynomials( arg ) for arg in args ]
+        return [ sumPolynomialList( arg ) for arg in args ]
     elif not isinstance( args, list ):
         args = [ args ]
 

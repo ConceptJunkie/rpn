@@ -27,7 +27,7 @@ from rpn.rpnInput import convertToBase10
 from rpn.rpnList import getProduct
 from rpn.rpnMath import getPower, getRoot
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnNumberTheory import getNthThueMorse
+from rpn.rpnNumberTheory import getNthThueMorseNumber
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPrimeUtils import getNthPrime
 
@@ -619,7 +619,7 @@ def getThueMorseConstant( ):
     factor = mpmathify( '0.5' )
 
     for i in arange( 0, mp.prec + 1 ):
-        result = fadd( result, fmul( getNthThueMorse( i ), factor ) )
+        result = fadd( result, fmul( getNthThueMorseNumber( i ), factor ) )
         factor = fdiv( factor, 2 )
 
     return result

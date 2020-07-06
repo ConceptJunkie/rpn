@@ -19,15 +19,14 @@ import functools
 import os
 import pickle
 import sqlite3
-import types
 
+from collections import MutableMapping
 from functools import lru_cache
-from mpmath import autoprec, mp, mpf, mpmathify, nstr
+from shutil import copyfile
 
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
-from rpn.rpnSettings import setPrecision
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
@@ -53,7 +52,8 @@ def loadFactorCache( ):
 
 def loadUnitNameData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) \
+                as pickleFile:
             unitsVersion = pickle.load( pickleFile )
             g.unitOperatorNames = pickle.load( pickleFile )
             g.constantOperatorNames = pickle.load( pickleFile )
@@ -76,7 +76,8 @@ def loadUnitNameData( ):
 
 def loadUnitConversionMatrix( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) \
+                as pickleFile:
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
         print( 'rpn:  Unable to load unit conversion data.  Run "makeUnits" to generate the unit data files.' )
@@ -90,7 +91,8 @@ def loadUnitConversionMatrix( ):
 
 def loadUnitData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) \
+                as pickleFile:
             unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
@@ -114,7 +116,7 @@ def loadUnitData( ):
 
 def loadHelpData( ):
     if g.helpLoaded:
-        return
+        return True
 
     try:
         with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
@@ -125,7 +127,8 @@ def loadHelpData( ):
         raise ValueError( 'rpn:  Unable to load help.  Run "makeHelp" to generate the help data files.' )
 
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) \
+                as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
     except FileNotFoundError:
         raise ValueError( 'rpn:  Unable to load unit help data.  Run "makeHelp" to generate the help data files.' )
@@ -181,7 +184,8 @@ def saveResult( result ):
 
 def loadConstants( ):
     try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) \
+                as pickleFile:
             constants = pickle.load( pickleFile )
     except FileNotFoundError:
         constants = { }
@@ -197,7 +201,8 @@ def loadConstants( ):
 
 def saveConstants( constants ):
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'constants.pckl.bz2', 'wb' ) ) \
+                as pickleFile:
             pickle.dump( constants, pickleFile )
 
 
@@ -280,14 +285,16 @@ def createPrimeCache( name ):
 # //******************************************************************************
 
 def openPrimeCache( name ):
-    if name in g.cursors:
-        return g.cursors[ name ]
-    else:
+    if name not in g.cursors:
         try:
             g.databases[ name ] = sqlite3.connect( getPrimeCacheFileName( name ) )
             g.cursors[ name ] = g.databases[ name ].cursor( )
         except:
-            raise ValueError( 'prime number table ' + name + ' can\'t be found.  Run "preparePrimeData" to create the prime data.' )
+            raise ValueError( 'prime number table ' + name +
+                              ' can\'t be found.  Run "preparePrimeData" to create the prime data.' )
+
+    return g.cursors[ name ]
+
 
 
 # //******************************************************************************
@@ -304,8 +311,7 @@ def dumpPrimeCache( name ):
 
         openPrimeCache( name )
 
-    rows = g.cursors[ name ].execute(
-            '''SELECT id, value FROM cache ORDER BY id''' ).fetchall( )
+    rows = g.cursors[ name ].execute( 'SELECT id, value FROM cache ORDER BY id' ).fetchall( )
 
     rows.sort( key=lambda x: x[ 0 ] )
 
@@ -323,13 +329,11 @@ def dumpPrimeCache( name ):
 # //
 # //******************************************************************************
 
-from collections import MutableMapping
-
 class PersistentDict( MutableMapping ):
     def __init__( self, dbpath, iterable=None, **kwargs ):
         self.dbpath = dbpath
 
-        with self.get_connection( ) as connection:
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
             cursor.execute( 'create table if not exists memo '
                             '(key blob primary key not null, value blob not null)' )
@@ -345,13 +349,13 @@ class PersistentDict( MutableMapping ):
     def decode( self, blob ):
         return pickle.loads( blob )
 
-    def get_connection( self ):
+    def getConnection( self ):
         return sqlite3.connect( self.dbpath )
 
     def  __getitem__( self, key ):
         key = self.encode( key )
 
-        with self.get_connection( ) as connection:
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
             cursor.execute( 'select value from memo where key=?', ( key, ) )
 
@@ -366,13 +370,14 @@ class PersistentDict( MutableMapping ):
         key = self.encode( key )
         value = self.encode( value )
 
-        with self.get_connection( ) as connection:
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
             cursor.execute( 'insert or replace into memo values (?, ?)', ( key, value ) )
 
     def __delitem__( self, key ):
         key = self.encode( key )
-        with self.get_connection( ) as connection:
+
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
 
             cursor.execute( 'select count(*) from memo where key=?', ( key, ) )
@@ -383,17 +388,17 @@ class PersistentDict( MutableMapping ):
             cursor.execute( 'delete from memo where key=?', ( key, ) )
 
     def __iter__( self ):
-        with self.get_connection( ) as connection:
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
             cursor.execute( 'select key from memo' )
 
             records = cursor.fetchall( )
 
-        for r in records:
-            yield self.decode( r[ 0 ] )
+        for record in records:
+            yield self.decode( record[ 0 ] )
 
     def __len__( self ):
-        with self.get_connection( ) as connection:
+        with self.getConnection( ) as connection:
             cursor = connection.cursor( )
             cursor.execute( 'select count(*) from memo' )
 
@@ -466,10 +471,7 @@ def saveUserVariablesFile( ):
     for key in g.userVariables.keys( ):
         config[ 'User Variables' ][ key ] = str( g.userVariables[ key ] )
 
-    import os.path
-
     if os.path.isfile( getUserVariablesFileName( ) ):
-        from shutil import copyfile
         copyfile( getUserVariablesFileName( ), getUserVariablesFileName( ) + '.backup' )
 
     with open( getUserVariablesFileName( ), 'w' ) as userVariablesFile:
@@ -497,15 +499,15 @@ def openFunctionCache( name ):
 # //
 # //******************************************************************************
 
-def deleteFromFunctionCache( name, key ):
-    pass
-    #goobles
-    #if name in g.functionCaches:
-    #    return g.functionCaches[ name ]
-    #else:
-    #    debugPrint( 'opening', name, 'function cache database' )
-    #    g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
-    #    return g.functionCaches[ name ]
+#def deleteFromFunctionCache( name, key ):
+#    pass
+#    #goobles
+#    #if name in g.functionCaches:
+#    #    return g.functionCaches[ name ]
+#    #else:
+#    #    debugPrint( 'opening', name, 'function cache database' )
+#    #    g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
+#    #    return g.functionCaches[ name ]
 
 
 # //******************************************************************************
@@ -615,8 +617,8 @@ def loadUserConfigurationFile( ):
     except:
         return
 
-    for tuple in items:
-        g.userConfiguration[ tuple[ 0 ] ] = tuple[ 1 ]
+    for item in items:
+        g.userConfiguration[ item[ 0 ] ] = item[ 1 ]
 
 
 # //******************************************************************************
@@ -633,10 +635,7 @@ def saveUserConfigurationFile( ):
     for key in g.userConfiguration.keys( ):
         config[ 'User Configuration' ][ key ] = g.userConfiguration[ key ]
 
-    import os.path
-
     if os.path.isfile( getUserConfigurationFileName( ) ):
-        from shutil import copyfile
         copyfile( getUserConfigurationFileName( ), getUserConfigurationFileName( ) + '.backup' )
 
     with open( getUserConfigurationFileName( ), 'w' ) as userConfigurationFile:

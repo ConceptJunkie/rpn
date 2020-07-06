@@ -29,7 +29,7 @@ from rpn.rpnOperators import *
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
 from rpn.rpnOperators import constants, listOperators, operators
-from rpn.rpnPersistence import loadUnitNameData
+from rpn.rpnPersistence import loadHelpData, loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *
 from rpn.rpnUtils import getUserDataPath, loadAstronomyData

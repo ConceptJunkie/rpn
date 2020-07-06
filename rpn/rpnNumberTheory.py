@@ -1433,13 +1433,13 @@ def getLimitedAliquotSequence( n, k ):
 
 # //******************************************************************************
 # //
-# //  getMobius
+# //  getNthMobiusNumber
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'mobius' )
-def getMobius( n ):
+def getNthMobiusNumber( n ):
     if real( n ) == 1:
         return 1
 
@@ -1470,7 +1470,7 @@ def getMobius( n ):
 #        if real( n ) == 1:
 #            return 1
 #
-#        return fadd( getNthMertenNew( n - 1 ), getMobius( n ) )
+#        return fadd( getNthMertenNew( n - 1 ), getNthMobiusNumber( n ) )
 #        break
 
 
@@ -1483,7 +1483,7 @@ def getNthMerten( n ):
     result = 0
 
     for i in arange( 1, n + 1 ):
-        result = fadd( result, getMobius( i ) )
+        result = fadd( result, getNthMobiusNumber( i ) )
 
     return result
 
@@ -1940,13 +1940,13 @@ def generatePolydivisibles( n ):
 
 # //******************************************************************************
 # //
-# //  getNthStern
+# //  getNthSternNumber
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'stern' )
-def getNthStern( n ):
+def getNthSternNumber( n ):
     '''Returns the nth number of Stern's diatomic series recursively.'''
     if real_int( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
@@ -1954,10 +1954,10 @@ def getNthStern( n ):
     if n in [ 0, 1 ]:
         return n
     elif n % 2 == 0: # even
-        return getNthStern( floor( fdiv( n, 2 ) ) )
+        return getNthSternNumber( floor( fdiv( n, 2 ) ) )
     else:
-        return fadd( getNthStern( floor( fdiv( fsub( n, 1 ), 2 ) ) ),
-                     getNthStern( floor( fdiv( fadd( n, 1 ), 2 ) ) ) )
+        return fadd( getNthSternNumber( floor( fdiv( fsub( n, 1 ), 2 ) ) ),
+                     getNthSternNumber( floor( fdiv( fadd( n, 1 ), 2 ) ) ) )
 
 
 # //******************************************************************************
@@ -1974,7 +1974,7 @@ def getNthCalkinWilf( n ):
     if n == 0:
         return [ 0, 1 ]
 
-    return [ getNthStern( n ), getNthStern( fadd( n, 1 ) ) ]
+    return [ getNthSternNumber( n ), getNthSternNumber( fadd( n, 1 ) ) ]
 
 
 # //******************************************************************************
@@ -2123,7 +2123,7 @@ def getNthPerfectNumber( n ):
 
 # //******************************************************************************
 # //
-# //  getNthThueMorse
+# //  getNthThueMorseNumber
 # //
 # //  https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence
 # //
@@ -2131,11 +2131,11 @@ def getNthPerfectNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'thue_morse' )
-def getNthThueMorse( n ):
+def getNthThueMorseNumber( n ):
     if n == 0:
         return 0
     else:
-        return fmod( fadd( n, getNthThueMorse( floor( fdiv( n, 2 ) ) ) ), 2 )
+        return fmod( fadd( n, getNthThueMorseNumber( floor( fdiv( n, 2 ) ) ) ), 2 )
 
 
 # //******************************************************************************

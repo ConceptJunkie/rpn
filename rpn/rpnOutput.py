@@ -17,8 +17,7 @@ import string
 import sys
 import textwrap
 
-from mpmath import e, floor, frac, inf, im, mp, mpf, mpmathify, nstr, phi, \
-                   pi, re, sqrt
+from mpmath import e, floor, frac, im, mp, mpf, mpmathify, nstr, phi, pi, re, sqrt
 
 from rpn.rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
                         convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
@@ -193,16 +192,13 @@ def formatOutput( output ):
 # //
 # //  formatListOutput
 # //
-# //  This function formats a list for output, taking into account the list
-# //  format level, as specified by the -s option.
-# //
 # //******************************************************************************
 
 def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
     '''
+    This function formats a list for output, taking into account the list
+    format level, as specified by the -s option.
     '''
-    stringList = [ ]
-
     indentString = ' ' * indent
 
     first = True
@@ -236,16 +232,16 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
 
             formatListOutput( item, level + 1, file=file )
             continue
+
+        if isinstance( item, str ):
+            newString = item
+        elif isinstance( item, RPNDateTime ):
+            newString = formatDateTime( item )
+        elif isinstance( item, RPNMeasurement ):
+            newString = formatOutput( nstr( item.value, min_fixed=-g.maximumFixed - 1 ) )
+            newString += ' ' + formatUnits( item )
         else:
-            if isinstance( item, str ):
-                newString = item
-            elif isinstance( item, RPNDateTime ):
-                newString = formatDateTime( item )
-            elif isinstance( item, RPNMeasurement ):
-                newString = formatOutput( nstr( item.value, min_fixed=-g.maximumFixed - 1 ) )
-                newString += ' ' + formatUnits( item )
-            else:
-                newString = formatOutput( str( item ) )
+            newString = formatOutput( str( item ) )
 
         if first:
             first = False
@@ -479,8 +475,6 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
 
 def printCategoryHelp( category, operators, listOperators, modifiers, operatorHelp ):
     if category in basicUnitTypes:
-        first = True
-
         units = [ ]
 
         for unit, unitInfo in g.unitOperators.items( ):
@@ -512,8 +506,11 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 # //
 # //******************************************************************************
 
-def printHelp( terms = [ ], interactive = False ):
+def printHelp( terms = None, interactive = False ):
     from rpn.rpnOperators import constants, listOperators, modifiers, operators
+
+    if terms is None:
+        terms = [ ]
 
     loadHelpData( )
     loadUnitData( )
@@ -561,7 +558,8 @@ def printHelp( terms = [ ], interactive = False ):
     elif term in g.operatorCategories:
         printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), indent=4 )
+        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), \
+                        indent=4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
         addAliases( unitList, g.aliases )
@@ -629,7 +627,7 @@ def printHelp( terms = [ ], interactive = False ):
             print( )
             printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.operatorHelp )
         else:
-            print( "Help topic not found." )
+            print( 'Help topic not found.' )
 
 
 # //******************************************************************************
@@ -639,12 +637,13 @@ def printHelp( terms = [ ], interactive = False ):
 # //******************************************************************************
 
 def printGeneralHelp( ):
-    print( RPN_PROGRAM_NAME + " - " + PROGRAM_DESCRIPTION )
+    print( RPN_PROGRAM_NAME + ' - ' + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 
     printParagraph(
-        '''For help on a specific topic, use 'rpn help' and add a help topic, operator category or a specific operator name.''' )
+        'For help on a specific topic, use \'rpn help\' and add a help topic, '
+        'operator category or a specific operator name.' )
 
     printHelpTopics( )
 
@@ -659,7 +658,8 @@ def printInteractiveHelp( ):
     loadHelpData( )
 
     printParagraph(
-        '''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
+        'For help on a specific topic, use the topic operator with a general topic, '
+        'operator category or a specific operator name.' )
 
     printHelpTopics( )
 

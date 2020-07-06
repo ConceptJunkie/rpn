@@ -45,15 +45,15 @@ from rpn.rpnMeasurement import RPNMeasurement
 
 from rpn.rpnOperator import checkForVariable
 
-from rpn.rpnOperators import evaluateTerm, functionOperators, loadUnitNameData, \
-                             loadUserFunctionsFile, RPNFunction, saveResult, \
-                             saveUserFunctionsFile, setAccuracy, setPrecision
+from rpn.rpnOperators import evaluateTerm, functionOperators, loadUserFunctionsFile, \
+                             RPNFunction, saveUserFunctionsFile, setAccuracy, setPrecision
 
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpn.rpnPersistence import loadUnitData, loadUserVariablesFile, saveUserVariablesFile, \
-                               loadUserConfigurationFile, saveUserConfigurationFile
+from rpn.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariablesFile, \
+                               saveUserVariablesFile, loadUserConfigurationFile, saveResult, \
+                               saveUserConfigurationFile
 
 from rpn.rpnPrimeUtils import checkForPrimeData
 

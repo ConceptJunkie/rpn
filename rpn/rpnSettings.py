@@ -152,7 +152,7 @@ def setOutputRadix( n ):
 def setLeadingZero( n ):
     result = 1 if g.leadingZero else 0
 
-    if ( n == 0 ):
+    if n == 0:
         g.leadingZero = False
     else:
         g.leadingZero = True
@@ -169,7 +169,7 @@ def setLeadingZero( n ):
 def setIdentify( n ):
     result = 1 if g.identify else 0
 
-    if ( n == 0 ):
+    if n == 0:
         g.identify = False
     else:
         g.identify = True
