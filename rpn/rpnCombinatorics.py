@@ -16,12 +16,12 @@ from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor,
                    fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
                    power, sqrt, stirling1, stirling2
 
+from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnNumberTheory import getNthLinearRecurrence
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         real, real_int
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
 
 
 # //******************************************************************************
@@ -48,7 +48,7 @@ def getNthAperyNumber( n ):
 
     result = 0
 
-    for k in arange( 0, real( n ) + 1 ):
+    for k in arange( 0, validateRealInt( n ) + 1 ):
         result = fadd( result, fmul( power( binomial( n, k ), 2 ),
                                      power( binomial( fadd( n, k ), k ), 2 ) ) )
 
@@ -64,7 +64,7 @@ def getNthAperyNumber( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
-    if real_int( n ) == 1:
+    if validateRealInt( n ) == 1:
         return 3
 
     if n < 0:
@@ -77,7 +77,7 @@ def getNthDelannoyNumber( n ):
 
     result = 0
 
-    for k in arange( 0, fadd( real( n ), 1 ) ):
+    for k in arange( 0, fadd( validateRealInt( n ), 1 ) ):
         result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
 
     return result
@@ -92,7 +92,7 @@ def getNthDelannoyNumber( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
-    if real_int( n ) == 1:
+    if validateRealInt( n ) == 1:
         return 1
 
     if n < 0:
@@ -135,7 +135,7 @@ def getNthMotzkinNumber( n ):
 
     result = 0
 
-    for j in arange( 0, floor( fdiv( real( n ), 3 ) ) + 1 ):
+    for j in arange( 0, floor( fdiv( validateRealInt( n ), 3 ) ) + 1 ):
         result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
                                         binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
 
@@ -154,7 +154,7 @@ def getNthMotzkinNumber( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
-    if real_int( n ) == 0:
+    if validateRealInt( n ) == 0:
         return 1
 
     if n < 0:
@@ -205,7 +205,7 @@ def getNthPellNumber( n ):
 
 @twoArgFunctionEvaluator( )
 def getPermutations( n, r ):
-    if real( r ) > real( n ):
+    if validateRealInt( r ) > validateRealInt( n ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
@@ -219,7 +219,7 @@ def getPermutations( n, r ):
 
 @twoArgFunctionEvaluator( )
 def getCombinations( n, r ):
-    if real( r ) > real( n ):
+    if validateRealInt( r ) > validateRealInt( n ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fmul( fac( fsub( n, r ) ), fac( r ) ) )
@@ -244,17 +244,17 @@ def getArrangements( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthSylvesterNumber( n ):
-    if real( n ) == 1:
+    if validateRealInt( n ) == 1:
         return 2
     elif n == 2:
         return 3
     else:
-        list = [ 2, 3 ]
+        sylvesters = [ 2, 3 ]
 
         for _ in arange( 2, n ):
-            list.append( fprod( list ) + 1 )
+            sylvesters.append( fprod( sylvesters ) + 1 )
 
-    return list[ -1 ]
+    return sylvesters[ -1 ]
 
 
 # //******************************************************************************
@@ -265,8 +265,8 @@ def getNthSylvesterNumber( n ):
 
 @twoArgFunctionEvaluator( )
 def createDeBruijnSequence( n, k ):
-    wordSize = real_int( k )
-    symbolCount = real_int( n )
+    wordSize = validateRealInt( k )
+    symbolCount = validateRealInt( n )
 
     v = [ 0 for _ in range( wordSize ) ]
     l = 1
@@ -301,8 +301,8 @@ def getDeBruijnSequence( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getCompositionsGenerator( n, k ):
-    value = int( real_int( n ) )
-    count = int( real_int( k ) )
+    value = int( validateRealInt( n ) )
+    count = int( validateRealInt( k ) )
 
     if count < 1:
         raise ValueError( "'compositions' expects a size argument greater than 0'" )
@@ -330,7 +330,7 @@ def getCompositions( n, k ):
 
 @oneArgFunctionEvaluator( )
 def oldGetPartitionNumber2( n ):
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
 
     if n in ( 0, 1 ):
@@ -407,17 +407,17 @@ def partitionsWithLimit( n, k=None ):
 
     k = int( k )
 
-    q, r = divmod( n, k )
-    ms = { k : q }
+    quotient, remainder = divmod( n, k )
+    itemCounts = { k : quotient }
     keys = [ k ]
 
-    if r:
-        ms[ r ] = 1
-        keys.append( r )
+    if remainder:
+        itemCounts[ remainder ] = 1
+        keys.append( remainder )
 
     result = [ ]
 
-    for key, value in ms.items( ):
+    for key, value in itemCounts.items( ):
         result.extend( [ key ] * value )
 
     yield result
@@ -426,32 +426,32 @@ def partitionsWithLimit( n, k=None ):
         # Reuse any 1's.
         if keys[ -1 ] == 1:
             del keys[ -1 ]
-            reuse = ms.pop( 1 )
+            reuse = itemCounts.pop( 1 )
         else:
             reuse = 0
 
         # Let i be the smallest key larger than 1.  Reuse one
         # instance of i.
         i = keys[ -1 ]
-        newcount = ms[ i ] = ms[ i ] - 1
+        newcount = itemCounts[ i ] = itemCounts[ i ] - 1
         reuse += i
 
         if newcount == 0:
-            del keys[ -1 ], ms[ i ]
+            del keys[ -1 ], itemCounts[ i ]
 
-        # Break the remainder into pieces of size i-1.
+        # Break the remainder into pieces of size i - 1.
         i -= 1
-        q, r = divmod( reuse, i )
-        ms[ i ] = q
+        quotient, remainder = divmod( reuse, i )
+        itemCounts[ i ] = quotient
         keys.append( i )
 
-        if r:
-            ms[ r ] = 1
-            keys.append( r )
+        if remainder:
+            itemCounts[ remainder ] = 1
+            keys.append( remainder )
 
         result = [ ]
 
-        for key, value in ms.items( ):
+        for key, value in itemCounts.items( ):
             result.extend( [ key ] * value )
 
         yield result
@@ -459,7 +459,7 @@ def partitionsWithLimit( n, k=None ):
 
 @twoArgFunctionEvaluator( )
 def getPartitionsWithLimit( n, k ):
-    if real_int( k ) > real_int( n ):
+    if validateRealInt( k ) > validateRealInt( n ):
         k = n
 
     return RPNGenerator( partitionsWithLimit( n, k ) )
@@ -483,7 +483,7 @@ def getPartitionNumber( n ):
     '''
     debugPrint( 'partition', int( n ) )
 
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
 
     if n in ( 0, 1 ):
@@ -532,14 +532,14 @@ def oldGetPartitionNumber( n ):
 
     for k in arange( 1, n + 1 ):
         #n1 = n - k * ( 3 * k - 1 ) / 2
-        n1 = fsub( n, fdiv( fmul( k, fsub( fmul( 3, k ), 1 ) ), 2 ) )
+        sub1 = fsub( n, fdiv( fmul( k, fsub( fmul( 3, k ), 1 ) ), 2 ) )
         #n2 = n - k * ( 3 * k + 1 ) / 2
-        n2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
+        sub2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
 
         result = fadd( result, fmul( power( -1, fadd( k, 1 ) ), \
-                       fadd( getPartitionNumber( n1 ), getPartitionNumber( n2 ) ) ) )
+                       fadd( getPartitionNumber( sub1 ), getPartitionNumber( sub2 ) ) ) )
 
-        if n1 <= 0:
+        if sub1 <= 0:
             break
 
     #old = NOT_QUITE_AS_OLDgetPartitionNumber( n )
@@ -649,7 +649,7 @@ def getIntegerPartitions( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthMultifactorial( n, k ):
-    return fprod( arange( real_int( n ), 0, -( real_int( k ) ) ) )
+    return fprod( arange( validateRealInt( n ), 0, -( validateRealInt( k ) ) ) )
 
 
 # //******************************************************************************
@@ -677,7 +677,7 @@ def getMultinomial( args ):
 
 @twoArgFunctionEvaluator( )
 def getLahNumber( n, k ):
-    return fmul( power( -1, n ), fdiv( fmul( binomial( real( n ), real( k ) ),
+    return fmul( power( -1, n ), fdiv( fmul( binomial( validateRealInt( n ), validateRealInt( k ) ),
                                              fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
 
@@ -700,7 +700,7 @@ def getNarayanaNumber( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getNthCatalanNumber( n ):
-    return fdiv( binomial( fmul( 2, real( n ) ), n ), fadd( n, 1 ) )
+    return fdiv( binomial( fmul( 2, validateRealInt( n ) ), n ), fadd( n, 1 ) )
 
 
 # //******************************************************************************
@@ -747,7 +747,8 @@ def getNthBernoulli( n ):
 # //
 # //  countFrobenius
 # //
-# //  https://math.stackexchange.com/questions/176363/keep-getting-generating-function-wrong-making-change-for-a-dollar/176397#176397
+# //  https://math.stackexchange.com/questions/176363/keep-getting-generating- \
+# //      function-wrong-making-change-for-a-dollar/176397#176397
 # //
 # //  Here's another way from Sloane that doesn't require so much memory:
 # //

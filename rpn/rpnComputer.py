@@ -20,7 +20,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         real, real_int
+                         validateReal, validateRealInt
 
 import rpn.rpnGlobals as g
 
@@ -34,7 +34,7 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def convertToSignedInt( n, k ):
-    value = fadd( real_int( n ), ( power( 2, fsub( real_int( k ), 1 ) ) ) )
+    value = fadd( validateRealInt( n ), ( power( 2, fsub( validateRealInt( k ), 1 ) ) ) )
     value = fmod( value, power( 2, k ) )
     value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
 
@@ -73,7 +73,7 @@ def convertToQuadLong( n ):
 
 @oneArgFunctionEvaluator( )
 def getInvertedBits( n ):
-    value = real_int( n )
+    value = validateRealInt( n )
 
     # determine how many groups of bits we will be looking at
     if value == 0:
@@ -111,8 +111,8 @@ def getInvertedBits( n ):
 # //******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
-    value1 = real_int( i )
-    value2 = real_int( j )
+    value1 = validateRealInt( i )
+    value2 = validateRealInt( j )
 
     # determine how many groups of bits we will be looking at
     if value1 == 0:
@@ -184,9 +184,9 @@ def shiftRight( n, k ):
 # //******************************************************************************
 
 def getBitCount( n ):
-    n = real_int( n )
+    n = validateRealInt( n )
 
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( '\'bit_count\' requires a positive integer value' )
 
     result = 0
@@ -228,7 +228,7 @@ def unpackInteger( n, fields ):
     elif not isinstance( fields, list ):
         return unpackInteger( n, [ fields ] )
 
-    value = real_int( n )
+    value = validateRealInt( n )
     result = [ ]
 
     for field in reversed( fields ):
@@ -280,7 +280,7 @@ def packInteger( values, fields ):
 
 @oneArgFunctionEvaluator( )
 def interpretAsFloat( n ):
-    if ( real_int( n ) < 0 ) or ( n >= 2 ** 32 - 1 ):
+    if ( validateRealInt( n ) < 0 ) or ( n >= 2 ** 32 - 1 ):
         raise ValueError( 'value out of range for a 32-bit float' )
 
     intValue = struct.pack( 'I', int( n ) )
@@ -297,7 +297,7 @@ def interpretAsFloat( n ):
 def interpretAsDouble( n ):
     setAccuracy( 25 )
 
-    if ( real_int( n ) < 0 ) or ( n > 2 ** 64 - 1 ):
+    if ( validateRealInt( n ) < 0 ) or ( n > 2 ** 64 - 1 ):
         raise ValueError( 'value out of range for a 64-bit float' )
 
     intValue = struct.pack( 'Q', int( n ) )
@@ -306,35 +306,35 @@ def interpretAsDouble( n ):
 
 @oneArgFunctionEvaluator( )
 def convertToDouble( n ):
-    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( real( n ) ) ) ) )
+    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( validateReal( n ) ) ) ) )
 
 @oneArgFunctionEvaluator( )
 def convertToFloat( n ):
-    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( real( n ) ) ) ) )
+    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( validateReal( n ) ) ) ) )
 
 @twoArgFunctionEvaluator( )
 def convertToUnsignedInt( n, k ):
-    return fmod( real_int( n ), power( 2, real( k ) ) )
+    return fmod( validateRealInt( n ), power( 2, validateReal( k ) ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedChar( n ):
-    return fmod( real_int( n ), power( 2, 8 ) )
+    return fmod( validateRealInt( n ), power( 2, 8 ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedShort( n ):
-    return fmod( real_int( n ), power( 2, 16 ) )
+    return fmod( validateRealInt( n ), power( 2, 16 ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedLong( n ):
-    return fmod( real_int( n ), power( 2, 32 ) )
+    return fmod( validateRealInt( n ), power( 2, 32 ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedLongLong( n ):
-    return fmod( real_int( n ), power( 2, 64 ) )
+    return fmod( validateRealInt( n ), power( 2, 64 ) )
 
 @oneArgFunctionEvaluator( )
 def convertToUnsignedQuadLong( n ):
-    return fmod( real_int( n ), power( 2, 128 ) )
+    return fmod( validateRealInt( n ), power( 2, 128 ) )
 
 @twoArgFunctionEvaluator( )
 def andOperands( n, k ):

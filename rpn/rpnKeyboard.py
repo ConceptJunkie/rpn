@@ -19,7 +19,8 @@ import signal
 # //
 # //  class DelayedKeyboardInterrupt
 # //
-# //  http://stackoverflow.com/questions/842557/how-to-prevent-a-block-of-code-from-being-interrupted-by-keyboardinterrupt-in-py
+# //  http://stackoverflow.com/questions/842557/how-to-prevent-a-block-of-code-from-\
+# //      being-interrupted-by-keyboardinterrupt-in-py
 # //
 # //******************************************************************************
 

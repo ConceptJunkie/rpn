@@ -12,6 +12,9 @@
 # //
 # //******************************************************************************
 
+# pylint: disable=invalid-name
+
+
 # general globals
 dataDir = 'rpndata'
 
@@ -51,7 +54,8 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 # state variables
 astroDataLoaded = False         # Whether or not we've tried to load the astronomy data
 astroDataAvailable = False      # If the astronomy data is available (i.e., It's there, _and_ we loaded it.)
-checkForSingleResults = False   # This is set true for making help and unit tests, because those should always return single results
+checkForSingleResults = False   # This is set true for making help and unit tests, because those should always
+                                # return single results
 creatingFunction = False        # Whether we're in the process of creating a user-defined function
 duplicateOperations = 0
 echoArguments = [ ]
@@ -60,7 +64,8 @@ interactive = False
 lastOperand = 0
 nestedListLevel = 0
 operandsToRemove = 0
-operatorList = False            # whether we are in the process of creating an operator list (between '(' and ')' operators)
+operatorList = False            # whether we are in the process of creating an operator list
+                                # (between '(' and ')' operators)
 operatorsInList = 0
 startTime = 0
 testFilter = ''
@@ -114,7 +119,7 @@ unitOperatorNames = [ ]
 
 # help data
 helpTopics = { }
-helpVersion = "0.0.0"
+helpVersion = '0.0.0'
 operatorCategories = [ ]
 operatorHelp = { }
 unitTypeDict = { }

@@ -35,7 +35,7 @@ from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
-                         setAccuracyForN, twoArgFunctionEvaluator, real, real_int
+                         setAccuracyForN, twoArgFunctionEvaluator, validateReal, validateRealInt
 
 
 # //******************************************************************************
@@ -50,7 +50,7 @@ def getNthAlternatingFactorial( n ):
 
     negative = False
 
-    for i in arange( real( n ), 0, -1 ):
+    for i in arange( validateRealInt( n ), 0, -1 ):
         if negative:
             result = fadd( result, fneg( fac( i ) ) )
             negative = False
@@ -68,7 +68,7 @@ def getNthAlternatingFactorial( n ):
 # //******************************************************************************
 
 def getNthPascalLineGenerator( n ):
-    for i in arange( 0, real( n ) ):
+    for i in arange( 0, validateRealInt( n ) ):
         yield binomial( n - 1, i )
 
 @oneArgFunctionEvaluator( )
@@ -139,7 +139,7 @@ def getDivisors( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthLucasNumber( n ):
-    if real( n ) == 0:
+    if validateRealInt( n ) == 0:
         return 2
     elif n == 1:
         return 1
@@ -164,7 +164,7 @@ def getNthLucasNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthJacobsthalNumber( n ):
-    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], real_int( n ) )
+    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], validateRealInt( n ) )
 
 
 # //******************************************************************************
@@ -175,8 +175,8 @@ def getNthJacobsthalNumber( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthBaseKRepunit( n, k ):
-    return getNthLinearRecurrence( [ fneg( real_int( k ) ), fadd( k, 1 ) ],
-                                   [ 1, fadd( k, 1 ) ], fsub( real_int( n ), 1 ) )
+    return getNthLinearRecurrence( [ fneg( validateRealInt( k ) ), fadd( k, 1 ) ],
+                                   [ 1, fadd( k, 1 ) ], fsub( validateRealInt( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -195,7 +195,7 @@ def getPrimePi( n ):
 
         return result
 
-    result = primepi2( real_int( n ) )
+    result = primepi2( validateRealInt( n ) )
 
     if result.a == result.b:
         return mpf( result.a )
@@ -211,7 +211,7 @@ def getPrimePi( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthFibonacci( n ):
-    return fib( real_int( n ) )
+    return fib( validateRealInt( n ) )
 
 
 # //******************************************************************************
@@ -225,7 +225,7 @@ def getNthFibonacci( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthFibonacciPolynomial( n ):
-    if real( n ) < 2:
+    if validateRealInt( n ) < 2:
         raise ValueError( 'argument >= 2 expected' )
 
     if n == 2:
@@ -252,10 +252,10 @@ def getNthFibonacciPolynomial( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthKFibonacciNumber( n, k ):
-    if real( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
 
-    if real( k ) < 2:
+    if validateRealInt( k ) < 2:
         raise ValueError( 'argument >= 2 expected' )
 
     if n < k - 1:
@@ -325,7 +325,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     '''
     This is used for testing getNthKFibonacciNumber( ).
     '''
-    precision = int( fdiv( fmul( int( n ), real( k ) ), 8 ) )
+    precision = int( fdiv( fmul( int( n ), validateRealInt( k ) ), 8 ) )
 
     if mp.dps < precision:
         mp.dps = precision
@@ -356,8 +356,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getNthPadovanNumber( arg ):
-    # pylint: disable=invalid-name
-    n = fadd( real( arg ), 4 )
+    n = fadd( validateRealInt( arg ), 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
     b = root( fdiv( fadd( 9, sqrt( 69 ) ), 2 ), 3 )
@@ -454,7 +453,7 @@ def convertFromContinuedFraction( n ):
 
 @twoArgFunctionEvaluator( )
 def makeContinuedFraction( n, k ):
-    return RPNContinuedFraction( real( n ), maxterms = real_int( k ), cutoff = power( 10, -( mp.dps - 2 ) ) )
+    return RPNContinuedFraction( validateReal( n ), maxterms = validateRealInt( k ), cutoff = power( 10, -( mp.dps - 2 ) ) )
 
 
 # //******************************************************************************
@@ -465,11 +464,11 @@ def makeContinuedFraction( n, k ):
 
 @twoArgFunctionEvaluator( )
 def interpretAsFraction( n, k ):
-    if mp.dps < real_int( k ):
+    if mp.dps < validateRealInt( k ):
         mp.dps = k
 
     cutoff = fmul( n, power( 10, -10 ) )
-    fraction = RPNContinuedFraction( real( n ), maxterms = k, cutoff=cutoff ).getFraction( )
+    fraction = RPNContinuedFraction( validateReal( n ), maxterms = k, cutoff=cutoff ).getFraction( )
 
     return [ fraction.numerator, fraction.denominator ]
 
@@ -496,7 +495,7 @@ def interpretAsBase( args, base ):
     multiplier = mpmathify( 1 )
 
     for i in args:
-        if i >= real_int( base ):
+        if i >= validateRealInt( base ):
             raise ValueError( 'invalid value for base', int( base ) )
 
         value = fadd( value, fmul( i, multiplier ) )
@@ -518,7 +517,7 @@ def interpretAsBaseOperator( args, base ):
 
 @twoArgFunctionEvaluator( )
 def getGreedyEgyptianFraction( nominator, denominator ):
-    if real_int( nominator ) > real_int( denominator ):
+    if validateRealInt( nominator ) > validateRealInt( denominator ):
         raise ValueError( "'egypt' requires the numerator to be smaller than the denominator" )
 
     # Create a list to store the Egyptian fraction representation.
@@ -569,7 +568,7 @@ def getLinearRecurrence( recurrence, seeds, count ):
     for i in range( len( seeds ), len( recurrence ) ):
         seeds.append( list( getLinearRecurrence( recurrence[ : i ], seeds, 1 ) ) )
 
-    if real_int( count ) < len( seeds ):
+    if validateRealInt( count ) < len( seeds ):
         for i in range( int( count ) ):
             yield seeds[ i ]
     else:
@@ -610,7 +609,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
     if not isinstance( seeds, ( list, RPNGenerator ) ):
         seeds = [ seeds ]
 
-    n = real_int( n )
+    n = validateRealInt( n )
 
     if not seeds:
         raise ValueError( 'for operator \'linear_recurrence\', seeds list cannot be empty ' )
@@ -662,7 +661,7 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
     for i in range( len( seeds ), len( recurrence ) ):
         seeds.append( getLinearRecurrenceWithModulo( recurrence[ : i ], seeds, i, modulo ) )
 
-    if real_int( count ) < len( seeds ):
+    if validateRealInt( count ) < len( seeds ):
         for i in range( int( count ) ):
             yield seeds[ i ]
     else:
@@ -704,7 +703,7 @@ def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
     if not seeds:
         raise ValueError( 'for operator \'linear_recurrence_with_modulo\', seeds list cannot be empty ' )
 
-    n = real_int( n )
+    n = validateRealInt( n )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
@@ -756,7 +755,7 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
     for i in range( len( seeds ), len( recurrence ) ):
         seeds.append( list( getLinearRecurrence( recurrence[ : i ], seeds, 1 ) ) )
 
-    if real_int( count ) < len( seeds ):
+    if validateRealInt( count ) < len( seeds ):
         for i in range( int( count ) ):
             yield seeds[ i ]
     else:
@@ -798,7 +797,7 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
 
 @twoArgFunctionEvaluator( )
 def makePythagoreanTriple( n, k ):
-    if real( n ) < 0 or real( k ) < 0:
+    if validateRealInt( n ) < 0 or validateRealInt( k ) < 0:
         raise ValueError( "'make_pyth_3' requires positive arguments" )
 
     if n == k:
@@ -863,7 +862,7 @@ def generatePythagoreanTriples( limit ):
 
 @oneArgFunctionEvaluator( )
 def makePythagoreanTriples( n ):
-    n = real_int( n )
+    n = validateRealInt( n )
     return RPNGenerator.createGenerator( generatePythagoreanTriples, n )
 
 
@@ -941,7 +940,7 @@ def makePythagoreanQuadruple( a, b ):
 
 def makeEulerBrick( _a, _b, _c ):
     # pylint: disable=invalid-name
-    a, b, c = sorted( [ real( _a ), real( _b ), real( _c ) ] )
+    a, b, c = sorted( [ validateRealInt( _a ), validateRealInt( _b ), validateRealInt( _c ) ] )
 
     if fadd( power( a, 2 ), power( b, 2 ) ) != power( c, 2 ):
         raise ValueError( "'euler_brick' requires a pythogorean triple" )
@@ -969,7 +968,7 @@ def makeEulerBrick( _a, _b, _c ):
 def getNthFibonorial( n ):
     result = 1
 
-    for i in arange( 2, real( n ) ):
+    for i in arange( 2, validateRealInt( n ) ):
         result = fmul( result, fib( i ) )
 
     return result
@@ -1266,7 +1265,7 @@ def getRadical( target ):
 
     n = floor( target )
 
-    if real( n ) == 0:
+    if validateReal( n ) == 0:
         return 0
     elif n == 1:
         return 1
@@ -1298,7 +1297,7 @@ def getSigma( target ):
     '''
     n = floor( target )
 
-    if real( n ) == 0:
+    if validateReal( n ) == 0:
         return 0
     elif n == 1:
         return 1
@@ -1342,7 +1341,7 @@ def getSigmaK( n, k ):
 
     https://oeis.org/A001157
     '''
-    if real( n ) == 0:
+    if validateReal( n ) == 0:
         return 0
     elif n == 1:
         return 1
@@ -1375,13 +1374,13 @@ def getAliquotSequenceGenerator( n, k ):
     usually terminate, but some, like 276, get so large it has not been determined
     if they ever terminate.
     '''
-    yield real( floor( n ) )
+    yield validateReal( floor( n ) )
 
     a = n
 
     results = [ a ]
 
-    for _ in arange( 0, real( k ) - 1 ):
+    for _ in arange( 0, validateReal( k ) - 1 ):
         b = fsub( getSigma( a ), a )
         yield b
 
@@ -1409,7 +1408,7 @@ def getLimitedAliquotSequenceGenerator( n, k ):
     This generates aliquots until the usual termination conditions of
     getAliquotSequence, or the number exceeds k decimal digits in size.
     '''
-    yield real( floor( n ) )
+    yield validateReal( floor( n ) )
 
     a = n
 
@@ -1440,7 +1439,7 @@ def getLimitedAliquotSequence( n, k ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'mobius' )
 def getNthMobiusNumber( n ):
-    if real( n ) == 1:
+    if validateReal( n ) == 1:
         return 1
 
     factorList = getFactorList( n )
@@ -1467,7 +1466,7 @@ def getNthMobiusNumber( n ):
 #@cachedFunction( 'merten' )
 #def getNthMertenNew( n, acc=1 ):
 #    while True:
-#        if real( n ) == 1:
+#        if validateReal( n ) == 1:
 #            return 1
 #
 #        return fadd( getNthMertenNew( n - 1 ), getNthMobiusNumber( n ) )
@@ -1477,7 +1476,7 @@ def getNthMobiusNumber( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'merten' )
 def getNthMerten( n ):
-    if real( n ) == 1:
+    if validateReal( n ) == 1:
         return 1
 
     result = 0
@@ -1497,7 +1496,7 @@ def getNthMerten( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'euler_phi' )
 def getEulerPhi( n ):
-    if real( n ) < 2:
+    if validateReal( n ) < 2:
         return n
 
     return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ),
@@ -1534,7 +1533,7 @@ def getPowMod( a, b, c ):
 # //******************************************************************************
 
 def getPowModOperatorNew( a, b, c ):
-    return getPowMod( real_int( a ), real_int( b ), real_int( c ) )
+    return getPowMod( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
 
 
 # //******************************************************************************
@@ -1544,7 +1543,7 @@ def getPowModOperatorNew( a, b, c ):
 # //******************************************************************************
 
 def getPowModOperator( a, b, c ):
-    return pow( real_int( a ), real_int( b ), real_int( c ) )
+    return pow( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
 
 
 # //******************************************************************************
@@ -1556,7 +1555,7 @@ def getPowModOperator( a, b, c ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'abundance' )
 def getAbundance( n ):
-    if real_int( n ) < 2:
+    if validateRealInt( n ) < 2:
         return 0
 
     return fsub( getSigma( n ), fmul( n, 2 ) )
@@ -1570,7 +1569,7 @@ def getAbundance( n ):
 
 @oneArgFunctionEvaluator( )
 def isDeficient( n ):
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
     elif n == 1:
         return 1
@@ -1586,7 +1585,7 @@ def isDeficient( n ):
 
 @oneArgFunctionEvaluator( )
 def isAbundant( n ):
-    if real_int( n ) < 2:
+    if validateRealInt( n ) < 2:
         return 0
 
     return 1 if getAbundance( n ) > 0 else 0
@@ -1600,7 +1599,7 @@ def isAbundant( n ):
 
 @oneArgFunctionEvaluator( )
 def isPerfect( n ):
-    if real_int( n ) < 2:
+    if validateRealInt( n ) < 2:
         return 0
 
     return 1 if getAbundance( n ) == 0 else 0
@@ -1619,10 +1618,10 @@ def isSmooth( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isSmoothOperator( n, k ):
-    if real_int( k ) < 2:
+    if validateRealInt( k ) < 2:
         return 0
 
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
 
     if n <= k:
@@ -1642,7 +1641,7 @@ def isSmoothOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 def isPernicious( n ):
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
 
     return 1 if isPrime( getBitCount( n ) ) else 0
@@ -1665,10 +1664,10 @@ def isRough( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isRoughOperator( n, k ):
-    if real_int( k ) < 2:
+    if validateRealInt( k ) < 2:
         return 1
 
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
 
     if n == 1:
@@ -1742,7 +1741,7 @@ def isKSphenicOperator( n, k ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'squarefree' )
 def isSquareFree( n ):
-    if real_int( n ) == 0:
+    if validateRealInt( n ) == 0:
         return 0
 
     for i in getFactorList( n ):
@@ -1761,7 +1760,7 @@ def isSquareFree( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'powerful' )
 def isPowerful( n ):
-    if real_int( n ) == 1:
+    if validateRealInt( n ) == 1:
         return 1
 
     for i in getFactorList( n ):
@@ -1799,7 +1798,7 @@ def isAchillesNumber( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'unusual' )
 def isUnusual( n ):
-    if real_int( n ) < 2:
+    if validateRealInt( n ) < 2:
         return 0
 
     return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) > sqrt( n ) else 0
@@ -1813,7 +1812,7 @@ def isUnusual( n ):
 
 @oneArgFunctionEvaluator( )
 def isPronic( n ):
-    a = floor( sqrt( real_int( n ) ) )
+    a = floor( sqrt( validateRealInt( n ) ) )
     return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
 
 
@@ -1829,7 +1828,7 @@ def isPronic( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'polydivisible' )
 def isPolydivisible( n ):
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 
     strValue = getMPFIntegerAsString( n )
@@ -1948,7 +1947,7 @@ def generatePolydivisibles( n ):
 @cachedFunction( 'stern' )
 def getNthSternNumber( n ):
     '''Returns the nth number of Stern's diatomic series recursively.'''
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 
     if n in [ 0, 1 ]:
@@ -1968,7 +1967,7 @@ def getNthSternNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthCalkinWilf( n ):
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 
     if n == 0:
@@ -2101,7 +2100,7 @@ mersennePrimeExponents = {
 
 @oneArgFunctionEvaluator( )
 def getNthMersenneExponent( n ):
-    if 1 > real_int( n ) > 50:
+    if 1 > validateRealInt( n ) > 50:
         raise ValueError( 'invalid index for known Mersenne primes (1 to 50)' )
 
     return mersennePrimeExponents[ n ]
@@ -2240,7 +2239,7 @@ def getLogGamma( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthCarolNumber( n ):
-    return fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 )
+    return fsub( power( fsub( power( 2, validateReal( n ) ), 1 ), 2 ), 2 )
 
 @oneArgFunctionEvaluator( )
 def getNthKyneaNumber( n ):
@@ -2256,7 +2255,7 @@ def getPolygamma( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getNthRieselNumber( n ):
-    return fsub( fmul( real( n ), power( 2, n ) ), 1 )
+    return fsub( fmul( validateReal( n ), power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
 def getNthSubfactorial( n ):
@@ -2276,7 +2275,7 @@ def getTrigamma( n ):
 
 @oneArgFunctionEvaluator( )
 def getUnitRoots( n ):
-    return unitroots( real_int( n ) )
+    return unitroots( validateRealInt( n ) )
 
 @oneArgFunctionEvaluator( )
 def getZeta( n ):
@@ -2300,7 +2299,7 @@ def getCollatzSequenceGenerator( n, k ):
 
     a = n
 
-    for _ in arange( 0, real( k ) - 1 ):
+    for _ in arange( 0, validateReal( k ) - 1 ):
         if isEven( a ):
             b = fdiv( a, 2 )
         else:
@@ -2388,7 +2387,7 @@ def isCarmichaelNumber( n ):
         return 0
 
     # even numbers need not apply
-    if fmod( real_int( n ), 2 ) == 0:
+    if fmod( validateRealInt( n ), 2 ) == 0:
         return 0
 
     factorList = getFactorList( n )
@@ -2406,7 +2405,7 @@ def isCarmichaelNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def isCarmichaelNumberOperator( n ):
-    if real_int( n ) == 1 or isDivisible( n, 2 ) or isPrime( n ):
+    if validateRealInt( n ) == 1 or isDivisible( n, 2 ) or isPrime( n ):
         return 0
 
     return isCarmichaelNumber( n )
@@ -2424,7 +2423,7 @@ def isCarmichaelNumberOperator( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'ruth_aaron' )
 def isRuthAaronNumber( n ):
-    return 1 if fsum( getFactors( real_int( n ) ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
+    return 1 if fsum( getFactors( validateRealInt( n ) ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
 
 
 # //******************************************************************************
@@ -2481,7 +2480,7 @@ def calculateAckermannFunction( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getHarmonicResidue( n ):
-    if real_int( n ) < 2:
+    if validateRealInt( n ) < 2:
         return 0
 
     return fmod( fmul( n, getDivisorCount( n ) ), getSigma( n ) )
@@ -2495,7 +2494,7 @@ def getHarmonicResidue( n ):
 
 @oneArgFunctionEvaluator( )
 def isHarmonicDivisorNumber( n ):
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
 
     return 1 if getHarmonicResidue( n ) == 0 else 0
@@ -2509,7 +2508,7 @@ def isHarmonicDivisorNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def isAntiharmonic( n ):
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         return 0
 
     return 1 if isDivisible( getSigmaK( n, 2 ), getSigmaK( n, 1 ) ) else 0
@@ -2523,7 +2522,7 @@ def isAntiharmonic( n ):
 
 @oneArgFunctionEvaluator( )
 def getHarmonicFraction( n ):
-    n = int( real_int( n ) )
+    n = int( validateRealInt( n ) )
 
     if n == 1:
         return [ 1, 1 ]
@@ -2546,7 +2545,7 @@ def getHarmonicFraction( n ):
 
 @oneArgFunctionEvaluator( )
 def getAlternatingHarmonicFraction( n ):
-    n = int( real_int( n ) )
+    n = int( validateRealInt( n ) )
 
     if n == 1:
         return [ 1, 1 ]
@@ -2583,7 +2582,7 @@ def areRelativelyPrime( n, k ):
 
 @oneArgFunctionEvaluator( )
 def getNthPhitorial( n ):
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 
     if n < 2:
@@ -2606,10 +2605,10 @@ def getNthPhitorial( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthKPolygorial( n, k ):
-    if real_int( n ) < 0:
+    if validateRealInt( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 
-    if real_int( k ) < 3:
+    if validateRealInt( k ) < 3:
         raise ValueError( 'polygorials are defined for k >= 3' )
 
     return fmul( fdiv( fac( n ), power( 2, n ) ),

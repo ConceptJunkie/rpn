@@ -20,17 +20,11 @@ import argparse
 import bz2
 import contextlib
 import io
+from pathlib import Path
 import pickle
 import os
 import sys
 import time
-
-if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
-else:
-    from time import time_ns
-
-from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnPrimeUtils import checkForPrimeData
@@ -39,6 +33,11 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
                            PROGRAM_NAME, RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
+
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
 
 g.checkForSingleResults = True
 
@@ -52,7 +51,7 @@ g.checkForSingleResults = True
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-maxExampleCount = 1504
+MAX_EXAMPLE_COUNT = 1507
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -65,8 +64,8 @@ print( )
 checkForPrimeData( )
 
 if not g.primeDataAvailable:
-    sys.stderr.write( 'The prime number data cache is not available.\n' );
-    sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' );
+    sys.stderr.write( 'The prime number data cache is not available.\n' )
+    sys.stderr.write( 'Please see https://github.com/ConceptJunkie/rpndata/ for more details.\n\n' )
 
 parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME + ' - ' +
                                   PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE, add_help = False,
@@ -77,9 +76,9 @@ parser.add_argument( '-d', '--debug', action = 'store_true' )
 
 args = parser.parse_args( sys.argv[ 1 : ] )
 
-helpDebugMode = args.debug
+HELP_DEBUG_MODE = args.debug
 
-exampleCount = 0
+EXAMPLE_COUNT = 0
 
 
 # //******************************************************************************
@@ -94,16 +93,16 @@ def makeCommandExample( command, indent=0, slow=False ):
     actually use rpn to run the examples.  This way, when things change,
     the output is always accurate.
     '''
-    global exampleCount
-    exampleCount += 1
+    global EXAMPLE_COUNT
+    EXAMPLE_COUNT += 1
 
     if not command:
         return ''
 
     # This total count needs to be manually updated when the help examples are modified.
-    global maxExampleCount
+    global MAX_EXAMPLE_COUNT
     #print( command )
-    print( '\rGenerating example: ', exampleCount, 'of', maxExampleCount, end='' )
+    print( '\rGenerating example: ', EXAMPLE_COUNT, 'of', MAX_EXAMPLE_COUNT, end='' )
     #print( )
 
     if slow:
@@ -111,8 +110,8 @@ def makeCommandExample( command, indent=0, slow=False ):
 
     output = io.StringIO( )
 
-    global helpDebugMode
-    if helpDebugMode:
+    global HELP_DEBUG_MODE
+    if HELP_DEBUG_MODE:
         print( )
         print( command )
 
@@ -141,6 +140,7 @@ def makeCommandExample( command, indent=0, slow=False ):
 
 
 helpTopics = {
+    # pylint: disable=bad-continuation
     'options' :
     'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' +
     COPYRIGHT_MESSAGE + '\n\n' +
@@ -366,7 +366,8 @@ Some examples:
 ''' + makeCommandExample( '1 inf lambda 2 x ** 1/x nsum', indent=4 ) + '''
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
-''' + makeCommandExample( '-t [d:5] build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
+''' + makeCommandExample( '-t [d:5] build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter',
+                          indent=4, slow=True ) + '''
 And we can check that our result works:
 ''' + makeCommandExample( '428571 142857 /', indent=4 ) + '''
 Here's a list of the first 10 perfect numbers:
@@ -423,7 +424,8 @@ of 640 kilometers?
 ''' + makeCommandExample( 'G earth_mass * earth_radius 640 km + / sqrt mph convert', indent=4 ) + '''
 What is the altitude from the Earth's surface of an object in geosynchronous
 orbit?
-''' + makeCommandExample( '[ 24 hours sqr G earth_mass ] prod 4 pi sqr * / cube_root miles convert earth_radius -', indent=4 ) + '''
+''' + makeCommandExample( '[ 24 hours sqr G earth_mass ] prod 4 pi sqr * / cube_root miles convert earth_radius -',
+                          indent=4 ) + '''
 Or better yet, there's now an operator for that:
 ''' + makeCommandExample( '24 hours earth_mass orbital_radius earth_radius - miles convert', 4 ) + '''
 I've tried to make the unit conversion flexible and smart.
@@ -441,22 +443,22 @@ allows the user to enter successive expressions for evaluation.
 Interactive mode also introduces some new operators.  Each expression that is
 evaluated is given a successive number:
 
-c:\>rpn
+c:\\>rpn
 rpn 7.0.0 - RPN command-line calculator
 copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
-rpn (1)>2 3 +
+rpn (1)> 2 3 +
 5
-rpn (2)>10 sqrt
+rpn (2)> 10 sqrt
 3.162277660168
 
 These numbers can be used to refer to previous results by prepending the
 result number with '$':
 
-rpn (3)>$1 5 +
+rpn (3)> $1 5 +
 10
-rpn (4)>$2 sqr
+rpn (4)> $2 sqr
 10
 
 rpn interactive mode respects the command-line options that are passed to it.
@@ -1421,14 +1423,16 @@ Unit conversions:
 
     Now, let's compare the density of Sagittarius A, the black hole at the
     center of the Milky Way, to the density of gold:
-''' + makeCommandExample( '4.3 million solar_mass 4.3 million solar_mass black_hole_radius sphere_volume / Gold element_density /', indent=8 ) + '''
+''' + makeCommandExample( '4.3 million solar_mass 4.3 million solar_mass black_hole_radius sphere_volume / '
+                          'Gold element_density /', indent=8 ) + '''
 
 Advanced examples:
 
 Calculation (or approximation) of various mathematical constants:
 
     Polya Random Walk Constant
-''' + makeCommandExample( '-p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -', indent=8, slow=True ) + '''
+''' + makeCommandExample( '-p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / '
+                          'gamma 11 24 / gamma ] prod 1/x * -', indent=8, slow=True ) + '''
     Schwartzchild Constant (Conic Constant)
 ''' + makeCommandExample( '0 inf lambda 2 x ** x ! / nsum', indent=8 ) + '''
 ''' + makeCommandExample( 'e 2 **', indent=8 ) + '''
@@ -1446,7 +1450,8 @@ Calculation (or approximation) of various mathematical constants:
     Bloch-Landau Constant
 ''' + makeCommandExample( '-a20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /', indent=8 ) + '''
     Hausdorff Dimension
-''' + makeCommandExample( '-a20 0 inf lambda 2 x 2 * 1 + power x 2 * 1 + * 1/x nsum 0 inf lambda 3 x 2 * 1 + power x 2 * 1 + * 1/x nsum /', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda 2 x 2 * 1 + power x 2 * 1 + * 1/x nsum 0 inf '
+                          'lambda 3 x 2 * 1 + power x 2 * 1 + * 1/x nsum /', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 3 log 2 log /', indent=8 ) + '''
     Beta( 3 )
 ''' + makeCommandExample( '-a20 0 inf lambda x 2 * 1 + 3 power 1/x -1 x ** * nsum', indent=8 ) + '''
@@ -1490,7 +1495,8 @@ Calculation (or approximation) of various mathematical constants:
     Erdos-Borwein Constant
 ''' + makeCommandExample( '1 inf lambda 2 x ** 1 - 1/x nsum', indent=8 ) + '''
     An approximation of the Heath-Brown-Moroz constant
-''' + makeCommandExample( '-a6 1 60000 primes lambda 1 x 1/x - 7 ** 1 7 x * 1 + x sqr / + * eval prod', indent=8, slow=True ) + '''
+''' + makeCommandExample( '-a6 1 60000 primes lambda 1 x 1/x - 7 ** 1 7 x * 1 + x sqr / + * eval prod',
+                          indent=8, slow=True ) + '''
     Kepler-Bouwkamp constant
 ''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
     Ramanujan-Forsyth series
@@ -1507,7 +1513,10 @@ Calculation (or approximation) of various mathematical constants:
     Exponential Factorial Constant
 ''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / nsum', indent=8 ) + '''
     Conway's Constant
-''' + makeCommandExample( '-a80 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, 1, 9, -3, -7, -8, -8, 10, 6, 8, -5, -12, 7, -7, 7, 1, -3, 10, 1, -6, -2, -10, -3, 2, 9, -3, 14, -8, 0, -7, 9, 3, -4, -10, -7, 12, 7, 2, -12, -4, -2, 5, 0, 1, -7, 7, -4, 12, -6, 3, -6 ] solve real max', indent=8, slow=True ) + '''
+''' + makeCommandExample( '-a80 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, '
+                          '1, 9, -3, -7, -8, -8, 10, 6, 8, -5, -12, 7, -7, 7, 1, -3, 10, 1, -6, -2, -10, -3, 2, 9, '
+                          '-3, 14, -8, 0, -7, 9, 3, -4, -10, -7, 12, 7, 2, -12, -4, -2, 5, 0, 1, -7, 7, -4, 12, -6, '
+                          '3, -6 ] solve real max', indent=8, slow=True ) + '''
     ''',
     'notes' :
     '''
@@ -1605,12 +1614,12 @@ SI Prefixes:
 # //******************************************************************************
 
 operatorHelp = {
-
-# //******************************************************************************
-# //
-# //  algebra operators
-# //
-# //******************************************************************************
+    # pylint: disable=bad-continuation line-too-long
+    # //******************************************************************************
+    # //
+    # //  algebra operators
+    # //
+    # //******************************************************************************
 
     'add_polynomials' : [
 'algebra', 'interprets two lists as polynomials and adds them',
@@ -1803,11 +1812,11 @@ operator uses mpmath's numerical solver to do the same thing.
 [ 'solve_quadratic', 'solve_cubic', 'solve' ] ],
 
 
-# //******************************************************************************
-# //
-# //  arithmetic operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  arithmetic operators
+    # //
+    # //******************************************************************************
 
     'abs' : [
 'arithmetic', 'calculates the absolute value of n',
@@ -2529,11 +2538,11 @@ than successive uses of 'add'.
 [ 'add', 'prod' ] ],
 
 
-# //******************************************************************************
-# //
-# //  astronomical_object operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  astronomical_object operators
+    # //
+    # //******************************************************************************
 
     'jupiter' : [
 'astronomical_objects', '',
@@ -2636,11 +2645,11 @@ require an astronomical object.
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  astronomy operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  astronomy operators
+    # //
+    # //******************************************************************************
 
     'angular_separation' : [
 'astronomy', 'returns the angular separation of astronomical objects a and b in radians, at location c, for date-time d',
@@ -3072,11 +3081,11 @@ a is an astronomical object, b is a location and c is a date-time value
 [ 'autumnal_equinox', 'summer_solstice', 'vernal_equinox' ] ],
 
 
-# //******************************************************************************
-# //
-# //  bitwise operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  bitwise operators
+    # //
+    # //******************************************************************************
 
     'bitwise_and' : [
 'bitwise', 'calculates the bitwise \'and\' of n and k',
@@ -3241,11 +3250,11 @@ This is effectively the same as dividing by 2 and dropping the remainder.
 [ 'shift_left' ] ],
 
 
-# //******************************************************************************
-# //
-# //  calendar operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  calendar operators
+    # //
+    # //******************************************************************************
 
     'advent' : [
 'calendars', 'returns the date of the first Sunday of Advent for the year specified',
@@ -3295,7 +3304,7 @@ The 'calendar' operator is special in that what it prints out is a side-effect.
 The operator itself doesn't actually do anything.
 ''',
 '''
-c:\>rpn 2016-09-01 cal
+c:\\> rpn 2016-09-01 cal
 
    September 2016
 Su Mo Tu We Th Fr Sa
@@ -3835,7 +3844,7 @@ The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns an empty string.
 ''',
 '''
-c:\>rpn 2019 year_calendar
+c:\\>rpn 2019 year_calendar
                                   2019
 
       January                   February                   March
@@ -3876,11 +3885,11 @@ Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
 [ 'calendar', 'weekday' ] ],
 
 
-# //******************************************************************************
-# //
-# //  chemistry operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  chemistry operators
+    # //
+    # //******************************************************************************
 
     'atomic_number' : [
 'chemistry', 'returns the atomic number of element n',
@@ -4019,12 +4028,11 @@ Where E is the atomic symbol of an element, and N is the count of atoms.
 [ 'atomic_weight' ] ],
 
 
-
-# //******************************************************************************
-# //
-# //  combinatoric operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  combinatoric operators
+    # //
+    # //******************************************************************************
 
     'arrangements' : [
 'combinatorics', 'calculates the number of arrangements of n or fewer objects out of n objects',
@@ -4395,11 +4403,11 @@ Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind
 [ 'stirling1', 'permutations' ] ],
 
 
-# //******************************************************************************
-# //
-# //  complex math operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  complex math operators
+    # //
+    # //******************************************************************************
 
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
@@ -4456,11 +4464,11 @@ e ^ ( pi * i ) = -1
 [ 'imaginary', 'i', 'argument', 'conjugate' ] ],
 
 
-# //******************************************************************************
-# //
-# //  constants operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  constants operators
+    # //
+    # //******************************************************************************
 
     'apery_constant' : [
 'constants', 'returns Apery\'s constant',
@@ -4970,11 +4978,11 @@ Ref:  https://en.wikipedia.org/wiki/Quantum_Hall_effect#The_Bohr_atom_interpreta
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  conversion operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  conversion operators
+    # //
+    # //******************************************************************************
 
     'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
@@ -5103,7 +5111,7 @@ fixed-size integer types.
 ''',
 '''
 ''',
-[ 'char' 'longlong', 'quadlong', 'ulong' ] ],
+[ 'char', 'longlong', 'quadlong', 'ulong' ] ],
 
     'longlong' : [
 'conversion', 'converts the value to a signed 64-bit integer',
@@ -5251,11 +5259,11 @@ and seconds.
 [ 'hms', 'dhms' ] ],
 
 
-# //******************************************************************************
-# //
-# //  date_time operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  date_time operators
+    # //
+    # //******************************************************************************
 
     'iso_day' : [
 'date_time', 'returns the ISO day and week for a date-time value',
@@ -5371,19 +5379,19 @@ and seconds.
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  function operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  function operators
+    # //
+    # //******************************************************************************
 
-#    'break_on' : [
-#'functions', '',
-#'''
-#''',
-#'''
-#''',
-#[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
+    #    'break_on' : [
+    #'functions', '',
+    #'''
+    #''',
+    #'''
+    #''',
+    #[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'eval' : [
 'functions', 'evaluates the function n for the given argument k',
@@ -5589,42 +5597,44 @@ also allow me to plot more than one function at a time.
 a number of extra libraries.
 ''',
 '''
-c:\>rpn 0 pi lambda x sin plot
+rpn 0 pi lambda x sin plot
 
-c:\>rpn -5 5 lambda x 4 ** 3 x 3 ** * + 25 x * - plot
+rpn -5 5 lambda x 4 ** 3 x 3 ** * + 25 x * - plot
 
-c:\>rpn 1 50 lambda x fib plot
+rpn 1 50 lambda x fib plot
 
-c:\>rpn 1 10 lambda x 1 + fib x fib / plot
+rpn 1 10 lambda x 1 + fib x fib / plot
 
 ''',
-[ 'plot2', 'lambda', 'plotc' ] ],
+[ 'plot2', 'lambda', 'plot_complex' ] ],
 
     'plot2' : [
 'functions', 'plot a 3D function '
 '''
 'plot2' is very much considered experimental.
 
-Here's an example to try:
-
-c:\>rpn -2 2 -2 2 lambda x 2 ** y 2 ** - plot2
-
 'plot2' is not currently supported by the Windows installer since it requires
 a number of extra libraries.
 ''',
 '''
-''',
-[ 'plot', 'lamdba', 'plotc' ] ],
+rpn -2 2 -2 2 lambda x 2 ** y 2 ** - plot2
 
-    'plotc' : [
+''',
+[ 'plot', 'lamdba', 'plot_complex' ] ],
+
+    'plot_complex' : [
 'functions', 'plot a complex function e for values of x between a and b real, c and d imaginary',
 '''
-'plotc' is very much considered experimental.
+'plot_complex' is very much considered experimental.
 
-'plotc' is not currently supported by the Windows installer since it requires
-a number of extra libraries.
+'plot_complex' is not currently supported by the Windows installer since it
+requires a number of extra libraries.
 ''',
 '''
+rpn -10 10 -10 10 zeta plot_complex
+
+rpn-10 10 -10 10 zeta plot_complex
+
 ''',
 [ 'plot', 'plot2', 'lambda' ] ],
 
@@ -5705,11 +5715,11 @@ See the 'user_functions' help topic for more details.
 [ 'lamdba', 'x', 'y' ] ],
 
 
-# //******************************************************************************
-# //
-# //  geometry operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  geometry operators
+    # //
+    # //******************************************************************************
 
     'antiprism_area' : [
 'geometry', 'calculates the surface area of an n-sided antiprism of edge length k',
@@ -5925,11 +5935,11 @@ This operator can also handle length measurements.
 [ 'polygon_area', 'prism_area' ] ],
 
 
-# //******************************************************************************
-# //
-# //  geography operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  geography operators
+    # //
+    # //******************************************************************************
 
     'geo_distance' : [
 'geography', 'calculates the distance, along the Earth\'s surface, of two locations',
@@ -5972,11 +5982,11 @@ This operator can also handle length measurements.
 [ 'location', 'lat_long', 'geo_distance', 'get_timezone' ] ],
 
 
-# //******************************************************************************
-# //
-# //  internal operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  internal operators
+    # //
+    # //******************************************************************************
 
     '_dump_aliases' : [
 'internal', 'dumps the list of aliases for operators',
@@ -6069,11 +6079,11 @@ The operator returns number of units.
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants', '_dump_prime_cache' ] ],
 
 
-# //******************************************************************************
-# //
-# //  lexicographic operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  lexicographic operators
+    # //
+    # //******************************************************************************
 
     'add_digits' : [
 'lexicography', 'adds the digits of k to n',
@@ -6159,7 +6169,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
 ''' + makeCommandExample( '9 0 range combine_digits' ) + '''
-''' + makeCommandExample( '1 1 7 range primes combine_digits' ),
+''' + makeCommandExample( '1 7 primes combine_digits' ),
 [ ] ],
 
     'count_digits' : [
@@ -6262,14 +6272,17 @@ lambdas would otherwise be used.
 [ ] ],
 
     'get_base_k_digits' : [
-'lexicography', 'returns the list of digits comprising integer n in base k',
+'number_theory', 'interprets n as a list of digits in base k',
 '''
-This operation is useful for working with any lexicographic feature based
-on the digits that comprise an integer.
+This operator is the equivalent of converting a number to base k, representing
+each digit by its base-10 equivalent.
 ''',
 '''
-''' + makeCommandExample( '1 million 2 10 range get_base_k_digits -s1' ),
-[ 'get_nonzero_digits', 'get_nonzero_base_k_digits' ] ],
+''' + makeCommandExample( '1 million 2 10 range get_base_k_digits -s1' ) + '''
+''' + makeCommandExample( '1042 10 get_base_k_digits' ) + '''
+''' + makeCommandExample( '1042 8 get_base_k_digits' ) + '''
+''' + makeCommandExample( '3232235521 256 get_base_k_digits' ),
+[ 'base' ] ],
 
     'get_digits' : [
 'lexicography', 'returns the list of digits comprising integer n',
@@ -6625,11 +6638,13 @@ on until a one-digit number is obtained.
 [ 'show_persistence', 'k_persistence', 'show_erdos_persistence' ] ],
 
     'replace_digits' : [
-'lexicography', 'returns the blah blah blah',
+'lexicography', 'return value a with every instance of digit b replaced with digit c',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '123 1 4 replace_digits' ) + '''
+''' + makeCommandExample( '1997 9 8 replace_digits' ) + '''
+''' + makeCommandExample( '5000 5 0 replace_digits' ),
 [ ] ],
 
     'reversal_addition' : [
@@ -6637,7 +6652,7 @@ on until a one-digit number is obtained.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a20 89 24 rev_add' ),
+''' + makeCommandExample( '-a20 89 24 reversal_addition' ),
 [ ] ],
 
     'reverse_digits' : [
@@ -6706,11 +6721,11 @@ on until a one-digit number is obtained.
 [ 'multiply_digits', 'get_digits' ] ],
 
 
-# //******************************************************************************
-# //
-# //  logical operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  logical operators
+    # //
+    # //******************************************************************************
 
     'and' : [
 'logical', 'returns 1 if n and k are both nonzero',
@@ -6795,11 +6810,11 @@ on until a one-digit number is obtained.
 [ 'xnor' ] ],
 
 
-# //******************************************************************************
-# //
-# //  list operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  list operators
+    # //
+    # //******************************************************************************
 
     'alternate_signs' : [
 'list_operators', 'alternates signs in the list by making every even element negative',
@@ -7449,11 +7464,11 @@ List the non-prime Fibonacci numbers:
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  logarithm operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  logarithm operators
+    # //
+    # //******************************************************************************
 
     'lambertw' : [
 'logarithms', '',
@@ -7535,11 +7550,11 @@ n.
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  modifier operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  modifier operators
+    # //
+    # //******************************************************************************
 
     '[' : [
 'modifiers', 'begins a list',
@@ -7679,11 +7694,11 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  number theory operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  number theory operators
+    # //
+    # //******************************************************************************
 
     'abundance' : [
 'number_theory', 'returns the abundance of n',
@@ -8070,18 +8085,6 @@ count the zeroes.
 ''',
 [ 'linear_recurrence', 'nth_linear_recurrence' ] ],
 
-    'get_base_k_digits' : [
-'number_theory', 'interprets n as a list digits in base k',
-'''
-This operator is the equivalent of converting a number to base k, representing
-each digit by its base-10 equivalent.
-''',
-'''
-''' + makeCommandExample( '1042 10 get_base_k_digits' ) + '''
-''' + makeCommandExample( '1042 8 get_base_k_digits' ) + '''
-''' + makeCommandExample( '3232235521 256 get_base_k_digits' ),
-[ 'base' ] ],
-
     'harmonic_fraction' : [
 'number_theory', 'returns the rational version of the nth harmonic number',
 '''
@@ -8350,7 +8353,7 @@ for numbers smaller than a trillion.
     'is_ruth_aaron' : [
 'number_theory', 'returns whether n is a Ruth-Aaron number',
 '''
-# //  http://mathworld.wolfram.com/Ruth-AaronPair.html
+    # //  http://mathworld.wolfram.com/Ruth-AaronPair.html
 ''',
 '''
 ''',
@@ -8975,11 +8978,11 @@ This is the equivalent of '1 n polygamma'.
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  physics operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  physics operators
+    # //
+    # //******************************************************************************
 
     'acceleration' : [
 'physics', 'calculates acceleration given different measurement types',
@@ -9336,11 +9339,11 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 [ 'heat_index' ] ],
 
 
-# //******************************************************************************
-# //
-# //  figurate number operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  figurate number operators
+    # //
+    # //******************************************************************************
 
     'centered_cube' : [
 'figurate_numbers', 'calculates the nth centered cube number',
@@ -10111,14 +10114,14 @@ http://oeis.org/A007588
 ''' + makeCommandExample( '1 8 range truncated_tetrahedral' ),
 [ ] ],
 
-#   'antitet' : [ findTetrahedralNumber, 1, [ ] ],
+    #   'antitet' : [ findTetrahedralNumber, 1, [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  powers and roots operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  powers and roots operators
+    # //
+    # //******************************************************************************
 
     'agm' : [
 'powers_and_roots', 'calculates the arithmetic-geometric mean of two numbers',
@@ -10321,17 +10324,17 @@ The operator return x such that x^x = n.
 ''' + makeCommandExample( '12 6j + 15 super_root' ),
 [ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_roots' ] ],
 
-#    'super_roots' : [
-#'powers_and_roots', 'calculates all of the kth super-roots of n',
-#'''
-#''',
-#'''
-#''' + makeCommandExample( '256 2 super_roots' ) + '''
-#''' + makeCommandExample( '8 3 super_roots' ) + '''
-#''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
-#''' + makeCommandExample( '-128 5 super_roots' ) + '''
-#''' + makeCommandExample( '27 4j + 3 super_roots' ),
-#[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
+    #    'super_roots' : [
+    #'powers_and_roots', 'calculates all of the kth super-roots of n',
+    #'''
+    #''',
+    #'''
+    #''' + makeCommandExample( '256 2 super_roots' ) + '''
+    #''' + makeCommandExample( '8 3 super_roots' ) + '''
+    #''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
+    #''' + makeCommandExample( '-128 5 super_roots' ) + '''
+    #''' + makeCommandExample( '27 4j + 3 super_roots' ),
+    #[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
 
     'tetrate' : [
 'powers_and_roots', 'tetrates n by k',
@@ -10354,11 +10357,11 @@ itself k times.
 [ 'tetrate', 'power', 'hyperoperator_right' ] ],
 
 
-# //******************************************************************************
-# //
-# //  prime number operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  prime number operators
+    # //
+    # //******************************************************************************
 
     'balanced_prime' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
@@ -10999,11 +11002,11 @@ An _extremely_ crude estimation of Brun's twin prime constant:
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  settings operators (for use in interactive mode)
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  settings operators (for use in interactive mode)
+    # //
+    # //******************************************************************************
 
     'accuracy' : [
 'settings', 'sets output accuracy to n'
@@ -11155,11 +11158,11 @@ rpn (3)>5 12 **
 [ 'timer' ] ],
 
 
-# //******************************************************************************
-# //
-# //  special operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  special operators
+    # //
+    # //******************************************************************************
 
     'base_units' : [
 'special', 'returns a measurement converted to base units',
@@ -11220,7 +11223,7 @@ actual return value of the operator is the integer argument, so from RPN's
 point of view, it doesn't actually do anything.
 ''',
 '''
-c:\>rpn 55 describe
+c:\\>rpn 55 describe
 
 55 is:
     odd
@@ -11393,7 +11396,7 @@ If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
 
 ''' + makeCommandExample( '157 name' ) + '''
-c:\>rpn 10 3000 ** name
+c:\\>rpn 10 3000 ** name
 nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
 septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
 nine hundred ninety-nine...
@@ -11472,7 +11475,7 @@ The upper limit of integers rpn can name is 10^3004 - 1.
 If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
 
-c:\>rpn 10 3000 ** ordinal_name
+c:\\>rpn 10 3000 ** ordinal_name
 nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
 septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
 nine hundred ninety-nine...
@@ -11762,11 +11765,11 @@ Koide's Constant... is it really 2/3?
 [ ] ],
 
 
-# //******************************************************************************
-# //
-# //  trigonometry operators
-# //
-# //******************************************************************************
+    # //******************************************************************************
+    # //
+    # //  trigonometry operators
+    # //
+    # //******************************************************************************
 
     'acos' : [
 'trigonometry', 'calculates the arccosine of n',

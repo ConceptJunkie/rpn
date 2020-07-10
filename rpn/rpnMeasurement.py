@@ -15,11 +15,12 @@
 from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, \
                    fsub, log10, mpf, mpmathify, nstr, power, root
 
+from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnUtils import debugPrint, getPowerset, oneArgFunctionEvaluator
+from rpn.rpnUtils import getPowerset, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 

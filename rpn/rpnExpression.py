@@ -14,7 +14,7 @@
 
 from mpmath import mpmathify
 
-from rpn.rpnUtils import debugPrint
+from rpn.rpnDebug import debugPrint
 
 import rpn.rpnGlobals as g
 

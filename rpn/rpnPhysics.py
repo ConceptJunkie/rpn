@@ -12,20 +12,16 @@
 # //
 # //******************************************************************************
 
-import struct
+from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
 
 from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
-from rpn.rpnMatchUnitTypes import getWhichUnitType, matchUnitTypes
+from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurement import RPNMeasurement
 
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
-
-import rpn.rpnGlobals as g
-
-from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 
 # //******************************************************************************
@@ -36,6 +32,7 @@ from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleMass( measurement ):
+    # pylint: disable=line-too-long
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -79,12 +76,12 @@ def calculateBlackHoleMass( measurement ):
 
         return getRoot( divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
                                 getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
-                                     getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
+                                              getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
     elif 'tidal_force' in arguments:
-        tidal_force = arguments[ 'tidal_force' ]
+        tidalForce = arguments[ 'tidal_force' ]
 
         return getRoot( divide( getPower( getConstant( 'speed_of_light' ), 6 ),
-                                getProduct( [ 4, tidal_force, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
+                                getProduct( [ 4, tidalForce, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
     elif 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
@@ -120,7 +117,8 @@ def calculateBlackHoleRadius( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    radius = getProduct( [ 2, getConstant( 'newton_constant' ), mass ] ).divide( getPower( getConstant( 'speed_of_light' ), 2 ) )
+    radius = getProduct( [ 2, getConstant( 'newton_constant' ), mass ] ). \
+             divide( getPower( getConstant( 'speed_of_light' ), 2 ) )
     return radius.convert( 'meter' )
 
 
@@ -181,7 +179,8 @@ def calculateBlackHoleSurfaceGravity( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    gravity = divide( getPower( getConstant( 'speed_of_light' ), 4 ), getProduct( [ mass, 4, getConstant( 'newton_constant' ) ] ) )
+    gravity = divide( getPower( getConstant( 'speed_of_light' ), 4 ),
+                      getProduct( [ mass, 4, getConstant( 'newton_constant' ) ] ) )
     return gravity.convert( 'meter/second^2' )
 
 
@@ -212,7 +211,8 @@ def calculateBlackHoleEntropy( measurement ):
     mass = calculateBlackHoleMass( measurement )
 
     entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getConstant( 'newton_constant' ) ] ),
-                     getProduct( [ getConstant( 'reduced_planck_constant' ), getConstant( 'speed_of_light' ), getLog( 10.0 ) ] ) )
+                      getProduct( [ getConstant( 'reduced_planck_constant' ),
+                                    getConstant( 'speed_of_light' ), getLog( 10.0 ) ] ) )
 
     return getConstant( 'boltzmann_constant' ).multiply( entropy ).convert( 'bit' )
 
@@ -243,8 +243,10 @@ def calculateBlackHoleTemperature( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    temperature = divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
-                          getProduct( [ mass, 8, getConstant( 'boltzmann_constant' ), pi, getConstant( 'newton_constant' ) ] ) )
+    temperature = divide( getProduct( [ getConstant( 'reduced_planck_constant' ),
+                                        getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
+                          getProduct( [ mass, 8, getConstant( 'boltzmann_constant' ), pi,
+                                        getConstant( 'newton_constant' ) ] ) )
 
     return temperature.convert( 'kelvin' )
 
@@ -275,8 +277,10 @@ def calculateBlackHoleLuminosity( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    luminosity = divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
-                          getProduct( [ getPower( mass, 2 ), 15360, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) )
+    luminosity = divide( getProduct( [ getConstant( 'reduced_planck_constant' ),
+                                       getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
+                         getProduct( [ getPower( mass, 2 ), 15360, pi,
+                                       getPower( getConstant( 'newton_constant' ), 2 ) ] ) )
 
     return luminosity.convert( 'watts' )
 
@@ -307,8 +311,10 @@ def calculateBlackHoleLifetime( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ),
-                       getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ) )
+    lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi,
+                                     getPower( getConstant( 'newton_constant' ), 2 ) ] ),
+                       getProduct( [ getConstant( 'reduced_planck_constant' ),
+                                     getPower( getConstant( 'speed_of_light' ), 4 ) ] ) )
 
     return lifetime.convert( 'seconds' )
 
@@ -339,10 +345,10 @@ def calculateBlackHoleSurfaceTides( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    tidal_force = divide( getPower( getConstant( 'speed_of_light' ), 6 ),
-                          getProduct( [ 4, getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ) )
+    tidalForce = divide( getPower( getConstant( 'speed_of_light' ), 6 ),
+                         getProduct( [ 4, getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ) )
 
-    return tidal_force.convert( '1/second^2' )
+    return tidalForce.convert( '1/second^2' )
 
 
 # //******************************************************************************
@@ -358,10 +364,10 @@ def calculateTidalForce( mass, distance, delta ):
     distance.validateUnits( 'length' )
     delta.validateUnits( 'length' )
 
-    tidal_force = divide( getProduct( [ 2, getConstant( 'newton_constant' ), mass, delta ] ),
-                          getPower( distance, 3 ) )
+    tidalForce = divide( getProduct( [ 2, getConstant( 'newton_constant' ), mass, delta ] ),
+                         getPower( distance, 3 ) )
 
-    return tidal_force.convert( 'meter/second^2' )
+    return tidalForce.convert( 'meter/second^2' )
 
 
 # //******************************************************************************
@@ -374,12 +380,12 @@ def calculateTidalForce( mass, distance, delta ):
 def calculateTimeDilation( velocity ):
     velocity.validateUnits( 'velocity' )
 
-    c_ratio = divide( velocity, getConstant( 'speed_of_light' ) ).value
+    ratio = divide( velocity, getConstant( 'speed_of_light' ) ).value
 
-    if c_ratio == 1:
+    if ratio == 1:
         return inf
 
-    return fdiv( 1, sqrt( fsub( 1, power( c_ratio, 2 ) ) ) )
+    return fdiv( 1, sqrt( fsub( 1, power( ratio, 2 ) ) ) )
 
 
 # //******************************************************************************
@@ -914,17 +920,17 @@ def calculateWindChill( measurement1, measurement2 ):
     if not arguments:
         raise ValueError( '\'wind_chill\' requires velocity and temperature measurements' )
 
-    wind_speed = arguments[ 'velocity' ].convert( 'miles/hour' ).value
+    windSpeed = arguments[ 'velocity' ].convert( 'miles/hour' ).value
     temperature = arguments[ 'temperature' ].convert( 'degrees_F' ).value
 
-    if wind_speed < 3:
+    if windSpeed < 3:
         raise ValueError( '\'wind_chill\' is not defined for wind speeds less than 3 mph' )
 
     if temperature > 50:
         raise ValueError( '\'wind_chill\' is not defined for temperatures over 50 degrees fahrenheit' )
 
-    result = fsum( [ 35.74, fmul( temperature, 0.6215 ), fneg( fmul( 35.75, power( wind_speed, 0.16 ) ) ),
-                   fprod( [ 0.4275, temperature, power( wind_speed, 0.16 ) ] ) ] )
+    result = fsum( [ 35.74, fmul( temperature, 0.6215 ), fneg( fmul( 35.75, power( windSpeed, 0.16 ) ) ),
+                     fprod( [ 0.4275, temperature, power( windSpeed, 0.16 ) ] ) ] )
 
     # in case someone puts in a silly velocity
     if result < -459.67:
@@ -943,6 +949,7 @@ def calculateWindChill( measurement1, measurement2 ):
 
 @twoArgFunctionEvaluator( )
 def calculateHeatIndex( measurement1, measurement2 ):
+    # pylint: disable=invalid-name
     validUnitTypes = [
         [ 'temperature', 'constant' ],
     ]

@@ -12,33 +12,33 @@
 # //
 # //******************************************************************************
 
-import functools
-import os
-import signal
+import re as regex
 import sys
-
-from mpmath import arange, cbrt, ceil, e, euler, fabs, fadd, fdiv, fib, findpoly, \
-                   floor, fmul, fsub, identify, im, inf, log, log10, mpf, mpmathify, \
-                   nint, nstr, phi, pi, power, rand, root, sqrt
+import urllib.request as urllib2
+import uuid
 
 from random import randrange
-from functools import reduce
+
+from mpmath import arange, cbrt, ceil, fabs, fadd, fdiv, fib, findpoly, \
+                   floor, fmul, fsub, identify, inf, log, log10, mpmathify, \
+                   phi,  power, rand, root, sqrt
 
 from rpn.rpnCombinatorics import getNthAperyNumber, getNthDelannoyNumber, getNthMenageNumber, \
                                  getNthMotzkinNumber, getNthPellNumber, getNthSchroederNumber, \
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber
+
+from rpn.rpnDebug import debugPrint
 
 from rpn.rpnFactor import getFactors
 
 from rpn.rpnGenerator import RPNGenerator
 
 from rpn.rpnLexicographic import getErdosPersistence, getPersistence, \
-                                 hasUniqueDigits, isAutomorphic, isBaseKPandigital, isBaseKSmithNumber, \
-                                 isDecreasing, isBouncy, isIncreasing, isKaprekarNumber, \
-                                 isKMorphic, isNarcissistic, isOrderKSmithNumber, isPandigital, \
-                                 isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, isSmithNumber, \
-                                 isStepNumber, isTrimorphic, multiplyDigits, multiplyNonzeroDigits, \
-                                 sumDigits
+                                 hasUniqueDigits, isAutomorphic, isBaseKSmithNumber, \
+                                 isDecreasing, isBouncy, isIncreasing, isKaprekarNumber, isKMorphic, \
+                                 isNarcissistic, isOrderKSmithNumber, isPandigital, isPerfectDigitalInvariant, \
+                                 isPerfectDigitToDigitInvariant, isSmithNumber, isStepNumber, isTrimorphic, \
+                                 multiplyDigits, multiplyNonzeroDigits, sumDigits
 
 from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
 
@@ -51,23 +51,20 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthKyneaNumber, getNthLeonardoNumber, getNthLucasNumber, \
                                 getNthMersenneExponent, getNthMersennePrime, getNthPadovanNumber, \
                                 getNthPerfectNumber, getNthRieselNumber, getNthSubfactorial, \
-                                getNthSternNumber, getNthSuperfactorial, \
-                                getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
-                                isAntiharmonic, isCarmichaelNumber, isDeficient, isFriendly, \
-                                isKHyperperfect, isKPerfect, isPernicious, isPolydivisible, isPowerful, \
+                                getNthSternNumber, getNthSuperfactorial, getNthThabitNumber, getRadical, \
+                                getSigma, isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumber, \
+                                isDeficient, isKHyperperfect, isPernicious, isPolydivisible, isPowerful, \
                                 isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
 
-from rpn.rpnPersistence import cachedFunction, cachedOEISFunction
+from rpn.rpnPersistence import cachedOEISFunction
 
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 
 from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
 
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
-
-import rpn.rpnGlobals as g
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
 
 
 # //******************************************************************************
@@ -99,13 +96,15 @@ def getRandomInteger( n ):
 
 @oneArgFunctionEvaluator( )
 def getMultipleRandoms( n ):
-    '''Returns n random numbers.'''
-    for i in arange( 0, real_int( n ) ):
+    '''
+    Returns n random numbers.
+    '''
+    for _ in arange( 0, validateRealInt( n ) ):
         yield rand( )
 
 @oneArgFunctionEvaluator( )
 def getMultipleRandomsGenerator( n ):
-        return RPNGenerator.createGenerator( getMultipleRandoms, n )
+    return RPNGenerator.createGenerator( getMultipleRandoms, n )
 
 
 # //******************************************************************************
@@ -115,8 +114,10 @@ def getMultipleRandomsGenerator( n ):
 # //******************************************************************************
 
 def getRandomIntegers( n, k ):
-    '''Returns k random integers between 0 and n-1.'''
-    for i in arange( 0, real_int( k ) ):
+    '''
+    Returns k random integers between 0 and n-1.
+    '''
+    for _ in arange( 0, validateRealInt( k ) ):
         yield randrange( n )
 
 @twoArgFunctionEvaluator( )
@@ -131,8 +132,10 @@ def getRandomIntegersGenerator( n, k ):
 # //******************************************************************************
 
 def removeUnderscores( source ):
-    '''This function replaces the underscores in a string with spaces, and is
-    used for formatting unit output.'''
+    '''
+    This function replaces the underscores in a string with spaces, and is
+    used for formatting unit output.
+    '''
     result = ''
 
     for c in source:
@@ -152,30 +155,30 @@ def removeUnderscores( source ):
 
 @oneArgFunctionEvaluator( )
 @cachedOEISFunction( 'oeis', overrideIgnore=True )
-def downloadOEISSequence( id ):
+def downloadOEISSequence( aNumber ):
     '''Downloads and formats data from oeis.org.'''
-    keywords = downloadOEISText( id, 'K' ).split( ',' )
+    keywords = downloadOEISText( aNumber, 'K' ).split( ',' )
 
     # If oeis.org isn't available, just punt everything
     if keywords == [ '' ]:
         return 0
 
-    result, success = downloadOEISTable( id )
+    result, success = downloadOEISTable( aNumber )
 
     if success:
         return result
 
     if 'nonn' in keywords:
-        result = downloadOEISText( id, 'S' )
-        result += downloadOEISText( id, 'T' )
-        result += downloadOEISText( id, 'U' )
+        result = downloadOEISText( aNumber, 'S' )
+        result += downloadOEISText( aNumber, 'T' )
+        result += downloadOEISText( aNumber, 'U' )
     else:
-        result = downloadOEISText( id, 'V' )
-        result += downloadOEISText( id, 'W' )
-        result += downloadOEISText( id, 'X' )
+        result = downloadOEISText( aNumber, 'V' )
+        result += downloadOEISText( aNumber, 'W' )
+        result += downloadOEISText( aNumber, 'X' )
 
     if 'cons' in keywords:
-        offset = int( downloadOEISText( id, 'O' ).split( ',' )[ 0 ] )
+        offset = int( downloadOEISText( aNumber, 'O' ).split( ',' )[ 0 ] )
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
     else:
@@ -189,13 +192,10 @@ def downloadOEISSequence( id ):
 # //
 # //******************************************************************************
 
-def downloadOEISText( id, char, addCR = False ):
+def downloadOEISText( aNumber, char, addCR = False ):
     '''Downloads, formats and caches text data from oeis.org.'''
-    import urllib.request as urllib2
-    import re as regex
-
     try:
-        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( int( id ) ) + '&fmt=text' ).read( )
+        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( int( aNumber ) ) + '&fmt=text' ).read( )
     except:
         print( 'rpn:  HTTP access to oeis.org failed' )
         return ''
@@ -216,19 +216,19 @@ def downloadOEISText( id, char, addCR = False ):
 
 @oneArgFunctionEvaluator( )
 def downloadOEISComment( n ):
-    return downloadOEISText( real_int( n ), 'C', True )
+    return downloadOEISText( validateRealInt( n ), 'C', True )
 
 @oneArgFunctionEvaluator( )
 def downloadOEISExtra( n ):
-    return downloadOEISText( real_int( n ), 'E', True )
+    return downloadOEISText( validateRealInt( n ), 'E', True )
 
 @oneArgFunctionEvaluator( )
 def downloadOEISName( n ):
-    return downloadOEISText( real_int( n ), 'N', True )
+    return downloadOEISText( validateRealInt( n ), 'N', True )
 
 @oneArgFunctionEvaluator( )
 def downloadOEISOffset( n ):
-    return int( downloadOEISText( real_int( n ), 'O' ).split( ',' )[ 0 ] )
+    return int( downloadOEISText( validateRealInt( n ), 'O' ).split( ',' )[ 0 ] )
 
 
 # //******************************************************************************
@@ -238,16 +238,13 @@ def downloadOEISOffset( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def downloadOEISTable( id ):
-    import urllib.request as urllib2
-
+def downloadOEISTable( aNumber ):
     try:
-        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )
+        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
     except:
         print( 'HTTP access to oeis.org failed', file=sys.stderr )
         return [ ], False
 
-    import re as regex
     pattern = regex.compile( b'(.*?)[\n]', regex.DOTALL )
     lines = pattern.findall( data )
 
@@ -299,8 +296,10 @@ def handleIdentify( result, file=sys.stdout ):
 
 @twoArgFunctionEvaluator( )
 def findPolynomial( n, k ):
-    '''Calls the mpmath findpoly function to try to identify a polynomial of
-    degree <= k for which n is a zero.'''
+    '''
+    Calls the mpmath findpoly function to try to identify a polynomial of
+    degree <= k for which n is a zero.
+    '''
     poly = findpoly( n, int( k ) )
 
     if poly is None:
@@ -322,10 +321,10 @@ def findPolynomial( n, k ):
 # //******************************************************************************
 
 def generateUUID( ):
-    '''Generates a UUID that uses the current machine's MAC address and the
-    current time as seeds.'''
-    import uuid
-
+    '''
+    Generates a UUID that uses the current machine's MAC address and the
+    current time as seeds.
+    '''
     return str( uuid.uuid1( ) )
 
 
@@ -337,8 +336,6 @@ def generateUUID( ):
 
 def generateRandomUUID( ):
     '''Generates a completely random UUID.'''
-    import uuid
-
     return str( uuid.uuid4( ) )
 
 
@@ -350,11 +347,11 @@ def generateRandomUUID( ):
 
 largestNumberToFactor = power( 10, 50 )
 
-def findInput( value, func, estimator, max=inf ):
+def findInput( value, func, estimator, maximum=inf ):
     guess1 = floor( estimator( value ) )
 
-    if guess1 > max:
-        guess1 = max
+    if guess1 > maximum:
+        guess1 = maximum
 
     if guess1 < 1:
         guess1 = 1
@@ -374,8 +371,8 @@ def findInput( value, func, estimator, max=inf ):
 
     guess2 = guess1 + delta
 
-    if guess2 > max:
-        guess2 = max
+    if guess2 > maximum:
+        guess2 = maximum
 
     result = func( guess2 )
     debugPrint( 'findInput func call', guess2 )
@@ -393,7 +390,7 @@ def findInput( value, func, estimator, max=inf ):
         guess1 = guess2
         guess2 += delta
 
-        if guess2 > max:
+        if guess2 > maximum:
             return False, 0
 
         result = func( guess2 )
@@ -441,7 +438,7 @@ def describeInteger( n ):
     indent = ' ' * 4
 
     print( )
-    print( real_int( n ), 'is:' )
+    print( validateRealInt( n ), 'is:' )
 
     if isOdd( n ):
         print( indent + 'odd' )
@@ -558,7 +555,7 @@ def describeInteger( n ):
         print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered nonagonal number' )
 
     # centered decagonal
-    guess - findCenteredPolygonalNumber( n, 10 )
+    guess = findCenteredPolygonalNumber( n, 10 )
 
     if getNthCenteredPolygonalNumber( guess, 10 ) == n:
         print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered decagonal number' )
@@ -658,7 +655,7 @@ def describeInteger( n ):
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' perfect number' )
 
     # Mersenne exponent
-    result = findInput( n, getNthMersenneExponent, lambda n: fmul( log( n ), 2.7 ), max=50 )
+    result = findInput( n, getNthMersenneExponent, lambda n: fmul( log( n ), 2.7 ), maximum=50 )
 
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne exponent' )
@@ -897,7 +894,7 @@ def describeInteger( n ):
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Schroeder-Hipparchus number' )
 
     # Motzkin numbers
-    result = findInput( n, getNthMotzkinNumber, lambda n: log( n ) )
+    result = findInput( n, getNthMotzkinNumber, log )
 
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Motzkin number' )
@@ -966,8 +963,9 @@ def describeInteger( n ):
     if n <= largestNumberToFactor:
         print( indent + 'a divisor sum of ' + str( int( getSigma( n ) ) ) )
         print( indent + 'a Stern value of ' + str( int( getNthSternNumber( n ) ) ) )
-        calkin_wilf = getNthCalkinWilf( n )
-        print( indent + 'a Calkin-Wilf value of ' + str( int( calkin_wilf[ 0 ] ) ) + '/' + str( int( calkin_wilf[ 1 ] ) ) )
+        calkinWilf = getNthCalkinWilf( n )
+        print( indent + 'a Calkin-Wilf value of ' + str( int( calkinWilf[ 0 ] ) ) + '/' + \
+                                                    str( int( calkinWilf[ 1 ] ) ) )
         print( indent + 'a Mobius value of ' + str( int( getNthMobiusNumber( n ) ) ) )
         print( indent + 'a radical of ' + str( int( getRadical( n ) ) ) )
         print( indent + 'a Euler phi value of ' + str( int( getEulerPhi( n ) ) ) )

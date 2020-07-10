@@ -20,8 +20,9 @@ from random import randrange
 
 from mpmath import arange
 
+from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 
 # TODO:  write a function to enumerate the number of outcomes for a dice expression

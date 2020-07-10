@@ -35,7 +35,7 @@ def incrementNestedListLevel( valueList ):
 # //
 # //******************************************************************************
 
-def decrementNestedListLevel( valueList ):
+def decrementNestedListLevel( _ ):
     g.nestedListLevel -= 1
 
     if g.nestedListLevel < 0:
@@ -137,16 +137,6 @@ def unlist( valueList ):
             valueList.append( i )
     else:
         valueList.append( arg )
-
-
-# //******************************************************************************
-# //
-# //  handleUseMembersOperator
-# //
-# //******************************************************************************
-
-def handleUseMembersOperator( valueList ):
-    g.useMembers += 1
 
 
 # //******************************************************************************

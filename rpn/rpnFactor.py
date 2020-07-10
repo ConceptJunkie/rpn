@@ -14,13 +14,16 @@
 
 import collections
 import os
+import subprocess
 
 from mpmath import fdiv, floor, fmod, fneg, fprod, log10, mpmathify
 
+from rpn.factorise import factorise
+from rpn.rpnDebug import debugPrint
 from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
 from rpn.rpnPrimeUtils import isPrimeNumber
-from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator
+from rpn.rpnUtils import oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 
@@ -73,7 +76,6 @@ def getFactors( target ):
     if g.useYAFU and n > g.minValueForYAFU:
         result = runYAFU( n )
     else:
-        from rpn.factorise import factorise
         result = factorise( int( n ) )
 
     if n > g.minValueToCache:
@@ -130,12 +132,10 @@ def factorByTrialDivision( n ):
 
 @oneArgFunctionEvaluator( )
 def runYAFU( n ):
-    import subprocess
-
     fullOut = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
                                 g.userConfiguration[ 'yafu_binary' ], '-xover', '120' ],
                               input='factor(' + str( int( n ) ) + ')\n', encoding='ascii', stdout=subprocess.PIPE,
-                              cwd=g.userConfiguration[ 'yafu_path' ] ).stdout
+                              cwd=g.userConfiguration[ 'yafu_path' ], check=True ).stdout
 
     #print( 'out', fullOut )
 
@@ -147,7 +147,6 @@ def runYAFU( n ):
                               '.\n\nyafu output follows:\n' + fullOut )
 
         debugPrint( 'yafu seems to have crashed, switching to built-in factoring code' )
-        from rpn.factorise import factorise
         return factorise( int( n ) )
 
     result = [ ]

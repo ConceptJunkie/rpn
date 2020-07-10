@@ -15,18 +15,18 @@
 import shlex
 import time
 
-if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
-else:
-    from time import time_ns
+from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
-from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
-
 import rpn.rpnGlobals as g
+
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
 
 
 # //******************************************************************************
@@ -66,8 +66,8 @@ def compareResults( result1, result2 ):
             print( type( result1 ), type( result2 ) )
             print( result1, result2, 'are not equal' )
             raise ValueError( 'unit test failed' )
-        else:
-            return
+
+        return True
 
     if isinstance( result1, RPNMeasurement ) and isinstance( result2, RPNMeasurement ):
         #print( result1.value, result1.units )
@@ -81,8 +81,8 @@ def compareResults( result1, result2 ):
                 print( result1.value, result1.units, result2.value, result2.units, 'are not equal' )
 
             raise ValueError( 'unit test failed' )
-        else:
-            return True
+
+        return True
 
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
@@ -119,6 +119,8 @@ def compareResults( result1, result2 ):
 
             raise ValueError( 'unit test failed' )
 
+    return True
+
 
 # //******************************************************************************
 # //
@@ -137,10 +139,11 @@ def compareValues( result1, result2 ):
             if isinf( result2 ):
                 return True
             else:
-                raise ValueError( 'unit test failed' )
                 print( '**** error in results comparison' )
                 print( type( result1 ), type( result2 ) )
                 print( result1, result2, 'are not equal' )
+
+                raise ValueError( 'unit test failed' )
 
         return almosteq( result1, result2 )
 
@@ -154,7 +157,7 @@ def compareValues( result1, result2 ):
 def expectException( command ):
     if g.testFilter:
         if g.testFilter not in command:
-            return
+            return True
 
     print( 'rpn', command )
 
@@ -166,7 +169,6 @@ def expectException( command ):
         return True
 
     raise ValueError( 'exception was expected but didn\'t happen' )
-    return False
 
 
 # //******************************************************************************

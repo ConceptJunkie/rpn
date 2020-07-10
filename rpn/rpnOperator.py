@@ -73,7 +73,10 @@ def generateDefaultArgument( ):
 # //
 # //******************************************************************************
 
-def generateRealArgument( range = [ 0, 10 ], allowNegative = True ):
+def generateRealArgument( range = None, allowNegative = True ):
+    if range is None:
+        range = [ 0, 10 ]
+
     factor = 1
 
     if allowNegative and getRandomInteger( 2 ) == 1:
@@ -88,11 +91,14 @@ def generateRealArgument( range = [ 0, 10 ], allowNegative = True ):
 # //
 # //******************************************************************************
 
-def generateNonnegativeRealArgument( range = [ 0, 10 ]  ):
-    return generateRealArgument( range, allowNegative = False )
+def generateNonnegativeRealArgument( range ):
+    return generateRealArgument( range, allowNegative=False )
 
 
-def generateIntegerArgument( range = [ 0, 1_000_000_000 ], allowNegative = True ):
+def generateIntegerArgument( range = None, allowNegative=True ):
+    if range is None:
+        range = [ 0, 1_000_000_000 ]
+
     factor = 1
 
     if allowNegative and getRandomInteger( 2 ) == 1:
@@ -101,38 +107,55 @@ def generateIntegerArgument( range = [ 0, 1_000_000_000 ], allowNegative = True 
     return str( fmul( fadd( getRandomInteger( range[ 1 ] ), range[ 0 ] ), factor ) )
 
 
-def generatePositiveIntegerArgument( range = [ 1, 1_000_000_000 ], allowNegative = True  ):
-    return generateIntegerArgument( range, allowNegative = False )
+def generatePositiveIntegerArgument( range=None ):
+    if range is None:
+        range = [ 1, 1_000_000_000 ]
 
-def generateNonnegativeIntegerArgument( range = [ 0, 1_000_000_000 ] ):
-    return generateIntegerArgument( range, allowNegative = False )
+    return generateIntegerArgument( range, allowNegative=False )
+
+
+def generateNonnegativeIntegerArgument( range=None ):
+    if range is None:
+        range = [ 0, 1_000_000_000 ]
+
+    return generateIntegerArgument( range, allowNegative=False )
+
 
 def generatePrimeArgument( ):
     return 'argument'
 
+
 def generateStringArgument( ):
     return 'argument'
+
 
 def generateDateTimeArgument( ):
     return 'argument'
 
+
 def generateLocationArgument( ):
     return 'argument'
+
 
 def generateBooleanArgument( ):
     return 'argument'
 
+
 def generateMeasurementArgument( ):
     return 'argument'
+
 
 def generateAstronomicalObjectArgument( ):
     return 'argument'
 
+
 def generateListArgument( ):
     return 'argument'
 
+
 def generateGeneratorArgument( ):
     return 'argument'
+
 
 def generateFunctionArgument( ):
     return 'argument'
@@ -209,7 +232,7 @@ class RPNVariable( ):
 # //
 # //******************************************************************************
 
-class RPNOperator( object ):
+class RPNOperator( ):
     measurementsAllowed = True
     measurementsNotAllowed = False
 
@@ -233,13 +256,13 @@ class RPNOperator( object ):
 
     # This method isn't used yet, but I hope to start using it soon.
     @staticmethod
-    def validateArgType( self, term, arg, argType ):
+    def validateArgType( term, arg, argType ):
         if isinstance( arg, ( list, RPNGenerator ) ) and \
            argType not in ( RPNArgumentType.List, RPNArgumentType.Generator ):
             return True
 
         if argType == RPNArgumentType.Default:
-            pass
+            return True
         elif argType == RPNArgumentType.Real and im( arg ):
             raise ValueError( '\'' + term + '\':  real argument expected' )
         elif argType == RPNArgumentType.NonnegativeReal and ( im( arg ) or arg < 0 ):
@@ -268,6 +291,8 @@ class RPNOperator( object ):
             raise ValueError( '\'' + term + '\':  generator argument expected' )
         elif argType == RPNArgumentType.Function and not isinstance( arg, RPNFunction ):
             raise ValueError( '\'' + term + '\':  function argument expected' )
+
+        return False
 
     def evaluate( self, term, index, currentValueList ):
         # handle a regular operator
@@ -301,8 +326,8 @@ class RPNOperator( object ):
                     arg = checkForVariable( currentValueList.pop( ) )
 
                     if term != 'set_variable' and isinstance( arg, RPNVariable ):
-                        raise ValueError( 'fred' )
-                        arg = arg.getValue( )
+                        raise ValueError( 'set_variable called with a nonvariable argument' )
+                        #arg = arg.getValue( )
 
                 argList.append( arg if isinstance( arg, ( list, RPNGenerator ) ) else [ arg ] )
 

@@ -245,11 +245,11 @@ def deleteCache( name ):
 # //
 # //******************************************************************************
 
-def saveToCache( db, cursor, key, value, commit=True ):
+def saveToCache( cacheDB, cursor, key, value, commit=True ):
     cursor.execute( '''INSERT INTO cache( id, value ) VALUES( ?, ? )''', ( key, value ) )
 
     if commit:
-        db.commit( )
+        cacheDB.commit( )
 
 
 # //******************************************************************************
@@ -269,13 +269,13 @@ def doesCacheExist( name ):
 # //******************************************************************************
 
 def createPrimeCache( name ):
-    db = sqlite3.connect( getCacheFileName( name ) )
+    cacheDB = sqlite3.connect( getCacheFileName( name ) )
 
-    cursor = db.cursor( )
+    cursor = cacheDB.cursor( )
     cursor.execute( '''CREATE TABLE cache( id INTEGER PRIMARY KEY, value INTEGER )''' )
-    db.commit( )
+    cacheDB.commit( )
 
-    return db, cursor
+    return cacheDB, cursor
 
 
 # //******************************************************************************
@@ -453,8 +453,8 @@ def loadUserVariablesFile( ):
     except:
         return
 
-    for tuple in items:
-        g.userVariables[ tuple[ 0 ] ] = tuple[ 1 ]
+    for item in items:
+        g.userVariables[ item[ 0 ] ] = item[ 1 ]
 
 
 # //******************************************************************************
@@ -468,7 +468,7 @@ def saveUserVariablesFile( ):
 
     config[ 'User Variables' ] = { }
 
-    for key in g.userVariables.keys( ):
+    for key in g.userVariables:
         config[ 'User Variables' ][ key ] = str( g.userVariables[ key ] )
 
     if os.path.isfile( getUserVariablesFileName( ) ):
@@ -632,7 +632,7 @@ def saveUserConfigurationFile( ):
 
     config[ 'User Configuration' ] = { }
 
-    for key in g.userConfiguration.keys( ):
+    for key in g.userConfiguration:
         config[ 'User Configuration' ][ key ] = g.userConfiguration[ key ]
 
     if os.path.isfile( getUserConfigurationFileName( ) ):

@@ -2216,7 +2216,7 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
 
     # heptagonal_hexagonal
-    expectEqual( '-a500 1 200 range heptagonal_hexagonal', '48901 oeis 200 left hexagonal' )
+    expectEqual( '-a1000 1 200 range heptagonal_hexagonal', '48901 oeis 200 left hexagonal' )
 
     # heptagonal_pentagonal
     expectEqual( '-a2000 1 558 range heptagonal_pentagonal', '46198 oeis 558 left heptagonal' )
@@ -2783,6 +2783,8 @@ def runLexicographyOperatorTests( ):
     expectEqual( '1 25 range lambda x 1 range combine_digits eval', '422 oeis 25 left' )
     expectEqual( '1 1000 range lambda x 2 get_base_k_digits combine_digits is_prime filter',
                  '36952 oeis 1000 filter_max' )
+    expectEqual( '[ 1 4 range 5 8 range ] permute_lists combine_digits',
+                 '[ 15 16 17 18 25 26 27 28 35 36 37 38 45 46 47 48 ]' )
 
     if slow:
         expectEqual( '1 150 range lambda x 1 range combine_digits eval', '422 oeis 150 left' )
@@ -3000,7 +3002,14 @@ def runLexicographyOperatorTests( ):
     expectResult( '2677889 persistence', 8 )
 
     # replace_digits
-    #testOperator( '1 2 134958 replace_digits' )  # not implemented yet
+    expectResult( '134958 1 2 replace_digits', 234958 )
+    expectResult( '123456 12 1 replace_digits', 13456 )
+    expectResult( '434343 43 34 replace_digits', 343434 )
+    expectResult( '777777 7 9 replace_digits', 999999 )
+    expectResult( '23425 2 0 replace_digits', 3405 )
+
+    expectException( '23425 -2 10 replace_digits' )
+    expectException( '23425 12 -2 replace_digits' )
 
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
@@ -5173,6 +5182,14 @@ def runSpecialOperatorTests( ):
     testOperator( '4d6x1 6 roll_dice_' )
 
     # set - interactive mode
+
+    # set variable, get_variable
+    testOperator( '__rpn_test_variable 37 set_variable' )
+
+    expectResult( '__rpn_test_variable get_variable', 37 )
+
+    expectException( '2 get_variable' )
+    expectException( '2 2 set_variable' )
 
     # topic - interactive mode
 

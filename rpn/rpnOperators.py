@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 # //******************************************************************************
 # //
@@ -100,6 +100,8 @@ from rpn.rpnDateTime import calculateAdvent, calculateAscensionThursday, calcula
 from rpn.rpnDice import enumerateDiceGenerator, enumerateMultipleDiceGenerator, permuteDiceGenerator, rollDice, \
                         rollMultipleDiceGenerator, rollSimpleDice
 
+from rpn.rpnDebug import debugPrint
+
 from rpn.rpnFactor import getFactors
 
 from rpn.rpnGenerator import RPNGenerator
@@ -144,7 +146,7 @@ from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMean, 
                         interleave, isPalindromeList, listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, \
                         permuteLists, reduceList, shuffleList, sortAscending, sortDescending
 
-from rpn.rpnLocation import convertLatLongToNAC, getDistance, getLocation, getLocationInfo, getTimeZone
+from rpn.rpnLocation import convertLatLongToNAC, getDistance, getLocation, getLocationInfo, getTimeZone, RPNLocation
 
 from rpn.rpnMath import add, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
                         cube, decrement, exp, divide, getAbsoluteValue, getAGM, getArgument, getCeiling, \
@@ -152,12 +154,14 @@ from rpn.rpnMath import add, calculateHypotenuse, calculateNthHyperoperator, cal
                         getImaginary, getLambertW, getLarger, getLI, getLog, getLog10, getLog2, getLogXY, \
                         getMantissa, getMaximum, getMinimum, getModulo, getNearestInt, getNegative, getPolyexp, \
                         getPolylog, getPower, getReal, getReciprocal, getRoot, getSign, getSmaller, getSquareRoot, \
-                        getSquareSuperRoot, getSuperRoot, getValue, get_acos, get_acot, get_acoth, get_acosh, \
-                        get_acsc, get_acsch, get_asec, get_asech, get_asin, get_asinh, get_atan, get_atanh, get_cot, \
-                        get_coth, get_csc, get_csch, get_cos, get_cosh, get_sec, get_sech, get_sin, get_sinh, \
-                        get_tan, get_tanh, increment, isDivisible, isEqual, isEven, isGreater, isKthPower, isLess, \
-                        isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, isZero, multiply, \
-                        roundByDigits, roundByValue, roundOff, square, subtract, tetrate, tetrateRight
+                        getSquareSuperRoot, getSuperRoot, getValue, acosOperator, acotOperator, acothOperator, \
+                        acoshOperator, acscOperator, acschOperator, asecOperator, asechOperator, asinOperator, \
+                        asinhOperator, atanOperator, atanhOperator, cotOperator, cothOperator, cscOperator, \
+                        cschOperator, cosOperator, coshOperator, secOperator, sechOperator, sinOperator, \
+                        sinhOperator, tanOperator, tanhOperator, increment, isDivisible, isEqual, isEven, isGreater, \
+                        isKthPower, isLess, isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, \
+                        isZero, multiply, roundByDigits, roundByValue, roundOff, square, subtract, tetrate, \
+                        tetrateRight
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
                                convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
@@ -197,7 +201,8 @@ from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunction, 
                                 makeEulerBrick, makePythagoreanQuadruple, makePythagoreanTriple, \
                                 makePythagoreanTriples, solveFrobeniusOperator
 
-from rpn.rpnPersistence import dumpFunctionCache, dumpPrimeCache, getUserFunctionsFileName, loadResult
+from rpn.rpnPersistence import dumpFunctionCache, dumpPrimeCache, getUserFunctionsFileName, loadConstants, \
+                               loadResult, loadUnitConversionMatrix, loadUnitData
 
 from rpn.rpnPhysics import calculateAcceleration, calculateBlackHoleEntropy, calculateBlackHoleLifetime, \
                            calculateBlackHoleLuminosity, calculateBlackHoleMass, calculateBlackHoleRadius, \
@@ -272,8 +277,8 @@ from rpn.rpnSpecial import describeInteger, downloadOEISComment, downloadOEISExt
                            generateUUID, getMultipleRandomsGenerator, getRandomInteger, \
                            getRandomIntegersGenerator, getRandomNumber
 
-from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, debugPrint, oneArgFunctionEvaluator, \
-                         twoArgFunctionEvaluator, real_int
+from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, oneArgFunctionEvaluator, validateRealInt, \
+                         twoArgFunctionEvaluator, validateArguments
 
 import rpn.rpnGlobals as g
 
@@ -839,10 +844,10 @@ def loadUserFunctionsFile( ):
     except:
         return
 
-    for tuple in items:
+    for item in items:
         func = RPNFunction( )
-        func.setCode( tuple[ 1 ] )
-        g.userFunctions[ tuple[ 0 ] ] = func
+        func.setCode( item[ 1 ] )
+        g.userFunctions[ item[ 0 ] ] = func
 
 
 # //******************************************************************************
@@ -873,7 +878,7 @@ def saveUserFunctionsFile( ):
 # //******************************************************************************
 
 def plotFunction( start, end, func ):
-    plot( lambda x: func.evaluate( x, func ), [ start, end ] )
+    plot( func.evaluate, [ start, end ] )
     return 0
 
 
@@ -884,7 +889,7 @@ def plotFunction( start, end, func ):
 # //******************************************************************************
 
 def plot2DFunction( start1, end1, start2, end2, func ):
-    splot( lambda x, y: func.evaluate( x, y ),
+    splot( func.evaluate,
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
@@ -896,7 +901,7 @@ def plot2DFunction( start1, end1, start2, end2, func ):
 # //******************************************************************************
 
 def plotComplexFunction( start1, end1, start2, end2, func ):
-    cplot( lambda x: func.evaluate( x ),
+    cplot( func.evaluate,
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
            points = 10000 )
     return 0
@@ -1021,7 +1026,7 @@ def filterListByIndex( n, k, invert=False ):
 # //******************************************************************************
 
 def filterIntegersGenerator( n, k ):
-    if real_int( n ) < 1:
+    if validateRealInt( n ) < 1:
         raise ValueError( '\'filter_integers\' requires a positive integer argument' )
 
     if not isinstance( k, RPNFunction ):
@@ -1150,7 +1155,7 @@ def preprocessTerms( terms ):
 # //
 # //******************************************************************************
 
-def evaluateConstantOperator( term, index, currentValueList ):
+def evaluateConstantOperator( term, currentValueList ):
     # handle a constant operator
     operatorInfo = constants[ term ]
     result = callers[ 0 ]( operatorInfo.function, None )
@@ -1392,8 +1397,9 @@ def dumpConstants( ):
         loadUnitData( )
         loadConstants( )
 
-    for i in sorted( g.constantOperators ):
-        print( i, g.constantOperators[ i ].value )
+    for constant in sorted( g.constantOperators ):
+        print( constant + ':  ' + str( g.constantOperators[ constant ].value ) + ' ' + \
+               g.constantOperators[ constant ].unit )
 
     print( )
 
@@ -1613,9 +1619,10 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
             if multipliable:
                 # look for unit without a value (in which case we give it a value of 1)
                 if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
-                    isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
-                                                                           isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
-                        currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
+                    isinstance( currentValueList[ -1 ], RPNDateTime ) or \
+                    ( isinstance( currentValueList[ -1 ], list ) and \
+                      isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
+                    currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
                 # if the unit comes after a generator, convert it to a list and apply the unit to each
                 elif isinstance( currentValueList[ -1 ], RPNGenerator ):
                     newArg = [ ]
@@ -1649,7 +1656,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 else:
                     currentValueList.append( RPNMeasurement( constantInfo.value, constantInfo.unit ) )
         elif term in constants:
-            if not evaluateConstantOperator( term, index, currentValueList ):
+            if not evaluateConstantOperator( term, currentValueList ):
                 return False
         elif term in operators:
             if g.duplicateOperations > 0:
@@ -1823,6 +1830,9 @@ def printHelpTopic( n ):
 
 @oneArgFunctionEvaluator( )
 def getUserVariable( key ):
+    if not isinstance( key, str ):
+        raise ValueError( 'variable names must be strings' )
+
     if key in g.userVariables:
         return g.userVariables[ key ]
     else:
@@ -1837,6 +1847,9 @@ def getUserVariable( key ):
 
 @twoArgFunctionEvaluator( )
 def setUserVariable( key, value ):
+    if not isinstance( key, str ):
+        raise ValueError( 'variable names must be strings' )
+
     g.userVariables[ key ] = value
     g.userVariablesAreDirty = True
 
@@ -1977,7 +1990,7 @@ def filterListOfLists( n, func, invert=False ):
 
 @twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
-    return limit( lambda x: func.evaluate( x ), n )
+    return limit( func.evaluate, n )
 
 
 # //******************************************************************************
@@ -1988,7 +2001,7 @@ def evaluateLimit( n, func ):
 
 @twoArgFunctionEvaluator( )
 def evaluateReverseLimit( n, func ):
-    return limit( lambda x: func.evaluate( x ), n, direction = -1 )
+    return limit( func.evaluate, n, direction = -1 )
 
 
 # //******************************************************************************
@@ -1998,7 +2011,7 @@ def evaluateReverseLimit( n, func ):
 # //******************************************************************************
 
 def evaluateProduct( start, end, func ):
-    return nprod( lambda x: func.evaluate( x ), [ start, end ] )
+    return nprod( func.evaluate, [ start, end ] )
 
 
 # //******************************************************************************
@@ -2008,7 +2021,7 @@ def evaluateProduct( start, end, func ):
 # //******************************************************************************
 
 def evaluateSum( start, end, func ):
-    return nsum( lambda x: func.evaluate( x, func ), [ start, end ] )
+    return nsum( func.evaluate, [ start, end ] )
 
 
 # //******************************************************************************
@@ -2105,7 +2118,7 @@ functionOperators = [
     'nsum',
     'plot',
     'plot2',
-    'plotc',
+    'plot_complex',
     'recurrence',
     'repeat',
     'sequence',
@@ -2487,11 +2500,11 @@ listOperators = {
                                                    4, [ RPNArgumentType.List, RPNArgumentType.List,
                                                         RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_linear_recurrence'         : RPNOperator( lambda a, b, c: getNthLinearRecurrence( a, b, c ),
+    'nth_linear_recurrence'         : RPNOperator( getNthLinearRecurrence,
                                                    3, [ RPNArgumentType.List, RPNArgumentType.List,
                                                         RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: getNthLinearRecurrenceWithModulo( a, b, c, d ),
+    'nth_linear_recurrence_with_modulo' : RPNOperator( getNthLinearRecurrenceWithModulo,
                                                        4, [ RPNArgumentType.List, RPNArgumentType.List,
                                                             RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
@@ -3613,7 +3626,7 @@ operators = {
                                                    5, [ RPNArgumentType.Default, RPNArgumentType.Default, RPNArgumentType.Default,
                                                         RPNArgumentType.Default, RPNArgumentType.Function ], [ ] ),
 
-    'plotc'                         : RPNOperator( plotComplexFunction,
+    'plot_complex'                  : RPNOperator( plotComplexFunction,
                                                    5, [ RPNArgumentType.Default, RPNArgumentType.Default, RPNArgumentType.Default,
                                                         RPNArgumentType.Default, RPNArgumentType.Function ], [ ] ),
 
@@ -3633,7 +3646,7 @@ operators = {
     'get_timezone'                  : RPNOperator( getTimeZone,
                                                    1, [ RPNArgumentType.Location ], [ ] ),
 
-    'lat_long'                      : RPNOperator( lambda n, k: RPNLocation( n, k ),
+    'lat_long'                      : RPNOperator( RPNLocation,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
     'location'                      : RPNOperator( getLocation,
@@ -4748,99 +4761,99 @@ operators = {
                                                    RPNOperator.measurementsAllowed ),
 
     # trigonometry
-    'acos'                          : RPNOperator( get_acos,
+    'acos'                          : RPNOperator( acosOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'acosh'                         : RPNOperator( get_acosh,
+    'acosh'                         : RPNOperator( acoshOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'acot'                          : RPNOperator( get_acot,
+    'acot'                          : RPNOperator( acotOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'acoth'                         : RPNOperator( get_acoth,
+    'acoth'                         : RPNOperator( acothOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'acsc'                          : RPNOperator( get_acsc,
+    'acsc'                          : RPNOperator( acscOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'acsch'                         : RPNOperator( get_acsch,
+    'acsch'                         : RPNOperator( acschOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'asec'                          : RPNOperator( get_asec,
+    'asec'                          : RPNOperator( asecOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'asech'                         : RPNOperator( get_asech,
+    'asech'                         : RPNOperator( asechOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'asin'                          : RPNOperator( get_asin,
+    'asin'                          : RPNOperator( asinOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'asinh'                         : RPNOperator( get_asinh,
+    'asinh'                         : RPNOperator( asinhOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'atan'                          : RPNOperator( get_atan,
+    'atan'                          : RPNOperator( atanOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'atanh'                         : RPNOperator( get_atanh,
+    'atanh'                         : RPNOperator( atanhOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'cos'                           : RPNOperator( get_cos,
+    'cos'                           : RPNOperator( cosOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'cosh'                          : RPNOperator( get_cosh,
+    'cosh'                          : RPNOperator( coshOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'cot'                           : RPNOperator( get_cot,
+    'cot'                           : RPNOperator( cotOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'coth'                          : RPNOperator( get_coth,
+    'coth'                          : RPNOperator( cothOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'csc'                           : RPNOperator( get_csc,
+    'csc'                           : RPNOperator( cscOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'csch'                          : RPNOperator( get_csch,
+    'csch'                          : RPNOperator( cschOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'sec'                           : RPNOperator( get_sec,
+    'sec'                           : RPNOperator( secOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'sech'                          : RPNOperator( get_sech,
+    'sech'                          : RPNOperator( sechOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'sin'                           : RPNOperator( get_sin,
+    'sin'                           : RPNOperator( sinOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'sinh'                          : RPNOperator( get_sinh,
+    'sinh'                          : RPNOperator( sinhOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'tan'                           : RPNOperator( get_tan,
+    'tan'                           : RPNOperator( tanOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'tanh'                          : RPNOperator( get_tanh,
+    'tanh'                          : RPNOperator( tanhOperator,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 

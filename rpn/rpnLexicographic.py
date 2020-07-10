@@ -27,8 +27,8 @@ from rpn.rpnMath import isDivisible
 from rpn.rpnNumberTheory import getPowMod
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         real, real_int, getMPFIntegerAsString
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt, \
+                         getMPFIntegerAsString
 
 
 # //******************************************************************************
@@ -225,7 +225,7 @@ def multiplyNonzeroDigitPowers( n, k ):
 # //******************************************************************************
 
 def appendDigits( n, digits, digitCount ):
-    if real( n ) < 0:
+    if validateRealInt( n ) < 0:
         return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
     else:
         return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
@@ -239,7 +239,7 @@ def appendDigits( n, digits, digitCount ):
 
 @twoArgFunctionEvaluator( )
 def addDigits( n, k ):
-    if real( k ) < 0:
+    if validateRealInt( k ) < 0:
         raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
 
     digits = int( k )
@@ -267,14 +267,16 @@ def combineDigits( n ):
     listResult = False
 
     for i in n:
-        # TODO:  This whole list handling stuff is not right.
         if isinstance( i, ( list, RPNGenerator ) ) and result == 0:
             listResult = True
             result = [ combineDigits( i ) ]
         elif listResult:
+            if not isinstance( result, list ):
+                result = [ result ]
+
             result.append( combineDigits( i ) )
         else:
-            result = addDigits( result, real_int( i ) )
+            result = addDigits( result, validateRealInt( i ) )
 
     return result
 
@@ -286,11 +288,15 @@ def combineDigits( n ):
 # //******************************************************************************
 
 def replaceDigits( n, source, replace ):
-    result = 0
+    n = getMPFIntegerAsString( validateRealInt( n ) )
 
-    print( 'Not implemented yet!' )
+    if  validateRealInt( source ) < 0:
+        raise ValueError( 'source value must be a positive integer' )
 
-    return result
+    if validateRealInt( replace ) < 0:
+        raise ValueError( 'replace value must be a positive integer' )
+
+    return mpmathify( n.replace( str( int ( source ) ), str( int( replace ) ) ) )
 
 
 # //******************************************************************************
@@ -301,10 +307,10 @@ def replaceDigits( n, source, replace ):
 
 @twoArgFunctionEvaluator( )
 def duplicateDigits( n, k ):
-    if real( k ) < 0:
+    if validateRealInt( k ) < 0:
         raise ValueError( "'duplicate_digits' requires a non-negative integer for the second argument" )
 
-    return appendDigits( real( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
+    return appendDigits( validateRealInt( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
 
 
 # //******************************************************************************
@@ -315,7 +321,7 @@ def duplicateDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def duplicateNumber( n, k ):
-    if real_int( k ) == 0:
+    if validateRealInt( k ) == 0:
         return 0
 
     if k < 0:
@@ -489,7 +495,7 @@ def countDifferentDigits( n ):
 
 @twoArgFunctionEvaluator( )
 def getNthReversalAdditionGenerator( n, k ):
-    next = int( real_int( n ) )
+    next = int( validateRealInt( n ) )
     yield next
 
     for _ in arange( k ):
@@ -512,9 +518,9 @@ def getNthReversalAddition( n, k ):
 
 @twoArgFunctionEvaluator( )
 def findPalindrome( n, k ):
-    next = int( real_int( n ) )
+    next = int( validateRealInt( n ) )
 
-    for i in range( int( real_int( k ) ) + 1 ):
+    for i in range( int( validateRealInt( k ) ) + 1 ):
         next = reverseDigits( next ) + next
 
         if isPalindrome( next ):
@@ -531,7 +537,7 @@ def findPalindrome( n, k ):
 
 @oneArgFunctionEvaluator( )
 def isNarcissistic( n ):
-    digits = getDigitList( real_int( n ) )
+    digits = getDigitList( validateRealInt( n ) )
 
     count = len( digits )
 
@@ -554,7 +560,7 @@ def isNarcissistic( n ):
 
 @oneArgFunctionEvaluator( )
 def isPerfectDigitalInvariant( n ):
-    digits = getDigitList( real_int( n ) )
+    digits = getDigitList( validateRealInt( n ) )
 
     exponent = 1
 
@@ -587,7 +593,7 @@ def isPerfectDigitalInvariant( n ):
 
 @twoArgFunctionEvaluator( )
 def isBaseKNarcissistic( n, k ):
-    digits = getBaseKDigits( real_int( n ), k )
+    digits = getBaseKDigits( validateRealInt( n ), k )
 
     count = len( digits )
 
@@ -612,7 +618,7 @@ def isBaseKNarcissistic( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isGeneralizedDudeneyNumber( base, exponent ):
-    n = power( real_int( base ), real_int( exponent ) )
+    n = power( validateRealInt( base ), validateRealInt( exponent ) )
     return 1 if sumDigits( n ) == base else 0
 
 
@@ -626,7 +632,7 @@ def isGeneralizedDudeneyNumber( base, exponent ):
 
 @twoArgFunctionEvaluator( )
 def isPerfectDigitToDigitInvariant( n, k ):
-    digits = getBaseKDigits( real_int( n ), k )
+    digits = getBaseKDigits( validateRealInt( n ), k )
 
     sum = 0
 
@@ -652,7 +658,7 @@ def isPerfectDigitToDigitInvariant( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isSumProductNumber( n, k ):
-    digits = getBaseKDigits( real_int( n ), k )
+    digits = getBaseKDigits( validateRealInt( n ), k )
     sum = fmul( fsum( digits ), fprod( digits ) )
     return 1 if sum == n else 0
 
@@ -667,7 +673,7 @@ def isSumProductNumber( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isHarshadNumber( n, k ):
-    digits = getBaseKDigits( real_int( n ), k )
+    digits = getBaseKDigits( validateRealInt( n ), k )
     return 1 if isDivisible( n, fsum( digits ) ) else 0
 
 
@@ -758,7 +764,7 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
 
 def parseNumbersExpression( arg ):
     if not isinstance( arg, str ):
-        arg = str( real_int( arg ) )
+        arg = str( validateRealInt( arg ) )
 
     result = [ ]
 
@@ -780,96 +786,96 @@ def parseNumbersExpression( arg ):
     lengthRangeLow = ''
     lengthRangeHigh = ''
 
-    for ch in arg:
+    for char in arg:
         #print( 'state', state, 'ch', ch, 'result', result, 'currentGroup', currentGroup )
         if state == defaultState:
-            if ch == 'd':
+            if char == 'd':
                 result.append( digitRange )
-            elif ch == 'e':
+            elif char == 'e':
                 result.append( evenRange )
-            elif ch == 'o':
+            elif char == 'o':
                 result.append( oddRange )
-            elif ch == '[':
+            elif char == '[':
                 state = digitState
                 currentGroup = set( )
-            elif '0' <= ch <= '9':
-                result.append( [ ch ] )
+            elif '0' <= char <= '9':
+                result.append( [ char ] )
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+                raise ValueError( 'unexpected character \'{}\''.format( char ) )
         elif state == startDigitState:
-            if '0' <= ch <= '9':
-                currentGroup.add( ch )
+            if '0' <= char <= '9':
+                currentGroup.add( char )
                 state = digitState
-                lastDigit = ch
-            elif ch == ']':
+                lastDigit = char
+            elif char == ']':
                 result.append( sorted( list( currentGroup ) ) )
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+                raise ValueError( 'unexpected character \'{}\''.format( char ) )
         elif state == digitState:
-            if '0' <= ch <= '9':
-                currentGroup.add( ch )
-                lastDigit = ch
-            elif ch == 'd':
+            if '0' <= char <= '9':
+                currentGroup.add( char )
+                lastDigit = char
+            elif char == 'd':
                 for digit in digitRange:
                     currentGroup.add( digit )
 
                 lastDigit = ' '
-            elif ch == 'e':
+            elif char == 'e':
                 for digit in evenRange:
                     currentGroup.add( digit )
 
                 lastDigit = ' '
-            elif ch == 'o':
+            elif char == 'o':
                 for digit in oddRange:
                     currentGroup.add( digit )
 
                 lastDigit = ' '
-            elif ch == '-':
+            elif char == '-':
                 state = startRangeState
-            elif ch == ':':
+            elif char == ':':
                 state = numberLengthRange1
-            elif ch == ']':
+            elif char == ']':
                 result.append( sorted( list( currentGroup ) ) )
                 state = defaultState
         elif state == startRangeState:
             if lastDigit == ' ':
                 raise ValueError( 'invalid digit range' )
 
-            if '0' <= ch <= '9':
-                if ch <= lastDigit:
+            if '0' <= char <= '9':
+                if char <= lastDigit:
                     raise ValueError( 'invalid digit range' )
 
-                for i in range( int( lastDigit ), int( ch ) + 1 ):
+                for i in range( int( lastDigit ), int( char ) + 1 ):
                     currentGroup.add( str( i ) )
 
                 state = digitState
         elif state == numberLengthRange1:
-            if '0' <= ch <= '9':
-                lengthRangeHigh += ch
-            elif ch == ':':
+            if '0' <= char <= '9':
+                lengthRangeHigh += char
+            elif char == ':':
                 lengthRangeLow = lengthRangeHigh
                 lengthRangeHigh = ''
                 state = numberLengthRange2
-            elif ch == ']':
+            elif char == ']':
                 result.append( buildLimitedDigitNumbers( sorted( list( currentGroup ) ),
                                                          int( lengthRangeHigh ), int( lengthRangeHigh ) ) )
                 lengthRangeLow = ''
                 lengthRangeHigh = ''
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+                raise ValueError( 'unexpected character \'{}\''.format( char ) )
         elif state == numberLengthRange2:
-            if '0' <= ch <= '9':
-                lengthRangeHigh += ch
-            elif ch == ']':
+            if '0' <= char <= '9':
+                lengthRangeHigh += char
+            elif char == ']':
                 result.append( buildLimitedDigitNumbers( sorted( list( currentGroup ) ),
                                                          int( lengthRangeLow ), int( lengthRangeHigh ) ) )
                 lengthRangeLow = ''
                 lengthRangeHigh = ''
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+                raise ValueError( 'unexpected character \'{}\''.format( char ) )
 
     return result
 
@@ -882,7 +888,7 @@ def parseNumbersExpression( arg ):
 
 @oneArgFunctionEvaluator( )
 def hasUniqueDigits( n ):
-    digits = getDigitList( real_int( n ) )
+    digits = getDigitList( validateRealInt( n ) )
 
     existing = set( )
 
@@ -923,7 +929,7 @@ def isKMorphic( n, k ):
         return 1
 
     modulo = power( 10, ceil( log10( n ) ) )
-    powmod = getPowMod( n, real_int( k ), modulo )
+    powmod = getPowMod( n, validateRealInt( k ), modulo )
 
     return 1 if ( n == powmod ) else 0
 
@@ -1199,7 +1205,7 @@ def isDigitalPermutation( n, k ):
 # //******************************************************************************
 
 def generateSquareDigitChainGenerator( n ):
-    n = real( floor( n ) )
+    n = validateRealInt( floor( n ) )
 
     if n == 0:
         yield 0
@@ -1318,7 +1324,7 @@ def buildStepNumbers( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'smith' )
 def isSmithNumber( n ):
-    if isPrime( real_int( n ) ) or n < 2:
+    if isPrime( validateRealInt( n ) ) or n < 2:
         return 0
 
     sum1 = sumDigits( n )
@@ -1336,7 +1342,7 @@ def isSmithNumber( n ):
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'base_k_smith' )
 def isBaseKSmithNumber( n, k ):
-    if real_int( k ) < 2:
+    if validateRealInt( k ) < 2:
         raise ValueError( "'is_base_k_smith_number' base argument must be 2 or greater" )
 
     if k > 4 and n == 4:
@@ -1345,7 +1351,7 @@ def isBaseKSmithNumber( n, k ):
     if k > 4 and n < k:
         return 0
 
-    if isPrime( real_int( n ) ) or n < 2:
+    if isPrime( validateRealInt( n ) ) or n < 2:
         return 0
 
     sum1 = fsum( getBaseKDigits( n, k ) )
@@ -1363,7 +1369,7 @@ def isBaseKSmithNumber( n, k ):
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'order_k_smith' )
 def isOrderKSmithNumber( n, k ):
-    if isPrime( real_int( n ) ) or n < 2:
+    if isPrime( validateRealInt( n ) ) or n < 2:
         return 0
 
     digitList1 = getNonzeroDigits( n )

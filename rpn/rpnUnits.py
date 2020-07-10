@@ -12,10 +12,9 @@
 # //
 # //******************************************************************************
 
-from mpmath import fadd, fdiv, fmul, fprod, log, mpf, mpmathify, pi, power
+from mpmath import fadd, fdiv, fmul, log, mpmathify, pi, power
 
-from rpn.rpnConstantUtils import *
-from rpn.rpnUnitClasses import RPNUnitInfo, RPNUnitTypeInfo
+from rpn.rpnUnitClasses import RPNUnitInfo
 
 
 # jansky (Jy)
@@ -29,7 +28,7 @@ from rpn.rpnUnitClasses import RPNUnitInfo, RPNUnitTypeInfo
 # Karl G. Jansky (1905-1950), the American electrical engineer who discovered
 # radio waves from space in 1930.  The jansky is sometimes called the flux unit.
 
-#langley (Ly)
+# langley (Ly)
 # a CGS unit of heat transmission equal to one thermochemical calorie per
 # square centimeter, or exactly 41.84 kilojoules per square meter (kJ/m2).
 # Named for the American astronomer Samuel P. Langley (1834-1906), the langley
@@ -670,9 +669,10 @@ katals to other units.
 ''' ),
 
 
-# constant - Constant is a special type that is immediately converted to a numerical value when used.
-#            It's not intended to be used as a unit, per se.  Also, these units are in order of their
-#            value instead of alphabetical order like all the others
+    # constant - Constant is a special type that is immediately converted to a numerical
+    #            value when used.  It's not intended to be used as a unit, per se.  Also,
+    #            these units are in order of their value instead of alphabetical order
+    #            like all the others
     'decillionth' :
         RPNUnitInfo( 'constant', 'decillionths', '', [ ], [ 'constant' ],
                      '''
@@ -1561,7 +1561,8 @@ representation of electrical resistance.
 
     'matthiessen' :
         RPNUnitInfo( 'electrical_resistance', 'matthiessens', '',
-                     [ ], [ 'obsolete' ],   # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+                     [ ], [ 'obsolete' ],   # based on one mile of 1/16 inch diameter pure
+                                            # annealed copper wire at 15.5 degrees C
                      '''
 ''' ),
 
@@ -1592,7 +1593,8 @@ https://en.wikipedia.org/wiki/Statohm
 
     'varley' :
         RPNUnitInfo( 'electrical_resistance', 'varleys', '',
-                     [ ], [ 'obsolete' ],  # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+                     [ ], [ 'obsolete' ],  # based on one mile of 1/16 inch diameter pure
+                                           # annealed copper wire at 15.5 degrees C
                      '''
 ''' ),
 
@@ -1640,7 +1642,8 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
 
     'gram_equivalent' :
         RPNUnitInfo( 'energy', 'grams_equivalent', 'gE',
-                     [ 'gram-energy', 'grams-energy', 'gram-equivalent', 'grame-equivalent', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
+                     [ 'gram-energy', 'grams-energy', 'gram-equivalent', 'grame-equivalent', 'gramme-equivalent',
+                       'grammes-equivalent', 'gramme-energy', 'grammes-energy' ], [ 'natural' ],
                      '''
 ''' ),
 
@@ -2244,7 +2247,8 @@ Ref:  https://en.wikipedia.org/wiki/Furlong
 
     'furshlugginer_potrzebie' :
         RPNUnitInfo( 'length', 'furshlugginer_potrzebies', 'Fpz',
-                     [ 'fur-potrzebie', 'fur-potrzebies', 'Fur-potrzebie', 'Fur-potrzebies' ], [ 'Potrzebie', 'humorous' ],
+                     [ 'fur-potrzebie', 'fur-potrzebies', 'Fur-potrzebie', 'Fur-potrzebies' ],
+                     [ 'Potrzebie', 'humorous' ],
                      '''
 From the Yiddish; one of several words Anglicized and popularized by the
 original writers of MAD Magazine.  The word comes from shlogn ("to hit") with
@@ -3007,7 +3011,7 @@ defined as one thousandth of the SI base unit, the kilogram, or 1 x 10^-3 kg.
 Ref:  https://en.wikipedia.org/wiki/Gram
 ''' ),
 
-# hyl, metric_slug, technical_mass_unit, technische_masseseinheit, 9.80665 kg
+    # hyl, metric_slug, technical_mass_unit, technische_masseseinheit, 9.80665 kg
 
     'joule*second^2/meter^2' :
         RPNUnitInfo( 'mass', 'joule*second^2/meter^2', '', [ ], [ 'SI' ],
@@ -3308,7 +3312,7 @@ representation of pressure.
                      '''
 ''' ),
 
-# technical_atmosphere (at) 98.0665 kPa
+    # technical_atmosphere (at) 98.0665 kPa
 
     'torr' :
         RPNUnitInfo( 'pressure', 'torr', '', [ ], [ ],
@@ -3379,19 +3383,27 @@ This is the SI unit representation of radiosity.
     # solid_angle
     'arcminute^2' :
         RPNUnitInfo( 'solid_angle', 'arcminute^2', '',
-                     [ 'square_arcminute', 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
+                     [ 'square_arcminute', 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes',
+                       'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'spherical_minute',
+                       'spherical_minutes' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
     'arcsecond^2' :
         RPNUnitInfo( 'solid_angle', 'arcsecond^2', '',
-                     [ 'square_arcsecond', 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
+                     [ 'square_arcsecond', 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds',
+                       'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'spherical_second',
+                       'spherical_seconds' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
     'degree^2' :
         RPNUnitInfo( 'solid_angle', 'degree^2', '',
-                     [ 'square_degree', 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
+                     [ 'square_degree', 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees',
+                       'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ],
+                     [ 'mathematics' ],
                      '''
 A square degree (deg^2) is a non-SI-compliant unit measure of solid angle.
 Just as degrees are used to measure parts of a circle, square degrees are used
@@ -3404,7 +3416,7 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
 
     'gradian^2' :
         RPNUnitInfo( 'solid_angle', 'gradian^2', '',
-                     [ 'square_grad', 'square_grads', 'sqgrad', 'sqgradian' 'sqgradians', 'square_gon', 'square_gons',
+                     [ 'square_grad', 'square_grads', 'sqgrad', 'sqgradian', 'sqgradians', 'square_gon', 'square_gons',
                        'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'spherical_gon', 'spherical_gons', 'spherical_grad',
                        'spherical_grads', 'spherical_gradian', 'spherical_gradians' ],
                      [ 'mathematics' ],
@@ -3425,25 +3437,33 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
 
     'octant^2' :
         RPNUnitInfo( 'solid_angle', 'octant^2', '',
-                     [ 'octant_square', 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ], [ 'mathematics' ],
+                     [ 'octant_square', 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant',
+                       'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
     'quadrant^2' :
         RPNUnitInfo( 'solid_angle', 'quadrant^2', '',
-                     [ 'square_quadrant', 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant', 'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ], [ 'mathematics' ],
+                     [ 'square_quadrant', 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant',
+                       'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
     'quintant^2' :
         RPNUnitInfo( 'solid_angle', 'quintant^2', '',
-                     [ 'square_quintant', 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ], [ 'mathematics' ],
+                     [ 'square_quintant', 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant',
+                       'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
     'sextant^2' :
         RPNUnitInfo( 'solid_angle', 'sextant^2', '',
-                     [ 'square_sextant', 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ], [ 'mathematics' ],
+                     [ 'square_sextant', 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant',
+                       'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ],
+                     [ 'mathematics' ],
                      '''
 ''' ),
 
@@ -3454,7 +3474,9 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
 
     'steradian' :
         RPNUnitInfo( 'solid_angle', 'steradians', 'sr',
-                     [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
+                     [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad',
+                       'spherical_radian', 'spherical_radians' ],
+                     [ 'SI', 'mathematics' ],
                      '''
 The steradian (symbol: sr) or square radian is the SI unit of solid angle.  It
 is used in three-dimensional geometry, and is analogous to the radian, which
@@ -3469,7 +3491,9 @@ Ref:  https://en.wikipedia.org/wiki/Steradian
     # temperature
     'celsius' :
         RPNUnitInfo( 'temperature', 'degrees_celsius', 'Cel',
-                     [ 'centigrade', 'degC', 'degreeC', 'degreesC', 'degree_centigrade', 'degrees_centigrade', 'degrees_C' ], [ 'SI' ],
+                     [ 'centigrade', 'degC', 'degreeC', 'degreesC', 'degree_centigrade',
+                       'degrees_centigrade', 'degrees_C' ],
+                     [ 'SI' ],
                      '''
 ''' ),
 
@@ -3487,7 +3511,8 @@ Ref:  https://en.wikipedia.org/wiki/Steradian
 
     'fahrenheit' :
         RPNUnitInfo( 'temperature', 'degrees_fahrenheit', '',
-                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ], [ 'U.S.', 'traditional' ],
+                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ],
+                     [ 'U.S.', 'traditional' ],
                      '''
 ''' ),
 
@@ -3895,7 +3920,8 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
 
     'year' :
         RPNUnitInfo( 'time', 'years', '',
-                     [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ], [ 'traditional', 'years' ],
+                     [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ],
+                     [ 'traditional', 'years' ],
                      '''
 A calendar year is an approximation of the number of days of the Earth's
 orbital period as counted in a given calendar.  The Gregorian calendar, or
@@ -4105,7 +4131,8 @@ fluid ounce.
 
     'dram' :
         RPNUnitInfo( 'volume', 'drams', '',
-                     [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ],
+                     [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ],
+                     [ 'traditional' ],
                      '''
 ''' ),
 
@@ -4163,7 +4190,8 @@ https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 
     'farshimmelt_ngogn' :
         RPNUnitInfo( 'volume', 'farshimmelt_ngogns', 'fn',
-                     [ 'far-ngogn', 'far-ngogns', 'farshimmelt-ngogn', 'farshimmelt-ngogns' ], [ 'Potrzebie', 'humorous' ],
+                     [ 'far-ngogn', 'far-ngogns', 'farshimmelt-ngogn', 'farshimmelt-ngogns' ],
+                     [ 'Potrzebie', 'humorous' ],
                      '''
 The "farshimmelt" prefix is based on the Yiddish word "farshimmelt", meaning a
 confused state of mind, disorientation, or feeblemindedness, and which is in
@@ -4219,7 +4247,9 @@ https://en.wikipedia.org/wiki/Cubic_foot
 
     'furshlugginer_ngogn' :
         RPNUnitInfo( 'volume', 'furshlugginer_ngogns', 'Fn',
-                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns', 'furshlugginer-ngogn', 'furshlugginer-ngogns' ], [ 'Potrzebie', 'humorous' ],
+                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns', 'furshlugginer-ngogn',
+                       'furshlugginer-ngogns' ],
+                     [ 'Potrzebie', 'humorous' ],
                      '''
 From the Yiddish; one of several words Anglicized and popularized by the
 original writers of MAD Magazine.  The word comes from shlogn ("to hit") with
@@ -4318,7 +4348,8 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_butt' :
-        RPNUnitInfo( 'volume', 'imperial_butts', '', [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial', 'wine' ],
+        RPNUnitInfo( 'volume', 'imperial_butts', '',
+                     [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial', 'wine' ],
                      '''
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
@@ -4361,7 +4392,8 @@ Ref:  https://en.wikipedia.org/wiki/Peck
 ''' ),
 
     'imperial_puncheon' :
-        RPNUnitInfo( 'volume', 'imperial_puncheons', '', [ 'imperial_tertian', 'imperial_tertians' ], [ 'imperial', 'wine' ],
+        RPNUnitInfo( 'volume', 'imperial_puncheons', '',
+                     [ 'imperial_tertian', 'imperial_tertians' ], [ 'imperial', 'wine' ],
                      '''
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
@@ -4411,8 +4443,8 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'liter' :
-        RPNUnitInfo( 'volume', 'liters', 'L', [ 'litre', 'litres' ], [ 'SI' ],
         # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
+        RPNUnitInfo( 'volume', 'liters', 'L', [ 'litre', 'litres' ], [ 'SI' ],
                      '''
 The liter is an SI  accepted metric system unit of volume equal to 1 cubic
 decimeter (dm^3), 1,000 cubic centimeters (cm^3) or 1/1,000 cubic meter.
@@ -4427,7 +4459,8 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'marie_jeanne' :
-        RPNUnitInfo( 'volume', 'marie_jeannes', '', [ 'dame_jeanne', 'dame_jeannes' ], [ 'France', 'wine' ],
+        RPNUnitInfo( 'volume', 'marie_jeannes', '',
+                     [ 'dame_jeanne', 'dame_jeannes' ], [ 'France', 'wine' ],
                      '''
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
 ''' ),
@@ -4948,6 +4981,8 @@ binaryPrefixes = [
 # //******************************************************************************
 
 unitConversionMatrix = {
+    # pylint: disable=line-too-long
+
     # acceleration
 
     ( 'celo',                       'meter/second^2' )                      : mpmathify( '0.3048' ),

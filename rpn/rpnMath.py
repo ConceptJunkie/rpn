@@ -26,7 +26,7 @@ from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real, real_int
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateReal, validateRealInt
 
 
 # //******************************************************************************
@@ -247,7 +247,7 @@ def getCubeSuperRoot( n ):
 
 @twoArgFunctionEvaluator( )
 def getSuperRoot( n, k ):
-    k = fsub( real_int( k ), 1 )
+    k = fsub( validateRealInt( k ), 1 )
     value = fmul( k, log( n ) )
     return root( fdiv( value, lambertw( value ) ), k )
 
@@ -262,7 +262,7 @@ def getSuperRoot( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getSuperRoots( n, k ):
-    k = fsub( real_int( k ), 1 )
+    k = fsub( validateRealInt( k ), 1 )
     factors = [ fmul( i, root( k, k ) ) for i in unitroots( int( k ) ) ]
     base = root( fdiv( log( n ), lambertw( fmul( k, log( n ) ) ) ), k )
 
@@ -375,7 +375,7 @@ def isDivisible( n, k ):
     if n == 0:
         return 1
 
-    return 1 if ( n >= k ) and ( fmod( real( n ), real( k ) ) == 0 ) else 0
+    return 1 if ( n >= k ) and ( fmod( validateReal( n ), validateReal( k ) ) == 0 ) else 0
 
 
 # //******************************************************************************
@@ -458,99 +458,99 @@ def performTrigOperation( i, operation ):
     return operation( value )
 
 @oneArgFunctionEvaluator( )
-def get_acos( n ):
+def acosOperator( n ):
     return performTrigOperation( n, acos )
 
 @oneArgFunctionEvaluator( )
-def get_acosh( n ):
+def acoshOperator( n ):
     return performTrigOperation( n, acosh )
 
 @oneArgFunctionEvaluator( )
-def get_acot( n ):
+def acotOperator( n ):
     return performTrigOperation( n, acot )
 
 @oneArgFunctionEvaluator( )
-def get_acoth( n ):
+def acothOperator( n ):
     return performTrigOperation( n, acoth )
 
 @oneArgFunctionEvaluator( )
-def get_acsc( n ):
+def acscOperator( n ):
     return performTrigOperation( n, acsc )
 
 @oneArgFunctionEvaluator( )
-def get_acsch( n ):
+def acschOperator( n ):
     return performTrigOperation( n, acsch )
 
 @oneArgFunctionEvaluator( )
-def get_asec( n ):
+def asecOperator( n ):
     return performTrigOperation( n, asec )
 
 @oneArgFunctionEvaluator( )
-def get_asech( n ):
+def asechOperator( n ):
     return performTrigOperation( n, asech )
 
 @oneArgFunctionEvaluator( )
-def get_asin( n ):
+def asinOperator( n ):
     return performTrigOperation( n, asin )
 
 @oneArgFunctionEvaluator( )
-def get_asinh( n ):
+def asinhOperator( n ):
     return performTrigOperation( n, asinh )
 
 @oneArgFunctionEvaluator( )
-def get_atan( n ):
+def atanOperator( n ):
     return performTrigOperation( n, atan )
 
 @oneArgFunctionEvaluator( )
-def get_atanh( n ):
+def atanhOperator( n ):
     return performTrigOperation( n, atanh )
 
 @oneArgFunctionEvaluator( )
-def get_cos( n ):
+def cosOperator( n ):
     return performTrigOperation( n, cos )
 
 @oneArgFunctionEvaluator( )
-def get_cosh( n ):
+def coshOperator( n ):
     return performTrigOperation( n, cosh )
 
 @oneArgFunctionEvaluator( )
-def get_cot( n ):
+def cotOperator( n ):
     return performTrigOperation( n, cot )
 
 @oneArgFunctionEvaluator( )
-def get_coth( n ):
+def cothOperator( n ):
     return performTrigOperation( n, coth )
 
 @oneArgFunctionEvaluator( )
-def get_csc( n ):
+def cscOperator( n ):
     return performTrigOperation( n, csc )
 
 @oneArgFunctionEvaluator( )
-def get_csch( n ):
+def cschOperator( n ):
     return performTrigOperation( n, csch )
 
 @oneArgFunctionEvaluator( )
-def get_sec( n ):
+def secOperator( n ):
     return performTrigOperation( n, sec )
 
 @oneArgFunctionEvaluator( )
-def get_sech( n ):
+def sechOperator( n ):
     return performTrigOperation( n, sech )
 
 @oneArgFunctionEvaluator( )
-def get_sin( n ):
+def sinOperator( n ):
     return performTrigOperation( n, sin )
 
 @oneArgFunctionEvaluator( )
-def get_sinh( n ):
+def sinhOperator( n ):
     return performTrigOperation( n, sinh )
 
 @oneArgFunctionEvaluator( )
-def get_tan( n ):
+def tanOperator( n ):
     return performTrigOperation( n, tan )
 
 @oneArgFunctionEvaluator( )
-def get_tanh( n ):
+def tanhOperator( n ):
     return performTrigOperation( n, tanh )
 
 
@@ -593,7 +593,7 @@ def isGreater( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isLarger( k ) else 0
     else:
-        return 1 if real( n ) > real( k ) else 0
+        return 1 if validateReal( n ) > validateReal( k ) else 0
 
 
 # //******************************************************************************
@@ -607,7 +607,7 @@ def isLess( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isSmaller( k ) else 0
     else:
-        return 1 if real( n ) < real( k ) else 0
+        return 1 if validateReal( n ) < validateReal( k ) else 0
 
 
 # //******************************************************************************
@@ -621,7 +621,7 @@ def isNotGreater( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotLarger( k ) else 0
     else:
-        return 1 if real( n ) <= real( k ) else 0
+        return 1 if validateReal( n ) <= validateReal( k ) else 0
 
 
 # //******************************************************************************
@@ -635,7 +635,7 @@ def isNotLess( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotSmaller( k ) else 0
     else:
-        return 1 if real( n ) >= real( k ) else 0
+        return 1 if validateReal( n ) >= validateReal( k ) else 0
 
 
 # //******************************************************************************
@@ -646,7 +646,7 @@ def isNotLess( n, k ):
 
 @oneArgFunctionEvaluator( )
 def isInteger( n ):
-    return 1 if fmod( real( n ), 1 ) == 0 else 0
+    return 1 if fmod( validateReal( n ), 1 ) == 0 else 0
 
 
 # //******************************************************************************
@@ -660,7 +660,7 @@ def roundOff( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundOff( n.value ), n.units )
     else:
-        return floor( fadd( real( n ), 0.5 ) )
+        return floor( fadd( validateReal( n ), 0.5 ) )
 
 
 # //******************************************************************************
@@ -674,7 +674,7 @@ def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByValue( n.value, value ), n.units )
     else:
-        return fmul( floor( fdiv( fadd( real( n ), fdiv( value, 2 ) ), value ) ), value )
+        return fmul( floor( fdiv( fadd( validateReal( n ), fdiv( value, 2 ) ), value ) ), value )
 
 
 # //******************************************************************************
@@ -688,7 +688,7 @@ def roundByDigits( n, digits ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByDigits( n.value, digits ), n.units )
     else:
-        return roundByValue( real( n ), power( 10, digits ) )
+        return roundByValue( validateReal( n ), power( 10, digits ) )
 
 
 # //******************************************************************************
@@ -702,7 +702,7 @@ def getLarger( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n if isGreater( n, k ) else k
 
-    return n if real( n ) > real( k ) else k
+    return n if validateReal( n ) > validateReal( k ) else k
 
 
 # //******************************************************************************
@@ -716,7 +716,7 @@ def getSmaller( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n if isLess( n, k ) else k
 
-    return n if real( n ) < real( k ) else k
+    return n if validateReal( n ) < validateReal( k ) else k
 
 
 # //******************************************************************************
@@ -781,7 +781,7 @@ def getMinimum( n ):
 
 @oneArgFunctionEvaluator( )
 def isEven( n ):
-    return 1 if fmod( real_int( n ), 2 ) == 0 else 0
+    return 1 if fmod( validateRealInt( n ), 2 ) == 0 else 0
 
 
 # //******************************************************************************
@@ -792,7 +792,7 @@ def isEven( n ):
 
 @oneArgFunctionEvaluator( )
 def isOdd( n ):
-    return 1 if fmod( real_int( n ), 2 ) == 1 else 0
+    return 1 if fmod( validateRealInt( n ), 2 ) == 1 else 0
 
 
 # //******************************************************************************
@@ -825,7 +825,7 @@ def isZero( n ):
 
 @oneArgFunctionEvaluator( )
 def getMantissa( n ):
-    return fmod( real( n ), 1 )
+    return fmod( validateReal( n ), 1 )
 
 
 # //******************************************************************************
@@ -841,7 +841,7 @@ def getModulo( n, k ):
     elif isinstance( k, RPNMeasurement ):
         raise ValueError( 'cannot take a non-measurement modulo a measurement' )
     else:
-        return fmod( real( n ), real( k ) )
+        return fmod( validateReal( n ), validateReal( k ) )
 
 
 
@@ -1050,7 +1050,7 @@ def calculateHypotenuse( n, k ):
 # //
 # //******************************************************************************
 
-class hyperopLeft( hyperop ):
+class HyperopLeft( hyperop ):
     def __call__( self, a, b ):
         '''
         Evaluate and return expression H[n](a,b).
@@ -1089,7 +1089,7 @@ def calculateNthHyperoperator( a, b, c ):
         else:
             return 4
 
-    return hyperopLeft( a )( b, c )
+    return HyperopLeft( a )( b, c )
 
 
 # //******************************************************************************

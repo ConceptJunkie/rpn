@@ -15,7 +15,7 @@
 from mpmath import fabs, fdiv, floor, fmod, power
 
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnUtils import oneArgFunctionEvaluator, real_int
+from rpn.rpnUtils import oneArgFunctionEvaluator, validateRealInt
 
 
 # //******************************************************************************
@@ -237,7 +237,7 @@ def getShortOrdinalName( n ):
 
 @oneArgFunctionEvaluator( )
 def getOrdinalName( n ):
-    return getNumberName( real_int( n ), ordinal = True )
+    return getNumberName( validateRealInt( n ), ordinal = True )
 
 
 # //******************************************************************************
@@ -257,7 +257,7 @@ def getNumberName( n, ordinal = False ):
         else:
             units = n.getPluralUnitName( )
 
-        n = real_int( value )
+        n = validateRealInt( value )
 
     if n == 0:
         if ordinal:

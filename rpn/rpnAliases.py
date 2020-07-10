@@ -652,6 +652,7 @@ operatorAliases = {
     'persian'                       : 'to_persian',
     'persian_name'                  : 'to_persian_name',
     'plastic'                       : 'plastic_constant',
+    'plotc'                         : 'plot_complex',
     'poiseuille'                    : 'pascal*second',
     'poiseuilles'                   : 'pascal*second',
     'poly'                          : 'polygonal',

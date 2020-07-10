@@ -88,7 +88,8 @@ expandedUnitTypes = {
     'surface_tension'                   : ( 'mass/time^2' ),
     'temperature_gradient'              : ( 'temperature/length' ),
     'thermal_conductivity'              : ( 'length*mass/temperature*time^3' ),
-    'tidal_force'                       : ( '1/time^2' ),    # length/time^2/length... lengths cancel out and that breaks my brain
+    'tidal_force'                       : ( '1/time^2' ),    # length/time^2/length...
+                                                             # lengths cancel out and that breaks my brain
     'velocity'                          : ( 'length/time' ),
     'volume'                            : ( 'length^3' ),
     'volumetric_flow'                   : ( 'length^3/time' ),

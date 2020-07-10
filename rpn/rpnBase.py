@@ -228,9 +228,8 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
 # //
 # //******************************************************************************
 
-def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
-    # TODO:  implement me!
-    return 'fred'
+#def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
+#    return 'fred'
 
 
 # //******************************************************************************

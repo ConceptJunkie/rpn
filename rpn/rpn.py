@@ -24,22 +24,22 @@
 import argparse
 import os
 import sys
-import signal
 import time
 
 from pathlib import Path
 
-if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
-else:
-    from time import time_ns
+try:
+    import readline
+except ImportError:
+    import pyreadline as readline
 
-from mpmath import fneg, im, inf, mp, mpc, mpmathify, nan, nstr, re
+from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
 from rpn.rpnAliases import operatorAliases
 from rpn.rpnBase import specialBaseNames
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
+from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
@@ -59,13 +59,20 @@ from rpn.rpnPrimeUtils import checkForPrimeData
 
 from rpn.rpnSpecial import handleIdentify
 
-from rpn.rpnUtils import debugPrint, getCurrentArgList, getUserDataPath, \
-                         parseNumerals, validateArguments, validateOptions
+from rpn.rpnUtils import getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, \
+                         validateOptions
 
-from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, \
-                           PROGRAM_DESCRIPTION, COPYRIGHT_MESSAGE
+from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_DESCRIPTION, \
+                           COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
+
+if not hasattr( time, 'time_ns' ):
+    from rpn.rpnNanoseconds import time_ns
+else:
+    from time import time_ns
+
+
 
 
 # //******************************************************************************
@@ -81,14 +88,14 @@ def lookAhead( iterable ):
     (True), or if it is the last value (False).
     '''
     # Get an iterator and pull the first value.
-    it = iter( iterable )
-    last = next( it )
+    i = iter( iterable )
+    last = next( i )
 
     # Run the iterator to exhaustion (starting from the second value).
-    for val in it:
+    for value in i:
         # Report the *previous* value (more to come).
         yield last, True
-        last = val
+        last = value
 
     # Report the last value.
     yield last, False
@@ -226,16 +233,20 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                     #print( 'result', result, type( result ) )
                     #print( 'im', im( result ), type( im( result ) ) )
                     #print( 're', re( result ), type( re( result ) ) )
-                    imaginary = im( result )
 
                     if im( result ) > 0:
-                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
-                                       ' + ' + formatOutput( nstr( mpmathify( im( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), \
+                                                           g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                       ' + ' + formatOutput( nstr( mpmathify( im( result ) ), \
+                                                             g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
                     elif im( result ) < 0:
-                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
-                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), \
+                                                                 g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), \
+                                                             g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
                     else:
-                        outputString = formatOutput( nstr( re( result ), g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
+                        outputString = formatOutput( nstr( re( result ), g.outputAccuracy,
+                                                           min_fixed=-g.maximumFixed - 1 ) )
                 # otherwise, it's a plain old mpf
                 else:
                     outputString = formatOutput( nstr( result, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
@@ -251,6 +262,8 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
     if g.timer or g.tempTimerMode:
         print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1000000000 ), file=file )
 
+    return file
+
 
 # //******************************************************************************
 # //
@@ -264,11 +277,6 @@ def enterInteractiveMode( ):
     mode, where it will continue to evaluate new expressions input until
     the 'exit' command.
     '''
-    try:
-        import readline
-    except ImportError:
-        import pyreadline as readline
-
     readline.parse_and_bind( 'tab: complete' )
     readline.parse_and_bind( 'set editing-mode vi' )
 
@@ -289,7 +297,7 @@ def enterInteractiveMode( ):
         g.tempTimerMode = False
 
         try:
-            line = input( 'rpn (' + str( g.promptCount ) + ')>' )
+            line = input( 'rpn (' + str( g.promptCount ) + ')> ' )
         except EOFError:
             break
 
@@ -361,7 +369,7 @@ def enterHelpMode( terms ):
 # //
 # //******************************************************************************
 
-def rpn( cmd_args ):
+def rpn( cmdArgs ):
     '''
     This is the main function which processes the command-line arguments,
     handling both options and the expression to evaluate.   This function is
@@ -375,17 +383,17 @@ def rpn( cmd_args ):
     g.outputRadix = 10
 
     # look for help argument before we start setting everything up (because it's faster this way)
-    help = False
+    showHelp = False
     helpArgs = [ ]
 
-    for i in range( 0, len( cmd_args ) ):
-        if cmd_args[ i ] == 'help':
-            help = True
+    for arg in cmdArgs:
+        if arg == 'help':
+            showHelp = True
         else:
-            if help:
-                helpArgs.append( cmd_args[ i ] )
+            if showHelp:
+                helpArgs.append( arg )
 
-    if help:
+    if showHelp:
         parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
                                           ' - ' + PROGRAM_DESCRIPTION + '\n    ' +
                                           COPYRIGHT_MESSAGE, add_help = False,
@@ -396,7 +404,7 @@ def rpn( cmd_args ):
         parser.add_argument( '-l', '--line_length', type = int, action = 'store',
                              default = g.defaultLineLength )
 
-        args = parser.parse_args( cmd_args )
+        args = parser.parse_args( cmdArgs )
 
         loadUnitNameData( )
 
@@ -457,15 +465,15 @@ def rpn( cmd_args ):
     else:
         g.useYAFU = False
 
-    for i, arg in enumerate( cmd_args ):
-        if ( len( arg ) > 1 ) :
+    for arg in cmdArgs:
+        if len( arg ) > 1 :
             if arg[ 0 ] == '$' and arg[ 1 : ] not in g.userVariables:
                 raise ValueError( 'undefined user variable referenced: ' + arg )
 
             if arg[ 0 ] == '@' and arg[ 1 : ] not in g.userFunctions:
                 raise ValueError( 'undefined user function referenced: ' + arg )
 
-            if ( arg[ 0 ] == '-' ):
+            if arg[ 0 ] == '-' :
                 if arg[ 1 ].isdigit( ):     # a negative number, not an option
                     terms.append( arg )
                 else:
@@ -558,7 +566,7 @@ def rpn( cmd_args ):
 
     # -r validation
     if ( ( g.outputRadix < g.maxSpecialBase ) or ( g.outputRadix == 0 ) or
-           ( g.outputRadix == 1 ) or ( g.outputRadix > 62 ) ):
+         ( g.outputRadix == 1 ) or ( g.outputRadix > 62 ) ):
         print( 'rpn:  output radix must be from 2 to 62, fib, phi, fac, doublefac, square, lucas' )
         return [ nan ]
 
@@ -684,8 +692,8 @@ def main( ):
 
         if g.debugMode:
             raise
-        else:
-            sys.exit( 0 )
+
+        sys.exit( 0 )
     except KeyboardInterrupt:
         print( )
         print( 'handling ctrl-c keyboard interrupt...' )

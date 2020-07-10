@@ -16,6 +16,7 @@ import ephem
 
 from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from pytz import timezone
+from skyfield import almanac
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnLocation import getLocation, getTimeZone, RPNLocation
@@ -23,7 +24,7 @@ from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         loadAstronomyData, real_int
+                         loadAstronomyData, validateRealInt
 
 import rpn.rpnGlobals as g
 
@@ -34,7 +35,7 @@ import rpn.rpnGlobals as g
 # //
 # //******************************************************************************
 
-class RPNAstronomicalObject( object ):
+class RPNAstronomicalObject( ):
     '''This class is for identifying astronomical objects.'''
     def __init__( self, object ):
         self.object = object
@@ -224,13 +225,12 @@ class RPNAstronomicalObject( object ):
 
 def getSeason( n, season ):
     '''Returns the date of the season for year n.'''
-    from skyfield import almanac
     loadAstronomyData( )
 
     if not g.astroDataAvailable:
         raise ValueError( 'Astronomy functions are unavailable.' )
 
-    times, _ = almanac.find_discrete( g.timescale.utc( real_int( n ), 1, 1 ),
+    times, _ = almanac.find_discrete( g.timescale.utc( validateRealInt( n ), 1, 1 ),
                                       g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
@@ -369,9 +369,9 @@ def getSkyLocation( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    az, alt = arguments[ 'body' ].getAzimuthAndAltitude( arguments[ 'location' ], arguments[ 'datetime' ] )
+    azimuth, altitude = arguments[ 'body' ].getAzimuthAndAltitude( arguments[ 'location' ], arguments[ 'datetime' ] )
 
-    return [ az.convert( 'degree' ), alt.convert( 'degree' ) ]
+    return [ azimuth.convert( 'degree' ), altitude.convert( 'degree' ) ]
 
 
 # //******************************************************************************

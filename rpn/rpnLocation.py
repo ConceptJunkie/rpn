@@ -19,9 +19,13 @@ import pickle
 
 import ephem
 
+from geopy.geocoders import Nominatim
+from geopy.distance import vincenty
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
+from timezonefinder import TimezoneFinder
 
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
@@ -38,7 +42,7 @@ import rpn.rpnGlobals as g
 # //
 # //******************************************************************************
 
-class RPNLocation( object ):
+class RPNLocation( ):
     '''This class represents a location on the surface of the Earth.'''
     def __init__( self, name, observer=ephem.Observer( ) ):
         self.name = name
@@ -126,8 +130,6 @@ def loadLocationCache( ):
 # //******************************************************************************
 
 def saveLocationCache( locationCache ):
-    from rpn.rpnKeyboard import DelayedKeyboardInterrupt
-
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
                                               'locations.pckl.bz2', 'wb' ) ) as pickleFile:
@@ -161,7 +163,6 @@ def getLocation( name ):
         # print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
-    from geopy.geocoders import Nominatim
     geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
 
     for attempts in range( 3 ):
@@ -214,8 +215,6 @@ def getLocationInfo( location ):
 
 @oneArgFunctionEvaluator( )
 def getTimeZone( location ):
-    from timezonefinder import TimezoneFinder
-
     tzFinder = TimezoneFinder( )
 
     if isinstance( location, str ):
@@ -255,8 +254,6 @@ def getDistance( location1, location2 ):
 
     if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
         return calculateDistance( location1, location2 )
-
-    from geopy.distance import vincenty
 
     distance = vincenty( ( location1.getLat( ), location1.getLong( ) ),
                          ( location2.getLat( ), location2.getLong( ) ) ).miles

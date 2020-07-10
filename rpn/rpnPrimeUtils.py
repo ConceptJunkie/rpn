@@ -12,22 +12,22 @@
 # //
 # //******************************************************************************
 
-import bz2
-import contextlib
-import gmpy2
 import os
-import pickle
 import sys
 
 from bisect import bisect_left
-from mpmath import arange, fadd, fmod, fmul, fsub, mp
 from pathlib import Path
 
+from mpmath import arange, fadd, fmod, fmul, fsub
+
+import gmpy2
+
+from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPrimes import primes
 from rpn.rpnPersistence import cachedFunction, openPrimeCache
-from rpn.rpnUtils import debugPrint, getUserDataPath, oneArgFunctionEvaluator, \
-                         twoArgFunctionEvaluator, real_int
+from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                         validateRealInt
 
 import rpn.rpnGlobals as g
 
@@ -351,13 +351,16 @@ def getPreviousPrimeCandidateForAny( p ):
 # //******************************************************************************
 
 def getNextPrime( p, func=getNextPrimeCandidateForAny ):
-    if ( p < 2 ):
+    if p < 2:
         return 2
-    if ( p == 2 ):
+
+    if p == 2:
         return 3
-    elif ( p < 5 ):
+
+    if p < 5:
         return 5
-    elif ( p < 7 ):
+
+    if p < 7:
         return 7
 
     p = func( p )
@@ -385,13 +388,17 @@ def getPreviousPrime( p, func=getPreviousPrimeCandidateForAny ):
     if p < 12:
         if p < 3:
             raise ValueError( 'There is no previous prime to 2.' )
-        elif p == 3:
+
+        if p == 3:
             return 2
-        elif p <= 5:
+
+        if p <= 5:
             return 3
-        elif p <= 7:
+
+        if p <= 7:
             return 5
-        elif p <= 11:
+
+        if p <= 11:
             return 7
 
     p = func( p )
@@ -416,7 +423,7 @@ def getPreviousPrimeOperator( n ):
 def getNextPrimes( p, k, func=getNextPrimeCandidateForAny ):
     result = [ ]
 
-    for i in arange( 0, k ):
+    for _ in arange( 0, k ):
         p = getNextPrime( p, func )
         result.append( p )
 
@@ -435,11 +442,11 @@ def getNextPrimesOperator( n, k ):
 
 def getPreviousPrimes( p, k, func = getPreviousPrimeCandidateForAny ):
     if p < 1000000000 and getNthPrime( p ) < k:
-        raiseError( 'There is no previous prime to 2.' )
+        raise ValueError( 'There is no previous prime to 2.' )
 
     result = [ ]
 
-    for i in arange( 0, k ):
+    for _ in arange( 0, k ):
         p = getPreviousPrime( p, func )
         result.append( p )
 
@@ -462,13 +469,17 @@ def getNthPrime( arg ):
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 2
-    elif n == 2:
+
+    if n == 2:
         return 3
-    elif n == 3:
+
+    if n == 3:
         return 5
-    elif g.primeDataAvailable and n >= 1000000000:
+
+    if g.primeDataAvailable and n >= 1000000000:
         openPrimeCache( 'huge_primes' )
 
         maxIndex = g.cursors[ 'huge_primes' ].execute(
@@ -541,12 +552,12 @@ def findPrime( arg ):
         p = 7
 
     while True:
-        old_p = p
+        oldP = p
         p = getNextPrime( p )
         currentIndex += 1
 
         if p > target:
-            return currentIndex - 1, old_p
+            return currentIndex - 1, oldP
 
 @oneArgFunctionEvaluator( )
 def findPrimeOperator( n ):
@@ -560,19 +571,21 @@ def findPrimeOperator( n ):
 # //******************************************************************************
 
 def findQuadrupletPrimes( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 5:
         return 1, [ 5, 7, 11, 13 ]
-    elif n < 11:
+
+    if n < 11:
         return 2, [ 11, 13, 17, 19 ]
-    elif g.primeDataAvailable:
+
+    if g.primeDataAvailable:
         openPrimeCache( 'quad_primes' )
 
         currentIndex, p = g.cursors[ 'quad_primes' ].execute(
             '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
     else:
-        p == 11
+        p = 11
 
     while True:
         # All quadruplet primes mod 30 == 11
@@ -601,13 +614,15 @@ def getNextQuadrupletPrime( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthQuadrupletPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 5
-    elif n == 2:
+
+    if n == 2:
         return 11
 
     if g.primeDataAvailable and n >= 10:
@@ -644,15 +659,18 @@ def getNthQuadrupletPrime( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthIsolatedPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 2
-    elif n == 2:
+
+    if n == 2:
         return 23
-    elif g.primeDataAvailable:
+
+    if g.primeDataAvailable:
         openPrimeCache( 'isolated_primes' )
 
         currentIndex, p = g.cursors[ 'isolated_primes' ].execute(
@@ -700,15 +718,18 @@ def getNextTwinPrimeCandidate( p ):
 
 @oneArgFunctionEvaluator( )
 def getNthTwinPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 3
-    elif n == 2:
+
+    if n == 2:
         return 5
-    elif n == 3:
+
+    if n == 3:
         return 11
 
     if g.primeDataAvailable and n >= 100:
@@ -758,11 +779,12 @@ def getNthTwinPrimeList( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthBalancedPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 5
     elif g.primeDataAvailable:
         openPrimeCache( 'balanced_primes' )
@@ -823,14 +845,15 @@ def getNthBalancedPrimeList( arg ):
 # //******************************************************************************
 
 def getNthDoubleBalancedPrimeElement( arg, first = False ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     numberOfPrimes = 5
     center = numberOfPrimes // 2
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 18731
 
     if g.primeDataAvailable:
@@ -849,7 +872,7 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
             return p
     else:
         if n > 50:
-            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
+            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' )
 
         # no cache... we'll do this the hard way
         currentIndex = 1
@@ -913,14 +936,15 @@ def getNthDoubleBalancedPrime( arg ):
 # //******************************************************************************
 
 def getNthTripleBalancedPrimeElement( arg, first = False ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     numberOfPrimes = 7
     center = numberOfPrimes // 2
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 683783
 
     if g.primeDataAvailable:
@@ -940,7 +964,7 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
             return p
     else:
         if n > 10:
-            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
+            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' )
 
         # no cache... we'll do this the hard way
         currentIndex = 1
@@ -1005,14 +1029,15 @@ def getNthTripleBalancedPrime( arg ):
 # //******************************************************************************
 
 def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     numberOfPrimes = 9
     center = numberOfPrimes // 2
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 98303927
 
     if g.primeDataAvailable:
@@ -1032,7 +1057,7 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
             return p
     else:
         if n > 10:
-            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' );
+            sys.stderr.write( 'The prime number cache data is not available.  This could take some time...\n' )
 
         # no cache... we'll do this the hard way
         currentIndex = 1
@@ -1099,15 +1124,18 @@ def getNthQuadrupleBalancedPrime( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthSophiePrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 2
-    elif n == 2:
+
+    if n == 2:
         return 3
-    elif n == 3:
+
+    if n == 3:
         return 5
 
     if g.primeDataAvailable and n >= 100:
@@ -1151,13 +1179,15 @@ def getSafePrime( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthCousinPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 3
-    elif g.primeDataAvailable and n >= 100:
+
+    if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'cousin_primes' )
 
         maxIndex = g.cursors[ 'cousin_primes' ].execute(
@@ -1230,13 +1260,15 @@ def getNextSexyPrimeCandidate( p ):
 
 @oneArgFunctionEvaluator( )
 def getNthSexyPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 5
-    elif g.primeDataAvailable and n >= 100:
+
+    if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_primes' )
 
         maxIndex = g.cursors[ 'sexy_primes' ].execute(
@@ -1281,13 +1313,15 @@ def getNthSexyPrimeList( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthSexyTriplet( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 7
-    elif g.primeDataAvailable and n >= 100:
+
+    if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_triplets' )
 
         maxIndex = g.cursors[ 'sexy_triplets' ].execute(
@@ -1339,13 +1373,15 @@ def getNthSexyTripletList( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthSexyQuadruplet( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 5
-    elif n < 100:
+
+    if n < 100:
         startingPlace = 2
         p = 11
     elif g.primeDataAvailable and n >= 100:
@@ -1424,15 +1460,18 @@ def getNextOctyPrimeCandidate( p ):
 
 @oneArgFunctionEvaluator( )
 def getNthOctyPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 3
-    elif n == 2:
+
+    if n == 2:
         return 5
-    elif g.primeDataAvailable:
+
+    if g.primeDataAvailable:
         openPrimeCache( 'octy_primes' )
 
         maxIndex = g.cursors[ 'octy_primes' ].execute(
@@ -1477,15 +1516,18 @@ def getNthOctyPrimeList( arg ):
 
 @oneArgFunctionEvaluator( )
 def getNthTripletPrimeList( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return [ 5, 7, 11 ]
-    elif n == 2:
+
+    if n == 2:
         return [ 7, 11, 13 ]
-    elif n == 3:
+
+    if n == 3:
         return [ 11, 13, 17 ]
 
     if g.primeDataAvailable and n >= 100:
@@ -1582,13 +1624,15 @@ def getNextQuintupletPrimeCandidate( p ):
 
 @oneArgFunctionEvaluator( )
 def getNthQuintupletPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 5
-    elif n == 2:
+
+    if n == 2:
         return 7
 
     if g.primeDataAvailable and n >= 10:
@@ -1613,8 +1657,10 @@ def getNthQuintupletPrime( arg ):
 
         f = p % 30
 
-        if ( ( f == 11 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) ):
+        if ( ( f == 11 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and \
+                             isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and \
+                            isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) ):
             currentIndex += 1
 
     return p
@@ -1650,7 +1696,7 @@ def getNthQuintupletPrimeList( arg ):
 # //******************************************************************************
 
 def findQuintupletPrimes( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 5:
         return 1, [ 5, 7, 11, 13, 17 ]
@@ -1671,8 +1717,10 @@ def findQuintupletPrimes( arg ):
 
         f = p % 10
 
-        if ( ( f == 1 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) ):
+        if ( ( f == 1 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and \
+             isPrimeNumber( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 10 ) and \
+             isPrimeNumber( p + 12 ) ):
             currentIndex += 1
 
             if p > n:
@@ -1699,15 +1747,18 @@ def getNextQuintupletPrime( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthSextupletPrime( arg ):
-    n = int( real_int( arg ) )
+    n = int( validateRealInt( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
-    elif n == 1:
+
+    if n == 1:
         return 7
-    elif n == 2:
+
+    if n == 2:
         return 97
-    elif g.primeDataAvailable:
+
+    if g.primeDataAvailable:
         openPrimeCache( 'sext_primes' )
 
         maxIndex = g.cursors[ 'sext_primes' ].execute(
@@ -1754,8 +1805,8 @@ def getNthSextupletPrimeList( arg ):
 
 @twoArgFunctionEvaluator( )
 def getNthPrimeRange( arg1, arg2 ):
-    n = int( real_int( arg1 ) )
-    count = int( real_int( arg2 ) )
+    n = int( validateRealInt( arg1 ) )
+    count = int( validateRealInt( arg2 ) )
 
     if count < 1:
         return [ ]
@@ -1825,7 +1876,7 @@ def getNthSuperPrime( arg ):
 def getNthPolyPrime( n, poly ):
     result = getNthPrime( n )
 
-    for i in arange( 1, poly ):
+    for _ in arange( 1, poly ):
         result = getNthPrime( result )
 
     return result
@@ -1870,7 +1921,7 @@ def getPrimeRange( start, end ):
 
 @oneArgFunctionEvaluator( )
 def getNthPrimorial( n ):
-    if real_int( n ) == 0:
+    if validateRealInt( n ) == 0:
         return 1
 
     result = 2
@@ -1905,25 +1956,25 @@ def getMaxPrime( name ):
 
 # //******************************************************************************
 # //
-# //  miller_rabin_pass
+# //  millerRabinPass
 # //
 # //  https://gist.github.com/sharnett/5479106
 # //
 # //******************************************************************************
 
-def miller_rabin_pass( a, s, d, n ):
-    a_to_power = pow( a, d, n )
+def millerRabinPass( a, s, d, n ):
+    aToPower = pow( a, d, n )
 
-    if a_to_power == 1:
+    if aToPower == 1:
         return True
 
-    for i in range( s - 1 ):
-        if a_to_power == n - 1:
+    for _ in range( s - 1 ):
+        if aToPower == n - 1:
             return True
 
-        a_to_power = ( a_to_power * a_to_power ) % n
+        aToPower = ( aToPower * aToPower ) % n
 
-    return a_to_power == n - 1
+    return aToPower == n - 1
 
 
 # //******************************************************************************
@@ -1972,8 +2023,8 @@ def isPrimeMillerRabin( n ):
     else:
         if g.zhangConjecturesAllowed:
             raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 19 prime bases' )
-        else:
-            raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 13 prime bases' )
+
+        raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 13 prime bases' )
 
     if n in testPrimes:
         return True
@@ -1986,7 +2037,7 @@ def isPrimeMillerRabin( n ):
         s += 1
 
     for a in testPrimes:
-        if not miller_rabin_pass( a, s, d, n ):
+        if not millerRabinPass( a, s, d, n ):
             return False
 
     return True
@@ -2010,7 +2061,7 @@ def isStrongPseudoprime( n, k ):
         d >>= 1
         s += 1
 
-    return 1 if miller_rabin_pass( int( k ), s, d, int( n ) ) else 0
+    return 1 if millerRabinPass( int( k ), s, d, int( n ) ) else 0
 
 
 # //******************************************************************************

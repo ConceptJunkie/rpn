@@ -22,6 +22,7 @@ from rpn.rpnGenerator import RPNGenerator
 
 
 def determinant( M ):
+    # pylint: disable=invalid-name
     """
     Computes the determinant of a matrix via the Schur determinant identity.
     Input: M -- square matrix; i.e., a list of lists.
@@ -77,7 +78,7 @@ def determinant( M ):
 # //
 # //******************************************************************************
 
-class Polynomial( object ):
+class Polynomial( ):
     '''This class represents a polynomial as a list of coefficients.'''
     def __init__( self, *args ):
         '''
@@ -104,9 +105,10 @@ class Polynomial( object ):
         self.trim( )
 
     def __add__( self, val ):
-        "Return self + val"
+        'Return self + val'
         if isinstance( val, Polynomial ):                    # add Polynomial
-            res = reversed( [ a + b for a, b in zip_longest( reversed( self.coeffs ), reversed( val.coeffs ), fillvalue = 0 ) ] )
+            res = reversed( [ a + b for a, b in zip_longest( reversed( self.coeffs ),
+                                                             reversed( val.coeffs ), fillvalue = 0 ) ] )
         else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]
@@ -117,87 +119,87 @@ class Polynomial( object ):
         return self.__class__( res )
 
     def __call__( self, val ):
-        "Evaluate at X == val"
+        'Evaluate at X == val'
         res = 0
         pwr = 1
 
-        for co in self.coeffs:
-            res += co * pwr
+        for coeff in self.coeffs:
+            res += coeff * pwr
             pwr *= val
 
         return res
 
     def __eq__( self, val ):
-        "Test self == val"
+        'Test self == val'
         if isinstance( val, Polynomial ):
             return self.coeffs == val.coeffs
         else:
             return len( self.coeffs ) == 1 and self.coeffs[ 0 ] == val
 
     def __mul__( self, val ):
-        "Return self * val"
+        'Return self * val'
         if isinstance( val, Polynomial ):
-            _s = self.coeffs
-            _v = val.coeffs
-            res = [ 0 ] * ( len( _s ) + len( _v ) - 1 )
+            ours = self.coeffs
+            theirs = val.coeffs
+            res = [ 0 ] * ( len( ours ) + len( theirs ) - 1 )
 
-            for selfpow, selfco in enumerate( _s ):
-                for valpow, valco in enumerate( _v ):
+            for selfpow, selfco in enumerate( ours ):
+                for valpow, valco in enumerate( theirs ):
                     res[ selfpow + valpow ] += fmul( selfco, valco )
         else:
-            res = [ co * val for co in self.coeffs ]
+            res = [ coeff * val for coeff in self.coeffs ]
 
         return self.__class__( res )
 
     def __neg__( self ):
-        "Return -self"
-        return self.__class__( [ -co for co in self.coeffs ] )
+        'Return -self'
+        return self.__class__( [ -coeff for coeff in self.coeffs ] )
 
     def __pow__( self, y, z = None ):
-        raise NotImplemented( )
+        raise NotImplementedError( )
 
-    def _radd__( self, val ):
-        "Return val + self"
+    def __radd__( self, val ):
+        'Return val + self'
         return self + val
 
     def __repr__( self ):
-        return "{0}({1})".format( self.__class__.__name__, self.coeffs )
+        return '{0}({1})'.format( self.__class__.__name__, self.coeffs )
 
     def __rmul__( self, val ):
-        "Return val * self"
+        'Return val * self'
         return self * val
 
     def __rsub__( self, val ):
-        "Return val - self"
+        'Return val - self'
         return -self + val
 
     def __str__( self ):
-        "Return string formatted as aX^3 + bX^2 + c^X + d"
+        'Return string formatted as aX^3 + bX^2 + c^X + d'
         res = [ ]
 
-        for po, co in enumerate( self.coeffs ):
-            if co:
-                if po == 0:
-                    po = ''
-                elif po == 1:
-                    po = 'x'
+        for exponent, coeff in enumerate( self.coeffs ):
+            if coeff:
+                if exponent == 0:
+                    exponent = ''
+                elif exponent == 1:
+                    exponent = 'x'
                 else:
-                    po = 'x^' + str( po )
+                    exponent = 'x^' + str( exponent )
 
-                res.append( str( co ) + po )
+                res.append( str( coeff ) + exponent )
 
         if res:
             res.reverse( )
             return ' + '.join( res )
         else:
-            return "0"
+            return '0'
 
     def __sub__( self, val ):
-        "Return self-val"
+        'Return self-val'
         return self.__add__( -val )
 
     def trim( self ):
-        "Remove leading 0-coefficients"
+        'Remove leading 0-coefficients'
         while self.coeffs[ 0 ] == 0:
             del self.coeffs[ 0 ]
 
@@ -205,10 +207,10 @@ class Polynomial( object ):
         return self.coeffs
 
     def getDiscriminant( self ):
-        """
+        '''
         Computes the discriminant of a polynomial.  The input is ordered from lowest
-        degree to highest so that coefs[k] is the coefficient of the x**k term.
-        Input: coefs -- list of numbers
+        degree to highest so that coeffs[k] is the coefficient of the x**k term.
+        Input: coeffs -- list of numbers
         Output: A number
         Examples:
         >>> discriminant([1,2,3,4,5])
@@ -216,15 +218,23 @@ class Polynomial( object ):
 
         Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license
         but has no copyright notice.
-        """
-        r = [ ]
+        '''
+        result = [ ]
         a = self.coeffs[ ::-1 ]
         n = len( a ) - 1
-        for x in range( n - 1 ): r.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 2 - x ) )
+
+        for x in range( n - 1 ):
+            result.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 2 - x ) )
+
         del a[ -1 ]
-        for x in range( n ): a[ x ] *= n - x
-        for x in range( n ): r.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 1 - x ) )
-        return ( -1 ) ** ( n * ( n - 1 ) // 2 ) * determinant( r ) / self.coeffs[ -1 ]
+
+        for x in range( n ):
+            a[ x ] *= n - x
+
+        for x in range( n ):
+            result.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 1 - x ) )
+
+        return ( -1 ) ** ( n * ( n - 1 ) // 2 ) * determinant( result ) / self.coeffs[ -1 ]
 
 
 # //******************************************************************************
@@ -234,14 +244,17 @@ class Polynomial( object ):
 # //******************************************************************************
 
 def solveQuadraticPolynomial( a, b, c ):
-    '''This function applies the quadratic formula to solve a polynomial
-    with coefficients of a, b, and c.'''
+    # pylint: disable=invalid-name
+    '''
+    This function applies the quadratic formula to solve a polynomial
+    with coefficients of a, b, and c.
+    '''
     if a == 0:
         if b == 0:
             raise ValueError( 'invalid expression, no variable coefficients' )
-        else:
-            # linear equation, one root
-            return [ fdiv( fneg( c ), b ) ]
+
+        # linear equation, one root
+        return [ fdiv( fneg( c ), b ) ]
     else:
         d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
 
@@ -260,8 +273,11 @@ def solveQuadraticPolynomial( a, b, c ):
 # //******************************************************************************
 
 def solveCubicPolynomial( a, b, c, d ):
-    '''This function applies the cubic formula to solve a polynomial
-    with coefficients of a, b, c and d.'''
+    # pylint: disable=invalid-name
+    '''
+    This function applies the cubic formula to solve a polynomial
+    with coefficients of a, b, c and d.
+    '''
     if mp.dps < 50:
         mp.dps = 50
 
@@ -333,8 +349,11 @@ def solveCubicPolynomial( a, b, c, d ):
 # //******************************************************************************
 
 def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
-    '''This function applies the quartic formula to solve a polynomial
-    with coefficients of a, b, c, d, and e.'''
+    # pylint: disable=invalid-name
+    '''
+    This function applies the quartic formula to solve a polynomial
+    with coefficients of a, b, c, d, and e.
+    '''
     if mp.dps < 50:
         mp.dps = 50
 
@@ -415,13 +434,13 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 
 def addPolynomials( a, b ):
     '''Adds two polynomials.'''
-    len_diff = len( a ) - len( b )
+    lengthDiff = len( a ) - len( b )
 
-    if len_diff > 0:
-        for i in range( 0, len_diff ):
+    if lengthDiff > 0:
+        for _ in range( 0, lengthDiff ):
             b.insert( 0, 0 )
     else:
-        for i in range( 0, -len_diff ):
+        for _ in range( 0, -lengthDiff ):
             a.insert( 0, 0 )
 
     result = Polynomial( a )
@@ -477,7 +496,7 @@ def exponentiatePolynomial( n, k ):
     else:
         result = n
 
-        for i in arange( 0, k - 1 ):
+        for _ in arange( 0, k - 1 ):
             result = multiplyPolynomials( result, n )
 
         return result
@@ -558,8 +577,10 @@ def multiplyPolynomialList( args ):
             arg = [ arg ]
 
         if result is None:
+            # arg might be a generator
             result = Polynomial( [ i for i in arg ] )
         else:
+            # arg might be a generator
             result *= Polynomial( [ i for i in arg ] )
 
     return result.getCoefficients( )
@@ -589,8 +610,10 @@ def sumPolynomialList( args ):
             arg = [ arg ]
 
         if result is None:
+            # arg might be a generator
             result = Polynomial( [ i for i in arg ] )
         else:
+            # arg might be a generator
             result += Polynomial( [ i for i in arg ] )
 
     return result.getCoefficients( )

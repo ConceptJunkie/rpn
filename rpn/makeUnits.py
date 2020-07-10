@@ -24,13 +24,13 @@ import sys
 import textwrap
 import time
 
+from mpmath import almosteq, mp, fdiv, fmul, fneg
+
 if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 
-
-from mpmath import almosteq, mp, fdiv, fmul, fneg
 
 #  This has to go here so the mpf's in the import get created with 52 places of precision.
 mp.dps = 52
@@ -203,28 +203,28 @@ def makeAliases( ):
     for unit, unitInfo in unitOperators.items( ):
         if unitInfo.unitType == 'length':
             for prefix in [ 'sq', 'square', 'sq_', 'square_' ]:
-                newAliases[ prefix + unit ] = unit + "^2"
+                newAliases[ prefix + unit ] = unit + '^2'
 
                 if unitInfo.plural != unit:
-                    newAliases[ prefix + unitInfo.plural ] = unit + "^2"
+                    newAliases[ prefix + unitInfo.plural ] = unit + '^2'
 
                 if unitInfo.abbrev:
-                    newAliases[ prefix + unitInfo.abbrev ] = unit + "^2"
+                    newAliases[ prefix + unitInfo.abbrev ] = unit + '^2'
 
                 for alias in unitInfo.aliases:
-                    newAliases[ prefix + alias ] = unit + "^2"
+                    newAliases[ prefix + alias ] = unit + '^2'
 
             for prefix in [ 'cu', 'cubic', 'cu_', 'cubic_' ]:
-                newAliases[ prefix + unit ] = unit + "^3"
+                newAliases[ prefix + unit ] = unit + '^3'
 
                 if unitInfo.plural != unit:
-                    newAliases[ prefix + unitInfo.plural ] = unit + "^3"
+                    newAliases[ prefix + unitInfo.plural ] = unit + '^3'
 
                 if unitInfo.abbrev:
-                    newAliases[ prefix + unitInfo.abbrev ] = unit + "^3"
+                    newAliases[ prefix + unitInfo.abbrev ] = unit + '^3'
 
                 for alias in unitInfo.aliases:
-                    newAliases[ prefix + alias ] = unit + "^3"
+                    newAliases[ prefix + alias ] = unit + '^3'
 
     return newAliases
 

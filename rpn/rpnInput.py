@@ -49,8 +49,8 @@ def convertToBase10( integer, mantissa, inputRadix ):
 
     base = fdiv( 1, inputRadix )
 
-    for i, e in enumerate( mantissa ):
-        digit = validNumerals.find( e )
+    for i, numeral in enumerate( mantissa ):
+        digit = validNumerals.find( numeral )
 
         if digit == -1:
             raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
