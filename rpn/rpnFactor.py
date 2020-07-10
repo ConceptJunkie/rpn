@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnFactor.py
-# //
-# //  rpnChilada factoring utilities
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnFactor.py
+#
+#  rpnChilada factoring utilities
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import collections
 import os
@@ -28,11 +28,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  getFactors
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getFactors
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getFactors( target ):
@@ -86,23 +86,23 @@ def getFactors( target ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getFactorList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getFactorList
+#
+#******************************************************************************
 
 def getFactorList( n ):
     return list( collections.Counter( getFactors( n ) ).items( ) )
 
 
-# //******************************************************************************
-# //
-# //  factorByTrialDivision
-# //
-# //  This is sufficiently fast for small numbers... at least for now.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  factorByTrialDivision
+#
+#  This is sufficiently fast for small numbers... at least for now.
+#
+#******************************************************************************
 
 def factorByTrialDivision( n ):
     if n > g.maxToFactorByTrialDivision:
@@ -124,11 +124,11 @@ def factorByTrialDivision( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  runYAFU
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  runYAFU
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def runYAFU( n ):

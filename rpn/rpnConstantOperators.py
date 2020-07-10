@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnConstantOperators.py
-# //
-# //  rpnChilada constant operator declarations
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnConstantOperators.py
+#
+#  rpnChilada constant operator declarations
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import fdiv, fmul, mpmathify, pi
 
@@ -18,16 +18,16 @@ from rpn.rpnConstantUtils import getMaxDouble, getMaxFloat, getMinDouble, getMin
 from rpn.rpnUnitClasses import RPNConstantInfo
 
 
-# //******************************************************************************
-# //
-# //  constantOperators
-# //
-# //  unit name : value, unit, aliases, multipliable, description
-# //
-# //  When unit types are multiplied in compound units, they need to be
-# //  specified in alphabetical order in the name, but not the representations.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  constantOperators
+#
+#  unit name : value, unit, aliases, multipliable, description
+#
+#  When unit types are multiplied in compound units, they need to be
+#  specified in alphabetical order in the name, but not the representations.
+#
+#******************************************************************************
 
 constantOperators = {
     # physical constants

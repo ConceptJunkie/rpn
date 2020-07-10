@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnName.py
-# //
-# //  rpnChilada functions for converting integers to English names
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnName.py
+#
+#  rpnChilada functions for converting integers to English names
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import fabs, fdiv, floor, fmod, power
 
@@ -18,11 +18,11 @@ from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, validateRealInt
 
 
-# //******************************************************************************
-# //
-# //  getModifiedOnesName
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getModifiedOnesName
+#
+#******************************************************************************
 
 def getModifiedOnesName( name, code ):
     if ( 'n' in code ) and ( name in [ 'septe', 'nove' ] ):
@@ -46,13 +46,13 @@ def getModifiedOnesName( name, code ):
     return name
 
 
-# //******************************************************************************
-# //
-# //  getSmallNumberName
-# //
-# //  Returns an english number name for anything from 0 to 999.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSmallNumberName
+#
+#  Returns an english number name for anything from 0 to 999.
+#
+#******************************************************************************
 
 def getSmallNumberName( n, ordinal = False ):
     unitNumberNames = \
@@ -131,15 +131,15 @@ def getSmallNumberName( n, ordinal = False ):
     return name
 
 
-# //******************************************************************************
-# //
-# //  getNumberGroupName
-# //
-# //  returns the name of the "group", i.e., the three-digit group of an integer
-# //  separated by commas in the usual notation.  Group 0 has no name because it
-# //  represents the "ones".  Group 1 is "thousand", group 2 is "million", etc.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNumberGroupName
+#
+#  returns the name of the "group", i.e., the three-digit group of an integer
+#  separated by commas in the usual notation.  Group 0 has no name because it
+#  represents the "ones".  Group 1 is "thousand", group 2 is "million", etc.
+#
+#******************************************************************************
 
 def getNumberGroupName( n ):
     groupNames = [ '', 'thousand', 'million', 'billion', 'trillion',
@@ -193,11 +193,11 @@ def getNumberGroupName( n ):
         return name
 
 
-# //******************************************************************************
-# //
-# //  getShortOrdinalName
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getShortOrdinalName
+#
+#******************************************************************************
 
 def getShortOrdinalName( n ):
     if n == 11:
@@ -229,22 +229,22 @@ def getShortOrdinalName( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getOrdinalName
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getOrdinalName
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getOrdinalName( n ):
     return getNumberName( validateRealInt( n ), ordinal = True )
 
 
-# //******************************************************************************
-# //
-# //  getNumberName
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNumberName
+#
+#******************************************************************************
 
 def getNumberName( n, ordinal = False ):
     units = ''

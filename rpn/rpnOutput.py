@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnOutput.py
-# //
-# //  rpnChilada output functions
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnOutput.py
+#
+#  rpnChilada output functions
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import math
 import string
@@ -34,13 +34,13 @@ from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_S
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  formatNumber
-# //
-# //  This takes a mpf value and turns it into a string.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  formatNumber
+#
+#  This takes a mpf value and turns it into a string.
+#
+#******************************************************************************
 
 def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
     negative = ( number < 0 )
@@ -122,14 +122,14 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
     return result, negative
 
 
-# //******************************************************************************
-# //
-# //  formatOutput
-# //
-# //  This takes a string representation of the result and formats it according
-# //  to a whole bunch of options.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  formatOutput
+#
+#  This takes a string representation of the result and formats it according
+#  to a whole bunch of options.
+#
+#******************************************************************************
 
 def formatOutput( output ):
     # filter out text strings
@@ -188,11 +188,11 @@ def formatOutput( output ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  formatListOutput
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  formatListOutput
+#
+#******************************************************************************
 
 def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
     '''
@@ -264,14 +264,14 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
         print( file=file )
 
 
-# //******************************************************************************
-# //
-# //  formatUnits
-# //
-# //  For outputting an RPNMeasurement object, this method formats the units part
-# //  of the object, and returns the formatted string.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  formatUnits
+#
+#  For outputting an RPNMeasurement object, this method formats the units part
+#  of the object, and returns the formatted string.
+#
+#******************************************************************************
 
 def formatUnits( measurement ):
     value = measurement.value
@@ -370,11 +370,11 @@ def formatUnits( measurement ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  formatDateTime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  formatDateTime
+#
+#******************************************************************************
 
 def formatDateTime( datetime ):
     if not isinstance( datetime, RPNDateTime ):
@@ -389,11 +389,11 @@ def formatDateTime( datetime ):
         return datetime.format( )
 
 
-# //******************************************************************************
-# //
-# //  printParagraph
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printParagraph
+#
+#******************************************************************************
 
 def printParagraph( text, indent = 0 ):
     lines = textwrap.wrap( text, g.lineLength - ( indent + 1 ) )
@@ -402,11 +402,11 @@ def printParagraph( text, indent = 0 ):
         print( ' ' * indent + line )
 
 
-# //******************************************************************************
-# //
-# //  printOperatorHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printOperatorHelp
+#
+#******************************************************************************
 
 def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True):
     if regularOperator:
@@ -467,11 +467,11 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
         print( )
 
 
-# //******************************************************************************
-# //
-# //  printCategoryHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printCategoryHelp
+#
+#******************************************************************************
 
 def printCategoryHelp( category, operators, listOperators, modifiers, operatorHelp ):
     if category in basicUnitTypes:
@@ -500,11 +500,11 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
         print( operator )
 
 
-# //******************************************************************************
-# //
-# //  printHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printHelp
+#
+#******************************************************************************
 
 def printHelp( terms = None, interactive = False ):
     from rpn.rpnOperators import constants, listOperators, modifiers, operators
@@ -630,11 +630,11 @@ def printHelp( terms = None, interactive = False ):
             print( 'Help topic not found.' )
 
 
-# //******************************************************************************
-# //
-# //  printGeneralHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printGeneralHelp
+#
+#******************************************************************************
 
 def printGeneralHelp( ):
     print( RPN_PROGRAM_NAME + ' - ' + PROGRAM_DESCRIPTION )
@@ -648,11 +648,11 @@ def printGeneralHelp( ):
     printHelpTopics( )
 
 
-# //******************************************************************************
-# //
-# //  printInteractiveHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printInteractiveHelp
+#
+#******************************************************************************
 
 def printInteractiveHelp( ):
     loadHelpData( )
@@ -664,11 +664,11 @@ def printInteractiveHelp( ):
     printHelpTopics( )
 
 
-# //******************************************************************************
-# //
-# //  printHelpTopics
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printHelpTopics
+#
+#******************************************************************************
 
 def printHelpTopics( ):
     print( )
@@ -703,21 +703,21 @@ def printHelpTopics( ):
     printParagraph( ', '.join( sorted( unitTypes ) ), indent=4 )
 
 
-# //******************************************************************************
-# //
-# //  printHelpModeHelp
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printHelpModeHelp
+#
+#******************************************************************************
 
 def printHelpModeHelp( ):
     printParagraph( 'rpn help mode - \'topics\' for a list of topics, \'exit\' to return to rpn' )
 
 
-# //******************************************************************************
-# //
-# //  printTitleScreen
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printTitleScreen
+#
+#******************************************************************************
 
 def printTitleScreen( programName, programDescription, showHelp=True ):
     print( programName + PROGRAM_VERSION_STRING + ' - ' + programDescription )

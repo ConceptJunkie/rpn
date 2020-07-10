@@ -1,30 +1,30 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnNanoseconds
-# //
-# //  nanosecond-resolution timer for Python <= 3.6 on Linux
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnNanoseconds
+#
+#  nanosecond-resolution timer for Python <= 3.6 on Linux
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import ctypes
 
 
-# //******************************************************************************
-# //
-# //  time_ns
-# //
-# //  https://stackoverflow.com/questions/55774054/precise-time-in-nano-seconds-for-python-3-6-and-earlier
-# //
-# //  This is a Linux-specific implementation, but I've never needed this for
-# //  Windows since I can always control what version of Python I am running.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  time_ns
+#
+#  https://stackoverflow.com/questions/55774054/precise-time-in-nano-seconds-for-python-3-6-and-earlier
+#
+#  This is a Linux-specific implementation, but I've never needed this for
+#  Windows since I can always control what version of Python I am running.
+#
+#******************************************************************************
 
 CLOCK_REALTIME = 0
 

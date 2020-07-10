@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  preparePrimeData.py
-# //
-# //  rpnChilada prime number data file compiler
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  *** NOTE:  Don't run this file directly.  Use ../preparePrimeData.py.
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  preparePrimeData.py
+#
+#  rpnChilada prime number data file compiler
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  *** NOTE:  Don't run this file directly.  Use ../preparePrimeData.py.
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import bz2
 import contextlib
@@ -32,11 +32,11 @@ from rpn.rpnUtils import getSourcePath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 
-# //******************************************************************************
-# //
-# //  preparePrimeData
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  preparePrimeData
+#
+#******************************************************************************
 
 def preparePrimeData( baseName ):
     print( 'processing ' + baseName + '...' )
@@ -61,11 +61,11 @@ def preparePrimeData( baseName ):
     db.close( )
 
 
-# //******************************************************************************
-# //
-# //  main
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  main
+#
+#******************************************************************************
 
 def main( ):
     print( 'preparePrimeData' + PROGRAM_VERSION_STRING + ' - rpnChilada prime number data file converter' )
@@ -99,11 +99,11 @@ def main( ):
 
 
 
-# //******************************************************************************
-# //
-# //  __main__
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  __main__
+#
+#******************************************************************************
 
 if __name__ == '__main__':
     main( )

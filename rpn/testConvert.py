@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  testConvert
-# //
-# //  test script for RPN unit conversion
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  testConvert
+#
+#  test script for RPN unit conversion
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from rpn.rpnTestUtils import *
 from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
@@ -19,11 +19,11 @@ from rpn.rpnUnitClasses import getUnitType
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  runConvertTests
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  runConvertTests
+#
+#******************************************************************************
 
 def runConvertTests( ):
     # unit types... make sure every unit can be converted to every other unit
@@ -359,11 +359,11 @@ def runConvertTests( ):
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
 
 
-# //******************************************************************************
-# //
-# //  __main__
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  __main__
+#
+#******************************************************************************
 
 if __name__ == '__main__':
     runConvertTests( )

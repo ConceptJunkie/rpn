@@ -1,29 +1,29 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnEclipse.py
-# //
-# //  rpnChilada eclipse calculation operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //  adapted from:
-# //
-# //  Javascript Lunar Eclipse Explorer
-# //  Version 1.1 by Chris O'Byrne and Fred Espenak - 2014 Mar 18.
-# //
-# //  This code is being released under the terms of the GNU General Public
-# //  License (http://www.gnu.org/copyleft/gpl.html) with the request
-# //  that if you do improve on it or use it in your own site,
-# //  please let us know at
-# //  chris@obyrne.com  and  fred espenak (www.eclipsewise.com)    Thanks!
-# //
-# //  http://www.eclipsewise.com/lunar/JLEX/JLEX-index.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnEclipse.py
+#
+#  rpnChilada eclipse calculation operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#  adapted from:
+#
+#  Javascript Lunar Eclipse Explorer
+#  Version 1.1 by Chris O'Byrne and Fred Espenak - 2014 Mar 18.
+#
+#  This code is being released under the terms of the GNU General Public
+#  License (http://www.gnu.org/copyleft/gpl.html) with the request
+#  that if you do improve on it or use it in your own site,
+#  please let us know at
+#  chris@obyrne.com  and  fred espenak (www.eclipsewise.com)    Thanks!
+#
+#  http://www.eclipsewise.com/lunar/JLEX/JLEX-index.html
+#
+#******************************************************************************
 
 import ephem
 

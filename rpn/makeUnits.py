@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  makeUnits
-# //
-# //  rpnChilada unit conversion data generator
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  *** NOTE:  Don't run this file directly.  Use ../makeUnits.py.
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeUnits
+#
+#  rpnChilada unit conversion data generator
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  *** NOTE:  Don't run this file directly.  Use ../makeUnits.py.
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import argparse
 import bz2
@@ -24,7 +24,22 @@ import sys
 import textwrap
 import time
 
-from mpmath import almosteq, mp, fdiv, fmul, fneg
+from mpmath import almosteq, mp, fdiv, fmul, fneg, mpmathify, power
+
+#  This has to go here so the mpf's in the import get created with 52 places of precision.
+mp.dps = 52
+
+# pylint: disable=wrong-import-position
+from rpn.rpnConstantOperators import constantOperators
+from rpn.rpnMeasurement import specialUnitConversionMatrix
+
+from rpn.rpnUnits import binaryPrefixes, compoundTimeUnits, dataPrefixes, dataUnits, integralMetricUnits, \
+                         metricPrefixes, metricUnits, RPNUnitInfo, unitConversionMatrix, timeUnits, \
+						 unitOperators
+
+from rpn.rpnUtils import getUserDataPath
+from rpn.rpnUnitTypes import basicUnitTypes
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
@@ -32,36 +47,24 @@ else:
     from time import time_ns
 
 
-#  This has to go here so the mpf's in the import get created with 52 places of precision.
-mp.dps = 52
 
-from rpn.rpnConstantOperators import *
-from rpn.rpnMeasurement import specialUnitConversionMatrix
-from rpn.rpnUnits import *
-from rpn.rpnUtils import getUserDataPath
-from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
-
-import rpn.rpnGlobals as g
-
-
-# //******************************************************************************
-# //
-# //  constants
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  constants
+#
+#******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
 PROGRAM_DESCRIPTION = 'rpnChilada unit conversion data generator'
 
-validationPrecision = 20
+VALIDATION_PRECISION = 20
 
 
-# //******************************************************************************
-# //
-# //  printParagraph
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printParagraph
+#
+#******************************************************************************
 
 def printParagraph( text, indent = 0 ):
     lines = textwrap.wrap( text, 80 - ( indent + 1 ) )
@@ -70,11 +73,11 @@ def printParagraph( text, indent = 0 ):
         print( ' ' * indent + line )
 
 
-# //******************************************************************************
-# //
-# //  makeMetricUnit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeMetricUnit
+#
+#******************************************************************************
 
 def makeMetricUnit( prefix, unit ):
     # special case because the standard is inconsistent
@@ -88,13 +91,13 @@ def makeMetricUnit( prefix, unit ):
         return prefix + unit
 
 
-# //******************************************************************************
-# //
-# //  makeUnitTypeTable
-# //
-# //  maps each unit type to a list of units with that type
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeUnitTypeTable
+#
+#  maps each unit type to a list of units with that type
+#
+#******************************************************************************
 
 def makeUnitTypeTable( unitOperators ):
     unitTypeTable = { }
@@ -108,11 +111,11 @@ def makeUnitTypeTable( unitOperators ):
     return unitTypeTable
 
 
-# //******************************************************************************
-# //
-# //  makeAliases
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeAliases
+#
+#******************************************************************************
 
 def makeAliases( ):
     newAliases = { }
@@ -229,14 +232,14 @@ def makeAliases( ):
     return newAliases
 
 
-# //******************************************************************************
-# //
-# //  expandMetricUnits
-# //
-# //  Every metric unit needs to be permuted for all SI power types.  We need to
-# //  create conversions for each new type, as well as aliases.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  expandMetricUnits
+#
+#  Every metric unit needs to be permuted for all SI power types.  We need to
+#  create conversions for each new type, as well as aliases.
+#
+#******************************************************************************
 
 def expandMetricUnits( ):
     # expand metric measurements for all prefixes
@@ -304,15 +307,15 @@ def expandMetricUnits( ):
     return metricConversions, metricAliases
 
 
-# //******************************************************************************
-# //
-# //  expandDataUnits
-# //
-# //  Every data unit needs to be permuted for all positive SI power types and
-# //  the binary power types.  We need to create conversions for each new type,
-# //  as well as aliases.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  expandDataUnits
+#
+#  Every data unit needs to be permuted for all positive SI power types and
+#  the binary power types.  We need to create conversions for each new type,
+#  as well as aliases.
+#
+#******************************************************************************
 
 def expandDataUnits( ):
     # expand data measurements for all prefixes
@@ -370,11 +373,11 @@ def expandDataUnits( ):
     return newConversions
 
 
-# //******************************************************************************
-# //
-# //  extrapolateTransitiveConversions
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  extrapolateTransitiveConversions
+#
+#******************************************************************************
 
 def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitConversionMatrix ):
     newConversions = { }
@@ -408,18 +411,18 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
     return newConversions
 
 
-# //******************************************************************************
-# //
-# //  testAllCombinations
-# //
-# //  Let's make sure all the conversions exist.
-# //
-# //  For the case of transitive conversions involving units that use the
-# //  special unit conversion matrix, we'll need to do checks, to see if we
-# //  can convert to the base unit type on the way from converting from unit1
-# //  to unit2.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  testAllCombinations
+#
+#  Let's make sure all the conversions exist.
+#
+#  For the case of transitive conversions involving units that use the
+#  special unit conversion matrix, we'll need to do checks, to see if we
+#  can convert to the base unit type on the way from converting from unit1
+#  to unit2.
+#
+#******************************************************************************
 
 def testAllCombinations( unitTypeTable, unitConversionMatrix ):
     for unitType, unitList in unitTypeTable.items( ):
@@ -431,18 +434,18 @@ def testAllCombinations( unitTypeTable, unitConversionMatrix ):
 
                 if ( unit1, baseUnit1 ) not in unitConversionMatrix and \
                    ( unit1, baseUnit1 ) not in specialUnitConversionMatrix and \
-                   ( baseUnit1, unit2 ) not in unitConversionMatrix and \
-                   ( baseUnit1, unit2 ) not in specialUnitConversionMatrix:
+                   ( baseUnit2, unit2 ) not in unitConversionMatrix and \
+                   ( baseUnit2, unit2 ) not in specialUnitConversionMatrix:
                     print( 'conversion not found for', unit1, 'and', unit2 )
 
 
-# //******************************************************************************
-# //
-# //  testAllConversions
-# //
-# //  Let's prove the conversions are consistent.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  testAllConversions
+#
+#  Let's prove the conversions are consistent.
+#
+#******************************************************************************
 
 def testAllConversions( unitTypeTable, unitConversionMatrix ):
     print( 'Testing all conversions for consistency...' )
@@ -459,7 +462,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
             except:
                 continue
 
-            epsilon = power( 10, fneg( validationPrecision ) )
+            epsilon = power( 10, fneg( VALIDATION_PRECISION ) )
 
             if not almosteq( fmul( factor1, factor2 ), factor3, rel_eps=epsilon ):
                 print( 'conversion inconsistency found for ' + unit1 + ', ' + unit2 + ', and', unit3, file=sys.stderr )
@@ -474,15 +477,15 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
                 print( '\r' + '{:,} conversion permutations validated...'.format( validated ), end='' )
 
     print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.'. \
-                                                                        format( validated, validationPrecision ) )
+                                                                        format( validated, VALIDATION_PRECISION ) )
     print( 'No consistency problems detected.' )
 
 
-# //******************************************************************************
-# //
-# //  initializeConversionMatrix
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  initializeConversionMatrix
+#
+#******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     # reverse each conversion
@@ -636,11 +639,11 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
         printParagraph( ', '.join( sorted( missingHelp ) ) )
 
 
-# //******************************************************************************
-# //
-# //  main
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  main
+#
+#******************************************************************************
 
 def main( ):
     print( PROGRAM_NAME + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
@@ -667,11 +670,11 @@ def main( ):
     print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
-# //******************************************************************************
-# //
-# //  __main__
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  __main__
+#
+#******************************************************************************
 
 if __name__ == '__main__':
     main( )

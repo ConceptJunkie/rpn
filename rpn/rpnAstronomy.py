@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnAstronomy.py
-# //
-# //  rpnChilada astronomical operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnAstronomy.py
+#
+#  rpnChilada astronomical operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import ephem
 
@@ -29,11 +29,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  class RPNAstronomicalObject
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNAstronomicalObject
+#
+#******************************************************************************
 
 class RPNAstronomicalObject( ):
     '''This class is for identifying astronomical objects.'''
@@ -215,13 +215,13 @@ class RPNAstronomicalObject( ):
         return subtract( result2, result1 )
 
 
-# //******************************************************************************
-# //
-# //  getSeason
-# //
-# //  0 = spring, 1 = summer, 2 = autumn, 3 = winter
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSeason
+#
+#  0 = spring, 1 = summer, 2 = autumn, 3 = winter
+#
+#******************************************************************************
 
 def getSeason( n, season ):
     '''Returns the date of the season for year n.'''
@@ -236,11 +236,11 @@ def getSeason( n, season ):
     return result.getLocalTime( )
 
 
-# //******************************************************************************
-# //
-# //  getVernalEquinox
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getVernalEquinox
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getVernalEquinox( n ):
@@ -249,11 +249,11 @@ def getVernalEquinox( n ):
 
 
 
-# //*****************************************************************************
-# //
-# //  getSummerSolstice
-# //
-# //******************************************************************************
+#*****************************************************************************
+#
+#  getSummerSolstice
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getSummerSolstice( n ):
@@ -261,11 +261,11 @@ def getSummerSolstice( n ):
     return getSeason( n, 1 )
 
 
-# //******************************************************************************
-# //
-# //  getAutumnalEquinox
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAutumnalEquinox
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getAutumnalEquinox( n ):
@@ -273,11 +273,11 @@ def getAutumnalEquinox( n ):
     return getSeason( n, 2 )
 
 
-# //*****************************************************************************
-# //
-# //  getWinterSolstice
-# //
-# //******************************************************************************
+#*****************************************************************************
+#
+#  getWinterSolstice
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getWinterSolstice( n ):
@@ -285,11 +285,11 @@ def getWinterSolstice( n ):
     return getSeason( n, 3 )
 
 
-# //******************************************************************************
-# //
-# //  getEphemTime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getEphemTime
+#
+#******************************************************************************
 
 def getEphemTime( n, func ):
     '''Returns a pyephem date-time value from an RPNDateTime value.'''
@@ -332,11 +332,11 @@ def getPreviousNewMoon( n ):
     return getEphemTime( n, ephem.previous_new_moon )
 
 
-# //******************************************************************************
-# //
-# //  getMoonPhase
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getMoonPhase
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getMoonPhase( n ):
@@ -355,11 +355,11 @@ def getMoonPhase( n ):
     return current.total_seconds( ) / cycle.total_seconds( )
 
 
-# //******************************************************************************
-# //
-# //  getSkyLocation
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSkyLocation
+#
+#******************************************************************************
 
 def getSkyLocation( arg1, arg2, arg3 ):
     '''Returns the location of an astronomical object in the sky in terms of azimuth and altitude.'''
@@ -374,11 +374,11 @@ def getSkyLocation( arg1, arg2, arg3 ):
     return [ azimuth.convert( 'degree' ), altitude.convert( 'degree' ) ]
 
 
-# //******************************************************************************
-# //
-# //  getAngularSize
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAngularSize
+#
+#******************************************************************************
 
 def getAngularSize( arg1, arg2, arg3 ):
     '''Returns the angular size of an astronomical object in radians.'''
@@ -391,11 +391,11 @@ def getAngularSize( arg1, arg2, arg3 ):
     return arguments[ 'body' ].getAngularSize( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
-# //******************************************************************************
-# //
-# //  getAngularSeparation
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAngularSeparation
+#
+#******************************************************************************
 
 def getAngularSeparation( body1, body2, location, date ):
     '''Returns the angular size of an astronomical object in radians.'''
@@ -409,11 +409,11 @@ def getAngularSeparation( body1, body2, location, date ):
     return body1.getAngularSeparation( body2, location, date )
 
 
-# //******************************************************************************
-# //
-# //  getNextRising
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextRising
+#
+#******************************************************************************
 
 def getNextRising( arg1, arg2, arg3 ):
     '''Returns the next rising time for an astronomical object.'''
@@ -435,11 +435,11 @@ def getNextMoonRise( n, k ):
     return getNextRising( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getNextSetting
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextSetting
+#
+#******************************************************************************
 
 def getNextSetting( arg1, arg2, arg3 ):
     '''Returns the next setting time for an astronomical object.'''
@@ -461,11 +461,11 @@ def getNextMoonSet( n, k ):
     return getNextSetting( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getNextTransit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextTransit
+#
+#******************************************************************************
 
 def getNextTransit( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -486,11 +486,11 @@ def getNextMoonTransit( n, k ):
     return getNextTransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getNextAntitransit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextAntitransit
+#
+#******************************************************************************
 
 def getNextAntitransit( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -511,11 +511,11 @@ def getNextMoonAntitransit( n, k ):
     return getNextAntitransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getTransitTime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTransitTime
+#
+#******************************************************************************
 
 def getTransitTime( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -531,11 +531,11 @@ def getDayTime( n, k ):
     return getTransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getAntitransitTime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAntitransitTime
+#
+#******************************************************************************
 
 def getAntitransitTime( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -551,11 +551,11 @@ def getNightTime( n, k ):
     return getAntitransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 
-# //******************************************************************************
-# //
-# //  getPreviousRising
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPreviousRising
+#
+#******************************************************************************
 
 def getPreviousRising( arg1, arg2, arg3 ):
     '''Returns the previous rising time for an astronomical object.'''
@@ -569,11 +569,11 @@ def getPreviousRising( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getPreviousSetting
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPreviousSetting
+#
+#******************************************************************************
 
 def getPreviousSetting( arg1, arg2, arg3 ):
     '''Returns the previous setting time for an astronomical object.'''
@@ -587,11 +587,11 @@ def getPreviousSetting( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getPreviousTransit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPreviousTransit
+#
+#******************************************************************************
 
 def getPreviousTransit( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -604,11 +604,11 @@ def getPreviousTransit( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getPreviousAntitransit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPreviousAntitransit
+#
+#******************************************************************************
 
 def getPreviousAntitransit( arg1, arg2, arg3 ):
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
@@ -621,15 +621,15 @@ def getPreviousAntitransit( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNextDawn
-# //
-# //  -6 is "civil" twilight
-# //  -12 is nautical twilight
-# //  -18 is astronomical twilight
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextDawn
+#
+#  -6 is "civil" twilight
+#  -12 is nautical twilight
+#  -18 is astronomical twilight
+#
+#******************************************************************************
 
 def getNextDawn( arg1, arg2, horizon = -6 ):
     validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -655,15 +655,15 @@ def getNextAstronomicalDawn( n, k ):
     return getNextDawn( n, k, -18 )
 
 
-# //******************************************************************************
-# //
-# //  getNextDusk
-# //
-# //  -6 is "civil" twilight
-# //  -12 is nautical twilight
-# //  -18 is astronomical twilight
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNextDusk
+#
+#  -6 is "civil" twilight
+#  -12 is nautical twilight
+#  -18 is astronomical twilight
+#
+#******************************************************************************
 
 def getNextDusk( arg1, arg2, horizon = -6 ):
     validUnitTypes = [ [ 'location', 'datetime' ] ]
@@ -689,11 +689,11 @@ def getNextAstronomicalDusk( n, k ):
     return getNextDusk( n, k, -18 )
 
 
-# //******************************************************************************
-# //
-# //  getDistanceFromEarth
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDistanceFromEarth
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getDistanceFromEarth( arg1, arg2 ):
@@ -706,13 +706,13 @@ def getDistanceFromEarth( arg1, arg2 ):
     return RPNMeasurement( arguments[ 'body' ].getDistanceFromEarth( arguments[ 'datetime' ] ), 'meters' )
 
 
-# //******************************************************************************
-# //
-# //  getCircleIntersectionTerm
-# //
-# //  http://mathworld.wolfram.com/Circle-CircleIntersection.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getCircleIntersectionTerm
+#
+#  http://mathworld.wolfram.com/Circle-CircleIntersection.html
+#
+#******************************************************************************
 
 def getCircleIntersectionTerm( radius1, radius2, separation ):
     distance = fdiv( fadd( fsub( power( separation, 2 ), power( radius1, 2 ) ),
@@ -733,11 +733,11 @@ def getCircleIntersectionTerm( radius1, radius2, separation ):
                  fmul( distance, sqrt( fsub( power( radius1, 2 ), power( distance, 2 ) ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getEclipseTotality
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getEclipseTotality
+#
+#******************************************************************************
 
 def getEclipseTotality( body1, body2, arg1, arg2 ):
     '''Returns the angular size of an astronomical object in radians.'''

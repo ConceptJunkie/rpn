@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnPolytope.py
-# //
-# //  rpnChilada polytope operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnPolytope.py
+#
+#  rpnChilada polytope operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import arange, ceil, fadd, fac, fdiv, floor, fmod, fmul, fneg, fprod, \
                    fsub, fsum, mp, nint, pi, polyval, power, sqrt, tan
@@ -20,11 +20,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          validateReal, validateRealInt
 
 
-# //******************************************************************************
-# //
-# //  getNthGeneralizedPolygonalNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthGeneralizedPolygonalNumber
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthGeneralizedPolygonalNumber( n, k ):
@@ -45,11 +45,11 @@ def getNthGeneralizedPentagonalNumber( n ):
     return getNthGeneralizedPolygonalNumber( n, 5 )
 
 
-# //******************************************************************************
-# //
-# //  getNthPolygonalNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPolygonalNumber
+#
+#******************************************************************************
 
 def getNthPolygonalNumber( n, k ):
     if validateRealInt( k ) < 3:
@@ -91,13 +91,13 @@ def getNthDecagonalNumber( n ):
     return getNthPolygonalNumber( n, 10 )
 
 
-# //******************************************************************************
-# //
-# //  findPolygonalNumber
-# //
-# //  http://www.wolframalpha.com/input/?i=solve+%28+%28+k+%2F+2+%29+-+1+%29+x^2+-+%28+%28+k+%2F+2+%29+-+2+%29+x+%2B+0+%3D+n+for+x
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findPolygonalNumber
+#
+#  http://www.wolframalpha.com/input/?i=solve+%28+%28+k+%2F+2+%29+-+1+%29+x^2+-+%28+%28+k+%2F+2+%29+-+2+%29+x+%2B+0+%3D+n+for+x
+#
+#******************************************************************************
 
 def findPolygonalNumber( n, k ):
     if validateRealInt( k ) < 3:
@@ -144,11 +144,11 @@ def findDecagonalNumber( n ):
     return findPolygonalNumber( n, 10 )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredPolygonalNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredPolygonalNumber
+#
+#******************************************************************************
 
 def getNthCenteredPolygonalNumber( n, k ):
     if validateRealInt( k ) < 3:
@@ -194,13 +194,13 @@ def getNthCenteredDecagonalNumber( n ):
     return getNthCenteredPolygonalNumber( n, 10 )
 
 
-# //******************************************************************************
-# //
-# //  findCenteredPolygonalNumber
-# //
-# //  wolframalpha.com solved this for me.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findCenteredPolygonalNumber
+#
+#  wolframalpha.com solved this for me.
+#
+#******************************************************************************
 
 def findCenteredPolygonalNumber( n, k ):
     if validateRealInt( k ) < 3:
@@ -249,13 +249,13 @@ def findCenteredDecagonalNumber( n ):
 
 
 
-# //******************************************************************************
-# //
-# //  getNthPentagonalTriangularNumber
-# //
-# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPentagonalTriangularNumber
+#
+#  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPentagonalTriangularNumber( n ):
@@ -265,28 +265,28 @@ def getNthPentagonalTriangularNumber( n ):
     return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], fsub( n, 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthPentagonalSquareNumber
-# //
-# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPentagonalSquareNumber
+#
+#  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPentagonalSquareNumber( n ):
     return getNthLinearRecurrence( [ 1, -9603, 9603 ], [ 1, 9801, 94109401 ], fsub( validateRealInt( n ), 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthHexagonalSquareNumber
-# //
-# //  http://oeis.org/A046177
-# //
-# //  a( n ) = floor( 1 / 32 * ( tan( 3 * pi / 8 ) ) ^ ( 8 * n - 4 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHexagonalSquareNumber
+#
+#  http://oeis.org/A046177
+#
+#  a( n ) = floor( 1 / 32 * ( tan( 3 * pi / 8 ) ) ^ ( 8 * n - 4 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHexagonalSquareNumber( n ):
@@ -294,15 +294,15 @@ def getNthHexagonalSquareNumber( n ):
                                      fsub( fmul( 8, validateRealInt( n ) ), 4 ) ), 32 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthHexagonalPentagonalNumber
-# //
-# //  http://oeis.org/A046178
-# //
-# //  a( n ) = ceiling( 1 / 12 * ( sqrt( 3 ) - 1 ) * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHexagonalPentagonalNumber
+#
+#  http://oeis.org/A046178
+#
+#  a( n ) = ceiling( 1 / 12 * ( sqrt( 3 ) - 1 ) * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHexagonalPentagonalNumber( n ):
@@ -311,19 +311,19 @@ def getNthHexagonalPentagonalNumber( n ):
                              12 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthHeptagonalTriangularNumber
-# //
-# //  http://oeis.org/A046194
-# //
-# //  a(n) = 1 / 80 * ( ( 3 - sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 + sqrt( 5 ) ) ^ ( 4n - 2 ) +
-# //                    ( 3 + sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 - sqrt( 5 ) ) ^ ( 4n - 2 ) - 14 )
-# //
-# //  LinearRecurrence[ { 1, 103682, -103682, -1, 1 },
-# //                    { 1, 55, 121771, 5720653, 12625478965 }, n ]
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHeptagonalTriangularNumber
+#
+#  http://oeis.org/A046194
+#
+#  a(n) = 1 / 80 * ( ( 3 - sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 + sqrt( 5 ) ) ^ ( 4n - 2 ) +
+#                    ( 3 + sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 - sqrt( 5 ) ) ^ ( 4n - 2 ) - 14 )
+#
+#  LinearRecurrence[ { 1, 103682, -103682, -1, 1 },
+#                    { 1, 55, 121771, 5720653, 12625478965 }, n ]
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalTriangularNumber( n ):
@@ -331,16 +331,16 @@ def getNthHeptagonalTriangularNumber( n ):
                                    [ 1, 55, 121771, 5720653, 12625478965 ], fsub( validateRealInt( n ), 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthHeptagonalSquareNumber
-# //
-# //  http://oeis.org/A046195
-# //
-# //  LinearRecurrence[ { 1, 0, 1442, -1442, 0, -1, 1 },
-# //                    { 1, 6, 49, 961, 8214, 70225, 1385329 }, n ]
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHeptagonalSquareNumber
+#
+#  http://oeis.org/A046195
+#
+#  LinearRecurrence[ { 1, 0, 1442, -1442, 0, -1, 1 },
+#                    { 1, 6, 49, 961, 8214, 70225, 1385329 }, n ]
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalSquareNumber( n ):
@@ -350,15 +350,15 @@ def getNthHeptagonalSquareNumber( n ):
     return getNthPolygonalNumber( index, 7 )
 
 
-# //******************************************************************************
-# //
-# //  getNthHeptagonalPentagonalNumber
-# //
-# //  http://oeis.org/A048900
-# //
-# //  a(n) = floor( 1 / 240 * ( ( 2 + sqrt( 15 ) ) ^ 2 * ( 4 + sqrt( 15 ) ) ^ ( 4n - 3 ) ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHeptagonalPentagonalNumber
+#
+#  http://oeis.org/A048900
+#
+#  a(n) = floor( 1 / 240 * ( ( 2 + sqrt( 15 ) ) ^ 2 * ( 4 + sqrt( 15 ) ) ^ ( 4n - 3 ) ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalPentagonalNumber( n ):
@@ -367,15 +367,15 @@ def getNthHeptagonalPentagonalNumber( n ):
                                            fsub( fmul( 4, validateRealInt( n ) ), 3 ) ) ), 240 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthHeptagonalHexagonalNumber
-# //
-# //  http://oeis.org/A048903
-# //
-# //  a(n) = floor( 1 / 80 * ( sqrt( 5 ) - 1 ) * ( 2 + sqrt( 5 ) ) ^ ( 8n - 5 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthHeptagonalHexagonalNumber
+#
+#  http://oeis.org/A048903
+#
+#  a(n) = floor( 1 / 80 * ( sqrt( 5 ) - 1 ) * ( 2 + sqrt( 5 ) ) ^ ( 8n - 5 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthHeptagonalHexagonalNumber( n ):
@@ -384,17 +384,17 @@ def getNthHeptagonalHexagonalNumber( n ):
                                            fsub( fmul( 8, validateRealInt( n ) ), 5 ) ) ), 80 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctagonalTriangularNumber
-# //
-# //  From http://oeis.org/A046183
-# //
-# //  a(n) = floor( 1 / 96 * ( 7 - 2 * sqrt( 6 ) * ( -1 ) ^ n ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 4n - 2 ) )
-# //
-# //  LinearRecurrence[{1, 9602, -9602, -1, 1}, {1, 21, 11781, 203841, 113123361}, 13]
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctagonalTriangularNumber
+#
+#  From http://oeis.org/A046183
+#
+#  a(n) = floor( 1 / 96 * ( 7 - 2 * sqrt( 6 ) * ( -1 ) ^ n ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 4n - 2 ) )
+#
+#  LinearRecurrence[{1, 9602, -9602, -1, 1}, {1, 21, 11781, 203841, 113123361}, 13]
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctagonalTriangularNumber( n ):
@@ -406,31 +406,31 @@ def getNthOctagonalTriangularNumber( n ):
                               96 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctagonalSquareNumber
-# //
-# //  From http://oeis.org/A036428:
-# //
-# //  a(n) = 1 / 12 * ( ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) + ( 2 - sqrt( 3 ) ) ^ ( 4n -2 ) - 2 )
-# //  a(n) = floor ( 1 / 12 * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctagonalSquareNumber
+#
+#  From http://oeis.org/A036428:
+#
+#  a(n) = 1 / 12 * ( ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) + ( 2 - sqrt( 3 ) ) ^ ( 4n -2 ) - 2 )
+#  a(n) = floor ( 1 / 12 * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctagonalSquareNumber( n ):
     return nint( floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, validateRealInt( n ) ), 2 ) ), 12 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctagonalPentagonalNumber
-# //
-# //  http://oeis.org/A046189
-# //
-# //  a(n) = floor( 1 / 96 * ( 11 - 6 * sqrt( 2 ) *( -1 ) ^ n ) * ( 1 + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctagonalPentagonalNumber
+#
+#  http://oeis.org/A046189
+#
+#  a(n) = floor( 1 / 96 * ( 11 - 6 * sqrt( 2 ) *( -1 ) ^ n ) * ( 1 + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctagonalPentagonalNumber( n ):
@@ -438,15 +438,15 @@ def getNthOctagonalPentagonalNumber( n ):
                                     power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctagonalHexagonalNumber
-# //
-# //  http://oeis.org/A046192
-# //
-# //  a(n) = floor( 1 / 96 * ( 3 * sqrt( 3 ) - sqrt( 2 ) ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8n - 5 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctagonalHexagonalNumber
+#
+#  http://oeis.org/A046192
+#
+#  a(n) = floor( 1 / 96 * ( 3 * sqrt( 3 ) - sqrt( 2 ) ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8n - 5 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctagonalHexagonalNumber( n ):
@@ -455,15 +455,15 @@ def getNthOctagonalHexagonalNumber( n ):
                                      fsub( fmul( 8, validateRealInt( n ) ), 5 ) ) ), 96 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctagonalHeptagonalNumber
-# //
-# //  http://oeis.org/A048906
-# //
-# //  a(n) = floor( 1 / 480 * ( 17 + 2 * sqrt( 3 0 ) ) * ( sqrt( 5 ) + sqrt( 6 ) ) ^ ( 8n - 6 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctagonalHeptagonalNumber
+#
+#  http://oeis.org/A048906
+#
+#  a(n) = floor( 1 / 480 * ( 17 + 2 * sqrt( 3 0 ) ) * ( sqrt( 5 ) + sqrt( 6 ) ) ^ ( 8n - 6 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctagonalHeptagonalNumber( n ):
@@ -472,15 +472,15 @@ def getNthOctagonalHeptagonalNumber( n ):
                                            fsub( fmul( 8, validateRealInt( n ) ), 6 ) ) ), 480 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalTriangularNumber
-# //
-# //  From http://oeis.org/A048909:
-# //
-# //  LinearRecurrence[{255, -255, 1}, {1, 325, 82621}, 12];
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalTriangularNumber
+#
+#  From http://oeis.org/A048909:
+#
+#  LinearRecurrence[{255, -255, 1}, {1, 325, 82621}, 12];
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalTriangularNumber( n ):
@@ -488,22 +488,22 @@ def getNthNonagonalTriangularNumber( n ):
     return getNthLinearRecurrence( [ 1, -255, 255 ], [ 1, 325, 82621 ], n )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalSquareNumber
-# //
-# //  From http://oeis.org/A048911:
-# //
-# //  Indices of square numbers which are also 9-gonal.
-# //
-# //  Let p = 8 * sqrt( 7 ) + 9 * sqrt( 14 ) - 7 * sqrt( 2 ) - 28 and
-# //      q = 7 * sqrt( 2 ) + 9 * sqrt( 14 ) - 8 * sqrt( 7 ) - 28.
-# //
-# //  Then a( n ) = 1 / 112 *
-# //                 ( ( p + q * (-1) ^ n ) * ( 2 * sqrt( 2 ) + sqrt( 7 ) ) ^ n -
-# //                  ( p - q * (-1) ^ n ) * ( 2 * sqrt( 2 ) - sqrt( 7 ) ) ^ ( n - 1 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalSquareNumber
+#
+#  From http://oeis.org/A048911:
+#
+#  Indices of square numbers which are also 9-gonal.
+#
+#  Let p = 8 * sqrt( 7 ) + 9 * sqrt( 14 ) - 7 * sqrt( 2 ) - 28 and
+#      q = 7 * sqrt( 2 ) + 9 * sqrt( 14 ) - 8 * sqrt( 7 ) - 28.
+#
+#  Then a( n ) = 1 / 112 *
+#                 ( ( p + q * (-1) ^ n ) * ( 2 * sqrt( 2 ) + sqrt( 7 ) ) ^ n -
+#                  ( p - q * (-1) ^ n ) * ( 2 * sqrt( 2 ) - sqrt( 7 ) ) ^ ( n - 1 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalSquareNumber( n ):
@@ -522,17 +522,17 @@ def getNthNonagonalSquareNumber( n ):
     return nint( power( nint( index ), 2 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalPentagonalNumber
-# //
-# //  http://oeis.org/A048915
-# //
-# //  a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
-# //
-# //  LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9]
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalPentagonalNumber
+#
+#  http://oeis.org/A048915
+#
+#  a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
+#
+#  LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9]
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalPentagonalNumber( n ):
@@ -546,16 +546,16 @@ def getNthNonagonalPentagonalNumber( n ):
                               336 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalHexagonalNumber
-# //
-# //  From http://oeis.org/A048907:
-# //
-# //  a( n ) = floor( 9 / 112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
-# //                            ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalHexagonalNumber
+#
+#  From http://oeis.org/A048907:
+#
+#  a( n ) = floor( 9 / 112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
+#                            ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalHexagonalNumber( n ):
@@ -575,17 +575,17 @@ def getNthNonagonalHexagonalNumber( n ):
                                    fsub( validateRealInt( n ), 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalHeptagonalNumber
-# //
-# //  From http://oeis.org/A048921
-# //
-# //  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
-# //
-# //  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9];
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalHeptagonalNumber
+#
+#  From http://oeis.org/A048921
+#
+#  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
+#
+#  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9];
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalHeptagonalNumber( n ):
@@ -595,17 +595,17 @@ def getNthNonagonalHeptagonalNumber( n ):
                                     power( fadd( 6, sqrt35 ), fsub( fmul( 4, validateRealInt( n ) ), 3 ) ) ), 560 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthNonagonalOctagonalNumber
-# //
-# //  From http://oeis.org/A048924:
-# //
-# //  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
-# //
-# //  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30]
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthNonagonalOctagonalNumber
+#
+#  From http://oeis.org/A048924:
+#
+#  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
+#
+#  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30]
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthNonagonalOctagonalNumber( n ):
@@ -617,15 +617,15 @@ def getNthNonagonalOctagonalNumber( n ):
                               672 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalTriangularNumber
-# //
-# //  from http://oeis.org/A133216
-# //
-# //  a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalTriangularNumber
+#
+#  from http://oeis.org/A133216
+#
+#  a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalTriangularNumber( n ):
@@ -634,19 +634,19 @@ def getNthDecagonalTriangularNumber( n ):
                                     power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 4, fadd( n, 1 ) ), 6 ) ) ), 64 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalCenteredSquareNumber
-# //
-# //  from http://oeis.org/A133142
-# //
-# //  a( n ) = ( 1/8 ) +
-# //           ( 7/16 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n -
-# //           ( 1/8 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
-# //           ( 1/8 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
-# //           ( 7/16 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalCenteredSquareNumber
+#
+#  from http://oeis.org/A133142
+#
+#  a( n ) = ( 1/8 ) +
+#           ( 7/16 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n -
+#           ( 1/8 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
+#           ( 1/8 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
+#           ( 7/16 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalCenteredSquareNumber( n ):
@@ -666,15 +666,15 @@ def getNthDecagonalCenteredSquareNumber( n ):
                                 fmul( fdiv( 7, 16 ), power( fadd( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ) ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalPentagonalNumber
-# //
-# //  from http://oeis.org/A202563
-# //
-# //  a( n ) = floor( 25 / 192 * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalPentagonalNumber
+#
+#  from http://oeis.org/A202563
+#
+#  a( n ) = floor( 25 / 192 * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalPentagonalNumber( n ):
@@ -683,15 +683,15 @@ def getNthDecagonalPentagonalNumber( n ):
                                      fsub( fmul( 8, validateRealInt( n ) ), 6 ) ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalHexagonalNumber
-# //
-# //  http://oeis.org/A203134
-# //
-# //  a(n) = floor(1/64 *(5*sqrt(2)-1)*(sqrt(2)+1)^(8*n-5)).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalHexagonalNumber
+#
+#  http://oeis.org/A203134
+#
+#  a(n) = floor(1/64 *(5*sqrt(2)-1)*(sqrt(2)+1)^(8*n-5)).
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalHexagonalNumber( n ):
@@ -700,15 +700,15 @@ def getNthDecagonalHexagonalNumber( n ):
                                            fsub( fmul( 8, validateRealInt( n ) ), 5 ) ) ), 64 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalHeptagonalNumber
-# //
-# //  http://oeis.org/A203408
-# //
-# //  a(n) = floor(1/320*(11-2*sqrt(10)*(-1)^n)*(1+sqrt(10))* (3+sqrt(10))^(4*n-3)).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalHeptagonalNumber
+#
+#  http://oeis.org/A203408
+#
+#  a(n) = floor(1/320*(11-2*sqrt(10)*(-1)^n)*(1+sqrt(10))* (3+sqrt(10))^(4*n-3)).
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalHeptagonalNumber( n ):
@@ -722,15 +722,15 @@ def getNthDecagonalHeptagonalNumber( n ):
                                               fsub( fmul( 4, n ), 3 ) ) ] ), 320 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalOctagonalNumber
-# //
-# //  http://oeis.org/A203624
-# //
-# //  a(n) = floor(1/192*(13+4*sqrt(3))*(2+sqrt(3))^(8*n-6)).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalOctagonalNumber
+#
+#  http://oeis.org/A203624
+#
+#  a(n) = floor(1/192*(13+4*sqrt(3))*(2+sqrt(3))^(8*n-6)).
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalOctagonalNumber( n ):
@@ -739,15 +739,15 @@ def getNthDecagonalOctagonalNumber( n ):
                                            fsub( fmul( 8, validateRealInt( n ) ), 6 ) ) ), 192 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthDecagonalNonagonalNumber
-# //
-# //  http://oeis.org/A203627
-# //
-# //  a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDecagonalNonagonalNumber
+#
+#  http://oeis.org/A203627
+#
+#  a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDecagonalNonagonalNumber( n ):
@@ -761,13 +761,13 @@ def getNthDecagonalNonagonalNumber( n ):
                                            fsub( fmul( 8, n ), 6 ) ) ), 448 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  findTetrahedralNumber
-# //
-# //  Thanks for wolframalpha.com for solving the reverse of the above formula.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findTetrahedralNumber
+#
+#  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#
+#******************************************************************************
 
 #def findTetrahedralNumber( n ):
 #    # sqrt3 = sqrt( 3 )
@@ -779,27 +779,27 @@ def getNthDecagonalNonagonalNumber( n ):
 # http://www.wolframalpha.com/input/?i=solve+p%3D%281%2F6%29*%28n^3%2B3*n^2%2B2*n%29+for+n
 
 
-# //******************************************************************************
-# //
-# //  getNthTruncatedTetrahedralNumber
-# //
-# //  Take the (3n-2)th terahedral number and chop off the (n-1)th tetrahedral
-# //  number from each corner.
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthTruncatedTetrahedralNumber
+#
+#  Take the (3n-2)th terahedral number and chop off the (n-1)th tetrahedral
+#  number from each corner.
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthTruncatedTetrahedralNumber( n ):
     return fmul( fdiv( validateRealInt( n ), 6 ), fsum( [ fprod( [ 23, n, n ] ), fmul( -27, n ), 10 ] ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthSquareTriangularNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthSquareTriangularNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthSquareTriangularNumber( n ):
@@ -815,11 +815,11 @@ def getNthSquareTriangularNumber( n ):
                               fmul( 4, sqrt2 ) ), 2 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthPolygonalPyramidalNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPolygonalPyramidalNumber
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthPolygonalPyramidalNumber( n, k ):
@@ -880,39 +880,39 @@ def getNthPyramidalNumber( n ):
 #
 
 
-# //******************************************************************************
-# //
-# //  getNthStellaOctangulaNumber
-# //
-# //  http://oeis.org/A007588
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthStellaOctangulaNumber
+#
+#  http://oeis.org/A007588
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthStellaOctangulaNumber( n ):
     return polyval( [ 2, 0, -1, 0 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredCubeNumber
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredCubeNumber
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredCubeNumber( n ):
     return fadd( power( validateRealInt( n ), 3 ), power( fsub( n, 1 ), 3 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredTetrahedralNumber
-# //
-# //  https://oeis.org/A005894
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredTetrahedralNumber
+#
+#  https://oeis.org/A005894
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredTetrahedralNumber( n ):
@@ -920,11 +920,11 @@ def getNthCenteredTetrahedralNumber( n ):
     return fdiv( fmul( fadd( fmul( n, 2 ), 1 ), fsum( [ power( n, 2 ), n, 3 ] ) ), 3 )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredOctahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredOctahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredOctahedralNumber( n ):
@@ -932,11 +932,11 @@ def getNthCenteredOctahedralNumber( n ):
     return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 2, 2, 3 ], arg ), 3 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredDodecahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredDodecahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredDodecahedralNumber( n ):
@@ -944,11 +944,11 @@ def getNthCenteredDodecahedralNumber( n ):
     return fmul( fadd( fmul( arg, 2 ), 1 ), polyval( [ 5, 5, 1 ], arg ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthCenteredIcosahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCenteredIcosahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredIcosahedralNumber( n ):
@@ -956,70 +956,70 @@ def getNthCenteredIcosahedralNumber( n ):
     return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 5, 5, 3 ], arg ), 3 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthTruncatedOctahedralNumber
-# //
-# //  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
-# //  number from each of the six vertices.
-# //
-# //  16n^3 - 33n^2 + 24n - 6
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthTruncatedOctahedralNumber
+#
+#  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
+#  number from each of the six vertices.
+#
+#  16n^3 - 33n^2 + 24n - 6
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthTruncatedOctahedralNumber( n ):
     return polyval( [ 16, -33, 24, -6 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthRhombicDodecahedralNumber
-# //
-# //  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
-# //  number from each of the six vertices.
-# //
-# //  Rho(n) = CCub(n) + 6 Pyr(n-1)
-# //
-# //  4n^3 + 6n^2 + 4n + 1
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthRhombicDodecahedralNumber
+#
+#  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
+#  number from each of the six vertices.
+#
+#  Rho(n) = CCub(n) + 6 Pyr(n-1)
+#
+#  4n^3 + 6n^2 + 4n + 1
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthRhombicDodecahedralNumber( n ):
     return polyval( [ 4, 6, 4, 1 ], fsub( validateRealInt( n ), 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthPentatopeNumber
-# //
-# //  1/24n ( n + 1 )( n + 2 )( n + 3 ) == 1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPentatopeNumber
+#
+#  1/24n ( n + 1 )( n + 2 )( n + 3 ) == 1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPentatopeNumber( n ):
     return fdiv( polyval( [ 1, 6, 11, 6, 0 ], validateRealInt( n ) ), 24 )
 
 
-# //******************************************************************************
-# //
-# //  getNthPolytopeNumber
-# //
-# //  d = dimension
-# //
-# //  (1/(d-1)!) PI k=0 to n-1 (n+k)
-# //
-# //  from Conway and Guy's "The Book of Numbers"
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPolytopeNumber
+#
+#  d = dimension
+#
+#  (1/(d-1)!) PI k=0 to n-1 (n+k)
+#
+#  from Conway and Guy's "The Book of Numbers"
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthPolytopeNumber( n, d ):
@@ -1034,57 +1034,57 @@ def getNthPolytopeNumber( n, d ):
     return fdiv( result, fac( d ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthStarNumber
-# //
-# //  https://en.wikipedia.org/wiki/Star_number
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthStarNumber
+#
+#  https://en.wikipedia.org/wiki/Star_number
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthStarNumber( n ):
     return getNthCenteredPolygonalNumber( n, 12 )
 
 
-# //******************************************************************************
-# //
-# //  getNthDodecahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDodecahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthDodecahedralNumber( n ):
     return polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthIcosahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthIcosahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthIcosahedralNumber( n ):
     return polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthOctahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthOctahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthOctahedralNumber( n ):
     return polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthTetrahedralNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthTetrahedralNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthTetrahedralNumber( n ):

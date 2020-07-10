@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnUnitTypes.py
-# //
-# //  rpnChilada unit type declarations
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnUnitTypes.py
+#
+#  rpnChilada unit type declarations
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from rpn.rpnEstimates import *
 from rpn.rpnUnitClasses import RPNUnitTypeInfo
@@ -96,33 +96,33 @@ expandedUnitTypes = {
 }
 
 
-# //******************************************************************************
-# //
-# //  basicUnitTypes
-# //
-# //  dimension:
-# //      length, mass, time, charge, temperature, angle, electric_potential
-# //      information_entropy, luminous_intensity
-# //
-# //  baseUnit:
-# //      the standard or customary unit of measurement for this unit type
-# //
-# //  primitiveUnit:
-# //      the primitive unit (or combinations of units), which only uses
-# //      the "primitive" types (second, meter, mole, radian, kilogram,
-# //      bit, ampere, kelvin, candela)
-# //
-# //  estimateTable :
-# //      the table of estimates, expressed in terms of the base unit,
-# //      used for the 'estimate' operator
-# //
-# //  Constant is not a 'real' unit type, but it is useful for it to act like
-# //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
-# //
-# //  https://en.wikipedia.org/wiki/SI_electromagnetism_units
-# //
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  basicUnitTypes
+#
+#  dimension:
+#      length, mass, time, charge, temperature, angle, electric_potential
+#      information_entropy, luminous_intensity
+#
+#  baseUnit:
+#      the standard or customary unit of measurement for this unit type
+#
+#  primitiveUnit:
+#      the primitive unit (or combinations of units), which only uses
+#      the "primitive" types (second, meter, mole, radian, kilogram,
+#      bit, ampere, kelvin, candela)
+#
+#  estimateTable :
+#      the table of estimates, expressed in terms of the base unit,
+#      used for the 'estimate' operator
+#
+#  Constant is not a 'real' unit type, but it is useful for it to act like
+#  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
+#
+#  https://en.wikipedia.org/wiki/SI_electromagnetism_units
+#
+#
+#******************************************************************************
 
 basicUnitTypes = {
     '_null_type' : RPNUnitTypeInfo(

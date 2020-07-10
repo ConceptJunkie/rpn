@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnInput.py
-# //
-# //  rpnChilada input functions
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnInput.py
+#
+#  rpnChilada input functions
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import math
 
@@ -26,11 +26,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  convertToBase10
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertToBase10
+#
+#******************************************************************************
 
 def convertToBase10( integer, mantissa, inputRadix ):
     result = mpmathify( 0 )
@@ -61,14 +61,14 @@ def convertToBase10( integer, mantissa, inputRadix ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  parseInputValue
-# //
-# //  Parse out a datetime value or a numerical expression and attempt to set
-# //  the precision to an appropriate value based on the expression.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  parseInputValue
+#
+#  Parse out a datetime value or a numerical expression and attempt to set
+#  the precision to an appropriate value based on the expression.
+#
+#******************************************************************************
 
 def parseInputValue( term, inputRadix = 10 ):
     if isinstance( term, mpf ):
@@ -232,11 +232,11 @@ def parseInputValue( term, inputRadix = 10 ):
         return result
 
 
-# //******************************************************************************
-# //
-# //  readListFromFile
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  readListFromFile
+#
+#******************************************************************************
 
 def readListFromFileGenerator( filename ):
 

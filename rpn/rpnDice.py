@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnDice.py
-# //
-# //  rpnChilada dice simulation operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnDice.py
+#
+#  rpnChilada dice simulation operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import itertools
 import re
@@ -76,11 +76,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 #
 
 
-# //******************************************************************************
-# //
-# //  rollDice
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rollDice
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def rollDice( expression ):
@@ -88,11 +88,11 @@ def rollDice( expression ):
     return sum( values ) + modifier
 
 
-# //******************************************************************************
-# //
-# //  rollMultipleDice
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rollMultipleDice
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def rollMultipleDice( expression, times ):
@@ -106,11 +106,11 @@ def rollMultipleDiceGenerator( n, k ):
     return RPNGenerator( rollMultipleDice( n, k ) )
 
 
-# //******************************************************************************
-# //
-# //  enumerateDice
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  enumerateDice
+#
+#******************************************************************************
 
 def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
@@ -120,11 +120,11 @@ def enumerateDiceGenerator( n ):
     return RPNGenerator( enumerateDice( n ) )
 
 
-# //******************************************************************************
-# //
-# //  enumerateMultipleDice
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  enumerateMultipleDice
+#
+#******************************************************************************
 
 def enumerateMultipleDice( expression, count ):
     dice = parseDiceExpression( expression )
@@ -137,19 +137,19 @@ def enumerateMultipleDiceGenerator( n, k ):
     return RPNGenerator( enumerateMultipleDice( n, k ) )
 
 
-# //******************************************************************************
-# //
-# //  permuteDice
-# //
-# //  format: [c]dv[x[p]][h[q]][-+]y
-# //
-# //  c - dice count, defaults to 1
-# //  v - dice value, i.e., number of sides, minumum 2
-# //  p - drop lowest die value(s), defaults to 1
-# //  q - drop highest value(s), defaults to 1
-# //  y - add or subtract y from the total (modifier)
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  permuteDice
+#
+#  format: [c]dv[x[p]][h[q]][-+]y
+#
+#  c - dice count, defaults to 1
+#  v - dice value, i.e., number of sides, minumum 2
+#  p - drop lowest die value(s), defaults to 1
+#  q - drop highest value(s), defaults to 1
+#  y - add or subtract y from the total (modifier)
+#
+#******************************************************************************
 
 def permuteDice( expression ):
     dice = parseDiceExpression( expression )
@@ -207,24 +207,24 @@ def permuteDiceGenerator( n ):
     return RPNGenerator( permuteDice( n ) )
 
 
-# //******************************************************************************
-# //
-# //  parseDiceExpression
-# //
-# //  format: [c]dv[,[c]dv...][x[p]][h[q]][-+]y
-# //
-# //  c - dice count, defaults to 1
-# //  v - dice value, i.e., number of sides, minumum 2
-# //  p - drop lowest die value(s), defaults to 1
-# //  q - drop highest value(s), defaults to 1
-# //  y - add or subtract y from the total (modifier)
-# //
-# //  return values:
-# //
-# //  a list of 5-tuples:  dice count, dice value, drop lowest count,
-# //                       drop highest count, modifier
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  parseDiceExpression
+#
+#  format: [c]dv[,[c]dv...][x[p]][h[q]][-+]y
+#
+#  c - dice count, defaults to 1
+#  v - dice value, i.e., number of sides, minumum 2
+#  p - drop lowest die value(s), defaults to 1
+#  q - drop highest value(s), defaults to 1
+#  y - add or subtract y from the total (modifier)
+#
+#  return values:
+#
+#  a list of 5-tuples:  dice count, dice value, drop lowest count,
+#                       drop highest count, modifier
+#
+#******************************************************************************
 
 def parseDiceExpression( arg ):
     counter = Counter( arg )
@@ -350,14 +350,14 @@ def parseDiceExpression( arg ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  evaluateDiceExpression
-# //
-# //  a list of 5-tuples:  dice count, dice value, drop lowest count,
-# //                       drop highest count, modifier
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateDiceExpression
+#
+#  a list of 5-tuples:  dice count, dice value, drop lowest count,
+#                       drop highest count, modifier
+#
+#******************************************************************************
 
 def evaluateDiceExpression( args, sumIfPossible=True ):
     result = [ ]
@@ -395,11 +395,11 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
     return result, modifierSum
 
 
-# //******************************************************************************
-# //
-# //  rollSimpleDice
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rollSimpleDice
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def rollSimpleDice( n, k ):

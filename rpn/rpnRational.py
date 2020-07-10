@@ -1,27 +1,27 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnRational.py
-# //
-# //  rpnChilada rational value class
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnRational.py
+#
+#  rpnChilada rational value class
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from fractions import Fraction
 
 
-# //******************************************************************************
-# //
-# //  class RPNRational
-# //
-# //  Maybe I'll get around to implementing this some day.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNRational
+#
+#  Maybe I'll get around to implementing this some day.
+#
+#******************************************************************************
 
 class RPNRational( Fraction ):
     '''This class represents a rational value.  It is derived from

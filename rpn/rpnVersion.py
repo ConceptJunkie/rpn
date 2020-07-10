@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnVersion.py
-# //
-# //  rpnChilada version identification
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnVersion.py
+#
+#  rpnChilada version identification
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
-# //******************************************************************************
-# //
-# //  version variable initialization
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  version variable initialization
+#
+#******************************************************************************
 
 PROGRAM_NAME = 'rpnChilada'
 PROGRAM_VERSION = '8.3.2'

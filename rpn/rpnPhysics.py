@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnPhysics.py
-# //
-# //  rpnChilada physics operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnPhysics.py
+#
+#  rpnChilada physics operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
 
@@ -24,11 +24,11 @@ from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleMass
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleMass
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleMass( measurement ):
@@ -91,11 +91,11 @@ def calculateBlackHoleMass( measurement ):
     raise ValueError( 'invalid arguments to black hole operator' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleRadius
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleRadius
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleRadius( measurement ):
@@ -122,11 +122,11 @@ def calculateBlackHoleRadius( measurement ):
     return radius.convert( 'meter' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleSurfaceArea
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleSurfaceArea
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleSurfaceArea( measurement ):
@@ -153,11 +153,11 @@ def calculateBlackHoleSurfaceArea( measurement ):
     return area.convert( 'meter^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleSurfaceGravity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleSurfaceGravity
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleSurfaceGravity( measurement ):
@@ -184,11 +184,11 @@ def calculateBlackHoleSurfaceGravity( measurement ):
     return gravity.convert( 'meter/second^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleEntropy
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleEntropy
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleEntropy( measurement ):
@@ -217,11 +217,11 @@ def calculateBlackHoleEntropy( measurement ):
     return getConstant( 'boltzmann_constant' ).multiply( entropy ).convert( 'bit' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleTemperature
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleTemperature
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleTemperature( measurement ):
@@ -251,11 +251,11 @@ def calculateBlackHoleTemperature( measurement ):
     return temperature.convert( 'kelvin' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleLuminosity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleLuminosity
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleLuminosity( measurement ):
@@ -285,11 +285,11 @@ def calculateBlackHoleLuminosity( measurement ):
     return luminosity.convert( 'watts' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleLifetime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleLifetime
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleLifetime( measurement ):
@@ -319,11 +319,11 @@ def calculateBlackHoleLifetime( measurement ):
     return lifetime.convert( 'seconds' )
 
 
-# //******************************************************************************
-# //
-# //  calculateBlackHoleTidalForce
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateBlackHoleTidalForce
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateBlackHoleSurfaceTides( measurement ):
@@ -351,13 +351,13 @@ def calculateBlackHoleSurfaceTides( measurement ):
     return tidalForce.convert( '1/second^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateTidalForce
-# //
-# //  Two arguments are the same unit type, so the order needs to be fixed.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateTidalForce
+#
+#  Two arguments are the same unit type, so the order needs to be fixed.
+#
+#******************************************************************************
 
 def calculateTidalForce( mass, distance, delta ):
     mass.validateUnits( 'mass' )
@@ -370,11 +370,11 @@ def calculateTidalForce( mass, distance, delta ):
     return tidalForce.convert( 'meter/second^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateTimeDilation
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateTimeDilation
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateTimeDilation( velocity ):
@@ -388,11 +388,11 @@ def calculateTimeDilation( velocity ):
     return fdiv( 1, sqrt( fsub( 1, power( ratio, 2 ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  calculateEscapeVelocity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateEscapeVelocity
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateEscapeVelocity( mass, radius ):
@@ -403,11 +403,11 @@ def calculateEscapeVelocity( mass, radius ):
     return velocity.convert( 'meter/second' )
 
 
-# //******************************************************************************
-# //
-# //  calculateOrbitalMass
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateOrbitalMass
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateOrbitalMass( measurement1, measurement2 ):
@@ -469,11 +469,11 @@ def calculateOrbitalMass( measurement1, measurement2 ):
     return mass.convert( 'kilogram' )
 
 
-# //******************************************************************************
-# //
-# //  calculateOrbitalPeriod
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateOrbitalPeriod
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateOrbitalPeriod( measurement1, measurement2 ):
@@ -535,11 +535,11 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
     return period.convert( 'second' )
 
 
-# //******************************************************************************
-# //
-# //  calculateOrbitalRadius
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateOrbitalRadius
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateOrbitalRadius( measurement1, measurement2 ):
@@ -601,11 +601,11 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
     return radius.convert( 'meter' )
 
 
-# //******************************************************************************
-# //
-# //  calculateOrbitalVelocity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateOrbitalVelocity
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateOrbitalVelocity( measurement1, measurement2 ):
@@ -668,11 +668,11 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
     return velocity.convert( 'meter/second' )
 
 
-# //******************************************************************************
-# //
-# //  calculateDistance
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateDistance
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateDistance( measurement1, measurement2 ):
@@ -709,11 +709,11 @@ def calculateDistance( measurement1, measurement2 ):
     return distance.convert( 'meter' )
 
 
-# //******************************************************************************
-# //
-# //  calculateVelocity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateVelocity
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateVelocity( measurement1, measurement2 ):
@@ -758,11 +758,11 @@ def calculateVelocity( measurement1, measurement2 ):
     return velocity.convert( 'meter/second' )
 
 
-# //******************************************************************************
-# //
-# //  calculateAcceleration
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateAcceleration
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateAcceleration( measurement1, measurement2 ):
@@ -789,11 +789,11 @@ def calculateAcceleration( measurement1, measurement2 ):
     return acceleration.convert( 'meter/second^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateKineticEnergy
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateKineticEnergy
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateKineticEnergy( measurement1, measurement2 ):
@@ -812,11 +812,11 @@ def calculateKineticEnergy( measurement1, measurement2 ):
     return energy.convert( 'joule' )
 
 
-# //******************************************************************************
-# //
-# //  calculateHorizonDistance
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateHorizonDistance
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateHorizonDistance( altitude, radius ):
@@ -827,11 +827,11 @@ def calculateHorizonDistance( altitude, radius ):
     return distance.convert( 'meter' )
 
 
-# //******************************************************************************
-# //
-# //  calculateEnergyEquivalence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateEnergyEquivalence
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateEnergyEquivalence( mass ):
@@ -841,11 +841,11 @@ def calculateEnergyEquivalence( mass ):
     return energy.convert( 'joule' )
 
 
-# //******************************************************************************
-# //
-# //  calculateMassEquivalence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateMassEquivalence
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateMassEquivalence( energy ):
@@ -855,11 +855,11 @@ def calculateMassEquivalence( energy ):
     return mass.convert( 'kilogram' )
 
 
-# //******************************************************************************
-# //
-# //  calculateSurfaceGravity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateSurfaceGravity
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateSurfaceGravity( measurement1, measurement2 ):
@@ -901,13 +901,13 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
     return gravity.convert( 'meters/seconds^2' )
 
 
-# //******************************************************************************
-# //
-# //  calculateWindChill
-# //
-# //  https://www.ibiblio.org/units/dictW.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateWindChill
+#
+#  https://www.ibiblio.org/units/dictW.html
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateWindChill( measurement1, measurement2 ):
@@ -939,13 +939,13 @@ def calculateWindChill( measurement1, measurement2 ):
     return RPNMeasurement( result, 'degrees_F' ).convert( arguments[ 'temperature' ].units )
 
 
-# //******************************************************************************
-# //
-# //  calculateHeatIndex
-# //
-# //  https://en.wikipedia.org/wiki/Heat_index#Formula
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateHeatIndex
+#
+#  https://en.wikipedia.org/wiki/Heat_index#Formula
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateHeatIndex( measurement1, measurement2 ):

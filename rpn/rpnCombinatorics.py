@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnCombinatorics.py
-# //
-# //  rpnChilada combinatorics operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnCombinatorics.py
+#
+#  rpnChilada combinatorics operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
                    fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
@@ -24,11 +24,11 @@ from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
 
 
-# //******************************************************************************
-# //
-# //  getNthAperyNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthAperyNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'apery' )
@@ -55,11 +55,11 @@ def getNthAperyNumber( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthDelannoyNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthDelannoyNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'delannoy' )
@@ -83,11 +83,11 @@ def getNthDelannoyNumber( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthSchroederNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthSchroederNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'schroeder' )
@@ -114,11 +114,11 @@ def getNthSchroederNumber( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthMotzkinNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMotzkinNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'motzkin' )
@@ -142,14 +142,14 @@ def getNthMotzkinNumber( n ):
     return fdiv( result, fadd( n, 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthSchroederHipparchusNumber
-# //
-# //  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
-# //  https://oeis.org/A001003
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthSchroederHipparchusNumber
+#
+#  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
+#  https://oeis.org/A001003
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'schroeder_hipparchus' )
@@ -173,11 +173,11 @@ def getNthSchroederHipparchusNumber( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthPellNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPellNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPellNumber( n ):
@@ -197,11 +197,11 @@ def getNthPellNumber( n ):
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getPermutations
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPermutations
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getPermutations( n, r ):
@@ -211,11 +211,11 @@ def getPermutations( n, r ):
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getCombinations
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getCombinations
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getCombinations( n, r ):
@@ -225,22 +225,22 @@ def getCombinations( n, r ):
     return fdiv( fac( n ), fmul( fac( fsub( n, r ) ), fac( r ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getArrangements
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getArrangements
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getArrangements( n ):
     return floor( fmul( fac( n ), e ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthSylvesterNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthSylvesterNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthSylvesterNumber( n ):
@@ -257,11 +257,11 @@ def getNthSylvesterNumber( n ):
     return sylvesters[ -1 ]
 
 
-# //******************************************************************************
-# //
-# //  createDeBruijnSequence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createDeBruijnSequence
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def createDeBruijnSequence( n, k ):
@@ -293,11 +293,11 @@ def getDeBruijnSequence( n, k ):
     return RPNGenerator( createDeBruijnSequence( n, k ) )
 
 
-# //******************************************************************************
-# //
-# //  getCompositions
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getCompositions
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getCompositionsGenerator( n, k ):
@@ -322,11 +322,11 @@ def getCompositions( n, k ):
     return RPNGenerator( getCompositionsGenerator( n, k ) )
 
 
-# //******************************************************************************
-# //
-# //  oldGetPartitionNumber2
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  oldGetPartitionNumber2
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def oldGetPartitionNumber2( n ):
@@ -550,16 +550,16 @@ def oldGetPartitionNumber( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  createIntegerPartitions
-# //
-# //  https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
-# //
-# //  http://jeromekelleher.net/generating-integer-partitions.html provides a
-# //  similar version of this algorithm.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createIntegerPartitions
+#
+#  https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+#
+#  http://jeromekelleher.net/generating-integer-partitions.html provides a
+#  similar version of this algorithm.
+#
+#******************************************************************************
 
 def createIntegerPartitions( n ):
     """Generate partitions of n as ordered lists in ascending
@@ -630,33 +630,33 @@ def createIntegerPartitions( n ):
         yield a[ : w ]
 
 
-# //******************************************************************************
-# //
-# //  getIntegerPartitions
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getIntegerPartitions
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getIntegerPartitions( n ):
     return RPNGenerator( createIntegerPartitions( int( n ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthMultifactorial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMultifactorial
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthMultifactorial( n, k ):
     return fprod( arange( validateRealInt( n ), 0, -( validateRealInt( k ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getMultinomial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getMultinomial
+#
+#******************************************************************************
 
 def getMultinomial( args ):
     numerator = fac( fsum( args ) )
@@ -669,11 +669,11 @@ def getMultinomial( args ):
     return fdiv( numerator, denominator )
 
 
-# //******************************************************************************
-# //
-# //  getLahNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLahNumber
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getLahNumber( n, k ):
@@ -681,35 +681,35 @@ def getLahNumber( n, k ):
                                              fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNarayanaNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNarayanaNumber
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
 
-# //******************************************************************************
-# //
-# //  getNthCatalanNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCatalanNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCatalanNumber( n ):
     return fdiv( binomial( fmul( 2, validateRealInt( n ) ), n ), fadd( n, 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthMenageNumber
-# //
-# //  https://oeis.org/A000179
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMenageNumber
+#
+#  https://oeis.org/A000179
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthMenageNumber( n ):
@@ -743,18 +743,18 @@ def getNthBernoulli( n ):
     return bernoulli( n )
 
 
-# //******************************************************************************
-# //
-# //  countFrobenius
-# //
-# //  https://math.stackexchange.com/questions/176363/keep-getting-generating- \
-# //      function-wrong-making-change-for-a-dollar/176397#176397
-# //
-# //  Here's another way from Sloane that doesn't require so much memory:
-# //
-# //  a(n) = (1/n)*Sum_{k=1..n} A008472(k)*a(n-k).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  countFrobenius
+#
+#  https://math.stackexchange.com/questions/176363/keep-getting-generating- \
+#      function-wrong-making-change-for-a-dollar/176397#176397
+#
+#  Here's another way from Sloane that doesn't require so much memory:
+#
+#  a(n) = (1/n)*Sum_{k=1..n} A008472(k)*a(n-k).
+#
+#******************************************************************************
 
 def countFrobenius( denominations, target ):
     target = int( target )
@@ -770,22 +770,22 @@ def countFrobenius( denominations, target ):
     return data[ target ]
 
 
-# //******************************************************************************
-# //
-# //  getStirling1
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getStirling1
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getStirling1( n, k ):
     return stirling1( n, k )
 
 
-# //******************************************************************************
-# //
-# //  getStirling=2
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getStirling=2
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getStirling2( n, k ):

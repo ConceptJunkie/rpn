@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnMeasurement.py
-# //
-# //  rpnChilada measurements class and unit conversion
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnMeasurement.py
+#
+#  rpnChilada measurements class and unit conversion
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, \
                    fsub, log10, mpf, mpmathify, nstr, power, root
@@ -25,27 +25,27 @@ from rpn.rpnUtils import getPowerset, oneArgFunctionEvaluator
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  specialUnitConversionMatrix
-# //
-# //  This is for units that can't be converted with a simple multiplication
-# //  factor.
-# //
-# //  Plus, I'm not going to do the transitive thing here, so it's necessary
-# //  to explicitly state the conversions for all permutations.  That bugs me.
-# //
-# //  I would have included this table in makeUnits.py, but pickle doesn't
-# //  work on lambdas, which is, to me, very non-Pythonic.   I could also
-# //  save the expressions as strings and use eval, but that seems very
-# //  non-Pythonic, too.
-# //
-# //  ( first unit, second unit, conversion function )
-# //
-# //  For temperature conversions, see
-# //  https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  specialUnitConversionMatrix
+#
+#  This is for units that can't be converted with a simple multiplication
+#  factor.
+#
+#  Plus, I'm not going to do the transitive thing here, so it's necessary
+#  to explicitly state the conversions for all permutations.  That bugs me.
+#
+#  I would have included this table in makeUnits.py, but pickle doesn't
+#  work on lambdas, which is, to me, very non-Pythonic.   I could also
+#  save the expressions as strings and use eval, but that seems very
+#  non-Pythonic, too.
+#
+#  ( first unit, second unit, conversion function )
+#
+#  For temperature conversions, see
+#  https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature.
+#
+#******************************************************************************
 
 specialUnitConversionMatrix = {
     # pylint: disable=line-too-long
@@ -125,11 +125,11 @@ specialUnitConversionMatrix = {
 }
 
 
-# //******************************************************************************
-# //
-# //  getSimpleUnitType
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSimpleUnitType
+#
+#******************************************************************************
 
 def getSimpleUnitType( unit ):
     if unit in g.aliases:
@@ -141,11 +141,11 @@ def getSimpleUnitType( unit ):
         raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
-# //******************************************************************************
-# //
-# //  class RPNMeasurement
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNMeasurement
+#
+#******************************************************************************
 
 class RPNMeasurement( ):
     '''This class represents a measurement, which includes a numerical value
@@ -899,11 +899,11 @@ class RPNMeasurement( ):
         raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitName( ) + ' and ' + otherUnit )
 
 
-# //******************************************************************************
-# //
-# //  convertUnits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertUnits
+#
+#******************************************************************************
 
 def convertUnits( unit1, unit2 ):
     if isinstance( unit1, RPNGenerator ):
@@ -948,22 +948,22 @@ def convertUnits( unit1, unit2 ):
         return RPNMeasurement( newValue, unit2.units )
 
 
-# //******************************************************************************
-# //
-# //  convertToDMS
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertToDMS
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def convertToDMS( n ):
     return convertUnits( n, [ 'degree', 'arcminute', 'arcsecond' ] )
 
 
-# //******************************************************************************
-# //
-# //  estimate
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  estimate
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def estimate( measurement ):
@@ -1008,14 +1008,14 @@ def estimate( measurement ):
                unitTypeInfo.estimateTable[ estimateKey ]
 
 
-# //******************************************************************************
-# //
-# //  applyNumberValueToUnit
-# //
-# //  We have to treat constant units differently because they can become plain
-# //  numbers.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  applyNumberValueToUnit
+#
+#  We have to treat constant units differently because they can become plain
+#  numbers.
+#
+#******************************************************************************
 
 def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
@@ -1039,11 +1039,11 @@ def applyNumberValueToUnit( number, term, constant ):
     return value
 
 
-# //******************************************************************************
-# //
-# //  getDimensions
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDimensions
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getDimensions( n ):
@@ -1053,11 +1053,11 @@ def getDimensions( n ):
         return n
 
 
-# //******************************************************************************
-# //
-# //  convertToBaseUnits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertToBaseUnits
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def convertToBaseUnits( n ):
@@ -1067,11 +1067,11 @@ def convertToBaseUnits( n ):
         return n
 
 
-# //******************************************************************************
-# //
-# //  convertToPrimitiveUnits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertToPrimitiveUnits
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def convertToPrimitiveUnits( n ):
@@ -1081,14 +1081,14 @@ def convertToPrimitiveUnits( n ):
         return n
 
 
-# //******************************************************************************
-# //
-# //  invertUnits
-# //
-# //  invert the units and take the reciprocal of the value to create an
-# //  equivalent measurement
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  invertUnits
+#
+#  invert the units and take the reciprocal of the value to create an
+#  equivalent measurement
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def invertUnits( measurement ):

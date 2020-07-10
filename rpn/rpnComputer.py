@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnComputer.py
-# //
-# //  rpnChilada computing operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnComputer.py
+#
+#  rpnChilada computing operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import struct
 
@@ -25,13 +25,13 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  convertToSignedInt
-# //
-# //  two's compliment logic is in effect here
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertToSignedInt
+#
+#  two's compliment logic is in effect here
+#
+#******************************************************************************
 
 def convertToSignedInt( n, k ):
     value = fadd( validateRealInt( n ), ( power( 2, fsub( validateRealInt( k ), 1 ) ) ) )
@@ -65,11 +65,11 @@ def convertToQuadLong( n ):
     return convertToSignedInt( n, 128 )
 
 
-# //******************************************************************************
-# //
-# //  getInvertedBits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getInvertedBits
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getInvertedBits( n ):
@@ -99,16 +99,16 @@ def getInvertedBits( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  performBitwiseOperation
-# //
-# //  The operations are performed on groups of bits as specified by the variable
-# //  bitwiseGroupSize.  Although doing it this way isn't really necessary, it
-# //  does mean that under normal circumstances the regular Python bit operators
-# //  can be used.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  performBitwiseOperation
+#
+#  The operations are performed on groups of bits as specified by the variable
+#  bitwiseGroupSize.  Although doing it this way isn't really necessary, it
+#  does mean that under normal circumstances the regular Python bit operators
+#  can be used.
+#
+#******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
     value1 = validateRealInt( i )
@@ -177,11 +177,11 @@ def shiftRight( n, k ):
     return floor( fdiv( n, 1 << int( k ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getBitCount
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getBitCount
+#
+#******************************************************************************
 
 def getBitCount( n ):
     n = validateRealInt( n )
@@ -211,11 +211,11 @@ def getParity( n ):
     return fmod( getBitCount( n ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  unpackInteger
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  unpackInteger
+#
+#******************************************************************************
 
 def unpackInteger( n, fields ):
     if isinstance( n, RPNGenerator ):
@@ -239,11 +239,11 @@ def unpackInteger( n, fields ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  packInteger
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  packInteger
+#
+#******************************************************************************
 
 def packInteger( values, fields ):
     if isinstance( values, RPNGenerator ):
@@ -272,11 +272,11 @@ def packInteger( values, fields ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  interpretAsFloat
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  interpretAsFloat
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def interpretAsFloat( n ):
@@ -287,11 +287,11 @@ def interpretAsFloat( n ):
     return mpf( struct.unpack( 'f', intValue )[ 0 ] )
 
 
-# //******************************************************************************
-# //
-# //  interpretAsDouble
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  interpretAsDouble
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def interpretAsDouble( n ):

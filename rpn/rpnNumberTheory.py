@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnNumberTheory.py
-# //
-# //  rpnChilada number theory operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnNumberTheory.py
+#
+#  rpnChilada number theory operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import random
 
@@ -38,11 +38,11 @@ from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          setAccuracyForN, twoArgFunctionEvaluator, validateReal, validateRealInt
 
 
-# //******************************************************************************
-# //
-# //  getNthAlternatingFactorial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthAlternatingFactorial
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthAlternatingFactorial( n ):
@@ -61,11 +61,11 @@ def getNthAlternatingFactorial( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthPascalLineGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPascalLineGenerator
+#
+#******************************************************************************
 
 def getNthPascalLineGenerator( n ):
     for i in arange( 0, validateRealInt( n ) ):
@@ -76,11 +76,11 @@ def getNthPascalLine( n ):
     return RPNGenerator.createGenerator( getNthPascalLineGenerator, n )
 
 
-# //******************************************************************************
-# //
-# //  getDivisorCount
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDivisorCount
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'divisor_count' )
@@ -91,11 +91,11 @@ def getDivisorCount( n ):
     return fprod( [ i[ 1 ] + 1 for i in getFactorList( n ) ] )
 
 
-# //******************************************************************************
-# //
-# //  createDivisorList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createDivisorList
+#
+#******************************************************************************
 
 def createDivisorList( seed, factorList ):
     result = [ ]
@@ -115,11 +115,11 @@ def createDivisorList( seed, factorList ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getDivisors
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDivisors
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getDivisors( n ):
@@ -131,11 +131,11 @@ def getDivisors( n ):
     return sorted( createDivisorList( [ ], getFactorList( n ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthLucasNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthLucasNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthLucasNumber( n ):
@@ -152,26 +152,26 @@ def getNthLucasNumber( n ):
         return floor( fadd( power( phi, n ), 0.5 ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthJacobsthalNumber
-# //
-# //  From: http://oeis.org/A001045
-# //
-# //  a( n ) = ceiling( 2 ^ ( n + 1 ) / 3 ) - ceiling( 2 ^ n / 3 )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthJacobsthalNumber
+#
+#  From: http://oeis.org/A001045
+#
+#  a( n ) = ceiling( 2 ^ ( n + 1 ) / 3 ) - ceiling( 2 ^ n / 3 )
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthBaseKRepunit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthBaseKRepunit
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthBaseKRepunit( n, k ):
@@ -179,11 +179,11 @@ def getNthBaseKRepunit( n, k ):
                                    [ 1, fadd( k, 1 ) ], fsub( validateRealInt( n ), 1 ) )
 
 
-# //******************************************************************************
-# //
-# //  getPrimePi
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPrimePi
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getPrimePi( n ):
@@ -203,25 +203,25 @@ def getPrimePi( n ):
         return [ mpf( result.a ), mpf( result.b ) ]
 
 
-# //******************************************************************************
-# //
-# //  getNthFibonacci
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthFibonacci
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthFibonacci( n ):
     return fib( validateRealInt( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthFibonacciPolynomial
-# //
-# //  http://mathworld.wolfram.com/Fibonaccin-StepNumber.html
-# //  http://oeis.org/A118745
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthFibonacciPolynomial
+#
+#  http://mathworld.wolfram.com/Fibonaccin-StepNumber.html
+#  http://oeis.org/A118745
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthFibonacciPolynomial( n ):
@@ -244,11 +244,11 @@ def getNthFibonacciPolynomial( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthKFibonacciNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthKFibonacciNumber
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthKFibonacciNumber( n, k ):
@@ -315,11 +315,11 @@ def getNthOctanacci( n ):
     return getNthKFibonacciNumber( n, 8 )
 
 
-# //******************************************************************************
-# //
-# //  getNthKFibonacciNumberTheSlowWay
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthKFibonacciNumberTheSlowWay
+#
+#******************************************************************************
 
 def getNthKFibonacciNumberTheSlowWay( n, k ):
     '''
@@ -333,26 +333,26 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], n )
 
 
-# //******************************************************************************
-# //
-# //  getNthPadovanNumber
-# //
-# //  Padovan sequence: a(n) = a(n-2) + a(n-3) with a(0)=1, a(1)=a(2)=0.
-# //
-# //  http://oeis.org/A000931
-# //
-# //  a(n) = (r^n)/(2r+3) + (s^n)/(2s+3) + (t^n)/(2t+3) where r, s, t are the
-# //  three roots of x^3-x-1
-# //
-# //  http://www.wolframalpha.com/input/?i=solve+x^3-x-1
-# //
-# //  Unfortunately, the roots are scary-complicated, but it's a non-iterative
-# //  formula, so I'll use it.
-# //
-# //  Wikipedia leaves off the first 4 terms, but Sloane's includes them.
-# //  Wikipedia cites Ian Stewart and Mathworld, and I'll use their definition.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPadovanNumber
+#
+#  Padovan sequence: a(n) = a(n-2) + a(n-3) with a(0)=1, a(1)=a(2)=0.
+#
+#  http://oeis.org/A000931
+#
+#  a(n) = (r^n)/(2r+3) + (s^n)/(2s+3) + (t^n)/(2t+3) where r, s, t are the
+#  three roots of x^3-x-1
+#
+#  http://www.wolframalpha.com/input/?i=solve+x^3-x-1
+#
+#  Unfortunately, the roots are scary-complicated, but it's a non-iterative
+#  formula, so I'll use it.
+#
+#  Wikipedia leaves off the first 4 terms, but Sloane's includes them.
+#  Wikipedia cites Ian Stewart and Mathworld, and I'll use their definition.
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPadovanNumber( arg ):
@@ -373,13 +373,13 @@ def getNthPadovanNumber( arg ):
                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
 
 
-# //******************************************************************************
-# //
-# //  RPNContinuedFraction
-# //
-# //  adapted from ActiveState Python, recipe 578647
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  RPNContinuedFraction
+#
+#  adapted from ActiveState Python, recipe 578647
+#
+#******************************************************************************
 
 class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
@@ -427,11 +427,11 @@ class RPNContinuedFraction( list ):
         return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
 
 
-# //******************************************************************************
-# //
-# //  convertFromContinuedFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertFromContinuedFraction
+#
+#******************************************************************************
 
 def convertFromContinuedFraction( n ):
     if not isinstance( n, list ):
@@ -445,22 +445,22 @@ def convertFromContinuedFraction( n ):
     return fdiv( fraction.numerator, fraction.denominator )
 
 
-# //******************************************************************************
-# //
-# //  makeContinuedFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeContinuedFraction
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def makeContinuedFraction( n, k ):
     return RPNContinuedFraction( validateReal( n ), maxterms = validateRealInt( k ), cutoff = power( 10, -( mp.dps - 2 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  interpretAsFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  interpretAsFraction
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def interpretAsFraction( n, k ):
@@ -473,14 +473,14 @@ def interpretAsFraction( n, k ):
     return [ fraction.numerator, fraction.denominator ]
 
 
-# //******************************************************************************
-# //
-# //  interpretAsBase
-# //
-# //  This is a list operator so if the integer argument (base) is also a list,
-# //  we need to handle that explicitly here.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  interpretAsBase
+#
+#  This is a list operator so if the integer argument (base) is also a list,
+#  we need to handle that explicitly here.
+#
+#******************************************************************************
 
 def interpretAsBase( args, base ):
     if isinstance( args, list ):
@@ -509,11 +509,11 @@ def interpretAsBaseOperator( args, base ):
     return interpretAsBase( args, base )
 
 
-# //******************************************************************************
-# //
-# //  getGreedyEgyptianFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getGreedyEgyptianFraction
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getGreedyEgyptianFraction( nominator, denominator ):
@@ -545,14 +545,14 @@ def getGreedyEgyptianFraction( nominator, denominator ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getLinearRecurrence
-# //
-# //  Fibonacci sequence = rpn [ 1 1 ] 1 n linear
-# //  Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLinearRecurrence
+#
+#  Fibonacci sequence = rpn [ 1 1 ] 1 n linear
+#  Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
+#
+#******************************************************************************
 
 def getLinearRecurrence( recurrence, seeds, count ):
     if not isinstance( recurrence, ( list, RPNGenerator ) ):
@@ -594,11 +594,11 @@ def getLinearRecurrence( recurrence, seeds, count ):
             del result[ 0 ]
 
 
-# //******************************************************************************
-# //
-# //  getNthLinearRecurrence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthLinearRecurrence
+#
+#******************************************************************************
 
 def getNthLinearRecurrence( recurrence, seeds, n ):
     #return list( getLinearRecurrence( recurrence, seeds, n ) )[ -1 ]
@@ -641,11 +641,11 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
     return result[ -1 ]
 
 
-# //******************************************************************************
-# //
-# //  getLinearRecurrenceWithModulo
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLinearRecurrenceWithModulo
+#
+#******************************************************************************
 
 def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
     if not isinstance( recurrence, ( list, RPNGenerator ) ):
@@ -687,11 +687,11 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
             del result[ 0 ]
 
 
-# //******************************************************************************
-# //
-# //  getNthLinearRecurrenceWithModulo
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthLinearRecurrenceWithModulo
+#
+#******************************************************************************
 
 def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
     if not isinstance( recurrence, ( list, RPNGenerator ) ):
@@ -732,11 +732,11 @@ def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
     return result[ -1 ]
 
 
-# //******************************************************************************
-# //
-# //  getGeometricRecurrence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getGeometricRecurrence
+#
+#******************************************************************************
 
 def getGeometricRecurrence( recurrence, powers, seeds, count ):
     if not isinstance( recurrence, ( list, RPNGenerator ) ):
@@ -785,15 +785,15 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
             del result[ 0 ]
 
 
-# //******************************************************************************
-# //
-# //  makePythagoreanTriple
-# //
-# //  Euclid's formula
-# //
-# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Pythag/pythag.html#mnformula
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makePythagoreanTriple
+#
+#  Euclid's formula
+#
+#  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Pythag/pythag.html#mnformula
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def makePythagoreanTriple( n, k ):
@@ -812,13 +812,13 @@ def makePythagoreanTriple( n, k ):
     return sorted( result )
 
 
-# //******************************************************************************
-# //
-# //  generatePythagoreanTriples
-# //
-# //  https://stackoverflow.com/questions/575117/generating-unique-ordered-pythagorean-triplets
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  generatePythagoreanTriples
+#
+#  https://stackoverflow.com/questions/575117/generating-unique-ordered-pythagorean-triplets
+#
+#******************************************************************************
 
 def generatePythagoreanTriplesOld( n ):
     # pylint: disable=invalid-name
@@ -866,25 +866,25 @@ def makePythagoreanTriples( n ):
     return RPNGenerator.createGenerator( generatePythagoreanTriples, n )
 
 
-# //******************************************************************************
-# //
-# //  makePythagoreanQuadruple
-# //
-# //  From https://en.wikipedia.org/wiki/Pythagorean_quadruple:
-# //
-# //  All Pythagorean quadruples (including non-primitives, and with repetition,
-# //  though a, b and c do not appear in all possible orders) can be generated
-# //  from two positive integers a and b as follows:
-# //
-# //  If a and b have different parity, let p be any factor of a^2 + b^2 such that
-# //  p^2 < a^2 + b^2.  Then c = (a^2 + b^2 - p^2)/(2p) and d =
-# //  (a^2 + b^2 + p^2)/(2p).  Note that p = {d - c}.
-# //
-# //  A similar method exists for a, b both even, with the further restriction
-# //  that 2p must be an even factor of a^2 + b^2. No such method exists if both
-# //  a and b are odd.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makePythagoreanQuadruple
+#
+#  From https://en.wikipedia.org/wiki/Pythagorean_quadruple:
+#
+#  All Pythagorean quadruples (including non-primitives, and with repetition,
+#  though a, b and c do not appear in all possible orders) can be generated
+#  from two positive integers a and b as follows:
+#
+#  If a and b have different parity, let p be any factor of a^2 + b^2 such that
+#  p^2 < a^2 + b^2.  Then c = (a^2 + b^2 - p^2)/(2p) and d =
+#  (a^2 + b^2 + p^2)/(2p).  Note that p = {d - c}.
+#
+#  A similar method exists for a, b both even, with the further restriction
+#  that 2p must be an even factor of a^2 + b^2. No such method exists if both
+#  a and b are odd.
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def makePythagoreanQuadruple( a, b ):
@@ -927,16 +927,16 @@ def makePythagoreanQuadruple( a, b ):
     return sorted( result )
 
 
-# //******************************************************************************
-# //
-# //  makeEulerBrick
-# //
-# //  http://mathworld.wolfram.com/EulerBrick.html
-# //
-# //  Saunderson's solution lets (a',b',c') be a Pythagorean triple, then
-# //  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ), ( b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  makeEulerBrick
+#
+#  http://mathworld.wolfram.com/EulerBrick.html
+#
+#  Saunderson's solution lets (a',b',c') be a Pythagorean triple, then
+#  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ), ( b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
+#
+#******************************************************************************
 
 def makeEulerBrick( _a, _b, _c ):
     # pylint: disable=invalid-name
@@ -1026,21 +1026,21 @@ def getLCM( n, k ):
     return getLCMOfList( [ n, k ] )
 
 
-# //******************************************************************************
-# //
-# //  getFrobeniusNumber
-# //
-# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500,
-# //  (c) copyright 2010-2016, Brian Gladman
-# //
-# //  That address is dead, but I found the same page in another location:
-# //
-# //  http://brg.a2hosted.com/?page_id=1500
-# //
-# //  Since this is classified as a list operator, it has to behave like the
-# //  other operators in rpnList.py.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getFrobeniusNumber
+#
+#  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500,
+#  (c) copyright 2010-2016, Brian Gladman
+#
+#  That address is dead, but I found the same page in another location:
+#
+#  http://brg.a2hosted.com/?page_id=1500
+#
+#  Since this is classified as a list operator, it has to behave like the
+#  other operators in rpnList.py.
+#
+#******************************************************************************
 
 def getFrobeniusNumber( args ):
     # pylint: disable=invalid-name
@@ -1104,11 +1104,11 @@ def getFrobeniusNumber( args ):
         return 1 if args > 1 else -1
 
 
-# //******************************************************************************
-# //
-# //  solveFrobenius
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  solveFrobenius
+#
+#******************************************************************************
 
 def solveFrobenius( n, k, translate, prefix=None ):
     #print( )
@@ -1173,13 +1173,13 @@ def solveFrobeniusOperator( n, k ):
     return RPNGenerator.createGenerator( solveFrobenius, [ sortedArgs, k, translate ] )
 
 
-# //******************************************************************************
-# //
-# //  _crt
-# //
-# //  Helper function for calculateChineseRemainderTheorem
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  _crt
+#
+#  Helper function for calculateChineseRemainderTheorem
+#
+#******************************************************************************
 
 def _crt( a, b, m, n ):
     # pylint: disable=invalid-name
@@ -1196,16 +1196,16 @@ def _crt( a, b, m, n ):
     return fmod( fadd( fprod( [ b, p, x ] ), fprod( [ a, q, y ] ) ), z )
 
 
-# //******************************************************************************
-# //
-# //  calculateChineseRemainderTheorem
-# //
-# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
-# //
-# //  Since this is classified as a list operator, it has to behave like the
-# //  other operators in rpnList.py.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateChineseRemainderTheorem
+#
+#  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
+#
+#  Since this is classified as a list operator, it has to behave like the
+#  other operators in rpnList.py.
+#
+#******************************************************************************
 
 def calculateChineseRemainderTheorem( values, mods ):
     # pylint: disable=invalid-name
@@ -1250,11 +1250,11 @@ def calculateChineseRemainderTheorem( values, mods ):
     return x
 
 
-# //******************************************************************************
-# //
-# //  getRadical
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getRadical
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getRadical( target ):
@@ -1280,11 +1280,11 @@ def getRadical( target ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getSigma
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSigma
+#
+#******************************************************************************
 
 #@cachedFunction( 'sigma' )    # This resulted in some really weird bugs in the 'aliquot' operator, and having the
                                # factors already cached means it really isn't necessary.
@@ -1328,11 +1328,11 @@ def getAbundanceRatio( n ):
     return fdiv( getSigma( n ), n )
 
 
-# //******************************************************************************
-# //
-# //  getSigmaK
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSigmaK
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getSigmaK( n, k ):
@@ -1361,11 +1361,11 @@ def getSigmaK( n, k ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getAliquotSequenceGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAliquotSequenceGenerator
+#
+#******************************************************************************
 
 def getAliquotSequenceGenerator( n, k ):
     '''
@@ -1396,11 +1396,11 @@ def getAliquotSequence( n, k ):
     return RPNGenerator.createGenerator( getAliquotSequenceGenerator, [ n, k ] )
 
 
-# //******************************************************************************
-# //
-# //  getLimitedAliquotSequenceGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLimitedAliquotSequenceGenerator
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getLimitedAliquotSequenceGenerator( n, k ):
@@ -1430,11 +1430,11 @@ def getLimitedAliquotSequence( n, k ):
     return RPNGenerator.createGenerator( getLimitedAliquotSequenceGenerator, [ n, k ] )
 
 
-# //******************************************************************************
-# //
-# //  getNthMobiusNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMobiusNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'mobius' )
@@ -1454,13 +1454,13 @@ def getNthMobiusNumber( n ):
         return 1
 
 
-# //******************************************************************************
-# //
-# //  getNthMerten
-# //
-# //  This recursive version is much, much faster when the cache is being used.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMerten
+#
+#  This recursive version is much, much faster when the cache is being used.
+#
+#******************************************************************************
 
 #@oneArgFunctionEvaluator( )
 #@cachedFunction( 'merten' )
@@ -1487,11 +1487,11 @@ def getNthMerten( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getEulerPhi
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getEulerPhi
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'euler_phi' )
@@ -1503,11 +1503,11 @@ def getEulerPhi( n ):
                                  power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactorList( n ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getPowMod
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPowMod
+#
+#******************************************************************************
 
 def getPowMod( a, b, c ):
     '''
@@ -1526,31 +1526,31 @@ def getPowMod( a, b, c ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getPowModOperatorNew
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPowModOperatorNew
+#
+#******************************************************************************
 
 def getPowModOperatorNew( a, b, c ):
     return getPowMod( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
 
 
-# //******************************************************************************
-# //
-# //  getPowModOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPowModOperator
+#
+#******************************************************************************
 
 def getPowModOperator( a, b, c ):
     return pow( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
 
 
-# //******************************************************************************
-# //
-# //  getAbundance
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAbundance
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'abundance' )
@@ -1561,11 +1561,11 @@ def getAbundance( n ):
     return fsub( getSigma( n ), fmul( n, 2 ) )
 
 
-# //******************************************************************************
-# //
-# //  isDeficient
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isDeficient
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isDeficient( n ):
@@ -1577,11 +1577,11 @@ def isDeficient( n ):
     return 1 if getAbundance( n ) < 0 else 0
 
 
-# //******************************************************************************
-# //
-# //  isAbundant
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isAbundant
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isAbundant( n ):
@@ -1591,11 +1591,11 @@ def isAbundant( n ):
     return 1 if getAbundance( n ) > 0 else 0
 
 
-# //******************************************************************************
-# //
-# //  isPerfect
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isPerfect
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isPerfect( n ):
@@ -1605,11 +1605,11 @@ def isPerfect( n ):
     return 1 if getAbundance( n ) == 0 else 0
 
 
-# //******************************************************************************
-# //
-# //  isSmooth
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isSmooth
+#
+#******************************************************************************
 
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
@@ -1633,11 +1633,11 @@ def isSmoothOperator( n, k ):
     return isSmooth( n, k )
 
 
-# //******************************************************************************
-# //
-# //  isPernicious
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isPernicious
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isPernicious( n ):
@@ -1647,15 +1647,15 @@ def isPernicious( n ):
     return 1 if isPrime( getBitCount( n ) ) else 0
 
 
-# //******************************************************************************
-# //
-# //  isRough
-# //
-# //  https://en.wikipedia.org/wiki/Rough_number
-# //
-# //  Please note that rough is not the opposite of smooth.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isRough
+#
+#  https://en.wikipedia.org/wiki/Rough_number
+#
+#  Please note that rough is not the opposite of smooth.
+#
+#******************************************************************************
 
 @cachedFunction( 'rough' )
 def isRough( n, k ):
@@ -1685,11 +1685,11 @@ def isRoughOperator( n, k ):
     return isRough( n, k )
 
 
-# //******************************************************************************
-# //
-# //  isKSemiprime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isKSemiprime
+#
+#******************************************************************************
 
 @cachedFunction( 'k_semiprime' )
 def isKSemiprime( n, k ):
@@ -1704,11 +1704,11 @@ def isSemiprime( n ):
     return isKSemiprime( n, 2 )
 
 
-# //******************************************************************************
-# //
-# //  isKSphenic
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isKSphenic
+#
+#******************************************************************************
 
 @cachedFunction( 'k_sphenic' )
 def isKSphenic( n, k ):
@@ -1732,11 +1732,11 @@ def isKSphenicOperator( n, k ):
     return isKSphenic( n, k )
 
 
-# //******************************************************************************
-# //
-# //  isSquareFree
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isSquareFree
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'squarefree' )
@@ -1751,11 +1751,11 @@ def isSquareFree( n ):
     return 1
 
 
-# //******************************************************************************
-# //
-# //  isPowerful
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isPowerful
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'powerful' )
@@ -1770,11 +1770,11 @@ def isPowerful( n ):
     return 1
 
 
-# //******************************************************************************
-# //
-# //  isAchillesNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isAchillesNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'achilles' )
@@ -1787,13 +1787,13 @@ def isAchillesNumber( n ):
     return 1 if getGCDOfList( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
 
-# //******************************************************************************
-# //
-# //  isUnusual
-# //
-# //  https://en.wikipedia.org/wiki/Unusual_number
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isUnusual
+#
+#  https://en.wikipedia.org/wiki/Unusual_number
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'unusual' )
@@ -1804,11 +1804,11 @@ def isUnusual( n ):
     return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) > sqrt( n ) else 0
 
 
-# //******************************************************************************
-# //
-# //  isPronic
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isPronic
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isPronic( n ):
@@ -1816,14 +1816,14 @@ def isPronic( n ):
     return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
 
 
-# //******************************************************************************
-# //
-# //  isPolydivisible
-# //
-# //  It seems to be about 10% faster on average to do the division tests in
-# //  reverse order.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isPolydivisible
+#
+#  It seems to be about 10% faster on average to do the division tests in
+#  reverse order.
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'polydivisible' )
@@ -1849,11 +1849,11 @@ def isPolydivisible( n ):
     return 1
 
 
-# //******************************************************************************
-# //
-# //  splitNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  splitNumber
+#
+#******************************************************************************
 
 def splitNumber( value, base ):
     result = [ ]
@@ -1866,11 +1866,11 @@ def splitNumber( value, base ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  joinNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  joinNumber
+#
+#******************************************************************************
 
 def joinNumber( digits, base ):
     place = 1
@@ -1883,11 +1883,11 @@ def joinNumber( digits, base ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  generatePolydivisiblesGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  generatePolydivisiblesGenerator
+#
+#******************************************************************************
 
 def generatePolydivisiblesGenerator( _base ):
     base = int( _base )
@@ -1937,11 +1937,11 @@ def generatePolydivisibles( n ):
     return RPNGenerator.createGenerator( generatePolydivisiblesGenerator, n )
 
 
-# //******************************************************************************
-# //
-# //  getNthSternNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthSternNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'stern' )
@@ -1959,11 +1959,11 @@ def getNthSternNumber( n ):
                      getNthSternNumber( floor( fdiv( fadd( n, 1 ), 2 ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthCalkinWilf
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthCalkinWilf
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthCalkinWilf( n ):
@@ -1976,11 +1976,11 @@ def getNthCalkinWilf( n ):
     return [ getNthSternNumber( n ), getNthSternNumber( fadd( n, 1 ) ) ]
 
 
-# //******************************************************************************
-# //
-# //  isFriendly
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isFriendly
+#
+#******************************************************************************
 
 @listArgFunctionEvaluator( )
 def isFriendly( n ):
@@ -2001,11 +2001,11 @@ def isFriendly( n ):
     return 1
 
 
-# //******************************************************************************
-# //
-# //  isKHyperperfect
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isKHyperperfect
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'k_hyperperfect' )
@@ -2014,11 +2014,11 @@ def isKHyperperfect( n, k ):
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
 
 
-# //******************************************************************************
-# //
-# //  isKPerfect
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isKPerfect
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'k_perfect' )
@@ -2027,22 +2027,22 @@ def isKPerfect( n, k ):
     return 1 if fdiv( getSigma( n ), n ) == k else 0
 
 
-# //******************************************************************************
-# //
-# //  getNthZetaZero
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthZetaZero
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthZetaZero( n ):
     return zetazero( int( n ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthMersennePrime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthMersennePrime
+#
+#******************************************************************************
 
 mersennePrimeExponents = {
     0:   0,
@@ -2120,13 +2120,13 @@ def getNthPerfectNumber( n ):
     return fmul( fsub( power( 2, exponent ), 1 ), power( 2, fsub( exponent, 1 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getNthThueMorseNumber
-# //
-# //  https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthThueMorseNumber
+#
+#  https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'thue_morse' )
@@ -2137,11 +2137,11 @@ def getNthThueMorseNumber( n ):
         return fmod( fadd( n, getNthThueMorseNumber( floor( fdiv( n, 2 ) ) ) ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  findSumsOfKPowersGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findSumsOfKPowersGenerator
+#
+#******************************************************************************
 
 def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=None ):
     if prefix is None:
@@ -2183,11 +2183,11 @@ def findSumsOfKNonzeroPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p, bNonZero = True ) )
 
 
-# //******************************************************************************
-# //
-# //  some one-line operators
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  some one-line operators
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getBarnesG( n ):
@@ -2286,11 +2286,11 @@ def getHurwitzZeta( n, k ):
     return zeta( n, k )
 
 
-# //******************************************************************************
-# //
-# //  getCollatzSequenceGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getCollatzSequenceGenerator
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getCollatzSequenceGenerator( n, k ):
@@ -2317,13 +2317,13 @@ def getCollatzSequence( n, k ):
     return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )
 
 
-# //******************************************************************************
-# //
-# //  findNthSumOfSquares
-# //
-# //  http://www.wolframalpha.com/input/?i=(+n+(+n+%2B+1+)+(+2n+%2B+1+)+)+%2F+6+%3D+x,+solve+for+n
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findNthSumOfSquares
+#
+#  http://www.wolframalpha.com/input/?i=(+n+(+n+%2B+1+)+(+2n+%2B+1+)+)+%2F+6+%3D+x,+solve+for+n
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def findNthSumOfSquares( n ):
@@ -2335,26 +2335,26 @@ def findNthSumOfSquares( n ):
                              fdiv( 1, fmul( root( 3, 3 ), bigTerm ) ) ), 1 ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  findNthSumOfCubes
-# //
-# //  http://www.wolframalpha.com/input/?i=x+%3D+1%2F4+n%5E2+(+n+%2B+1+)%5E2+for+n
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  findNthSumOfCubes
+#
+#  http://www.wolframalpha.com/input/?i=x+%3D+1%2F4+n%5E2+(+n+%2B+1+)%5E2+for+n
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def findNthSumOfCubes( n ):
     return fdiv( fsub( sqrt( fadd( fmul( 8, sqrt( n ) ), 1 ) ), 1 ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  getDigitalRoot
-# //
-# //  https://en.wikipedia.org/wiki/Digital_root
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDigitalRoot
+#
+#  https://en.wikipedia.org/wiki/Digital_root
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getDigitalRoot( n ):
@@ -2369,13 +2369,13 @@ def getDigitalRoot( n ):
         return result
 
 
-# //******************************************************************************
-# //
-# //  isCarmichaelNumber
-# //
-# //  https://en.wikipedia.org/wiki/Carmichael_number
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isCarmichaelNumber
+#
+#  https://en.wikipedia.org/wiki/Carmichael_number
+#
+#******************************************************************************
 
 #import pysnooper
 
@@ -2412,13 +2412,13 @@ def isCarmichaelNumberOperator( n ):
 
 
 
-# //******************************************************************************
-# //
-# //  isRuthAaronNumber
-# //
-# //  http://mathworld.wolfram.com/Ruth-AaronPair.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isRuthAaronNumber
+#
+#  http://mathworld.wolfram.com/Ruth-AaronPair.html
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'ruth_aaron' )
@@ -2426,13 +2426,13 @@ def isRuthAaronNumber( n ):
     return 1 if fsum( getFactors( validateRealInt( n ) ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
 
 
-# //******************************************************************************
-# //
-# //  calculateAckermannFunction
-# //
-# //  https://stackoverflow.com/questions/12678099/ackermann-function-understanding
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateAckermannFunction
+#
+#  https://stackoverflow.com/questions/12678099/ackermann-function-understanding
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateAckermannFunction( n, k ):
@@ -2472,11 +2472,11 @@ def calculateAckermannFunction( n, k ):
     raise ValueError( 'invalid arguments' )
 
 
-# //******************************************************************************
-# //
-# //  getHarmonicResidue
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getHarmonicResidue
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getHarmonicResidue( n ):
@@ -2486,11 +2486,11 @@ def getHarmonicResidue( n ):
     return fmod( fmul( n, getDivisorCount( n ) ), getSigma( n ) )
 
 
-# //******************************************************************************
-# //
-# //  isHarmonicDivisorNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isHarmonicDivisorNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isHarmonicDivisorNumber( n ):
@@ -2500,11 +2500,11 @@ def isHarmonicDivisorNumber( n ):
     return 1 if getHarmonicResidue( n ) == 0 else 0
 
 
-# //******************************************************************************
-# //
-# //  isAntiharmonic
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  isAntiharmonic
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isAntiharmonic( n ):
@@ -2514,11 +2514,11 @@ def isAntiharmonic( n ):
     return 1 if isDivisible( getSigmaK( n, 2 ), getSigmaK( n, 1 ) ) else 0
 
 
-# //******************************************************************************
-# //
-# //  getHarmonicFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getHarmonicFraction
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getHarmonicFraction( n ):
@@ -2537,11 +2537,11 @@ def getHarmonicFraction( n ):
     return reduceList( [ numerator, denominator ] )
 
 
-# //******************************************************************************
-# //
-# //  getAlternatingHarmonicFraction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAlternatingHarmonicFraction
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getAlternatingHarmonicFraction( n ):
@@ -2563,22 +2563,22 @@ def getAlternatingHarmonicFraction( n ):
     return reduceList( [ numerator, denominator ] )
 
 
-# //******************************************************************************
-# //
-# //  areRelativelyPrime
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  areRelativelyPrime
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def areRelativelyPrime( n, k ):
     return 1 if getGCD( n, k ) == 1 else 0
 
 
-# //******************************************************************************
-# //
-# //  getNthPhitorial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthPhitorial
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getNthPhitorial( n ):
@@ -2597,11 +2597,11 @@ def getNthPhitorial( n ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getNthKPolygorial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getNthKPolygorial
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getNthKPolygorial( n, k ):
@@ -2617,13 +2617,13 @@ def getNthKPolygorial( n, k ):
                        gamma( fdiv( 2, fsub( k, 2 ) ) ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getIntegerSquareRoot
-# //
-# //  https://code.activestate.com/recipes/577821-integer-square-root-function/
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getIntegerSquareRoot
+#
+#  https://code.activestate.com/recipes/577821-integer-square-root-function/
+#
+#******************************************************************************
 
 #def getIntegerSquareRoot( x ):
 #    if x < 0:

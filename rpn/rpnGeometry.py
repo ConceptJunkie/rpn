@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnGeometry.py
-# //
-# //  rpnChilada geometry operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnGeometry.py
+#
+#  rpnChilada geometry operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, gamma, power, pi, \
                    root, sin, sqrt, tan
@@ -22,15 +22,15 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          validateReal, validateRealInt
 
 
-# //******************************************************************************
-# //
-# //  getRegularPolygonArea
-# //
-# //  based on having sides of edge length k
-# //
-# //  http://www.mathopenref.com/polygonregulararea.html
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getRegularPolygonArea
+#
+#  based on having sides of edge length k
+#
+#  http://www.mathopenref.com/polygonregulararea.html
+#
+#******************************************************************************
 
 def getRegularPolygonArea( n, k ):
     if validateReal( n ) < 3:
@@ -51,17 +51,17 @@ def getRegularPolygonAreaOperator( n, k ):
     return getRegularPolygonArea( n, k )
 
 
-# //******************************************************************************
-# //
-# //  getKSphereRadius
-# //
-# //  n - measurement
-# //  k - dimension
-# //
-# //  n needs to be an RPNMeasurement so getKSphereRadius can tell if it's an
-# //  area or a volume and use the correct formula.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getKSphereRadius
+#
+#  n - measurement
+#  k - dimension
+#
+#  n needs to be an RPNMeasurement so getKSphereRadius can tell if it's an
+#  area or a volume and use the correct formula.
+#
+#******************************************************************************
 
 def getKSphereRadius( n, k ):
     if validateRealInt( k ) < 3:
@@ -102,20 +102,20 @@ def getSphereRadius( n ):
     return getKSphereRadius( n, 3 )
 
 
-# //******************************************************************************
-# //
-# //  getKSphereSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
-# //
-# //  n - measurement
-# //  k - dimension
-# //
-# //  If n is a length, then it is taken to be the radius.  If it is a volume
-# //  then it is taken to be the volume.  If it is an area, then it is returned
-# //  unchanged.  Other measurement types cause an exception.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getKSphereSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+#
+#  n - measurement
+#  k - dimension
+#
+#  If n is a length, then it is taken to be the radius.  If it is a volume
+#  then it is taken to be the volume.  If it is an area, then it is returned
+#  unchanged.  Other measurement types cause an exception.
+#
+#******************************************************************************
 
 def getKSphereSurfaceArea( n, k ):
     if validateRealInt( k ) < 3:
@@ -149,20 +149,20 @@ def getSphereArea( n ):
     return getKSphereSurfaceArea( n, 3 )
 
 
-# //******************************************************************************
-# //
-# //  getKSphereVolume
-# //
-# //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
-# //
-# //  n - measurement
-# //  k - dimension
-# //
-# //  If n is a length, then it is taken to be the radius.  If it is an area
-# //  then it is taken to be the surface area.  If it is a volume, then it is
-# //  returned unchanged.  Other measurement types cause an exception.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getKSphereVolume
+#
+#  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+#
+#  n - measurement
+#  k - dimension
+#
+#  If n is a length, then it is taken to be the radius.  If it is an area
+#  then it is taken to be the surface area.  If it is a volume, then it is
+#  returned unchanged.  Other measurement types cause an exception.
+#
+#******************************************************************************
 
 def getKSphereVolume( n, k ):
     if validateRealInt( k ) < 1:
@@ -197,11 +197,11 @@ def getSphereVolume( n ):
     return getKSphereVolume( n, 3 )
 
 
-# //******************************************************************************
-# //
-# //  getTriangleArea
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTriangleArea
+#
+#******************************************************************************
 
 def getTriangleArea( a, b, c ):
     if not isinstance( a, RPNMeasurement ):
@@ -229,16 +229,16 @@ def getTriangleArea( a, b, c ):
     return getRoot( getProduct( [ s, subtract( s, a ), subtract( s, b ), subtract( s, c ) ] ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  getTorusSurfaceArea
-# //
-# //  http://preccalc.sourceforge.net/geometry.shtml
-# //
-# //  major = major radius
-# //  minor = minor radius
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTorusSurfaceArea
+#
+#  http://preccalc.sourceforge.net/geometry.shtml
+#
+#  major = major radius
+#  minor = minor radius
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getTorusSurfaceArea( major, minor ):
@@ -258,16 +258,16 @@ def getTorusSurfaceArea( major, minor ):
     return getProduct( [ 4, power( pi, 2 ), major, minor ] )
 
 
-# //******************************************************************************
-# //
-# //  getTorusVolume
-# //
-# //  http://preccalc.sourceforge.net/geometry.shtml
-# //
-# //  major = major radius
-# //  minor = minor radius
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTorusVolume
+#
+#  http://preccalc.sourceforge.net/geometry.shtml
+#
+#  major = major radius
+#  minor = minor radius
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getTorusVolume( major, minor ):
@@ -286,13 +286,13 @@ def getTorusVolume( major, minor ):
     return getProduct( [ 2, power( pi, 2 ), major, getPower( minor, 2 ) ] )
 
 
-# //******************************************************************************
-# //
-# //  getConeSurfaceArea
-# //
-# //  http://preccalc.sourceforge.net/geometry.shtml
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getConeSurfaceArea
+#
+#  http://preccalc.sourceforge.net/geometry.shtml
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getConeSurfaceArea( radius, height ):
@@ -313,13 +313,13 @@ def getConeSurfaceArea( radius, height ):
     return getProduct( [ pi, radius, add( radius, hypotenuse ) ] )
 
 
-# //******************************************************************************
-# //
-# //  getConeVolume
-# //
-# //  http://preccalc.sourceforge.net/geometry.shtml
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getConeVolume
+#
+#  http://preccalc.sourceforge.net/geometry.shtml
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getConeVolume( radius, height ):
@@ -338,13 +338,13 @@ def getConeVolume( radius, height ):
     return getProduct( [ pi, getPower( radius, 2 ), divide( height, 3 ) ] )
 
 
-# //******************************************************************************
-# //
-# //  getTetrahedronSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Tetrahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTetrahedronSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Tetrahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getTetrahedronSurfaceArea( n ):
@@ -357,13 +357,13 @@ def getTetrahedronSurfaceArea( n ):
     return multiply( sqrt( 3 ), getPower( n, 2 ) )
 
 
-# //******************************************************************************
-# //
-# //  getTetrahedronVolume
-# //
-# //  https://en.wikipedia.org/wiki/Tetrahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTetrahedronVolume
+#
+#  https://en.wikipedia.org/wiki/Tetrahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getTetrahedronVolume( n ):
@@ -376,13 +376,13 @@ def getTetrahedronVolume( n ):
     return divide( getPower( n, 3 ), fmul( 6, sqrt( 2 ) ) )
 
 
-# //******************************************************************************
-# //
-# //  getOctahedronSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Octahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getOctahedronSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Octahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getOctahedronSurfaceArea( n ):
@@ -395,13 +395,13 @@ def getOctahedronSurfaceArea( n ):
     return getProduct( [ 2, sqrt( 3 ), getPower( n, 2 ) ] )
 
 
-# //******************************************************************************
-# //
-# //  getOctahedronVolume
-# //
-# //  https://en.wikipedia.org/wiki/Octahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getOctahedronVolume
+#
+#  https://en.wikipedia.org/wiki/Octahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getOctahedronVolume( n ):
@@ -414,13 +414,13 @@ def getOctahedronVolume( n ):
     return divide( multiply( sqrt( 2 ), getPower( n, 3 ) ), 3 )
 
 
-# //******************************************************************************
-# //
-# //  getDodecahedronSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Dodecahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDodecahedronSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Dodecahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getDodecahedronSurfaceArea( n ):
@@ -434,13 +434,13 @@ def getDodecahedronSurfaceArea( n ):
     return area.convert( 'meter^2' )
 
 
-# //******************************************************************************
-# //
-# //  getDodecahedronVolume
-# //
-# //  https://en.wikipedia.org/wiki/Dodecahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDodecahedronVolume
+#
+#  https://en.wikipedia.org/wiki/Dodecahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getDodecahedronVolume( n ):
@@ -453,13 +453,13 @@ def getDodecahedronVolume( n ):
     return divide( multiply( fadd( 15, fmul( 7, sqrt( 5 ) ) ), getPower( n, 3 ) ), 4 ).convert( 'meter^3' )
 
 
-# //******************************************************************************
-# //
-# //  getIcosahedronSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Icosahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getIcosahedronSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Icosahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getIcosahedronSurfaceArea( n ):
@@ -472,13 +472,13 @@ def getIcosahedronSurfaceArea( n ):
     return getProduct( [ 5, sqrt( 3 ), getPower( n, 2 ) ] ).convert( 'meter^2' )
 
 
-# //******************************************************************************
-# //
-# //  getIcosahedronVolume
-# //
-# //  https://en.wikipedia.org/wiki/Icosahedron
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getIcosahedronVolume
+#
+#  https://en.wikipedia.org/wiki/Icosahedron
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getIcosahedronVolume( n ):
@@ -491,16 +491,16 @@ def getIcosahedronVolume( n ):
     return getProduct( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), getPower( n, 3 ) ] ).convert( 'meter^3' )
 
 
-# //******************************************************************************
-# //
-# //  getAntiprismSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Antiprism
-# //
-# //  n = sides
-# //  k = edge length
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAntiprismSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Antiprism
+#
+#  n = sides
+#  k = edge length
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getAntiprismSurfaceArea( n, k ):
@@ -517,16 +517,16 @@ def getAntiprismSurfaceArea( n, k ):
     return result.convert( 'meter^2' )
 
 
-# //******************************************************************************
-# //
-# //  getAntiprismVolume
-# //
-# //  http://www.fxsolver.com/browse/formulas/Antiprism+uniform+%28Volume%29
-# //
-# //  n = sides
-# //  k = edge length
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAntiprismVolume
+#
+#  http://www.fxsolver.com/browse/formulas/Antiprism+uniform+%28Volume%29
+#
+#  n = sides
+#  k = edge length
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getAntiprismVolume( n, k ):
@@ -548,17 +548,17 @@ def getAntiprismVolume( n, k ):
     return result.convert( 'meter^3' )
 
 
-# //******************************************************************************
-# //
-# //  getPrismSurfaceArea
-# //
-# //  https://en.wikipedia.org/wiki/Prism
-# //
-# //  n = sides
-# //  k = edge length
-# //  h = height
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPrismSurfaceArea
+#
+#  https://en.wikipedia.org/wiki/Prism
+#
+#  n = sides
+#  k = edge length
+#  h = height
+#
+#******************************************************************************
 
 def getPrismSurfaceArea( n, k, h ):
     if validateReal( n ) < 3:
@@ -581,17 +581,17 @@ def getPrismSurfaceArea( n, k, h ):
     return result.convert( 'meter^2' )
 
 
-# //******************************************************************************
-# //
-# //  getPrismVolume
-# //
-# //  https://en.wikipedia.org/wiki/Prism
-# //
-# //  n = sides
-# //  k = edge length
-# //  h = height
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPrismVolume
+#
+#  https://en.wikipedia.org/wiki/Prism
+#
+#  n = sides
+#  k = edge length
+#  h = height
+#
+#******************************************************************************
 
 def getPrismVolume( n, k, h ):
     if validateReal( n ) < 3:

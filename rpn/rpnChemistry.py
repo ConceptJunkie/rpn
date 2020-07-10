@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnChemistry.py
-# //
-# //  rpnChilada chemistry functions
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnChemistry.py
+#
+#  rpnChilada chemistry functions
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import collections
 import string
@@ -23,21 +23,21 @@ from rpn.rpnUtils import oneArgFunctionEvaluator
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  loadChemistryTables
-# //
-# //  The table key is Atomic number.
-# //
-# //  The columns are:  Name, Atomic Symbol, Group, Period, Block, State (at STP),
-# //  Occurrence, Description, Weight Low, Weight High
-# //
-# //  http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
-# //  https://en.wikipedia.org/wiki/Densities_of_the_elements_%28data_page%29
-# //  https://en.wikipedia.org/wiki/Melting_points_of_the_elements_%28data_page%29
-# //  https://en.wikipedia.org/wiki/Boiling_points_of_the_elements_%28data_page%29
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  loadChemistryTables
+#
+#  The table key is Atomic number.
+#
+#  The columns are:  Name, Atomic Symbol, Group, Period, Block, State (at STP),
+#  Occurrence, Description, Weight Low, Weight High
+#
+#  http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
+#  https://en.wikipedia.org/wiki/Densities_of_the_elements_%28data_page%29
+#  https://en.wikipedia.org/wiki/Melting_points_of_the_elements_%28data_page%29
+#  https://en.wikipedia.org/wiki/Boiling_points_of_the_elements_%28data_page%29
+#
+#******************************************************************************
 
 def loadChemistryTables( ):
     # pylint: disable=line-too-long
@@ -190,11 +190,11 @@ def loadChemistryTables( ):
         g.atomic_numbers[ i ] = g.atomic_numbers[ j ]
 
 
-# //******************************************************************************
-# //
-# //  splitAtoms
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  splitAtoms
+#
+#******************************************************************************
 
 def splitAtoms( expression ):
     atom = ''
@@ -211,11 +211,11 @@ def splitAtoms( expression ):
     yield atom
 
 
-# //******************************************************************************
-# //
-# //  parseAtom
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  parseAtom
+#
+#******************************************************************************
 
 def parseAtom( expression ):
     atom = expression[ 0 ]
@@ -236,11 +236,11 @@ def parseAtom( expression ):
     return atom, count
 
 
-# //******************************************************************************
-# //
-# //  class RPNMolecule
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNMolecule
+#
+#******************************************************************************
 
 class RPNMolecule( collections.Counter ):
     '''This class represents a collection of atoms.'''
@@ -266,11 +266,11 @@ class RPNMolecule( collections.Counter ):
         return result
 
 
-# //******************************************************************************
-# //
-# //  getElementAttribute
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getElementAttribute
+#
+#******************************************************************************
 
 def getElementAttribute( n, k ):
     if isinstance( n, RPNMeasurement ):
@@ -291,11 +291,11 @@ def getElementAttribute( n, k ):
     return g.elements[ int( n ) ][ k ]
 
 
-# //******************************************************************************
-# //
-# //  convertMeasurementToAtomicSymbol
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertMeasurementToAtomicSymbol
+#
+#******************************************************************************
 
 def convertMeasurementToAtomicSymbol( n ):
     # If there is a value other than the default 1, then let's just bail, because
@@ -342,11 +342,11 @@ def convertMeasurementToAtomicSymbol( n ):
     return n
 
 
-# //******************************************************************************
-# //
-# //  getAtomicNumber
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAtomicNumber
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getAtomicNumber( n ):
@@ -362,11 +362,11 @@ def getAtomicNumber( n ):
     return g.atomic_numbers[ n ]
 
 
-# //******************************************************************************
-# //
-# //  getAtomicWeight
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getAtomicWeight
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getAtomicWeight( n ):
@@ -377,44 +377,44 @@ def getAtomicWeight( n ):
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
 
 
-# //******************************************************************************
-# //
-# //  getElementDensity
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getElementDensity
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getElementDensity( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 10 ) ), 'g/cm^3' )
 
 
-# //******************************************************************************
-# //
-# //  getElementMeltingPoint
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getElementMeltingPoint
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getElementMeltingPoint( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 11 ) ), 'kelvin' )
 
 
-# //******************************************************************************
-# //
-# //  getElementBoilingPoint
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getElementBoilingPoint
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getElementBoilingPoint( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 12 ) ), 'kelvin' )
 
 
-# //******************************************************************************
-# //
-# //  calculateMolarMass
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  calculateMolarMass
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def calculateMolarMass( n ):

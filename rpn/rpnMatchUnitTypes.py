@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnMatchUnitTypes.py
-# //
-# //  rpnChilada measurements class and unit conversion
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnMatchUnitTypes.py
+#
+#  rpnChilada measurements class and unit conversion
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import mpf
 
 
-# //******************************************************************************
-# //
-# //  getWhichUnitType
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getWhichUnitType
+#
+#******************************************************************************
 
 def getWhichUnitType( measurement, unitTypes ):
     for unitType in unitTypes:
@@ -29,15 +29,15 @@ def getWhichUnitType( measurement, unitTypes ):
     return None
 
 
-# //******************************************************************************
-# //
-# //  matchUnitTypes
-# //
-# //  In addition to measurements, this method also handles RPNDateTime ('datetime')
-# //  RPNLocation ('location'), and strings (assumed to be locations, and converted
-# //  to RPNLocation)
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  matchUnitTypes
+#
+#  In addition to measurements, this method also handles RPNDateTime ('datetime')
+#  RPNLocation ('location'), and strings (assumed to be locations, and converted
+#  to RPNLocation)
+#
+#******************************************************************************
 
 def matchUnitTypes( args, validUnitTypes ):
     # imported here to avoid circular dependencies

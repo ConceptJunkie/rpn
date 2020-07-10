@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnLocation.py
-# //
-# //  rpnChilada location class declarations
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnLocation.py
+#
+#  rpnChilada location class declarations
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import bz2
 import contextlib
@@ -33,14 +33,14 @@ from rpn.rpnVersion import RPN_PROGRAM_NAME
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  class RPNLocation
-# //
-# //  The observer class measures lat/long in radians, but no one else does,
-# //  so the methods assume degrees.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNLocation
+#
+#  The observer class measures lat/long in radians, but no one else does,
+#  so the methods assume degrees.
+#
+#******************************************************************************
 
 class RPNLocation( ):
     '''This class represents a location on the surface of the Earth.'''
@@ -106,11 +106,11 @@ class RPNLocation( ):
         self.observer.pressure = value
 
 
-# //******************************************************************************
-# //
-# //  loadLocationCache
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  loadLocationCache
+#
+#******************************************************************************
 
 def loadLocationCache( ):
     try:
@@ -123,11 +123,11 @@ def loadLocationCache( ):
     return locationCache
 
 
-# //******************************************************************************
-# //
-# //  saveLocationCache
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  saveLocationCache
+#
+#******************************************************************************
 
 def saveLocationCache( locationCache ):
     with DelayedKeyboardInterrupt( ):
@@ -136,11 +136,11 @@ def saveLocationCache( locationCache ):
             pickle.dump( locationCache, pickleFile )
 
 
-# //******************************************************************************
-# //
-# //  getLocation
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLocation
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getLocation( name ):
@@ -190,11 +190,11 @@ def getLocation( name ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  getLocationInfo
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getLocationInfo
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getLocationInfo( location ):
@@ -207,11 +207,11 @@ def getLocationInfo( location ):
              fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
 
 
-# //******************************************************************************
-# //
-# //  getTimeZone
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getTimeZone
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getTimeZone( location ):
@@ -231,11 +231,11 @@ def getTimeZone( location ):
     return timezoneName
 
 
-# //******************************************************************************
-# //
-# //  getDistance
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getDistance
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getDistance( location1, location2 ):
@@ -261,13 +261,13 @@ def getDistance( location1, location2 ):
     return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
 
 
-# //******************************************************************************
-# //
-# //  convertLatLongToNAC
-# //
-# //  https://en.wikipedia.org/wiki/Natural_Area_Code
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  convertLatLongToNAC
+#
+#  https://en.wikipedia.org/wiki/Natural_Area_Code
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def convertLatLongToNAC( args ):

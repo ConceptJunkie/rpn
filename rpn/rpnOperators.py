@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnOperators.py
-# //
-# //  rpnChilada operator definitions
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnOperators.py
+#
+#  rpnChilada operator definitions
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import configparser
 import difflib
@@ -283,17 +283,17 @@ from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, oneArgFunctionEvaluat
 import rpn.rpnGlobals as g
 
 
-# //******************************************************************************
-# //
-# //  constants
-# //
-# //  Constants are always operators that take no arguments.
-# //
-# //  Please note that the last two RPNOperator arguments must go on a new line
-# //  because the 'lambda' functionality parses the lambdas in RPNOperator objects
-# //  to build Python code out of them.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  constants
+#
+#  Constants are always operators that take no arguments.
+#
+#  Please note that the last two RPNOperator arguments must go on a new line
+#  because the 'lambda' functionality parses the lambdas in RPNOperator objects
+#  to build Python code out of them.
+#
+#******************************************************************************
 
 constants = {
     # mathematical constants
@@ -412,23 +412,23 @@ constants = {
 }
 
 
-# //******************************************************************************
-# //
-# //  class RPNFunction
-# //
-# //  Starting index is a little confusing.  When rpn knows it is parsing a
-# //  function declaration, it will put all the arguments so far into the
-# //  RPNFunction object.  However, it can't know how many of them it
-# //  actually needs until it's time to evaluate the function, so we need to
-# //  save all the terms we have so far, since we can't know until later how
-# //  many of them we will need.
-# //
-# //  Once we are able to parse out how many arguments belong to the function
-# //  declaration, then we can determine what arguments are left over to be used
-# //  with the function operation.   All function operations take at least one
-# //  argument before the function declaration.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class RPNFunction
+#
+#  Starting index is a little confusing.  When rpn knows it is parsing a
+#  function declaration, it will put all the arguments so far into the
+#  RPNFunction object.  However, it can't know how many of them it
+#  actually needs until it's time to evaluate the function, so we need to
+#  save all the terms we have so far, since we can't know until later how
+#  many of them we will need.
+#
+#  Once we are able to parse out how many arguments belong to the function
+#  declaration, then we can determine what arguments are left over to be used
+#  with the function operation.   All function operations take at least one
+#  argument before the function declaration.
+#
+#******************************************************************************
 
 class RPNFunction( ):
     '''This class represents a user-defined function in rpn.'''
@@ -777,24 +777,24 @@ class RPNFunction( ):
         self.function = self.codeLocals[ 'rpnInternalFunction' ]
 
 
-# //******************************************************************************
-# //
-# //  createFunction
-# //
-# //  This only gets called if we are not already creating a function.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createFunction
+#
+#  This only gets called if we are not already creating a function.
+#
+#******************************************************************************
 
 def createFunction( valueList ):
     g.creatingFunction = True
     valueList.append( RPNFunction( valueList, len( valueList ) ) )
 
 
-# //******************************************************************************
-# //
-# //  addX
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  addX
+#
+#******************************************************************************
 
 def addX( valueList ):
     if not g.creatingFunction:
@@ -803,11 +803,11 @@ def addX( valueList ):
     valueList[ -1 ].add( 'x' )
 
 
-# //******************************************************************************
-# //
-# //  addY
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  addY
+#
+#******************************************************************************
 
 def addY( valueList ):
     if not g.creatingFunction:
@@ -816,11 +816,11 @@ def addY( valueList ):
     valueList[ -1 ].add( 'y' )
 
 
-# //******************************************************************************
-# //
-# //  addZ
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  addZ
+#
+#******************************************************************************
 
 def addZ( valueList ):
     if not g.creatingFunction:
@@ -829,11 +829,11 @@ def addZ( valueList ):
     valueList[ -1 ].add( 'z' )
 
 
-# //******************************************************************************
-# //
-# //  loadUserFunctionsFile
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  loadUserFunctionsFile
+#
+#******************************************************************************
 
 def loadUserFunctionsFile( ):
     config = configparser.ConfigParser( )
@@ -850,11 +850,11 @@ def loadUserFunctionsFile( ):
         g.userFunctions[ item[ 0 ] ] = func
 
 
-# //******************************************************************************
-# //
-# //  saveUserFunctionsFile
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  saveUserFunctionsFile
+#
+#******************************************************************************
 
 def saveUserFunctionsFile( ):
     config = configparser.ConfigParser( )
@@ -871,22 +871,22 @@ def saveUserFunctionsFile( ):
         config.write( userFunctionsFile )
 
 
-# //******************************************************************************
-# //
-# //  plotFunction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  plotFunction
+#
+#******************************************************************************
 
 def plotFunction( start, end, func ):
     plot( func.evaluate, [ start, end ] )
     return 0
 
 
-# //******************************************************************************
-# //
-# //  plot2DFunction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  plot2DFunction
+#
+#******************************************************************************
 
 def plot2DFunction( start1, end1, start2, end2, func ):
     splot( func.evaluate,
@@ -894,11 +894,11 @@ def plot2DFunction( start1, end1, start2, end2, func ):
     return 0
 
 
-# //******************************************************************************
-# //
-# //  plotComplexFunction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  plotComplexFunction
+#
+#******************************************************************************
 
 def plotComplexFunction( start1, end1, start2, end2, func ):
     cplot( func.evaluate,
@@ -907,11 +907,11 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
     return 0
 
 
-# //******************************************************************************
-# //
-# //  evaluateRecurrence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateRecurrence
+#
+#******************************************************************************
 
 def evaluateRecurrence( start, count, func ):
     arg = start
@@ -924,33 +924,33 @@ def evaluateRecurrence( start, count, func ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  repeatGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  repeatGenerator
+#
+#******************************************************************************
 
 def repeatGenerator( n, func ):
     for _ in arange( 0, n ):
         yield func.evaluate( )
 
 
-# //******************************************************************************
-# //
-# //  repeat
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  repeat
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def repeat( n, func ):
     return RPNGenerator( repeatGenerator( n, func ) )
 
 
-# //******************************************************************************
-# //
-# //  sequenceGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  sequenceGenerator
+#
+#******************************************************************************
 
 def sequenceGenerator( n, k, func ):
     value = n
@@ -963,21 +963,21 @@ def sequenceGenerator( n, k, func ):
         yield value
 
 
-# //******************************************************************************
-# //
-# //  getSequence
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getSequence
+#
+#******************************************************************************
 
 def getSequence( n, k, func ):
     return RPNGenerator( sequenceGenerator( n, k, func ) )
 
 
-# //******************************************************************************
-# //
-# //  filterList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  filterList
+#
+#******************************************************************************
 
 def filterList( n, k, invert=False ):
     if isinstance( n, mpf ):
@@ -996,11 +996,11 @@ def filterList( n, k, invert=False ):
             yield i
 
 
-# //******************************************************************************
-# //
-# //  filterListByIndex
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  filterListByIndex
+#
+#******************************************************************************
 
 def filterListByIndex( n, k, invert=False ):
     if isinstance( n, mpf ):
@@ -1019,11 +1019,11 @@ def filterListByIndex( n, k, invert=False ):
             yield item
 
 
-# //******************************************************************************
-# //
-# //  filterIntegersGenerator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  filterIntegersGenerator
+#
+#******************************************************************************
 
 def filterIntegersGenerator( n, k ):
     if validateRealInt( n ) < 1:
@@ -1039,22 +1039,22 @@ def filterIntegersGenerator( n, k ):
             yield i
 
 
-# //******************************************************************************
-# //
-# //  filterIntegers
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  filterIntegers
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def filterIntegers( n, func ):
     return RPNGenerator( filterIntegersGenerator( n, func ) )
 
 
-# //******************************************************************************
-# //
-# //  forEach
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  forEach
+#
+#******************************************************************************
 
 def forEach( listArg, func ):
     if not isinstance( func, RPNFunction ):
@@ -1064,11 +1064,11 @@ def forEach( listArg, func ):
         yield func.evaluate( *i )
 
 
-# //******************************************************************************
-# //
-# //  forEachList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  forEachList
+#
+#******************************************************************************
 
 def forEachList( listArg, func ):
     if not isinstance( func, RPNFunction ):
@@ -1078,11 +1078,11 @@ def forEachList( listArg, func ):
         yield func.evaluate( i )
 
 
-# //******************************************************************************
-# //
-# //  breakOnCondition
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  breakOnCondition
+#
+#******************************************************************************
 
 def breakOnCondition( arguments, condition, func ):
     if not isinstance( arguments, list ):
@@ -1102,13 +1102,13 @@ def breakOnCondition( arguments, condition, func ):
     return value
 
 
-# //******************************************************************************
-# //
-# //  preprocessTerms
-# //
-# //  *** Not used yet! ***
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  preprocessTerms
+#
+#  *** Not used yet! ***
+#
+#******************************************************************************
 
 def preprocessTerms( terms ):
     '''
@@ -1139,21 +1139,21 @@ def preprocessTerms( terms ):
         # translate compound units in the equivalent operators
         elif ( '*' in term or '^' in term or '/' in term ) and \
             any( c in term for c in string.ascii_letters ):
-            result.append( RPNUnits.parseUnitExpression( term ) )
+            result.append( RPNUnits.parseUnitString( term ) )
         else:
             result.append( term )
 
     return result
 
 
-# //******************************************************************************
-# //
-# //  evaluateConstantOperator
-# //
-# //  We know there are no arguments.  Although none of the constants currently
-# //  return a list, maybe one will in the future, so I'll handle list results.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateConstantOperator
+#
+#  We know there are no arguments.  Although none of the constants currently
+#  return a list, maybe one will in the future, so I'll handle list results.
+#
+#******************************************************************************
 
 def evaluateConstantOperator( term, currentValueList ):
     # handle a constant operator
@@ -1179,14 +1179,14 @@ def evaluateConstantOperator( term, currentValueList ):
     return True
 
 
-# //******************************************************************************
-# //
-# //  handleOneArgListOperator
-# //
-# //  Each operator is going to have to be responsible for how it handles
-# //  recursive lists.  In some cases, handling recursive lists makes sense.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  handleOneArgListOperator
+#
+#  Each operator is going to have to be responsible for how it handles
+#  recursive lists.  In some cases, handling recursive lists makes sense.
+#
+#******************************************************************************
 
 def handleOneArgListOperator( func, args, currentValueList ):
     if isinstance( args, RPNGenerator ):
@@ -1203,11 +1203,11 @@ def handleOneArgListOperator( func, args, currentValueList ):
         currentValueList.append( func( args ) )
 
 
-# //******************************************************************************
-# //
-# //  handleOneArgGeneratorOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  handleOneArgGeneratorOperator
+#
+#******************************************************************************
 
 def handleOneArgGeneratorOperator( func, args, currentValueList ):
     if isinstance( args, list ):
@@ -1224,14 +1224,14 @@ def handleOneArgGeneratorOperator( func, args, currentValueList ):
         raise ValueError( 'then you shouldn\'t call handleOneArgGeneratorOperator, should you?' )
 
 
-# //******************************************************************************
-# //
-# //  handleMultiArgListOperator
-# //
-# //  Each operator is going to have to be responsible for how it handles
-# //  recursive lists.  In some cases, handling recursive lists makes sense.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  handleMultiArgListOperator
+#
+#  Each operator is going to have to be responsible for how it handles
+#  recursive lists.  In some cases, handling recursive lists makes sense.
+#
+#******************************************************************************
 
 def handleMultiArgListOperator( func, argList, currentValueList ):
     newArgList = [ ]
@@ -1250,11 +1250,11 @@ def handleMultiArgListOperator( func, argList, currentValueList ):
     currentValueList.append( func( *newArgList ) )
 
 
-# //******************************************************************************
-# //
-# //  handleMultiArgGeneratorOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  handleMultiArgGeneratorOperator
+#
+#******************************************************************************
 
 def handleMultiArgGeneratorOperator( func, args, currentValueList ):
     newArgList = [ ]
@@ -1273,11 +1273,11 @@ def handleMultiArgGeneratorOperator( func, args, currentValueList ):
     currentValueList.append( func( *newArgList ) )
 
 
-# //******************************************************************************
-# //
-# //  evaluateListOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateListOperator
+#
+#******************************************************************************
 
 def evaluateListOperator( term, index, currentValueList ):
     # handle a list operator
@@ -1314,11 +1314,11 @@ def evaluateListOperator( term, index, currentValueList ):
     return True
 
 
-# //******************************************************************************
-# //
-# //  dumpOperators
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpOperators
+#
+#******************************************************************************
 
 def dumpOperators( totalsOnly=False ):
     # TODO:  Use g.operatorNames, etc.
@@ -1386,11 +1386,11 @@ def dumpOperators( totalsOnly=False ):
     return total
 
 
-# //******************************************************************************
-# //
-# //  dumpConstants
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpConstants
+#
+#******************************************************************************
 
 def dumpConstants( ):
     if not g.constantOperators:
@@ -1406,11 +1406,11 @@ def dumpConstants( ):
     return len( g.constantOperators )
 
 
-# //******************************************************************************
-# //
-# //  dumpUnits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpUnits
+#
+#******************************************************************************
 
 def dumpUnits( ):
     if not g.unitOperators:
@@ -1425,11 +1425,11 @@ def dumpUnits( ):
     return len( g.unitOperators )
 
 
-# //******************************************************************************
-# //
-# //  dumpUnitConversions
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpUnitConversions
+#
+#******************************************************************************
 
 def dumpUnitConversions( ):
     if not g.unitConversionMatrix:
@@ -1443,11 +1443,11 @@ def dumpUnitConversions( ):
     return len( g.unitConversionMatrix )
 
 
-# //******************************************************************************
-# //
-# //  printStats
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printStats
+#
+#******************************************************************************
 
 def printStats( cacheName, name ):
     count = countCache( cacheName )
@@ -1456,11 +1456,11 @@ def printStats( cacheName, name ):
     print( '{:10,} {:27} max: {:14,} ({:,})'.format( count, name, key, value ) )
 
 
-# //******************************************************************************
-# //
-# //  dumpStats
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpStats
+#
+#******************************************************************************
 
 def dumpStats( printTitle=True ):
     if printTitle:
@@ -1512,15 +1512,15 @@ def dumpStats( printTitle=True ):
     return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
 
-# //******************************************************************************
-# //
-# //  preparseForUnits
-# //
-# //  Break the string apart by '-', '/', '*', and '^' and if each element is a
-# //  unit, then convert '-' to '*'.   This way, we can still have '-' in
-# //  operator names (although I don't think there are currently any).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  preparseForUnits
+#
+#  Break the string apart by '-', '/', '*', and '^' and if each element is a
+#  unit, then convert '-' to '*'.   This way, we can still have '-' in
+#  operator names (although I don't think there are currently any).
+#
+#******************************************************************************
 
 def preparseForUnits( term ):
     if '-' in term:
@@ -1574,17 +1574,17 @@ def preparseForUnits( term ):
     return term.replace( '-', '*' )
 
 
-# //******************************************************************************
-# //
-# //  evaluateTerm
-# //
-# //  This looks worse than it is.  It just has to do slightly different things
-# //  depending on what kind of term or operator is involved.  Plus, there's a
-# //  lot of exception handling.
-# //
-# //  This function assumes operator alias replacements have already occurred.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateTerm
+#
+#  This looks worse than it is.  It just has to do slightly different things
+#  depending on what kind of term or operator is involved.  Plus, there's a
+#  lot of exception handling.
+#
+#  This function assumes operator alias replacements have already occurred.
+#
+#******************************************************************************
 
 def evaluateTerm( term, index, currentValueList, lastArg = True ):
     isList = isinstance( term, list )
@@ -1789,11 +1789,11 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
     return True
 
 
-# //******************************************************************************
-# //
-# //  printHelpMessage
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printHelpMessage
+#
+#******************************************************************************
 
 def printHelpMessage( ):
     from rpnOutput import printHelp
@@ -1801,11 +1801,11 @@ def printHelpMessage( ):
     return 0
 
 
-# //******************************************************************************
-# //
-# //  printHelpTopic
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  printHelpTopic
+#
+#******************************************************************************
 
 def printHelpTopic( n ):
     from rpnOutput import printHelp
@@ -1822,11 +1822,11 @@ def printHelpTopic( n ):
     return 0
 
 
-# //******************************************************************************
-# //
-# //  getUserVariable
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getUserVariable
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getUserVariable( key ):
@@ -1839,11 +1839,11 @@ def getUserVariable( key ):
         return ''
 
 
-# //******************************************************************************
-# //
-# //  setUserVariable
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  setUserVariable
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def setUserVariable( key, value ):
@@ -1856,11 +1856,11 @@ def setUserVariable( key, value ):
     return value
 
 
-# //******************************************************************************
-# //
-# //  getUserConfiguration
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getUserConfiguration
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getUserConfiguration( key ):
@@ -1870,11 +1870,11 @@ def getUserConfiguration( key ):
         return ''
 
 
-# //******************************************************************************
-# //
-# //  setUserConfiguration
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  setUserConfiguration
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def setUserConfiguration( key, value ):
@@ -1884,11 +1884,11 @@ def setUserConfiguration( key, value ):
     return value
 
 
-# //******************************************************************************
-# //
-# //  deleteUserConfiguration
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  deleteUserConfiguration
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def deleteUserConfiguration( key ):
@@ -1901,11 +1901,11 @@ def deleteUserConfiguration( key ):
     return key
 
 
-# //******************************************************************************
-# //
-# //  dumpUserConfiguration
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dumpUserConfiguration
+#
+#******************************************************************************
 
 def dumpUserConfiguration( ):
     for i in g.userConfiguration:
@@ -1916,11 +1916,11 @@ def dumpUserConfiguration( ):
     return len( g.userConfiguration )
 
 
-# //******************************************************************************
-# //
-# //  createUserFunction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createUserFunction
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def createUserFunction( key, func ):
@@ -1945,11 +1945,11 @@ def evaluateFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  evaluateListFunction
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateListFunction
+#
+#******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
 def evaluateListFunction( n, func ):
@@ -1962,11 +1962,11 @@ def evaluateListFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  filterListOfLists
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  filterListOfLists
+#
+#******************************************************************************
 
 def filterListOfLists( n, func, invert=False ):
     if not isinstance( func, RPNFunction ):
@@ -1982,104 +1982,104 @@ def filterListOfLists( n, func, invert=False ):
             yield i
 
 
-# //******************************************************************************
-# //
-# //  evaluateLimit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateLimit
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
     return limit( func.evaluate, n )
 
 
-# //******************************************************************************
-# //
-# //  evaluateReverseLimit
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateReverseLimit
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def evaluateReverseLimit( n, func ):
     return limit( func.evaluate, n, direction = -1 )
 
 
-# //******************************************************************************
-# //
-# //  evaluateProduct
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateProduct
+#
+#******************************************************************************
 
 def evaluateProduct( start, end, func ):
     return nprod( func.evaluate, [ start, end ] )
 
 
-# //******************************************************************************
-# //
-# //  evaluateSum
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluateSum
+#
+#******************************************************************************
 
 def evaluateSum( start, end, func ):
     return nsum( func.evaluate, [ start, end ] )
 
 
-# //******************************************************************************
-# //
-# //  createExponentialRange
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createExponentialRange
+#
+#******************************************************************************
 
 def createExponentialRange( a, b, c ):
     return RPNGenerator.createExponential( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  createGeometricRange
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createGeometricRange
+#
+#******************************************************************************
 
 def createGeometricRange( a, b, c ):
     return RPNGenerator.createGeometric( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  createRange
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createRange
+#
+#******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def createRange( start, end ):
     return RPNGenerator.createRange( start, end )
 
 
-# //******************************************************************************
-# //
-# //  createIntervalRangeOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createIntervalRangeOperator
+#
+#******************************************************************************
 
 def createIntervalRangeOperator( a, b, c ):
     return RPNGenerator.createRange( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  createSizedRangeOperator
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  createSizedRangeOperator
+#
+#******************************************************************************
 
 def createSizedRangeOperator( a, b, c ):
     return RPNGenerator.createSizedRange( a, b, c )
 
 
-# //******************************************************************************
-# //
-# //  specialFormatOperators
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  specialFormatOperators
+#
+#******************************************************************************
 
 specialFormatOperators = {
     'and'       : '( {0} and {1} )',
@@ -2089,13 +2089,13 @@ specialFormatOperators = {
 }
 
 
-# //******************************************************************************
-# //
-# //  functionOperators
-# //
-# //  This is a list of operators that terminate the function creation state.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  functionOperators
+#
+#  This is a list of operators that terminate the function creation state.
+#
+#******************************************************************************
 
 functionOperators = [
     #'break_on',
@@ -2127,20 +2127,20 @@ functionOperators = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  Modifiers are operators that directly modify the argument stack or global
-# //  state in addition to or instead of just returning a value.
-# //
-# //  Modifiers also don't adhere to the 'language' of rpn, which is strictly
-# //  postfix and context-free.  Unlike other operators consume one or more
-# //  values and return either a single list (possibly with sublists) or a single
-# //  value.  Also by changing global state, they can modify what comes _after_
-# //  them, which is not how the rpn language is defined.  However, this gives me
-# //  the flexibility to do some useful things that I am not otherwise able to
-# //  do.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  Modifiers are operators that directly modify the argument stack or global
+#  state in addition to or instead of just returning a value.
+#
+#  Modifiers also don't adhere to the 'language' of rpn, which is strictly
+#  postfix and context-free.  Unlike other operators consume one or more
+#  values and return either a single list (possibly with sublists) or a single
+#  value.  Also by changing global state, they can modify what comes _after_
+#  them, which is not how the rpn language is defined.  However, this gives me
+#  the flexibility to do some useful things that I am not otherwise able to
+#  do.
+#
+#******************************************************************************
 
 modifiers = {
     'duplicate_term'                : RPNOperator( duplicateTerm, 1 ),
@@ -2169,15 +2169,15 @@ modifiers = {
 }
 
 
-# //******************************************************************************
-# //
-# //  listOperators are operators that handle whether or not an argument is a
-# //  list themselves (because they require a list argument).  Unlike regular
-# //  operators, we don't want listOperators permutated over each list element,
-# //  and if we do for auxillary arguments, these operator handlers will do that
-# //  themselves.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  listOperators are operators that handle whether or not an argument is a
+#  list themselves (because they require a list argument).  Unlike regular
+#  operators, we don't want listOperators permutated over each list element,
+#  and if we do for auxillary arguments, these operator handlers will do that
+#  themselves.
+#
+#******************************************************************************
 
 listOperators = {
     # pylint: disable=line-too-long
@@ -2524,21 +2524,21 @@ listOperators = {
 }
 
 
-# //******************************************************************************
-# //
-# //  operators
-# //
-# //  Regular operators expect zero or more single values and if those arguments
-# //  are lists, rpn will iterate calls to the operator handler for each element
-# //  in the list.   Multiple lists for arguments are not permutated.  Instead,
-# //  the operator handler is called for each element in the first list, along
-# //  with the nth element of each other argument that is also a list.
-# //
-# //  Note:  There is something about the way some of the mpmath functions are
-# //  defined causes them not to work when used in a user-defined function.  So,
-# //  they are all wrapped in a lambda.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  operators
+#
+#  Regular operators expect zero or more single values and if those arguments
+#  are lists, rpn will iterate calls to the operator handler for each element
+#  in the list.   Multiple lists for arguments are not permutated.  Instead,
+#  the operator handler is called for each element in the first list, along
+#  with the nth element of each other argument that is also a list.
+#
+#  Note:  There is something about the way some of the mpmath functions are
+#  defined causes them not to work when used in a user-defined function.  So,
+#  they are all wrapped in a lambda.
+#
+#******************************************************************************
 
 operators = {
     # pylint: disable=line-too-long

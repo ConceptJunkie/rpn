@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnPolynomials.py
-# //
-# //  rpnChilada polynomial operators
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnPolynomials.py
+#
+#  rpnChilada polynomial operators
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 import collections
 
@@ -70,13 +70,13 @@ def determinant( M ):
     return sign * d // a ** ( k - 2 ) if ints else sign * d / a ** ( k - 2 )
 
 
-# //******************************************************************************
-# //
-# //  class Polynomial
-# //
-# //  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  class Polynomial
+#
+#  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python
+#
+#******************************************************************************
 
 class Polynomial( ):
     '''This class represents a polynomial as a list of coefficients.'''
@@ -237,11 +237,11 @@ class Polynomial( ):
         return ( -1 ) ** ( n * ( n - 1 ) // 2 ) * determinant( result ) / self.coeffs[ -1 ]
 
 
-# //******************************************************************************
-# //
-# //  solveQuadraticPolynomial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  solveQuadraticPolynomial
+#
+#******************************************************************************
 
 def solveQuadraticPolynomial( a, b, c ):
     # pylint: disable=invalid-name
@@ -264,13 +264,13 @@ def solveQuadraticPolynomial( a, b, c ):
         return [ x1, x2 ]
 
 
-# //******************************************************************************
-# //
-# //  solveCubicPolynomial
-# //
-# //  Adapted from http://www.1728.org/cubic2.htm
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  solveCubicPolynomial
+#
+#  Adapted from http://www.1728.org/cubic2.htm
+#
+#******************************************************************************
 
 def solveCubicPolynomial( a, b, c, d ):
     # pylint: disable=invalid-name
@@ -340,13 +340,13 @@ def solveCubicPolynomial( a, b, c, d ):
     return [ chop( x1 ), chop( x2 ), chop( x3 ) ]
 
 
-# //******************************************************************************
-# //
-# //  solveQuarticPolynomial
-# //
-# //  Adapted from http://www.1728.org/quartic2.htm
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  solveQuarticPolynomial
+#
+#  Adapted from http://www.1728.org/quartic2.htm
+#
+#******************************************************************************
 
 def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
     # pylint: disable=invalid-name
@@ -426,11 +426,11 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
     return [ chop( x1 ), chop( x2 ), chop( x3 ), chop( x4 ) ]
 
 
-# //******************************************************************************
-# //
-# //  addPolynomials
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  addPolynomials
+#
+#******************************************************************************
 
 def addPolynomials( a, b ):
     '''Adds two polynomials.'''
@@ -449,11 +449,11 @@ def addPolynomials( a, b ):
     return result.getCoefficients( )
 
 
-# //******************************************************************************
-# //
-# //  multiplyPolynomials
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  multiplyPolynomials
+#
+#******************************************************************************
 
 def multiplyPolynomials( a, b ):
     '''Multiplies two polynomials together.'''
@@ -463,11 +463,11 @@ def multiplyPolynomials( a, b ):
     return result.getCoefficients( )
 
 
-# //******************************************************************************
-# //
-# //  evaluatePolynomial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  evaluatePolynomial
+#
+#******************************************************************************
 
 def evaluatePolynomial( a, b ):
     '''Evaluates an arbitrary polynomial a for value b.'''
@@ -480,11 +480,11 @@ def evaluatePolynomial( a, b ):
         return polyval( a, b )
 
 
-# //******************************************************************************
-# //
-# //  exponentiatePolynomial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  exponentiatePolynomial
+#
+#******************************************************************************
 
 def exponentiatePolynomial( n, k ):
     '''Exponentiates an arbitrary polynomial by an integral power k.'''
@@ -502,11 +502,11 @@ def exponentiatePolynomial( n, k ):
         return result
 
 
-# //******************************************************************************
-# //
-# //  solvePolynomial
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  solvePolynomial
+#
+#******************************************************************************
 
 def solvePolynomial( args ):
     '''Uses the mpmath solve function to numerically solve an arbitrary polynomial.'''
@@ -552,11 +552,11 @@ def solvePolynomial( args ):
     return result
 
 
-# //******************************************************************************
-# //
-# //  multiplyPolynomialList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  multiplyPolynomialList
+#
+#******************************************************************************
 
 def multiplyPolynomialList( args ):
     '''Interprets args as a list of polynomials and returns the polynomial
@@ -577,7 +577,7 @@ def multiplyPolynomialList( args ):
             arg = [ arg ]
 
         if result is None:
-            # arg might be a generator
+            # arg might be a generator pylint: disable=unnecessary-comprehension
             result = Polynomial( [ i for i in arg ] )
         else:
             # arg might be a generator
@@ -586,11 +586,11 @@ def multiplyPolynomialList( args ):
     return result.getCoefficients( )
 
 
-# //******************************************************************************
-# //
-# //  sumPolynomialList
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  sumPolynomialList
+#
+#******************************************************************************
 
 def sumPolynomialList( args ):
     '''Interprets args as a list of polynomials and returns the polynomial sum.'''
@@ -611,6 +611,7 @@ def sumPolynomialList( args ):
 
         if result is None:
             # arg might be a generator
+            # pylint: disable=unnecessary-comprehension
             result = Polynomial( [ i for i in arg ] )
         else:
             # arg might be a generator
@@ -619,11 +620,11 @@ def sumPolynomialList( args ):
     return result.getCoefficients( )
 
 
-# //******************************************************************************
-# //
-# //  getPolynomialDiscriminant
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  getPolynomialDiscriminant
+#
+#******************************************************************************
 
 def getPolynomialDiscriminant( n ):
     return Polynomial( n ).getDiscriminant( )

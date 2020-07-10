@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-# //******************************************************************************
-# //
-# //  rpnUnits.py
-# //
-# //  rpnChilada unit conversion declarations
-# //  copyright (c) 2020, Rick Gutleber (rickg@his.com)
-# //
-# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-# //  information).
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  rpnUnits.py
+#
+#  rpnChilada unit conversion declarations
+#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#
+#  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#  information).
+#
+#******************************************************************************
 
 from mpmath import fadd, fdiv, fmul, log, mpmathify, pi, power
 
@@ -50,18 +50,18 @@ from rpn.rpnUnitClasses import RPNUnitInfo
 # In tanning, a dose rate of one MED per hour is equivalent to 55.55 milliwatts
 # per square meter of skin surface.
 
-# //******************************************************************************
-# //
-# //  unitOperators
-# //
-# //  unit name : unitType, representation, plural, abbrev,
-# //              aliases, categories,
-# //              description
-# //
-# //  When unit types are multiplied in compound units, they need to be
-# //  specified in alphabetical order in the name, but not the representations.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  unitOperators
+#
+#  unit name : unitType, representation, plural, abbrev,
+#              aliases, categories,
+#              description
+#
+#  When unit types are multiplied in compound units, they need to be
+#  specified in alphabetical order in the name, but not the representations.
+#
+#******************************************************************************
 
 unitOperators = {
     # _null_type - used internally
@@ -4767,15 +4767,15 @@ Ref:  https://en.wikipedia.org/wiki/Wine_glass#Capacity_measure
 }
 
 
-# //******************************************************************************
-# //
-# //  metricUnits
-# //
-# //  ... or any units that should get the SI prefixes
-# //
-# //  ( name, plural name, abbreviation, aliases, plural aliases )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  metricUnits
+#
+#  ... or any units that should get the SI prefixes
+#
+#  ( name, plural name, abbreviation, aliases, plural aliases )
+#
+#******************************************************************************
 
 metricUnits = [
     'ampere',
@@ -4833,15 +4833,15 @@ metricUnits = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  integralMetricUnits
-# //
-# //  Any units that should get the SI prefixes with positive powers.
-# //
-# //  ( name, plural name, abbreviation, aliases, plural aliases )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  integralMetricUnits
+#
+#  Any units that should get the SI prefixes with positive powers.
+#
+#  ( name, plural name, abbreviation, aliases, plural aliases )
+#
+#******************************************************************************
 
 integralMetricUnits = [
     'light-year',
@@ -4852,16 +4852,16 @@ integralMetricUnits = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  dataUnits
-# //
-# //  ... or any units that should get the SI prefixes (positive powers of 10)
-# //  and the binary prefixes
-# //
-# //  ( name, plural name, abbreviation, aliases, plural aliases )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dataUnits
+#
+#  ... or any units that should get the SI prefixes (positive powers of 10)
+#  and the binary prefixes
+#
+#  ( name, plural name, abbreviation, aliases, plural aliases )
+#
+#******************************************************************************
 
 dataUnits = [
     'bit',
@@ -4871,13 +4871,13 @@ dataUnits = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  units that compound with time
-# //
-# //  Anything that goes here needs to have an abbreviation.
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  units that compound with time
+#
+#  Anything that goes here needs to have an abbreviation.
+#
+#******************************************************************************
 
 compoundTimeUnits = [
     'ampere',
@@ -4886,11 +4886,11 @@ compoundTimeUnits = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  timeUnits
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  timeUnits
+#
+#******************************************************************************
 
 timeUnits = {
     'second' : 's',
@@ -4901,13 +4901,13 @@ timeUnits = {
 }
 
 
-# //******************************************************************************
-# //
-# //  metricPrefixes
-# //
-# //  ( name, abbreviation, power of 10 )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  metricPrefixes
+#
+#  ( name, abbreviation, power of 10 )
+#
+#******************************************************************************
 
 metricPrefixes = [
     ( 'yotta',      'Y',      24 ),
@@ -4932,13 +4932,13 @@ metricPrefixes = [
     ( 'yocto',      'y',      -24 ),
 ]
 
-# //******************************************************************************
-# //
-# //  dataPrefixes
-# //
-# //  ( name, abbreviation, power of 10 )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  dataPrefixes
+#
+#  ( name, abbreviation, power of 10 )
+#
+#******************************************************************************
 
 dataPrefixes = [
     ( 'yotta',      'Y',      24 ),
@@ -4952,13 +4952,13 @@ dataPrefixes = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  binaryPrefixes
-# //
-# //  ( name, abbreviation, power of 2 )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  binaryPrefixes
+#
+#  ( name, abbreviation, power of 2 )
+#
+#******************************************************************************
 
 binaryPrefixes = [
     ( 'yobi',       'Yi',     80 ),
@@ -4972,13 +4972,13 @@ binaryPrefixes = [
 ]
 
 
-# //******************************************************************************
-# //
-# //  unitConversionMatrix
-# //
-# //  ( first unit, second unit, conversion factor )
-# //
-# //******************************************************************************
+#******************************************************************************
+#
+#  unitConversionMatrix
+#
+#  ( first unit, second unit, conversion factor )
+#
+#******************************************************************************
 
 unitConversionMatrix = {
     # pylint: disable=line-too-long
