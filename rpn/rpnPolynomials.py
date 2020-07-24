@@ -28,8 +28,9 @@ def determinant( M ):
     Input: M -- square matrix; i.e., a list of lists.
     Output: A number.  If all input elements are integers, then this will also
             be an integer.
+
     Examples:
-    >>> determinant([[1,2,3,4],[1,2,3,5],[1,2,4,4],[4,3,2,1]])
+    > determinant([[1,2,3,4],[1,2,3,5],[1,2,4,4],[4,3,2,1]])
     5
 
     Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license
@@ -212,8 +213,9 @@ class Polynomial( ):
         degree to highest so that coeffs[k] is the coefficient of the x**k term.
         Input: coeffs -- list of numbers
         Output: A number
+
         Examples:
-        >>> discriminant([1,2,3,4,5])
+        > discriminant([1,2,3,4,5])
         10800
 
         Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license

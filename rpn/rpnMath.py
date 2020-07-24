@@ -1062,7 +1062,8 @@ class HyperopLeft( hyperop ):
             return check
 
         # Apply fold
-        return reduce( lambda x, y: self.lower( x, y ), self._repeat( a, b ) )
+        #return reduce( lambda x, y: self.lower( x, y ), self._repeat( a, b ) )
+        return reduce( self.lower, self._repeat( a, b ) )
 
 def calculateNthHyperoperator( a, b, c ):
     if a == 0:

@@ -12,7 +12,19 @@
 #
 #******************************************************************************
 
-from rpn.rpnEstimates import *
+from rpn.rpnEstimates import accelerationTable, amountOfSubstanceTable, angleTable, areaTable, \
+                              capacitanceTable, catalysisTable, chargeTable, constantTable, \
+                              currentTable, dataRateTable, densityTable, dynamicViscosityTable, \
+                              electricalConductanceTable, electricPotentialTable, \
+                              electricalResistanceTable, energyTable, forceTable, frequencyTable, \
+                              illuminanceTable, inductanceTable, informationEntropyTable, \
+                              jerkTable, jounceTable, lengthTable, luminanceTable, luminousFluxTable, \
+                              luminousIntensityTable, magneticFieldStrengthTable, magneticFluxTable, \
+                              magneticFluxDensityTable, massTable, powerTable, pressureTable, \
+                              radiationDoseTable, radiationExposureTable, radioactivityTable, \
+                              radiosityTable, solidAngleTable, temperatureTable, tidalForceTable, \
+                              timeTable, velocityTable, volumeTable
+
 from rpn.rpnUnitClasses import RPNUnitTypeInfo
 
 

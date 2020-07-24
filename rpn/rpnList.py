@@ -23,7 +23,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import add, square, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
-                         listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator, validateReal
+                         listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
 
 
 #******************************************************************************

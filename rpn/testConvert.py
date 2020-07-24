@@ -12,7 +12,7 @@
 #
 #******************************************************************************
 
-from rpn.rpnTestUtils import *
+from rpn.rpnTestUtils import expectEqual, testOperator
 from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitType
 
