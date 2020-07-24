@@ -131,7 +131,7 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
         if not 2 <= base <= len( g.numerals ):
             raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
 
-    if 0 > value >= 1.0:
+    if value < 0 or value >= 1.0:
         raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
 
     if base == 10:

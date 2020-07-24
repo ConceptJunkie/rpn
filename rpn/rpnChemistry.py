@@ -279,10 +279,10 @@ def getElementAttribute( n, k ):
     if isinstance( n, str ):
         n = getAtomicNumber( n )
 
-    if int( n ) < 1 or n > 118:
+    if int( n ) < 1 or n > len( g.elements ):
         raise ValueError( 'invalid atomic number' )
 
-    if 0 > k > 7:
+    if k < 0 or k > len( g.elements[ 1 ] ):
         raise ValueError( 'invalid element attribute' )
 
     if g.elements is None:
