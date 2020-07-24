@@ -543,7 +543,7 @@ electricalConductanceTable = {
 
 #******************************************************************************
 #
-#  electricalPotentialTable
+#  electricPotentialTable
 #
 #  volts : description
 #
@@ -622,7 +622,7 @@ electricalResistanceTable = {
 
 energyTable = {
     mpmathify( '2.0e-33' )    : 'the average kinetic energy of translational motion of a molecule at the lowest temperature reached, 100 picokelvins, as of 2003',
-    mpmathify( '6.6e-28' )    : 'the eergy of a typical AM radio photon (1 MHz) (4e-9 eV)',
+    mpmathify( '6.6e-28' )    : 'the energy of a typical AM radio photon (1 MHz) (4e-9 eV)',
     mpmathify( '1.6e-24' )    : 'the energy of a typical microwave oven photon (2.45 GHz) (1e-5 eV)',
     mpmathify( '2.0e-23' )    : 'the average kinetic energy of translational motion of a molecule in the Boomerang Nebula, the coldest place known outside of a laboratory, (1 K)',
     mpmathify( '2.0e-22' )    : 'the minumum energy of infrared light photons',
@@ -887,7 +887,7 @@ frequencyTable = {
     mpmathify( '3.00e17' )            : 'the frequency of gamma rays',
     mpmathify( '1.0e18' )             : '1 exahertz (EHz)',
     mpmathify( '1.0e21' )             : '1 zettahertz (ZHz)',
-    mpmathify( '1.0e21' )             : '1 yottahertz (YHz)',
+    mpmathify( '1.0e24' )             : '1 yottahertz (YHz)',
     mpmathify( '3.9e27' )             : 'the frequency of the highest energy (16 TeV) gamma ray detected, from Markarian 501',
     mpmathify( '1.85e43' )            : 'the Planck frequency, the inverse of the Planck time',
 }
