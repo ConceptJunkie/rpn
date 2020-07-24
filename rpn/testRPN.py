@@ -12,34 +12,34 @@
 #
 #******************************************************************************
 
+import difflib
 import os
 import sys
 import time
+
+from collections import OrderedDict
+from pathlib import Path
+
+from rpn.rpnOperators import modifiers
+
+from rpn.rpnConstantUtils import loadGlobalConstants
+from rpn.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
+from rpn.rpnOperators import constants, listOperators, operators
+from rpn.rpnPersistence import loadHelpData, loadUnitData, loadUnitNameData
+from rpn.rpnPrimeUtils import checkForPrimeData
+from rpn.rpnTestUtils import expectEqual, expectEquivalent, expectException, expectResult, testOperator
+from rpn.rpnUtils import getUserDataPath, loadAstronomyData
+from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
+from rpn.testConvert import runConvertTests
+from rpn.testHelp import runHelpTests
+
+import rpn.rpnGlobals as g
 
 if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 
-from collections import OrderedDict
-from pathlib import Path
-
-from rpn.rpnOperators import *
-
-from rpn.rpnConstantUtils import loadGlobalConstants
-from rpn.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
-from rpn.rpnOperators import constants, listOperators, operators
-from rpn.rpnPersistence import loadHelpData, loadUnitNameData
-from rpn.rpnPrimeUtils import checkForPrimeData
-from rpn.rpnTestUtils import *
-from rpn.rpnUtils import getUserDataPath, loadAstronomyData
-from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
-from rpn.testConvert import *
-from rpn.testHelp import *
-
-from mpmath import *
-
-import rpn.rpnGlobals as g
 
 g.testForSingleResults = True
 
@@ -65,7 +65,7 @@ for arg in sys.argv[ 1 : ]:
 
 if filterArg:
     print( '-f requires an additional argument that describes the filter' )
-    exit( )
+    sys.exit( )
 
 
 #******************************************************************************
@@ -1148,6 +1148,9 @@ def runCalendarOperatorTests( ):
     # from_ethiopian
     testOperator( '2012 1 1 from_ethiopian' )
 
+    # from_french_repubican
+    testOperator( '7 5 23 from_french_republican' )
+
     # from_hebrew
     testOperator( '5776 8 6 from_hebrew' )
 
@@ -1218,6 +1221,12 @@ def runCalendarOperatorTests( ):
 
     # to_ethiopian_name
     testOperator( 'today 0 31 range days + to_ethiopian_name' )
+
+    # to_french_republican
+    testOperator( 'today 0 31 range days + to_french_republican' )
+
+    # to_french_republican_name
+    testOperator( 'today 0 31 range days + to_french_republican_name' )
 
     # to_hebrew
     testOperator( 'today 0 31 range days + to_hebrew' )
@@ -1528,29 +1537,29 @@ def runCombinatoricsOperatorTests( ):
     # bell_polynomal
     from rpn.rpnSpecial import downloadOEISSequence
 
-    bell_terms = downloadOEISSequence( 106800 )
+    bellTerms = downloadOEISSequence( 106800 )
 
-    bell_term_offsets = [ ]
+    bellTermOffsets = [ ]
 
     total = 0
 
-    polynomials_to_check = 10
+    polynomialsToCheck = 10
 
-    for i in range( 1, polynomials_to_check + 2 ):
-        bell_term_offsets.append( total )
+    for i in range( 1, polynomialsToCheck + 2 ):
+        bellTermOffsets.append( total )
         total += i
 
-    for i in range( 0, polynomials_to_check ):
-        bell_poly = bell_terms[ bell_term_offsets[ i ] : bell_term_offsets[ i + 1 ] ]
+    for i in range( 0, polynomialsToCheck ):
+        bellPoly = bellTerms[ bellTermOffsets[ i ] : bellTermOffsets[ i + 1 ] ]
 
-        bell_poly_str = '[ '
-        bell_poly_str += ' '.join( [ str( k ) for k in bell_poly ] )
+        bellPolyStr = '[ '
+        bellPolyStr += ' '.join( [ str( k ) for k in bellPoly ] )
 
-        bell_poly_str += ' ] '
+        bellPolyStr += ' ] '
 
         for j in [ -300, -84, -1, 0, 1, 8, 23, 157 ]:
             expectEqual( str( i ) + ' ' + str( j ) + ' bell_polynomial',
-                         bell_poly_str + str( j ) + ' eval_polynomial' )
+                         bellPolyStr + str( j ) + ' eval_polynomial' )
 
     # binomial
     expectEqual( '8 1 992 sized_range lambda x 2 * 8 - 7 binomial 8 / eval', '973 oeis 992 left' )
@@ -2636,7 +2645,8 @@ def runGeometryOperatorTests( ):
                  '9003 oeis 100 filter_max' )
 
     if slow:
-       expectEqual( '[ 1 1697 range 1 1697 range ] multiplex lambda x 0 element x 1 element hypotenuse for_each_list unique sort lambda x is_integer filter 1697 filter_max', '9003 oeis 1697 filter_max' )
+        expectEqual( '[ 1 1697 range 1 1697 range ] multiplex lambda x 0 element x 1 element hypotenuse for_each_list unique sort lambda x is_integer filter 1697 filter_max',
+                     '9003 oeis 1697 filter_max' )
 
     # icosahedron_area
     expectEqual( '0 999 range icosahedron_area value round', '71398 oeis 1000 left' )
@@ -5399,7 +5409,7 @@ def runTests( tests ):
             else:
                 guess = difflib.get_close_matches( test, rpnTests, 1 )
 
-                if ( len( guess ) == 1 ):
+                if len( guess ) == 1:
                     print( 'Interpreting \'' + test + '\' as \'' + guess[ 0 ] + '\'...' )
                     print( )
                     rpnTests[ guess[ 0 ] ]( )
@@ -5468,7 +5478,7 @@ def main( ):
         elif arg == '-?':
             printHelpText( )
             return
-        elif arg != '-s' and arg != '-t':
+        elif arg not in ( '-s', '-t' ):
             args.append( arg )
 
     startTime = time_ns( )
@@ -5521,7 +5531,7 @@ def main( ):
         foundProblem = True
 
     if foundProblem:
-        exit( )
+        sys.exit( )
 
     #for i in operators:
     #    print( operators[ i ].generateCall( i ) )
@@ -5531,7 +5541,7 @@ def main( ):
             print( 'Astronomy tests were skipped because data could not be downloaded.' )
             print( )
 
-        if ( not g.primeDataAvailable ):
+        if not g.primeDataAvailable:
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
