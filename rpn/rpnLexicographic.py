@@ -1207,16 +1207,14 @@ def isDigitalPermutation( n, k ):
 def generateSquareDigitChainGenerator( n ):
     n = validateRealInt( floor( n ) )
 
+    chain = [ ]
+
     if n == 0:
         yield 0
         return
 
     if n == 1:
         yield 1
-        return
-
-    if n == 89:
-        yield 89
         return
 
     done = False
@@ -1229,10 +1227,12 @@ def generateSquareDigitChainGenerator( n ):
         for i in digits:
             n = fadd( n, pow( i, 2 ) )
 
-        yield n
-
-        if n in ( 1, 89 ):
+        if n in chain:
             done = True
+        else:
+            chain.append( n )
+
+            yield n
 
 @oneArgFunctionEvaluator( )
 def generateSquareDigitChain( n ):
