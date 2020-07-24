@@ -988,7 +988,7 @@ def getExtendedGCD( a, b ):
     '''
     Euclid's Extended GCD Algorithm
 
-    >>> xgcd(314159265, 271828186)
+    > xgcd(314159265, 271828186)
     (-18013273, 20818432, 7)
     '''
     u, u1 = 1, 0
@@ -1051,16 +1051,16 @@ def getFrobeniusNumber( args ):
     return the largest number, N, that cannot be expressed in the form:
     N = sum(m[i] * x[i]) where all m[i] are non-negative integers.
 
-    >>> frobenius_number( [ 9949, 9967, 9973 ] )
+    > frobenius_number( [ 9949, 9967, 9973 ] )
     24812836
 
-    >>> frobenius_number( [ 6, 9, 20 ] )
+    > frobenius_number( [ 6, 9, 20 ] )
     43
 
-    >>> frobenius_number( [ 5, 8, 15 ] )
+    > frobenius_number( [ 5, 8, 15 ] )
     27
 
-    frobenius_number( [ 5, 8, 9, 12 ] )
+    > frobenius_number( [ 5, 8, 9, 12 ] )
     11
     '''
 
@@ -1214,7 +1214,7 @@ def calculateChineseRemainderTheorem( values, mods ):
 
     Solve the equations x = a[i] mod m[i] for x
 
-    >>> crt((2, 3, 5, 7), (97, 101, 103, 107))
+    > crt((2, 3, 5, 7), (97, 101, 103, 107))
     96747802
     '''
 
@@ -1262,7 +1262,6 @@ def getRadical( target ):
     Returns the value of the radical function for n, which is the largest
     squarefree divisor.
     '''
-
     n = floor( target )
 
     if validateReal( n ) == 0:
@@ -1513,7 +1512,6 @@ def getPowMod( a, b, c ):
     '''
     Calculate (a ** y) % z efficiently.
     '''
-
     result = 1
 
     while b:
@@ -2045,7 +2043,6 @@ def getNthZetaZero( n ):
 #******************************************************************************
 
 mersennePrimeExponents = {
-    0:   0,
     1:   2,
     2:   3,
     3:   5,
@@ -2096,12 +2093,16 @@ mersennePrimeExponents = {
     48:  57885161,
     49:  74207281,
     50:  77232917,
+    51:  82589933
 }
 
 @oneArgFunctionEvaluator( )
 def getNthMersenneExponent( n ):
-    if 1 > validateRealInt( n ) > 50:
-        raise ValueError( 'invalid index for known Mersenne primes (1 to 50)' )
+    limit = len( mersennePrimeExponents )
+    n = validateRealInt( n )
+
+    if n < 0 or n > limit:
+        raise ValueError( 'invalid index for known Mersenne primes (0 to ' + str( limit )+ ')' )
 
     return mersennePrimeExponents[ n ]
 
