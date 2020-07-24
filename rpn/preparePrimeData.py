@@ -14,22 +14,17 @@
 #
 #******************************************************************************
 
-import bz2
-import contextlib
 import os
-import pickle
 import time
+
+from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
+from rpn.rpnUtils import getSourcePath
+from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
-
-import rpn.rpnGlobals as g
-
-from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
-from rpn.rpnUtils import getSourcePath
-from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 
 #******************************************************************************
@@ -74,25 +69,25 @@ def main( ):
 
     startTime = time_ns( )
 
-    preparePrimeData( "balanced_primes" )
-    preparePrimeData( "cousin_primes" )
-    preparePrimeData( "double_balanced_primes" )
-    preparePrimeData( "huge_primes" )
-    preparePrimeData( "isolated_primes" )
-    preparePrimeData( "large_primes" )
-    preparePrimeData( "octy_primes" )
-    preparePrimeData( "quadruple_balanced_primes" )
-    preparePrimeData( "quad_primes" )
-    preparePrimeData( "quint_primes" )
-    preparePrimeData( "sext_primes" )
-    preparePrimeData( "sexy_primes" )
-    preparePrimeData( "sexy_quadruplets" )
-    preparePrimeData( "sexy_triplets" )
-    preparePrimeData( "small_primes" )
-    preparePrimeData( "sophie_primes" )
-    preparePrimeData( "triplet_primes" )
-    preparePrimeData( "triple_balanced_primes" )
-    preparePrimeData( "twin_primes" )
+    preparePrimeData( 'balanced_primes' )
+    preparePrimeData( 'cousin_primes' )
+    preparePrimeData( 'double_balanced_primes' )
+    preparePrimeData( 'huge_primes' )
+    preparePrimeData( 'isolated_primes' )
+    preparePrimeData( 'large_primes' )
+    preparePrimeData( 'octy_primes' )
+    preparePrimeData( 'quadruple_balanced_primes' )
+    preparePrimeData( 'quad_primes' )
+    preparePrimeData( 'quint_primes' )
+    preparePrimeData( 'sext_primes' )
+    preparePrimeData( 'sexy_primes' )
+    preparePrimeData( 'sexy_quadruplets' )
+    preparePrimeData( 'sexy_triplets' )
+    preparePrimeData( 'small_primes' )
+    preparePrimeData( 'sophie_primes' )
+    preparePrimeData( 'triplet_primes' )
+    preparePrimeData( 'triple_balanced_primes' )
+    preparePrimeData( 'twin_primes' )
 
     print( )
     print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
