@@ -855,6 +855,7 @@ operatorAliases = {
     'tP'                            : 'planck_time',
     'tangent'                       : 'tan',
     'thue_morse'                    : 'nth_thue_morse',
+    'times'                         : 'multiply',
     'to_jalali'                     : 'to_persian',
     'to_lilian'                     : 'to_lilian_day',
     'to_ordinal'                    : 'to_ordinal_date',
