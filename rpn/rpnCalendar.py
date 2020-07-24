@@ -14,8 +14,8 @@
 
 import calendar
 
-from convertdate import bahai, gregorian, hebrew, indian_civil, islamic, julian, \
-                        mayan, persian
+from convertdate import bahai, french_republican, gregorian, hebrew, indian_civil, \
+                        islamic, julian, mayan, persian
 from ethiopian_date import EthiopianDateConverter as ethiopian_date
 from mpmath import ceil
 
@@ -233,6 +233,34 @@ ethiopianDays = [
     'Amanu\'el',
     'Bale Egziabeir',
     'Mark\'os'
+]
+
+frenchRepublicanDays = [
+    'Primidi',
+    'Duodi',
+    'Tridi',
+    'Quartidi',
+    'Quintidi',
+    'Sextidi',
+    'Septidi',
+    'Octidi',
+    'Nonidi',
+    'Decadi'
+]
+
+frenchRepublicanMonths = [
+    'Vendemiaire',
+    'Brumaire',
+    'Frimaire',
+    'Nivose',
+    'Pluviose',
+    'Ventose',
+    'Germinal',
+    'Floreal',
+    'Prairial',
+    'Messidor',
+    'Thermidor',
+    'Fructidor',
 ]
 
 
@@ -661,4 +689,46 @@ def getEthiopianCalendarDateName( n ):
 
     return ethiopianDays[ date[ 2 ] - 1 ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
                           ' ' + str( date[ 0 ] )
+
+
+#******************************************************************************
+#
+#  getFrenchRepublicanCalendarDate
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getFrenchRepublicanCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( french_republican.from_gregorian( n.year, n.month, n.day ) )
+
+
+#******************************************************************************
+#
+#  convertFrenchRepublicanDate
+#
+#******************************************************************************
+
+def convertFrenchRepublicanDate( year, month, day ):
+    return RPNDateTime( *french_republican.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
+
+
+#******************************************************************************
+#
+#  getFrenchRepublicanCalendarDateName
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getFrenchRepublicanCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = french_republican.from_gregorian( n.year, n.month, n.day )
+
+    return frenchRepublicanDays[ n.weekday( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
+
 

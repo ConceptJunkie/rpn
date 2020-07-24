@@ -43,10 +43,11 @@ from rpn.rpnAstronomy import getAngularSeparation, getAngularSize, getAntitransi
                              getSolarNoon, getSummerSolstice, getTransitTime, getVernalEquinox, getWinterSolstice, \
                              RPNAstronomicalObject
 
-from rpn.rpnCalendar import convertBahaiDate, convertEthiopianDate, convertHebrewDate, convertIndianCivilDate, \
-                            convertIslamicDate, convertJulianDate, convertMayanDate, convertPersianDate, \
-                            generateMonthCalendar, generateYearCalendar, getBahaiCalendarDate, \
+from rpn.rpnCalendar import convertBahaiDate, convertEthiopianDate, convertFrenchRepublicanDate, convertHebrewDate, \
+                            convertIndianCivilDate, convertIslamicDate, convertJulianDate, convertMayanDate, \
+                            convertPersianDate, generateMonthCalendar, generateYearCalendar, getBahaiCalendarDate, \
                             getBahaiCalendarDateName, getEthiopianCalendarDate, getEthiopianCalendarDateName, \
+                            getFrenchRepublicanCalendarDate, getFrenchRepublicanCalendarDateName, \
                             getHebrewCalendarDate, getHebrewCalendarDateName, getIndianCivilCalendarDate, \
                             getIndianCivilCalendarDateName, getIslamicCalendarDate, getIslamicCalendarDateName, \
                             getISODate, getISODateName, getJulianCalendarDate, getJulianDay, getLilianDay, \
@@ -2940,6 +2941,10 @@ operators = {
                                                    3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
                                                         RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'from_french_republican'        : RPNOperator( convertFrenchRepublicanDate,
+                                                   3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
+                                                        RPNArgumentType.PositiveInteger ], [ ] ),
+
     'from_hebrew'                   : RPNOperator( convertHebrewDate,
                                                    3, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger,
                                                         RPNArgumentType.PositiveInteger ], [ ] ),
@@ -3016,6 +3021,12 @@ operators = {
                                                    1, [ RPNArgumentType.DateTime ], [ ] ),
 
     'to_ethiopian_name'             : RPNOperator( getEthiopianCalendarDateName,
+                                                   1, [ RPNArgumentType.DateTime ], [ ] ),
+
+    'to_french_republican'          : RPNOperator( getFrenchRepublicanCalendarDate,
+                                                   1, [ RPNArgumentType.DateTime ], [ ] ),
+
+    'to_french_republican_name'     : RPNOperator( getFrenchRepublicanCalendarDateName,
                                                    1, [ RPNArgumentType.DateTime ], [ ] ),
 
     'to_hebrew'                     : RPNOperator( getHebrewCalendarDate,
