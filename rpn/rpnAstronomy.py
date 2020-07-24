@@ -762,6 +762,7 @@ def getEclipseTotality( body1, body2, arg1, arg2 ):
     area1 = fmul( pi, power( radius1, 2 ) )
     area2 = fmul( pi, power( radius2, 2 ) )
 
+    # pylint: disable=arguments-out-of-order
     areaOfIntersection = fadd( getCircleIntersectionTerm( radius1, radius2, separation ),
                                getCircleIntersectionTerm( radius2, radius1, separation ) )
 
