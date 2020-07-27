@@ -2260,7 +2260,7 @@ listOperators = {
     'convert'                       : RPNOperator( convertUnits,
                                                    2, [ RPNArgumentType.List ], [ ] ),   # list arguments are special
 
-    'latlong_to_nac'                : RPNOperator( convertLatLongToNAC,
+    'lat_long_to_nac'               : RPNOperator( convertLatLongToNAC,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'unpack'                        : RPNOperator( unpackInteger,

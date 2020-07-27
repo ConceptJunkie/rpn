@@ -475,6 +475,7 @@ operatorAliases = {
     'lP'                            : 'planck_length',
     'largest'                       : 'maximum',
     'latlong'                       : 'lat_long',
+    'latlong_to_nac'                : 'lat_long_to_nac',
     'len'                           : 'count',
     'length'                        : 'count',
     'leonardo'                      : 'nth_leonardo',

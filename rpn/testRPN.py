@@ -1988,8 +1988,8 @@ def runConversionOperatorTests( ):
     # invert_units
     testOperator( '30 miles gallon / invert_units' )
 
-    # latlong_to_nac
-    testOperator( '"Detroit, MI" location_info latlong_to_nac' )
+    # lat_long_to_nac
+    testOperator( '"Detroit, MI" location_info lat_long_to_nac' )
 
     # long
     testOperator( '3456789012 long' )
@@ -2953,11 +2953,10 @@ def runLexicographyOperatorTests( ):
     expectEqual( '0 10000 range lambda x is_palindrome filter', '2113 oeis 199 left' )
 
     # is_pandigital
+    expectResult( '3847596201 is_pandigital', 1 )
+    expectResult( '11335577998866442200 is_pandigital', 1 )
     expectResult( '1234567890 is_pandigital', 1 )
-    expectResult( '123456789 is_pandigital', 1 )
-    expectResult( '12345670 is_pandigital', 0 )
-    expectResult( '12345 is_pandigital', 1 )
-    expectResult( '321 is_pandigital', 1 )
+    expectResult( '1234567880 is_pandigital', 0 )
 
     # is_pddi
     testOperator( '1253 4 is_pddi' )

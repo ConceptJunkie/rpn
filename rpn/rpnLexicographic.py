@@ -373,9 +373,9 @@ def isPandigital( n ):
     length = len( n )
 
     if length < 10:
-        digitsToCheck = string.digits[ 1 : length + 1 ]
-    else:
-        digitsToCheck = string.digits
+        return 0
+
+    digitsToCheck = string.digits
 
     for c in digitsToCheck:
         if c not in n:

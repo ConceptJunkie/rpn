@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1556
+MAX_EXAMPLE_COUNT = 1677
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -536,9 +536,8 @@ this happens, but it's probably something stupid on my part.
 
 Using 'for_each' on a nested list should give a nice error message.
 
-'rpn [ 1 2 3 ] lambda x 2 + for_each' crashes.  Honestly, the distinction
-between 'for_each' and 'eval' is pretty vague.  I'm not sure 'for_each'
-really needs to exist.
+'rpn [ 1 2 3 ] lambda x 2 + for_each' crashes.  I'm not sure why it crashes,
+and I'm not even sure what it should do.
 
 -i doesn't work for lists.
 
@@ -975,7 +974,7 @@ Converted the prime number data files in git to the input text files.  Added
 preparePrimeData.py to pickle the files for use.  This will make setting up
 rpn for use with Python 2 possible.
 
-Added the 'latlong_to_nac' operator.
+Added the 'lat_long_to_nac' operator.
 
 Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
 the other similar binary-value operators to be consistent with the 'is-' and
@@ -1680,7 +1679,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 2 ] 3 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 10 -20 30 -40 50 -60 ] 154 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 8 5 3 -4 ] 1 10 range eval_polynomial' ),
-[ 'add_polynomials', 'find_polynomials', 'multiply_polynomials', 'polynomial_power' ] ],
+[ 'add_polynomials', 'find_polynomial', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'find_polynomial' : [
 'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
@@ -1725,7 +1724,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 1 ] 2 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 2 1 ] 4 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] 8 polynomial_power' ),
-[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomial', 'polynomial_product' ] ],
+[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomials', 'polynomial_product' ] ],
 
     'polynomial_product' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
@@ -1740,7 +1739,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_product' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_product' ),
-[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomial', 'polynomial_power' ] ],
+[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'polynomial_sum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
@@ -1755,7 +1754,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_sum' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_sum' ),
-[ 'add_polynomials', 'multiply_polynomial', 'polynomial_power' ] ],
+[ 'add_polynomials', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
@@ -1890,7 +1889,7 @@ increased to the next integral multiple of i.
 ''' + makeCommandExample( '3.4 ceil' ) + '''
 ''' + makeCommandExample( '-5.8 ceil' ) + '''
 ''' + makeCommandExample( '5.1 3.4j +' ),
-[ 'floor', 'nint', 'mantissa', 'round' ] ],
+[ 'floor', 'nearest_int', 'mantissa', 'round' ] ],
 
     'decrement' : [
 'arithmetic', 'returns n - 1',
@@ -2032,7 +2031,7 @@ expects real, integral arguments.
 ''' + makeCommandExample( '6 2 is_divisible' ) + '''
 ''' + makeCommandExample( '1 10 range 2 is_divisible' ) + '''
 ''' + makeCommandExample( '12 1 10 range is_divisible' ),
-[ ] ],
+[ 'is_equal', 'is_even', 'is_odd' ] ],
 
     'is_equal' : [
 'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
@@ -2221,7 +2220,7 @@ The operator is primarily useful in lambdas.  It is actually idential to the
 ''' + makeCommandExample( '7 8 larger' ) + '''
 ''' + makeCommandExample( 'pi 3 larger' ) + '''
 ''' + makeCommandExample( '1 -1 larger' ),
-[ 'smaller', 'is_larger' ] ],
+[ 'smaller' ] ],
 
     'lcm' : [
 'arithmetic', 'calculates the least common multiple of elements in list n',
@@ -2256,7 +2255,7 @@ of n and k.
 '''
 ''' + makeCommandExample( 'pi mantissa' ) + '''
 ''' + makeCommandExample( '-p50 652 sqrt pi * exp mantissa' ),
-[ 'floor', 'ceiling', 'nint' ] ],
+[ 'floor', 'ceiling', 'nearest_int' ] ],
 
     'maximum' : [
 'arithmetic', 'returns the largest value in list n',
@@ -2537,7 +2536,7 @@ than successive uses of 'add'.
 ''' + makeCommandExample( '[ 5 8 3 ] sum' ) + '''
 ''' + makeCommandExample( '1 100 range sum' ) + '''
 ''' + makeCommandExample( '[ 3 cups 21 teaspoons 7 tablespoons 1.5 deciliters ] sum' ),
-[ 'add', 'prod' ] ],
+[ 'add', 'product' ] ],
 
 
     #******************************************************************************
@@ -2564,7 +2563,7 @@ require an astronomical object.
 ''',
 '''
 ''' + makeCommandExample( 'mars "San Francisco, California" 2019-05-23 next_setting' ),
-[ 'earth', 'jupiter' ] ],
+[ 'venus', 'jupiter' ] ],
 
     'mercury' : [
 'astronomical_objects', 'the planet Mercury',
@@ -3055,7 +3054,7 @@ Think of it sort of like "anti-noon".
 ''',
 '''
 ''' + makeCommandExample( '"Bridgeford, CT" today sun_antitransit' ),
-[ 'sun_transit', 'sunrise', 'sunset' ] ],
+[ 'solar_noon', 'sunrise', 'sunset' ] ],
 
     'transit_time' : [
 'astronomy', 'calculates the duration of time from the next rising until the subseqent setting of a body',
@@ -3776,7 +3775,7 @@ names are used.
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso' ),
-[ 'iso_date', 'to_iso_name', 'to_iso_day', 'make_iso_time' ] ],
+[ 'iso_date', 'to_iso_name', 'iso_day', 'make_iso_time' ] ],
 
     'to_iso_name' : [
 'calendars', 'converts a date to the formatted version of the equivalent ISO date',
@@ -4036,7 +4035,7 @@ Elements can be referred to by atomic symbol or atomic number.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range atomic_symbol element_name -s1' ),
-[ ] ],
+[ 'element_description', 'atomic_symbol' ] ],
 
     'element_occurrence' : [
 'chemistry', 'returns the occurrence of element n',
@@ -4103,7 +4102,7 @@ Where E is the atomic symbol of an element, and N is the count of atoms.
 ''',
 '''
 ''',
-[ ] ],
+[ 'nth_bell' ] ],
 
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
@@ -4240,7 +4239,7 @@ The 10th row of the 'Narayana triangle':
 ''',
 '''
 ''',
-[ ] ],
+[ 'bell_polynomial' ] ],
 
     'nth_bernoulli' : [
 'combinatorics', 'calculates the nth Bernoulli number',
@@ -4618,7 +4617,7 @@ Ref:  https://en.wikipedia.org/wiki/Faraday_constant
 ''',
 '''
 ''' + makeCommandExample( 'fine_structure_constant' ),
-[ ] ],
+[ 'electric_constant', 'magnetic_constant' ] ],
 
     'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
@@ -4746,7 +4745,7 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_angular_frequency' ),
-[ ] ],
+[ 'planck_time', 'planck_length' ] ],
 
     'planck_charge' : [
 'constants', 'returns the Planck charge',
@@ -4812,7 +4811,7 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_impedance' ),
-[ ] ],
+[ 'planck_voltage', 'planck_charge' ] ],
 
     'planck_intensity' : [
 'constants', 'returns the Planck intensity',
@@ -4820,7 +4819,7 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_intensity' ),
-[ ] ],
+[ 'planck_power', 'planck_area' ] ],
 
     'planck_length' : [
 'constants', 'returns the Planck length',
@@ -4883,7 +4882,7 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_time' ),
-[ ] ],
+[ 'planck_length', 'planck_acceleration' ] ],
 
     'planck_voltage' : [
 'constants', 'returns the Planck voltage',
@@ -4891,7 +4890,7 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_voltage' ),
-[ ] ],
+[ 'planck_charge', 'planck_impedance' ] ],
 
     'planck_volume' : [
 'constants', 'returns the Planck volume',
@@ -4947,7 +4946,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
 '''
 ''' + makeCommandExample( 'radiation_constant' ),
-[ 'vacuum_permeability', 'faraday_constant' ] ],
+[ 'electric_constant', 'magnetic_constant', 'faraday_constant' ] ],
 
     'robbins_constant' : [
 'constants', 'returns Robbins\' constant',
@@ -5013,7 +5012,7 @@ Ref:  https://en.wikipedia.org/wiki/Prouhet%E2%80%93Thue%E2%80%93Morse_constant
 ''',
 '''
 ''' + makeCommandExample( 'thue_morse_constant' ),
-[ ] ],
+[ 'nth_thue_morse' ] ],
 
     'vacuum_impedance' : [
 'constants', 'returns the Vacuum Impedance constant',
@@ -5022,7 +5021,7 @@ Ref:  https://en.wikipedia.org/wiki/Impedance_of_free_space
 ''',
 '''
 ''' + makeCommandExample( 'vacuum_impedance' ),
-[ ] ],
+[ 'magnetic_constant', 'electric_constant' ] ],
 
     'von_klitzing_constant' : [
 'constants', 'returns the von Klitzing constant',
@@ -5052,7 +5051,11 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '-1 char' ) + '''
+''' + makeCommandExample( '1 char' ) + '''
+''' + makeCommandExample( '128 char' ) + '''
+''' + makeCommandExample( '200 char' ) + '''
+''' + makeCommandExample( '2000 char' ),
 [ 'uchar', 'short', 'long', 'integer' ] ],
 
     'convert' : [
@@ -5072,7 +5075,7 @@ text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 This conversions suffers from a minor rounding error I haven't been able to
 fix yet:
 ''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert', indent=4 ),
-[ ] ],
+[ 'invert_units', 'value' ] ],
 
     'dhms' : [
 'conversion', 'shortcut for \'[ day hour minute second ] convert\'',
@@ -5093,7 +5096,7 @@ convert' in order to convert an angle to degrees, arcminutes and arcseconds.
 ''',
 '''
 ''' + makeCommandExample( 'pi 7 / radians dms' ),
-[ ] ],
+[ 'hms' ] ],
 
     'double' : [
 'conversion', 'converts n to the representation of a 64-bit IEEE 754 float',
@@ -5121,7 +5124,7 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( '1471461891 from_unix_time' ),
-[ ] ],
+[ 'to_unix_time' ] ],
 
     'hms' : [
 'conversion', 'shortcut for \'[ hour minute second ] convert\'',
@@ -5139,7 +5142,9 @@ in order to convert a time interval to hours, minutes and seconds.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '128 8 integer' ) + '''
+''' + makeCommandExample( '4 billion 32 integer' ) + '''
+''' + makeCommandExample( '4 billion 33 integer' ),
 [ 'uinteger', 'char', 'short', 'long' ] ],
 
     'invert_units' : [
@@ -5152,17 +5157,19 @@ The result is the same value, but in inverted units.  This is useful for turning
 a result into something more intuitive and readable.
 ''',
 '''
+''' + makeCommandExample( '10 1/inch invert_units' ) + '''
 ''' + makeCommandExample( '3 cups invert_units' ) + '''
-''' + makeCommandExample( '40 mph invert_units' ),
-[ ] ],
+''' + makeCommandExample( '0.025 hours mile / invert_units' ),
+[ 'reciprocal' ] ],
 
-    'latlong_to_nac' : [
+    'lat_long_to_nac' : [
 'conversion', '',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '"Leesburg, VA" location_info lat_long_to_nac' ) + '''
+''' + makeCommandExample( '"Moscow, Russia" location_info lat_long_to_nac' ),
+[ 'lat_long', 'location_info' ] ],
 
     'long' : [
 'conversion', 'converts the value to a signed 32-bit integer',
@@ -5171,7 +5178,9 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 long' ) + '''
+''' + makeCommandExample( '4 billion long' ) + '''
+''' + makeCommandExample( '-2 billion long' ),
 [ 'char', 'longlong', 'quadlong', 'ulong' ] ],
 
     'longlong' : [
@@ -5227,7 +5236,11 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '-1 uchar' ) + '''
+''' + makeCommandExample( '1 uchar' ) + '''
+''' + makeCommandExample( '128 uchar' ) + '''
+''' + makeCommandExample( '256 uchar' ) + '''
+''' + makeCommandExample( '2000 uchar' ),
 [ 'char', 'ushort', 'ulong', 'uinteger' ] ],
 
     'uinteger' : [
@@ -5235,7 +5248,11 @@ fixed-size integer types.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '32 5 uinteger' ) + '''
+''' + makeCommandExample( '32 6 uinteger' ) + '''
+''' + makeCommandExample( '256 9 uinteger -r2' ) + '''
+''' + makeCommandExample( '-9 3 uinteger' ) + '''
+''' + makeCommandExample( '2000 12 uinteger' ),
 [ 'integer', 'uchar', 'ushort', 'ulong', 'ulonglong', 'uquadlong' ] ],
 
     'ulong' : [
@@ -5611,7 +5628,7 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
-[ 'eval', 'functions', 'limit', 'nsum', 'nprod' ] ],
+[ 'eval', 'function', 'limit', 'nsum', 'nprod' ] ],
 
     'limit' : [
 'functions', 'calculates the limit of function k( x ) as x approaches n',
@@ -5627,7 +5644,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'limit', 'lamdba' ] ],
+[ 'limit', 'lambda' ] ],
 
     'nprod' : [
 'functions', 'calculates the product of function c over the range of a through b',
@@ -5681,7 +5698,7 @@ a number of extra libraries.
 rpn -2 2 -2 2 lambda x 2 ** y 2 ** - plot2
 
 ''',
-[ 'plot', 'lamdba', 'plot_complex' ] ],
+[ 'plot', 'lambda', 'plot_complex' ] ],
 
     'plot_complex' : [
 'functions', 'plot a complex function e for values of x between a and b real, c and d imaginary',
@@ -5738,7 +5755,7 @@ value.
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
 ''' + makeCommandExample( '1 20 range lambda x is_prime not filter' ),
-[ 'filter', 'unfilter_by_index', 'lamdba' ] ],
+[ 'filter', 'unfilter_by_index', 'lambda' ] ],
 
     'unfilter_by_index' : [
 'functions', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -5746,7 +5763,7 @@ value.
 ''',
 '''
 ''',
-[ 'filter_by_index', 'unfilter', 'lamdba' ] ],
+[ 'filter_by_index', 'unfilter', 'lambda' ] ],
 
     'x' : [
 'functions', 'used as a variable in user-defined functions',
@@ -5757,15 +5774,16 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ),
-[ 'lamdba', 'y', 'z' ] ],
+[ 'lambda', 'y', 'z' ] ],
 
     'y' : [
 'functions', 'used as a variable in user-defined functions',
 '''
 ''',
 '''
-''',
-[ 'lamdba', 'x', 'z' ] ],
+''' + makeCommandExample( '3 4 lambda x 2 ** y 2 ** + sqrt eval2' ) + '''
+''' + makeCommandExample( '[ 1 5 range 1 5 range ] permute_lists lambda x y ** for_each' ),
+[ 'lambda', 'x', 'z' ] ],
 
     'z' : [
 'functions', 'used as a variable in user-defined functions',
@@ -5773,7 +5791,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'lamdba', 'x', 'y' ] ],
+[ 'lambda', 'x', 'y' ] ],
 
 
     #******************************************************************************
@@ -5791,7 +5809,7 @@ meters.
 '''
 ''' + makeCommandExample( '3 1 antiprism_area' ) + '''
 ''' + makeCommandExample( '7 1 meter antiprism_area' ),
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'antiprism_volume' : [
 'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
@@ -5802,7 +5820,7 @@ meters.
 '''
 ''' + makeCommandExample( '3 1 antiprism_volume' ) + '''
 ''' + makeCommandExample( '7 1 meter antiprism_volume' ),
-[ 'antiprism_area', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_area', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'cone_area' : [
 'geometry', 'calculates the surface area of a cone of radius n and height k',
@@ -5832,7 +5850,7 @@ as a length in meters.
 ''',
 '''
 ''',
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_volume', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_area', 'sphere_area' ] ],
 
     'dodecahedron_volume' : [
 'geometry', 'calculates the volume of a regular dodecahedron of edge length n',
@@ -5840,7 +5858,7 @@ as a length in meters.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'hypotenuse' : [
 'geometry', 'calculates the hypotenuse of n and k',
@@ -5852,7 +5870,7 @@ calculates what the length of the hypotenuse would be.
 ''' + makeCommandExample( '3 4 hypotenuse' ) + '''
 ''' + makeCommandExample( '7 24 hypotenuse' ) + '''
 ''' + makeCommandExample( '1 1 hypotenuse' ),
-[ ] ],
+[ 'square_root', 'distance' ] ],
 
     'icosahedron_area' : [
 'geometry', 'calculates the surface area of a regular icosahedron of edge length n',
@@ -5860,7 +5878,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_volume', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_volume', 'sphere_area' ] ],
 
     'icosahedron_volume' : [
 'geometry', 'calculates the volume of a regular icosahedron of edge length n',
@@ -5868,7 +5886,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
 
     'k_sphere_area' : [
 'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
@@ -5900,7 +5918,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_volume', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'octahedron_volume' : [
 'geometry', 'calculates the volume of a regular octahedron of edge length n',
@@ -5908,7 +5926,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_area', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'polygon_area' : [
 'geometry', 'calculates the area of an regular n-sided polygon with sides of length k',
@@ -5924,7 +5942,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'prism_volume' : [
 'geometry', 'calculates the volume of an a-sided prism of edge length b, and height c',
@@ -5932,7 +5950,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'sphere_area' : [
 'geometry', 'calculates the surface area of a sphere of size n (radius or volume)',
@@ -5964,7 +5982,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'tetrahedron_volume' : [
 'geometry', 'calculates the volume of a regular tetrahedron of edge length n',
@@ -5972,7 +5990,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'torus_area' : [
 'geometry', 'calculates the surface area of a torus of major radius n and minor radius k',
@@ -6241,7 +6259,7 @@ Euler's number).  'o' by itself is interpreted as the symbol for 'abohm'.
 ''' + makeCommandExample( '[1-4:2:3] build_numbers' ) + '''
 ''' + makeCommandExample( '[1-4:1:2]e build_numbers' ) + '''
 ''',
-[ ] ],
+[ 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'build_step_numbers' : [
 'list_operators', 'builds all step numbers up to n digits in length',
@@ -6267,7 +6285,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 ''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
 ''' + makeCommandExample( '9 0 range combine_digits' ) + '''
 ''' + makeCommandExample( '1 7 primes combine_digits' ),
-[ ] ],
+[ 'build_numbers', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'count_digits' : [
 'lexicography', 'counts the occurrences in n of all digits in k',
@@ -6294,7 +6312,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 '''
 All of the circular primes up to a million:
 ''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime and_all filter [ 2 5 ] append sort' ),
-[ 'rotate_left', 'rotate_right' ] ],
+[ 'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'digits' : [
 'lexicography', 'counts the number of digits in an integer',
@@ -6319,7 +6337,7 @@ All of the circular primes up to a million:
 ''',
 '''
 ''',
-[ 'add_digits', 'combine_digits', 'duplicate_dugits' ] ],
+[ 'add_digits', 'combine_digits', 'duplicate_digits' ] ],
 
     'erdos_persistence' : [
 'lexicography', 'counts the Erdos version of multiplicative persistence for n',
@@ -6336,7 +6354,7 @@ Erdos' variation works the same except that zeroes are ignored.
 ''',
 '''
 ''',
-[ ] ],
+[ 'persistence', 'show_erdos_persistence', 'k_persistence' ] ],
 
     'filter_max' : [
 'functions', 'filters all values greater than k from list n',
@@ -6373,7 +6391,7 @@ lambdas would otherwise be used.
 ''',
 '''
 ''' + makeCommandExample( '-a30 10911 55 find_palindrome' ),
-[ ] ],
+[  ] ],
 
     'get_base_k_digits' : [
 'number_theory', 'interprets n as a list of digits in base k',
@@ -6495,7 +6513,7 @@ number squared ends with the digits of the original number.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_pandigital' ] ],
 
     'is_base_k_smith_number' : [
 'lexicography', 'returns whether n is a Smith Number in base k',
@@ -6515,7 +6533,7 @@ https://en.wikipedia.org/wiki/Smith_number
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_increasing', 'is_decreasing' ] ],
 
     'is_decreasing' : [
 'lexicography', 'returns whether an integer n is decreasing',
@@ -6527,7 +6545,7 @@ than the previous digit.
 ''' + makeCommandExample( '443211 is_decreasing' ) + '''
 ''' + makeCommandExample( '1234 is_decreasing' ) + '''
 ''' + makeCommandExample( '11111111111 is_decreasing' ),
-[ ] ],
+[ 'is_increasing', 'is_bouncy' ] ],
 
     'is_digital_permutation' : [
 'lexicography', 'returns whether k is a digital permutation of n',
@@ -6539,7 +6557,7 @@ then k is a digital permutation of n.
 ''' + makeCommandExample( '101 110 is_digital_permutation' ) + '''
 ''' + makeCommandExample( '1234 4321 is_digital_permutation' ) + '''
 ''' + makeCommandExample( '1201 1201 is_digital_permutation' ),
-[ ] ],
+[ 'is_pandigital', 'permute_digits' ] ],
 
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number',
@@ -6567,7 +6585,7 @@ than the previous digit.
 ''' + makeCommandExample( '4456788 is_increasing' ) + '''
 ''' + makeCommandExample( '7784 is_increasing' ) + '''
 ''' + makeCommandExample( '6666666666666666 is_decreasing' ),
-[ ] ],
+[ 'is_decreasing', 'is_bouncy' ] ],
 
     'is_kaprekar' : [
 'lexicography', 'returns whether an integer n is a Kaprekar number in base k',
@@ -6591,7 +6609,7 @@ than the previous digit.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_narcissistic' ] ],
 
     'is_narcissistic' : [
 'lexicography', 'returns whether an integer n is narcissistic',
@@ -6599,7 +6617,7 @@ than the previous digit.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_k_narcissistic' ] ],
 
     'is_order_k_smith_number' : [
 'lexicography', 'returns whether n is am order-k Smith Number',
@@ -6621,23 +6639,19 @@ read the same forwards as backwards, then the operator returns 1.
 '''
 ''' + makeCommandExample( '101 is_palindrome' ) + '''
 ''' + makeCommandExample( '1201 is_palindrome' ),
-[ ] ],
+[ 'find_palindrome', 'is_pandigital', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pandigital' : [
 'lexicography', 'returns whether an integer n is pandigital',
 '''
 A pandigital number contains at least one of all the of the digits 0 through
-9.   If the number is smaller than 10 digits, then it is considered pandigital
-if it contains all the digits from 1 to n, where n is the length of the string
-in digits.
+9.
 ''',
 '''
-''' + makeCommandExample( '1234 is_pandigital' ) + '''
-''' + makeCommandExample( '1274 is_pandigital' ) + '''
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
 ''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ),
-[ ] ],
+[ 'is_base_k_pandigital', 'is_palindrome', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pdi' : [
 'lexicography', 'returns whether an integer n is a perfect digital invariant',
@@ -6647,10 +6661,10 @@ in digits.
 ''' + makeCommandExample( '370 is_pdi' ) + '''
 ''' + makeCommandExample( '371 is_pdi' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ),
-[ 'is_pdi' ] ],
+[ 'is_pddi' ] ],
 
     'is_pddi' : [
-'lexicography', 'returns whether an integer n is a perfect digit-to-digti invariant for base k',
+'lexicography', 'returns whether an integer n is a perfect digit-to-digit invariant for base k',
 '''
 ''',
 '''
@@ -6751,7 +6765,7 @@ lexicographic permutations of the digits.
 '''
 ''' + makeCommandExample( '123 permute_digits' ) + '''
 ''' + makeCommandExample( '5567 permute_digits' ),
-[ ] ],
+[ 'combine_digits', 'is_digital_permutation' ] ],
 
     'persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',
@@ -6778,7 +6792,7 @@ This operator returns the count of the resulting chain of numbers.
 ''' + makeCommandExample( '123 1 4 replace_digits' ) + '''
 ''' + makeCommandExample( '1997 9 8 replace_digits' ) + '''
 ''' + makeCommandExample( '5000 5 0 replace_digits' ),
-[ ] ],
+[ 'combine_digits', 'permute_digits' ] ],
 
     'reversal_addition' : [
 'lexicography', 'TODO: describe me',
@@ -6797,7 +6811,7 @@ new number.
 '''
 ''' + makeCommandExample( '123456789 reverse_digits' ) + '''
 ''' + makeCommandExample( '1010 reverse_digits' ),
-[ ] ],
+[ 'permute_digits', 'replace_digits' ] ],
 
     'rotate_digits_left' : [
 'lexicography', 'rotates the digits of n to the left by k digits',
@@ -6805,7 +6819,7 @@ new number.
 ''',
 '''
 ''',
-[ ] ],
+[ 'rotate_digits_right' ] ],
 
     'rotate_digits_right' : [
 'lexicography', 'rotates the digits of n to the right by k digits',
@@ -6813,7 +6827,7 @@ new number.
 ''',
 '''
 ''',
-[ ] ],
+[ 'rotate_digits_left' ] ],
 
     'show_erdos_persistence' : [
 'lexicography', 'shows the Erdos multiplicative persistence chain of n',
@@ -6904,9 +6918,8 @@ This chain terminates when the next result is one that has already appeared.
 ''' + makeCommandExample( '0 0 and' ) + '''
 ''' + makeCommandExample( '0 1 and' ) + '''
 ''' + makeCommandExample( '1 0 and' ) + '''
-''' + makeCommandExample( '1 1 and' ) + '''
-''',
-[ 'or', 'nand' ] ],
+''' + makeCommandExample( '1 1 and' ),
+[ 'or', 'nand', 'bitwise_and' ] ],
 
     'nand' : [
 'logical', 'returns 1 if n and k are both zero',
@@ -6916,21 +6929,19 @@ This chain terminates when the next result is one that has already appeared.
 ''' + makeCommandExample( '0 0 nand' ) + '''
 ''' + makeCommandExample( '0 1 nand' ) + '''
 ''' + makeCommandExample( '1 0 nand' ) + '''
-''' + makeCommandExample( '1 1 nand' ) + '''
-''',
-[ 'or', 'nand' ] ],
+''' + makeCommandExample( '1 1 nand' ),
+[ 'or', 'nand', 'bitwise_nand' ] ],
 
     'nor' : [
-'logical', 'returns 1 if n and k are both 0'
+'logical', 'returns 1 if n and k are both 0',
 '''
 ''',
 '''
 ''' + makeCommandExample( '0 0 nor' ) + '''
 ''' + makeCommandExample( '0 1 nor' ) + '''
 ''' + makeCommandExample( '1 0 nor' ) + '''
-''' + makeCommandExample( '1 1 nor' ) + '''
-''',
-[ 'or', 'nand' ] ],
+''' + makeCommandExample( '1 1 nor' ),
+[ 'or', 'nand', 'bitwise_nor' ] ],
 
     'not' : [
 'logical', 'negates the operand',
@@ -6938,9 +6949,8 @@ This chain terminates when the next result is one that has already appeared.
 ''',
 '''
 ''' + makeCommandExample( '0 not' ) + '''
-''' + makeCommandExample( '1 not' ) + '''
-''',
-[ 'or', 'nand' ] ],
+''' + makeCommandExample( '1 not' ),
+[ 'or', 'nand', 'bitwise_not' ] ],
 
     'or' : [
 'logical', 'return 1 if either n or k, or both, are zero',
@@ -6950,9 +6960,8 @@ This chain terminates when the next result is one that has already appeared.
 ''' + makeCommandExample( '0 0 or' ) + '''
 ''' + makeCommandExample( '0 1 or' ) + '''
 ''' + makeCommandExample( '1 0 or' ) + '''
-''' + makeCommandExample( '1 1 or' ) + '''
-''',
-[ 'nor', 'and' ] ],
+''' + makeCommandExample( '1 1 or' ),
+[ 'nor', 'and', 'bitwise_or' ] ],
 
     'xnor' : [
 'logical', 'returns 1 if n and k are both 0 or both 1',
@@ -6962,9 +6971,8 @@ This chain terminates when the next result is one that has already appeared.
 ''' + makeCommandExample( '0 0 xnor' ) + '''
 ''' + makeCommandExample( '0 1 xnor' ) + '''
 ''' + makeCommandExample( '1 0 xnor' ) + '''
-''' + makeCommandExample( '1 1 xnor' ) + '''
-''',
-[ 'xor' ] ],
+''' + makeCommandExample( '1 1 xnor' ),
+[ 'xor', 'bitwise_xnor' ] ],
 
     'xor' : [
 'logical', 'return 1 if n and k are not both 0 and not both 1',
@@ -6974,9 +6982,8 @@ This chain terminates when the next result is one that has already appeared.
 ''' + makeCommandExample( '0 0 xor' ) + '''
 ''' + makeCommandExample( '0 1 xor' ) + '''
 ''' + makeCommandExample( '1 0 xor' ) + '''
-''' + makeCommandExample( '1 1 xor' ) + '''
-''',
-[ 'xnor' ] ],
+''' + makeCommandExample( '1 1 xor' ),
+[ 'xnor', 'bitwise_xor' ] ],
 
 
     #******************************************************************************
@@ -7081,7 +7088,7 @@ This simply counts the number of elements in the list.
 ''',
 '''
 ''' + makeCommandExample( '1 100 range count' ),
-[ ] ],
+[ 'element' ] ],
 
     'cumulative_diffs' : [
 'list_operators', 'returns a list with the differences between each element of list n with the first element',
@@ -7159,7 +7166,7 @@ consecutive number, starting with k, and the original nth element of the list.
 '''
 ''' + makeCommandExample( '1 10 range 1 enumerate' ) + '''
 ''' + makeCommandExample( '20 30 range boiling_point 20 enumerate -s1' ),
-[ ] ],
+[ 'count' ] ],
 
     'exponential_range' : [
 'list_operators', 'generates a list of exponential progression of numbers',
@@ -7182,7 +7189,7 @@ This used to have the arguments swapped, but that seemed wrong.
 ''' + makeCommandExample( '6 [ 1 4 5 6 9 ] find' ) + '''
 And we can access the found item using the 'element' operator:
 ''' + makeCommandExample( '[ 1 4 5 6 9 ] 3 element', indent=4 ),
-[ ] ],
+[ 'count', 'filter' ] ],
 
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
@@ -7342,7 +7349,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_palindrome' ] ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
@@ -7468,7 +7475,7 @@ would ever be useful, so the operator leaves it out.
 ''',
 '''
 ''',
-[ ] ],
+[ 'permute_lists', 'sublist' ] ],
 
     'random_element' : [
 'list_operators', 'returns a random element from list n',
@@ -7614,7 +7621,7 @@ operands as needed.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range 2 9 range append 3 10 range append unique' ),
-[ ] ],
+[ 'sort' ] ],
 
     'zero' : [
 'list_operators', 'returns a list of the indices of elements in list n that are zero',
@@ -7623,14 +7630,12 @@ This operator is useful for applying an operator that returns a binary value
 on a list, and getting a summary of the results.
 
 Indices are zero-based.
-
-(see 'nonzero')
 ''',
 '''
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] zero' ) + '''
 List the non-prime Fibonacci numbers:
 ''' + makeCommandExample( '0 20 range fib is_prime zero fib' ),
-[ ] ],
+[ 'nonzero' ] ],
 
 
     #******************************************************************************
@@ -7707,7 +7712,7 @@ n.
 ''',
 '''
 ''',
-[ ] ],
+[ 'polylog', 'exp' ] ],
 
 
     'polylog' : [
@@ -7716,7 +7721,7 @@ n.
 ''',
 '''
 ''',
-[ ] ],
+[ 'log', 'polyexp' ] ],
 
 
     #******************************************************************************
@@ -7820,7 +7825,7 @@ resulting expression a list, rather than a set of k expressions.
 ''' + makeCommandExample( '[ 10 10 duplicate_term ]' ) + '''
 ''' + makeCommandExample( '[ 1 10 range 10 duplicate_term ]' ) + '''
 ''' + makeCommandExample( '[ 1 10 range 10 duplicate_term ] unique' ),
-[ ] ],
+[ 'previous', 'echo', 'duplicate_operator' ] ],
 
     'duplicate_operator' : [
 'modifiers', 'duplicates an operation n times',
@@ -7841,7 +7846,7 @@ is not followed by another operator, then it has no effect.
 ''' + makeCommandExample( '10 3 duplicate_operator sqr' ) + '''
 ''' + makeCommandExample( '8 3 2 duplicate_operator **' ) + '''
 ''' + makeCommandExample( '8 3 3 duplicate_operator **' ),
-[ ] ],
+[ 'previous', 'echo', 'duplicate_term' ] ],
 
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
@@ -7860,7 +7865,7 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 
 ''' + makeCommandExample( '4 5 make_pyth_3' ) + '''
 ''' + makeCommandExample( '4 5 make_pyth_3 unlist euler_brick' ),
-[ ] ],
+[ 'flatten' ] ],
 
 
     #******************************************************************************
@@ -7875,7 +7880,7 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 '''
 ''',
-[ ] ],
+[ 'abundance_ratio' ] ],
 
     'abundance_ratio' : [
 'number_theory', 'returns the abundance ratio of n',
@@ -7883,7 +7888,7 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 '''
 ''',
-[ ] ],
+[ 'abundance' ] ],
 
     'ackermann' : [
 'number_theory', 'calculates the value of the Ackermann function for n and k',
@@ -7921,7 +7926,7 @@ Ref:  https://en.wikipedia.org/wiki/Alternating_factorial
 ''',
 '''
 ''' + makeCommandExample( '1 10 range alternating_factorial' ),
-[ ] ],
+[ 'factorial' ] ],
 
     'alternating_harmonic_fraction' : [
 'number_theory', 'returns the rational version of the nth alternating harmonic number',
@@ -7935,7 +7940,7 @@ rational numbers, so it's possible to represent them as fractions.
 ''' + makeCommandExample( '7 alternating_harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a20 60 alternating_harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a50 110 alternating_harmonic_fraction' ),
-[ ] ],
+[ 'harmonic_fraction' ] ],
 
     'barnesg' : [
 'number_theory', 'evaluates the Barnes G-function for n',
@@ -7945,7 +7950,7 @@ complex numbers.
 ''',
 '''
 ''',
-[ 'superfactoral', 'gamma' ] ],
+[ 'superfactorial', 'gamma' ] ],
 
     'base' : [
 'number_theory', 'interprets list elements as base k digits',
@@ -7993,7 +7998,7 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
 ''',
 '''
 ''',
-[ 'make_continued_fraction' ] ],
+[ 'make_continued_fraction', 'fraction' ] ],
 
     'collatz' : [
 'number_theory', 'returns the first k members of the Collatz sequence of n',
@@ -8015,7 +8020,7 @@ can generate prohibitively large lists for numbers with a lot of factors.
 '''
 ''' + makeCommandExample( '98280 count_divisors' ) + '''
 ''' + makeCommandExample( '1 20 range count_divisors' ),
-[ ] ],
+[ 'divisors', 'factor' ] ],
 
     'crt' : [
 'number_theory', 'calculates Chinese Remainder Theorem result of a list n of values and a list k of modulos',
@@ -8026,7 +8031,7 @@ list (which must be the same size).
 ''',
 '''
 ''',
-[ ] ],
+[ 'digital_root', 'harmonic_residue' ] ],
 
     'cyclotomic' : [
 'number_theory', 'evaluates the the nth cyclotomic polynomial for k',
@@ -8043,7 +8048,7 @@ This is the equivalent of '0 n polygamma'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'polygamma' ] ],
 
     'digital_root' : [
 'number_theory', 'returns the digital root of N',
@@ -8052,7 +8057,7 @@ https://en.wikipedia.org/wiki/Digital_root
 ''',
 '''
 ''',
-[ ] ],
+[ 'harmonic_residue', 'crt' ] ],
 
     'divisors' : [
 'number_theory', 'returns a list of divisors of n',
@@ -8063,7 +8068,7 @@ integer itself, sorted in order of increasing size.
 '''
 ''' + makeCommandExample( '3600 divisors' ) + '''
 ''' + makeCommandExample( '[ 2 3 5 ] prod divisors' ),
-[ ] ],
+[ 'count_divisors', 'factor' ] ],
 
     'double_factorial' : [
 'number_theory', 'calculates the double factorial of n',
@@ -8075,7 +8080,7 @@ So it could sort of be thought of as a "half factorial".
 ''',
 '''
 ''' + makeCommandExample( '1 10 range double_factorial' ),
-[ ] ],
+[ 'factorial', 'superfactorial', 'subfactorial', 'multifactorial' ] ],
 
     'egypt' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
@@ -8092,7 +8097,7 @@ The eta function is also known as the "alternating zeta function".
 ''',
 '''
 ''',
-[ ] ],
+[ 'zeta' ] ],
 
     'euler_brick' : [
 'number_theory', 'creates the dimensions of an Euler brick, given a Pythagorean triple',
@@ -8105,7 +8110,7 @@ a Pythogorean triples, therefore the face diagonals are also integers.
 ''' + makeCommandExample( '828 2035 hypotenuse' ) + '''
 ''' + makeCommandExample( '828 3120 hypotenuse' ) + '''
 ''' + makeCommandExample( '2035 3120 hypotenuse' ),
-[ ] ],
+[ 'make_pyth_3', 'make_pyth_4' ] ],
 
     'euler_phi' : [
 'number_theory', 'calculates Euler\'s totient function for n',
@@ -8113,7 +8118,7 @@ a Pythogorean triples, therefore the face diagonals are also integers.
 ''',
 '''
 ''',
-[ ] ],
+[ 'sigma' ] ],
 
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
@@ -8143,7 +8148,7 @@ rpn yafu_path 'c:\\app\\yafu set_config
 ''' + makeCommandExample( '8675309 factor' ) + '''
 ''' + makeCommandExample( '10000000000000000000001 factor' ) + '''
 ''' + makeCommandExample( '-a20 2 43 ** 1 - factor' ),
-[ ] ],
+[ 'reduce', 'divisors' ] ],
 
     'factorial' : [
 'number_theory', 'calculates the prime factorization of n',
@@ -8170,7 +8175,7 @@ This shows the relationship between the Fibonacci numbers and the Lucas numbers:
 
 ''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
 ''' + makeCommandExample( '1 30 range lucas' ),
-[ ] ],
+[ 'tribonacci', 'fibonorial', 'tetranacci', 'pentanacci', 'hexanacci', 'heptanacci', 'octanacci' ] ],
 
     'fibonorial' : [
 'number_theory', 'calculates the product of the first n Fibonacci numbers',
@@ -8179,7 +8184,7 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range fibonorial' ),
-[ ] ],
+[ 'fibonacci', 'factorial' ] ],
 
     'find_sum_of_cubes' : [
 'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
@@ -8205,7 +8210,7 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'make_continued_fraction', 'continued_fraction' ] ],
 
     'frobenius' : [
 'number_theory', 'calculates the frobenius number of a list of values with gcd > 1',
@@ -8221,7 +8226,7 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'factorial' ] ],
 
     'generate_polydivisibles' : [
 'number_theory', 'generates all the polydivisible numbers for base n',
@@ -8270,7 +8275,7 @@ fraction is far more limited.
 ''' + makeCommandExample( '5 harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a20 50 harmonic_fraction' ) + '''
 ''' + makeCommandExample( '-a50 100 harmonic_fraction' ),
-[ ] ],
+[ 'alternating_harmonic_fraction' ] ],
 
     'harmonic_residue' : [
 'number_theory', 'returns the harmonic residue of n',
@@ -8281,7 +8286,7 @@ count of n, divided by the sum of the divisors of n.
 '''
 ''' + makeCommandExample( '1 10 range harmonic_residue' ) + '''
 ''' + makeCommandExample( '1 10 range nth_perfect_number harmonic_residue' ),
-[ ] ],
+[ 'digital_root', 'crt' ] ],
 
     'heptanacci' : [
 'number_theory', 'calculates the nth Heptanacci number',
@@ -8292,7 +8297,7 @@ The first several heptanacci numbers:
 ''' + makeCommandExample( '1 20 range heptanacci', indent=4 ) + '''
 The Heptanacci constant:
 ''' + makeCommandExample( 'infinity lambda x 6 + heptanacci x 5 + heptanacci / limit', indent=4 ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'hexanacci' : [
 'number_theory', 'calculates the nth Hexanacci number',
@@ -8303,7 +8308,7 @@ The first several hexanacci numbers:
 ''' + makeCommandExample( '1 20 range hexanacci', indent=4 ) + '''
 The Hexanacci constant:
 ''' + makeCommandExample( 'infinity lambda x 5 + hexanacci x 4 + hexanacci / limit', indent=4 ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'hurwitz_zeta' : [
 'number_theory', 'calculates Hurwitz\'s zeta function for n and k',
@@ -8337,7 +8342,7 @@ Ref:  https://en.wikipedia.org/wiki/Abundant_number
 '''
 The first several abundant numbers:
 ''' + makeCommandExample( '1 80 range lambda x is_abundant filter' ),
-[ ] ],
+[ 'abundance', 'abundance_ratio' ] ],
 
     'is_achilles' : [
 'number_theory', 'returns whether or not n is an Achilles number',
@@ -8414,7 +8419,7 @@ The first few harmonic divisor numbers:
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_k_perfect', 'is_perfect' ] ],
 
     'is_k_perfect' : [
 'number_theory', 'returns whether an integer n is k perfect',
@@ -8422,7 +8427,7 @@ The first few harmonic divisor numbers:
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_k_hyperperfect', 'is_perfect' ] ],
 
     'is_k_semiprime' : [
 'number_theory', 'returns whether n is a k-factor square-free number',
@@ -8433,7 +8438,7 @@ use 'is_k_sphenic'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_prime', 'is_semiprime', 'is_k_sphenic' ] ],
 
     'is_k_sphenic' : [
 'number_theory', 'returns whether n is a product of k distinct primes',
@@ -8447,7 +8452,7 @@ be an appropriate term to describe having a number of squarefree other than 1
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_prime', 'is_k_semiprime', 'is_semiprime', 'is_sphenic' ] ],
 
     'is_perfect' : [
 'number_theory', 'returns whether or not n is a perfect number',
@@ -8480,7 +8485,7 @@ A pernicious number has a prime number of ones in its binary representation.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_divisible', 'generate_polydivisibles' ] ],
 
     'is_powerful' : [
 'number_theory', 'returns whether n is a powerful number',
@@ -8654,7 +8659,7 @@ sequence.
 ''',
 '''
 ''' + makeCommandExample( '1 17 range lucas' ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'make_continued_fraction' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
@@ -8670,7 +8675,7 @@ sequence.
 ''',
 '''
 ''',
-[ 'make_pyth_4', 'hypotenuse' ] ],
+[ 'make_pyth_4', 'hypotenuse', 'pythagorean_triples' ] ],
 
     'make_pyth_4' : [
 'number_theory', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
@@ -8718,7 +8723,7 @@ The harmonic series consists of the reciprocals of the natural numbers.
 ''' + makeCommandExample( '2 nth_harmonic_number' ) + '''
 ''' + makeCommandExample( '10000 nth_harmonic_number' ) + '''
 ''' + makeCommandExample( '1e100 nth_harmonic' ),
-[ ] ],
+[ 'harmonic_fraction' ] ],
 
     'nth_kynea' : [
 'number_theory', 'gets the nth Kynea number',
@@ -8858,13 +8863,13 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 These values are stored in a look-up table.  They are not calculated. ;-)
 
 The nth known perfect number is computed from the nth known Mersenne prime.
-There are currently 49 known Mersenne primes.  This list is subject to change
+There are currently 51 known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_perfect_number' ) + '''
 ''' + makeCommandExample( '49 nth_perfect_number' ),
-[ ] ],
+[ 'is_perfect', 'nth_mersenne_exponent' ] ],
 
     'nth_stern' : [
 'number_theory', 'calculates the nth value of the Stern diatomic series',
@@ -8893,7 +8898,7 @@ The first several octanacci numbers:
 ''' + makeCommandExample( '1 20 range octanacci', indent=4 ) + '''
 The Octanacci constant:
 ''' + makeCommandExample( 'infinity lambda x 7 + octanacci x 6 + octanacci / limit', indent=4 ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'pascal_triangle' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
@@ -8913,7 +8918,7 @@ The first several pentanacci numbers:
 ''' + makeCommandExample( '1 20 range pentanacci', indent=4 ) + '''
 The Pentanacci constant:
 ''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit', indent=4 ),
-[ ] ],
+[  'fibonacci' ] ],
 
     'polygamma' : [
 'number_theory', 'calculates the polygamma function for n',
@@ -8921,7 +8926,7 @@ The Pentanacci constant:
 ''',
 '''
 ''' + makeCommandExample( '5 6 polygamma' ),
-[ ] ],
+[ 'gamma', 'trigamma' ] ],
 
     'polygorial' : [
 'number_theory', 'calculates the polygamma function for n',
@@ -8932,7 +8937,7 @@ http://danieldockery.com/res/math/polygorials.pdf
 ''' + makeCommandExample( '1 10 range 3 polygorial' ) + '''
 ''' + makeCommandExample( '1 10 range 4 polygorial' ) + '''
 ''' + makeCommandExample( '5 6 polygorial' ),
-[ ] ],
+[ 'factorial', 'phitorial', 'primorial' ] ],
 
     'phitorial' : [
 'number_theory', 'calculates the nth photorial',
@@ -8943,7 +8948,7 @@ relatively prime to n.
 '''
 The first several phitorial numbers:
 ''' + makeCommandExample( '1 10 range phitorial', indent=4 ),
-[ ] ],
+[ 'factorial', 'primorial' ] ],
 
     'primorial' : [
 'number_theory', 'calculates the nth primorial',
@@ -8952,7 +8957,7 @@ This function calculates the product of the first n prime numbers.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range primorial' ),
-[ ] ],
+[ 'factorial', 'phitorial' ] ],
 
     'pythagorean_triples' : [
 'number_theory', 'calculates all primitive pythagorean triples with a hypotenuse length up to n',
@@ -8962,7 +8967,7 @@ a common factor.
 ''',
 '''
 ''' + makeCommandExample( '50 pythagorean_triples -s1' ),
-[ ] ],
+[ 'make_pyth_3', 'make_pyth_4' ] ],
 
     'relatively_prime' : [
 'number_theory', 'calculates whether n and k are relatively prime',
@@ -9003,7 +9008,7 @@ The radical function is defined as the largest squarefree factor.
 ''',
 '''
 ''' + makeCommandExample( '1 100 range radical' ),
-[ ] ],
+[ 'harmonic_residue', 'digital_root' ] ],
 
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n',
@@ -9051,7 +9056,7 @@ floor( ( n!/e ) + 1/2 )
 ''',
 '''
 ''' + makeCommandExample( '1 10 range subfactorial' ),
-[ ] ],
+[ 'factorial', 'double_factorial', 'superfactorial' ] ],
 
     'sums_of_k_powers' : [
 'number_theory', 'calculates every combination of b cth powers that sum to n',
@@ -9059,7 +9064,7 @@ floor( ( n!/e ) + 1/2 )
 ''',
 '''
 ''' + makeCommandExample( '5104 3 3 sums_of_k_powers' ),
-[ ] ],
+[ 'sums_of_k_nonzero_powers' ] ],
 
     'sums_of_k_nonzero_powers' : [
 'number_theory', 'calculates every combination of b nonzero cth powers that sum to n',
@@ -9067,7 +9072,7 @@ floor( ( n!/e ) + 1/2 )
 ''',
 '''
 ''' + makeCommandExample( '1072 3 3 sums_of_k_nonzero_powers' ),
-[ ] ],
+[ 'sums_of_k_powers' ] ],
 
     'superfactorial' : [
 'number_theory', 'calculates the superfactorial of n',
@@ -9089,7 +9094,7 @@ The first several tetranacci numbers:
 ''' + makeCommandExample( '1 20 range tetranacci', indent=4 ) + '''
 The Tetranacci constant:
 ''' + makeCommandExample( 'infinity lambda x 3 + tetranacci x 2 + tetranacci / limit', indent=4 ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'thabit' : [
 'number_theory', 'gets the nth Thabit number',
@@ -9109,7 +9114,7 @@ The first several tribonacci numbers:
 ''' + makeCommandExample( '1 20 range tribonacci', indent=4 ) + '''
 The Tribonacci constant:
 ''' + makeCommandExample( 'infinity lambda x 2 + tribonacci x 1 + tribonacci / limit', indent=4 ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'trigamma' : [
 'number_theory', 'calculates the trigamma function for n',
@@ -9118,7 +9123,7 @@ This is the equivalent of '1 n polygamma'.
 ''',
 '''
 ''' + makeCommandExample( '23 trigamma' ),
-[ ] ],
+[ 'polygamma' ] ],
 
     'unit_roots' : [
 'number_theory', 'calculates the nth roots of unity',
@@ -9128,7 +9133,7 @@ This is the equivalent of '1 n polygamma'.
 ''' + makeCommandExample( '2 unit_roots' ) + '''
 ''' + makeCommandExample( '3 unit_roots' ) + '''
 ''' + makeCommandExample( '4 unit_roots' ),
-[ ] ],
+[ 'root' ] ],
 
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
@@ -9136,7 +9141,7 @@ This is the equivalent of '1 n polygamma'.
 ''',
 '''
 ''' + makeCommandExample( '2 zeta' ),
-[ 'hurwitz_zeta' ] ],
+[ 'hurwitz_zeta', 'eta' ] ],
 
     'zeta_zero' : [
 'number_theory', 'calculates the nth non-trivial zero of Riemann\'s zeta function',
@@ -9144,7 +9149,7 @@ This is the equivalent of '1 n polygamma'.
 ''',
 '''
 ''' + makeCommandExample( '1 5 range zeta_zero' ),
-[ ] ],
+[ 'zeta' ] ],
 
 
     #******************************************************************************
@@ -9196,7 +9201,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '1 billion watts black_hole_lifetime' ) + '''
 ''' + makeCommandExample( '1.0e12 kg black_hole_lifetime' ) + '''
 ''' + makeCommandExample( 'gee black_hole_lifetime' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'black_hole_luminosity' : [
 'physics', 'calculates the luminosity of a black hole given one of several different measurements',
@@ -9209,7 +9214,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '373 kelvin black_hole_luminosity' ) + '''
 ''' + makeCommandExample( '1.0e16 kg black_hole_luminosity' ) + '''
 ''' + makeCommandExample( 'gee black_hole_luminosity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_mass' : [
 'physics', 'calculates the mass of a black hole given one of several different measurements',
@@ -9222,7 +9227,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
 ''' + makeCommandExample( '10 gee black_hole_mass' ),
-[ 'black_hole_surface_aarea', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_radius' : [
 'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
@@ -9237,7 +9242,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '3 kelvin black_hole_radius' ) + '''
 ''' + makeCommandExample( '1 trillion watts black_hole_radius' ) + '''
 ''' + makeCommandExample( '100 gee black_hole_radius' ),
-[ 'black_hole_surface_aarea', 'black_hole_sureface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_area' : [
 'physics', 'calculates the surface area of a black hole given one of several different measurements',
@@ -9263,7 +9268,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '1.0e15 kelvin black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '60 watts black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '2000 gee black_hole_surface_gravity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_tides' : [
 'physics', 'calculates the tidal force at the event horizon of a black hole given one of several different measurements',
@@ -9280,7 +9285,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '273 kelvin black_hole_surface_tides' ) + '''
 ''' + makeCommandExample( '1 thousand watts black_hole_surface_tides' ) + '''
 ''' + makeCommandExample( '100 gee black_hole_surface_tides' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity', 'black_hole_temperature' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_temperature' ] ],
 
     'black_hole_temperature' : [
 'physics', 'calculates the temperature of a black hole given one of several different measurements',
@@ -9293,7 +9298,7 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 ''' + makeCommandExample( '273 kelvin black_hole_temperature' ) + '''
 ''' + makeCommandExample( '1 million watts black_hole_temperature' ) + '''
 ''' + makeCommandExample( '0.01 gee black_hole_temperature' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'distance' : [
 'physics', 'calculates distance given different measurement types',
@@ -9327,7 +9332,7 @@ order), from one of the following combinations of units:
 ''',
 '''
 ''',
-[ ] ],
+[ 'velocity', 'acceleration', 'orbital_velocity' ] ],
 
     'heat_index' : [
 'physics', 'calculates the heat index given the temperature and the relative humidity',
@@ -9353,7 +9358,7 @@ Ref:  https://en.wikipedia.org/wiki/Heat_index
 ''',
 '''
 ''',
-[ ] ],
+[ 'velocity', 'acceleration', 'escape_velocity' ] ],
 
     'mass_equivalence' : [
 'physics', 'calculates the mass equivalence of energy n',
@@ -9446,7 +9451,7 @@ the mass and density cnanot be calculated from only the radius and volume:
 Calculate the surface gravity of a 10-solar-mass black hole:
 ''' + makeCommandExample( '10 solar_mass 10 solar_mass black_hole_radius surface_gravity', indent=4 ) + '''
 ''' + makeCommandExample( '10 solar_mass black_hole_surface_gravity', indent=4 ),
-[ 'black_hole_gravity' ] ],
+[ 'black_hole_surface_gravity' ] ],
 
     'tidal_force' : [
 'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), and the distance difference (c)',
@@ -9519,15 +9524,17 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
-[ 'cube', 'centered_polygonal', 'nth_centered_cube' ] ],
+''' + makeCommandExample( '1 10 range centered_cube' ) + '''
+''' + makeCommandExample( '1000 centered_cube' ),
+[ 'cube', 'centered_polygonal' ] ],
 
     'centered_decagonal' : [
 'figurate_numbers', 'calculates the nth centered decagonal number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_decagonal' ) + '''
+''' + makeCommandExample( '5413 centered_decagonal' ),
 [ 'decagonal', 'centered_polygonal', 'nth_centered_decagonal' ] ],
 
     'centered_dodecahedral' : [
@@ -9535,15 +9542,17 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
-[ 'dodecahedral', 'centered_tetahedral', 'centered_octahedral', 'centered_icosahedral' ] ],
+''' + makeCommandExample( '1 10 range centered_dodecahedral' ) + '''
+''' + makeCommandExample( '4890 centered_dodecahedral' ),
+[ 'dodecahedral', 'centered_tetrahedral', 'centered_octahedral', 'centered_icosahedral' ] ],
 
     'centered_heptagonal' : [
 'figurate_numbers', 'calculates the nth centered heptagonal number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_heptagonal' ) + '''
+''' + makeCommandExample( '13112 centered_heptagonal' ),
 [ 'heptagonal', 'centered_polygonal', 'nth_centered_heptagonal' ] ],
 
     'centered_hexagonal' : [
@@ -9551,7 +9560,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_hexagonal' ) + '''
+''' + makeCommandExample( '73817 centered_hexagonal' ),
 [ 'hexagonal', 'centered_polygonal', 'nth_centered_hexagonal' ] ],
 
     'centered_icosahedral' : [
@@ -9559,15 +9569,17 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
-[ 'icosahedral', 'centered_tetahedral', 'centered_octahedral', 'centered_dodecahedral' ] ],
+''' + makeCommandExample( '1 10 range centered_icosahedral' ) + '''
+''' + makeCommandExample( '1243 centered_icosahedral' ),
+[ 'icosahedral', 'centered_tetrahedral', 'centered_octahedral', 'centered_dodecahedral' ] ],
 
     'centered_nonagonal' : [
 'figurate_numbers', 'calculates the nth centered nonagonal number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_nonagonal' ) + '''
+''' + makeCommandExample( '8933 centered_nonagonal' ),
 [ 'nonagonal', 'centered_polygonal', 'nth_centered_nonagonal' ] ],
 
     'centered_octagonal' : [
@@ -9575,7 +9587,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_octagonal' ) + '''
+''' + makeCommandExample( '5012 centered_octagonal' ),
 [ 'octagonal', 'centered_polygonal', 'nth_centered_octagonal' ] ],
 
     'centered_octahedral' : [
@@ -9583,15 +9596,17 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
-[ 'octahedral', 'centered_tetahedral', 'centered_icosahedral', 'centered_dodecahedral' ] ],
+''' + makeCommandExample( '1 10 range centered_octahedral' ) + '''
+''' + makeCommandExample( '7476 centered_octahedral' ),
+[ 'octahedral', 'centered_tetrahedral', 'centered_icosahedral', 'centered_dodecahedral' ] ],
 
     'centered_pentagonal' : [
 'figurate_numbers', 'calculates the nth centered pentagonal number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_pentagonal' ) + '''
+''' + makeCommandExample( '9654 centered_pentagonal' ),
 [ 'pentagonal', 'centered_polygonal', 'nth_centered_pentagonal' ] ],
 
     'centered_polygonal' : [
@@ -9599,7 +9614,10 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range 3 centered_polygonal' ) + '''
+''' + makeCommandExample( '2 3 10 range centered_polygonal' ) + '''
+''' + makeCommandExample( '5 3 10 range centered_polygonal' ) + '''
+''' + makeCommandExample( '96 43 centered_polygonal' ),
 [ 'nth_centered_polygonal', 'polygonal' ] ],
 
     'centered_square' : [
@@ -9607,7 +9625,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_square' ) + '''
+''' + makeCommandExample( '11452 centered_square' ),
 [ 'square', 'centered_polygonal', 'nth_centered_square' ] ],
 
     'centered_tetrahedral' : [
@@ -9615,15 +9634,17 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
-[ 'terahedral', 'centered_octahedral', 'centered_icosahedral', 'centered_dodecahedral' ] ],
+''' + makeCommandExample( '1 10 range centered_tetrahedral' ) + '''
+''' + makeCommandExample( '10000 centered_tetrahedral' ),
+[ 'tetrahedral', 'centered_octahedral', 'centered_icosahedral', 'centered_dodecahedral' ] ],
 
     'centered_triangular' : [
 'figurate_numbers', 'calculates the nth centered triangular number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range centered_triangular' ) + '''
+''' + makeCommandExample( '1000 centered_triangular' ),
 [ 'triangular', 'centered_polygonal', 'nth_centered_triangular' ] ],
 
     'decagonal' : [
@@ -9631,7 +9652,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal' ) + '''
+''' + makeCommandExample( '5000 decagonal' ),
 [ 'centered_decagonal', 'polygonal', 'nth_decagonal' ] ],
 
     'decagonal_centered_square' : [
@@ -9641,7 +9663,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
 centered square.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_centered_square' ) + '''
+''' + makeCommandExample( '59 decagonal_centered_square' ),
 [ 'decagonal', 'centered_square', 'polygonal', 'centered_polygonal' ] ],
 
     'decagonal_heptagonal' : [
@@ -9651,7 +9674,8 @@ centered square.
 heptagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_heptagonal' ) + '''
+''' + makeCommandExample( '127 decagonal_heptagonal' ),
 [ 'decagonal', 'heptagonal', 'polygonal' ] ],
 
     'decagonal_hexagonal' : [
@@ -9661,7 +9685,8 @@ heptagonal.
 hexagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_hexagonal' ) + '''
+''' + makeCommandExample( '5741 decagonal_hexagonal' ),
 [ 'decagonal', 'hexagonal', 'polygonal' ] ],
 
     'decagonal_nonagonal' : [
@@ -9671,7 +9696,8 @@ hexagonal.
 heptagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_nonagonal' ) + '''
+''' + makeCommandExample( '5762 decagonal_nonagonal' ),
 [ 'decagonal', 'nonagonal', 'polygonal' ] ],
 
     'decagonal_octagonal' : [
@@ -9681,7 +9707,8 @@ heptagonal.
 octagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_octagonal' ) + '''
+''' + makeCommandExample( '2111 decagonal_octagonal' ),
 [ 'decagonal', 'octagonal', 'polygonal' ] ],
 
     'decagonal_pentagonal' : [
@@ -9691,7 +9718,8 @@ octagonal.
 pentgonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_pentagonal' ) + '''
+''' + makeCommandExample( '12000 decagonal_pentagonal' ),
 [ 'decagonal', 'pentagonal', 'polygonal' ] ],
 
     'decagonal_triangular' : [
@@ -9701,7 +9729,8 @@ pentgonal.
 triangular.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range decagonal_triangular' ) + '''
+''' + makeCommandExample( '351 decagonal_triangular' ),
 [ 'decagonal', 'triangular', 'polygonal' ] ],
 
     'dodecahedral' : [
@@ -9709,7 +9738,8 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range dodecahedral' ) + '''
+''' + makeCommandExample( '507 dodecahedral' ),
 [ 'centered_dodecahedral', 'rhombic_dodecahedral' ] ],
 
     'generalized_pentagonal' : [
@@ -9717,7 +9747,8 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range generalized_pentagonal' ) + '''
+''' + makeCommandExample( '542 generalized_pentagonal' ),
 [ 'pentagonal', 'polygonal' ] ],
 
     'heptagonal' : [
@@ -9725,7 +9756,8 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range heptagonal' ) + '''
+''' + makeCommandExample( '27870 heptagonal' ),
 [ 'hexagonal', 'octagonal', 'polygonal' ] ],
 
     'heptagonal_hexagonal' : [
@@ -9735,7 +9767,8 @@ triangular.
 hexagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range heptagonal_hexagonal' ) + '''
+''' + makeCommandExample( '911 heptagonal_hexagonal' ),
 [ 'heptagonal', 'hexagonal', 'polygonal' ] ],
 
     'heptagonal_pentagonal' : [
@@ -9745,7 +9778,8 @@ hexagonal.
 pentgonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range heptagonal_pentagonal' ) + '''
+''' + makeCommandExample( '7027 heptagonal_pentagonal' ),
 [ 'heptagonal', 'pentagonal', 'polygonal' ] ],
 
     'heptagonal_square' : [
@@ -9755,7 +9789,8 @@ pentgonal.
 square.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range heptagonal_square' ) + '''
+''' + makeCommandExample( '1813 heptagonal_square' ),
 [ 'heptagonal', 'square', 'polygonal' ] ],
 
     'heptagonal_triangular' : [
@@ -9765,7 +9800,8 @@ square.
 triangular.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range heptagonal_triangular' ) + '''
+''' + makeCommandExample( '216 heptagonal_triangular' ),
 [ 'heptagonal', 'triangular', 'polygonal' ] ],
 
     'hexagonal' : [
@@ -9773,7 +9809,8 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range hexagonal' ) + '''
+''' + makeCommandExample( '7776 hexagonal' ),
 [ 'pentagonal', 'heptagonal', 'polygonal' ] ],
 
     'hexagonal_pentagonal' : [
@@ -9783,7 +9820,8 @@ triangular.
 pentagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range hexagonal_pentagonal' ) + '''
+''' + makeCommandExample( '3125 hexagonal_pentagonal' ),
 [ 'hexagonal', 'pentagonal', 'polygonal' ] ],
 
     'hexagonal_square' : [
@@ -9793,7 +9831,8 @@ pentagonal.
 square.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range hexagonal_square' ) + '''
+''' + makeCommandExample( '443 hexagonal_square' ),
 [ 'hexagonal', 'square', 'polygonal' ] ],
 
     'icosahedral' : [
@@ -9801,15 +9840,17 @@ square.
 '''
 ''',
 '''
-''',
-[ 'tatrahedral', 'octahedral', 'dodecahedral' ] ],
+''' + makeCommandExample( '1 10 range icosahedral' ) + '''
+''' + makeCommandExample( '400 icosahedral' ),
+[ 'tetrahedral', 'octahedral', 'dodecahedral' ] ],
 
     'nonagonal' : [
 'figurate_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal' ) + '''
+''' + makeCommandExample( '6561 nonagonal' ),
 [ 'octagonal', 'decagonal', 'polygonal' ] ],
 
     'nonagonal_heptagonal' : [
@@ -9819,7 +9860,8 @@ square.
 heptagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal_heptagonal' ) + '''
+''' + makeCommandExample( '273 nonagonal_heptagonal' ),
 [ 'nonagonal', 'heptagonal', 'polygonal' ] ],
 
     'nonagonal_hexagonal' : [
@@ -9829,7 +9871,8 @@ heptagonal.
 hexagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal_hexagonal' ) + '''
+''' + makeCommandExample( '256 nonagonal_hexagonal' ),
 [ 'nonagonal', 'hexagonal', 'polygonal' ] ],
 
     'nonagonal_octagonal' : [
@@ -9839,7 +9882,8 @@ hexagonal.
 octagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal_octagonal' ) + '''
+''' + makeCommandExample( '64 nonagonal_octagonal' ),
 [ 'nonagonal', 'octagonal', 'polygonal' ] ],
 
     'nonagonal_pentagonal' : [
@@ -9849,7 +9893,8 @@ octagonal.
 pentgonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal_pentagonal' ) + '''
+''' + makeCommandExample( '874 nonagonal_pentagonal' ),
 [ 'nonagonal', 'pentagonal', 'polygonal' ] ],
 
     'nonagonal_square' : [
@@ -9858,8 +9903,9 @@ pentgonal.
 'nonagonal_square' calculates the nth number that is both nonagonal and square.
 ''',
 '''
-''',
-[ 'nonegonal', 'square', 'polygonal' ] ],
+''' + makeCommandExample( '1 10 range nonagonal_square' ) + '''
+''' + makeCommandExample( '656 nonagonal_square' ),
+[ 'nonagonal', 'square', 'polygonal' ] ],
 
     'nonagonal_triangular' : [
 'figurate_numbers', 'calculates the nth nonagonal triangular number',
@@ -9870,7 +9916,8 @@ triangular.
 TODO: fix me
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range nonagonal_triangular' ) + '''
+''' + makeCommandExample( '454 nonagonal_triangular' ),
 [ 'nonagonal', 'triangular', 'polygonal' ] ],
 
     'nth_centered_decagonal' : [
@@ -10095,7 +10142,7 @@ hexagonal.
 ''',
 '''
 ''',
-[ 'ocatgonal', 'hexagonal' ] ],
+[ 'octagonal', 'hexagonal' ] ],
 
     'octagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth octagonal pentagonal number',
@@ -10214,7 +10261,7 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range rhombic_dodecahedral' ),
-[ 'dodecahedtral', 'centered_dodecahedral' ] ],
+[ 'dodecahedral', 'centered_dodecahedral' ] ],
 
     'square_triangular' : [
 'figurate_numbers', 'calculates the nth square triangular number',
@@ -10257,7 +10304,7 @@ http://oeis.org/A007588
 ''',
 '''
 ''' + makeCommandExample( '1 8 range tetrahedral' ),
-[ 'nth_tetrahedral', 'octahedral', 'dodecahedral', 'icosahedral' ] ],
+[ 'octahedral', 'dodecahedral', 'icosahedral' ] ],
 
     'triangular' : [
 'figurate_numbers', 'calcuates the nth triangular number',
@@ -10273,7 +10320,7 @@ http://oeis.org/A007588
 ''',
 '''
 ''' + makeCommandExample( '1 8 range truncated_octahedral' ),
-[ 'octahedral', 'stella_octagula' ] ],
+[ 'octahedral', 'stella_octangula' ] ],
 
     'truncated_tetrahedral' : [
 'figurate_numbers', 'calculates the nth truncated tetrahedral number',
@@ -10491,7 +10538,7 @@ The operator return x such that x^x = n.
 ''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_root' ) + '''
 ''' + makeCommandExample( '-73 6 super_root' ) + '''
 ''' + makeCommandExample( '12 6j + 15 super_root' ),
-[ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_roots' ] ],
+[ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_root' ] ],
 
     #    'super_roots' : [
     #'powers_and_roots', 'calculates all of the kth super-roots of n',
@@ -10566,7 +10613,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''',
-[ ] ],
+[ 'cousin_prime_', 'sexy_prime', 'octy_prime' ] ],
 
     'cousin_prime_' : [
 'prime_numbers', 'returns the nth set of cousin primes',
@@ -10578,7 +10625,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''',
-[ ] ],
+[ 'cousin_prime', 'sexy_prime_', 'octy_prime_' ] ],
 
     'double_balanced_prime' : [
 'prime_numbers', 'returns the nth double balanced prime',
@@ -10625,7 +10672,7 @@ and is distributed with data files calculated through several billion primes.
 '''
 ''' + makeCommandExample( '1 10 range isolated_prime' ) + '''
 ''' + makeCommandExample( '500 isolated_prime' ),
-[ ] ],
+[ 'balanced_prime' ] ],
 
     'next_prime' : [
 'prime_numbers', 'returns the next prime number greater than or equal to n',
@@ -10728,7 +10775,7 @@ octy quadruplets do not exist.
 ''' + makeCommandExample( '1 10 range octy_prime' ) + '''
 ''' + makeCommandExample( '5473 octy_prime' ) + '''
 ''' + makeCommandExample( '1000 1012 range octy_prime' ),
-[ ] ],
+[ 'octy_prime_', 'cousin_prime', 'sexy_prime' ] ],
 
     'octy_prime_' : [
 'prime_numbers', 'returns the nth set of octy primes',
@@ -10745,7 +10792,7 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '1 10 range octy_prime_' ) + '''
 ''' + makeCommandExample( '2384 octy_prime_' ) + '''
 ''' + makeCommandExample( '1001 1010 range octy_prime_' ),
-[ ] ],
+[ 'octy_prime', 'cousin_prime_', 'sexy_prime_' ] ],
 
     'polyprime' : [
 'prime_numbers', 'returns the nth prime, recursively k times',
@@ -10757,7 +10804,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''',
-[ ] ],
+[ 'super_prime', 'prime' ] ],
 
     'previous_prime' : [
 'prime_numbers', 'returns the previous prime number less than n',
@@ -11062,7 +11109,7 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '34875 sophie_prime' ) + '''
 ''' + makeCommandExample( '1 10 range sophie_prime 2 * 1 +' ) + '''
 ''' + makeCommandExample( '1 10 range safe_prime' ),
-[ ] ],
+[ 'safe_prime' ] ],
 
     'super_prime' : [
 'prime_numbers', 'returns the nth super prime (the nth primeth prime)',
@@ -11120,7 +11167,7 @@ distributed with data files calculated through several billion primes.
 '''
 ''' + makeCommandExample( '1231 triplet_prime' ) + '''
 ''' + makeCommandExample( '1 10 range triplet_prime' ),
-[ ] ],
+[ 'twin_prime', 'triplet_prime_', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
     'triplet_prime_' : [
 'prime_numbers', 'returns the nth set of triplet primes',
@@ -11136,7 +11183,7 @@ distributed with data files calculated through several billion primes.
 '''
 ''' + makeCommandExample( '1231 triplet_prime_' ) + '''
 ''' + makeCommandExample( '1 10 range triplet_prime_ -s1' ),
-[ ] ],
+[ 'twin_prime_', 'triplet_prime', 'quadruplet_prime_', 'quintuplet_prime_' ] ],
 
     'twin_prime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
@@ -11151,7 +11198,7 @@ distributed with data files calculated through several billion primes.
 '''
 ''' + makeCommandExample( '1 10 range twin_prime' ) + '''
 ''' + makeCommandExample( '85749 twin_prime' ),
-[ ] ],
+[ 'twin_prime_', 'triplet_prime', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
     'twin_prime_' : [
 'prime_numbers', 'returns the nth set of twin primes',
@@ -11168,7 +11215,7 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '157 twin_prime_' ) + '''
 An _extremely_ crude estimation of Brun's twin prime constant:
 ''' + makeCommandExample( '1 100 range twin_primes_ 1/x sum sum', indent=4 ),
-[ ] ],
+[ 'twin_prime', 'triplet_prime_', 'quadruplet_prime_', 'quintuplet_prime_' ] ],
 
 
     #******************************************************************************
@@ -11353,7 +11400,7 @@ This operator is not implemented yet!
 ''',
 '''
 ''',
-[ ] ],
+[ 'set_variable' ] ],
 
     'delete_config' : [
 'special', 'delete configuration setting n',
@@ -11429,7 +11476,7 @@ c:\\>rpn 55 describe
 
 55
 ''',
-[ ] ],
+[ 'identify' ] ],
 
     'echo' : [
 'special', 'when the next operator is evaluated, appends the result to n',
@@ -11552,7 +11599,7 @@ same processing as numerical values on the rpn command line.
 ''',
 '''
 ''',
-[ ] ],
+[ 'set_config', 'get_config', 'set_variable', 'get_variable' ] ],
 
     'name' : [
 'special', 'returns the English name for the integer value or measurement n',
@@ -11732,7 +11779,7 @@ in rpn.
 ''' + makeCommandExample( 'random' ) + '''
 ''' + makeCommandExample( '-a20 random' ) + '''
 ''' + makeCommandExample( 'random 1000000 *' ),
-[ ] ],
+[ 'random_', 'random_integer', 'random_integer_' ] ],
 
     'random_' : [
 'special', 'returns a list of n random values from 0 to 1',
@@ -11754,7 +11801,7 @@ precision set in rpn.
 '''
 ''' + makeCommandExample( '2 sqrt' ) + '''
 ''' + makeCommandExample( 'result sqr' ),
-[ ] ],
+[ 'echo', 'previous' ] ],
 
     'roll_dice' : [
 'special', 'evaluates a dice expression n to simulate rolling dice',
@@ -11931,7 +11978,7 @@ Koide's Constant... is it really 2/3?
 (see https://www.johndcook.com/blog/2018/09/11/koide/)
 
 ''' + makeCommandExample( '[ electron_mass value muon_mass value tau_mass value ] sum [ electron_mass value sqrt muon_mass value sqrt tau_mass value sqrt ] sum sqr /' ),
-[ ] ],
+[ 'invert_units' ] ],
 
 
     #******************************************************************************
@@ -11966,7 +12013,7 @@ instead of a unit circle.
 ''' + makeCommandExample( '0 acosh' ) + '''
 ''' + makeCommandExample( '0.234 acosh cosh' ) + '''
 ''' + makeCommandExample( '45 degrees cosh acosh radians degrees convert' ),
-[ ] ],
+[ 'acos', 'atanh', 'asinh' ] ],
 
     'acot' : [
 'trigonometry', 'calcuates the arccotangent of n',
@@ -12439,6 +12486,7 @@ def main( ):
     noHelpText = [ ]
     noExamples = [ ]
     noCrossReferences = [ ]
+    badCrossReferences = set( )
 
     for topic, help in operatorHelp.items( ):
         if len( help ) != 5:
@@ -12461,6 +12509,11 @@ def main( ):
 
         if len( help[ 4 ] )== 0:
             noCrossReferences.append( topic )
+        else:
+            for crossReference in help[ 4 ]:
+                if crossReference not in g.unitOperators and crossReference not in constantOperators and \
+                   crossReference not in operatorHelp and crossReference not in ( 'constants', 'unit_types' ):
+                    badCrossReferences.add( crossReference )
 
     if noCategory:
         print( )
@@ -12491,6 +12544,12 @@ def main( ):
         print( 'The following {} topics do not have any cross references:'.format( len( noCrossReferences ) ) )
         print( )
         printParagraph( ', '.join( sorted( noCrossReferences ) ) )
+
+    if badCrossReferences:
+        print( )
+        print( 'The following {} cross references are invalid:'.format( len( badCrossReferences ) ) )
+        print( )
+        printParagraph( ', '.join( sorted( badCrossReferences ) ) )
 
     print( )
     print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1_000_000_000 ) )

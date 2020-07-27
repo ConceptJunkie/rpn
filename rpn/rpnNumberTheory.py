@@ -2098,11 +2098,14 @@ mersennePrimeExponents = {
 
 @oneArgFunctionEvaluator( )
 def getNthMersenneExponent( n ):
+    if n == 0:
+        return 1
+
     limit = len( mersennePrimeExponents )
     n = validateRealInt( n )
 
-    if n < 0 or n > limit:
-        raise ValueError( 'invalid index for known Mersenne primes (0 to ' + str( limit )+ ')' )
+    if n < 1 or n > limit:
+        raise ValueError( 'invalid index for known Mersenne primes (1 to ' + str( limit )+ ')' )
 
     return mersennePrimeExponents[ n ]
 
