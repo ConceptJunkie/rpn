@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #******************************************************************************
 #
 #  makeHelp
@@ -53,7 +51,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1677
+MAX_EXAMPLE_COUNT = 1706
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -3184,6 +3182,25 @@ is the numerical representation of the string of 'or'ed bits.
 ''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] or' ),
 [ 'bitwise_and', 'bitwise_not', 'bitwise_nand', 'bitwise_nor', 'bitwise_xor' ] ],
 
+    'bitwise_xnor' : [
+'bitwise', 'calculates the bitwise \'xnor\' of n and k',
+'''
+'xnor' is the 'exclusive or' logical operation, which returns true if and only
+if the two operands are the same.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'xnor'ed bits.
+''',
+'''
+''' + makeCommandExample( '-x 0xffff0000 0x12345678 xnor' ) + '''
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xnor' ),
+[ 'bitwise_and', 'bitwise_or', 'bitwise_nand', 'bitwise_nor', 'bitwise_not', 'bitwise_xor' ] ],
+
     'bitwise_xor' : [
 'bitwise', 'calculates the bitwise \'xor\' of n and k',
 '''
@@ -3201,7 +3218,7 @@ is the numerical representation of the string of 'xor'ed bits.
 '''
 ''' + makeCommandExample( '-x 0xffff0000 0x12345678 xor' ) + '''
 ''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ),
-[ 'bitwise_and', 'bitwise_or', 'bitwise_nand', 'bitwise_nor', 'bitwise_not' ] ],
+[ 'bitwise_and', 'bitwise_or', 'bitwise_nand', 'bitwise_nor', 'bitwise_not', 'bitwise_xnor' ] ],
 
     'count_bits' : [
 'bitwise', 'returns the number of set bits in the non-negative integer n',
@@ -4134,7 +4151,7 @@ truncated to integers.
 ''' + makeCommandExample( '5 4 compositions' ),
 [ 'partitions', 'arrangements' ] ],
 
-    'debruijn' : [
+    'debruijn_sequence' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
 '''
 A deBruijn sequence is a sequence of minimal length that contains all
@@ -4149,18 +4166,22 @@ In the example below, you can find every combination of the symbols 0, 1, and
 permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
-''' + makeCommandExample( '3 3 debruijn' ),
-[ ] ],
+''' + makeCommandExample( '3 3 debruijn_sequence' ),
+[ 'permutations' ] ],
 
     'count_frobenius' : [
 'combinatorics', 'calculates the number of combinations of items on n that add up to k',
 '''
+While 'frobenius' returns the lowest number that is not a linear combination of
+the values in n, the 'count_frobenius' operators returns the number of
+different ways that linear combinations of the values in n add up to k.
 ''',
 '''
+''' + makeCommandExample( '[ 6 9 20 ] 42 count_frobenius' ) + '''
 ''' + makeCommandExample( '[ 1 5 10 25 50 100 ] 100 count_frobenius' ),
 [ 'frobenius', 'solve_frobenius' ] ],
 
-    'lah' : [
+    'lah_number' : [
 'combinatorics', 'calculate the Lah number for n and k',
 '''
 from https://en.wikipedia.org/wiki/Lah_number:
@@ -4168,23 +4189,23 @@ from https://en.wikipedia.org/wiki/Lah_number:
 In mathematics, the Lah numbers, discovered by Ivo Lah in 1955, are
 coefficients expressing rising factorials in terms of falling factorials.
 
-Unsigned Lah numbers have an interesting meaning in combinatorics: they count
+Unsigned Lah numbers have an interesting meaning in combinatorics:  they count
 the number of ways a set of n elements can be partitioned into k nonempty
 linearly ordered subsets. Lah numbers are related to Stirling numbers.
 
 The Lah numbers are only defined for n >= k.
 ''',
 '''
-''' + makeCommandExample( '3 2 lah' ) + '''
-''' + makeCommandExample( '12 1 lah' ) + '''
-''' + makeCommandExample( '12 1 lah 12 ! -' ) + '''
-''' + makeCommandExample( '7 2 lah' ) + '''
-''' + makeCommandExample( '7 2 lah 6 7 ! *  2 / -' ) + '''
-''' + makeCommandExample( '15 3 lah' ) + '''
-''' + makeCommandExample( '15 3 lah [ 13 14 15 ! ] prod 12 / -' ) + '''
-''' + makeCommandExample( '17 16 lah' ) + '''
-''' + makeCommandExample( '17 16 lah 17 16 * -' ),
-[ ] ],
+''' + makeCommandExample( '3 2 lah_number' ) + '''
+''' + makeCommandExample( '12 1 lah_number' ) + '''
+''' + makeCommandExample( '12 1 lah_number 12 ! -' ) + '''
+''' + makeCommandExample( '7 2 lah_number' ) + '''
+''' + makeCommandExample( '7 2 lah_number 6 7 ! *  2 / -' ) + '''
+''' + makeCommandExample( '-a20 15 3 lah_number' ) + '''
+''' + makeCommandExample( '-a20 15 3 lah_number [ 13 14 15 ! ] prod 12 / -' ) + '''
+''' + makeCommandExample( '17 16 lah_number' ) + '''
+''' + makeCommandExample( '17 16 lah_number 17 16 * -' ),
+[ 'stirling1_number', 'stirling2_number', 'narayana_number' ] ],
 
     'multifactorial' : [
 'combinatorics', 'calculates the nth k-factorial',
@@ -4208,29 +4229,42 @@ same as the 'doublefac' operator.
 ''',
 [ 'binomial' ] ],
 
-    'narayana' : [
-'combinatorics', 'calculates the Nayayana number for n and k',
+    'narayana_number' : [
+'combinatorics', 'calculates the Narayana number for n and k',
 '''
 From https://en.wikipedia.org/wiki/Narayana_number:
 
 In combinatorics, the Narayana numbers N(n, k), n = 1, 2, 3 ..., 1 <= k <= n,
 form a triangular array of natural numbers, called Narayana triangle, that
 occur in various counting problems.  They are named after Indian mathematician
-T. V. Narayana (1930-1987).
+T. V. Narayana (1930-1987).   The sum of the nth row of the Narayana triangle
+is the nth Catalan number.
+
+An example of a counting problem whose solution can be given in terms of the
+Narayana numbers N(n,k), is the number of words containing n pairs of
+parentheses, which are correctly matched (known as Dyck words) and which
+contain k distinct nestings. For instance, N(4,2) = 6, since with four pairs
+of parentheses, six sequences can be created which each contain two occurrences
+the sub-pattern ():
+
+(()(()))  ((()()))  ((())())
+()((()))  (())(())  ((()))()
 ''',
 '''
-''' + makeCommandExample( '10 5 narayana' ) + '''
-''' + makeCommandExample( '8 4 narayana' ) + '''
+''' + makeCommandExample( '10 5 narayana_number' ) + '''
+''' + makeCommandExample( '8 4 narayana_number' ) + '''
 The 10th row of the 'Narayana triangle':
-''' + makeCommandExample( '10 1 10 range narayana', indent=4 ),
-[ ] ],
+''' + makeCommandExample( '10 1 10 range narayana_number', indent=4 ),
+[ 'nth_catalan', 'lah_number', 'stirling1_number', 'stirling2_number' ] ],
 
     'nth_apery' : [
 'combinatorics', 'calculates the nth Apery number',
 '''
+https://oeis.org/A005259
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 10 range nth_apery' ) + '''
+''' + makeCommandExample( '-a50 30 nth_apery' ),
 [ ] ],
 
     'nth_bell' : [
@@ -4265,7 +4299,7 @@ published complex computer program.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_bernoulli' ),
-[ ] ],
+[ 'zeta', 'tan', 'tanh' ] ],
 
     'nth_catalan' : [
 'combinatorics', 'calculates nth Catalan number',
@@ -4279,7 +4313,7 @@ Eugene Charles Catalan (1814-1894).
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_catalan' ),
-[ ] ],
+[ 'pascal_triangle', 'nth_schroeder_hipparchus' ] ],
 
     'nth_delannoy' : [
 'combinatorics', 'calculates the nth Central Delannoy number',
@@ -4303,7 +4337,7 @@ https://en.wikipedia.org/wiki/M%C3%A9nage_problem
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_menage' ),
-[ ] ],
+[ 'combinations', 'permutations' ] ],
 
     'nth_motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
@@ -4333,7 +4367,7 @@ Ref:  https://en.wikipedia.org/wiki/Pell_number:
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_pell' ),
-[ ] ],
+[ 'continued_fraction', 'fraction' ] ],
 
     'nth_schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
@@ -4368,7 +4402,7 @@ Ref:  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number:
 ''',
 '''
 ''' + makeCommandExample( '1 12 range nth_schroeder_hipparchus' ),
-[ ] ],
+[ 'nth_catalan', 'nth_schroeder' ] ],
 
     'nth_sylvester' : [
 'combinatorics', 'calculates the nth Sylvester number',
@@ -4383,7 +4417,7 @@ rapidly than any other series of unit fractions with the same number of terms.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_sylvester' ),
-[ ] ],
+[ 'egyptian_fractions' ] ],
 
     'partitions' : [
 'combinatorics', 'returns the partition number for n',
@@ -4416,7 +4450,7 @@ When calculating the number of permutations of k objects, order matters.
 ''' + makeCommandExample( '20 10 permutations' ),
 [ 'combinations' ] ],
 
-    'stirling1' : [
+    'stirling1_number' : [
 'combinatorics', 'calculates the Stirling number of the first kind for n and k',
 '''
 Stirling numbers of the first kind arise in the study of permutations.  In
@@ -4429,12 +4463,12 @@ of one another when viewed as triangular matrices.
 Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_first_kind
 ''',
 '''
-''' + makeCommandExample( '3 2 stirling1' ) + '''
-''' + makeCommandExample( '10 7 stirling1' ) + '''
-''' + makeCommandExample( '5 1 5 range stirling1' ),
-[ 'stirling2', 'permutations' ] ],
+''' + makeCommandExample( '3 2 stirling1_number' ) + '''
+''' + makeCommandExample( '10 7 stirling1_number' ) + '''
+''' + makeCommandExample( '5 1 5 range stirling1_number' ),
+[ 'stirling2_number', 'permutations', 'lah_number' ] ],
 
-    'stirling2' : [
+    'stirling2_number' : [
 'combinatorics', 'calculates the Sitrling number of the second kind for n and k',
 '''
 A Stirling number of the second kind (or Stirling partition number) is the
@@ -4449,10 +4483,10 @@ cycle numbers).
 Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind
 ''',
 '''
-''' + makeCommandExample( '3 2 stirling2' ) + '''
-''' + makeCommandExample( '10 7 stirling2' ) + '''
-''' + makeCommandExample( '5 1 5 range stirling2' ),
-[ 'stirling1', 'permutations' ] ],
+''' + makeCommandExample( '3 2 stirling2_number' ) + '''
+''' + makeCommandExample( '10 7 stirling2_number' ) + '''
+''' + makeCommandExample( '5 1 5 range stirling2_number' ),
+[ 'stirling1_number', 'permutations', 'lah_number' ] ],
 
 
     #******************************************************************************
@@ -5429,7 +5463,8 @@ and seconds.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'today' ) + '''
+''' + makeCommandExample( 'now' ),
 [ 'today' ] ],
 
     'today' : [
@@ -5437,7 +5472,9 @@ and seconds.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'yesterday' ) + '''
+''' + makeCommandExample( 'today' ) + '''
+''' + makeCommandExample( 'tomorrow' ),
 [ 'yesterday', 'tomorrow' ] ],
 
     'tomorrow' : [
@@ -5445,7 +5482,9 @@ and seconds.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'yesterday' ) + '''
+''' + makeCommandExample( 'today' ) + '''
+''' + makeCommandExample( 'tomorrow' ),
 [ 'yesterday', 'today' ] ],
 
     'yesterday' : [
@@ -5453,7 +5492,9 @@ and seconds.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'yesterday' ) + '''
+''' + makeCommandExample( 'today' ) + '''
+''' + makeCommandExample( 'tomorrow' ),
 [ 'today', 'tomorrow' ] ],
 
 
@@ -6426,7 +6467,7 @@ on the digits that comprise an integer.
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_left_truncations' : [
-'lexicography', 'returns the blah blah blah',
+'lexicography', '',
 '''
 ''',
 '''
@@ -6463,7 +6504,7 @@ on the digits that comprise an integer.
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_right_truncations' : [
-'lexicography', 'returns the blah blah blah',
+'lexicography', '',
 '''
 ''',
 '''
@@ -7437,7 +7478,7 @@ count.  The result will be sorted by values.
 '''
 ''' + makeCommandExample( '1 10 range occurrences' ) + '''
 ''' + makeCommandExample( '10 100 random_integer_ occurrences' ) + '''
-''' + makeCommandExample( '5 6 debruijn occurrences' ),
+''' + makeCommandExample( '5 6 debruijn_sequence occurrences' ),
 [ 'occurrence_cumulative', 'occurrence_ratios' ] ],
 
     'or_all' : [
@@ -7512,7 +7553,7 @@ denominator of the whole list.
 ''',
 '''
 ''',
-[ 'gcd' ] ],
+[ 'gcd', 'gcd2' ] ],
 
     'reverse' : [
 'list_operators', 'returns list n with its elements reversed',
@@ -7762,7 +7803,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ),
-[ ']' ] ],
+[ ']', '(', ')' ] ],
 
     ']' : [
 'modifiers', 'ends a list',
@@ -7796,7 +7837,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ),
-[ '[' ] ],
+[ '[', '(', ')' ] ],
 
     '(' : [
 'modifiers', 'starts an operator list',
@@ -7804,7 +7845,7 @@ take three or more operands do not work with lists.
 ''',
 '''
 ''',
-[ ')' ] ],
+[ ')', '[', ']' ] ],
 
     ')' : [
 'modifiers', 'end an operator list',
@@ -7812,7 +7853,7 @@ take three or more operands do not work with lists.
 ''',
 '''
 ''',
-[ '(' ] ],
+[ '(', '[', ']' ] ],
 
     'duplicate_term' : [
 'modifiers', 'duplicates an argument n k times',
@@ -7854,7 +7895,7 @@ is not followed by another operator, then it has no effect.
 ''',
 '''
 ''',
-[ ] ],
+[ 'echo', 'duplicate_term' ] ],
 
     'unlist' : [
 'modifiers', 'expands a list into separate arguments',
@@ -7890,20 +7931,22 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 [ 'abundance' ] ],
 
-    'ackermann' : [
+    'ackermann_number' : [
 'number_theory', 'calculates the value of the Ackermann function for n and k',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 3 range 4 ackermann_number' ) + '''
+''' + makeCommandExample( '3 1 10 range ackermann_number' ),
+[ 'hyperoperator' ] ],
 
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '276 10 aliquot' ) + '''
+''' + makeCommandExample( '320 25 aliquot' ),
 [ 'aliquot_limit', 'collatz' ] ],
 
     'aliquot_limit' : [
@@ -7911,7 +7954,8 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '276 4 aliquot_limit' ) + '''
+''' + makeCommandExample( '320 4 aliquot_limit' ),
 [ 'aliquot', 'collatz' ] ],
 
     'alternating_factorial' : [
@@ -8082,13 +8126,14 @@ So it could sort of be thought of as a "half factorial".
 ''' + makeCommandExample( '1 10 range double_factorial' ),
 [ 'factorial', 'superfactorial', 'subfactorial', 'multifactorial' ] ],
 
-    'egypt' : [
+    'egyptian_fractions' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '45 67 egyptian_fractions' ) + '''
+''' + makeCommandExample( '45 67 egyptian_fractions sum 67 *' ),
+[ 'nth_sylvester', 'fraction' ] ],
 
     'eta' : [
 'number_theory', 'calculates the Dirichlet eta function for n',
@@ -8538,7 +8583,7 @@ for numbers smaller than a trillion.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range is_semiprime' ),
 [ ] ],
 
     'is_smooth' : [
@@ -8586,10 +8631,12 @@ for numbers smaller than a trillion.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range 2 k_fibonacci' ) + '''
+''' + makeCommandExample( '1 10 range 3 k_fibonacci' ) + '''
+''' + makeCommandExample( '10 2 10 range k_fibonacci' ),
 [ ] ],
 
-    'leyland' : [
+    'leyland_number' : [
 'number_theory', 'returns the Leyland number for n and k',
 '''
 ''',
@@ -8685,24 +8732,6 @@ n and k cannot both be odd.
 '''
 ''',
 [ 'make_pyth_3', 'hypotenuse' ] ],
-
-    'merten' : [
-'number_theory', 'returns Merten\'s function for n',
-'''
-''',
-'''
-''' + makeCommandExample( '1 20 range merten' ) + '''
-''' + makeCommandExample( '3563 merten' ),
-[ ] ],
-
-    'mobius' : [
-'number_theory', 'calculates the Mobius function for n',
-'''
-''',
-'''
-''' + makeCommandExample( '1 20 range mobius' ) + '''
-''' + makeCommandExample( '4398 mobius' ),
-[ ] ],
 
     'nth_carol' : [
 'number_theory', 'gets the nth Carol number',
@@ -8838,6 +8867,24 @@ https://primes.utm.edu/mersenne/index.html
 ''' + makeCommandExample( '49 nth_mersenne_prime' ),
 [ 'nth_mersenne_exponent', 'nth_perfect_number' ] ],
 
+    'nth_merten' : [
+'number_theory', 'returns Merten\'s function for n',
+'''
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_merten' ) + '''
+''' + makeCommandExample( '3563 nth_merten' ),
+[ ] ],
+
+    'nth_mobius' : [
+'number_theory', 'calculates the Mobius function for n',
+'''
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_mobius' ) + '''
+''' + makeCommandExample( '4398 nth_mobius' ),
+[ ] ],
+
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
 '''
@@ -8880,6 +8927,15 @@ The first 20 members of the Stern sequence:
 ''' + makeCommandExample( '1 20 range nth_stern', indent=4 ),
 [ ] ],
 
+    'nth_thabit' : [
+'number_theory', 'gets the nth Thabit number',
+'''
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_thabit' ) + '''
+''' + makeCommandExample( '2375 nth_thabit' ),
+[ ] ],
+
     'nth_thue_morse' : [
 'number_theory', 'calculates the nth value of the Thue-Morse sequence',
 '''
@@ -8907,7 +8963,7 @@ The Octanacci constant:
 '''
 The first 10 lines of Pascal's triangle:
 ''' + makeCommandExample( '1 10 range pascal_triangle -s1' ),
-[ ] ],
+[ 'nth_catalan' ] ],
 
     'pentanacci' : [
 'number_theory', 'calculates the nth Pentanacci number',
@@ -9095,15 +9151,6 @@ The first several tetranacci numbers:
 The Tetranacci constant:
 ''' + makeCommandExample( 'infinity lambda x 3 + tetranacci x 2 + tetranacci / limit', indent=4 ),
 [ 'fibonacci' ] ],
-
-    'thabit' : [
-'number_theory', 'gets the nth Thabit number',
-'''
-''',
-'''
-''' + makeCommandExample( '1 20 range thabit' ) + '''
-''' + makeCommandExample( '2375 thabit' ),
-[ ] ],
 
     'tribonacci' : [
 'number_theory', 'calculates the nth Tribonacci number',
@@ -10307,11 +10354,23 @@ http://oeis.org/A007588
 [ 'octahedral', 'dodecahedral', 'icosahedral' ] ],
 
     'triangular' : [
-'figurate_numbers', 'calcuates the nth triangular number',
+'figurate_numbers', 'calculates the nth triangular number',
 '''
+Triangular numbers are the figurate numbers created by arranging items in the
+shape of a triangle.   The first few triangular numbers can be easily
+illustrated as such:
+
+    *           *           *               *
+              *   *       *   *           *   *
+                        *   *   *       *   *   *
+                                      *   *   *   *
+
+The triangular numbers show up in many combinatorial problems, including
+Pascal's triangle.
 ''',
 '''
-''' + makeCommandExample( '1 8 range triangular' ),
+''' + makeCommandExample( '1 10 range triangular' ) + '''
+''' + makeCommandExample( '3741 triangular' ),
 [ 'nth_triangular', 'centered_triangular', 'polygonal' ] ],
 
     'truncated_octahedral' : [
