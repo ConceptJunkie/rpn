@@ -51,7 +51,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1706
+MAX_EXAMPLE_COUNT = 1710
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4260,20 +4260,56 @@ The 10th row of the 'Narayana triangle':
     'nth_apery' : [
 'combinatorics', 'calculates the nth Apery number',
 '''
+From https://mathworld.wolfram.com/AperyNumber.html:
+
+Apery's numbers are defined by
+        n
+       ---     2        2
+A_n =  \    |n|  |n + k|
+       /    |k|  |  k  |
+       ---
+       k=0
+
+where |n| is a binomial coefficient.
+      |k|
+
 https://oeis.org/A005259
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 10 range nth_apery' ) + '''
 ''' + makeCommandExample( '-a50 30 nth_apery' ),
-[ ] ],
+[ 'nth_sylvester', 'nth_bell', 'nth_motzkin' ] ],
 
     'nth_bell' : [
 'combinatorics', 'calculates the nth Bell number',
 '''
+From https://en.wikipedia.org/wiki/Bell_number:
+
+In combinatorial mathematics, the Bell numbers count the possible partitions
+of a set. These numbers have been studied by mathematicians since the 19th
+century, and their roots go back to medieval Japan.  In an example of Stigler's
+law of eponymy, they are named after Eric Temple Bell, who wrote about them in
+the 1930s.
+
+The Bell numbers are denoted Bn, where n is an integer greater than or equal to
+zero.  Starting with B0 = B1 = 1, the first few Bell numbers are
+
+1, 1, 2, 5, 15, 52, 203, 877, 4140, ... (sequence A000110 in the OEIS).
+
+The Bell number Bn counts the number of different ways to partition a set that
+has exactly n elements, or equivalently, the number of equivalence relations on
+it. Bn also counts the number of different rhyme schemes for n-line poems.
+
+As well as appearing in counting problems, these numbers have a different
+interpretation, as moments of probability distributions.  In particular, Bn is
+the nth moment of a Poisson distribution with mean 1.
+
+https://oeis.org/A000110
 ''',
 '''
-''',
-[ 'bell_polynomial' ] ],
+''' + makeCommandExample( '-a20 1 12 range nth_bell' ) + '''
+''' + makeCommandExample( '-a40 40 nth_bell' ),
+[ 'bell_polynomial', 'partitions' ] ],
 
     'nth_bernoulli' : [
 'combinatorics', 'calculates the nth Bernoulli number',
@@ -4298,7 +4334,8 @@ Bernoulli numbers have the distinction of being the subject of the first
 published complex computer program.
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_bernoulli' ),
+''' + makeCommandExample( '1 20 range nth_bernoulli' ) + '''
+''' + makeCommandExample( '50 nth_bernoulli' ),
 [ 'zeta', 'tan', 'tanh' ] ],
 
     'nth_catalan' : [
@@ -4312,7 +4349,8 @@ recursively-defined objects. They are named after the Belgian mathematician
 Eugene Charles Catalan (1814-1894).
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_catalan' ),
+''' + makeCommandExample( '1 20 range nth_catalan' ) + '''
+''' + makeCommandExample( '-a30 50 nth_catalan' ),
 [ 'pascal_triangle', 'nth_schroeder_hipparchus' ] ],
 
     'nth_delannoy' : [
@@ -4328,7 +4366,7 @@ Delannoy.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_delannoy' ),
-[ 'nth_schroeder' ] ],
+[ 'nth_schroeder', 'nth_motzkin' ] ],
 
     'nth_menage' : [
 'combinatorics', 'calculate the nth Menage number for n and k',
@@ -4352,7 +4390,7 @@ combinatorics and number theory.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_motzkin' ),
-[ ] ],
+[ 'nth_schroeder', 'nth_delannoy' ] ],
 
     'nth_pell' : [
 'combinatorics', 'calculates the nth Pell number',
@@ -4381,7 +4419,7 @@ They were named after the German mathematician Ernst Schroeder.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_schroeder' ),
-[ 'nth_delannoy' ] ],
+[ 'nth_delannoy', 'nth_motzkin' ] ],
 
     'nth_schroeder_hipparchus' : [
 'combinatorics', 'calculates the nth Schroeder-Hipparchus number',
@@ -4572,15 +4610,31 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' + makeCommandExample( '-a50 -d5 apery' ) + '''
 ''' + makeCommandExample( '-a50 -d5 3 zeta' ),
-[ ] ],
+[ 'zeta' ] ],
 
     'catalan_constant' : [
 'constants', 'returns Catalan\'s constant',
 '''
+From https://en.wikipedia.org/wiki/Catalan%27s_constant:
+
+In mathematics, Catalan's constant G, which appears in combinatorics, is
+defined by the alternating sum of the reciprocals of the square of the odd
+numbers:
+
+       1    1    1    1    1
+b(2) = _  - _  + _  - _  + _  -  ...
+        2    2    2    2    2
+       1    3    5    7    9
+
+where b is the Direchlet beta function.
+
+Its numerical value is approximately
+
+G = 0.915965594177219015054603514932384110774...
 ''',
 '''
 ''' + makeCommandExample( 'catalan_constant' ),
-[ ] ],
+[ 'beta', 'zeta' ] ],
 
     'champernowne_constant' : [
 'constants', 'returns the Champernowne constant for the input base',
