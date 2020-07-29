@@ -1072,6 +1072,9 @@ def runBitwiseOperatorTests( ):
         expectEqual( '0 8192 range lambda x 2 ** x 2 ** x bitwise_xor - eval', '174375 oeis 8193 left' )
         expectEqual( '1 65537 range lambda x x sigma x - bitwise_xor eval', '318457 oeis 65537 left' )
 
+    # bitwise_xnor
+    # TODO
+
     # count_bits
     expectEqual ( '1 200 range lambda x count_bits x factors count_bits sum equals x is_composite and filter',
                   '278909 oeis 200 filter_max' )
@@ -1657,8 +1660,8 @@ def runCombinatoricsOperatorTests( ):
         expectEqual( '0 1000 range lambda [ 1 2 5 10 50 100 200 500 ] x count_frobenius eval',
                      '182086 oeis 1001 left' )
 
-    # debruijn
-    testOperator( '4 3 debruijn' )
+    # debruijn_sequence
+    testOperator( '4 3 debruijn_sequence' )
 
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )
@@ -1702,10 +1705,10 @@ def runCombinatoricsOperatorTests( ):
     # get_permutations
     testOperator( '1 5 range 2 get_permutations' )
 
-    # lah
-    expectEqual( '-a170 1 100 range lambda x 1 x range lah eval flatten', '8297 oeis 5050 left' )
+    # lah_number
+    expectEqual( '-a170 1 100 range lambda x 1 x range lah_number eval flatten', '8297 oeis 5050 left' )
 
-    # menage
+    # nth_menage
     expectEqual( '-a160 0 100 range nth_menage', '-a160 179 oeis 101 left' )
 
     # multifactorial
@@ -1725,8 +1728,8 @@ def runCombinatoricsOperatorTests( ):
     # multinomial
     testOperator( '[ 2 5 6 7 ] multinomial' )
 
-    # narayana
-    expectEqual( '-a15 1 27 range lambda x 1 x range narayana eval flatten 364 left', '1263 oeis 364 left' )
+    # narayana_number
+    expectEqual( '-a15 1 27 range lambda x 1 x range narayana_number eval flatten 364 left', '1263 oeis 364 left' )
 
     # nth_apery
     expectEqual( '0 49 range nth_apery', '5259 oeis 50 left' )
@@ -1792,11 +1795,11 @@ def runCombinatoricsOperatorTests( ):
 
     expectException( '6 7 permutations' )
 
-    # stirling1
-    testOperator( '3 2 stirling1' )
+    # stirling1_number
+    testOperator( '3 2 stirling1_number' )
 
-    # stirling2
-    testOperator( '3 2 stirling2' )
+    # stirling2_number
+    testOperator( '3 2 stirling2_number' )
 
 
 
@@ -2435,8 +2438,8 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '1 100 range 2 polytope', '1 100 range triangular' )
     expectEqual( '1 100 range 3 polytope', '1 100 range tetrahedral' )
 
-    # pyramid
-    expectEqual( '0 1000 range pyramid', '330 oeis 1001 left' )
+    # pyramidal
+    expectEqual( '0 1000 range pyramidal', '330 oeis 1001 left' )
 
     # rhombic_dodecahedral
     expectEqual( '1 10000 range rhombic_dodecahedral', '5917 oeis 10000 left' )
@@ -3404,8 +3407,8 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '120 abundance_ratio', 3 )
     expectResult( '672 abundance_ratio', 3 )
 
-    # ackermann
-    expectEqual( '0 5 range 0 ackermann', '126333 oeis 6 left' )
+    # ackermann_number
+    expectEqual( '0 5 range 0 ackermann_number', '126333 oeis 6 left' )
 
     # aliquot
     testOperator( '276 10 aliquot' )
@@ -3490,8 +3493,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
     expectEqual( '-a1000 1 400 range lambda x double_factorial 32 + is_prime filter', '76190 oeis 15 left' )
 
-    # egypt
-    testOperator( '45 67 egypt' )
+    # egyptian_fractions
+    testOperator( '45 67 egyptian_fractions' )
+
+    expectResult( '45 67 egyptian_fractions sum 67 *', 45 )
 
     # eta
     testOperator( '4 eta' )
@@ -3888,9 +3893,9 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '0 50 range 5 k_fibonacci', '0 50 range pentanacci' )
 
-    # leyland
-    expectEqual( '-a121 [ 2 60 range 2 60 range ] permute_lists lambda x y leyland for_each unique 76980 oeis intersection sort',
-                 '-a121 [ 2 60 range 2 60 range ] permute_lists lambda x y leyland for_each unique sort' )
+    # leyland_number
+    expectEqual( '-a121 [ 2 60 range 2 60 range ] permute_lists lambda x y leyland_number for_each unique 76980 oeis intersection sort',
+                 '-a121 [ 2 60 range 2 60 range ] permute_lists lambda x y leyland_number for_each unique sort' )
 
     # linear_recurrence
     expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
@@ -3937,18 +3942,6 @@ def runNumberTheoryOperatorTests( ):
 
     expectException( '17 29 make_pyth_4' )
 
-    # merten
-    expectEqual( '1 20 range merten', '2321 oeis 20 left' )
-
-    if slow:
-        expectEqual( '1 81 range merten', '2321 oeis 81 left' )
-
-    # mobius
-    expectEqual( '1 1000 range mobius', '8683 oeis 1000 left' )
-
-    if slow:
-        expectEqual( '1 10000 range mobius', '8683 oeis 10000 left' )
-
     # nth_carol
     expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
 
@@ -3986,6 +3979,18 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a30 1 10 range nth_mersenne_prime' )
     testOperator( '-c 25 nth_mersenne_prime' )
 
+    # nth_merten
+    expectEqual( '1 20 range nth_merten', '2321 oeis 20 left' )
+
+    if slow:
+        expectEqual( '1 81 range nth_merten', '2321 oeis 81 left' )
+
+    # nth_mobius
+    expectEqual( '1 1000 range nth_mobius', '8683 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 10000 range nth_mobius', '8683 oeis 10000 left' )
+
     # nth_padovan
     expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
 
@@ -3997,6 +4002,9 @@ def runNumberTheoryOperatorTests( ):
 
     if slow:
         expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
+
+    # nth_thabit
+    expectEqual( '0 998 range nth_thabit', '55010 oeis 1000 left 999 right' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
@@ -4174,9 +4182,6 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     expectEqual( '0 99 range tetranacci', '78 oeis 100 left' )
-
-    # thabit
-    expectEqual( '0 998 range thabit', '55010 oeis 1000 left 999 right' )
 
     # tribonacci
     #expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )

@@ -65,15 +65,16 @@ from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynom
                                  getNthBernoulli, getNthCatalanNumber, getNthDelannoyNumber,getNthMenageNumber, \
                                  getNthMotzkinNumber, getNthMultifactorial, getNthPellNumber, getNthSchroederNumber, \
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
-                                 getPartitionsWithLimit, getPermutations, getStirling1, getStirling2
+                                 getPartitionsWithLimit, getPermutations, getStirling1Number, getStirling2Number
 
 from rpn.rpnComputer import andOperands, convertToChar, convertToDouble, convertToFloat, convertToLong, \
                             convertToLongLong, convertToQuadLong, convertToShort, convertToSignedIntOperator, \
                             convertToUnsignedChar, convertToUnsignedInt, convertToUnsignedLong, \
                             convertToUnsignedLongLong, convertToUnsignedQuadLong, convertToUnsignedShort, \
                             getBitCountOperator, getBitwiseAnd, getBitwiseNand, getBitwiseNor, getBitwiseOr, \
-                            getBitwiseXor, getInvertedBits, getParity, nandOperands, orOperands, norOperands, \
-                            notOperand, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperands, xorOperands
+                            getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, nandOperands, orOperands, \
+                            norOperands, notOperand, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperands, \
+                            xorOperands
 
 from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
@@ -179,7 +180,7 @@ from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunction, 
                                 getBarnesG, getBeta, getCollatzSequence, getCyclotomic, getDigamma, getDigitalRoot, \
                                 getDivisorCount, getDivisors, getEulerPhi, getFrobeniusNumber, getGamma, \
                                 getGeometricRecurrence, getHarmonicFraction, getHarmonicResidue, getHurwitzZeta, \
-                                getLCM, getLCMOfList, getLeyland, getLimitedAliquotSequence, getLinearRecurrence, \
+                                getLCM, getLCMOfList, getLeylandNumber, getLimitedAliquotSequence, getLinearRecurrence, \
                                 getLinearRecurrenceWithModulo, getLogGamma, getNthAlternatingFactorial, \
                                 getGreedyEgyptianFraction, getNthBaseKRepunit, getNthCarolNumber, \
                                 getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, getNthFibonacci, \
@@ -2881,6 +2882,9 @@ operators = {
     'bitwise_or'                    : RPNOperator( getBitwiseOr,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
+    'bitwise_xnor'                  : RPNOperator( getBitwiseXnor,
+                                                   2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
+
     'bitwise_xor'                   : RPNOperator( getBitwiseXor,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
@@ -3145,7 +3149,7 @@ operators = {
     'compositions'                  : RPNOperator( getCompositions,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'debruijn'                      : RPNOperator( getDeBruijnSequence,
+    'debruijn_sequence'             : RPNOperator( getDeBruijnSequence,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'get_partitions'                : RPNOperator( getIntegerPartitions,
@@ -3154,7 +3158,7 @@ operators = {
     'get_partitions_with_limit'     : RPNOperator( getPartitionsWithLimit,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'lah'                           : RPNOperator( getLahNumber,
+    'lah_number'                    : RPNOperator( getLahNumber,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
     'nth_menage'                    : RPNOperator( getNthMenageNumber,
@@ -3163,7 +3167,7 @@ operators = {
     'multifactorial'                : RPNOperator( getNthMultifactorial,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'narayana'                      : RPNOperator( getNarayanaNumber,
+    'narayana_number'               : RPNOperator( getNarayanaNumber,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
 
     'nth_apery'                     : RPNOperator( getNthAperyNumber,
@@ -3202,10 +3206,10 @@ operators = {
     'permutations'                  : RPNOperator( getPermutations,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'stirling1'                     : RPNOperator( getStirling1,
+    'stirling1_number'              : RPNOperator( getStirling1Number,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'stirling2'                     : RPNOperator( getStirling2,
+    'stirling2_number'              : RPNOperator( getStirling2Number,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     # complex
@@ -3214,9 +3218,6 @@ operators = {
 
     'conjugate'                     : RPNOperator( getConjugate,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
-
-    #    'i'                             : RPNOperator( getI,
-    #                                                   1, [ RPNArgumentType.Real ], [ ] ),
 
     'imaginary'                     : RPNOperator( getImaginary,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
@@ -4007,7 +4008,7 @@ operators = {
     'abundance_ratio'               : RPNOperator( getAbundanceRatio,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'ackermann'                     : RPNOperator( calculateAckermannFunction,
+    'ackermann_number'              : RPNOperator( calculateAckermannFunction,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'aliquot'                       : RPNOperator( getAliquotSequence,
@@ -4052,7 +4053,7 @@ operators = {
     'double_factorial'              : RPNOperator( getNthDoubleFactorial,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'egypt'                         : RPNOperator( getGreedyEgyptianFraction,
+    'egyptian_fractions'            : RPNOperator( getGreedyEgyptianFraction,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'eta'                           : RPNOperator( getAltZeta,
@@ -4188,7 +4189,7 @@ operators = {
     'k_fibonacci'                   : RPNOperator( getNthKFibonacciNumber,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'leyland'                       : RPNOperator( getLeyland,
+    'leyland_number'                : RPNOperator( getLeylandNumber,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
     'log_gamma'                     : RPNOperator( getLogGamma,
@@ -4205,12 +4206,6 @@ operators = {
 
     'make_pyth_4'                   : RPNOperator( makePythagoreanQuadruple,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
-
-    'merten'                        : RPNOperator( getNthMerten,
-                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
-
-    'mobius'                        : RPNOperator( getNthMobiusNumber,
-                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_carol'                     : RPNOperator( getNthCarolNumber,
                                                    1, [ RPNArgumentType.Real ], [ ] ),
@@ -4233,6 +4228,12 @@ operators = {
     'nth_mersenne_prime'            : RPNOperator( getNthMersennePrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'nth_merten'                    : RPNOperator( getNthMerten,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_mobius'                    : RPNOperator( getNthMobiusNumber,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
     'nth_padovan'                   : RPNOperator( getNthPadovanNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
@@ -4240,6 +4241,9 @@ operators = {
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_stern'                     : RPNOperator( getNthSternNumber,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_thabit'                    : RPNOperator( getNthThabitNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_thue_morse'                : RPNOperator( getNthThueMorseNumber,
@@ -4303,9 +4307,6 @@ operators = {
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'tetranacci'                    : RPNOperator( getNthTetranacci,
-                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
-
-    'thabit'                        : RPNOperator( getNthThabitNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'tribonacci'                    : RPNOperator( getNthTribonacci,

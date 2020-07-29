@@ -518,7 +518,7 @@ def interpretAsBaseOperator( args, base ):
 @twoArgFunctionEvaluator( )
 def getGreedyEgyptianFraction( nominator, denominator ):
     if validateRealInt( nominator ) > validateRealInt( denominator ):
-        raise ValueError( "'egypt' requires the numerator to be smaller than the denominator" )
+        raise ValueError( "'egyptian_fractions' requires the numerator to be smaller than the denominator" )
 
     # Create a list to store the Egyptian fraction representation.
     result = [ ]
@@ -2234,7 +2234,7 @@ def getNthHyperfactorial( n ):
     return hyperfac( n )
 
 @twoArgFunctionEvaluator( )
-def getLeyland( n, k ):
+def getLeylandNumber( n, k ):
     return fadd( power( n, k ), power( k, n ) )
 
 @oneArgFunctionEvaluator( )

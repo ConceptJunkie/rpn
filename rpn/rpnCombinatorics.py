@@ -772,23 +772,23 @@ def countFrobenius( denominations, target ):
 
 #******************************************************************************
 #
-#  getStirling1
+#  getStirling1Number
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getStirling1( n, k ):
+def getStirling1Number( n, k ):
     return stirling1( n, k )
 
 
 #******************************************************************************
 #
-#  getStirling=2
+#  getStirling2Number
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getStirling2( n, k ):
+def getStirling2Number( n, k ):
     return stirling2( n, k )
 
 
