@@ -169,6 +169,10 @@ def getBitwiseXor( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x ^ y )
 
 @twoArgFunctionEvaluator( )
+def getBitwiseXnor( n, k ):
+    return getInvertedBit( performBitwiseOperation( n, k, lambda x, y: x ^ y ) )
+
+@twoArgFunctionEvaluator( )
 def shiftLeft( n, k ):
     return fmul( n, 1 << int( k ) )
 
