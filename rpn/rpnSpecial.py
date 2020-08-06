@@ -50,9 +50,9 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
                                 getNthKyneaNumber, getNthLeonardoNumber, getNthLucasNumber, \
                                 getNthMersenneExponent, getNthMersennePrime, getNthPadovanNumber, \
-                                getNthPerfectNumber, getNthRieselNumber, getNthSubfactorial, \
-                                getNthSternNumber, getNthSuperfactorial, getNthThabitNumber, getRadical, \
-                                getSigma, isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumber, \
+                                getNthPerfectNumber, getNthSubfactorial, getNthSternNumber, \
+                                getNthSuperfactorial, getNthThabitNumber, getRadical, getSigma, \
+                                isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumber, \
                                 isDeficient, isKHyperperfect, isPernicious, isPolydivisible, isPowerful, \
                                 isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
@@ -62,7 +62,7 @@ from rpn.rpnPersistence import cachedOEISFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 
-from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
+from rpn.rpnPrimeUtils import getPrimes, isPrime
 
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
 
@@ -445,14 +445,14 @@ def describeInteger( n ):
     elif isEven( n ):
         print( indent + 'even' )
 
-    if isPrimeNumber( n ):
-        isPrime = True
+    if isPrime( n ):
+        isPrimeFlag = True
         print( indent + 'prime' )
     elif n > 3:
-        isPrime = False
+        isPrimeFlag = False
         print( indent + 'composite' )
     else:
-        isPrime = False
+        isPrimeFlag = False
 
     if isKthPower( n, 2 ):
         print( indent + 'the ' + getShortOrdinalName( sqrt( n ) ) + ' square number' )
@@ -660,7 +660,7 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne exponent' )
 
-    if not isPrime and n != 1 and n <= largestNumberToFactor:
+    if not isPrimeFlag and n != 1 and n <= largestNumberToFactor:
         # deficient
         if isDeficient( n ):
             print( indent + 'deficient' )
@@ -816,12 +816,6 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Leonardo number' )
 
-    # Riesel numbers
-    result = findInput( n, getNthRieselNumber, lambda n: fmul( log( n ), 1.25 ) )
-
-    if result[ 0 ]:
-        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Riesel number' )
-
     # Thabit numbers
     result = findInput( n, getNthThabitNumber, lambda n: fmul( log10( n ), 3.25 ) )
 
@@ -949,7 +943,7 @@ def describeInteger( n ):
     if digitProduct == 0:
         print( indent + 'a non-zero digit product of ' + str( int( multiplyNonzeroDigits( n ) ) ) )
 
-    if not isPrime and n != 1 and n <= largestNumberToFactor:
+    if not isPrimeFlag and n != 1 and n <= largestNumberToFactor:
         # factors
         factors = getFactors( n )
         factorCount = len( factors )

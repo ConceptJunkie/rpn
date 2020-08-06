@@ -39,7 +39,6 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, valid
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def add( n, k ):
     if isinstance( n, RPNDateTime ) and isinstance( k, RPNMeasurement ):
         return n.add( k )
@@ -51,6 +50,10 @@ def add( n, k ):
         return RPNMeasurement( n ).add( k )
     else:
         return fadd( n, k )
+
+@twoArgFunctionEvaluator( )
+def addOperator( n, k ):
+    return add( n, k )
 
 @oneArgFunctionEvaluator( )
 def increment( n ):
@@ -66,7 +69,6 @@ def increment( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def subtract( n, k ):
     if isinstance( n, RPNDateTime ):
         return n.subtract( k )
@@ -79,6 +81,10 @@ def subtract( n, k ):
         return RPNMeasurement( n ).subtract( k )
     else:
         return fsub( n, k )
+
+@twoArgFunctionEvaluator( )
+def subtractOperator( n, k ):
+    return subtract( n, k )
 
 @oneArgFunctionEvaluator( )
 def decrement( n ):
@@ -138,7 +144,6 @@ def getValue( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def divide( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.divide( k )
@@ -147,6 +152,9 @@ def divide( n, k ):
     else:
         return fdiv( n, k )
 
+@twoArgFunctionEvaluator( )
+def divideOperator( n, k ):
+    return divide( n, k )
 
 #******************************************************************************
 #
@@ -158,7 +166,6 @@ def divide( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def multiply( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.multiply( k )
@@ -167,6 +174,10 @@ def multiply( n, k ):
     else:
         return fmul( n, k )
 
+@twoArgFunctionEvaluator( )
+def multiplyOperator( n, k ):
+    return multiply( n, k )
+
 
 #******************************************************************************
 #
@@ -174,13 +185,16 @@ def multiply( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getPower( n, k ):
     if isinstance( n, RPNMeasurement ):
         result = RPNMeasurement( n )
         return result.exponentiate( k )
     else:
         return power( n, k )
+
+@twoArgFunctionEvaluator( )
+def getPowerOperator( n, k ):
+    return getPower( n, k )
 
 @oneArgFunctionEvaluator( )
 def square( n ):
@@ -206,6 +220,10 @@ def getRoot( n, k ):
         return power( n, fdiv( 1, k ) )
     else:
         return root( n, k )
+
+@twoArgFunctionEvaluator( )
+def getRootOperator( n, k ):
+    return getRoot( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSquareRoot( n ):
@@ -370,12 +388,15 @@ def tetrateRight( i, j ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def isDivisible( n, k ):
     if n == 0:
         return 1
 
     return 1 if ( n >= k ) and ( fmod( validateReal( n ), validateReal( k ) ) == 0 ) else 0
+
+@twoArgFunctionEvaluator( )
+def isDivisibleOperator( n, k ):
+    return isDivisible( n, k )
 
 
 #******************************************************************************
@@ -669,12 +690,15 @@ def roundOff( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByValue( n.value, value ), n.units )
     else:
         return fmul( floor( fdiv( fadd( validateReal( n ), fdiv( value, 2 ) ), value ) ), value )
+
+@twoArgFunctionEvaluator( )
+def roundByValueOperator( n, value ):
+    return roundByValue( n, value )
 
 
 #******************************************************************************

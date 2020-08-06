@@ -14,13 +14,12 @@
 
 import struct
 
-from mpmath import fadd, fdiv, floor, fmod, fmul, fsub, fsum, log, mpf, mpmathify, power
+from mpmath import fadd, fdiv, floor, fmod, fmul, fsub, fsum, log, mpf, mp, mpmathify, power
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnSettings import setAccuracy
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         validateReal, validateRealInt
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateReal, validateRealInt
 
 import rpn.rpnGlobals as g
 
@@ -34,7 +33,12 @@ import rpn.rpnGlobals as g
 #******************************************************************************
 
 def convertToSignedInt( n, k ):
-    value = fadd( validateRealInt( n ), ( power( 2, fsub( validateRealInt( k ), 1 ) ) ) )
+    newPrecision = ( int( validateRealInt( k ) ) * 3 / 10 ) + 3
+
+    if mp.dps < newPrecision:
+        setAccuracy( newPrecision )
+
+    value = fadd( validateRealInt( n ), ( power( 2, fsub( k, 1 ) ) ) )
     value = fmod( value, power( 2, k ) )
     value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
 
@@ -270,8 +274,10 @@ def packInteger( values, fields ):
     size = 0
 
     for i in range( count, 0, -1 ):
-        result = fadd( result, fmul( values[ i - 1 ], power( 2, size ) ) )
-        size += fields[ i - 1 ]
+        field = int( fields[ i - 1 ] )
+        value = int( values[ i - 1 ] ) & ( 2 ** field - 1 )
+        result = fadd( result, fmul( value, power( 2, size ) ) )
+        size += field
 
     return result
 

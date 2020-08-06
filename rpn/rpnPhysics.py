@@ -380,7 +380,7 @@ def calculateTidalForce( mass, distance, delta ):
 def calculateTimeDilation( velocity ):
     velocity.validateUnits( 'velocity' )
 
-    ratio = divide( velocity, getConstant( 'speed_of_light' ) ).value
+    ratio = divide( velocity, getConstant( 'speed_of_light' ) )
 
     if ratio == 1:
         return inf

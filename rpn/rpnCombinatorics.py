@@ -691,6 +691,10 @@ def getLahNumber( n, k ):
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
+@twoArgFunctionEvaluator( )
+def getNarayanaNumberOperator( n, k ):
+    return getNarayanaNumber( n, k )
+
 
 #******************************************************************************
 #

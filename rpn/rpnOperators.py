@@ -61,7 +61,8 @@ from rpn.rpnChemistry import getAtomicNumber, getAtomicSymbol, getAtomicWeight, 
 
 from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynomial, getBinomial, \
                                  getCombinations, getCompositions, getDeBruijnSequence, getIntegerPartitions, \
-                                 getLahNumber, getMultinomial, getNarayanaNumber, getNthAperyNumber, getNthBell, \
+                                 getLahNumber, getMultinomial, getNarayanaNumberOperator, getNthAperyNumber, \
+                                 getNthBell, \
                                  getNthBernoulli, getNthCatalanNumber, getNthDelannoyNumber,getNthMenageNumber, \
                                  getNthMotzkinNumber, getNthMultifactorial, getNthPellNumber, getNthSchroederNumber, \
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
@@ -104,7 +105,7 @@ from rpn.rpnDice import enumerateDiceGenerator, enumerateMultipleDiceGenerator, 
 
 from rpn.rpnDebug import debugPrint
 
-from rpn.rpnFactor import getFactors
+from rpn.rpnFactor import getFactorsOperator
 
 from rpn.rpnGenerator import RPNGenerator
 
@@ -127,43 +128,45 @@ from rpn.rpnLexicographic import addDigits, buildNumbers, buildStepNumbers, comb
                                  getRightTruncationsGenerator, isAutomorphic, isBaseKNarcissistic, isBaseKPandigital, \
                                  isBaseKSmithNumber, isBouncy, isDecreasing, isDigitalPermutation, \
                                  isGeneralizedDudeneyNumber, isHarshadNumber, isIncreasing, isKaprekarNumber, \
-                                 isKMorphicOperator, isNarcissistic, isOrderKSmithNumber, isPalindrome, isPandigital, \
-                                 isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, isSmithNumber, \
-                                 isStepNumber, isSumProductNumber, isTrimorphic, multiplyDigits, multiplyDigitPowers, \
-                                 multiplyNonzeroDigitPowers, multiplyNonzeroDigits, permuteDigits, replaceDigits, \
-                                 reverseDigits, rotateDigitsLeft, rotateDigitsRight, showErdosPersistence, \
-                                 showKPersistence, showPersistence, sumDigits
+                                 isKMorphicOperator, isNarcissistic, isOrderKSmithNumber, isPalindromeOperator, \
+                                 isPandigital, isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, \
+                                 isSmithNumber, isStepNumber, isSumProductNumber, isTrimorphic, multiplyDigits, \
+                                 multiplyDigitPowers, multiplyNonzeroDigitPowers, multiplyNonzeroDigits, \
+                                 permuteDigits, replaceDigits, reverseDigitsOperator, rotateDigitsLeft, \
+                                 rotateDigitsRight, showErdosPersistence, showKPersistence, showPersistence, sumDigits
 
-from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMean, calculateArithmeticMean, \
-                        calculateGeometricMean, calculateHarmonicMean, calculatePowerTower, calculatePowerTower2, \
+from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMeanOperator, \
+                        calculateArithmeticMeanOperator, calculateGeometricMeanOperator, \
+                        calculateHarmonicMeanOperator, calculatePowerTower, calculatePowerTower2, \
                         calculateRootMeanSquare, collate, compareLists, countElements, doesListRepeat, \
                         enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, flatten, \
-                        getAlternatingSum, getAndAll, getCumulativeListDiffs, getCumulativeListRatios, \
-                        getCumulativeOccurrenceRatios, getDifference, getGCD, getGCDOfList, getListCombinations, \
-                        getListCombinationsWithRepeats, getLeft, getListDiffs, getListPowerset, getListRatios, \
-                        getRight, getIndexOfMax, getIndexOfMin, getListElement, getListPermutations, \
-                        getListPermutationsWithRepeats, getNandAll, getNonzeroes, getNorAll, getProduct, \
-                        getOccurrences, getOccurrenceRatios, getOrAll, getRandomElement, getReverse, getSlice, \
-                        getStandardDeviation, getSublist, getSum, getUniqueElements, getZeroes, groupElements, \
-                        interleave, isPalindromeList, listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, \
-                        permuteLists, reduceList, shuffleList, sortAscending, sortDescending
+                        getAlternatingSum, getAndAll, getCumulativeListDiffs, getCumulativeListProducts, \
+                        getCumulativeListSums, getCumulativeListRatios, getCumulativeOccurrenceRatios, getDifference, \
+                        getGCDOperator, getGCDOfList, getListCombinations, getListCombinationsWithRepeats, getLeft, \
+                        getListDiffs, getListPowerset, getListRatios, getRight, getIndexOfMax, getIndexOfMin, \
+                        getListElement, getListPermutations, getListPermutationsWithRepeats, getNandAll, \
+                        getNonzeroes, getNorAll, getProduct, getOccurrences, getOccurrenceRatios, getOrAll, \
+                        getRandomElement, getReverse, getSlice, getStandardDeviation, getSublist, getSum, \
+                        getUniqueElements, getZeroes, groupElements, interleave, isPalindromeList, \
+                        listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, permuteLists, \
+                        reduceListOperator, shuffleList, sortAscending, sortDescending
 
 from rpn.rpnLocation import convertLatLongToNAC, getDistance, getLocation, getLocationInfo, getTimeZone, RPNLocation
 
-from rpn.rpnMath import add, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
-                        cube, decrement, exp, divide, getAbsoluteValue, getAGM, getArgument, getCeiling, \
+from rpn.rpnMath import addOperator, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
+                        cube, decrement, exp, divideOperator, getAbsoluteValue, getAGM, getArgument, getCeiling, \
                         getConjugate, getCubeRoot, getCubeSuperRoot, getExp, getExp10, getExpPhi, getFloor, \
                         getImaginary, getLambertW, getLarger, getLI, getLog, getLog10, getLog2, getLogXY, \
                         getMantissa, getMaximum, getMinimum, getModulo, getNearestInt, getNegative, getPolyexp, \
-                        getPolylog, getPower, getReal, getReciprocal, getRoot, getSign, getSmaller, getSquareRoot, \
-                        getSquareSuperRoot, getSuperRoot, getValue, acosOperator, acotOperator, acothOperator, \
-                        acoshOperator, acscOperator, acschOperator, asecOperator, asechOperator, asinOperator, \
-                        asinhOperator, atanOperator, atanhOperator, cotOperator, cothOperator, cscOperator, \
-                        cschOperator, cosOperator, coshOperator, secOperator, sechOperator, sinOperator, \
-                        sinhOperator, tanOperator, tanhOperator, increment, isDivisible, isEqual, isEven, isGreater, \
-                        isKthPower, isLess, isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, \
-                        isZero, multiply, roundByDigits, roundByValue, roundOff, square, subtract, tetrate, \
-                        tetrateRight
+                        getPolylog, getPowerOperator, getReal, getReciprocal, getRootOperator, getSign, getSmaller, \
+                        getSquareRoot, getSquareSuperRoot, getSuperRoot, getValue, acosOperator, acotOperator, \
+                        acothOperator, acoshOperator, acscOperator, acschOperator, asecOperator, asechOperator, \
+                        asinOperator, asinhOperator, atanOperator, atanhOperator, cotOperator, cothOperator, \
+                        cscOperator, cschOperator, cosOperator, coshOperator, secOperator, sechOperator, sinOperator, \
+                        sinhOperator, tanOperator, tanhOperator, increment, isDivisibleOperator, isEqual, isEven, \
+                        isGreater, isKthPower, isLess, isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, \
+                        isPower, isSquare, isZero, multiplyOperator, roundByDigits, roundByValueOperator, roundOff, \
+                        square, subtractOperator, tetrate, tetrateRight
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
                                convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
@@ -173,35 +176,37 @@ from rpn.rpnModifiers import decrementNestedListLevel, duplicateOperation, dupli
 
 from rpn.rpnName import getName, getOrdinalName
 
-from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunction, calculateChineseRemainderTheorem, \
-                                convertFromContinuedFraction, findNthSumOfCubes, findNthSumOfSquares, \
-                                findSumsOfKNonzeroPowers, findSumsOfKPowers, generatePolydivisibles, getAbundance, \
-                                getAbundanceRatio, getAliquotSequence, getAlternatingHarmonicFraction, getAltZeta, \
-                                getBarnesG, getBeta, getCollatzSequence, getCyclotomic, getDigamma, getDigitalRoot, \
-                                getDivisorCount, getDivisors, getEulerPhi, getFrobeniusNumber, getGamma, \
-                                getGeometricRecurrence, getHarmonicFraction, getHarmonicResidue, getHurwitzZeta, \
-                                getLCM, getLCMOfList, getLeylandNumber, getLimitedAliquotSequence, getLinearRecurrence, \
-                                getLinearRecurrenceWithModulo, getLogGamma, getNthAlternatingFactorial, \
-                                getGreedyEgyptianFraction, getNthBaseKRepunit, getNthCarolNumber, \
-                                getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, getNthFibonacci, \
-                                getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, getNthHexanacci, \
-                                getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
-                                getNthKyneaNumber, getNthLeonardoNumber, getNthLinearRecurrence, \
-                                getNthLinearRecurrenceWithModulo, getNthLucasNumber, getNthMersenneExponent, \
-                                getNthMersennePrime, getNthMerten, getNthMobiusNumber, getNthPadovanNumber, \
-                                getNthPhitorial, getNthOctanacci, getNthPascalLine, getNthPentanacci, \
-                                getNthPerfectNumber, getNthKPolygorial, getNthRieselNumber, getNthSternNumber, \
-                                getNthSubfactorial, getNthSuperfactorial, getNthTetranacci, getNthThabitNumber, \
-                                getNthThueMorseNumber, getNthTribonacci, getNthZetaZero, getPolygamma, \
-                                getPowModOperator, getPrimePi, getRadical, getSigmaK, getSigmaOperator, getTrigamma, \
-                                getUnitRoots, getZeta, interpretAsBaseOperator, interpretAsFraction, isAbundant, \
-                                isAchillesNumber, isAntiharmonic, isCarmichaelNumberOperator, isDeficient, \
-                                isFriendly, isHarmonicDivisorNumber, isInteger, isKHyperperfect, isKPerfect, \
-                                isKSemiprimeOperator, isKSphenic, isPerfect, isPernicious, isPolydivisible, \
-                                isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, isSemiprime, \
-                                isSmoothOperator, isSphenic, isSquareFree, isUnusual, makeContinuedFraction, \
-                                makeEulerBrick, makePythagoreanQuadruple, makePythagoreanTriple, \
-                                makePythagoreanTriples, solveFrobeniusOperator
+from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunctionOperator, \
+                                calculateChineseRemainderTheorem, convertFromContinuedFraction, findNthSumOfCubes, \
+                                findNthSumOfSquares, findSumsOfKNonzeroPowers, findSumsOfKPowers, \
+                                generatePolydivisibles, getAbundanceOperator, getAbundanceRatio, getAliquotSequence, \
+                                getAlternatingHarmonicFraction, getAltZeta, getBarnesG, getBeta, getCollatzSequence, \
+                                getCyclotomic, getDigamma, getDigitalRoot, getDivisorCountOperator, \
+                                getDivisorsOperator, getEulerPhi, getFrobeniusNumber, getGamma, \
+                                getGeometricRecurrence, getHarmonicFraction, getHarmonicResidueOperator, \
+                                getHurwitzZeta, getLCM, getLCMOfList, getLeylandNumber, getLimitedAliquotSequence, \
+                                getLinearRecurrence, getLinearRecurrenceWithModulo, getLogGamma, \
+                                getNthAlternatingFactorial, getGreedyEgyptianFraction, getNthBaseKRepunit, \
+                                getNthCarolNumber, getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, \
+                                getNthFibonacci, getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, \
+                                getNthHexanacci, getNthHyperfactorial, getNthJacobsthalNumber, \
+                                getNthKFibonacciNumber, getNthKyneaNumber, getNthLeonardoNumber, \
+                                getNthLinearRecurrence, getNthLinearRecurrenceWithModulo, getNthLucasNumber, \
+                                getNthMersenneExponent, getNthMersennePrime, getNthMerten, \
+                                getNthMobiusNumberOperator, getNthPadovanNumber, getNthPhitorial, getNthOctanacci, \
+                                getNthPascalLine, getNthPentanacci, getNthPerfectNumber, getNthKPolygorial, \
+                                getNthSternNumberOperator, getNthSubfactorial, getNthSuperfactorial, \
+                                getNthTetranacci, getNthThabitNumber, getNthThueMorseNumberOperator, \
+                                getNthTribonacci, getNthZetaZero, getPolygamma, getPowModOperator, getPrimePi, \
+                                getRadical, getSigmaKOperator, getSigmaOperator, getTrigamma, getUnitRoots, getZeta, \
+                                interpretAsBaseOperator, interpretAsFraction, isAbundant, isAchillesNumber, \
+                                isAntiharmonic, isCarmichaelNumberOperator, isDeficient, isFriendly, \
+                                isHarmonicDivisorNumber, isInteger, isKHyperperfect, isKPerfect, \
+                                isKSemiprimeOperator, isKSphenicOperator, isPerfect, isPernicious, \
+                                isPolydivisible, isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, \
+                                isSemiprime, isSmoothOperator, isSphenic, isSquareFree, isUnusual, \
+                                makeContinuedFraction, makeEulerBrick, makePythagoreanQuadruple, \
+                                makePythagoreanTriple, makePythagoreanTriples, solveFrobeniusOperator
 
 from rpn.rpnPersistence import dumpFunctionCache, dumpPrimeCache, getUserFunctionsFileName, loadConstants, \
                                loadResult, loadUnitConversionMatrix, loadUnitData
@@ -266,8 +271,8 @@ from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrime
                               getNthSexyTripletList, getNthSophiePrime, getNthSuperPrime, getNthTripleBalancedPrime, \
                               getNthTripleBalancedPrimeList, getNthTripletPrime, getNthTripletPrimeList, \
                               getNthTwinPrime, getNthTwinPrimeList, getSafePrime, getPreviousPrimeOperator, \
-                              getPreviousPrimesOperator, getPrimeRange, getPrimesGenerator, isComposite, isPrime, \
-                              isStrongPseudoprime
+                              getPreviousPrimesOperator, getPrimeRange, getPrimesGenerator, isComposite, \
+                              isPrimeOperator, isStrongPseudoprime
 
 from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMode, setIdentify, \
                             setIdentifyMode, setInputRadix, setIntegerGrouping, setLeadingZero, \
@@ -1681,7 +1686,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                     return False
         elif term in listOperators:
             if g.duplicateOperations > 0:
-                operatorInfo = operators[ term ]
+                operatorInfo = listOperators[ term ]
                 argsNeeded = operatorInfo.argCount
 
                 if argsNeeded > 1:
@@ -2210,7 +2215,7 @@ listOperators = {
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     # arithmetic
-    'antiharmonic_mean'             : RPNOperator( calculateAntiharmonicMean,
+    'antiharmonic_mean'             : RPNOperator( calculateAntiharmonicMeanOperator,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'equals_one_of'                 : RPNOperator( equalsOneOf,
@@ -2220,10 +2225,10 @@ listOperators = {
     'gcd'                           : RPNOperator( getGCDOfList,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
-    'geometric_mean'                : RPNOperator( calculateGeometricMean,
+    'geometric_mean'                : RPNOperator( calculateGeometricMeanOperator,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
-    'harmonic_mean'                 : RPNOperator( calculateHarmonicMean,
+    'harmonic_mean'                 : RPNOperator( calculateHarmonicMeanOperator,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'lcm'                           : RPNOperator( getLCMOfList,
@@ -2232,7 +2237,7 @@ listOperators = {
     'maximum'                       : RPNOperator( getMaximum,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
-    'mean'                          : RPNOperator( calculateArithmeticMean,
+    'mean'                          : RPNOperator( calculateArithmeticMeanOperator,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'minimum'                       : RPNOperator( getMinimum,
@@ -2340,7 +2345,13 @@ listOperators = {
     'cumulative_diffs'              : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
                                                    1, [ RPNArgumentType.Generator ], [ ] ),
 
+    'cumulative_products'           : RPNOperator( lambda n: RPNGenerator( getCumulativeListProducts( n ) ),
+                                                   1, [ RPNArgumentType.Generator ], [ ] ),
+
     'cumulative_ratios'             : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ),
+                                                   1, [ RPNArgumentType.Generator ], [ ] ),
+
+    'cumulative_sums'               : RPNOperator( lambda n: RPNGenerator( getCumulativeListSums( n ) ),
                                                    1, [ RPNArgumentType.Generator ], [ ] ),
 
     'difference'                    : RPNOperator( getDifference,
@@ -2439,7 +2450,7 @@ listOperators = {
     'ratios'                        : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
                                                    1, [ RPNArgumentType.Generator ], [ ] ),
 
-    'reduce'                        : RPNOperator( reduceList,
+    'reduce'                        : RPNOperator( reduceListOperator,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
     'reverse'                       : RPNOperator( getReverse,
@@ -2566,7 +2577,7 @@ operators = {
     'abs'                           : RPNOperator( getAbsoluteValue,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
 
-    'add'                           : RPNOperator( add,
+    'add'                           : RPNOperator( addOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -2577,20 +2588,20 @@ operators = {
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'divide'                        : RPNOperator( divide,
+    'divide'                        : RPNOperator( divideOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
 
     'floor'                         : RPNOperator( getFloor,
                                                    1, [ RPNArgumentType.Default ], [ ] ),
 
-    'gcd2'                          : RPNOperator( getGCD,
+    'gcd2'                          : RPNOperator( getGCDOperator,
                                                    2, [ RPNArgumentType.Integer, RPNArgumentType.Integer ], [ ] ),
 
     'increment'                     : RPNOperator( increment,
                                                    1, [ RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'is_divisible'                  : RPNOperator( isDivisible,
+    'is_divisible'                  : RPNOperator( isDivisibleOperator,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
     'is_equal'                      : RPNOperator( isEqual,
@@ -2650,7 +2661,7 @@ operators = {
     'modulo'                        : RPNOperator( getModulo,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
-    'multiply'                      : RPNOperator( multiply,
+    'multiply'                      : RPNOperator( multiplyOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -2673,7 +2684,7 @@ operators = {
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Integer ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'round_by_value'                : RPNOperator( roundByValue,
+    'round_by_value'                : RPNOperator( roundByValueOperator,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.NonnegativeReal ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -2684,7 +2695,7 @@ operators = {
     'smaller'                       : RPNOperator( getSmaller,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
 
-    'subtract'                      : RPNOperator( subtract,
+    'subtract'                      : RPNOperator( subtractOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -3167,7 +3178,7 @@ operators = {
     'multifactorial'                : RPNOperator( getNthMultifactorial,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'narayana_number'               : RPNOperator( getNarayanaNumber,
+    'narayana_number'               : RPNOperator( getNarayanaNumberOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
 
     'nth_apery'                     : RPNOperator( getNthAperyNumber,
@@ -3861,7 +3872,7 @@ operators = {
     'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumber,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_palindrome'                 : RPNOperator( isPalindrome,
+    'is_palindrome'                 : RPNOperator( isPalindromeOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_pandigital'                 : RPNOperator( isPandigital,
@@ -3910,7 +3921,7 @@ operators = {
                                                    3, [ RPNArgumentType.Integer, RPNArgumentType.NonnegativeInteger,
                                                         RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'reverse_digits'                : RPNOperator( reverseDigits,
+    'reverse_digits'                : RPNOperator( reverseDigitsOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'rotate_digits_left'            : RPNOperator( rotateDigitsLeft,
@@ -4002,13 +4013,13 @@ operators = {
                                                    2, [ RPNArgumentType.Integer, RPNArgumentType.Integer ], [ ] ),
 
     # number_theory
-    'abundance'                     : RPNOperator( getAbundance,
+    'abundance'                     : RPNOperator( getAbundanceOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'abundance_ratio'               : RPNOperator( getAbundanceRatio,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'ackermann_number'              : RPNOperator( calculateAckermannFunction,
+    'ackermann_number'              : RPNOperator( calculateAckermannFunctionOperator,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'aliquot'                       : RPNOperator( getAliquotSequence,
@@ -4035,7 +4046,7 @@ operators = {
     'collatz'                       : RPNOperator( getCollatzSequence,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'count_divisors'                : RPNOperator( getDivisorCount,
+    'count_divisors'                : RPNOperator( getDivisorCountOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'cyclotomic'                    : RPNOperator( getCyclotomic,
@@ -4047,7 +4058,7 @@ operators = {
     'digital_root'                  : RPNOperator( getDigitalRoot,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'divisors'                      : RPNOperator( getDivisors,
+    'divisors'                      : RPNOperator( getDivisorsOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'double_factorial'              : RPNOperator( getNthDoubleFactorial,
@@ -4066,7 +4077,7 @@ operators = {
     'euler_phi'                     : RPNOperator( getEulerPhi,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'factor'                        : RPNOperator( getFactors,
+    'factor'                        : RPNOperator( getFactorsOperator,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
 
     'factorial'                     : RPNOperator( getNthFactorial,
@@ -4096,7 +4107,7 @@ operators = {
     'harmonic_fraction'             : RPNOperator( getHarmonicFraction,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'harmonic_residue'              : RPNOperator( getHarmonicResidue,
+    'harmonic_residue'              : RPNOperator( getHarmonicResidueOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'heptanacci'                    : RPNOperator( getNthHeptanacci,
@@ -4141,7 +4152,7 @@ operators = {
     'is_k_semiprime'                : RPNOperator( isKSemiprimeOperator,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_k_sphenic'                  : RPNOperator( isKSphenic,
+    'is_k_sphenic'                  : RPNOperator( isKSphenicOperator,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_perfect'                    : RPNOperator( isPerfect,
@@ -4156,7 +4167,7 @@ operators = {
     'is_powerful'                   : RPNOperator( isPowerful,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'is_prime'                      : RPNOperator( isPrime,
+    'is_prime'                      : RPNOperator( isPrimeOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_pronic'                     : RPNOperator( isPronic,
@@ -4231,7 +4242,7 @@ operators = {
     'nth_merten'                    : RPNOperator( getNthMerten,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_mobius'                    : RPNOperator( getNthMobiusNumber,
+    'nth_mobius'                    : RPNOperator( getNthMobiusNumberOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_padovan'                   : RPNOperator( getNthPadovanNumber,
@@ -4240,13 +4251,13 @@ operators = {
     'nth_perfect_number'            : RPNOperator( getNthPerfectNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_stern'                     : RPNOperator( getNthSternNumber,
+    'nth_stern'                     : RPNOperator( getNthSternNumberOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_thabit'                    : RPNOperator( getNthThabitNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'nth_thue_morse'                : RPNOperator( getNthThueMorseNumber,
+    'nth_thue_morse'                : RPNOperator( getNthThueMorseNumberOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'octanacci'                     : RPNOperator( getNthOctanacci,
@@ -4285,13 +4296,10 @@ operators = {
     'reversal_addition'             : RPNOperator( getNthReversalAddition,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'riesel'                        : RPNOperator( getNthRieselNumber,
-                                                   1, [ RPNArgumentType.Real ], [ ] ),
-
     'sigma'                         : RPNOperator( getSigmaOperator,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    'sigma_k'                       : RPNOperator( getSigmaK,
+    'sigma_k'                       : RPNOperator( getSigmaKOperator,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'subfactorial'                  : RPNOperator( getNthSubfactorial,
@@ -4433,7 +4441,7 @@ operators = {
     'hyperoperator_right'           : RPNOperator( calculateNthRightHyperoperator,
                                                    3, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.Default, RPNArgumentType.Default ], [ ] ),
 
-    'power'                         : RPNOperator( getPower,
+    'power'                         : RPNOperator( getPowerOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -4441,7 +4449,7 @@ operators = {
                                                    3, [ RPNArgumentType.Integer, RPNArgumentType.Integer,
                                                         RPNArgumentType.Integer ], [ ] ),
 
-    'root'                          : RPNOperator( getRoot,
+    'root'                          : RPNOperator( getRootOperator,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 

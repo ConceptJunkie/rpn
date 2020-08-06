@@ -275,11 +275,11 @@ def convertToUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( n ).timestamp
     except OverflowError:
-        print( 'rpn:  out of range error for \'to_unix_time\'' )
-        return nan
+        raise ValueError( 'out of range error' )
     except TypeError:
-        print( 'rpn:  expected time value for \'to_unix_time\'' )
-        return nan
+        raise ValueError( 'expected time value' )
+    except OSError:
+        raise ValueError( 'out of range error' )
 
     return result
 
@@ -295,11 +295,11 @@ def convertFromUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( validateRealInt( n ) )
     except OverflowError:
-        print( 'rpn:  out of range error for \'from_unix_time\'' )
-        return nan
+        raise ValueError( 'out of range error' )
     except TypeError:
-        print( 'rpn:  expected integer for \'from_unix_time\'' )
-        return nan
+        raise ValueError( 'expected time value' )
+    except OSError:
+        raise ValueError( 'out of range error' )
 
     return result
 

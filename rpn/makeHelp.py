@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #******************************************************************************
 #
 #  makeHelp
@@ -51,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1710
+MAX_EXAMPLE_COUNT = 1815
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1915,7 +1917,8 @@ its corresponding member in the second list and the result is a list.  If
 the lists are not of equal length, then the resulting list is the length of
 the shorter of the two.
 
-Division is supported for measurements.
+Division is supported for measurements.  If two measurements with the same
+units are divided, the result will be a number, since the units cancel.
 ''',
 '''
 ''' + makeCommandExample( '1440 24 /' ) + '''
@@ -2006,7 +2009,7 @@ Ref:  https://en.wikipedia.org/wiki/Harmonic_mean
 ''' + makeCommandExample( '[ 1 10 range ] harmonic_mean' ) + '''
 Calculate the harmonic mean of the first n numbers from 1 to 7:
 ''' + makeCommandExample( '[ 1 1 7 range range ] harmonic_mean' ),
-[ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'antiharmonic_mean' ] ],
+[ 'mean', 'agm', 'geometric_mean', 'root_mean_square', 'antiharmonic_mean', 'is_harmonic_divisor_number' ] ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -2118,7 +2121,7 @@ This is the equivalent of 'is_equal not'.
     'is_not_greater' : [
 'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
 '''
-'is_not_greater' is the equivalent of "less than or equal".
+'is_not_greater' is the equivalent of less than or equal.
 
 'is_not_greater' requires a real argument.
 ''',
@@ -2132,7 +2135,7 @@ This is the equivalent of 'is_equal not'.
     'is_not_less' : [
 'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
 '''
-'is_not_less' is the equivalent of "greater than or equal".
+'is_not_less' is the equivalent of greater than or equal.
 
 'is_not_less' requires a real argument.
 ''',
@@ -2148,7 +2151,7 @@ This is the equivalent of 'is_equal not'.
 '''
 This is simply a check for a non-zero value.
 
-The operator is primarily useful in lambdas.  It is actually idential to
+The operator is primarily useful in lambdas.  It is actually identical to
 'not not'.
 ''',
 '''
@@ -2597,8 +2600,7 @@ require an astronomical object.
 'astronomical_objects', 'the planet Pluto',
 '''
 This operator represents the planet Pluto for astronomical operators that
-require an astronomical object.
-
+require an astronomical object.
 Yes, I still consider Pluto a planet.  Talk to the hand.
 ''',
 '''
@@ -2685,6 +2687,8 @@ subseqent rising of a body.
     'astronomical_dawn' : [
 'astronomy', 'calculates the time of the astronomical dawn for location n and date k',
 '''
+Astronomical dawn is defined as when the center of the sun is 18 degrees below
+the horizon before the sun rises.
 ''',
 '''
 ''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 astronomical_dawn' ) + '''
@@ -2695,6 +2699,8 @@ subseqent rising of a body.
     'astronomical_dusk' : [
 'astronomy', 'calculates the time of the astronomical dusk for location n and date k',
 '''
+Astronomical dusk is defined as when the center of the sun is 18 degrees below
+the horizon after the sun sets.
 ''',
 '''
 ''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 astronomical_dusk' ) + '''
@@ -2705,15 +2711,32 @@ subseqent rising of a body.
     'autumnal_equinox' : [
 'astronomy', 'calculates the time of the autumnal equinox for year n',
 '''
+https://en.wikipedia.org/wiki/September_equinox:
+
+The September (or autumnal) equinox (or Southward equinox) is the moment when
+the Sun appears to cross the celestial equator, heading southward.  Due to
+differences between the calendar year and the tropical year, the September
+equinox can occur at any time between September 21 and 24.
+
+At the equinox, the Sun as viewed from the equator rises due east and sets due
+west. Before the Southward equinox, the Sun rises and sets more northerly, and
+afterwards, it rises and sets more southerly.
+
+The equinox may be taken to mark the end of summer and the beginning of autumn
+(autumnal equinox) in the Northern Hemisphere, while marking the end of winter
+and the start of spring (vernal equinox) in the Southern Hemisphere.
+
+rpn uses the Northern hemisphere-centric definition of the term.
 ''',
 '''
-''',
+''' + makeCommandExample( '2019 autumnal_equinox' ) + '''
+''' + makeCommandExample( '2020 autumnal_equinox' ),
 [ 'vernal_equinox', 'summer_solstice', 'winter_solstice' ] ],
 
     'dawn' : [
 'astronomy', 'calculates the next dawn time at location n for date-time k',
 '''
-The definition of dusk being used the is "civil" definition of dawn, i.e., the
+The definition of dawn being used the is "civil" definition of dawn, i.e., the
 center of the sun is 6 degrees below the horizon.
 ''',
 '''
@@ -2736,6 +2759,8 @@ sunrise and sunset.
     'distance_from_earth' : [
 'astronomy', 'returns the distance from Earth of astronomical object n for date-time k',
 '''
+This operator returns the distance of the astronomical body n from Earth at
+date-time k.
 ''',
 '''
 ''' + makeCommandExample( '-c mars "2018-07-10 16:00" distance_from_earth miles convert' ) + '''
@@ -2826,6 +2851,8 @@ the moon.
     'nautical_dawn' : [
 'astronomy', 'calculates the time of the nautical dawn for location n and date k',
 '''
+Nautical dawn is defined as when the center of the sun is 18 degrees below
+the horizon before the sun rises.
 ''',
 '''
 ''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 astronomical_dawn' ) + '''
@@ -2836,6 +2863,8 @@ the moon.
     'nautical_dusk' : [
 'astronomy', 'calculates the time of the nautical dusk for location n and date k',
 '''
+Nautical dusk is defined as when the center of the sun is 18 degrees below
+the horizon after the sun sets.
 ''',
 '''
 ''' + makeCommandExample( '"Eugene, OR" 2017-01-07 astronomical_dusk' ) + '''
@@ -2853,8 +2882,10 @@ the moon.
 [ 'previous_antitransit', 'next_transit', 'next_rising', 'next_setting' ] ],
 
     'next_first_quarter_moon' : [
-'astronomy', 'returns the date of the next First Quarter Moon after n',
+'astronomy', 'returns the date of the next first quarter moon after date-time n',
 '''
+This operator returns the time of the next first quarter moon after date-time
+n.
 ''',
 '''
 ''' + makeCommandExample( 'today next_first_quarter_moon' ) + '''
@@ -2862,8 +2893,9 @@ the moon.
 [ 'next_full_moon', 'next_last_quarter_moon', 'next_new_moon', 'previous_first_quarter_moon' ] ],
 
     'next_full_moon' : [
-'astronomy', 'returns the date of the next Full Moon after n',
+'astronomy', 'returns the date of the next full moon after date-time n',
 '''
+This operator returns the time of the next full moon after date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today next_full_moon' ) + '''
@@ -2871,8 +2903,9 @@ the moon.
 [ 'previous_full_moon', 'next_first_quarter_moon', 'next_last_quarter_moon', 'next_new_moon' ] ],
 
     'next_last_quarter_moon' : [
-'astronomy', 'returns the date of the next Last Quarter Moon after n',
+'astronomy', 'returns the date of the next last quarter moon after date-time n',
 '''
+This operator returns the time of the next last quarter moon after date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today next_last_quarter_moon' ) + '''
@@ -2880,8 +2913,9 @@ the moon.
 [ 'previous_last_quarter_moon', 'next_new_moon', 'next_first_quarter_moon', 'next_new_moon' ] ],
 
     'next_new_moon' : [
-'astronomy', 'returns the date of the next New Moon after n',
+'astronomy', 'returns the date of the next new moon after date-time n',
 '''
+This operator returns the time of the next new moon after date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today next_new_moon' ) + '''
@@ -2935,8 +2969,10 @@ This is also the amount of time between sunset and sunrise.
 [ 'next_antitransit', 'previous_rising', 'previous_setting', 'previous_transit' ] ],
 
     'previous_first_quarter_moon' : [
-'astronomy', 'returns the date of the previous First Quarter Moon before n',
+'astronomy', 'returns the date of the previous first quarter moon before date-time n',
 '''
+This operator returns the time of the previous first quarter moon before
+date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
@@ -2944,8 +2980,10 @@ This is also the amount of time between sunset and sunrise.
 [ 'next_first_quarter_moon', 'previous_last_quarter_moon', 'previous_full_moon', 'previous_new_moon' ] ],
 
     'previous_full_moon' : [
-'astronomy', 'returns the date of the previous Full Moon before n',
+'astronomy', 'returns the date of the previous full moon before date-time n',
 '''
+This operator returns the time of the previous full 
+moon before date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_full_moon' ) + '''
@@ -2954,8 +2992,11 @@ This is also the amount of time between sunset and sunrise.
 [ 'next_full_moon', 'previous_last_quarter_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_last_quarter_moon' : [
-'astronomy', 'returns the date of the previous Last Quarter Moon before n',
+'astronomy', 'returns the date of the previous last quarter moon before date-time n',
 '''
+This operator returns the time of the previous last quarter 
+moon before
+ date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_last_quarter_moon' ) + '''
@@ -2963,8 +3004,10 @@ This is also the amount of time between sunset and sunrise.
 [ 'next_last_quarter_moon', 'previous_full_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_new_moon' : [
-'astronomy', 'returns the date of the previous New Moon before n',
+'astronomy', 'returns the date of the previous new moon before date-time n',
 '''
+This operator returns the time of the previous new 
+moon before date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_new_moon' ) + '''
@@ -3012,6 +3055,12 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
     'solar_noon' : [
 'astronomy', 'calculates the next solar noon time at location n for date-time k',
 '''
+From https://en.wikipedia.org/wiki/Noon#Solar_noon:
+
+Solar noon is the time when the Sun appears to contact the local celestial
+meridian.  This is when the Sun apparently reaches its highest point in the
+sky, at 12 noon apparent solar time and can be observed using a sundial.  The
+local or clock time of solar noon depends on the longitude and date.
 ''',
 '''
 ''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 solar_noon' ) + '''
@@ -3021,6 +3070,15 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
     'summer_solstice' : [
 'astronomy', 'calculates the time of the summer solstice for year n',
 '''
+The summer solstice, also known as estival solstice or midsummer, occurs when
+one of the Earth's poles has its maximum tilt toward the Sun.  It happens twice
+yearly, once in each hemisphere (Northern and Southern).  For that hemisphere,
+the summer solstice is when the Sun reaches its highest position in the sky and
+is the day with the longest period of daylight.  Within the Arctic circle (for
+the northern hemisphere) or Antarctic circle (for the southern hemisphere),
+there is continuous daylight around the summer solstice.
+
+rpn uses the Northern hemisphere-centric definition of the term.
 ''',
 '''
 ''' + makeCommandExample( '2010 summer_solstice' ) + '''
@@ -3030,6 +3088,12 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
     'sunrise' : [
 'astronomy', 'calculates the next sunrise time at location n for date-time k',
 '''
+Sunrise (or sunup) is the moment when the upper limb of the Sun appears on the
+horizon in the morning.  The term can also refer to the entire process of the
+solar disk crossing the horizon and its accompanying atmospheric effects.
+
+Astronomically, sunrise occurs for only an instant: the moment at which the
+upper limb of the Sun appears tangent to the horizon.
 ''',
 '''
 ''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 sunrise' ) + '''
@@ -3039,6 +3103,29 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
     'sunset' : [
 'astronomy', 'calculates the next sunset time at location n for date-time k',
 '''
+From https://en.wikipedia.org/wiki/Sunset:
+
+Sunset, also known as sundown, is the daily disappearance of the Sun below the
+horizon due to Earth's rotation.  As viewed from the Equator, the equinox Sun
+sets exactly due west in both Spring and Autumn.  As viewed from the middle
+latitudes, the local summer Sun sets to the northwest for the Northern
+Hemisphere, but to the southwest for the Southern Hemisphere.
+
+The time of sunset is defined in astronomy as the moment when the upper
+limb of the Sun disappears below the horizon.  Near the horizon, atmospheric
+refraction causes sunlight rays to be distorted to such an extent that
+geometrically the solar disk is already about one diameter below the horizon
+when a sunset is observed.
+
+Sunset is distinct from twilight, which is divided into three stages, the
+first being civil twilight, which begins once the Sun has disappeared below the
+horizon, and continues until it descends to 6 degrees below the horizon; the
+second phase is nautical twilight, between 6 and 12 degrees below the horizon;
+and the third is astronomical twilight, which is the period when the Sun is
+between 12 and 18 degrees below the horizon.  Dusk is at the very end of
+astronomical twilight, and is the darkest moment of twilight just before night.
+Night occurs when the Sun reaches 18 degrees below the horizon and no longer
+illuminates the sky.
 ''',
 '''
 ''' + makeCommandExample( '"Santiago, Chile" 2019-12-11 sunset' ) + '''
@@ -3066,6 +3153,29 @@ a is an astronomical object, b is a location and c is a date-time value
     'vernal_equinox' : [
 'astronomy', 'calculates the time of the vernal equinox for year n',
 '''
+The March (or vernal) equinox or Northward equinox is the equinox on the Earth
+when the subsolar point appears to leave the Southern Hemisphere and cross the
+celestial equator, heading northward as seen from Earth.  The March equinox is
+known as the vernal equinox (spring equinox) in the Northern Hemisphere and as
+the autumnal equinox in the Southern.
+
+On the Gregorian calendar, the Northward equinox can occur as early as 19 March
+or as late as 21 March at Greenwich.  For a common year the computed time
+slippage is about 5 hours 49 minutes later than the previous year, and for a
+leap year about 18 hours 11 minutes earlier than the previous year.  Balancing
+the increases of the common years against the losses of the leap years keeps
+the calendar date of the March equinox from drifting more than one day from 20
+March each year.
+
+The March equinox may be taken to mark the beginning of spring and the end of
+winter in the Northern Hemisphere but marks the beginning of autumn and the end
+of summer in the Southern Hemisphere.[8]
+
+In astronomy, the March equinox is the zero point of sidereal time and,
+consequently, right ascension.  It also serves as a reference for calendars
+and celebrations in many human cultures and religions.
+
+rpn uses the Northern hemisphere-centric definition of the term.
 ''',
 '''
 ''' + makeCommandExample( '2014 vernal_equinox' ) + '''
@@ -3075,6 +3185,18 @@ a is an astronomical object, b is a location and c is a date-time value
     'winter_solstice' : [
 'astronomy', 'calculates the time of the winter solstice for year n',
 '''
+From https://en.wikipedia.org/wiki/Winter_solstice:
+
+The winter solstice, hiemal solstice or hibernal solstice, also known as
+midwinter, occurs when one of the Earth's poles has its maximum tilt away from
+the Sun.  It happens twice yearly, once in each hemisphere (Northern and
+Southern).  For that hemisphere, the winter solstice is the day with the
+shortest period of daylight and longest night of the year, when the Sun is at
+its lowest daily maximum elevation in the sky.  At the pole, there is
+continuous darkness or twilight around the winter solstice.  Its opposite is
+the summer solstice.
+
+rpn uses the Northern hemisphere-centric definition of the term.
 ''',
 '''
 ''' + makeCommandExample( '1987 winter_solstice' ) + '''
@@ -3250,7 +3372,7 @@ Count the bits in an IEEE 32-bit float:
     'shift_left' : [
 'bitwise', 'performs a bitwise left shift of value n by k bits',
 '''
-This is effectively the same as multiplying by 2.
+This is effectively the same as multiplying by 2 for each bit shifted.
 ''',
 '''
 ''' + makeCommandExample( '1 3 shift_left' ) + '''
@@ -3261,7 +3383,8 @@ This is effectively the same as multiplying by 2.
     'shift_right' : [
 'bitwise', 'performs a bitwise right shift of value n by k bits',
 '''
-This is effectively the same as dividing by 2 and dropping the remainder.
+This is effectively the same as dividing by 2 for each bit shifted and
+dropping the remainder.
 ''',
 '''
 ''' + makeCommandExample( '1 1 shift_right' ) + '''
@@ -4651,40 +4774,94 @@ The base 7 Champernowne constant in base 7:
 ''' + makeCommandExample( '-a60 -b7 champernowne_constant -r7' ) + '''
 The base 7 Champernowne constant converted to base 10:
 ''' + makeCommandExample( '-a60 -b7 champernowne_constant' ),
-[ ] ],
+[ 'copeland_erdos_constant' ] ],
 
     'copeland_erdos_constant' : [
 'constants', 'returns the Copeland-Erdos constant',
 '''
+From https://en.wikipedia.org/wiki/Copeland%E2%80%93Erd%C5%91s_constant:
+
+The Copeland-Erdos constant is the concatenation of "0." with the base 10
+representations of the prime numbers in order.  Its value, using the modern
+definition of prime, is approximately 0.235711131719232931374143...
+
+In base 10, the constant is a normal number, a fact proven by Arthur Herbert
+Copeland and Paul Erdos in 1946 (hence the name of the constant).
 ''',
 '''
 ''' + makeCommandExample( '-a60 copeland' ),
-[ ] ],
+[ 'champernowne_constant' ] ],
 
     'e' : [
 'constants', 'returns e (Euler\'s number)',
 '''
+From https://en.wikipedia.org/wiki/E_(mathematical_constant):
+
+The number e, known as Euler's number, is a mathematical constant
+approximately equal to 2.71828 which can be characterized in many ways.  It is
+the base of the natural logarithm.  It is the limit of (1 + 1/n)^n as n
+approaches infinity, an expression that arises in the study of compound
+interest.  It can also be calculated as the sum of the infinite series:
+     oo
+    ---   1
+    \     --
+    /     n!
+    ---
+    n=0
+
+The number e has eminent importance in mathematics, alongside 0, 1, p, and i.
+All five of these numbers play important and recurring roles across
+mathematics, and these five constants appear in one formulation of Euler's
+identity. Like the constant p, e is also irrational (i.e. it cannot be
+represented as ratio of integers) and transcendental (i.e. it is not a root of
+any non-zero polynomial with rational coefficients).
 ''',
 '''
 ''' + makeCommandExample( 'e' ),
-[ 'pi', 'phi' ] ],
+[ 'pi', 'i' ] ],
 
     'eddington_number' : [
 'constants', 'returns Arthur Eddington\'s famous estimate of the number of subatomic particles in the Universe',
-'''In 1938, Arthur Eddington famously claimed that, "I believe there are
+'''
+Eddington argued that the value of the fine-structure constant, a, could be
+obtained by pure deduction.  He related a to the Eddington number, which was
+his estimate of the number of protons in the universe.  This led him in 1929 to
+conjecture that a was exactly 1/137.  Other physicists did not adopt this
+conjecture and did not accept his argument.
+
+In the late 1930s, the best experimental value of the fine-structure constant,
+a, was approximately 1/136.  Eddington then argued, from aesthetic and
+numerological considerations, that a should be exactly 1/136.  He devised a
+"proof" that NEdd = 136 x 2^256, or about 1.57 x 10e79.  Some estimates of NEdd
+point to a value of about 10e80.  These estimates assume that all matter can be
+taken to be hydrogen and require assumed values for the number and size of
+galaxies and stars in the universe.
+
+Attempts to find a mathematical basis for this dimensionless constant have
+continued up to the present time.
+
+In 1938, Arthur Eddington famously claimed that, "I believe there are
 15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
 protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
 '''
 ''' + makeCommandExample( '-c -a100 eddington_number' ),
-[ ] ],
+[ 'fine_structure_constant' ] ],
 
     'euler_mascheroni_constant' : [
 'constants', 'returns the Euler-Mascheroni constant',
 '''
+From https://en.wikipedia.org/wiki/Euler%E2%80%93Mascheroni_constant:
+
+The Euler-Mascheroni constant (also called Euler's constant) is a mathematical
+constant recurring in analysis and number theory, usually denoted by the
+lowercase Greek letter gamma.
+
+It is defined as the limiting difference between the harmonic series and the
+natural logarithm.
 ''',
 '''
 ''' + makeCommandExample( 'euler_mascheroni_constant' ),
-[ ] ],
+[ 'gamma', 'zeta', 'nth_harmonic_number', 'log' ] ],
 
     'faraday_constant' : [
 'constants', 'returns the Faraday Constant',
@@ -4697,23 +4874,52 @@ Ref:  https://en.wikipedia.org/wiki/Faraday_constant
 ''',
 '''
 ''' + makeCommandExample( 'faraday_constant' ),
-[ ] ],
+[ 'avogadro_number', 'electron_charge' ] ],
 
     'fine_structure_constant' : [
 'constants', 'returns the fine-structure constant',
 '''
+From https://en.wikipedia.org/wiki/Fine-structure_constant:
+
+In physics, the fine-structure constant, also known as Sommerfeld's constant,
+commonly denoted by a (the Greek letter alpha), is a fundamental physical
+constant characterizing the strength of the electromagnetic interaction
+between elementary charged particles.  It is a dimensionless quantity related
+to the elementary charge e, which characterizes the strength of the coupling
+of an elementary charged particle with the electromagnetic field, by the formula
+
+4 pi epsilon_sub_0 h_bar c alpha = e^2.
+
+epsilon_sub_0 is the electric constant, h_bar is the reduced Planck constant,
+c is the speed of light and e is the elemtary_charge.
+
+As a dimensionless quantity, its numerical value, approximately 1/137, is
+independent of the system of units used.
+
+While there are multiple physical interpretations for a, it received its name
+from Arnold Sommerfeld introducing it (1916) in extending the Bohr model of
+the atom:  a quantifies the gap in the fine structure of the spectral lines of
+the hydrogen atom, which had been precisely measured by Michelson and Morley.
 ''',
 '''
 ''' + makeCommandExample( 'fine_structure_constant' ),
-[ 'electric_constant', 'magnetic_constant' ] ],
+[ 'electric_constant', 'electron_charge', 'speed_of_light', 'reduced_planck_constant' ] ],
 
     'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
 '''
+From https://en.wikipedia.org/wiki/Glaisher%E2%80%93Kinkelin_constant:
+
+In mathematics, the Glaisher-Kinkelin constant or Glaisher's constant,
+typically denoted A, is a mathematical constant, related to the K-function
+and the Barnes G-function.  The constant appears in a number of sums and
+integrals, especially those involving gamma functions and zeta functions.
+It is named after mathematicians James Whitbread Lee Glaisher and Hermann
+Kinkelin.
 ''',
 '''
 ''' + makeCommandExample( 'glaisher_constant' ),
-[ ] ],
+[ 'zeta', 'gamma' ] ],
 
     'infinity' : [
 'constants', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
@@ -4738,18 +4944,32 @@ Ref:  https://en.wikipedia.org/wiki/Faraday_constant
     'khinchin_constant' : [
 'constants', 'returns Khinchin\'s constant',
 '''
+From https://en.wikipedia.org/wiki/Khinchin%27s_constant:
+
+In number theory, Aleksandr Yakovlevich Khinchin proved that for almost all
+real numbers x, coefficients a_sub_i of the continued fraction expansion of x
+have a finite geometric mean that is independent of the value of x and is known
+as Khinchin's constant.
 ''',
 '''
 ''' + makeCommandExample( 'khinchin_constant' ),
-[ ] ],
+[ 'continued_fraction' ] ],
 
     'merten_constant' : [
 'constants', 'returns Merten\'s constant',
 '''
+From https://en.wikipedia.org/wiki/Meissel%E2%80%93Mertens_constant:
+
+The Meissel-Mertens constant (named after Ernst Meissel and Franz Mertens),
+also referred to as Mertens constant, Kronecker's constant, Hadamard-de la
+Vallee-Poussin constant or the prime reciprocal constant, is a mathematical
+constant in number theory, defined as the limiting difference between the
+harmonic series summed only over the primes and the natural logarithm of the
+natural logarithm.
 ''',
 '''
 ''' + makeCommandExample( '-a50 merten_constant' ),
-[ ] ],
+[ 'euler_mascheroni_constant' ] ],
 
     'mills_constant' : [
 'constants', 'returns the Mills constant',
@@ -4759,7 +4979,7 @@ from http://primes.utm.edu/glossary/page.php?sort=MillsConstant:
 In the late forties Mills proved that there was a real number A > 1 for which
 A ^ 3 ^ n is always a prime (n = 1,2,3,...).  He proved existence only, and did
 not attempt to find such an A.  Later others proved that there are uncountably
-many choices for A, but again gave no value for A. It is still not yet possible
+many choices for A, but again gave no value for A.  It is still not yet possible
 to calculate a proven value for A, but if you are willing to accept the Riemann
 Hypothesis, then the least possible value for Mills' constant (usually called
 "the Mills Constant") [is this].
@@ -4769,7 +4989,7 @@ decimal places.
 ''',
 '''
 ''' + makeCommandExample( '-a50 mills_constant' ),
-[ ] ],
+[ 'prime' ] ],
 
     'negative_infinity' : [
 'constants', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
@@ -4782,10 +5002,19 @@ decimal places.
     'omega_constant' : [
 'constants', 'returns the Omega constant',
 '''
+From https://en.wikipedia.org/wiki/Omega_constant:
+
+The omega constant is a mathematical constant defined as the unique real number
+that satisfies the equation
+
+    Omega e^Omega = 1
+
+It is the value of W(1), where W is Lambert's W function.  The name is derived
+from the alternate name for Lambert's W function, the omega function.
 ''',
 '''
 ''' + makeCommandExample( 'omega_constant' ),
-[ ] ],
+[ 'lambertw' ] ],
 
     'phi' : [
 'constants', 'returns phi (the Golden Ratio)',
@@ -4997,7 +5226,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 From https://en.wikipedia.org/wiki/Plastic_number:
 
-In mathematics, the plastic number ? (also known as the plastic constant, the
+In mathematics, the plastic number (also known as the plastic constant, the
 minimal Pisot number, the platin number, Siegel's number or, in French, le
 nombre radiant) is a mathematical constant which is the unique real solution
 of the cubic equation x^3 = x + 1.
@@ -5044,7 +5273,7 @@ at random within a unit cube.
 ''',
 '''
 ''' + makeCommandExample( 'robbins_constant' ),
-[ ] ],
+[ 'prevost_constant','plastic_constant', 'mills_constant' ] ],
 
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )',
@@ -5067,7 +5296,7 @@ Ref:  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
 ''',
 '''
 ''' + makeCommandExample( 'stefan_boltzmann_constant' ),
-[ ] ],
+[ 'boltzmann_constant', 'electric_constant', 'magnetic_constant' ] ],
 
     'tau' : [
 'constants', 'returns tau (twice Archimedes\' constant, or 2 pi)',
@@ -5123,7 +5352,7 @@ Ref:  https://en.wikipedia.org/wiki/Quantum_Hall_effect#The_Bohr_atom_interpreta
 ''',
 '''
 ''' + makeCommandExample( 'von_klitzing_constant' ),
-[ ] ],
+[ 'planck_constant', 'electron_charge' ] ],
 
 
     #******************************************************************************
@@ -5209,9 +5438,13 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
     'from_unix_time' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format',
 '''
+This operator converts a Unix time, which is defined to be the number of
+seconds since the epoch, January 1, 1970 00:00:00, to a date-time.
 ''',
 '''
-''' + makeCommandExample( '1471461891 from_unix_time' ),
+''' + makeCommandExample( '1 from_unix_time' ) + '''
+''' + makeCommandExample( '1596647399 from_unix_time' ) + '''
+''' + makeCommandExample( '2147483647 from_unix_time' ),
 [ 'to_unix_time' ] ],
 
     'hms' : [
@@ -5228,6 +5461,9 @@ in order to convert a time interval to hours, minutes and seconds.
     'integer' : [
 'conversion', 'converts the value to an signed k-bit integer',
 '''
+This is the generalized version of the 'char', 'short', 'long', etc.,
+operators, that allows any arbitrary size of bits, including sizes that are not
+multiples of 8.
 ''',
 '''
 ''' + makeCommandExample( '128 8 integer' ) + '''
@@ -5251,7 +5487,7 @@ a result into something more intuitive and readable.
 [ 'reciprocal' ] ],
 
     'lat_long_to_nac' : [
-'conversion', '',
+'conversion', 'converts a latitude-longitude pair to the NAC format',
 '''
 ''',
 '''
@@ -5278,15 +5514,33 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 longlong' ) + '''
+''' + makeCommandExample( '-100 longlong' ) + '''
+''' + makeCommandExample( '-a20 -c 9,000,000,000,000,000,000 longlong' ) + '''
+''' + makeCommandExample( '-a20 -c 9,500,000,000,000,000,000 longlong' ),
 [ 'char', 'long', 'ulonglong', 'quadlong', 'integer' ] ],
 
     'pack' : [
 'conversion', 'packs an integer using a values list n and a list of bit fields k',
 '''
+This operator packs unsigned integers (n) into a larger integer, using k as the
+list of field sizes in bits.  The 'unpack' operator will return the original
+list when given the same field specification.
+
+Here's an example with the different fields separated from each other:
+
+c:\> rpn [ 2 9 4 ] [ 3 4 5 ] pack -r2
+10 1001 00100
+
+Please note that if there were leading zeroes in the result, they would not be
+shown by rpn.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 2 9 4 ] [ 3 4 5 ] pack -r2' ) + '''
+''' + makeCommandExample( '[ 1 1 1 1 ] [ 1 3 4 5 ] pack -r2' ) + '''
+''' + makeCommandExample( '[ 1 1 1 ] [ 3 4 5 ] pack [ 3 4 5 ] unpack' ) + '''
+If a value is too big, it gets truncated to the field size:
+''' + makeCommandExample( '[ 1 223 1 ] [ 3 4 5 ] pack [ 3 4 5 ] unpack' ),
 [ 'unpack' ] ],
 
     'quadlong' : [
@@ -5296,7 +5550,10 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 quadlong' ) + '''
+''' + makeCommandExample( '-100 quadlong' ) + '''
+''' + makeCommandExample( '-a40 -c 170,000,000,000,000,000,000,000,000,000,000,000,000 quadlong' ) + '''
+''' + makeCommandExample( '-a40 -c 170,500,000,000,000,000,000,000,000,000,000,000,000 quadlong' ),
 [ 'char', 'long', 'ulonglong', 'integer' ] ],
 
     'short' : [
@@ -5306,15 +5563,24 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 short' ) + '''
+''' + makeCommandExample( '-100 short' ) + '''
+''' + makeCommandExample( '32767 short' ) + '''
+''' + makeCommandExample( '32768 short' ),
 [ 'ushort', 'char', 'long', 'integer' ] ],
 
     'to_unix_time' : [
 'conversion', 'converts from date-time list to Unix time (seconds since epoch)',
 '''
+This operator converts a date-time to Unix time, which is defined to be the
+number of seconds since the epoch, January 1, 1970 00:00:00.  Times from before
+the epoch are undefined for this operator.
 ''',
 '''
-''',
+''' + makeCommandExample( '"1970-01-01 00:01:00" to_unix_time' ) + '''
+''' + makeCommandExample( '2001-01-01 to_unix_time' ) + '''
+''' + makeCommandExample( '2020-08-05 to_unix_time' ) + '''
+''' + makeCommandExample( '"2038-01-19 03:14:07" to_unix_time' ),
 [ 'from_unix_time' ] ],
 
     'uchar' : [
@@ -5334,6 +5600,9 @@ fixed-size integer types.
     'uinteger' : [
 'conversion', 'converts the value to an unsigned k-bit integer',
 '''
+This is the generalized version of the 'uchar', 'ushort', 'ulong', etc.,
+operators, that allows any arbitrary size of bits, including sizes that are not
+multiples of 8.
 ''',
 '''
 ''' + makeCommandExample( '32 5 uinteger' ) + '''
@@ -5346,11 +5615,14 @@ fixed-size integer types.
     'ulong' : [
 'conversion', 'converts the value to an unsigned 32-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++ that use
+This operator is useful for determining the behavior for C and C++ which use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '32 ulong' ) + '''
+''' + makeCommandExample( '-32 ulong' ) + '''
+''' + makeCommandExample( '-c 3,000,000,000 ulong' ) + '''
+''' + makeCommandExample( '-c 5,000,000,000 ulong' ),
 [ 'long', 'ulonglong', 'uquadlong', 'uinteger', 'uchar' ] ],
 
     'ulonglong' : [
@@ -5360,7 +5632,10 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 ulonglong' ) + '''
+''' + makeCommandExample( '-a20 -c -100 ulonglong' ) + '''
+''' + makeCommandExample( '-a20 -c 18,000,000,000,000,000,000 ulonglong' ) + '''
+''' + makeCommandExample( '-a20 -c 19,000,000,000,000,000,000 ulonglong' ),
 [ 'ulong', 'longlong', 'uquadlong', 'uinteger', 'uchar' ] ],
 
     'uquadlong' : [
@@ -5370,7 +5645,10 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 uquadlong' ) + '''
+''' + makeCommandExample( '-a40 -c -100 uquadlong' ) + '''
+''' + makeCommandExample( '-a40 -c 340,000,000,000,000,000,000,000,000,000,000,000,000 uquadlong' ) + '''
+''' + makeCommandExample( '-a40 -c 341,000,000,000,000,000,000,000,000,000,000,000,000 uquadlong' ),
 [ 'ulong', 'quadlong', 'uinteger', 'uchar', 'ulonglong' ] ],
 
     'undouble' : [
@@ -5396,9 +5674,14 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
     'unpack' : [
 'conversion', 'unpacks an integer value n into bit fields k',
 '''
+This operator unpacks unsigned integers from a larger integer (n), using k as
+the list of field sizes in bits.
 ''',
 '''
-''',
+''' + makeCommandExample( '0xffff [ 4 5 7 ] unpack -r2' ) + '''
+''' + makeCommandExample( '[ 1 1 1 ] [ 4 9 2 ] pack [ 4 9 2 ] unpack' ) + '''
+If a value is too big, it gets truncated to the field size:
+''' + makeCommandExample( '[ 1 223 1 ] [ 4 9 2 ] pack [ 4 9 2 ] unpack' ),
 [ 'pack' ] ],
 
     'ushort' : [
@@ -6508,12 +6791,14 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''',
+''' + makeCommandExample( '1234567890 get_digits' ),
 [ 'digits', 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'get_left_digits' : [
 'lexicography', 'returns a number composed of the left k digits of n',
 '''
+This operator simply extracts the left k digits of n and returns them as a
+number.
 ''',
 '''
 ''' + makeCommandExample( '1234567890 5 get_left_digits' ) + '''
@@ -6521,11 +6806,14 @@ on the digits that comprise an integer.
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_left_truncations' : [
-'lexicography', '',
+'lexicography', 'returns a list of numbers, successively truncated a digit from the left',
 '''
+This operator returns a list of numbers where each one has the leftmost digit
+truncated from the one previous, until there are none left.
 ''',
 '''
-''',
+''' + makeCommandExample( '1234567890 get_left_truncations' ) + '''
+''' + makeCommandExample( '10101010 get_left_truncations' ),
 [ 'count_digits', 'digits', 'get_right_truncations', 'has_only_digits' ] ],
 
     'get_nonzero_base_k_digits' : [
@@ -6551,6 +6839,7 @@ on the digits that comprise an integer.
     'get_right_digits' : [
 'lexicography', 'returns a number composed of the right k digits of n',
 '''
+This operator simply takes the right k digits of n and returns them as a number.
 ''',
 '''
 ''' + makeCommandExample( '1234567890 5 get_right_digits' ) + '''
@@ -6558,36 +6847,57 @@ on the digits that comprise an integer.
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_right_truncations' : [
-'lexicography', '',
+'lexicography', 'returns a list of numbers, successively truncated a digit from the right',
 '''
+This operator returns a list of numbers where each one has the rightmost digit
+truncated from the one previous, until there are none left.
 ''',
 '''
-''',
+''' + makeCommandExample( '1234567890 get_right_truncations' ) + '''
+''' + makeCommandExample( '10101010 get_right_truncations' ),
 [ 'digits', 'get_left_truncations' ] ],
 
     'has_digits' : [
 'lexicography', 'returns whether n contains all of the digits in k',
 '''
+This boolean operator returns true if the set of unique digits in n is the
+same as the set of unique digits in k.
 ''',
 '''
-''',
-[ 'get_digits', 'has_only_digits' ] ],
+''' + makeCommandExample( '1234 4321 has_digits' ) + '''
+''' + makeCommandExample( '12345 5421 has_digits' ) + '''
+''' + makeCommandExample( '12333455 5534112 has_digits' ) + '''
+''' + makeCommandExample( '12345 54216 has_digits' ) + '''
+''' + makeCommandExample( '55555 5 has_digits' ),
+[ 'get_digits', 'has_only_digits', 'is_permutation', 'has_any_digits' ] ],
 
     'has_any_digits' : [
 'lexicography', 'returns whether n contains any of the digits in k',
 '''
+This boolean operator returns true if the set of unique digits in n is a
+superset of the set of unique digits in k.
 ''',
 '''
-''',
+''' + makeCommandExample( '1234 4321 has_any_digits' ) + '''
+''' + makeCommandExample( '12345 5421 has_any_digits' ) + '''
+''' + makeCommandExample( '12333455 5534112 has_any_digits' ) + '''
+''' + makeCommandExample( '12345 54216 has_any_digits' ) + '''
+''' + makeCommandExample( '55555 5 has_any_digits' ),
 [ 'count_different_digits', 'has_digits', 'get_digits', 'has_only_digits' ] ],
 
     'has_only_digits' : [
-'lexicography', 'returns whether n contains all of the digits in k and no others',
+'lexicography', 'returns whether n contains only the digits in k and no others',
 '''
+This boolean operator returns true if the set of unique digits in n is a
+subset of the set of unique digits in k.
 ''',
 '''
-''',
-[ 'get_digits', 'has_digits' ] ],
+''' + makeCommandExample( '1234 4321 has_only_digits' ) + '''
+''' + makeCommandExample( '12345 5421 has_only_digits' ) + '''
+''' + makeCommandExample( '12333455 5534112 has_only_digits' ) + '''
+''' + makeCommandExample( '12345 54216 has_only_digits' ) + '''
+''' + makeCommandExample( '55555 5 has_only_digits' ),
+[ 'get_digits', 'has_digits', 'has_any_digits' ] ],
 
     'is_automorphic' : [
 'lexicography', 'returns whether the digits of n squared end with n',
@@ -6605,9 +6915,11 @@ number squared ends with the digits of the original number.
     'is_base_k_pandigital' : [
 'lexicography', 'returns whether n a pandigital number in base k',
 '''
+This boolean operator returns whether n is a pandigital number in base k.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456780 -b9' ) + '''
+''' + makeCommandExample( '54480996 9 is_base_k_pandigital' ),
 [ 'is_pandigital' ] ],
 
     'is_base_k_smith_number' : [
@@ -6625,9 +6937,21 @@ https://en.wikipedia.org/wiki/Smith_number
     'is_bouncy' : [
 'lexicography', 'returns whether an integer n is bouncy',
 '''
+A bouncy number is a number that is alternatingly increasing and decreasing,
+or decreasing and increasing.   In other words, at least one successive digit
+is greater than the previous one, and at least one successive digit is smaller
+than the previous one.
+
+Please note that while number consisting of a single digit, like '222222' is
+considered both increasing and decreasing, it is not considered bouncy.  I need
+to look up the definitions and see if that's cool.
 ''',
 '''
-''',
+''' + makeCommandExample( '12321 is_bouncy' ) + '''
+''' + makeCommandExample( '54321 is_bouncy' ) + '''
+''' + makeCommandExample( '74258 is_bouncy' ) + '''
+Most numbers are bouncy:
+''' + makeCommandExample( '10000 20000 range lambda x is_bouncy filter count', indent=4 ),
 [ 'is_increasing', 'is_decreasing' ] ],
 
     'is_decreasing' : [
@@ -7194,7 +7518,16 @@ The list returned will be one shorter than the length of the list n.
 ''' + makeCommandExample( '[ 0 1 2 3 4 5 ] cumulative_diffs' ) + '''
 ''' + makeCommandExample( '[ 1 3 6 10 15 21 28 36 45 55 ] cumulative_diffs' ) + '''
 ''' + makeCommandExample( '[ 100 200 300 400 500 ] cumulative_diffs' ),
-[ 'diffs', 'ratios', 'cumulative_ratios' ] ],
+[ 'diffs', 'ratios', 'cumulative_ratios', 'cumulative_sums' ] ],
+
+    'cumulative_products' : [
+'list_operators', '',
+'''
+The xth item of the resulting list is the product of the first x items in n.
+''',
+'''
+''' + makeCommandExample( '1 10 range cumulative_products' ),
+[ 'cumulative_sums', 'cumulative_ratios', 'cumulative_diffs' ] ],
 
     'cumulative_ratios' : [
 'list_operators', 'returns a list with the ratios between each element of n and the first',
@@ -7202,8 +7535,17 @@ The list returned will be one shorter than the length of the list n.
 This operator is analogous to the 'cumulative_diffs' operator.
 ''',
 '''
+''' + makeCommandExample( '1 10 range fibonacci cumulative_ratios' ),
+[ 'ratios', 'diffs', 'cumulative_diffs', 'cumulative_products' ] ],
+
+    'cumulative_sums' : [
+'list_operators', 'return a list of the cumulative sums of n',
+'''
+The xth item of the resulting list is the sum of the first x items in n.
 ''',
-[ 'ratios', 'diffs', 'cumulative_diffs' ] ],
+'''
+''' + makeCommandExample( '1 10 range cumulative_sums' ),
+[ 'cumulative_products', 'cumulative_ratios', 'cumulative_diffs' ] ],
 
     'difference' : [
 'list_operators', 'returns a list of unique elements in list k that are not found in list n',
@@ -7740,20 +8082,48 @@ List the non-prime Fibonacci numbers:
     #******************************************************************************
 
     'lambertw' : [
-'logarithms', '',
+'logarithms', 'the Lambert W function',
 '''
+From https://en.wikipedia.org/wiki/Lambert_W_function:
+
+In mathematics, the Lambert W function, also called the omega function or
+product logarithm, is a multivalued function, namely the branches of the
+inverse relation of the function f(w) = we^w, where w is any complex number
+and e^w is the exponential function.
+
+The Lambert W relation cannot be expressed in terms of elementary functions.
+It is useful in combinatorics, for instance, in the enumeration of trees.  It
+can be used to solve various equations involving exponentials (e.g. the maxima
+of the Planck, Bose-Einstein, and Fermi-Dirac distributions) and also occurs in
+the solution of delay differential equations, such as y'(t) = a y(t - 1).  In
+biochemistry, and in particular enzyme kinetics, a closed-form solution for the
+time-course kinetics analysis of Michaelis-Menten kinetics is described in
+terms of the Lambert W function.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '0 lambertw' ) + '''
+''' + makeCommandExample( '10 lambertw' ) + '''
+''' + makeCommandExample( '100 lambertw' ),
+[ 'log', 'omega_constant' ] ],
 
     'li' : [
-'logarithms', 'calculates the logarithmic interval of n',
+'logarithms', 'calculates the logarithmic integral of n',
 '''
+From https://en.wikipedia.org/wiki/Logarithmic_integral_function:
+
+In mathematics, the logarithmic integral function or integral logarithm li(x)
+is a special function.  It is relevant in problems of physics and has number
+theoretic significance.  In particular, according to the Siegel-Walfisz theorem
+it is a very good approximation to the prime-counting function, which is
+defined as the number of prime numbers less than or equal to a given value x.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '2 li' ) + '''
+''' + makeCommandExample( '1000000 li' ) + '''
+''' + makeCommandExample( '1000000 prime_pi' ) + '''
+''' + makeCommandExample( '10000000000000 li' ) + '''
+''' + makeCommandExample( '10000000000000 prime_pi' ),
+[ 'log' ] ],
 
     'log' : [
 'logarithms', 'calculates the natural logarithm of n',
@@ -7896,17 +8266,32 @@ take three or more operands do not work with lists.
     '(' : [
 'modifiers', 'starts an operator list',
 '''
+An operator list is used to perform multiple operations on a single set of
+arguments.  The operators must all take the same number of arguments.
+
+Operator lists can only be used with literal lists.  (Internally, the work as
+long as the list isn't implemented as a generator, which means a literal list
+would work fine, but a list generated by an operator, such as 'range' won't.
+This is something I've wanted to fix for a long time.)
 ''',
 '''
-''',
+''' + makeCommandExample( 'today "Denver, Colorada" ( sunrise sunset )' ) + '''
+''' + makeCommandExample( '10 ( triangular square pentagonal hexagonal heptagonal )' ),
 [ ')', '[', ']' ] ],
 
     ')' : [
 'modifiers', 'end an operator list',
 '''
+An operator list is used to perform multiple operations on a single set of
+arguments.  The operators must all take the same number of arguments.
+
+Operator lists can only be used with literal lists.  (Internally, the work as
+long as the list isn't implemented as a generator, which means a literal list
+would work fine, but a list generated by an operator, such as 'range' won't.
+This is something I've wanted to fix for a long time.)
 ''',
 '''
-''',
+''' + makeCommandExample( 'today "Leesburg, VA" [ venus mars jupiter saturn ] ( next_rising next_setting ) -s1' ),
 [ '(', '[', ']' ] ],
 
     'duplicate_term' : [
@@ -7944,16 +8329,20 @@ is not followed by another operator, then it has no effect.
 [ 'previous', 'echo', 'duplicate_term' ] ],
 
     'previous' : [
-'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
+'modifiers', 'duplicates the previous argument (identical to \'n 2 duplicate_term\')',
 '''
+This is a shortcut that can prevent having to duplicate a long expression.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 3 previous ]' ) + '''
+''' + makeCommandExample( '[ 3 sqr previous ]' ),
 [ 'echo', 'duplicate_term' ] ],
 
     'unlist' : [
 'modifiers', 'expands a list into separate arguments',
 '''
+This operator turns a list into separate arguments so they can be passed to an
+operator that works with separate arguments.
 ''',
 '''
 Here, we use 'unlist' to make arguments for 'euler_brick':
@@ -8065,7 +8454,7 @@ The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'zeta', 'gamma' ] ],
 
     'calkin_wilf' : [
 'number_theory', 'calculates the nth member of the Calkin-Wilf sequence',
@@ -8314,6 +8703,16 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
     'frobenius' : [
 'number_theory', 'calculates the frobenius number of a list of values with gcd > 1',
 '''
+The Frobenius number is the smallest number that is not a linear combination of
+a list of operands.  The list of operands must have a greatest common
+denominator of 1.
+
+It is commonly associated with Chicken McNuggets from McDonalds, which are
+sold in packages of 6, 9 and 20.   The Frobenius number for Chicken McNuggets
+is 43, meaning that 43 is the smallest number of McNuggets
+
+ also called the Chicken McNuggets number, as the
+problem it relates
 ''',
 '''
 ''',
@@ -8322,10 +8721,20 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
     'gamma' : [
 'number_theory', 'calculates the gamma function for n',
 '''
+From https://en.wikipedia.org/wiki/Gamma_function:
+
+In mathematics, the gamma function (represented by Gamma) is one commonly used
+extension of the factorial function to complex numbers. The gamma function is
+defined for all complex numbers except the non-positive integers.  For any
+positive integer n:
+
+Gamma( n ) = ( n - 1 )!
 ''',
 '''
-''',
-[ 'factorial' ] ],
+''' + makeCommandExample( '1 10 range gamma' ) + '''
+''' + makeCommandExample( 'i gamma' ) + '''
+''' + makeCommandExample( '-1j gamma' ),
+[ 'factorial', 'log_gamma' ] ],
 
     'generate_polydivisibles' : [
 'number_theory', 'generates all the polydivisible numbers for base n',
@@ -8473,10 +8882,11 @@ The first several antiharmonic numbers:
     'is_composite' : [
 'number_theory', 'returns whether n is composite',
 '''
+A composite number is one that has more than one prime factor.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range lambda x is_composite filter' ),
-[ ] ],
+[ 'is_prime' ] ],
 
     'is_deficient' : [
 'number_theory', 'returns whether or not n is a deficient number',
@@ -8511,7 +8921,8 @@ Ref:  https://en.wikipedia.org/wiki/Harmonic_divisor_number
 '''
 The first few harmonic divisor numbers:
 ''' + makeCommandExample( '-a45 1 500 range lambda x is_harmonic_divisor_number filter' ),
-[ ] ],
+[ 'harmonic_mean' ] ],
+
     'is_k_hyperperfect' : [
 'number_theory', 'returns whether an integer n is k hyperperfect',
 '''
@@ -8536,7 +8947,10 @@ do not need to be unique.  To determine if a number has k unique prime factors,
 use 'is_k_sphenic'.
 ''',
 '''
-''',
+''' + makeCommandExample( '20 29 range lambda x 2 is_k_semiprime filter' ) + '''
+''' + makeCommandExample( '101 120 range lambda x 3 is_k_semiprime filter' ) + '''
+''' + makeCommandExample( '101 120 range lambda x 3 is_k_semiprime filter factor -s1' ) + '''
+''' + makeCommandExample( '1000 1300 range lambda x 7 is_k_semiprime filter' ),
 [ 'is_prime', 'is_semiprime', 'is_k_sphenic' ] ],
 
     'is_k_sphenic' : [
@@ -8546,11 +8960,17 @@ This is my terminology, generalizing the idea of 'sphenic' to having an
 arbitrary number of squarefree factors.
 
 This terminology is not used, as far as I can tell, but there does not seem to
-be an appropriate term to describe having a number of squarefree other than 1
-(prime), or 3 (sphenic).
+be an appropriate term to describe having a squarefree number of other than 1
+(prime) or 3 (sphenic) factors.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 100 range lambda x 3 is_k_sphenic filter' ) + '''
+Fewer numbers are k_sphenic than k_semiprime because sphenic numbers must have
+unique factors:
+
+''' + makeCommandExample( '70 100 range lambda x 3 is_k_sphenic filter' ) + '''
+''' + makeCommandExample( '70 100 range lambda x 3 is_k_semiprime filter' ) + '''
+''' + makeCommandExample( '10 primorial 10 is_k_sphenic' ),
 [ 'is_prime', 'is_k_semiprime', 'is_semiprime', 'is_sphenic' ] ],
 
     'is_perfect' : [
@@ -8583,7 +9003,8 @@ A pernicious number has a prime number of ones in its binary representation.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100 200 range lambda x is_polydivisible filter' ) + '''
+''' + makeCommandExample( '102000 103000 range lambda x is_polydivisible filter' ),
 [ 'is_divisible', 'generate_polydivisibles' ] ],
 
     'is_powerful' : [
@@ -8604,16 +9025,20 @@ Right now it's kind of dumb.  It just calls the old algorithm
 for numbers smaller than a trillion.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 50 range lambda x is_prime filter' ) + '''
+''' + makeCommandExample( '1 100 range fibonacci lambda x is_prime filter' ) + '''
+''' + makeCommandExample( '1 100 range triangular lambda x is_prime filter' ),
+[ 'is_sphenic', 'is_semiprime', 'is_k_sphenic', 'is_strong_pseudoprime', 'is_composite' ] ],
 
     'is_pronic' : [
 'number_theory', 'returns whether n is pronic',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 20 range lambda x is_pronic filter' ) + '''
+''' + makeCommandExample( '71 97 * is_pronic' ) + '''
+''' + makeCommandExample( '[ 71 97 107 ] is_pronic' ),
+[ 'is_sphenic', 'is_semiprime', 'is_prime' ] ],
 
     'is_rough' : [
 'number_theory', 'returns whether n is a k-rough number',
@@ -8621,7 +9046,7 @@ for numbers smaller than a trillion.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_smooth' ] ],
 
     'is_ruth_aaron' : [
 'number_theory', 'returns whether n is a Ruth-Aaron number',
@@ -8638,7 +9063,7 @@ for numbers smaller than a trillion.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range is_semiprime' ),
-[ ] ],
+[ 'is_prime', 'is_sphenic', 'is_k_sphenic' ] ],
 
     'is_smooth' : [
 'number_theory', 'returns whether n is a k-smooth number',
@@ -8646,23 +9071,26 @@ for numbers smaller than a trillion.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_rough' ] ],
 
     'is_sphenic' : [
 'number_theory', 'returns whether n is a sphenic number',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 20 range lambda x is_sphenic filter' ) + '''
+''' + makeCommandExample( '71 97 * is_sphenic' ) + '''
+''' + makeCommandExample( '[ 71 97 107 ] is_pronic' ),
+[ 'is_k_sphenic', 'is_semiprime', 'is_prime' ] ],
 
     'is_squarefree' : [
 'number_theory', 'returns whether n is a square-free number',
 '''
+A square-free number is a number that only has unique prime factors.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_semiprime', 'is_pronic' ] ],
 
     'is_strong_pseudoprime' : [
 'number_theory', 'returns whether n is a strong pseudoprime to base k',
@@ -8670,7 +9098,7 @@ for numbers smaller than a trillion.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_prime', 'is_k_sphenic', 'is_semiprime' ] ],
 
     'is_unusual' : [
 'number_theory', 'returns whether n is an unusual number',
@@ -8701,10 +9129,14 @@ for numbers smaller than a trillion.
     'log_gamma' : [
 'number_theory', 'calculates the loggamma function for n',
 '''
+The logarithm of the gamma function is treated as a special function.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '0.1 loggamma' ) + '''
+''' + makeCommandExample( '1 loggamma' ) + '''
+''' + makeCommandExample( '2 loggamma' ) + '''
+''' + makeCommandExample( '10 loggamma' ),
+[ 'log', 'gamma' ] ],
 
     'linear_recurrence' : [
 'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b)',
@@ -8818,7 +9250,7 @@ added to the (n + 1)th Mersenne number.
 '''
 ''' + makeCommandExample( '1 20 range nth_kynea' ) + '''
 ''' + makeCommandExample( '63598 nth_kynea' ),
-[ ] ],
+[ 'nth_mersenne_prime', 'nth_carol', 'nth_jacobsthal' ] ],
 
     'nth_jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
@@ -9067,7 +9499,7 @@ This function calculates the product of the first n prime numbers.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range primorial' ),
-[ 'factorial', 'phitorial' ] ],
+[ 'factorial', 'phitorial', 'prime' ] ],
 
     'pythagorean_triples' : [
 'number_theory', 'calculates all primitive pythagorean triples with a hypotenuse length up to n',
@@ -9100,16 +9532,7 @@ base.
 ''' + makeCommandExample( '11 10 repunit' ) + '''
 ''' + makeCommandExample( '11 4 repunit -r4' ) + '''
 ''' + makeCommandExample( '11 4 repunit' ),
-[ ] ],
-
-    'riesel' : [
-'number_theory', 'calculates the nth Riesel (or Woodall) number',
-'''
-''',
-'''
-''' + makeCommandExample( '1 20 range riesel' ) + '''
-''' + makeCommandExample( '4528 riesel' ),
-[ ] ],
+[ 'has_digits', 'is_palindrome', 'duplicate_digits' ] ],
 
     'radical' : [
 'number_theory', 'returns the value of the radical function for n',
@@ -9454,8 +9877,9 @@ Ref:  https://en.wikipedia.org/wiki/Heat_index
 [ ] ],
 
     'kinetic_energy' : [
-'physics', '',
+'physics', 'calculates kinetic energy from velocity and mass',
 '''
+The kinetic energy is equal to 1/2 mass times velocity squared.
 ''',
 '''
 ''',
@@ -11742,7 +12166,7 @@ nine hundred ninety-nine...
     'oeis' : [
 'special', 'downloads the OEIS integer series n',
 '''
-All data downloaded from OEIS is cached.  OEIS data is probably seldom
+All data downloaded from OEIS is cached.  Existing OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',
@@ -11753,7 +12177,7 @@ the -I option, when downloading an entry.
     'oeis_comment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
-All data downloaded from OEIS is cached.  OEIS data is probably seldom
+All data downloaded from OEIS is cached.  Existing OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',
@@ -11764,7 +12188,7 @@ the -I option, when downloading an entry.
     'oeis_ex' : [
 'special', 'downloads the extra information field for the OEIS integer series n',
 '''
-All data downloaded from OEIS is cached.  OEIS data is probably seldom
+All data downloaded from OEIS is cached.  Existing OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',
@@ -11775,7 +12199,7 @@ the -I option, when downloading an entry.
     'oeis_name' : [
 'special', 'downloads the name of the OEIS integer series n',
 '''
-All data downloaded from OEIS is cached.  OEIS data is probably seldom
+All data downloaded from OEIS is cached.  Existing OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',
@@ -11784,9 +12208,12 @@ the -I option, when downloading an entry.
 [ 'oeis_ex', 'oeis', 'oeis_comment' ] ],
 
     'oeis_offset' : [
-'special', '',
+'special', 'downloads the offset for an OEIS sequence',
 '''
-All data downloaded from OEIS is cached.  OEIS data is probably seldom
+The offset is used to denote the decimal offset of OEIS sequences that are
+representations of decimal numbers.
+
+All data downloaded from OEIS is cached.  Existing OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',

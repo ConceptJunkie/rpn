@@ -55,7 +55,7 @@ def getNthPolygonalNumber( n, k ):
     if validateRealInt( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    coeff = fdiv( fsub( k, 2 ), 2 )
+    coeff = fdiv( fsub( k, 2 ), 2 )                         # validateRealInt isn't happy, why?
     return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], validateReal( n ) )
 
 @twoArgFunctionEvaluator( )

@@ -336,9 +336,12 @@ def duplicateNumber( n, k ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def reverseDigits( n ):
     return mpmathify( getMPFIntegerAsString( n )[ : : -1 ] )
+
+@oneArgFunctionEvaluator( )
+def reverseDigitsOperator( n ):
+    return reverseDigits( n )
 
 
 #******************************************************************************
@@ -347,7 +350,6 @@ def reverseDigits( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def isPalindrome( n ):
     result = getMPFIntegerAsString( n )
 
@@ -358,6 +360,10 @@ def isPalindrome( n ):
             return 0
 
     return 1
+
+@oneArgFunctionEvaluator( )
+def isPalindromeOperator( n ):
+    return isPalindrome( n )
 
 
 #******************************************************************************

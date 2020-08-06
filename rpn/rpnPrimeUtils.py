@@ -18,7 +18,7 @@ import sys
 from bisect import bisect_left
 from pathlib import Path
 
-from mpmath import arange, fadd, fmod, fmul, fsub
+from mpmath import arange, fadd, fmod, fmul, fprod, fsub
 
 import gmpy2
 
@@ -34,11 +34,11 @@ import rpn.rpnGlobals as g
 
 #******************************************************************************
 #
-#  isPrimeNumber
+#  isPrime
 #
 #******************************************************************************
 
-def isPrimeNumber( n ):
+def isPrime( n ):
     if g.zhangConjecturesAllowed and n < 1543267864443420616877677640751301:
         return isPrimeMillerRabin( int( n ) )
     elif n < 3317044064679887385961981:
@@ -49,11 +49,11 @@ def isPrimeNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def isComposite( n ):
-    return 0 if n == 1 or isPrimeNumber( n ) else 1
+    return 0 if n == 1 or isPrime( n ) else 1
 
 @oneArgFunctionEvaluator( )
-def isPrime( n ):
-    return 1 if isPrimeNumber( n ) else 0
+def isPrimeOperator( n ):
+    return 1 if isPrime( n ) else 0
 
 
 #******************************************************************************
@@ -367,7 +367,7 @@ def getNextPrime( p, func=getNextPrimeCandidateForAny ):
 
     debugPrint( 'testing', p )
 
-    while not isPrimeNumber( p ):
+    while not isPrime( p ):
         p = func( p )
 
     return p
@@ -403,7 +403,7 @@ def getPreviousPrime( p, func=getPreviousPrimeCandidateForAny ):
 
     p = func( p )
 
-    while not isPrimeNumber( p ):
+    while not isPrime( p ):
         p = func( p )
 
     return p
@@ -591,7 +591,7 @@ def findQuadrupletPrimes( arg ):
         # All quadruplet primes mod 30 == 11
         p += 30
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ):
+        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             currentIndex += 1
 
             if p > n:
@@ -645,7 +645,7 @@ def getNthQuadrupletPrime( arg ):
     while n > startingPlace:
         p += 30
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ):
+        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             n -= 1
 
     return p
@@ -682,7 +682,7 @@ def getNthIsolatedPrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p )
 
-        if not isPrimeNumber( p - 2 ) and not isPrimeNumber( p + 2 ):
+        if not isPrime( p - 2 ) and not isPrime( p + 2 ):
             currentIndex += 1
 
     return p
@@ -751,7 +751,7 @@ def getNthTwinPrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p, getNextTwinPrimeCandidate )
 
-        if isPrimeNumber( p + 2 ):
+        if isPrime( p + 2 ):
             currentIndex += 1
 
     return p
@@ -1157,7 +1157,7 @@ def getNthSophiePrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p )
 
-        if isPrimeNumber( 2 * p + 1 ):
+        if isPrime( 2 * p + 1 ):
             currentIndex += 1
 
     return p
@@ -1206,7 +1206,7 @@ def getNthCousinPrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p )
 
-        if isPrimeNumber( p + 4 ):
+        if isPrime( p + 4 ):
             currentIndex += 1
 
     return p
@@ -1287,7 +1287,7 @@ def getNthSexyPrime( arg ):
     while n > startingPlace:
         p = getNextPrime( p, getNextSexyPrimeCandidate )
 
-        if isPrimeNumber( p + 6 ):
+        if isPrime( p + 6 ):
             n -= 1
 
     return p
@@ -1347,7 +1347,7 @@ def getNthSexyTriplet( arg ):
             p += 4
             f = 1
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 12 ) and not isPrimeNumber( p + 18 ):
+        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and not isPrime( p + 18 ):
             n -= 1
 
     return p
@@ -1400,7 +1400,7 @@ def getNthSexyQuadruplet( arg ):
     while n > startingPlace:
         p += 10
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 12 ) and isPrimeNumber( p + 18 ):
+        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and isPrime( p + 18 ):
             n -= 1
 
     return p
@@ -1490,7 +1490,7 @@ def getNthOctyPrime( arg ):
     while n > startingPlace:
         p = getNextPrime( p, getNextOctyPrimeCandidate )
 
-        if isPrimeNumber( p + 8 ):
+        if isPrime( p + 8 ):
             n -= 1
 
     return p
@@ -1561,11 +1561,11 @@ def getNthTripletPrimeList( arg ):
             p += 4
             f = 1
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 6 ):
-            if isPrimeNumber( p + 2 ):
+        if isPrime( p ) and isPrime( p + 6 ):
+            if isPrime( p + 2 ):
                 pPlus2 = True
                 currentIndex += 1
-            elif isPrimeNumber( p + 4 ):
+            elif isPrime( p + 4 ):
                 pPlus2 = False
                 currentIndex += 1
 
@@ -1657,10 +1657,10 @@ def getNthQuintupletPrime( arg ):
 
         f = p % 30
 
-        if ( ( f == 11 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and \
-                             isPrimeNumber( p + 8 ) and isPrimeNumber( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and \
-                            isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) ):
+        if ( ( f == 11 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and \
+                             isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
+                            isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
     return p
@@ -1717,10 +1717,8 @@ def findQuintupletPrimes( arg ):
 
         f = p % 10
 
-        if ( ( f == 1 ) and isPrimeNumber( p + 2 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 8 ) and \
-             isPrimeNumber( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and isPrimeNumber( p + 10 ) and \
-             isPrimeNumber( p + 12 ) ):
+        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
             if p > n:
@@ -1778,8 +1776,8 @@ def getNthSextupletPrime( arg ):
     while n > startingPlace:
         p += 210
 
-        if isPrimeNumber( p ) and isPrimeNumber( p + 4 ) and isPrimeNumber( p + 6 ) and \
-           isPrimeNumber( p + 10 ) and isPrimeNumber( p + 12 ) + isPrimeNumber( p + 16 ):
+        if isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
+           isPrime( p + 10 ) and isPrime( p + 12 ) + isPrime( p + 16 ):
             n -= 1
 
     return p
@@ -1848,7 +1846,7 @@ def getNthPrimeRange( arg1, arg2 ):
     while found < count:
         p = getNextPrimeCandidateForAny( p )
 
-        if isPrimeNumber( p ):
+        if isPrime( p ):
             result.append( p )
             found += 1
 
@@ -1924,12 +1922,7 @@ def getNthPrimorial( n ):
     if validateRealInt( n ) == 0:
         return 1
 
-    result = 2
-
-    for i in arange( 1, n ):
-        result = fmul( result, getNthPrime( i + 1 ) )
-
-    return result
+    return fprod( getPrimes( 1, n ) )
 
 
 #******************************************************************************

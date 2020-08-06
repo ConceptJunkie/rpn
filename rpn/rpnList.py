@@ -16,11 +16,11 @@ import collections
 import itertools
 import random
 
-from mpmath import arange, fadd, fdiv, fmod, fneg, fprod, fsub, fsum, inf, \
+from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, inf, \
                    power, root, sqrt
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMath import add, square, subtract, divide
+from rpn.rpnMath import add, multiply, square, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
                          listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
@@ -32,12 +32,15 @@ from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, listAndOneArgFun
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getGCD( n, k ):
     while k:
         n, k = k, fmod( n, k )
 
     return n
+
+@twoArgFunctionEvaluator( )
+def getGCDOperator( n, k ):
+    return getGCD( n, k )
 
 
 #******************************************************************************
@@ -363,6 +366,7 @@ def getSublist( args, start, count ):
 #
 #******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getLeft( args, count ):
     result = [ ]
 
@@ -384,6 +388,7 @@ def getLeft( args, count ):
 #
 #******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getRight( args, count ):
     result = [ ]
 
@@ -429,6 +434,34 @@ def getCumulativeListDiffs( args ):
             first = i
         else:
             yield subtract( i, first )
+
+
+#******************************************************************************
+#
+#  getCumulativeListProducts
+#
+#******************************************************************************
+
+def getCumulativeListProducts( args ):
+    sum = 1
+
+    for i in args:
+        sum = multiply( sum, i )
+        yield sum
+
+
+#******************************************************************************
+#
+#  getCumulativeListSums
+#
+#******************************************************************************
+
+def getCumulativeListSums( args ):
+    sum = 0
+
+    for i in args:
+        sum = add( sum, i )
+        yield sum
 
 
 #******************************************************************************
@@ -641,7 +674,7 @@ def getProduct( n ):
             if isinstance( item, list ):
                 return [ getProduct( arg ) for arg in item ]
 
-            result = result.multiply( item )
+            result = multiply( result, item )
 
         return result
     else:
@@ -699,6 +732,9 @@ def reduceList( args ):
 
         return result
 
+@listArgFunctionEvaluator( )
+def reduceListOperator( args ):
+    return reduceList( args )
 
 #******************************************************************************
 #
@@ -706,12 +742,15 @@ def reduceList( args ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
 def calculateGeometricMean( args ):
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ calculateGeometricMean( list( arg ) ) for arg in args ]
     else:
         return root( fprod( args ), len( args ) )
+
+@listArgFunctionEvaluator( )
+def calculateGeometricMeanOperator( args ):
+    return calculateGeometricMean( args )
 
 
 #******************************************************************************
@@ -720,7 +759,6 @@ def calculateGeometricMean( args ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
 def calculateHarmonicMean( args ):
     if isinstance( args, RPNGenerator ):
         return calculateHarmonicMean( list( args ) )
@@ -736,6 +774,10 @@ def calculateHarmonicMean( args ):
             return fdiv( len( args ), result )
     else:
         return args
+
+@listArgFunctionEvaluator( )
+def calculateHarmonicMeanOperator( args ):
+    return calculateHarmonicMean( args )
 
 
 #******************************************************************************
@@ -757,6 +799,10 @@ def calculateAntiharmonicMean( args ):
             return fdiv( fsum( args, squared=True ), fsum( args ) )
     else:
         return args
+
+@listArgFunctionEvaluator( )
+def calculateAntiharmonicMeanOperator( args ):
+    return calculateAntiharmonicMean( args )
 
 
 #******************************************************************************
@@ -786,6 +832,10 @@ def calculateArithmeticMean( args ):
             return fdiv( fsum( args ), len( args ) )
     else:
         return args
+
+@listArgFunctionEvaluator( )
+def calculateArithmeticMeanOperator( args ):
+    return calculateArithmeticMean( args )
 
 
 #******************************************************************************

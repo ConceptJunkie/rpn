@@ -918,7 +918,6 @@ operatorAliases = {
     'von_klitzing'                  : 'von_klitzing_constant',
     'weekly'                        : '1/week',
     'winter'                        : 'winter_solstice',
-    'woodall'                       : 'riesel',
     'year_cal'                      : 'year_calendar',
     'yearcal'                       : 'year_calendar',
     'yearcalendar'                  : 'year_calendar',

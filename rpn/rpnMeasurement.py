@@ -237,6 +237,7 @@ class RPNMeasurement( ):
         if isinstance( other, RPNMeasurement ):
             factor, newUnits = self.units.combineUnits( other.units.inverted( ) )
             newUnits = RPNMeasurement( 1, newUnits ).simplifyUnits( ).units
+
             return RPNMeasurement( fmul( fdiv( self.value, other.value ), factor ), newUnits ).normalizeUnits( )
         else:
             return RPNMeasurement( fdiv( self.value, other ), self.units ).normalizeUnits( )
@@ -308,6 +309,9 @@ class RPNMeasurement( ):
 
         debugPrint( )
         debugPrint( 'normalize', units )
+
+        if units == RPNUnits( ):
+            return self.value
 
         # look for units that cancel between the numerator and denominator
         numerator, denominator = units.splitUnits( )
@@ -436,7 +440,7 @@ class RPNMeasurement( ):
         debugPrint( 'normalizeUnits final units', units )
         debugPrint( )
 
-        if units:
+        if units and units != RPNUnits( ):
             result = RPNMeasurement( convertedValue, units )
 
             if changed:
@@ -536,6 +540,10 @@ class RPNMeasurement( ):
         debugPrint( 'value', value )
 
         for unit in self.units:
+
+            if self.units[ unit ] == 0:
+                continue
+
             newUnits = g.basicUnitTypes[ getUnitType( unit ) ].primitiveUnit
 
             debugPrint( 'unit', unit, 'newUnits', newUnits )

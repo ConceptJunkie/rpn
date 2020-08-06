@@ -2009,6 +2009,8 @@ def runConversionOperatorTests( ):
     # to_unix_time
     testOperator( '[ 2014 4 30 0 0 0 ] make_time to_unix_time' )
 
+    expectException( '"1965-03-31" to_unix_time' )
+
     # uchar
     testOperator( '290 uchar' )
 
@@ -3092,8 +3094,15 @@ def runListOperatorTests( ):
     testOperator( '1 10 range cumulative_diffs' )
     testOperator( '1 10 range fib cumulative_diffs' )
 
+    # cumulative_products
+    expectEqual( '1 10 range cumulative_products', '1 10 range factorial' )
+    expectEqual( '-a1000 1 18 range 3 dup_op cumulative_products', '55462 oeis 19 left 18 right' )
+
     # cumulative_ratios
-    testOperator( '1 10 range fib cumulative_ratios' )
+    testOperator( '[ earth_mass mars_mass jupiter_mass sun_mass ] cumulative_ratios' )
+
+    # cumulative_sums
+    expectEqual( '1 10 range cumulative_sums', '1 10 range triangular' )
 
     # diffs
     testOperator( '1 10 range diffs' )
@@ -3369,6 +3378,9 @@ def runModifierOperatorTests( ):
     # duplicate_operator
     testOperator( '2 5 duplicate_operator sqr' )
     testOperator( '4 6 5 duplicate_operator *' )
+
+    expectEqual( '1 18 range 3 duplicate_operator cumulative_products', '55462 oeis 19 left 18 right' )
+    expectEqual( '1 18 range fibonacci 3 duplicate_operator cumulative_products', '152687 oeis 18 left' )
 
     expectException( '10 10 [ 1 2 3 ] duplicate_operator +' )
     expectException( '3 4 0 duplicate_operator +' )
@@ -3915,6 +3927,9 @@ def runNumberTheoryOperatorTests( ):
     # log_gamma
     testOperator( '10 log_gamma' )
 
+    expectEqual( '0 74 range lambda x 2 / 1 + log_gamma x pi log * 2 / - pi / floor eval', '259506 oeis 75 left' )
+    expectEqual( '1 1000 range ! log round', '1 1000 range 1 + log_gamma round' )
+
     # lucas
     expectEqual( '0 999 range lucas', '32 oeis 1000 left' )
 
@@ -4075,9 +4090,6 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
 
-    # riesel
-    expectEqual( '-a100 1 300 range riesel', '3261 oeis 300 left' )
-
     # sigma
     expectEqual( '1 500 range sigma', '203 oeis 500 left' )
     expectEqual( '1 99 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval',
@@ -4211,8 +4223,8 @@ def runNumberTheoryOperatorTests( ):
                  '2432 oeis 10 left' )
 
     # zeta_zero
-    expectEqual( '1 30 range zeta_zero im nint', '2410 oeis 30 left' )    # The mpmath function is really slow... it does a lot of math!
-
+    expectEqual( '31 40 range zeta_zero im nint', '2410 oeis 40 left 10 right' )    # The mpmath function is really slow... it does a lot of math!
+    expectEqual( '-a20 1 20 range zeta_zero im floor', '135297 oeis 150 left occurrences lambda x 1 element for_each_list cumulative_sums 20 left' )
     expectEqual( '-a105 1 zeta_zero im 10 98 ** * get_digits', '58303 oeis 100 left' )
 
     if slow:

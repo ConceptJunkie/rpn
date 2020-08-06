@@ -82,13 +82,16 @@ def getNthPascalLine( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'divisor_count' )
 def getDivisorCount( n ):
     if n == 1:
         return 1
 
     return fprod( [ i[ 1 ] + 1 for i in getFactorList( n ) ] )
+
+@oneArgFunctionEvaluator( )
+def getDivisorCountOperator( n ):
+    return getDivisorCount( n )
 
 
 #******************************************************************************
@@ -121,7 +124,6 @@ def createDivisorList( seed, factorList ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getDivisors( n ):
     if n == 0:
         return [ 0 ]
@@ -129,6 +131,10 @@ def getDivisors( n ):
         return [ 1 ]
 
     return sorted( createDivisorList( [ ], getFactorList( n ) ) )
+
+@oneArgFunctionEvaluator( )
+def getDivisorsOperator( n ):
+    return getDivisors( n )
 
 
 #******************************************************************************
@@ -223,7 +229,6 @@ def getNthFibonacci( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getNthFibonacciPolynomial( n ):
     if validateRealInt( n ) < 2:
         raise ValueError( 'argument >= 2 expected' )
@@ -243,6 +248,9 @@ def getNthFibonacciPolynomial( n ):
 
     return result
 
+@oneArgFunctionEvaluator( )
+def getNthFibonacciPolynomialOperator( n ):
+    return getNthFibonacciPolynomial( n )
 
 #******************************************************************************
 #
@@ -1333,7 +1341,6 @@ def getAbundanceRatio( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getSigmaK( n, k ):
     '''
     Returns the sum of the divisors of n, including 1 and n, to the k power.
@@ -1358,6 +1365,10 @@ def getSigmaK( n, k ):
             raise ValueError( 'insufficient precision for \'sigma_k\', increase precision using -p or -a' )
 
     return result
+
+@twoArgFunctionEvaluator( )
+def getSigmaKOperator( n, k ):
+    return getSigmaK( n, k )
 
 
 #******************************************************************************
@@ -1435,7 +1446,6 @@ def getLimitedAliquotSequence( n, k ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'mobius' )
 def getNthMobiusNumber( n ):
     if validateReal( n ) == 1:
@@ -1451,6 +1461,10 @@ def getNthMobiusNumber( n ):
         return -1
     else:
         return 1
+
+@oneArgFunctionEvaluator( )
+def getNthMobiusNumberOperator( n ):
+    return getNthMobiusNumber( n )
 
 
 #******************************************************************************
@@ -1523,6 +1537,9 @@ def getPowMod( a, b, c ):
 
     return result
 
+def getPowModOperator( a, b, c ):
+    return pow( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
+
 
 #******************************************************************************
 #
@@ -1532,16 +1549,6 @@ def getPowMod( a, b, c ):
 
 def getPowModOperatorNew( a, b, c ):
     return getPowMod( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
-
-
-#******************************************************************************
-#
-#  getPowModOperator
-#
-#******************************************************************************
-
-def getPowModOperator( a, b, c ):
-    return pow( validateRealInt( a ), validateRealInt( b ), validateRealInt( c ) )
 
 
 #******************************************************************************
@@ -1557,6 +1564,10 @@ def getAbundance( n ):
         return 0
 
     return fsub( getSigma( n ), fmul( n, 2 ) )
+
+@oneArgFunctionEvaluator( )
+def getAbundanceOperator( n ):
+    return getAbundance( n )
 
 
 #******************************************************************************
@@ -1941,7 +1952,6 @@ def generatePolydivisibles( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'stern' )
 def getNthSternNumber( n ):
     '''Returns the nth number of Stern's diatomic series recursively.'''
@@ -1955,6 +1965,10 @@ def getNthSternNumber( n ):
     else:
         return fadd( getNthSternNumber( floor( fdiv( fsub( n, 1 ), 2 ) ) ),
                      getNthSternNumber( floor( fdiv( fadd( n, 1 ), 2 ) ) ) )
+
+@oneArgFunctionEvaluator( )
+def getNthSternNumberOperator( n ):
+    return getNthSternNumber( n )
 
 
 #******************************************************************************
@@ -2132,13 +2146,16 @@ def getNthPerfectNumber( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'thue_morse' )
 def getNthThueMorseNumber( n ):
     if n == 0:
         return 0
     else:
         return fmod( fadd( n, getNthThueMorseNumber( floor( fdiv( n, 2 ) ) ) ), 2 )
+
+@oneArgFunctionEvaluator( )
+def getNthThueMorseNumberOperator( n ):
+    return getNthThueMorseNumber( n )
 
 
 #******************************************************************************
@@ -2258,10 +2275,6 @@ def getPolygamma( n, k ):
     return psi( n, k )
 
 @oneArgFunctionEvaluator( )
-def getNthRieselNumber( n ):
-    return fsub( fmul( validateReal( n ), power( 2, n ) ), 1 )
-
-@oneArgFunctionEvaluator( )
 def getNthSubfactorial( n ):
     return floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
 
@@ -2303,7 +2316,7 @@ def getCollatzSequenceGenerator( n, k ):
 
     a = n
 
-    for _ in arange( 0, validateReal( k ) - 1 ):
+    for _ in arange( 0, validateRealInt( k ) - 1 ):
         if isEven( a ):
             b = fdiv( a, 2 )
         else:
@@ -2383,7 +2396,6 @@ def getDigitalRoot( n ):
 
 #import pysnooper
 
-@oneArgFunctionEvaluator( )
 #@cachedFunction( 'carmichael' )
 #@pysnooper.snoop( )
 def isCarmichaelNumber( n ):
@@ -2438,7 +2450,6 @@ def isRuthAaronNumber( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def calculateAckermannFunction( n, k ):
     """
     Computes the value of the Ackermann function for the input integers m and n.
@@ -2475,6 +2486,10 @@ def calculateAckermannFunction( n, k ):
 
     raise ValueError( 'invalid arguments' )
 
+@twoArgFunctionEvaluator( )
+def calculateAckermannFunctionOperator( n, k ):
+    return calculateAckermannFunction( n, k )
+
 
 #******************************************************************************
 #
@@ -2482,12 +2497,15 @@ def calculateAckermannFunction( n, k ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getHarmonicResidue( n ):
     if validateRealInt( n ) < 2:
         return 0
 
     return fmod( fmul( n, getDivisorCount( n ) ), getSigma( n ) )
+
+@oneArgFunctionEvaluator( )
+def getHarmonicResidueOperator( n ):
+    return getHarmonicResidue( n )
 
 
 #******************************************************************************

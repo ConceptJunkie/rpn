@@ -22,7 +22,7 @@ from rpn.factorise import factorise
 from rpn.rpnDebug import debugPrint
 from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
-from rpn.rpnPrimeUtils import isPrimeNumber
+from rpn.rpnPrimeUtils import isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
@@ -34,7 +34,6 @@ import rpn.rpnGlobals as g
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getFactors( target ):
     if target < -1:
         result = [ -1 ]
@@ -85,6 +84,10 @@ def getFactors( target ):
 
     return result
 
+@oneArgFunctionEvaluator( )
+def getFactorsOperator( n ):
+    return getFactors( n )
+
 
 #******************************************************************************
 #
@@ -115,7 +118,7 @@ def factorByTrialDivision( n ):
             n = fdiv( n, i )
             result.append( i )
 
-        if isPrimeNumber( n ):
+        if isPrime( n ):
             break
 
     if n > 1:

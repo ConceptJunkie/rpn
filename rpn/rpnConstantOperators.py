@@ -32,7 +32,8 @@ from rpn.rpnUnitClasses import RPNConstantInfo
 constantOperators = {
     # physical constants
     'avogadro_number' :
-        RPNConstantInfo( '6.022140756e23', '', [ 'avogadro', 'avogadros_number', 'N_sub_A' ], False,
+        RPNConstantInfo( '6.022140756e23', '',
+                         [ 'avogadro', 'avogadros_number', 'N_sub_A' ], False,
                          'Avogadro\'s number, the number of atoms in a mole',
                          '''
 Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-2018.pdf
@@ -51,9 +52,16 @@ This value is now exact, by definition.
 ''' ),
 
     'bohr_radius' :
-        RPNConstantInfo( '5.2917721067e-11', 'meter', [ ], False,
-                         '',
+        RPNConstantInfo( '5.29177210903e-11', 'meter', [ ], False,
+                         'the Bohr radius, an idealized measure of the size of a hydrogen atom',
                          '''
+From https://en.wikipedia.org/wiki/Bohr_radius:
+
+The Bohr radius (a0) is a physical constant, equal to the most probable
+distance between the nucleus and the electron in a hydrogen atom in its ground
+state (non-relativistic and with an infinitely heavy proton).  It is named
+after Niels Bohr, due to its role in the Bohr model of an atom.
+
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
@@ -135,22 +143,35 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
     'magnetic_flux_quantum' :
         RPNConstantInfo( '2.067833831e-15', 'weber',
                          [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
-                         '',
+                         'the magnetic flux quantum',
                          '''
+From https://en.wikipedia.org/wiki/Magnetic_flux_quantum:
+
 The (superconducting) magnetic flux quantum F0 = h/2e =~
 2.067833831(13) x 10e-15 Wb is a combination of fundamental physical constants:
 the Planck constant h and the electron charge e.  Its value is, therefore, the
 same for any superconductor.
 
-Ref:  https://en.wikipedia.org/wiki/Magnetic_flux_quantum
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 ''' ),
 
     'molar_gas_constant' :
         RPNConstantInfo( '8.3144598', 'joule/mole*kelvin',
                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
-                         '',
+                         'molar gas constant',
                          '''
+From https://en.wikipedia.org/wiki/Gas_constant:
+
+The gas constant (also known as the molar, universal, or ideal gas constant)
+is denoted by the symbol R.  It is equivalent to the Boltzmann constant, but
+expressed in units of energy per temperature increment per mole, i.e. the
+pressure-volume product, rather than energy per temperature increment per
+particle.  The constant is also a combination of the constants from Boyle's
+law, Charles's law, Avogadro's law, and Gay-Lussac's law.  It is a physical
+constant that is featured in many fundamental equations in the physical
+sciences, such as the ideal gas law, the Arrhenius equation, and the Nernst
+equation.
+
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
 ''' ),
 
@@ -163,41 +184,57 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
 
     'nuclear_magneton' :
         RPNConstantInfo( '5.050783699e-27', 'joule/tesla', [ ], False,
-                         '',
+                         'the nuclear magneton, a physical constant of magnetic moment',
                          '''
+From https://en.wikipedia.org/wiki/Nuclear_magneton:
+
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 
 ''' ),
 
     'planck_constant' :
         RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], False,
-                         '',
+                         'Planck\'s constant, the quantum of electromagnetic action that relates a photon\'s energy to its frequency',
                          '''
-Ref:  https://en.wikipedia.org/wiki/Planck_constant
+From:  https://en.wikipedia.org/wiki/Planck_constant
 
-The Planck constant (denoted h, also called Planck's constant) is a physical
-constant that is the quantum of electromagnetic action, which relates the
-energy carried by a photon to its frequency.  A photon's energy is equal to
-its frequency multiplied by the Planck constant.  The Planck constant is of
-fundamental importance in quantum mechanics, and in metrology it is the basis
-for the definition of the kilogram.
+The Planck constant, or Planck's constant, is the quantum of electromagnetic
+action that relates a photon's energy to its frequency.  The Planck constant
+multiplied by a photon's frequency is equal to a photon's energy.  The Planck
+constant is a fundamental physical constant denoted as h, and of fundamental
+importance in quantum mechanics.  In metrology it is used to define the
+kilogram in SI units.
+
+The Planck constant is defined to have the exact value h=6.62607015 x 10e-34
+joule-second in SI units.
 
 This is the exact value, set on 20 Nov 2018 by the General Conference on
 Weights and Measures.
 ''' ),
 
     'reduced_planck_constant' :
-        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second',
+        RPNConstantInfo( fdiv( mpmathify( '6.62607015e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second',
                          [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], False,
-                         '',
+                         'Planck\'s constant divided by pi',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
+From:  https://en.wikipedia.org/wiki/Planck_constant
+
+The Planck constant has dimensions of physical action; i.e., energy multiplied
+by time, or momentum multiplied by distance, or angular momentum.  In SI units,
+the Planck constant is expressed in joule-seconds.  Implicit in the dimensions
+of the Planck constant is the fact that the SI unit of frequency, the Hertz,
+represents one complete cycle, 360 degrees or 2 pi radians, per second.  An
+angular frequency in radians per second is often more natural in mathematics
+and physics and many formulas use a reduced Planck constant (pronounced h-bar).
 ''' ),
 
     'rydberg_constant' :
         RPNConstantInfo( '10973731.568508', 'meter^-1', [ ], False,
-                         '',
+                         'the Rydberg constant, a physical constant relating to the electromagnetic spectra of an atom',
                          '''
+From https://en.wikipedia.org/wiki/Rydberg_constant:
+
+
 Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
@@ -1135,7 +1172,7 @@ integer assuming two's complement representation.
 
     # mathematical constants
     'i' :
-        RPNConstantInfo( 1j, '', [ 'min_uint16', 'minuint16', 'minushort' ], False,
+        RPNConstantInfo( 1j, '', [ ], False,
                          'i, the square root of -1, which is the same as \'1j\'',
                          '''
 The imaginary number i is the square root of -1.  Python's normal syntax for
