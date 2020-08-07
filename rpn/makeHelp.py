@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1840
+MAX_EXAMPLE_COUNT = 1862
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -8096,7 +8096,10 @@ operands as needed.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] union' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] [ 3 4 5 ] union' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] [ 3 3 3 ] union' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] [ 1 2 3 ] union' ),
 [ 'intersection', 'append', 'permute_lists', 'interleave' ] ],
 
     'unique' : [
@@ -8177,7 +8180,11 @@ defined as the number of prime numbers less than or equal to a given value x.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2 log' ) + '''
+''' + makeCommandExample( 'e log' ) + '''
+''' + makeCommandExample( 'e 2 ** log' ) + '''
+''' + makeCommandExample( '10 log' ) + '''
+''' + makeCommandExample( 'e e sqrt * log' ),
 [ 'log10', 'exp', 'polylog', 'log2', 'exp10', 'logxy' ] ],
 
     'log10' : [
@@ -8902,6 +8909,18 @@ The first several abundant numbers:
     'is_achilles' : [
 'number_theory', 'returns whether or not n is an Achilles number',
 '''
+From: https://en.wikipedia.org/wiki/Achilles_number:
+
+An Achilles number is a number that is powerful but not a perfect power.  A
+positive integer n is a powerful number if, for every prime factor p of n,
+p^2 is also a divisor.  In other words, every prime factor appears at least
+squared in the factorization.  All Achilles numbers are powerful.  However,
+not all powerful numbers are Achilles numbers:  only those that cannot be
+represented as mk, where m and k are positive integers greater than 1.
+
+Achilles numbers were named by Henry Bottomley after Achilles, a hero of the
+Trojan war, who was also powerful but imperfect.  Strong Achilles numbers are
+Achilles numbers whose Euler totients are also Achilles numbers.
 ''',
 '''
 ''' + makeCommandExample( '1 1000 range lambda x is_achilles filter' ),
@@ -9057,10 +9076,18 @@ A pernicious number has a prime number of ones in its binary representation.
     'is_powerful' : [
 'number_theory', 'returns whether n is a powerful number',
 '''
+From https://en.wikipedia.org/wiki/Powerful_number:
+
+A powerful number is a positive integer m such that for every prime number p
+dividing m, p^2 also divides m.  Equivalently, a powerful number is the product
+of a square and a cube, that is, a number m of the form m = a^2b^3, where a and
+b are positive integers.  Powerful numbers are also known as squareful,
+square-full, or 2-full.  Paul Erdos and George Szekeres studied such numbers
+and Solomon W. Golomb named such numbers powerful.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 100 range lambda x is_powerful filter' ),
+[ 'is_achilles', 'is_squarefree' ] ],
 
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
@@ -9080,9 +9107,18 @@ for numbers smaller than a trillion.
     'is_pronic' : [
 'number_theory', 'returns whether n is pronic',
 '''
+A pronic number is a number which is the product of two consecutive integers,
+that is, a number of the form n(n + 1).  The study of these numbers dates back
+to Aristotle.  They are also called oblong numbers, heteromecic numbers, or
+rectangular numbers; however, the term "rectangular number" has also been
+applied to the composite numbers.
+
+All pronic numbers are even, and 2 is the only prime pronic number.  It is also
+the only pronic number in the Fibonacci sequence and the only pronic Lucas
+number.
 ''',
 '''
-''' + makeCommandExample( '1 20 range lambda x is_pronic filter' ) + '''
+''' + makeCommandExample( '1 200 range lambda x is_pronic filter' ) + '''
 ''' + makeCommandExample( '71 97 * is_pronic' ) + '''
 ''' + makeCommandExample( '[ 71 97 107 ] is_pronic' ),
 [ 'is_sphenic', 'is_semiprime', 'is_prime' ] ],
@@ -9090,10 +9126,21 @@ for numbers smaller than a trillion.
     'is_rough' : [
 'number_theory', 'returns whether n is a k-rough number',
 '''
+From https://en.wikipedia.org/wiki/Rough_number:
+
+A k-rough number, as defined by Finch in 2001 and 2003, is a positive integer
+whose prime factors are all greater than or equal to k.
+
+1 is always considered k-rough for any k.
+
+Therefore, by this definition, all numbers are 2-rough.
 ''',
 '''
-''',
-[ 'is_smooth' ] ],
+''' + makeCommandExample( '1 25 range lambda x 2 is_rough filter' ) + '''
+''' + makeCommandExample( '1 25 range lambda x 3 is_rough filter' ) + '''
+''' + makeCommandExample( '1 50 range lambda x 5 is_rough filter' ) + '''
+''' + makeCommandExample( '1 50 range lambda x 7 is_rough filter' ),
+[ 'is_smooth', 'is_unusual' ] ],
 
     'is_ruth_aaron' : [
 'number_theory', 'returns whether n is a Ruth-Aaron number',
@@ -9115,10 +9162,22 @@ for numbers smaller than a trillion.
     'is_smooth' : [
 'number_theory', 'returns whether n is a k-smooth number',
 '''
+From https://en.wikipedia.org/wiki/Smooth_number:
+
+In number theory, a n-smooth (or n-friable) number is an integer whose prime
+factors are all less or equal to n.  For example, a 7-smooth number is a
+number whose prime factors are all at most 7, so 49 = 7^2 and 15750 = 2 *
+3^2 * 5^3 * 7 are both 7-smooth, while 11 and 702 = 2 * 3^3 * 13 are not
+7-smooth.  The term seems to have been coined by Leonard Adleman.  Smooth
+numbers are especially important in cryptography, which relies on factorization
+of integers.  The 2-smooth numbers are just the powers of 2, while 5-smooth
+numbers are known as regular numbers.
 ''',
 '''
-''',
-[ 'is_rough' ] ],
+''' + makeCommandExample( '1 100 range lambda x 2 is_smooth filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x 3 is_smooth filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x 5 is_smooth filter' ),
+[ 'is_rough', 'is_unusual' ] ],
 
     'is_sphenic' : [
 'number_theory', 'returns whether n is a sphenic number',
@@ -9136,7 +9195,7 @@ for numbers smaller than a trillion.
 A square-free number is a number that only has unique prime factors.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 25 range lambda x is_squarefree filter' ),
 [ 'is_semiprime', 'is_pronic' ] ],
 
     'is_strong_pseudoprime' : [
@@ -9150,10 +9209,17 @@ A square-free number is a number that only has unique prime factors.
     'is_unusual' : [
 'number_theory', 'returns whether n is an unusual number',
 '''
+From https://en.wikipedia.org/wiki/Unusual_number:
+
+In number theory, an unusual number is a natural number n whose largest prime
+factor is strictly greater than sqrt( n ).
+
+A k-smooth number has all its prime factors less than or equal to k, therefore,
+an unusual number is non-sqrt( n )-smooth.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 25 range lambda x is_unusual filter' ),
+[ 'is_prime', 'is_smooth', 'is_rough' ] ],
 
     'k_fibonacci' : [
 'number_theory', 'calculates the nth K-Fibonacci number',
@@ -9163,7 +9229,7 @@ A square-free number is a number that only has unique prime factors.
 ''' + makeCommandExample( '1 10 range 2 k_fibonacci' ) + '''
 ''' + makeCommandExample( '1 10 range 3 k_fibonacci' ) + '''
 ''' + makeCommandExample( '10 2 10 range k_fibonacci' ),
-[ ] ],
+[ 'fibonacci' ] ],
 
     'leyland_number' : [
 'number_theory', 'returns the Leyland number for n and k',
