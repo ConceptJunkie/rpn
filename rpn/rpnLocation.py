@@ -43,10 +43,26 @@ import rpn.rpnGlobals as g
 #******************************************************************************
 
 class RPNLocation( ):
+    observer = None
+    name = None
+
     '''This class represents a location on the surface of the Earth.'''
-    def __init__( self, name, observer=ephem.Observer( ) ):
-        self.name = name
-        self.observer = observer
+    def __init__( self, *args, **kwargs ):
+        name = kwargs.get( 'name', None )
+        observer = kwargs.get( 'observer', None )
+        lat = kwargs.get( 'lat', None )
+        long = kwargs.get( 'long', None )
+
+        if observer:
+            self.observer = observer
+        else:
+            self.observer = ephem.Observer( )
+
+        if lat:
+            self.setLat( lat )
+
+        if long:
+            self.setLong( long )
 
     def setObserver( self, observer ):
         self.observer.lat = observer.lat
@@ -108,6 +124,17 @@ class RPNLocation( ):
 
 #******************************************************************************
 #
+#  makeLocation
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def makeLocation( n, k ):
+    return RPNLocation( lat=float( n ), long=float( k ) )
+
+
+#******************************************************************************
+#
 #  loadLocationCache
 #
 #******************************************************************************
@@ -154,7 +181,7 @@ def getLocation( name ):
         locationInfo = g.locationCache[ name ]
 
         observer = ephem.Observer( )
-        result = RPNLocation( name, observer )
+        result = RPNLocation( name=name, observer=observer )
 
         result.setLat( locationInfo[ 1 ] )
         result.setLong( locationInfo[ 2 ] )
@@ -177,12 +204,10 @@ def getLocation( name ):
         raise ValueError( 'location lookup failed, try a different search term' )
 
     observer = ephem.Observer( )
-    result = RPNLocation( name, observer )
+    result = RPNLocation( name=name, observer=observer )
 
     result.setLat( location.latitude )
     result.setLong( location.longitude )
-
-    result = RPNLocation( name, observer )
 
     g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ) ]
     saveLocationCache( g.locationCache )
@@ -233,18 +258,13 @@ def getTimeZone( location ):
 
 #******************************************************************************
 #
-#  getDistance
+#  getGeographicDistance
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getDistance( location1, location2 ):
+def getGeographicDistance( location1, location2 ):
     from rpn.rpnMeasurement import RPNMeasurement
-    from rpn.rpnPhysics import calculateDistance
-
-    # if measurements were passed in, we want the physics version of 'distance'
-    if isinstance( location1, RPNMeasurement ) or isinstance( location2, RPNMeasurement ):
-        return calculateDistance( location1, location2 )
 
     if isinstance( location1, str ):
         location1 = getLocation( location1 )
@@ -252,13 +272,18 @@ def getDistance( location1, location2 ):
     if isinstance( location2, str ):
         location2 = getLocation( location2 )
 
+    print( 'location1', location1 )
+    print( 'location2', location2 )
+    print( 'location1.observer', location1.observer )
+    print( 'location2.observer', location2.observer )
+
     if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
-        return calculateDistance( location1, location2 )
+        raise ValueError( 'two location arguments expected' )
 
     distance = vincenty( ( location1.getLat( ), location1.getLong( ) ),
                          ( location2.getLat( ), location2.getLong( ) ) ).miles
 
-    return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
+    return RPNMeasurement( distance, [ { 'miles' : 1 } ] )
 
 
 #******************************************************************************

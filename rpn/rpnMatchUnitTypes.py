@@ -50,8 +50,6 @@ def matchUnitTypes( args, validUnitTypes ):
     for unitTypeList in validUnitTypes:
         unitTypes = list( unitTypeList )
 
-        #print( 'unitTypes', unitTypes )
-
         if len( args ) != len( unitTypes ):
             raise ValueError( 'argument count mismatch in matchUnitTypes( )' )
 

@@ -151,7 +151,8 @@ from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMeanOp
                         listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, permuteLists, \
                         reduceListOperator, shuffleList, sortAscending, sortDescending
 
-from rpn.rpnLocation import convertLatLongToNAC, getDistance, getLocation, getLocationInfo, getTimeZone, RPNLocation
+from rpn.rpnLocation import convertLatLongToNAC, getGeographicDistance, getLocation, getLocationInfo, \
+                            getTimeZone, makeLocation
 
 from rpn.rpnMath import addOperator, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
                         cube, decrement, exp, divideOperator, getAbsoluteValue, getAGM, getArgument, getCeiling, \
@@ -2269,11 +2270,11 @@ listOperators = {
     'lat_long_to_nac'               : RPNOperator( convertLatLongToNAC,
                                                    1, [ RPNArgumentType.List ], [ ] ),
 
-    'unpack'                        : RPNOperator( unpackInteger,
-                                                   2, [ RPNArgumentType.Integer, RPNArgumentType.List ], [ ] ),
-
     'pack'                          : RPNOperator( packInteger,
                                                    2, [ RPNArgumentType.List, RPNArgumentType.List ], [ ] ),
+
+    'unpack'                        : RPNOperator( unpackInteger,
+                                                   2, [ RPNArgumentType.Integer, RPNArgumentType.List ], [ ] ),
 
     # date_time
     'make_datetime'                 : RPNOperator( makeDateTime,
@@ -3277,8 +3278,6 @@ operators = {
     'quadlong'                      : RPNOperator( convertToQuadLong,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
 
-    # pack ???
-
     'short'                         : RPNOperator( convertToShort,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
 
@@ -3302,8 +3301,6 @@ operators = {
 
     'unfloat'                       : RPNOperator( interpretAsFloat,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
-
-    # unpack ???
 
     'uquadlong'                     : RPNOperator( convertToUnsignedQuadLong,
                                                    1, [ RPNArgumentType.Integer ], [ ] ),
@@ -3663,17 +3660,14 @@ operators = {
                                                    3, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger, RPNArgumentType.Function ], [ ] ),
 
     # geography
-    'geo_distance'                  : RPNOperator( getDistance,
+    'geographic_distance'           : RPNOperator( getGeographicDistance,
                                                    2, [ RPNArgumentType.Location, RPNArgumentType.Location ], [ ] ),
 
     'get_timezone'                  : RPNOperator( getTimeZone,
                                                    1, [ RPNArgumentType.Location ], [ ] ),
 
-    'lat_long'                      : RPNOperator( RPNLocation,
+    'lat_long'                      : RPNOperator( makeLocation,
                                                    2, [ RPNArgumentType.Real, RPNArgumentType.Real ], [ ] ),
-
-    'location'                      : RPNOperator( getLocation,
-                                                   1, [ RPNArgumentType.String ], [ ] ),
 
     'location_info'                 : RPNOperator( getLocationInfo,
                                                    1, [ RPNArgumentType.String ], [ ] ),
@@ -3845,6 +3839,9 @@ operators = {
     'is_decreasing'                 : RPNOperator( isDecreasing,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
+    'is_digital_palindrome'         : RPNOperator( isPalindromeOperator,
+                                                   1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
+
     'is_digital_permutation'        : RPNOperator( isDigitalPermutation,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
@@ -3871,9 +3868,6 @@ operators = {
 
     'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumber,
                                                    2, [ RPNArgumentType.NonnegativeInteger, RPNArgumentType.NonnegativeInteger ], [ ] ),
-
-    'is_palindrome'                 : RPNOperator( isPalindromeOperator,
-                                                   1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'is_pandigital'                 : RPNOperator( isPandigital,
                                                    1, [ RPNArgumentType.NonnegativeInteger ], [ ] ),

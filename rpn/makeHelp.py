@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1815
+MAX_EXAMPLE_COUNT = 1840
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -2982,7 +2982,7 @@ date-time n.
     'previous_full_moon' : [
 'astronomy', 'returns the date of the previous full moon before date-time n',
 '''
-This operator returns the time of the previous full 
+This operator returns the time of the previous full
 moon before date-time n.
 ''',
 '''
@@ -2994,7 +2994,7 @@ moon before date-time n.
     'previous_last_quarter_moon' : [
 'astronomy', 'returns the date of the previous last quarter moon before date-time n',
 '''
-This operator returns the time of the previous last quarter 
+This operator returns the time of the previous last quarter
 moon before
  date-time n.
 ''',
@@ -3006,7 +3006,7 @@ moon before
     'previous_new_moon' : [
 'astronomy', 'returns the date of the previous new moon before date-time n',
 '''
-This operator returns the time of the previous new 
+This operator returns the time of the previous new
 moon before date-time n.
 ''',
 '''
@@ -6410,13 +6410,13 @@ This operator can also handle length measurements.
     #
     #******************************************************************************
 
-    'geo_distance' : [
+    'geographic_distance' : [
 'geography', 'calculates the distance, along the Earth\'s surface, of two locations',
 '''
 ''',
 '''
 ''',
-[ 'location', 'lat_long' ] ],
+[ 'lat_long' ] ],
 
     'get_timezone' : [
 'geography', 'returns the timezone for location n',
@@ -6432,23 +6432,19 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location_info', 'location', 'geo_distance' ] ],
-
-    'location' : [
-'geography', 'returns the lat-long for a location string',
-'''
-''',
-'''
-''',
-[ 'location_info', 'lat_long', 'geo_distance' ] ],
+[ 'location_info', 'geographic_distance' ] ],
 
     'location_info' : [
-'geography', 'returns the lat-long for a location',
+'geography', 'returns the lat-long for location n',
 '''
+Location n is a string containing a geographic location.  The operator returns
+a two item list containing the values of latitude and longitude in degrees.
 ''',
 '''
-''',
-[ 'location', 'lat_long', 'geo_distance', 'get_timezone' ] ],
+''' + makeCommandExample( '"Dakar, Senegal" location_info' ) + '''
+''' + makeCommandExample( '"Philadelphia, PA" location_info' ) + '''
+''' + makeCommandExample( '"Nome, AL" location_info' ),
+[ 'lat_long', 'geographic_distance', 'get_timezone' ] ],
 
 
     #******************************************************************************
@@ -6506,6 +6502,17 @@ string literal delimiter (') for the cache name.
 e.g.,  "rpn 'next_prime _dump_cache"
 ''',
 '''
+c:\\>rpn 'thue_morse _dump_cache
+((mpf('0.0'),), {}) 0
+((mpf('1.0'),), {}) 1.0
+((mpf('2.0'),), {}) 1.0
+((mpf('3.0'),), {}) 0.0
+((mpf('4.0'),), {}) 1.0
+((mpf('5.0'),), {}) 0.0
+((mpf('6.0'),), {}) 0.0
+((mpf('7.0'),), {}) 1.0
+((mpf('8.0'),), {}) 1.0
+...
 ''',
 [ '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
@@ -6537,6 +6544,15 @@ the RPN syntax), and internal operators, which describe RPN itself.
 The operator returns number of operators.
 ''',
 '''
+c:\\>rpn _dump_operators
+regular operators:
+   abs
+   abundance
+   abundance_ratio
+   acceleration
+   accuracy
+   ackermann_number
+   ...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
 
@@ -6869,7 +6885,7 @@ same as the set of unique digits in k.
 ''' + makeCommandExample( '12333455 5534112 has_digits' ) + '''
 ''' + makeCommandExample( '12345 54216 has_digits' ) + '''
 ''' + makeCommandExample( '55555 5 has_digits' ),
-[ 'get_digits', 'has_only_digits', 'is_permutation', 'has_any_digits' ] ],
+[ 'get_digits', 'has_only_digits', 'is_digital_permutation', 'has_any_digits' ] ],
 
     'has_any_digits' : [
 'lexicography', 'returns whether n contains any of the digits in k',
@@ -6883,7 +6899,7 @@ superset of the set of unique digits in k.
 ''' + makeCommandExample( '12333455 5534112 has_any_digits' ) + '''
 ''' + makeCommandExample( '12345 54216 has_any_digits' ) + '''
 ''' + makeCommandExample( '55555 5 has_any_digits' ),
-[ 'count_different_digits', 'has_digits', 'get_digits', 'has_only_digits' ] ],
+[ 'count_different_digits', 'has_digits', 'get_digits', 'has_only_digits', 'is_digital_permutation' ] ],
 
     'has_only_digits' : [
 'lexicography', 'returns whether n contains only the digits in k and no others',
@@ -6897,7 +6913,7 @@ subset of the set of unique digits in k.
 ''' + makeCommandExample( '12333455 5534112 has_only_digits' ) + '''
 ''' + makeCommandExample( '12345 54216 has_only_digits' ) + '''
 ''' + makeCommandExample( '55555 5 has_only_digits' ),
-[ 'get_digits', 'has_digits', 'has_any_digits' ] ],
+[ 'get_digits', 'has_digits', 'has_any_digits', 'is_digital_permutation' ] ],
 
     'is_automorphic' : [
 'lexicography', 'returns whether the digits of n squared end with n',
@@ -7049,15 +7065,15 @@ prime factorization.
 ''' + makeCommandExample( '1 1000 range lambda x 2 is_order_k_smith_number filter' ),
 [ 'is_smith_number', 'is_base_k_smith_number' ] ],
 
-    'is_palindrome' : [
-'lexicography', 'returns whether an integer n is palindromic',
+    'is_digital_palindrome' : [
+'lexicography', 'returns whether the digtis of n form a palindrome',
 '''
 n is treated as an integer.  If its digits are palindromic, i.e., they
 read the same forwards as backwards, then the operator returns 1.
 ''',
 '''
-''' + makeCommandExample( '101 is_palindrome' ) + '''
-''' + makeCommandExample( '1201 is_palindrome' ),
+''' + makeCommandExample( '101 is_digital_palindrome' ) + '''
+''' + makeCommandExample( '1201 is_digital_palindrome' ),
 [ 'find_palindrome', 'is_pandigital', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pandigital' : [
@@ -7070,7 +7086,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
 ''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ),
-[ 'is_base_k_pandigital', 'is_palindrome', 'is_increasing', 'is_decreasing' ] ],
+[ 'is_base_k_pandigital', 'is_digital_palindrome', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pdi' : [
 'lexicography', 'returns whether an integer n is a perfect digital invariant',
@@ -7087,15 +7103,22 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 100 range lambda x 2 is_pddi filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x 3 is_pddi filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x 4 is_pddi filter' ) + '''
+''' + makeCommandExample( '1 1000 range lambda x 5 is_pddi filter' ) + '''
+''' + makeCommandExample( '1 1000 range lambda x 6 is_pddi filter' ),
 [ 'is_pdi' ] ],
 
     'is_step_number' : [
-'list_operators', 'returns 1 if n is a step number else 0',
+'list_operators', 'returns whether n is a step number',
 '''
+A step number is one where each successive digit is one greater or one lesser
+than the previous digit.  '0' is considered adjacent to '1', but not not
+adjacent to '9'.  The definition used for "step" doesn't wrap around.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000 10000 range lambda x is_step_number filter' ),
 [ 'build_step_numbers' ] ],
 
     'is_sum_product' : [
@@ -7113,7 +7136,7 @@ A Smith number is a composite number for which the sum of its digits is equal
 to the sum of the digits in its prime factorization.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 400 range lambda x is_smith_number filter' ),
 [ 'is_base_k_smith_number', 'is_order_k_smith_number' ] ],
 
     'is_trimorphic' : [
@@ -7122,7 +7145,7 @@ to the sum of the digits in its prime factorization.
 ''',
 '''
 ''' + makeCommandExample( '9999 is_trimorphic' ) + '''
-''' + makeCommandExample( '1 50 range is_trimorphic' ),
+''' + makeCommandExample( '1 500 range lambda x is_trimorphic filter' ),
 [ 'is_automorphic', 'is_trimorphic' ] ],
 
     'k_persistence' : [
@@ -7140,39 +7163,63 @@ This version works the same with the addition that every digit is first taken
 to the kth power.
 ''',
 '''
-''',
+''' + makeCommandExample( '80 100 range 2 k_persistence' ) + '''
+''' + makeCommandExample( '80 100 range 3 k_persistence' ) + '''
+''' + makeCommandExample( '80 100 range 4 k_persistence' ) + '''
+''' + makeCommandExample( '280 300 range 4 k_persistence' ) + '''
+''' + makeCommandExample( '280 300 range 5 k_persistence' ),
 [ 'persistence', 'show_k_persistence', 'show_erdos_persistence' ] ],
 
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',
 '''
+This operator splits n into individual digits and multiplies them all
+together.  If any of the digits is 0, then the result will be 0, so there is
+also a version that ignores 0, 'multiply_nonzero_digits'.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456789 multiply_digits' ) + '''
+''' + makeCommandExample( '1234567 multiply_digits' ) + '''
+''' + makeCommandExample( '12345670 multiply_digits' ),
 [ 'multiply_digit_powers', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'multiply_digit_powers' : [
 'lexicography', 'calculates the product of the kth power of each digit of integer n',
 '''
+This is a version of "multiply_digits' that takes each digit to the power k
+before doing the multiplication.  If k is 1 then it's the same as
+'multiply_digits'.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456789 2 multiply_digit_powers' ) + '''
+''' + makeCommandExample( '-a15 1234567 4 multiply_digit_powers' ) + '''
+''' + makeCommandExample( '-a15 12345670 4 multiply_digit_powers' ),
 [ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'multiply_nonzero_digits' : [
 'lexicography', 'calculates the product of the non-zero digits of integer n',
 '''
+This is a version of "multiply_nonzero_digits' that takes each digit to the
+power k before doing the multiplication.  If k is 1 then it's the same as
+'multiply_nonzero_digits'.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456789 multiply_nonzero_digits' ) + '''
+''' + makeCommandExample( '1234567 multiply_nonzero_digits' ) + '''
+''' + makeCommandExample( '12345670 multiply_nonzero_digits' ),
 [ 'multiply_digit_powers', 'multiply_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'multiply_nonzero_digit_powers' : [
 'lexicography', 'calculates the product of the kth power of each non-zero digit of integer n',
 '''
+This is a version of "multiply_nonzero_digits' that takes each digit to the
+power k before doing the multiplication.  If k is 1 then it's the same as
+'multiply_nonzero_digits'.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456789 2 multiply_nonzero_digit_powers' ) + '''
+''' + makeCommandExample( '-a15 1234567 4 multiply_nonzero_digit_powers' ) + '''
+''' + makeCommandExample( '-a15 12345670 4 multiply_nonzero_digit_powers' ),
 [ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'permute_digits' : [
@@ -7182,8 +7229,7 @@ This operator takes the individual digits of n and returns a list of all
 lexicographic permutations of the digits.
 ''',
 '''
-''' + makeCommandExample( '123 permute_digits' ) + '''
-''' + makeCommandExample( '5567 permute_digits' ),
+''' + makeCommandExample( '1234 permute_digits' ),
 [ 'combine_digits', 'is_digital_permutation' ] ],
 
     'persistence' : [
@@ -7200,7 +7246,8 @@ on until a one-digit number is obtained.
 This operator returns the count of the resulting chain of numbers.
 ''',
 '''
-''',
+''' + makeCommandExample( '80 100 range persistence' ) + '''
+''' + makeCommandExample( '280 300 range persistence' ),
 [ 'show_persistence', 'k_persistence', 'show_erdos_persistence' ] ],
 
     'replace_digits' : [
@@ -7786,7 +7833,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''',
 '''
 ''',
-[ 'is_palindrome' ] ],
+[ 'is_digital_palindrome' ] ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
@@ -9532,7 +9579,7 @@ base.
 ''' + makeCommandExample( '11 10 repunit' ) + '''
 ''' + makeCommandExample( '11 4 repunit -r4' ) + '''
 ''' + makeCommandExample( '11 4 repunit' ),
-[ 'has_digits', 'is_palindrome', 'duplicate_digits' ] ],
+[ 'has_digits', 'is_digital_palindrome', 'duplicate_digits' ] ],
 
     'radical' : [
 'number_theory', 'returns the value of the radical function for n',

@@ -832,27 +832,24 @@ def runAstronomyOperatorTests( ):
     testOperator( 'sun "Herndon, VA" now angular_size dms' )
 
     # antitransit_time
-    testOperator( 'moon "Calais, France" location today antitransit_time' )
+    testOperator( 'moon "Calais, France" today antitransit_time' )
     testOperator( 'sun "Calais, France" today antitransit_time' )
     testOperator( 'jupiter "Las Vegas, NV" 2016 spring 1 20 range days + antitransit_time' )
 
     # astronomical_dawn
-    testOperator( '"Chattanooga, TN" location today astronomical_dawn' )
     testOperator( '"Chattanooga, TN" today astronomical_dawn' )
 
     # astronomical_dusk
-    testOperator( '"Perth, Australia" location today astronomical_dusk' )
     testOperator( '"Perth, Australia" today astronomical_dusk' )
 
     # autumnal_equinox
     testOperator( '2015 autumnal_equinox' )
 
     # dawn
-    testOperator( '"Christchurch, NZ" location today dawn' )
     testOperator( '"Christchurch, NZ" today dawn' )
 
     # day_time
-    testOperator( '"Toulouse, France" location today day_time' )
+    testOperator( '"Toulouse, France" today day_time' )
     testOperator( '"Nice, France" today day_time' )
     testOperator( '"Allentown, PA" 1975-03-31 0 20 range days + day_time' )
 
@@ -860,41 +857,33 @@ def runAstronomyOperatorTests( ):
     testOperator( 'mars now distance_from_earth miles convert' )
 
     # dusk
-    testOperator( '"Vienna, Austria" location today dusk' )
     testOperator( '"Vienna, Austria" today dusk' )
 
     # eclipse_totality
     testOperator( 'sun moon "Corolla, NC" "2017-08-21 14:50" eclipse_totality' )
 
     # moonrise
-    testOperator( '"Las Cruces, NM" location today moonrise' )
     testOperator( '"Las Cruces, NM" today moonrise' )
 
     # moonset
-    testOperator( '"Tacoma, WA" location today moonset' )
     testOperator( '"Tacoma, WA" today moonset' )
 
     # moon_antitransit
-    testOperator( '"Madrid, Spain" location today moon_antitransit' )
     testOperator( '"Madrid, Spain" today moon_antitransit' )
 
     # moon_phase
     testOperator( 'today moon_phase' )
 
     # moon_transit
-    testOperator( '"Riga, Latvia" location today moon_transit' )
     testOperator( '"Riga, Latvia" today moon_transit' )
 
     # nautical_dawn
-    testOperator( '"Columbia, SC" location today nautical_dawn' )
     testOperator( '"Columbia, SC" today nautical_dawn' )
 
     # nautical_dusk
-    testOperator( '"Norfolk, VA" location today nautical_dusk' )
     testOperator( '"Norfolk, VA" today nautical_dusk' )
 
     # next_antitransit
-    testOperator( 'saturn "Blacksburg, VA" location today next_antitransit' )
     testOperator( 'saturn "Blacksburg, VA" today next_antitransit' )
 
     # next_first_quarter_moon
@@ -910,24 +899,19 @@ def runAstronomyOperatorTests( ):
     testOperator( 'today next_new_moon' )
 
     # next_rising
-    testOperator( 'moon "Leesburg, VA" location now next_rising' )
     testOperator( 'moon "Leesburg, VA" now next_rising' )
 
     # next_setting
-    testOperator( 'moon "Kyoto, Japan" location now next_setting' )
     testOperator( 'moon "Kyoto, Japan" now next_setting' )
 
     # next_transit
-    testOperator( 'moon "Oslo, Norway" location now next_transit' )
     testOperator( 'moon "Oslo, Norway" now next_transit' )
 
     # night_time
-    testOperator( '"Toulouse, France" location today night_time' )
     testOperator( '"Nice, France" today night_time' )
     testOperator( '"Cologne, Germany" 2015 winter 1 20 range days + night_time' )
 
     # previous_antitransit
-    testOperator( 'neptune "Leesburg, VA" location now previous_antitransit' )
     testOperator( 'neptune "Leesburg, VA" now previous_antitransit' )
 
     # previous_first_quarter_moon
@@ -943,41 +927,33 @@ def runAstronomyOperatorTests( ):
     testOperator( 'today previous_new_moon' )
 
     # previous_rising
-    testOperator( 'jupiter "Leesburg, VA" location now previous_rising' )
     testOperator( 'jupiter "Leesburg, VA" now previous_rising' )
 
     # previous_setting
-    testOperator( 'uranus "Leesburg, VA" location now previous_setting' )
     testOperator( 'uranus "Leesburg, VA" now previous_setting' )
 
     # previous_transit
-    testOperator( 'mercury "Leesburg, VA" location now previous_transit' )
     testOperator( 'mercury "Leesburg, VA" now previous_transit' )
 
     # sky_location
     testOperator( 'mars "Leesburg, VA" now sky_location' )
 
     # solar_noon
-    testOperator( '"Leesburg, VA" location today solar_noon' )
     testOperator( '"Leesburg, VA" today solar_noon' )
 
     # summer_solstice
     testOperator( '2015 summer_solstice' )
 
     # sunrise
-    testOperator( '"Salzburg, Germany" location today sunrise' )
     testOperator( '"Salzburg, Germany" today sunrise' )
 
     # sunset
-    testOperator( '"New Delhi, India" location today sunset' )
     testOperator( '"New Delhi, India" today sunset' )
 
     # sun_antitransit
-    testOperator( '"Leesburg, VA" location today sun_antitransit' )
     testOperator( '"Leesburg, VA" today sun_antitransit' )
 
     # transit_time
-    testOperator( 'sun "Munich, Germany" location today transit_time' )
     testOperator( 'moon "Dusseldorf, Germany" today transit_time' )
     testOperator( 'mars "Dortmund, Germany" 2015 summer 1 20 range days + transit_time' )
 
@@ -989,43 +965,33 @@ def runAstronomyOperatorTests( ):
 
     # heavenly body operators
     # sun
-    testOperator( 'sun "Leesburg, VA" location today next_rising' )
     testOperator( 'sun "Leesburg, VA" today next_rising' )
 
     # mercury
-    testOperator( 'mercury "Los Angeles, CA" location today next_rising' )
     testOperator( 'mercury "Los Angeles, CA" today next_rising' )
 
     # venus
-    testOperator( 'venus "Butte, Montana" location today next_rising' )
     testOperator( 'venus "Butte, Montana" today next_rising' )
 
     # moon
-    testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
     testOperator( 'saturn "Burlington, VT" today next_antitransit' )
 
     # mars
-    testOperator( 'mars "Beijing, China" location today next_transit' )
     testOperator( 'mars "Beijing, China" today next_transit' )
 
     # jupiter
-    testOperator( 'jupiter "Ottawa, Canada" location today next_setting' )
     testOperator( 'jupiter "Ottawa, Canada" today next_setting' )
 
     # saturn
-    testOperator( 'saturn "Leesburg, VA" location today next_rising' )
     testOperator( 'saturn "Leesburg, VA" today next_rising' )
 
     # uranus
-    testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
     testOperator( 'uranus "Frankfurt, Germany" today next_rising' )
 
     # neptune
-    testOperator( 'neptune "Hatfield, PA" location now next_rising' )
     testOperator( 'neptune "Hatfield, PA" now next_rising' )
 
     # pluto
-    testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
     testOperator( 'pluto "Johannesburg, South Africa" now next_rising' )
 
 
@@ -2602,17 +2568,16 @@ def runFunctionOperatorTests( ):
 
 def runGeographyOperatorTests( ):
     # distance
-    testOperator( '"Leesburg, VA" location "Smithfield, VA" location geo_distance' )
-    testOperator( '"Leesburg, VA" "Smithfield, VA" geo_distance' )
+    testOperator( '"Leesburg, VA" "Smithfield, VA" geographic_distance' )
 
     # get_timezone
     testOperator( '"Leesburg, VA" get_timezone' )
 
     # lat_long
-    #testOperator( '"Leesburg, VA" 43 -80 lat_long geo_distance' )
+    testOperator( '"Leesburg, VA" 43 -80 lat_long geographic_distance' )
 
     # location
-    testOperator( '"Uppsala, Sweden" location today moonrise' )
+    testOperator( '"Uppsala, Sweden" today moonrise' )
 
     # location_info
     testOperator( '"Dakar, Senegal" location_info' )
@@ -2904,6 +2869,13 @@ def runLexicographyOperatorTests( ):
     expectResult( ' 1111111 is_decreasing', 1 )
     expectResult( ' 11111112 is_decreasing', 0 )
 
+    # is_digital_palindrome
+    expectResult( '101 is_digital_palindrome', 1 )
+    expectResult( '1 22 range is_digital_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
+    expectResult( '1234567890 is_digital_palindrome', 0 )
+
+    expectEqual( '0 10000 range lambda x is_digital_palindrome filter', '2113 oeis 199 left' )
+
     # is_digital_permutation
     testOperator( '12 21 is_digital_permutation' )
 
@@ -2949,13 +2921,6 @@ def runLexicographyOperatorTests( ):
 
     if slow:
         expectEqual( '1 100000 range lambda x is_narcissistic filter', '5188 oeis 100000 filter_max' )
-
-    # is_palindrome
-    expectResult( '101 is_palindrome', 1 )
-    expectResult( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
-    expectResult( '1234567890 is_palindrome', 0 )
-
-    expectEqual( '0 10000 range lambda x is_palindrome filter', '2113 oeis 199 left' )
 
     # is_pandigital
     expectResult( '3847596201 is_pandigital', 1 )
@@ -3369,7 +3334,6 @@ def runLogicOperatorTests( ):
 
 def runModifierOperatorTests( ):
     # [
-    testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
     testOperator( '[ "Philadelphia, PA" "Raleigh, NC" ] today sunrise' )
 
     # ]
@@ -4086,7 +4050,7 @@ def runNumberTheoryOperatorTests( ):
     #testOperator( '-a20 80 89 range 24 reversal_addition' )   # the output handler doesn't seem to work right here!
     #testOperator( '-a20 89 16 24 range reversal_addition' )
 
-    expectResult( '-a90 14,104,229,999,995 185 reversal_addition 1 right is_palindrome', 1 )
+    expectResult( '-a90 14,104,229,999,995 185 reversal_addition 1 right is_digital_palindrome', 1 )
 
     expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
 
