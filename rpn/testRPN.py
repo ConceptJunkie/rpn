@@ -4649,11 +4649,9 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 10000 range balanced_prime', '6562 oeis 10000 left' )
 
-    # balanced_prime_
-    #expectEqual( '1 100 balanced_prime_', '6562 oeis 100 left' )
-
-    #if slow:
-    #    expectEqual( '1 10000 balanced_prime_', '6562 oeis 10000 left' )
+    # balanced_primes
+    testOperator( '30,000 balanced_primes -c' )
+    testOperator( '1,000,000,000 balanced_primes -c' )
 
     # cousin_prime
     testOperator( '1 10 range cousin_prime' )
@@ -4667,10 +4665,10 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 10000 range cousin_prime', '23200 oeis 10000 left' )
 
-    # cousin_prime_
-    testOperator( '1 10 range cousin_prime_' )
-    testOperator( '4486 cousin_prime_' )
-    testOperator( '192765 cousin_prime_' )
+    # cousin_primes
+    testOperator( '1 10 range cousin_primes' )
+    testOperator( '4486 cousin_primes' )
+    testOperator( '192765 cousin_primes' )
 
     # cousin primes are currently wrong starting with #99
     expectEqual( '1 100 range lambda x cousin_prime_ product eval', '143206 oeis 100 left' )
@@ -4680,17 +4678,14 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
 
-    # double_balanced
+    # double_balanced_prime
     expectEqual( '1 100 range double_balanced', '51795 oeis 100 left' )
 
     if slow:
         expectEqual( '1 2000 range double_balanced', '51795 oeis 2000 left' )
 
-    # double_balanced_
-    #expectEqual( '1 100 double_balanced_', '51795 oeis 100 left' )
-
-    #if slow:
-    #    expectEqual( '1 10000 double_balanced_', '51795 oeis 10000 left' )
+    # double_balanced_primes
+    testOperator( '750,000 double_balanced_primes -c' )
 
     # isolated_prime
     expectEqual( '1 110 range isolated_prime', '7510 oeis 110 left' )
@@ -4723,9 +4718,41 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '8 next_quadruplet_prime' )
     testOperator( '8871 next_quadruplet_prime' )
 
+    # next_quadruplet_primes
+    testOperator( '8 next_quadruplet_primes' )
+    testOperator( '8871 next_quadruplet_primes' )
+
     # next_quintuplet_prime
     testOperator( '147951 next_quintuplet_prime' )
     testOperator( '2,300,000 next_quintuplet_prime' )
+
+    # next_quintuplet_primes
+    testOperator( '147951 next_quintuplet_primes' )
+    testOperator( '2,300,000 next_quintuplet_primes' )
+
+    # next_sextuplet_prime
+    testOperator( '1142 next_sextuplet_prime' )
+    testOperator( '200,000 next_sextuplet_prime' )
+
+    # next_sextuplet_primes
+    testOperator( '1142 next_sextuplet_primes' )
+    testOperator( '200,000 next_sextuplet_primes' )
+
+    # next_triplet_prime
+    testOperator( '3956 next_triplet_prime' )
+    testOperator( '86894934 next_triplet_prime' )
+
+    # next_triplet_primes
+    testOperator( '3956 next_triplet_prime' )
+    testOperator( '86894934 next_triplet_prime' )
+
+    # next_twin_prime
+    testOperator( '3956 next_twin_prime' )
+    testOperator( '86894934 next_twin_prime' )
+
+    # next_twin_primes
+    testOperator( '3956 next_twin_prime' )
+    testOperator( '86894934 next_twin_prime' )
 
     # nth_prime
     testOperator( '1 10 range nth_prime' )
@@ -4743,6 +4770,21 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 100000 10000 range2 nth_quintuplet_prime' )
     testOperator( '23887 nth_quintuplet_prime' )
     testOperator( '13,000,000,000 nth_quintuplet_prime' )
+
+    # nth_sextuplet_prime
+    testOperator( '1 100000 10000 range2 nth_sextuplet_prime' )
+    testOperator( '23887 nth_sextuplet_prime' )
+    testOperator( '13,000,000,000 nth_sextuplet_prime' )
+
+    # nth_triplet_prime
+    testOperator( '1 100000 10000 range2 nth_triplet_prime' )
+    testOperator( '23887 nth_triplet_prime' )
+    testOperator( '13,000,000,000 nth_triplet_prime' )
+
+    # nth_twin_prime
+    testOperator( '1 100000 10000 range2 nth_twin_prime' )
+    testOperator( '23887 nth_twin_prime' )
+    testOperator( '13,000,000,000 nth_twin_prime' )
 
     # polyprime
     testOperator( '1 5 range 1 5 range polyprime' )
@@ -4803,11 +4845,8 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range quadruple_balanced_prime', '96710 oeis 1000 left' )
 
-    # quadruple_balanced_prime_
-    #expectEqual( '1 100 range triple_balanced_prime', '96710 oeis 100 left' )
-
-    #if slow:
-    #    expectEqual( '1 1000 range triple_balanced_prime', '96710 oeis 1000 left' )
+    # quadruple_balanced_primes
+    testOperator( '3000 quadruple_balanced_primes' )
 
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )
@@ -4818,9 +4857,9 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range quadruplet_prime', '7530 oeis 1000 left' )
 
-    # quadruplet_prime_
-    testOperator( '17 quadruplet_prime_' )
-    testOperator( '55731 quadruplet_prime_' )
+    # quadruplet_primes
+    testOperator( '17 quadruplet_primes' )
+    testOperator( '55731 quadruplet_primes' )
 
     # quintuplet_prime
     testOperator( '18 quintuplet_prime' )
@@ -4831,9 +4870,9 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range quintuplet_prime', '22006 oeis 22007 oeis append sort 1000 left' )
 
-    # quintuplet_prime_
-    testOperator( '62 quintuplet_prime_' )
-    testOperator( '74238 quintuplet_prime_' )
+    # quintuplet_primes
+    testOperator( '62 quintuplet_primes' )
+    testOperator( '74238 quintuplet_primes' )
 
     # safe_prime
     testOperator( '45 safe_prime' )
@@ -4849,11 +4888,11 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range sextuplet_prime', '22008 oeis 1000 left' )
 
-    # sextuplet_prime_
-    testOperator( '1 sextuplet_prime_' )
-    testOperator( '587 sextuplet_prime_' )
-    testOperator( '835 sextuplet_prime_' )
-    testOperator( '29 sextuplet_prime_' )
+    # sextuplet_primes
+    testOperator( '1 sextuplet_primes' )
+    testOperator( '587 sextuplet_primes' )
+    testOperator( '835 sextuplet_primes' )
+    testOperator( '29 sextuplet_primes' )
 
     # sexy_prime
     testOperator( '-c 89,999,999 sexy_prime' )
@@ -4871,11 +4910,11 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 10000 range sexy_prime', '23201 oeis 10000 left' )
 
-    # sexy_prime_
-    testOperator( '1 10 range sexy_prime_' )
-    testOperator( '29 sexy_prime_' )
-    testOperator( '21985 sexy_prime_' )
-    testOperator( '-c 100,000,000 sexy_prime_' )
+    # sexy_primes
+    testOperator( '1 10 range sexy_primes' )
+    testOperator( '29 sexy_primes' )
+    testOperator( '21985 sexy_primes' )
+    testOperator( '-c 100,000,000 sexy_primes' )
 
     expectEqual( '1 100 range lambda x sexy_prime_ product eval', '111192 oeis 100 left' )
     expectEqual( '1001 1100 range lambda x sexy_prime_ product eval', '111192 oeis 1100 left 100 right' )
@@ -4894,10 +4933,10 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range sexy_quadruplet', '23271 oeis 1000 left' )
 
-    # sexy_quadruplet_
-    testOperator( '1 10 range sexy_quadruplet_' )
-    testOperator( '29 sexy_quadruplet_' )
-    testOperator( '2459 sexy_quadruplet_' )
+    # sexy_quadruplets
+    testOperator( '1 10 range sexy_quadruplets' )
+    testOperator( '29 sexy_quadruplets' )
+    testOperator( '2459 sexy_quadruplets' )
 
     # sexy_triplet
     testOperator( '1 10 range sexy_triplet' )
@@ -4910,11 +4949,11 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range sexy_triplet', '46118 oeis 1000 left' )
 
-    # sexy_triplet_
-    testOperator( '1 10 range sexy_triplet_' )
-    testOperator( '52 sexy_triplet_' )
-    testOperator( '5298 sexy_triplet_' )
-    testOperator( '-c 984635 sexy_triplet_' )
+    # sexy_triplets
+    testOperator( '1 10 range sexy_triplets' )
+    testOperator( '52 sexy_triplets' )
+    testOperator( '5298 sexy_triplets' )
+    testOperator( '-c 984635 sexy_triplets' )
 
     # sophie_prime
     testOperator( '1 10 range sophie_prime' )
@@ -4941,11 +4980,8 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1000 range triple_balanced_prime', '81415 oeis 1000 left' )
 
-    # triple_balanced_prime_
-    #expectEqual( '1 100 triple_balanced_prime_', '81415 oeis 100 left' )
-
-    #if slow:
-    #    expectEqual( '1 1000 triple_balanced_prime_', '81415 oeis 1000 left' )
+    # triple_balanced_primes
+    testOperator( '30,000 triple_balanced_primes' )
 
     # triplet_prime
     expectEqual( '1 200 range triplet_prime', '22004 oeis 22005 oeis append sort 23741 filter_max' )
@@ -4953,9 +4989,9 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 1932 range triplet_prime', '22004 oeis 22005 oeis append sort 592387 filter_max' )
 
-    # triplet_prime_
-    testOperator( '1 10 range triplet_prime_' )
-    testOperator( '192834 triplet_prime_' )
+    # triplet_primes
+    testOperator( '1 10 range triplet_primes' )
+    testOperator( '192834 triplet_primes' )
 
     # twin_prime
     expectEqual( '1 51 range lambda x twin_prime 1 + x twin_prime 1 + factors count - eval', '176915 oeis 51 left' )
@@ -4967,7 +5003,7 @@ def runPrimeNumberOperatorTests( ):
     if slow:
         expectEqual( '1 10000 range twin_prime', '1359 oeis 10000 left' )
 
-    # twin_prime_
+    # twin_primes
     expectEqual( '1 200 range twin_prime_ lambda x 1 element for_each_list', '6512 oeis 200 left' )
     expectEqual( '2001 2100 range twin_prime_ lambda x 1 element for_each_list', '6512 oeis 2100 left 100 right' )
     expectEqual( '5001 5100 range twin_prime_ lambda x 1 element for_each_list', '6512 oeis 5100 left 100 right' )
@@ -5156,8 +5192,8 @@ def runSpecialOperatorTests( ):
     testOperator( '100 random_integer' )
     testOperator( '10 12 ^ random_integer' )
 
-    # random_integer_
-    testOperator( '23 265 random_integer_' )
+    # random_integers
+    testOperator( '23 265 random_integers' )
 
     # result
     # testOperator( 'result' )

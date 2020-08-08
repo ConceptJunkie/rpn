@@ -446,8 +446,8 @@ Interactive mode also introduces some new operators.  Each expression that is
 evaluated is given a successive number:
 
 c:\\>rpn
-rpn 7.0.0 - RPN command-line calculator
-copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
+rpnChilada 8.4.0 - RPN command-line calculator
+copyright (c) 2020 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
 rpn (1)> 2 3 +
@@ -2267,7 +2267,7 @@ This operator returns the largest value in the input list of values n.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] max' ) + '''
-''' + makeCommandExample( '10 1000 random_integer_ max' ),
+''' + makeCommandExample( '10 1000 random_integers max' ),
 [ 'minimum', 'larger', 'is_greater' ] ],
 
     'mean' : [
@@ -2292,7 +2292,7 @@ This operator returns the smallest value in the input list of values n.
 ''',
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] min' ) + '''
-''' + makeCommandExample( '10 1000 random_integer_ min' ),
+''' + makeCommandExample( '10 1000 random_integers min' ),
 [ 'maximum', 'smaller', 'is_less' ] ],
 
     'modulo' : [
@@ -2404,7 +2404,7 @@ of the imperfection of the fit of the estimator to the data.
 Ref:  https://en.wikipedia.org/wiki/Root_mean_square
 ''',
 '''
-''' + makeCommandExample( '10 50 random_integer_ root_mean_square' ) + '''
+''' + makeCommandExample( '10 50 random_integers root_mean_square' ) + '''
 ''' + makeCommandExample( '1 50 range root_mean_square' ),
 [ 'mean', 'agm', 'geometric_mean', 'stddev' ] ],
 
@@ -2497,7 +2497,7 @@ unlike the variance, it is expressed in the same units as the data.
 Ref:  https://en.wikipedia.org/wiki/Standard_deviation
 ''',
 '''
-''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
+''' + makeCommandExample( '10 50 random_integers stddev' ) + '''
 ''' + makeCommandExample( '1 50 range count_div stddev' ),
 [ 'mean', 'agm', 'geometric_mean', 'root_mean_square' ] ],
 
@@ -6539,7 +6539,7 @@ The operator returns number of unit conversions.
 '''
 The list of operators is divided into normal operators, list operators (which
 require at least one list argument), modifier operators (which work outside of
-the RPN syntax), and internal operators, which describe RPN itself.
+the RPN syntax), and internal operators, which describe rpnChilada itself.
 
 The operator returns number of operators.
 ''',
@@ -6572,7 +6572,7 @@ This operator returns the count of unique operators, the count of unit
 convesions, the count of indexed prime numbers of each type, the index of the
 highest prime number and the value of the highest prime number.
 
-The operator returns the RPN version number in list format.
+The operator returns the rpnChilada version number in list format.
 ''',
 '''
 ''',
@@ -7920,7 +7920,7 @@ count.  The result will be sorted by values.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range occurrences' ) + '''
-''' + makeCommandExample( '10 100 random_integer_ occurrences' ) + '''
+''' + makeCommandExample( '10 100 random_integers occurrences' ) + '''
 ''' + makeCommandExample( '5 6 debruijn_sequence occurrences' ),
 [ 'occurrence_cumulative', 'occurrence_ratios' ] ],
 
@@ -11232,81 +11232,116 @@ itself k times.
     'balanced_prime' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
+A balanced prime is a prime which is the average of its immediate pair
+of prime neighbors.
+
+This operator returns the nth balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
-[ 'balanced_prime_', 'double_balanced_prime', 'triple_balanced_prime', 'quadruple_balanced_prime' ] ],
+''' + makeCommandExample( '1 10 range balanced_prime' ) + '''
+''' + makeCommandExample( '100 balanced_prime' ),
+[ 'balanced_primes', 'double_balanced_prime', 'triple_balanced_prime', 'quadruple_balanced_prime' ] ],
 
-    'balanced_prime_' : [
+    'balanced_primes' : [
 'prime_numbers', 'calculates the nth set of balanced primes',
 '''
+A balanced prime is a prime which is the average of its immediate pair of prime
+neighbors.
+
+This operator prints the 3 prime numbers that make up the nth balanced prime and
+its pair of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
-[ 'balanced_prime', 'double_balanced_prime_', 'triple_balanced_prime_', 'quadruple_balanced_prime_' ] ],
+''' + makeCommandExample( '1 10 range balanced_primes -s1' ) + '''
+''' + makeCommandExample( '10 balanced_primes diffs' ),
+[ 'balanced_prime', 'double_balanced_primes', 'triple_balanced_primes', 'quadruple_balanced_primes' ] ],
 
     'cousin_prime' : [
 'prime_numbers', 'returns the nth cousin prime',
 '''
+Cousin primes are primes that are separated by 4.  The first of a pair of
+cousin primes must end with the digit 3, 7, or 9, because if a prime ends with
+a 1, then a number 4 great cannot be a prime, since it ends with 5.
+
+This operator returns the first member of the nth set of cousin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
-[ 'cousin_prime_', 'sexy_prime', 'octy_prime' ] ],
+''' + makeCommandExample( '1 5 range cousin_prime' ) + '''
+''' + makeCommandExample( '10000 cousin_prime' ),
+[ 'cousin_primes', 'sexy_prime', 'octy_prime' ] ],
 
-    'cousin_prime_' : [
+    'cousin_primes' : [
 'prime_numbers', 'returns the nth set of cousin primes',
 '''
+Cousin primes are primes that are separated by 4.  The first of a pair of
+cousin primes must end with the digit 3, 7, or 9, because if a prime ends with
+a 1, then a number 4 great cannot be a prime, since it ends with 5.
+
+This operator returns the boith members of the nth set of cousin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
-[ 'cousin_prime', 'sexy_prime_', 'octy_prime_' ] ],
+''' + makeCommandExample( '1 5 range cousin_primes -s1' ) + '''
+''' + makeCommandExample( '1000 cousin_primes' ),
+[ 'cousin_prime', 'sexy_primes', 'octy_primes' ] ],
 
     'double_balanced_prime' : [
 'prime_numbers', 'returns the nth double balanced prime',
 '''
-A double balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors and its third neighbors.
+A double balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, and its second pair of prime neighbors.
+
+This operator returns the nth double balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '5 double_balanced_prime' ) + '''
 ''' + makeCommandExample( '1 10 range double_balanced_prime' ),
-[ 'balanced_prime', 'double_balanced_prime_', 'triple_balanced_prime', 'quadruple_balanced_prime' ] ],
+[ 'balanced_prime', 'double_balanced_primes', 'triple_balanced_prime', 'quadruple_balanced_prime' ] ],
 
-    'double_balanced_prime_' : [
+    'double_balanced_primes' : [
 'prime_numbers', 'returns the nth double balanced prime and its neighbors',
 '''
-A double balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors.  This operator also returns the neighbors
-and second neighbors.
+A double balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, and its second pair of prime neighbors.
+
+This operator returns the nth double balanced prime.
+
+This operator prints the 5 prime numbers that make up the nth double balanced
+prime and its two nested pairs of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '10 double_balanced_prime' ) + '''
-''' + makeCommandExample( '10 double_balanced_prime_ diffs' ),
-[ 'balanced_prime_', 'double_balanced_prime', 'triple_balanced_prime_', 'quadruple_balanced_prime_' ] ],
+''' + makeCommandExample( '10 double_balanced_primes' ) + '''
+''' + makeCommandExample( '10 double_balanced_primes diffs' ),
+[ 'balanced_primes', 'double_balanced_prime', 'triple_balanced_primes', 'quadruple_balanced_primes' ] ],
 
     'isolated_prime' : [
 'prime_numbers', 'returns the nth isolated prime',
@@ -11316,8 +11351,9 @@ by more than 2.  An alternate definition is that an isolated prime is a prime
 that is not part of a twin prime pair.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
-and is distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range isolated_prime' ) + '''
@@ -11325,8 +11361,10 @@ and is distributed with data files calculated through several billion primes.
 [ 'balanced_prime' ] ],
 
     'next_prime' : [
-'prime_numbers', 'returns the next prime number greater than or equal to n',
+'prime_numbers', 'returns the smallest prime number greater than n',
 '''
+This operator returns the smallest prime number greater than n.
+
 This function does not require the use of the prime data files, so arbitrarily
 large values can be used.  Thanks to gmpy2, rpn can calculate the next prime
 for numbers of a thousand digits or more in relatively quickly.
@@ -11339,11 +11377,9 @@ Generate a random 200-digit prime:
 [ 'prime', 'primes', 'next_primes', 'previous_prime', 'previous_primes' ] ],
 
     'next_primes' : [
-'prime_numbers', 'returns the next k prime numbers greater than or equal to n',
+'prime_numbers', 'returns the next k smallest prime numbers greater than n',
 '''
-This function does not require the use of the prime data files, so arbitrarily
-large values can be used.  Thanks to gmpy2, rpn can calculate the next prime
-for numbers of a thousand digits or more in relatively quickly.
+This operator returns the next k prime numbers greater n.
 ''',
 '''
 ''' + makeCommandExample( '100 10 next_primes' ) + '''
@@ -11351,64 +11387,211 @@ for numbers of a thousand digits or more in relatively quickly.
 [ 'prime', 'primes', 'next_prime', 'previous_primes' ] ],
 
     'next_quadruplet_prime' : [
-'prime_numbers', 'finds the closest set of quadruplet primes above n',
+'prime_numbers', 'returns the first member of the smallest set of quadruplet primes above n',
 '''
+This operator returns the first member of the smallest set of quadruplet
+primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_quadruplet_prime' ) + '''
+''' + makeCommandExample( '1,000 next_quadruplet_prime' ) + '''
+''' + makeCommandExample( '10,000 next_quadruplet_prime' ) + '''
+''' + makeCommandExample( '100,000 next_quadruplet_prime' ),
+[ 'quadruplet_prime', 'nth_quadruplet_prime', 'quadruplet_primes', 'next_quadruplet_primes' ] ],
 
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+    'next_quadruplet_primes' : [
+'prime_numbers', 'returns the smallest set of quadruplet primes above n',
+'''
+This operator returns the smallest set of quadruplet primes greater than n.
 ''',
 '''
-''',
-[ 'quadruplet_prime', 'nth_quadruplet_prime', 'quadruplet_prime_' ] ],
+''' + makeCommandExample( '100 next_quadruplet_primes' ) + '''
+''' + makeCommandExample( '1,000 next_quadruplet_primes' ) + '''
+''' + makeCommandExample( '10,000 next_quadruplet_primes' ) + '''
+''' + makeCommandExample( '100,000 next_quadruplet_primes' ),
+[ 'quadruplet_prime', 'nth_quadruplet_prime', 'quadruplet_primes', 'next_quadruplet_prime' ] ],
 
     'next_quintuplet_prime' : [
-'prime_numbers', 'finds the closest set of quintuplet primes above n',
+'prime_numbers', 'returns the first member of the smallest set of quintuplet primes above n',
 '''
+This operator returns the first member of the smallest set of quintuplet
+primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_quintuplet_prime' ) + '''
+''' + makeCommandExample( '10,000 next_quintuplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_quintuplet_prime' ) + '''
+''' + makeCommandExample( '100,000,000 next_quintuplet_prime' ),
+[ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+    'next_quintuplet_primes' : [
+'prime_numbers', 'returns the the smallest set of quintuplet primes above n',
+'''
+This operator returns the smallest set of quintuplet primes greater than n.
 ''',
 '''
+''' + makeCommandExample( '100 next_quintuplet_primes' ) + '''
+''' + makeCommandExample( '10,000 next_quintuplet_primes' ) + '''
+''' + makeCommandExample( '1,000,000 next_quintuplet_primes' ) + '''
+''' + makeCommandExample( '100,000,000 next_quintuplet_primes' ),
+[ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
+
+    'next_triplet_prime' : [
+'prime_numbers', 'returns the next first member of the smallest set of triplet primes above n',
+'''
+This operator returns the first member of the smallest set of triplet primes
+greater than n.
 ''',
-[ 'quintuplet_prime_', 'quintuplet_prime', 'nth_quintuplet_prime' ] ],
+'''
+''' + makeCommandExample( '100 next_triplet_prime' ) + '''
+''' + makeCommandExample( '10,000 next_triplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_triplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000,000 next_triplet_prime' ),
+[ 'triplet_prime', 'nth_triplet_prime', 'triplet_primes' ] ],
+
+    'next_triplet_primes' : [
+'prime_numbers', 'returns the smallest set of triplet primes above n',
+'''
+This operator returns smallest set of triplet primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_triplet_primes' ) + '''
+''' + makeCommandExample( '10,000 next_triplet_primes' ) + '''
+''' + makeCommandExample( '1,000,000 next_triplet_primes' ) + '''
+''' + makeCommandExample( '100,000,000 next_triplet_primes' ),
+[ 'triplet_prime', 'nth_triplet_prime', 'triplet_primes' ] ],
+
+    'next_twin_prime' : [
+'prime_numbers', 'returns the first member of the smallest set of twin primes above n',
+'''
+This operator returns the first member of the smallest set of twin primes
+greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_twin_prime' ) + '''
+''' + makeCommandExample( '10,000 next_twin_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_twin_prime' ) + '''
+''' + makeCommandExample( '100,000,000 next_twin_prime' ),
+[ 'twin_prime', 'nth_twin_prime', 'twin_primes' ] ],
+
+    'next_twin_primes' : [
+'prime_numbers', 'returns the smallest set of twin primes above n',
+'''
+This operator returns the smallest set of twin primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_twin_primes' ) + '''
+''' + makeCommandExample( '1,000,000 next_twin_primes' ) + '''
+''' + makeCommandExample( '10,000,000 next_twin_primes' ) + '''
+''' + makeCommandExample( '100,000,000 next_twin_primes' ),
+[ 'twin_prime', 'nth_twin_prime', 'twin_primes' ] ],
 
     'nth_prime' : [
 'prime_numbers', 'finds the index of the closest prime less than or equal n',
 '''
+This operator returns the index of the prime number that is closest to, but not
+larger than n.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '100 nth_prime' ) + '''
+''' + makeCommandExample( '25 prime' ) + '''
+''' + makeCommandExample( '1000 nth_prime' ) + '''
+''' + makeCommandExample( '168 prime' ),
 [ 'prime', 'primes' ] ],
 
     'nth_quadruplet_prime' : [
-'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
+'prime_numbers', 'finds the index of the first of the closest quadruplet prime set greater than n',
 '''
+A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
+is the closest possible grouping of four primes larger than 3, and is the only
+prime constellation of length 4.
+
+This operator returns the index of the prime quadruplet whose first member is
+closest to, but not larger than n.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
-[ 'quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_prime_' ] ],
+''' + makeCommandExample( '100 nth_quadruplet_prime' ) + '''
+''' + makeCommandExample( '3 quadruplet_primes' ) + '''
+''' + makeCommandExample( '10000 nth_quadruplet_prime' ) + '''
+''' + makeCommandExample( '13 quadruplet_primes' ),
+[ 'quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
     'nth_quintuplet_prime' : [
-'prime_numbers', 'finds the index of the first of the closest quintuplet prime set over n',
+'prime_numbers', 'finds the index of the first of the closest quintuplet prime set greater than n',
 '''
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
+the five primes form a prime quintuplet which is the closest admissible
+constellation of five primes.   rpn considers the two kinds of quintuplets
+(ones with p-4 and ones with p+12) as equiivalent.
+
+This operator returns the index of the prime quintuplet whose first member is
+closest to, but not larger than n.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
+''' + makeCommandExample( '100 nth_quintuplet_prime' ) + '''
+''' + makeCommandExample( '5 quintuplet_primes' ) + '''
+''' + makeCommandExample( '10000 nth_quintuplet_prime' ) + '''
+''' + makeCommandExample( '11 quintuplet_primes' ) + '''
+''' + makeCommandExample( '85500 nth_quintuplet_prime' ) + '''
+''' + makeCommandExample( '60 quintuplet_primes' ),
+[ 'quintuplet_primes', 'quintuplet_prime', 'next_quintuplet_prime' ] ],
+
+    'nth_triplet_prime' : [
+'prime_numbers', 'finds the index of the first of the closest triplet prime set greater than n',
+'''
+A set of triplet primes are three prime numbers that are as close as they
+can be, either n, n + 2, n + 6, or n, n + 4, n + 6.
+
+This operator returns the index of the smallest triplet prime set whose first
+member is larger than n.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
-[ 'quintuplet_prime_', 'quintuplet_prime', 'next_quintuplet_prime' ] ],
+'''
+''' + makeCommandExample( '100 nth_triplet_prime' ) + '''
+''' + makeCommandExample( '10 triplet_primes' ) + '''
+''' + makeCommandExample( '10000 nth_triplet_prime' ) + '''
+''' + makeCommandExample( '113 triplet_primes' ),
+[ 'quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
+
+    'nth_twin_prime' : [
+'prime_numbers', 'finds the index of the first of the closest twin prime pair greater than n',
+'''
+Twin primes are prime numbers separated by 2.  The first twin prime pair
+consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
+
+This operator returns the index of the smallest twin prime pair whose first
+member is larger than n.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
+''',
+'''
+''' + makeCommandExample( '100 nth_twin_prime' ) + '''
+''' + makeCommandExample( '9 twin_primes' ) + '''
+''' + makeCommandExample( '10000 nth_twin_prime' ) + '''
+''' + makeCommandExample( '206 twin_primes' ),
+[ 'quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
     'octy_prime' : [
 'prime_numbers', 'returns the first of the nth set of octy primes',
@@ -11420,14 +11603,19 @@ prime.
 
 Even though there are sexy triplets and sexy quadruplets, octy triplets and
 octy quadruplets do not exist.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range octy_prime' ) + '''
 ''' + makeCommandExample( '5473 octy_prime' ) + '''
 ''' + makeCommandExample( '1000 1012 range octy_prime' ),
-[ 'octy_prime_', 'cousin_prime', 'sexy_prime' ] ],
+[ 'octy_primes', 'cousin_prime', 'sexy_prime' ] ],
 
-    'octy_prime_' : [
+    'octy_primes' : [
 'prime_numbers', 'returns the nth set of octy primes',
 '''
 Octy primes are defined to be a pair of numbers, n and n + 6, which are both
@@ -11435,33 +11623,46 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
 of the nth set of octy primes, which will differ by 6.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range octy_prime_' ) + '''
-''' + makeCommandExample( '2384 octy_prime_' ) + '''
-''' + makeCommandExample( '1001 1010 range octy_prime_' ),
-[ 'octy_prime', 'cousin_prime_', 'sexy_prime_' ] ],
+''' + makeCommandExample( '1 10 range octy_primes' ) + '''
+''' + makeCommandExample( '2384 octy_primes' ) + '''
+''' + makeCommandExample( '1001 1010 range octy_primes' ),
+[ 'octy_prime', 'cousin_primes', 'sexy_primes' ] ],
 
     'polyprime' : [
-'prime_numbers', 'returns the nth prime, recursively k times',
+'prime_numbers', 'returns the the kth superprime of the nth prime',
 '''
+This operator returns a prime number computed by taking the nth prime number
+(and returning that if k is 1) and then using that as the new index for a prime
+number, k - 1 more times.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 1 polyprime' ) + '''
+''' + makeCommandExample( '1 2 polyprime' ) + '''
+''' + makeCommandExample( '1 3 polyprime' ) + '''
+''' + makeCommandExample( '1 1 10 range polyprime' ) + '''
+''' + makeCommandExample( '3 6 polyprime' ) + '''
+''' + makeCommandExample( '5 5 polyprime' ) + '''
+''' + makeCommandExample( '4 12 polyprime -c' ),
 [ 'super_prime', 'prime' ] ],
 
     'previous_prime' : [
 'prime_numbers', 'returns the previous prime number less than n',
 '''
+This operator returns the largest prime less than n.
+
 This function does not require the use of the prime data files, so arbitrarily
 large values can be used.  Thanks to gmpy2, rpn can calculate the previous
-prime for numbers of a thousand digits or more in relatively quickly.
+prime for numbers of a thousand digits or more relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '10 previous_prime' ) + '''
@@ -11471,9 +11672,11 @@ prime for numbers of a thousand digits or more in relatively quickly.
     'previous_primes' : [
 'prime_numbers', 'returns the previous k prime numbers less than n',
 '''
+This operator returns the k largest primes less than n.
+
 This function does not require the use of the prime data files, so arbitrarily
 large values can be used.  Thanks to gmpy2, rpn can calculate the previous
-prime for numbers of a thousand digits or more in relatively quickly.
+prime for numbers of a thousand digits or more relatively quickly.
 ''',
 '''
 ''' + makeCommandExample( '100 10 previous_primes' ) + '''
@@ -11487,8 +11690,9 @@ Calculates the nth prime number.  For calculating ranges of primes, the
 'primes' operator is much faster.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1,000,000 prime' ) + '''
@@ -11496,13 +11700,15 @@ distributed with data files calculated through several billion primes.
 [ 'primes', 'prime_range', 'next_prime', 'previous_prime' ] ],
 
     'primes' : [
-'prime_numbers', 'generates a range of k primes starting from index n',
+'prime_numbers', 'generates a list of k primes starting from index n',
 '''
-This operator is much faster than using 'range' with 'prime'.
+This operator generates is list of k primes starting the nth prime.  This is
+much faster than using 'range' with 'prime'.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion pribmes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 20 primes' ) + '''
@@ -11529,8 +11735,9 @@ prime number data), and a range for larger values, which are estimated.
 This operator is much faster than using 'range' with 'prime'.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion pribmes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 21 prime_range' ) + '''
@@ -11541,80 +11748,114 @@ distributed with data files calculated through several billion pribmes.
     'quadruple_balanced_prime' : [
 'prime_numbers', 'returns the nth quadruple balanced prime',
 '''
-A quadruple balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors and its third neighbors.
+A quadruple balanced prime is a prime which is the average of its immediate
+pair of prime neighbors, and its second, third and fourth pairs of prime
+neighbors.
+
+This operator returns the nth quadruple balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range quadruple_balanced_prime' ) + '''
 ''' + makeCommandExample( '2 quadruple_balanced_prime' ),
-[ 'balanced_prime', 'double_balanced_prime', 'triple_balanced_prime', 'quadruple_balanced_prime_' ] ],
+[ 'balanced_prime', 'double_balanced_prime', 'triple_balanced_prime', 'quadruple_balanced_primes' ] ],
 
-    'quadruple_balanced_prime_' : [
+    'quadruple_balanced_primes' : [
 'prime_numbers', 'returns the nth quadruple balanced prime and its neighbors',
 '''
-A quadruple balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors and its third neighbors.  This operator also
-returns the neighbors, second neighbors, and third neighbors.
+A quadruple balanced prime is a prime which is the average of its immediate
+pair of prime neighbors, and its second, third and fourth pairs of prime
+neighbors.
+
+This operator prints the 9 prime numbers that make up the nth quadruple
+balanced prime and its four nested pairs of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '3 quadruple_balanced_prime_' ) + '''
-''' + makeCommandExample( '3 quadruple_balanced_prime_ diffs' ),
-[ 'balanced_prime_', 'double_balanced_prime_', 'triple_balanced_prime_', 'quadruple_balanced_prime' ] ],
+''' + makeCommandExample( '3 quadruple_balanced_primes' ) + '''
+''' + makeCommandExample( '3 quadruple_balanced_primes diffs' ),
+[ 'balanced_primes', 'double_balanced_primes', 'triple_balanced_primes', 'quadruple_balanced_prime' ] ],
 
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
 '''
+A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
+is the closest possible grouping of four primes larger than 3, and is the only
+prime constellation of length 4.
+
+This operator returns the first member of the nth prime quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range quadruplet_prime' ),
-[ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_prime_' ] ],
+[ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
-    'quadruplet_prime_' : [
+    'quadruplet_primes' : [
 'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
+A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
+is the closest possible grouping of four primes larger than 3, and is the only
+prime constellation of length 4.
+
+This operator returns a list containing the four members of the nth prime
+quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range quadruplet_prime_ -s1' ),
-[ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_prime_' ] ],
+''' + makeCommandExample( '1 10 range quadruplet_primes -s1' ),
+[ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
     'quintuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quintruplet primes',
 '''
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
+the five primes form a prime quintuplet which is the closest admissible
+constellation of five primes.   rpn considers the two kinds of quintuplets
+(ones with p-4 and ones with p+12) as equiivalent.  This operator returns the
+a first of the 5 primes that make up the nth prime quintuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range quintuplet_prime' ),
-[ 'quintuplet_prime_', 'next_quintuplet_prime', 'nth_quintuplet_prime' ] ],
+[ 'quintuplet_primes', 'next_quintuplet_prime', 'nth_quintuplet_prime' ] ],
 
-    'quintuplet_prime_' : [
+    'quintuplet_primes' : [
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
+the five primes form a prime quintuplet.  rpn considers the two kinds of
+quintuplets (ones with p-4 and ones with p+12) as equivalent.
+
+This operator returns the a list of the five primes that make up the nth prime
+quintuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range quintuplet_prime_ -s1' ),
+''' + makeCommandExample( '1 10 range quintuplet_primes -s1' ),
 [ 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_prime' ] ],
 
     'safe_prime' : [
@@ -11624,8 +11865,9 @@ A safe prime is a prime number p such that ( p - 1 ) / 2 is also prime.  The
 number ( p - 1 ) / 2 is a Sophie Germain prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range safe_prime' ) + '''
@@ -11637,26 +11879,38 @@ distributed with data files calculated through several billion primes.
     'sextuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
 '''
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 and p+12 are both also prime,
+then the six primes are a prime sextuplet.
+
+This operator returns the first of the six primes that make up the nth prime
+sextuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sextuplet_prime' ) + '''
 ''' + makeCommandExample( '2939 sextuplet_prime' ),
-[ 'sextuplet_prime_' ] ],
+[ 'sextuplet_primes' ] ],
 
-    'sextuplet_prime_' : [
+    'sextuplet_primes' : [
 'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 and p+12 are both also prime,
+then the six primes are a prime sextuplet.
+
+This operator returns the a list of the six primes that make up the nth prime
+sextuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range sextuplet_prime_ -s1' ) + '''
+''' + makeCommandExample( '1 10 range sextuplet_primes -s1' ) + '''
 ''' + makeCommandExample( '387 sextuplet_prime' ),
 [ 'sextuplet_prime' ] ],
 
@@ -11666,14 +11920,19 @@ distributed with data files calculated through several billion primes.
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
 nth set of sexy primes, so the value of the result + 6 will also be prime.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sexy_prime' ) + '''
 ''' + makeCommandExample( '16387 sexy_prime' ) + '''
 ''' + makeCommandExample( '10000 10010 range sexy_prime' ),
-[ 'sexy_prime_', 'sexy_triplet', 'sexy_quadruplet' ] ],
+[ 'sexy_primes', 'sexy_triplet', 'sexy_quadruplet' ] ],
 
-    'sexy_prime_' : [
+    'sexy_primes' : [
 'prime_numbers', 'returns the nth set of sexy primes',
 '''
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
@@ -11681,68 +11940,97 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
 of the nth set of sexy primes, which will differ by 6.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range sexy_prime_' ) + '''
-''' + makeCommandExample( '819 sexy_prime_' ) + '''
-''' + makeCommandExample( '1001 1010 range sexy_prime_' ),
-[ 'sexy_prime', 'sexy_triplet_', 'sexy_quadruplet_' ] ],
+''' + makeCommandExample( '1 10 range sexy_primes' ) + '''
+''' + makeCommandExample( '819 sexy_primes' ) + '''
+''' + makeCommandExample( '1001 1010 range sexy_primes' ),
+[ 'sexy_prime', 'sexy_triplets', 'sexy_quadruplets' ] ],
 
     'sexy_triplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  If n + 12 is also prime, then this
+forms a "sexy triplet".
+
+This operator returns the first of the three primes that form the nth sexy
+triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sexy_triplet' ) + '''
 ''' + makeCommandExample( '294785 sexy_triplet' ),
-[ 'sexy_prime', 'sexy_triplet_', 'sexy_quadruplet' ] ],
+[ 'sexy_prime', 'sexy_triplets', 'sexy_quadruplet' ] ],
 
-    'sexy_triplet_' : [
+    'sexy_triplets' : [
 'prime_numbers', 'returns the nth set of sexy triplet primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  If n + 12 is also prime, then this
+forms a "sexy triplet".
+
+This operator returns a list of the three primes that form the nth sexy
+triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range sexy_triplet_ -s1' ) + '''
-''' + makeCommandExample( '283751 sexy_triplet_' ) + '''
-''' + makeCommandExample( '8845 sexy_triplet_ is_prime and_all' ),
-[ 'sexy_prime', 'sexy_triplet', 'sexy_quadruplet_' ] ],
+''' + makeCommandExample( '1 10 range sexy_triplets -s1' ) + '''
+''' + makeCommandExample( '283751 sexy_triplets' ) + '''
+''' + makeCommandExample( '8845 sexy_triplets is_prime and_all' ),
+[ 'sexy_prime', 'sexy_triplet', 'sexy_quadruplets' ] ],
 
     'sexy_quadruplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  If n + 12 and n + 18 are also both
+prime, then this forms a "sexy quadruplet".
+
+This operator returns the first of the four primes that form the nth sexy
+quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sexy_quadruplet' ) + '''
 ''' + makeCommandExample( '751 sexy_quadruplet' ),
-[ 'sexy_quadruplet_', 'sexy_prime', 'sexy_triplet' ] ],
+[ 'sexy_quadruplets', 'sexy_prime', 'sexy_triplet' ] ],
 
-    'sexy_quadruplet_' : [
+    'sexy_quadruplets' : [
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  If n + 12 and n + 18 are also both
+prime, then this forms a "sexy quadruplet".
+
+This operator returns a list of the four primes that form the nth sexy
+quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range sexy_quadruplet_ -s1' ) + '''
-''' + makeCommandExample( '2337 sexy_quadruplet_' ) + '''
-''' + makeCommandExample( '6465 sexy_quadruplet_ is_prime and_all' ),
-[ 'sexy_quadruplet', 'sexy_prime_', 'sexy_triplet_' ] ],
+''' + makeCommandExample( '1 10 range sexy_quadruplets -s1' ) + '''
+''' + makeCommandExample( '2337 sexy_quadruplets' ) + '''
+''' + makeCommandExample( '6465 sexy_quadruplets is_prime and_all' ),
+[ 'sexy_quadruplet', 'sexy_primes', 'sexy_triplets' ] ],
 
     'sophie_prime' : [
 'prime_numbers', 'returns the nth Sophie Germain prime',
@@ -11751,8 +12039,9 @@ A Sophie Germain prime is a prime number p such that 2p + 1 is also prime.  The
 number 2p + 1 is a safe prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sophie_prime' ) + '''
@@ -11764,7 +12053,14 @@ distributed with data files calculated through several billion primes.
     'super_prime' : [
 'prime_numbers', 'returns the nth super prime (the nth primeth prime)',
 '''
+This operator returns the mth prime where m is the nth prime.
+
 This is equivalent to 'n 2 polyprime'.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range super_prime' ) + '''
@@ -11775,65 +12071,77 @@ This is equivalent to 'n 2 polyprime'.
     'triple_balanced_prime' : [
 'prime_numbers', 'returns the nth triple balanced prime',
 '''
-A triple balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors and its third neighbors.
+A triple balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, its second pair of prime neighbors and its third pair of
+prime neighbors.
+
+This operator returns the nth triple balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range triple_balanced_prime' ) + '''
 ''' + makeCommandExample( '2 triple_balanced_prime' ),
-[ 'balanced_prime', 'double_balanced_prime', 'triple_balanced_prime_', 'quadruple_balanced_prime' ] ],
+[ 'balanced_prime', 'double_balanced_prime', 'triple_balanced_primes', 'quadruple_balanced_prime' ] ],
 
-    'triple_balanced_prime_' : [
+    'triple_balanced_primes' : [
 'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
 '''
-A triple balanced prime is a primes which is the average of its immediate
-neighbors, its second neighbors and its third neighbors.  This operator also
-returns the neighbors, second neighbors, and third neighbors.
+A triple balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, its second pair of prime neighbors and its third pair of
+prime neighbors.
+
+This operator prints the 7 prime numbers that make up the nth triple balanced
+prime and its three nested pairs of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '3 triple_balanced_prime_' ) + '''
-''' + makeCommandExample( '3 triple_balanced_prime_ diffs' ),
-[ 'balanced_prime_', 'double_balanced_prime_', 'triple_balanced_prime', 'quadruple_balanced_prime_' ] ],
+''' + makeCommandExample( '3 triple_balanced_primes' ) + '''
+''' + makeCommandExample( '3 triple_balanced_primes diffs' ),
+[ 'balanced_primes', 'double_balanced_primes', 'triple_balanced_prime', 'quadruple_balanced_primes' ] ],
 
     'triplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',
 '''
 A set of triplet primes are three prime numbers that are as close as they
-can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
-only the first prime of the triplet.
+can be, either n, n + 2, n + 6, or n, n + 4, n + 6.
+
+This operator returns the first of the three primes in the nth prime triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1231 triplet_prime' ) + '''
 ''' + makeCommandExample( '1 10 range triplet_prime' ),
-[ 'twin_prime', 'triplet_prime_', 'quadruplet_prime', 'quintuplet_prime' ] ],
+[ 'twin_prime', 'triplet_primes', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
-    'triplet_prime_' : [
+    'triplet_primes' : [
 'prime_numbers', 'returns the nth set of triplet primes',
 '''
 A set of triplet primes are three prime numbers that are as close as they
-can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
-a list of the three primes in the triplet.
+can be, either n, n + 2, n + 6, or n, n + 4, n + 6.
+
+This operator returns a list of the three primes in the nth prime triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1231 triplet_prime_' ) + '''
-''' + makeCommandExample( '1 10 range triplet_prime_ -s1' ),
-[ 'twin_prime_', 'triplet_prime', 'quadruplet_prime_', 'quintuplet_prime_' ] ],
+''' + makeCommandExample( '1231 triplet_primes' ) + '''
+''' + makeCommandExample( '1 10 range triplet_primes -s1' ),
+[ 'twin_primes', 'triplet_prime', 'quadruplet_primes', 'quintuplet_primes' ] ],
 
     'twin_prime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
@@ -11841,31 +12149,39 @@ distributed with data files calculated through several billion primes.
 Twin primes are prime numbers separated by 2.  The first twin prime pair
 consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
 
+This operator returns the first of the two primes that make up the nth twin
+prime pair.
+
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range twin_prime' ) + '''
 ''' + makeCommandExample( '85749 twin_prime' ),
-[ 'twin_prime_', 'triplet_prime', 'quadruplet_prime', 'quintuplet_prime' ] ],
+[ 'twin_primes', 'triplet_prime', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
-    'twin_prime_' : [
+    'twin_primes' : [
 'prime_numbers', 'returns the nth set of twin primes',
 '''
 Twin primes are prime numbers separated by 2.  The first twin prime pair
 consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
 
+This operator returns a list of the two priems that make up the nth twin
+prime pair.
+
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range twin_prime_' ) + '''
-''' + makeCommandExample( '157 twin_prime_' ) + '''
+''' + makeCommandExample( '1 10 range twin_primes' ) + '''
+''' + makeCommandExample( '157 twin_primes' ) + '''
 An _extremely_ crude estimation of Brun's twin prime constant:
-''' + makeCommandExample( '1 100 range twin_primes_ 1/x sum sum', indent=4 ),
-[ 'twin_prime', 'triplet_prime_', 'quadruplet_prime_', 'quintuplet_prime_' ] ],
+''' + makeCommandExample( '1 100 range twin_primes 1/x sum sum', indent=4 ),
+[ 'twin_prime', 'triplet_primes', 'quadruplet_primes', 'quintuplet_primes' ] ],
 
 
     #******************************************************************************
@@ -12064,7 +12380,10 @@ This operator deletes the entry for n in the configuration file.
     'dimensions' : [
 'special', 'returns the unit dimensions for a measurement',
 '''
-Currently, this is only for informational purposes.
+This operator returns the unit dimensions for a measurement.
+
+Currently, this is only for informational purposes.  There's nothing in
+rpn that can use this output.
 ''',
 '''
 ''' + makeCommandExample( '60 mph dimensions' ) + '''
@@ -12076,8 +12395,15 @@ Currently, this is only for informational purposes.
     'dump_config' : [
 'special', 'dumps all configuration settings',
 '''
+Tis operator dumps the user-defined configuration settings.
 ''',
 '''
+c:\\>rpn dump_config
+yafu_binary: "yafu-x64-mingw-r388-sse41.exe"
+yafu_path: "c:\app\yafu"
+old_yafu_binary: "yafu-x64.exe"
+
+3
 ''',
 [ 'delete_config', 'get_config', 'set_config' ] ],
 
@@ -12398,9 +12724,9 @@ not reproducible.
 ''' + makeCommandExample( '10 random_integer' ) + '''
 ''' + makeCommandExample( '1000 random_integer' ) + '''
 ''' + makeCommandExample( '1000000 random_integer' ),
-[ 'random', 'random_', 'random_integer_' ] ],
+[ 'random', 'random_', 'random_integers' ] ],
 
-    'random_integer_' : [
+    'random_integers' : [
 'special', 'returns a list of k random integers from 0 to n - 1',
 '''
 This operator returns a series of k random integers in the range of 0 to
@@ -12410,11 +12736,11 @@ rpn is automatically seeded every time it runs, so random number streams are
 not reproducible.
 ''',
 '''
-''' + makeCommandExample( '10 10 random_integer_' ) + '''
-''' + makeCommandExample( '1000 5 random_integer_' ) + '''
-''' + makeCommandExample( '1 billion 4 random_integer_' ) + '''
+''' + makeCommandExample( '10 10 random_integers' ) + '''
+''' + makeCommandExample( '1000 5 random_integers' ) + '''
+''' + makeCommandExample( '1 billion 4 random_integers' ) + '''
 Test the birthday paradox:
-''' + makeCommandExample( '365 23 random_integer_ sort', indent=4 ) + '''
+''' + makeCommandExample( '365 23 random_integers sort', indent=4 ) + '''
 You will see a duplicate approximately 50% of the time.  Since this command
 is run when the help file is generated, you may or may not see a duplicate
 here, but the exact odds of seeing a duplicate can be computed:
@@ -12432,7 +12758,7 @@ in rpn.
 ''' + makeCommandExample( 'random' ) + '''
 ''' + makeCommandExample( '-a20 random' ) + '''
 ''' + makeCommandExample( 'random 1000000 *' ),
-[ 'random_', 'random_integer', 'random_integer_' ] ],
+[ 'random_', 'random_integer', 'random_integers' ] ],
 
     'random_' : [
 'special', 'returns a list of n random values from 0 to 1',
@@ -12444,7 +12770,7 @@ precision set in rpn.
 '''
 ''' + makeCommandExample( '5 random_' ) + '''
 ''' + makeCommandExample( '1000 random_ mean' ),
-[ 'random', 'random_integer', 'random_integer_' ] ],
+[ 'random', 'random_integer', 'random_integers' ] ],
 
     'result' : [
 'special', 'loads the result from the previous invokation of rpn',

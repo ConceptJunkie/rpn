@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 #******************************************************************************
 #
@@ -603,6 +603,10 @@ def findQuadrupletPrimeOperator( n ):
 
 @oneArgFunctionEvaluator( )
 def getNextQuadrupletPrime( n ):
+    return findQuadrupletPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextQuadrupletPrimes( n ):
     return findQuadrupletPrimes( n )[ 1 ]
 
 
@@ -1733,8 +1737,150 @@ def findQuintupletPrimeOperator( n ):
 
 @oneArgFunctionEvaluator( )
 def getNextQuintupletPrime( n ):
+    return findQuintupletPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextQuintupletPrimes( n ):
     return findQuintupletPrimes( n )[ 1 ]
 
+
+#******************************************************************************
+#
+#  findSextupletPrimes
+#
+#******************************************************************************
+
+def findSextupletPrimes( arg ):
+    n = int( validateRealInt( arg ) )
+
+    if n < 7:
+        return 1, [ 7, 11, 13, 17, 19, 23 ]
+    elif n < 97:
+        return 2, [ 97, 101, 103, 107, 109, 113 ]
+
+    if g.primeDataAvailable:
+        openPrimeCache( 'sext_primes' )
+
+        currentIndex, p = g.cursors[ 'sext_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+    else:
+        currentIndex = 3
+        p = 16057
+
+    while True:
+        p += 210
+
+        if isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and \
+           isPrime( p + 12 ) and isPrime( p + 16 ):
+            currentIndex += 1
+
+            if p > n:
+                return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ), fadd( p, 16 ) ]
+
+@oneArgFunctionEvaluator( )
+def findSextupletPrimeOperator( n ):
+    return findSextupletPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextSextupletPrime( n ):
+    return findSextupletPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextSextupletPrimes( n ):
+    return findSextupletPrimes( n )[ 1 ]
+
+
+#******************************************************************************
+#
+#  findTripletPrimes
+#
+#******************************************************************************
+
+def findTripletPrimes( arg ):
+    n = int( validateRealInt( arg ) )
+
+    if n < 5:
+        return 1, [ 5, 7, 11 ]
+
+    if g.primeDataAvailable:
+        openPrimeCache( 'triplet_primes' )
+
+        currentIndex, p = g.cursors[ 'triplet_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+    else:
+        currentIndex = 2
+        p = 7
+
+    while True:
+        p = getNextPrime( p )
+
+        if isPrime( p + 6 ):
+            if isPrime( p + 2 ):
+                currentIndex += 1
+
+                if p > n:
+                    return currentIndex, [ p, fadd( p, 2 ), fadd( p, 6 ) ]
+            elif isPrime( p + 4 ):
+                currentIndex += 1
+
+                if p > n:
+                    return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ) ]
+
+@oneArgFunctionEvaluator( )
+def findTripletPrimeOperator( n ):
+    return findTripletPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextTripletPrime( n ):
+    return findTripletPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextTripletPrimes( n ):
+    return findTripletPrimes( n )[ 1 ]
+
+
+
+#******************************************************************************
+#
+#  findTwinPrimes
+#
+#******************************************************************************
+
+def findTwinPrimes( arg ):
+    n = int( validateRealInt( arg ) )
+
+    if n < 5:
+        return 1, [ 3, 5 ]
+
+    if g.primeDataAvailable:
+        openPrimeCache( 'twin_primes' )
+
+        currentIndex, p = g.cursors[ 'twin_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+    else:
+        currentIndex = 2
+        p = 5
+
+    while True:
+        p = getNextPrime( p )
+
+        if isPrime( p + 2 ):
+            currentIndex += 1
+
+            if p > n:
+                return currentIndex, [ p, fadd( p, 2 ) ]
+
+@oneArgFunctionEvaluator( )
+def findTwinPrimeOperator( n ):
+    return findTwinPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextTwinPrime( n ):
+    return findTwinPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextTwinPrimes( n ):
+    return findTwinPrimes( n )[ 1 ]
 
 
 #******************************************************************************
@@ -1781,6 +1927,18 @@ def getNthSextupletPrime( arg ):
             n -= 1
 
     return p
+
+@oneArgFunctionEvaluator( )
+def findSextupletPrimeOperator( n ):
+    return findSextupletPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextSextupletPrime( n ):
+    return findSextupletPrimes( n )[ 1 ][ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextSextupletPrimes( n ):
+    return findSextupletPrimes( n )[ 1 ]
 
 
 #******************************************************************************

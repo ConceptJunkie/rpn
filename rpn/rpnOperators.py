@@ -260,9 +260,12 @@ from rpn.rpnPolytope import findCenteredDecagonalNumber, findCenteredHeptagonalN
                             getNthTetrahedralNumber, getNthTruncatedTetrahedralNumber, getNthTriangularNumber
 
 from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
-                              findQuintupletPrimeOperator, getMaxPrime, getNextPrimeOperator, getNextPrimesOperator, \
-                              getNextQuadrupletPrime, getNextQuintupletPrime, getNthBalancedPrime, \
-                              getNthBalancedPrimeList, getNthCousinPrime, getNthCousinPrimeList, \
+                              findQuintupletPrimeOperator, findTripletPrimeOperator, findTwinPrimeOperator, \
+                              getMaxPrime, getNextPrimeOperator, getNextPrimesOperator, getNextQuadrupletPrime, \
+                              getNextQuadrupletPrimes, getNextQuintupletPrime, getNextQuintupletPrimes, \
+                              getNextSextupletPrime, getNextSextupletPrimes, getNextTripletPrime, \
+                              getNextTripletPrimes, getNextTwinPrime, getNextTwinPrimes, getNthBalancedPrime, \
+                              getNthBalancedPrimeList,getNthCousinPrime, getNthCousinPrimeList, \
                               getNthDoubleBalancedPrime, getNthDoubleBalancedPrimeList, getNthIsolatedPrime, \
                               getNthOctyPrime, getNthOctyPrimeList, getNthPolyPrime, getNthPrime, getNthPrimorial, \
                               getNthQuadrupleBalancedPrime, getNthQuadrupleBalancedPrimeList, getNthQuadrupletPrime, \
@@ -4474,19 +4477,19 @@ operators = {
     'balanced_prime'                : RPNOperator( getNthBalancedPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'balanced_prime_'               : RPNOperator( getNthBalancedPrimeList,
+    'balanced_primes'               : RPNOperator( getNthBalancedPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'cousin_prime'                  : RPNOperator( getNthCousinPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'cousin_prime_'                 : RPNOperator( getNthCousinPrimeList,
+    'cousin_primes'                 : RPNOperator( getNthCousinPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'double_balanced_prime'         : RPNOperator( getNthDoubleBalancedPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'double_balanced_prime_'        : RPNOperator( getNthDoubleBalancedPrimeList,
+    'double_balanced_primes'        : RPNOperator( getNthDoubleBalancedPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'isolated_prime'                : RPNOperator( getNthIsolatedPrime,
@@ -4501,7 +4504,31 @@ operators = {
     'next_quadruplet_prime'         : RPNOperator( getNextQuadrupletPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'next_quadruplet_primes'        : RPNOperator( getNextQuadrupletPrimes,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
     'next_quintuplet_prime'         : RPNOperator( getNextQuintupletPrime,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_quintuplet_primes'        : RPNOperator( getNextQuintupletPrimes,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_sextuplet_prime'          : RPNOperator( getNextSextupletPrime,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_sextuplet_primes'         : RPNOperator( getNextSextupletPrimes,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_triplet_prime'            : RPNOperator( getNextTripletPrime,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_triplet_primes'           : RPNOperator( getNextTripletPrimes,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_twin_prime'               : RPNOperator( getNextTwinPrime,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'next_twin_primes'              : RPNOperator( getNextTwinPrimes,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_prime'                     : RPNOperator( findPrimeOperator,
@@ -4513,10 +4540,16 @@ operators = {
     'nth_quintuplet_prime'          : RPNOperator( findQuintupletPrimeOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'nth_triplet_prime'             : RPNOperator( findTripletPrimeOperator,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_twin_prime'                : RPNOperator( findTwinPrimeOperator,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
     'octy_prime'                    : RPNOperator( getNthOctyPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'octy_prime_'                   : RPNOperator( getNthOctyPrimeList,
+    'octy_primes'                   : RPNOperator( getNthOctyPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'polyprime'                     : RPNOperator( getNthPolyPrime,
@@ -4543,19 +4576,19 @@ operators = {
     'quadruplet_prime'              : RPNOperator( getNthQuadrupletPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'quadruplet_prime_'             : RPNOperator( getNthQuadrupletPrimeList,
+    'quadruplet_primes'             : RPNOperator( getNthQuadrupletPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'quadruple_balanced_prime'      : RPNOperator( getNthQuadrupleBalancedPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'quadruple_balanced_prime_'     : RPNOperator( getNthQuadrupleBalancedPrimeList,
+    'quadruple_balanced_primes'     : RPNOperator( getNthQuadrupleBalancedPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'quintuplet_prime'              : RPNOperator( getNthQuintupletPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'quintuplet_prime_'             : RPNOperator( getNthQuintupletPrimeList,
+    'quintuplet_primes'             : RPNOperator( getNthQuintupletPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'safe_prime'                    : RPNOperator( getSafePrime,
@@ -4564,25 +4597,25 @@ operators = {
     'sextuplet_prime'               : RPNOperator( getNthSextupletPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'sextuplet_prime_'              : RPNOperator( getNthSextupletPrimeList,
+    'sextuplet_primes'              : RPNOperator( getNthSextupletPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'sexy_prime'                    : RPNOperator( getNthSexyPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'sexy_prime_'                   : RPNOperator( getNthSexyPrimeList,
+    'sexy_primes'                   : RPNOperator( getNthSexyPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'sexy_quadruplet'               : RPNOperator( getNthSexyQuadruplet,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'sexy_quadruplet_'              : RPNOperator( getNthSexyQuadrupletList,
+    'sexy_quadruplets'              : RPNOperator( getNthSexyQuadrupletList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'sexy_triplet'                  : RPNOperator( getNthSexyTriplet,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'sexy_triplet_'                 : RPNOperator( getNthSexyTripletList,
+    'sexy_triplets'                 : RPNOperator( getNthSexyTripletList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'sophie_prime'                  : RPNOperator( getNthSophiePrime,
@@ -4594,19 +4627,19 @@ operators = {
     'triplet_prime'                 : RPNOperator( getNthTripletPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'triplet_prime_'                : RPNOperator( getNthTripletPrimeList,
+    'triplet_primes'                : RPNOperator( getNthTripletPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'triple_balanced_prime'         : RPNOperator( getNthTripleBalancedPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'triple_balanced_prime_'        : RPNOperator( getNthTripleBalancedPrimeList,
+    'triple_balanced_primes'        : RPNOperator( getNthTripleBalancedPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'twin_prime'                    : RPNOperator( getNthTwinPrime,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'twin_prime_'                   : RPNOperator( getNthTwinPrimeList,
+    'twin_primes'                   : RPNOperator( getNthTwinPrimeList,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     # settings
@@ -4738,7 +4771,7 @@ operators = {
     'random_integer'                : RPNOperator( getRandomInteger,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
-    'random_integer_'               : RPNOperator( getRandomIntegersGenerator,
+    'random_integers'               : RPNOperator( getRandomIntegersGenerator,
                                                    2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
 
     'result'                        : RPNOperator( loadResult,
