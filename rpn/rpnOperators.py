@@ -160,14 +160,14 @@ from rpn.rpnMath import addOperator, calculateHypotenuse, calculateNthHyperopera
                         getImaginary, getLambertW, getLarger, getLI, getLog, getLog10, getLog2, getLogXY, \
                         getMantissa, getMaximum, getMinimum, getModulo, getNearestInt, getNegative, getPolyexp, \
                         getPolylog, getPowerOperator, getReal, getReciprocal, getRootOperator, getSign, getSmaller, \
-                        getSquareRoot, getSquareSuperRoot, getSuperRoot, getValue, acosOperator, acotOperator, \
-                        acothOperator, acoshOperator, acscOperator, acschOperator, asecOperator, asechOperator, \
-                        asinOperator, asinhOperator, atanOperator, atanhOperator, cotOperator, cothOperator, \
-                        cscOperator, cschOperator, cosOperator, coshOperator, secOperator, sechOperator, sinOperator, \
-                        sinhOperator, tanOperator, tanhOperator, increment, isDivisibleOperator, isEqual, isEven, \
-                        isGreater, isKthPower, isLess, isNotEqual, isNotGreater, isNotLess, isNotZero, isOdd, \
-                        isPower, isSquare, isZero, multiplyOperator, roundByDigits, roundByValueOperator, roundOff, \
-                        square, subtractOperator, tetrate, tetrateRight
+                        getSquareRoot, getSquareSuperRoot, getSuperRoot, getSuperRoots, getValue, acosOperator, \
+                        acotOperator, acothOperator, acoshOperator, acscOperator, acschOperator, asecOperator, \
+                        asechOperator, asinOperator, asinhOperator, atanOperator, atanhOperator, cotOperator, \
+                        cothOperator, cscOperator, cschOperator, cosOperator, coshOperator, secOperator, \
+                        sechOperator, sinOperator, sinhOperator, tanOperator, tanhOperator, increment, \
+                        isDivisibleOperator, isEqual, isEven, isGreater, isKthPower, isLess, isNotEqual, \
+                        isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, isZero, multiplyOperator, \
+                        roundByDigits, roundByValueOperator, roundOff, square, subtractOperator, tetrate, tetrateRight
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
                                convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
@@ -260,12 +260,12 @@ from rpn.rpnPolytope import findCenteredDecagonalNumber, findCenteredHeptagonalN
                             getNthTetrahedralNumber, getNthTruncatedTetrahedralNumber, getNthTriangularNumber
 
 from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
-                              findQuintupletPrimeOperator, findTripletPrimeOperator, findTwinPrimeOperator, \
-                              getMaxPrime, getNextPrimeOperator, getNextPrimesOperator, getNextQuadrupletPrime, \
-                              getNextQuadrupletPrimes, getNextQuintupletPrime, getNextQuintupletPrimes, \
-                              getNextSextupletPrime, getNextSextupletPrimes, getNextTripletPrime, \
-                              getNextTripletPrimes, getNextTwinPrime, getNextTwinPrimes, getNthBalancedPrime, \
-                              getNthBalancedPrimeList,getNthCousinPrime, getNthCousinPrimeList, \
+                              findQuintupletPrimeOperator, findSextupletPrimeOperator, findTripletPrimeOperator, \
+                              findTwinPrimeOperator, getMaxPrime, getNextPrimeOperator, getNextPrimesOperator, \
+                              getNextQuadrupletPrime, getNextQuadrupletPrimes, getNextQuintupletPrime, \
+                              getNextQuintupletPrimes, getNextSextupletPrime, getNextSextupletPrimes, \
+                              getNextTripletPrime, getNextTripletPrimes, getNextTwinPrime, getNextTwinPrimes, \
+                              getNthBalancedPrime, getNthBalancedPrimeList,getNthCousinPrime, getNthCousinPrimeList, \
                               getNthDoubleBalancedPrime, getNthDoubleBalancedPrimeList, getNthIsolatedPrime, \
                               getNthOctyPrime, getNthOctyPrimeList, getNthPolyPrime, getNthPrime, getNthPrimorial, \
                               getNthQuadrupleBalancedPrime, getNthQuadrupleBalancedPrimeList, getNthQuadrupletPrime, \
@@ -4464,8 +4464,8 @@ operators = {
     'super_root'                    : RPNOperator( getSuperRoot,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
-    #'super_roots'                   : RPNOperator( getSuperRoots,
-    #                                               2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
+    'super_roots'                   : RPNOperator( getSuperRoots,
+                                                   2, [ RPNArgumentType.Default, RPNArgumentType.NonnegativeInteger ], [ ] ),
 
     'tetrate'                       : RPNOperator( tetrate,
                                                    2, [ RPNArgumentType.Default, RPNArgumentType.Real ], [ ] ),
@@ -4538,6 +4538,9 @@ operators = {
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_quintuplet_prime'          : RPNOperator( findQuintupletPrimeOperator,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_sextuplet_prime'           : RPNOperator( findSextupletPrimeOperator,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_triplet_prime'             : RPNOperator( findTripletPrimeOperator,
@@ -4791,9 +4794,6 @@ operators = {
 
     'set_variable'                  : RPNOperator( setUserVariable,
                                                    2, [ RPNArgumentType.String, RPNArgumentType.String ], [ ] ),
-
-    'topic'                         : RPNOperator( printHelpTopic,
-                                                   1, [ RPNArgumentType.String ], [ ] ),
 
     #'topics' doesn't need to be handled here, see rpn.py, search for 'topics'
 

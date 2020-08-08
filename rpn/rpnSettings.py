@@ -16,6 +16,8 @@ from mpmath import mp
 
 import rpn.rpnGlobals as g
 
+from rpn.rpnUtils import oneArgFunctionEvaluator
+
 
 #******************************************************************************
 #
@@ -23,6 +25,7 @@ import rpn.rpnGlobals as g
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setAccuracy( n ):
     if n == -1:
         g.outputAccuracy = g.defaultOutputAccuracy
@@ -41,6 +44,7 @@ def setAccuracy( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setPrecision( n ):
     if n == -1:
         mp.dps = g.defaultPrecision
@@ -59,6 +63,7 @@ def setPrecision( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setComma( n ):
     if n == 1:
         g.comma = True
@@ -74,6 +79,7 @@ def setComma( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setTimer( n ):
     if n == 1:
         g.timer = True
@@ -89,6 +95,7 @@ def setTimer( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setIntegerGrouping( n ):
     if n == -1:
         g.integerGrouping = g.defaultIntegerGrouping
@@ -119,6 +126,7 @@ def setDecimalGrouping( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setInputRadix( n ):
     if n in [ 0, -1 ]:
         g.inputRadix = g.defaultInputRadix
@@ -134,6 +142,7 @@ def setInputRadix( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setOutputRadix( n ):
     if n in [ 0, -1 ]:
         g.outputRadix = g.defaultOutputRadix
@@ -149,6 +158,7 @@ def setOutputRadix( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setLeadingZero( n ):
     result = 1 if g.leadingZero else 0
 
@@ -166,6 +176,7 @@ def setLeadingZero( n ):
 #
 #******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def setIdentify( n ):
     result = 1 if g.identify else 0
 

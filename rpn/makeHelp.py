@@ -11181,6 +11181,12 @@ The operator return x such that x^x = n.
     'super_root' : [
 'powers_and_roots', 'calculates the principal, real, kth super-root of n',
 '''
+The square super-root of n is x, where x^x = n.  The cube super-root of n is
+x where x^x^x = n.  These correspond to 'n 2 super_root' and 'n 3 super_root'
+respectively.  Higher numbers work similarly.
+
+There are k - 1 super-roots of n, and this operator returns the real,
+principle kth super-root of n.
 ''',
 '''
 ''' + makeCommandExample( '256 2 super_root' ) + '''
@@ -11188,19 +11194,24 @@ The operator return x such that x^x = n.
 ''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_root' ) + '''
 ''' + makeCommandExample( '-73 6 super_root' ) + '''
 ''' + makeCommandExample( '12 6j + 15 super_root' ),
-[ 'square', 'cube_root', 'root', 'square_root', 'square_super_root', 'super_root' ] ],
+[ 'root', 'square_root', 'square_super_root', 'super_roots' ] ],
 
-    #    'super_roots' : [
-    #'powers_and_roots', 'calculates all of the kth super-roots of n',
-    #'''
-    #''',
-    #'''
-    #''' + makeCommandExample( '256 2 super_roots' ) + '''
-    #''' + makeCommandExample( '8 3 super_roots' ) + '''
-    #''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
-    #''' + makeCommandExample( '-128 5 super_roots' ) + '''
-    #''' + makeCommandExample( '27 4j + 3 super_roots' ),
-    #[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
+    'super_roots' : [
+'powers_and_roots', 'calculates all of the kth super-roots of n',
+'''
+The square super-root of n is x, where x^x = n.  The cube super-root of n is
+x where x^x^x = n.  These correspond to 'n 2 super_root' and 'n 3 super_root'
+respectively.  Higher numbers work similarly.
+
+There are k - 1 super-roots of n, and this operator returns all of them.
+''',
+'''
+''' + makeCommandExample( '256 2 super_roots' ) + '''
+''' + makeCommandExample( '8 3 super_roots' ) + '''
+''' + makeCommandExample( '340282366920938463463374607431768211456 4 super_roots' ) + '''
+''' + makeCommandExample( '-128 5 super_roots' ) + '''
+''' + makeCommandExample( '27 4j + 3 super_roots' ),
+[ 'square', 'cube_root', 'root', 'square_root', 'super_root' ] ],
 
     'tetrate' : [
 'powers_and_roots', 'tetrates n by k',
@@ -11436,6 +11447,31 @@ This operator returns the smallest set of quintuplet primes greater than n.
 ''' + makeCommandExample( '100,000,000 next_quintuplet_primes' ),
 [ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
+    'next_sextuplet_prime' : [
+'prime_numbers', 'returns the first member of the smallest set of sextuplet primes above n',
+'''
+This operator returns the first member of the smallest set of sextuplet
+primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_sextuplet_prime' ) + '''
+''' + makeCommandExample( '10,000 next_sextuplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_sextuplet_prime' ) + '''
+''' + makeCommandExample( '100,000,000 next_sextuplet_prime' ),
+[ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
+
+    'next_sextuplet_primes' : [
+'prime_numbers', 'returns the the smallest set of sextuplet primes above n',
+'''
+This operator returns the smallest set of sextuplet primes greater than n.
+''',
+'''
+''' + makeCommandExample( '100 next_sextuplet_primes' ) + '''
+''' + makeCommandExample( '10,000 next_sextuplet_primes' ) + '''
+''' + makeCommandExample( '1,000,000 next_sextuplet_primes' ) + '''
+''' + makeCommandExample( '100,000,000 next_sextuplet_primes' ),
+[ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
+
     'next_triplet_prime' : [
 'prime_numbers', 'returns the next first member of the smallest set of triplet primes above n',
 '''
@@ -11550,6 +11586,27 @@ through several billion primes.
 ''' + makeCommandExample( '85500 nth_quintuplet_prime' ) + '''
 ''' + makeCommandExample( '60 quintuplet_primes' ),
 [ 'quintuplet_primes', 'quintuplet_prime', 'next_quintuplet_prime' ] ],
+
+    'nth_sextuplet_prime' : [
+'prime_numbers', 'finds the index of the first of the closest sextuplet prime set greater than n',
+'''
+A prime sextuplet is a set of six primes of the form p, p+4, p+6, p+10, p+12
+and p+14.  This is the closest possible grouping of six primes.
+
+This operator returns the index of the prime sextuplet whose first member is
+closest to, but not larger than n.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  rpnChilada supports caching prime values to data files in ''' +
+g.dataDir + '''/ and is distributed with data files calculated
+through several billion primes.
+''',
+'''
+''' + makeCommandExample( '100,000 nth_quadruplet_prime' ) + '''
+''' + makeCommandExample( '7 quadruplet_primes' ) + '''
+''' + makeCommandExample( '100,000,000,000 nth_quadruplet_prime' ) + '''
+''' + makeCommandExample( '8627 quadruplet_primes' ),
+[ 'sextuplet_prime', 'next_sextuplet_prime', 'sextuplet_primes' ] ],
 
     'nth_triplet_prime' : [
 'prime_numbers', 'finds the index of the first of the closest triplet prime set greater than n',
@@ -12272,6 +12329,15 @@ rpn (3)>5 12 **
 '''
 ''',
 '''
+rpn (1)> 12 output_radix
+10
+rpn (2)> 1 15 range
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, 10, 11, 12, 13 ]
+rpn (3)> 12 input_radix
+10
+rpn (4)> 1 15 range
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, 10, 11, 12, 13, 14, 15 ]
+rpn (5)>
 ''',
 [ 'output_radix' ] ],
 
@@ -12312,6 +12378,15 @@ rpn (3)>5 12 **
 '''
 ''',
 '''
+rpn (1)> 12 output_radix
+10
+rpn (2)> 1 15 range
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, 10, 11, 12, 13 ]
+rpn (3)> 12 input_radix
+10
+rpn (4)> 1 15 range
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, 10, 11, 12, 13, 14, 15 ]
+rpn (5)>
 ''',
 [ 'hex_mode', 'octal_mode', 'input_radix' ] ],
 
@@ -12400,8 +12475,7 @@ Tis operator dumps the user-defined configuration settings.
 '''
 c:\\>rpn dump_config
 yafu_binary: "yafu-x64-mingw-r388-sse41.exe"
-yafu_path: "c:\app\yafu"
-old_yafu_binary: "yafu-x64.exe"
+yafu_path: "c:\\app\\yafu"
 
 3
 ''',
@@ -12554,7 +12628,7 @@ By itself, help will print general help text.  If an argument is added _after_
 'help' then help on that particular topic will be printed.
 ''',
 '''
-''',
+''' + makeCommandExample( 'help add' ),
 [ 'topics' ] ],
 
     'if' : [
@@ -12907,19 +12981,23 @@ can be more conveniently accessed with the '$' prefix.
 ''' + makeCommandExample( '$my_location today sunrise' ),
 [ 'get_variable' ] ],
 
-    'topic' : [
-'special', 'prints a help topic in interactive mode',
-'''
-''',
-'''
-''',
-[ 'help', 'topics' ] ],
-
     'topics' : [
 'special', 'prints a list of help topics in help mode',
 '''
 ''',
 '''
+rpn (1)> help
+rpn help mode - 'topics' for a list of topics, 'exit' to return to rpn
+rpn help>topics
+For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator
+name.
+
+The following is a list of general topics:
+
+    TODO, about, arguments, bugs, examples, input, interactive_mode, license, metric, notes, old_release_notes,
+    options, output, release_notes, settings, time_features, unit_conversion, unit_types, user_functions
+
+    ...
 ''',
 [ 'help', 'topic' ] ],
 
@@ -12930,6 +13008,7 @@ The UUID is generated using the host ID (MAC address if possible, otherwise
 see RFC 4122) and the current time.
 ''',
 '''
+''' + makeCommandExample( 'uuid' ) + '''
 ''' + makeCommandExample( 'uuid' ),
 [ 'uuid_random' ] ],
 
@@ -12939,6 +13018,7 @@ see RFC 4122) and the current time.
 The UUID is generated completely randomly.
 ''',
 '''
+''' + makeCommandExample( 'uuid_random' ) + '''
 ''' + makeCommandExample( 'uuid_random' ),
 [ 'uuid' ] ],
 
