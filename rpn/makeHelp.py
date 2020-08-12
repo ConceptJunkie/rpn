@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1862
+MAX_EXAMPLE_COUNT = 1989
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -2215,6 +2215,7 @@ The operator is primarily useful in lambdas.  It is actually idential to the
     'larger' : [
 'arithmetic', 'returns the larger of n and k',
 '''
+This operator returns either n or k, according to which has a larger value.
 'larger' requires real arguments.
 ''',
 '''
@@ -2786,7 +2787,18 @@ a and b are the two bodies in question (in any order), c is the location and d
 is the time.
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 11:00:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 12:00:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 13:00:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 13:30:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 13:50:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 14:10:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 14:30:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Richmond, Virginia" "2017-08-21 14:50:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Raleigh, NC" "2017-08-21 14:50:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Charleston, SC" "2017-08-21 14:50:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Atlanta, GA" "2017-08-21 14:50:00" eclipse_totality' ) + '''
+''' + makeCommandExample( 'sun moon "Tallahassee, FL" "2017-08-21 14:50:00" eclipse_totality' ),
 [ 'sky_location', 'angular_size', 'angular_separation' ] ],
 
     'moonrise' : [
@@ -4924,6 +4936,8 @@ Kinkelin.
     'infinity' : [
 'constants', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
 '''
+This operator represents infinity, and is meant to be used with 'nsum',
+'nprod', and 'limit' when describing infinite ranges.
 ''',
 '''
 ''' + makeCommandExample( '1 inf lambda x fib 1/x nsum' ) + '''
@@ -4994,6 +5008,8 @@ decimal places.
     'negative_infinity' : [
 'constants', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
 '''
+This operator represents negative infinity, and is meant to be used with
+'nsum', 'nprod', and 'limit' when describing infinite ranges.
 ''',
 '''
 ''',
@@ -5019,6 +5035,35 @@ from the alternate name for Lambert's W function, the omega function.
     'phi' : [
 'constants', 'returns phi (the Golden Ratio)',
 '''
+From https://en.wikipedia.org/wiki/Golden_ratio:
+
+In mathematics, two quantities are in the golden ratio if their ratio is the
+same as the ratio of their sum to the larger of the two quantities.
+
+a + b   a
+----- = - = phi
+  a     b
+
+where the Greek letter phi represents the golden ratio.  It is an irrational
+number that is a solution to the quadratic equation x^2 - x - 1 = 0 with a
+value of:
+
+phi = 1 + sqrt( 5 )
+      -------------
+            2
+
+The golden ratio is also called the golden mean or golden section.  Other
+names include extreme and mean ratio, medial section, divine proportion,
+divine section, golden proportion, golden cut, and golden number.
+
+Mathematicians since Euclid have studied the properties of the golden ratio,
+including its appearance in the dimensions of a regular pentagon and in a
+golden rectangle, which may be cut into a square and a smaller rectangle with
+the same aspect ratio.  The golden ratio has also been used to analyze the
+proportions of natural objects as well as man-made systems such as financial
+markets, in some cases based on dubious fits to data.  The golden ratio
+appears in some patterns in nature, including the spiral arrangement of leaves
+and other plant parts.
 ''',
 '''
 ''' + makeCommandExample( 'phi' ),
@@ -5027,6 +5072,24 @@ from the alternate name for Lambert's W function, the omega function.
     'pi' : [
 'constants', 'returns pi (Archimedes\' constant)',
 '''
+Frpm https://en.wikipedia.org/wiki/Pi:
+
+The number pi is a mathematical constant.  It is defined as the ratio of a
+circle's circumference to its diameter, and it also has various equivalent
+definitions.  It appears in many formulas in all areas of mathematics and
+physics.  It is approximately equal to 3.14159.  It has been represented by
+the Greek letter "pi" since the mid-18th century, and is spelled out as "pi".
+It is also referred to as Archimedes' constant.
+
+Being an irrational number, pi cannot be expressed as a common fraction,
+although fractions such as 22/7 are commonly used to approximate it.
+Equivalently its decimal representation never ends and never settles into a
+permanently repeating pattern.  Its decimal (or other base) digits appear to
+be randomly distributed, and are conjectured to satisfy a specific kind of
+statistical randomness.  It is known that pi is a transcendental number:  it
+is not the root of any polynomial with rational coefficients.  The
+transcendence of pi implies that it is impossible to solve the ancient
+challenge of squaring the circle with a compass and straightedge.
 ''',
 '''
 ''' + makeCommandExample( 'pi' ),
@@ -5038,7 +5101,7 @@ from the alternate name for Lambert's W function, the omega function.
 This is a derived constant calculated from the CODATA values for the Planck
 force and Planck mass.
 
-Ref:  CODATA 2014
+Ref:  https://www.physics.nist.gov/cgi-bin/cuu/Value?plkm
 ''',
 '''
 ''' + makeCommandExample( 'planck_acceleration' ),
@@ -5049,8 +5112,6 @@ Ref:  CODATA 2014
 '''
 This is a derived constant calculated from the CODATA value for the Planck
 length.
-
-Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_area' ),
@@ -5141,8 +5202,6 @@ Ref:  CODATA 2014
     'planck_length' : [
 'constants', 'returns the Planck length',
 '''
-
-Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_length' ),
@@ -5151,8 +5210,6 @@ Ref:  CODATA 2014
     'planck_mass' : [
 'constants', 'returns the Planck mass',
 '''
-
-Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_mass' ),
@@ -5185,7 +5242,6 @@ Ref:  CODATA 2014
     'planck_temperature' : [
 'constants', 'returns the Planck temperature',
 '''
-Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_temperature' ),
@@ -5194,8 +5250,6 @@ Ref:  CODATA 2014
     'planck_time' : [
 'constants', 'returns Planck time',
 '''
-
-Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_time' ),
@@ -6926,7 +6980,7 @@ number squared ends with the digits of the original number.
 '''
 ''' + makeCommandExample( '6 is_automorphic' ) + '''
 ''' + makeCommandExample( '90625 is_automorphic' ),
-[ 'is_k_morphic', 'is_trimorphic' ] ],
+[ 'is_k_morphic', 'is_trimorphic', 'is_kaprekar' ] ],
 
     'is_base_k_pandigital' : [
 'lexicography', 'returns whether n a pandigital number in base k',
@@ -6995,12 +7049,29 @@ then k is a digital permutation of n.
 [ 'is_pandigital', 'permute_digits' ] ],
 
     'is_generalized_dudeney' : [
-'lexicography', 'returns whether an integer n is a generalized Dudeney number',
+'lexicography', 'returns whether an integer n is a generalized Dudeney number of power k',
 '''
+From https://en.wikipedia.org/wiki/Dudeney_number:
+
+In number theory, a Dudeney number in a given number base b is a natural
+number equal to the perfect cube of another natural number such that the digit
+sum of the first natural number is equal to the second.  The name derives from
+Henry Dudeney, who noted the existence of these numbers in one of his puzzles,
+Root Extraction, where a professor in retirement at Colney Hatch postulates
+this as a general method for root extraction.
+
+There are exactly six Dudeney Numbers: 1, 512, 4913, 5832, 17576, and 19683.
+
+This concept can be generalized to other powers, which is what this operator
+determines:  whether or not n is a Dudeney number of power k.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '90 20 is_generalized_dudeney' ) + '''
+''' + makeCommandExample( '91 20 is_generalized_dudeney' ) + '''
+''' + makeCommandExample( '180 20 is_generalized_dudeney' ) + '''
+''' + makeCommandExample( '181 20 is_generalized_dudeney' ) + '''
+''' + makeCommandExample( '209 20 is_generalized_dudeney' ),
+[ 'is_pdi', 'is_pddi', 'is_narcissistic' ] ],
 
     'is_harshad' : [
 'lexicography', 'returns whether an integer n is a Harshad number',
@@ -7023,12 +7094,18 @@ than the previous digit.
 [ 'is_decreasing', 'is_bouncy' ] ],
 
     'is_kaprekar' : [
-'lexicography', 'returns whether an integer n is a Kaprekar number in base k',
+'lexicography', 'returns whether an integer n is a Kaprekar number',
 '''
+From https://en.wikipedia.org/wiki/Kaprekar_number:
+
+In mathematics, a natural number in a given number base is a p-Kaprekar number
+if the representation of its square in that base can be split into two parts,
+where the second part has p digits, that add up to the original number.  The
+numbers are named after D. R. Kaprekar.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 10000 range lambda x is_kaprekar filter' ),
+[ 'is_narcissistic', 'is_automorphic', 'is_kaprekar' ] ],
 
     'is_k_morphic' : [
 'lexicography', 'returns whether the digits of n to the k power end with n',
@@ -7041,18 +7118,36 @@ than the previous digit.
     'is_k_narcissistic' : [
 'lexicography', 'returns whether an integer n is base-k narcissistic',
 '''
+From https://en.wikipedia.org/wiki/Narcissistic_number:
+
+In number theory, a narcissistic number (also known as a pluperfect digital
+invariant, an Armstrong number (after Michael F. Armstrong) or a plus perfect
+number) in a given number base b is a number that is the sum of its own digits
+each raised to the power of the number of digits.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 250 range lambda x 4 is_k_narcissistic filter -r4' ) + '''
+''' + makeCommandExample( '1 5000 range lambda x 5 is_k_narcissistic filter -r5' ) + '''
+''' + makeCommandExample( '1 5000 range lambda x 6 is_k_narcissistic filter -r6' ) + '''
+''' + makeCommandExample( '1 5000 range lambda x 7 is_k_narcissistic filter -r7' ),
 [ 'is_narcissistic' ] ],
 
     'is_narcissistic' : [
 'lexicography', 'returns whether an integer n is narcissistic',
 '''
+From https://en.wikipedia.org/wiki/Narcissistic_number:
+
+In number theory, a narcissistic number (also known as a pluperfect digital
+invariant, an Armstrong number (after Michael F. Armstrong) or a plus perfect
+number) in a given number base b is a number that is the sum of its own digits
+each raised to the power of the number of digits.
+
+This operator operates only on base 10, and 'n is_narcissistic' the equivalent
+of 'n 10 is_k_narcissistic'.
 ''',
 '''
-''',
-[ 'is_k_narcissistic' ] ],
+''' + makeCommandExample( '1 5000 range lambda x is_narcissistic filter' ),
+[ 'is_k_narcissistic', 'is_generalized_dudeney', 'is_pdi', 'is_pddi' ] ],
 
     'is_order_k_smith_number' : [
 'lexicography', 'returns whether n is am order-k Smith Number',
@@ -7091,16 +7186,29 @@ A pandigital number contains at least one of all the of the digits 0 through
     'is_pdi' : [
 'lexicography', 'returns whether an integer n is a perfect digital invariant',
 '''
+From https://en.wikipedia.org/wiki/Perfect_digital_invariant:
+
+In number theory, a perfect digital invariant (PDI) is a number in a given
+number base b that is the sum of its own digits each raised to a given power p.
 ''',
 '''
 ''' + makeCommandExample( '370 is_pdi' ) + '''
 ''' + makeCommandExample( '371 is_pdi' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ),
-[ 'is_pddi' ] ],
+[ 'is_narcissistic', 'is_generalized_dudeney', 'is_pddi' ] ],
 
     'is_pddi' : [
 'lexicography', 'returns whether an integer n is a perfect digit-to-digit invariant for base k',
 '''
+From https://en.wikipedia.org/wiki/Perfect_digit-to-digit_invariant:
+
+In number theory, a perfect digit-to-digit invariant (PDDI; also known as a
+Munchausen number) is a natural number in a given number base b that is equal
+to the sum of its digits each raised to the power of itself.  For example, in
+base 3 (ternary) there are three:  1, 12, and 22.  The term "Munchausen number"
+was coined by Dutch mathematician and software engineer Daan van Berkel in
+2009, as this evokes the story of Baron Munchausen raising himself up by his
+own ponytail because each digit is raised to the power of itself.
 ''',
 '''
 ''' + makeCommandExample( '1 100 range lambda x 2 is_pddi filter' ) + '''
@@ -7108,7 +7216,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' + makeCommandExample( '1 100 range lambda x 4 is_pddi filter' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x 5 is_pddi filter' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x 6 is_pddi filter' ),
-[ 'is_pdi' ] ],
+[ 'is_narcissistic', 'is_generalized_dudeney', 'is_pdi' ] ],
 
     'is_step_number' : [
 'list_operators', 'returns whether n is a step number',
@@ -10759,7 +10867,7 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 16 range octagonal' ),
 [ 'centered_octagonal', 'polygonal' ] ],
 
     'octagonal_heptagonal' : [
@@ -10769,7 +10877,7 @@ number.
 heptagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a22 1 5 range octagonal_heptagonal' ),
 [ 'octagonal', 'heptagonal' ] ],
 
     'octagonal_hexagonal' : [
@@ -10779,7 +10887,7 @@ heptagonal.
 hexagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 5 range octagonal_hexagonal' ),
 [ 'octagonal', 'hexagonal' ] ],
 
     'octagonal_pentagonal' : [
@@ -10789,7 +10897,7 @@ hexagonal.
 pentagonal.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 6 range octagonal_pentagonal' ),
 [ 'octagonal', 'pentagonal' ] ],
 
     'octagonal_square' : [
@@ -10799,7 +10907,7 @@ pentagonal.
 square.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 7 range octagonal_square' ),
 [ 'octagonal', 'square' ] ],
 
     'octagonal_triangular' : [
@@ -10809,7 +10917,7 @@ square.
 triangular.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 8 range octagonal_triangular' ),
 [ 'octagonal', 'triangular' ] ],
 
     'octahedral' : [
@@ -10817,7 +10925,7 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 15 range octahedral' ),
 [ 'tetrahedral', 'dodecahedral' ] ],
 
     'pentagonal' : [
@@ -10825,7 +10933,7 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 16 range pentagonal' ),
 [ 'centered_pentagonal', 'polygonal' ] ],
 
     'pentagonal_square' : [
@@ -10833,7 +10941,7 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 5 range pentagonal_square' ),
 [ 'pentagonal', 'square' ] ],
 
     'pentagonal_triangular' : [
@@ -10841,7 +10949,7 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 1 6 range pentagonal_triangular' ),
 [ 'pentagonal', 'triangular' ] ],
 
     'pentatope' : [
@@ -10849,7 +10957,7 @@ triangular.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 15 range pentatope' ),
 [ 'polytope', 'polygonal' ] ],
 
     'polygonal' : [
@@ -10859,6 +10967,7 @@ triangular.
 '''
 ''' + makeCommandExample( '13 triangular' ) + '''
 ''' + makeCommandExample( '13 3 polygonal' ) + '''
+''' + makeCommandExample( '1 10 range 5 polygonal' ) + '''
 ''' + makeCommandExample( '-a25 387 8925662618878671 polygonal' ),
 [ 'polygonal_pyramidal', 'nth_polygonal' ] ],
 
@@ -12606,7 +12715,7 @@ There are currently only two configuration settings supported:
 'yafu_path' - the location of the YAFU executable.
 ''',
 '''
-''',
+''' + makeCommandExample( 'yafu_binary get_config' ),
 [ 'delete_config', 'dump_config', 'set_config' ] ],
 
     'get_variable' : [
@@ -12628,7 +12737,18 @@ By itself, help will print general help text.  If an argument is added _after_
 'help' then help on that particular topic will be printed.
 ''',
 '''
-''' + makeCommandExample( 'help add' ),
+c:\\>rpn help add
+n k add - adds n to k
+
+alias:  +
+category: arithmetic
+
+This operator adds two terms together.  If one of the operands is a list, then
+the other operand is added to each member of the list and the result is a
+list.
+
+...
+''',
 [ 'topics' ] ],
 
     'if' : [
@@ -12731,7 +12851,7 @@ updated, but if it is, the only way to get rpn to download new data is to use
 the -I option, when downloading an entry.
 ''',
 '''
-''',
+''' + makeCommandExample( '63 oeis_offset' ),
 [ 'oeis_name', 'oeis_ex', 'oeis' ] ],
 
     'ordinal_name' : [
@@ -12964,7 +13084,8 @@ There are currently only two configuration settings supported:
 'yafu_path' - the location of the YAFU executable.
 ''',
 '''
-''',
+''' + makeCommandExample( 'test_config_key test_config_value set_config' ) + '''
+''' + makeCommandExample( 'test_config_key get_config' ),
 [ 'delete_config', 'dump_config', 'get_config' ] ],
 
     'set_variable' : [
@@ -12999,7 +13120,7 @@ The following is a list of general topics:
 
     ...
 ''',
-[ 'help', 'topic' ] ],
+[ 'help' ] ],
 
     'uuid' : [
 'special', 'generates a UUID',

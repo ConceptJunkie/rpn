@@ -2887,6 +2887,12 @@ def runLexicographyOperatorTests( ):
     # is_generalized_dudeney
     testOperator( '2 5 is_generalized_dudeney' )
 
+    expectResult( '90 20 is_generalized_dudeney', 1 )
+    expectResult( '181 20 is_generalized_dudeney', 1 )
+    expectResult( '182 20 is_generalized_dudeney', 0 )
+    expectResult( '206 20 is_generalized_dudeney', 0 )
+    expectResult( '207 20 is_generalized_dudeney', 1 )
+
     # is_harshad
     testOperator( '3 6 is_harshad' )
 
@@ -2915,6 +2921,13 @@ def runLexicographyOperatorTests( ):
 
     if slow:
         expectEqual( '1 100000 range lambda x x is_k_morphic filter', '82576 oeis 100000 filter_max' )
+
+    # is_k_narcissistic
+    expectEqual( '1 250 range lambda x 4 is_k_narcissistic filter', '10344 oeis 11 left' )
+    expectEqual( '1 5000 range lambda x 5 is_k_narcissistic filter', '10346 oeis 5000 filter_max' )
+    expectEqual( '1 5000 range lambda x 6 is_k_narcissistic filter', '10348 oeis 5000 filter_max' )
+    expectEqual( '1 2000 range lambda x 13 is_k_narcissistic filter', '161950 oeis 2000 filter_max' )
+    expectEqual( '1 5000 range lambda x 16 is_k_narcissistic filter', '161953 oeis 5000 filter_max' )
 
     # is_narcissistic
     expectEqual( '1 200 range lambda x is_narcissistic filter', '5188 oeis 200 filter_max' )

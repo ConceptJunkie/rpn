@@ -16,7 +16,7 @@ import itertools
 import string
 
 from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, \
-                   fsum, log10, mpf, mpmathify, nint, power
+                   fsum, log10, mp, mpf, mpmathify, nint, power
 
 import gmpy2
 
@@ -125,9 +125,9 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
             if '0' <= i <= '9':
                 digits.append( ord( i ) - ord0 )
             elif 'a' <= i <= 'z':
-                digits.append( ord( i ) - orda )
+                digits.append( ord( i ) - orda + 10 )
             else:
-                digits.append( ord( i ) - ordA )
+                digits.append( ord( i ) - ordA + 36 )
     else:
         digits = convertToBaseN( n, base, outputBaseDigits=True )
 
@@ -623,7 +623,13 @@ def isBaseKNarcissistic( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@cachedFunction( 'generalized_dudeney' )
 def isGeneralizedDudeneyNumber( base, exponent ):
+    precision = fadd( fmul( base, exponent ), 2 )
+
+    if mp.dps < precision:
+        mp.dps = precision
+
     n = power( validateRealInt( base ), validateRealInt( exponent ) )
     return 1 if sumDigits( n ) == base else 0
 

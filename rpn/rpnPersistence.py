@@ -291,7 +291,7 @@ def openPrimeCache( name ):
             g.cursors[ name ] = g.databases[ name ].cursor( )
         except:
             raise ValueError( 'prime number table ' + name +
-                              ' can\'t be found.  Run "preparePrimeData" to create the prime data.' )
+                              ' cannot be found.  Run "preparePrimeData" to create the prime data.' )
 
     return g.cursors[ name ]
 

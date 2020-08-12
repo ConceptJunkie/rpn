@@ -144,17 +144,17 @@ def validateOptions( args ):
     options that are mutually exclusive.'''
     if args.hex:
         if args.output_radix != 10 and args.output_radix != 16:
-            return False, '-r and -x can\'t be used together'
+            return False, '-r and -x cannot be used together'
 
         if args.octal:
-            return False, '-x and -o can\'t be used together'
+            return False, '-x and -o cannot be used together'
 
     if args.octal:
         if args.output_radix != 10 and args.output_radix != 8:
-            return False, '-r and -o can\'t be used together'
+            return False, '-r and -o cannot be used together'
 
     if args.comma and args.integer_grouping > 0 :
-        return False, 'rpn:  -c can\'t be used with -i'
+        return False, 'rpn:  -c cannot be used with -g'
 
     return True, ''
 

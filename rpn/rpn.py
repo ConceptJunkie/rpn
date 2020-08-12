@@ -527,6 +527,9 @@ def rpn( cmdArgs ):
     # handle -e
     g.echo_command = args.echo_command
 
+    # handle -g
+    g.integerGrouping = args.integer_grouping
+
     # handle -i
     g.identify = args.identify
 
@@ -561,7 +564,7 @@ def rpn( cmdArgs ):
             if g.outputRadix == 10:
                 g.outputRadix = int( args.output_radix )
         except ValueError:
-            print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
+            print( 'rpn:  cannot interpret output radix \'%s\' as a number' % args.output_radix )
             return [ nan ]
 
     # -r validation
