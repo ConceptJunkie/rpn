@@ -20,7 +20,7 @@ import pickle
 import ephem
 
 from geopy.geocoders import Nominatim
-from geopy.distance import vincenty
+from geopy.distance import geodesic
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 from timezonefinder import TimezoneFinder
 
@@ -280,7 +280,7 @@ def getGeographicDistance( location1, location2 ):
     if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
         raise ValueError( 'two location arguments expected' )
 
-    distance = vincenty( ( location1.getLat( ), location1.getLong( ) ),
+    distance = geodesic( ( location1.getLat( ), location1.getLong( ) ),
                          ( location2.getLat( ), location2.getLong( ) ) ).miles
 
     return RPNMeasurement( distance, [ { 'miles' : 1 } ] )
