@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 1989
+MAX_EXAMPLE_COUNT = 2007
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -10867,7 +10867,8 @@ number.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 16 range octagonal' ),
+''' + makeCommandExample( '1 16 range octagonal' ) + '''
+''' + makeCommandExample( '2685 octagonal' ),
 [ 'centered_octagonal', 'polygonal' ] ],
 
     'octagonal_heptagonal' : [
@@ -10877,7 +10878,8 @@ number.
 heptagonal.
 ''',
 '''
-''' + makeCommandExample( '-a22 1 5 range octagonal_heptagonal' ),
+''' + makeCommandExample( '-a22 1 5 range octagonal_heptagonal' ) + '''
+''' + makeCommandExample( '-a40 13 octagonal_pentagonal' ),
 [ 'octagonal', 'heptagonal' ] ],
 
     'octagonal_hexagonal' : [
@@ -10887,7 +10889,8 @@ heptagonal.
 hexagonal.
 ''',
 '''
-''' + makeCommandExample( '-a20 1 5 range octagonal_hexagonal' ),
+''' + makeCommandExample( '-a20 1 5 range octagonal_hexagonal' ) + '''
+''' + makeCommandExample( '-a50 12 octagonal_hexagonal' ),
 [ 'octagonal', 'hexagonal' ] ],
 
     'octagonal_pentagonal' : [
@@ -10897,7 +10900,8 @@ hexagonal.
 pentagonal.
 ''',
 '''
-''' + makeCommandExample( '-a20 1 6 range octagonal_pentagonal' ),
+''' + makeCommandExample( '-a20 1 6 range octagonal_pentagonal' ) + '''
+''' + makeCommandExample( '-a50 17 octagonal_pentagonal' ),
 [ 'octagonal', 'pentagonal' ] ],
 
     'octagonal_square' : [
@@ -10907,7 +10911,8 @@ pentagonal.
 square.
 ''',
 '''
-''' + makeCommandExample( '-a20 1 7 range octagonal_square' ),
+''' + makeCommandExample( '-a20 1 7 range octagonal_square' ) + '''
+''' + makeCommandExample( '-a50 22 octagonal_square' ),
 [ 'octagonal', 'square' ] ],
 
     'octagonal_triangular' : [
@@ -10917,7 +10922,8 @@ square.
 triangular.
 ''',
 '''
-''' + makeCommandExample( '-a20 1 8 range octagonal_triangular' ),
+''' + makeCommandExample( '-a20 1 8 range octagonal_triangular' ) + '''
+''' + makeCommandExample( '-a22 12 octagonal_triangular' ),
 [ 'octagonal', 'triangular' ] ],
 
     'octahedral' : [
@@ -10925,7 +10931,8 @@ triangular.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 15 range octahedral' ),
+''' + makeCommandExample( '1 15 range octahedral' ) + '''
+''' + makeCommandExample( '4881 octahedral' ),
 [ 'tetrahedral', 'dodecahedral' ] ],
 
     'pentagonal' : [
@@ -10933,7 +10940,8 @@ triangular.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 16 range pentagonal' ),
+''' + makeCommandExample( '1 16 range pentagonal' ) + '''
+''' + makeCommandExample( '174985 pentagonal' ),
 [ 'centered_pentagonal', 'polygonal' ] ],
 
     'pentagonal_square' : [
@@ -10941,7 +10949,8 @@ triangular.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a20 1 5 range pentagonal_square' ),
+''' + makeCommandExample( '-a20 1 5 range pentagonal_square' ) + '''
+''' + makeCommandExample( '-a40 11 pentagonal_square' ),
 [ 'pentagonal', 'square' ] ],
 
     'pentagonal_triangular' : [
@@ -10949,7 +10958,8 @@ triangular.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a20 1 6 range pentagonal_triangular' ),
+''' + makeCommandExample( '-a20 1 6 range pentagonal_triangular' ) + '''
+''' + makeCommandExample( '-a25 11 pentagonal_triangular' ),
 [ 'pentagonal', 'triangular' ] ],
 
     'pentatope' : [
@@ -10957,7 +10967,8 @@ triangular.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 15 range pentatope' ),
+''' + makeCommandExample( '1 15 range pentatope' ) + '''
+''' + makeCommandExample( '1238 pentatope' ),
 [ 'polytope', 'polygonal' ] ],
 
     'polygonal' : [
@@ -10999,7 +11010,8 @@ triangular.
 This is the equivalent of 'n 4 polygonal_pyramidal'.
 ''',
 '''
-''' + makeCommandExample( '1 10 range pyramidal' ),
+''' + makeCommandExample( '1 10 range pyramidal' ) + '''
+''' + makeCommandExample( '-a15 56714 range pyramidal' ),
 [ 'polygonal_pyramidal', 'square' ] ],
 
     'rhombic_dodecahedral' : [
@@ -11007,7 +11019,8 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 8 range rhombic_dodecahedral' ),
+''' + makeCommandExample( '1 8 range rhombic_dodecahedral' ) + '''
+''' + makeCommandExample( '715 rhombic_dodecahedral' ),
 [ 'dodecahedral', 'centered_dodecahedral' ] ],
 
     'square_triangular' : [
@@ -11017,7 +11030,8 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
 triangular.
 ''',
 '''
-''' + makeCommandExample( '1 8 range square_triangular' ),
+''' + makeCommandExample( '1 8 range square_triangular' ) + '''
+''' + makeCommandExample( '-a25 16 range square_triangular' ),
 [ 'square', 'triangular' ] ],
 
     'star' : [
@@ -11027,7 +11041,8 @@ Star numbers are the same as centered dodecagonal numbers, so this is
 equivalent to 'n 12 centered_polygonal'.
 ''',
 '''
-''' + makeCommandExample( '1 8 range star' ),
+''' + makeCommandExample( '1 8 range star' ) + '''
+''' + makeCommandExample( '8542 range star' ),
 [ 'polygonal', 'pyramidal' ] ],
 
     'stella_octangula' : [
@@ -11042,7 +11057,8 @@ https://en.wikipedia.org/wiki/Stella_octangula_number
 http://oeis.org/A007588
 ''',
 '''
-''' + makeCommandExample( '1 8 range stella_octangula' ),
+''' + makeCommandExample( '1 8 range stella_octangula' ) + '''
+''' + makeCommandExample( '6542 stella_octangula' ),
 [ 'octahedral', 'truncated_octahedral' ] ],
 
     'tetrahedral' : [
@@ -11050,7 +11066,8 @@ http://oeis.org/A007588
 '''
 ''',
 '''
-''' + makeCommandExample( '1 8 range tetrahedral' ),
+''' + makeCommandExample( '1 8 range tetrahedral' ) + '''
+''' + makeCommandExample( '413 range tetrahedral' ),
 [ 'octahedral', 'dodecahedral', 'icosahedral' ] ],
 
     'triangular' : [
@@ -11086,7 +11103,8 @@ Pascal's triangle.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 8 range truncated_tetrahedral' ),
+''' + makeCommandExample( '1 8 range truncated_tetrahedral' ) + '''
+''' + makeCommandExample( '125 truncated_tetrahedral' ),
 [  'tetrahedral', 'truncated_octahedral' ] ],
 
     #   'nth_tetrahedral' : [ findTetrahedralNumber, 1, [ ] ],
