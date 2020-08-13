@@ -4040,7 +4040,11 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a400 1 200 range phitorial', '1783 oeis 200 left' )
 
     # primorial
-    expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
+    expectEqual( '-a22 0 99 range primorial', '2110 oeis 100 left' )
+    expectEqual( '-a500 1 60 range lambda x primorial 1 + next_prime x primorial - eval', '5235 oeis 60 left' )
+
+    if slow:
+        expectEqual( '-a1000 1 200 range lambda x primorial 1 + next_prime x primorial - eval', '5235 oeis 200 left' )
 
     # pythagoran_triples
     expectEqual( '1000 pythagorean_triples lambda x 2 element for_each_list unique sort', '8846 oeis 1000 filter_max' )
