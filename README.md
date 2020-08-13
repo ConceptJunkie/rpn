@@ -11,9 +11,14 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 Version 8.3.0 is released.   This is another incremental release with a few new operators.  I've also been focusing on
 filling in help text for all the units.  Right now there are 172 units that don't have help text.
 
+### Update - August 13, 2020
+
+Version 8.4.0 is released.   This is another incremental release with a few new operators and bug fixes.
+I'm still focusing on filling in help text for all the operators.  There are now over 2000 examples in the help file.
+
 ---
 
-The current release is 8.3.0.
+The current release is 8.4.0.
 
 See "rpn help settings" for more information.
 
@@ -84,6 +89,18 @@ Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com).  This was orig
 p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+8.4.0
+
+Revamped the prime number operators, and filled in a couple of missing ones.
+
+A number of operator names have changed for more consistency.  The old names have been added as aliases.
+
+Added the 'bitwise_xnor', 'from_french_republican', 'to_french_republican', 'to_french_republcan_name' operators.
+
+A fix was made to support using rpn on OS X.
+
+A number of bugs were fixed, and I did extensive touch-ups based on pylint.
 
 8.3.0
 

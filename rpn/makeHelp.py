@@ -1261,10 +1261,24 @@ functions and data.
 And the usual bug fixes.
 
 8.3.0
-    The astronomy operators now don't care which order the arguments are in,
-    except for 'angular_separation', which expects the first two arguments to
-    be astronomical bodies.
 
+The astronomy operators now don't care which order the arguments are in, except
+for 'angular_separation', which expects the first two arguments to be
+astronomical bodies.
+
+8.4.0
+
+Revamped the prime number operators, and filled in a couple of missing ones.
+
+A number of operator names have changed for more consistency.  The old names
+have been added as aliases.
+
+Added the 'bitwise_xnor', 'from_french_republican', 'to_french_republican',
+'to_french_republcan_name' operators.
+
+A fix was made to support using rpn on OS X.
+
+A number of bugs were fixed, and I did extensive touch-ups based on pylint.
     ''',
     'license' :
     '''
@@ -7676,8 +7690,11 @@ The list returned will be one shorter than the length of the list n.
 [ 'diffs', 'ratios', 'cumulative_ratios', 'cumulative_sums' ] ],
 
     'cumulative_products' : [
-'list_operators', '',
+'list_operators', 'returns a list of the cumulative products of element with the elements that precede it',
 '''
+This operator returns a list of the cumulative products of element with the
+elements that precede it
+
 The xth item of the resulting list is the product of the first x items in n.
 ''',
 '''
@@ -11011,7 +11028,7 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range pyramidal' ) + '''
-''' + makeCommandExample( '-a15 56714 range pyramidal' ),
+''' + makeCommandExample( '-a15 56714 pyramidal' ),
 [ 'polygonal_pyramidal', 'square' ] ],
 
     'rhombic_dodecahedral' : [
@@ -11031,7 +11048,7 @@ triangular.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range square_triangular' ) + '''
-''' + makeCommandExample( '-a25 16 range square_triangular' ),
+''' + makeCommandExample( '-a25 16 square_triangular' ),
 [ 'square', 'triangular' ] ],
 
     'star' : [
@@ -11042,7 +11059,7 @@ equivalent to 'n 12 centered_polygonal'.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range star' ) + '''
-''' + makeCommandExample( '8542 range star' ),
+''' + makeCommandExample( '8542 star' ),
 [ 'polygonal', 'pyramidal' ] ],
 
     'stella_octangula' : [
@@ -11067,7 +11084,7 @@ http://oeis.org/A007588
 ''',
 '''
 ''' + makeCommandExample( '1 8 range tetrahedral' ) + '''
-''' + makeCommandExample( '413 range tetrahedral' ),
+''' + makeCommandExample( '413 tetrahedral' ),
 [ 'octahedral', 'dodecahedral', 'icosahedral' ] ],
 
     'triangular' : [
