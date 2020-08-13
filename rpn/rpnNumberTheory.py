@@ -1412,7 +1412,6 @@ def getAliquotSequence( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getLimitedAliquotSequenceGenerator( n, k ):
     '''
     This generates aliquots until the usual termination conditions of
@@ -1436,6 +1435,7 @@ def getLimitedAliquotSequenceGenerator( n, k ):
         results.append( a )
 
 
+@twoArgFunctionEvaluator( )
 def getLimitedAliquotSequence( n, k ):
     return RPNGenerator.createGenerator( getLimitedAliquotSequenceGenerator, [ n, k ] )
 
