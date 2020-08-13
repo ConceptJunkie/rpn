@@ -46,10 +46,10 @@ rpnChilada gives you the whole enchilada when it comes to playing with
 numbers.  You get math functions, algebra functions, combinatoric functions,
 number theory functions, astronomy functions, physics functions, unit
 conversions (comparable to GNU Units) and much, much more.   There are over
-800 unique operators.  rpnChilada supports lists, but not matrices.
+1000 unique operators.  rpnChilada supports lists, but not matrices.
 
 rpnChilada comes with integrated help, which isn't complete, but has at
-least a basic description of every operator, and over 1500 built-in
+least a basic description of every operator, and over 2000 built-in
 examples.  Help now includes descriptions for constants and units as well,
 although a lot of these still need to be filled in.
 
