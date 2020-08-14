@@ -3944,6 +3944,16 @@ def runNumberTheoryOperatorTests( ):
     if slow:
         expectEqual( '-a1002 0 3315 range nth_jacobsthal', '1045 oeis 3316 left' )
 
+    # nth_k_thabit
+    expectEqual( '0 24 range 3 nth_k_thabit', '171498 oeis 25 left' )
+    expectEqual( '0 500 range 4 nth_k_thabit', '156760 oeis 501 left' )
+    expectEqual( '0 500 range 5 nth_k_thabit', '198764 oeis 501 left' )
+
+    # nth_k_thabit_2
+    expectEqual( '0 1000 range 3 nth_k_thabit_2', '199108 oeis 1001 left' )
+    expectEqual( '0 1000 range 4 nth_k_thabit_2', '199115 oeis 1001 left' )
+    expectEqual( '0 1000 range 5 nth_k_thabit_2', '199216 oeis 1001 left' )
+
     # nth_kynea
     expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
 
@@ -3998,6 +4008,9 @@ def runNumberTheoryOperatorTests( ):
 
     # nth_thabit
     expectEqual( '0 998 range nth_thabit', '55010 oeis 1000 left 999 right' )
+
+    # nth_thabit_2
+    expectEqual( '0 999 range nth_thabit_2', '181565 oeis 1000 left' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )

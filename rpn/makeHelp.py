@@ -2615,7 +2615,8 @@ require an astronomical object.
 'astronomical_objects', 'the planet Pluto',
 '''
 This operator represents the planet Pluto for astronomical operators that
-require an astronomical object.
+require an astronomical object.
+
 Yes, I still consider Pluto a planet.  Talk to the hand.
 ''',
 '''
@@ -9478,6 +9479,15 @@ The harmonic series consists of the reciprocals of the natural numbers.
 ''' + makeCommandExample( '1e100 nth_harmonic' ),
 [ 'harmonic_fraction' ] ],
 
+    'nth_jacobsthal' : [
+'number_theory', 'returns nth number of the Jacobsthal sequence',
+'''
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_jacobsthal' ) + '''
+''' + makeCommandExample( '4783 nth_jacobsthal' ),
+[ ] ],
+
     'nth_kynea' : [
 'number_theory', 'gets the nth Kynea number',
 '''
@@ -9490,18 +9500,60 @@ added to the (n + 1)th Mersenne number.
 ''' + makeCommandExample( '63598 nth_kynea' ),
 [ 'nth_mersenne_prime', 'nth_carol', 'nth_jacobsthal' ] ],
 
-    'nth_jacobsthal' : [
-'number_theory', 'returns nth number of the Jacobsthal sequence',
+    'nth_k_thabit' : [
+'number_theory', 'gets the nth base k Thabit number',
 '''
+From https://en.wikipedia.org/wiki/Thabit_number:
+
+In number theory, a Thabit number, Thâbit ibn Kurrah number, or 321 number is
+an integer of the form 3 * 2^n - 1 for a non-negative integer n.
+
+The 9th Century mathematician, physician, astronomer and translator Thābit ibn
+Qurra is credited as the first to study these numbers and their relation to
+amicable numbers.
+
+For integer b >= 2, a Thabit number base b is a number of the form
+( b + 1 ) * b^n − 1 for a non-negative integer n.  Also, for integer b >= 2, a
+Thabit number of the second kind base b is a number of the form
+( b + 1 ) * b^n + 1 for a non-negative integer n.
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_jacobsthal' ) + '''
-''' + makeCommandExample( '4783 nth_jacobsthal' ),
-[ ] ],
+''' + makeCommandExample( '1 20 range 2 nth_k_thabit' ) + '''
+''' + makeCommandExample( '1 15 range 3 nth_k_thabit' ) + '''
+''' + makeCommandExample( '1 10 range 4 nth_k_thabit' ) + '''
+''' + makeCommandExample( '23 6 nth_k_thabit' ),
+[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit_2' ] ],
+
+    'nth_k_thabit_2' : [
+'number_theory', 'gets the nth base k Thabit number of the second kind',
+'''
+From https://en.wikipedia.org/wiki/Thabit_number:
+
+In number theory, a Thabit number, Thâbit ibn Kurrah number, or 321 number is
+an integer of the form 3 * 2^n - 1 for a non-negative integer n.
+
+The 9th Century mathematician, physician, astronomer and translator Thābit ibn
+Qurra is credited as the first to study these numbers and their relation to
+amicable numbers.
+
+For integer b >= 2, a Thabit number base b is a number of the form
+( b + 1 ) * b^n − 1 for a non-negative integer n.  Also, for integer b >= 2, a
+Thabit number of the second kind base b is a number of the form
+( b + 1 ) * b^n + 1 for a non-negative integer n.
+''',
+'''
+''' + makeCommandExample( '1 20 range 2 nth_k_thabit_2' ) + '''
+''' + makeCommandExample( '1 15 range 3 nth_k_thabit_2' ) + '''
+''' + makeCommandExample( '1 10 range 4 nth_k_thabit_2' ) + '''
+''' + makeCommandExample( '15 7 nth_k_thabit_2' ),
+[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit' ] ],
 
     'nth_linear_recurrence' : [
-'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',
+'number_theory', 'calculates the cth value of a linear recurrence for factors a and seeds b',
 '''
+This operator calculates the cth value of a linear recurrence specified by a
+list of factors (a) and of seeds (b).
+
 The factors (a) indicate the multiple of each preceding value to add to create
 the next value in the recurrence list, listed from right to left (meaning the
 last factor corresponds to the n - 1'th value in the sequence.  For the
@@ -9533,9 +9585,28 @@ The 21st Perrin number:
 [ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'nth_linear_recurrence_with_modulo' : [
-'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
+'number_theory', 'calculates the cth value of a linear recurrence for factors a, seeds b, modulo d',
 '''
-THis allows for the calculation of linear recurrences when only a modular
+This operator calculates the cth value of a linear recurrence specified by a
+list of factors (a) and of seeds (b), where each successive result is taken
+modulo d.
+
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (b), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
+
+The is some disagreement about whether the zeroes count as part of these linear
+recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
+etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
+count the zeroes.
+
+This allows for the calculation of linear recurrences when only a modular
 answer is required.  This means that it is far faster to calculate than working
 out the full value of the linear recurrence.
 ''',
@@ -9612,7 +9683,8 @@ https://primes.utm.edu/mersenne/index.html
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
 '''
-The Padovan sequence is the sequence of integers P(n) defined by the initial values
+The Padovan sequence is the sequence of integers P(n) defined by the initial
+values:
 
     P( 0 ) = P( 1 ) = P( 2 ) = 1
 
@@ -9620,13 +9692,14 @@ and the recurrence relation
 
     P( n ) = P( n - 2 ) + P( n - 3 ).
 
-The Padovan can be computed by rpn using the 'linear_recurrence' functionality,
-but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
+The Padovan numbers can be computed by rpn using the 'linear_recurrence'
+functionality, but OEIS (http://oeis.org/A000931) provides a non-iterative
+formula.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_padovan' ) + '''
 ''' + makeCommandExample( '1 100 range nth_padovan lambda x is_prime filter' ),
-[ ] ],
+[ 'fibonacci', 'lucas' ] ],
 
     'nth_perfect_number' : [
 'number_theory', 'returns the nth known perfect number',
@@ -9647,18 +9720,47 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-The first 20 members of the Stern sequence:
-''' + makeCommandExample( '1 20 range nth_stern', indent=4 ),
+''' + makeCommandExample( '1 20 range nth_stern' ) + '''
+''' + makeCommandExample( '223800 223810 range nth_stern' ),
 [ ] ],
 
     'nth_thabit' : [
 'number_theory', 'gets the nth Thabit number',
 '''
+From https://en.wikipedia.org/wiki/Thabit_number:
+
+In number theory, a Thabit number, Thâbit ibn Kurrah number, or 321 number is
+an integer of the form 3 * 2^n - 1 for a non-negative integer n.
+
+The 9th Century mathematician, physician, astronomer and translator Thābit ibn
+Qurra is credited as the first to study these numbers and their relation to
+amicable numbers.
+
+The binary representation of the Thabit number 3 * 2^n − 1 is n + 2 digits
+long, consisting of "10" followed by n 1s.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_thabit' ) + '''
 ''' + makeCommandExample( '2375 nth_thabit' ),
-[ ] ],
+[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit_2' ] ],
+
+    'nth_thabit_2' : [
+'number_theory', 'gets the nth Thabit number of the second kind',
+'''
+From https://en.wikipedia.org/wiki/Thabit_number:
+
+In number theory, a Thabit number, Thâbit ibn Kurrah number, or 321 number is
+an integer of the form 3 * 2^n - 1 for a non-negative integer n.  The nth Thabit
+number of the second kind is of the form 3 * 2^n + 1.
+
+The 9th Century mathematician, physician, astronomer and translator Thābit ibn
+Qurra is credited as the first to study these numbers and their relation to
+amicable numbers.
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_thabit_2' ) + '''
+''' + makeCommandExample( '168 nth_thabit_2' ),
+[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit' ] ],
 
     'nth_thue_morse' : [
 'number_theory', 'calculates the nth value of the Thue-Morse sequence',

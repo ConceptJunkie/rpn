@@ -2287,6 +2287,22 @@ def getNthThabitNumber( n ):
     return fsub( fmul( 3, power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
+def getNthThabit2Number( n ):
+    return fadd( fmul( 3, power( 2, n ) ), 1 )
+
+@twoArgFunctionEvaluator( )
+def getNthKThabitNumber( n, k ):
+    return fsub( fmul( fadd( k, 1 ), power( k, n ) ), 1 )
+
+@oneArgFunctionEvaluator( )
+def getNthThabit2Number( n ):
+    return fadd( fmul( 3, power( 2, n ) ), 1 )
+
+@twoArgFunctionEvaluator( )
+def getNthKThabit2Number( n, k ):
+    return fadd( fmul( fadd( k, 1 ), power( k, n ) ), 1 )
+
+@oneArgFunctionEvaluator( )
 def getTrigamma( n ):
     return psi( 1, n )
 

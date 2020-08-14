@@ -191,19 +191,19 @@ from rpn.rpnNumberTheory import areRelativelyPrime, calculateAckermannFunctionOp
                                 getNthCarolNumber, getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, \
                                 getNthFibonacci, getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, \
                                 getNthHexanacci, getNthHyperfactorial, getNthJacobsthalNumber, \
-                                getNthKFibonacciNumber, getNthKyneaNumber, getNthLeonardoNumber, \
-                                getNthLinearRecurrence, getNthLinearRecurrenceWithModulo, getNthLucasNumber, \
-                                getNthMersenneExponent, getNthMersennePrime, getNthMerten, \
+                                getNthKFibonacciNumber, getNthKThabitNumber, getNthKThabit2Number, getNthKyneaNumber, \
+                                getNthLeonardoNumber, getNthLinearRecurrence, getNthLinearRecurrenceWithModulo, \
+                                getNthLucasNumber, getNthMersenneExponent, getNthMersennePrime, getNthMerten, \
                                 getNthMobiusNumberOperator, getNthPadovanNumber, getNthPhitorial, getNthOctanacci, \
                                 getNthPascalLine, getNthPentanacci, getNthPerfectNumber, getNthKPolygorial, \
                                 getNthSternNumberOperator, getNthSubfactorial, getNthSuperfactorial, \
-                                getNthTetranacci, getNthThabitNumber, getNthThueMorseNumberOperator, \
-                                getNthTribonacci, getNthZetaZero, getPolygamma, getPowModOperator, getPrimePi, \
-                                getRadical, getSigmaKOperator, getSigmaOperator, getTrigamma, getUnitRoots, getZeta, \
-                                interpretAsBaseOperator, interpretAsFraction, isAbundant, isAchillesNumber, \
-                                isAntiharmonic, isCarmichaelNumberOperator, isDeficient, isFriendly, \
-                                isHarmonicDivisorNumber, isInteger, isKHyperperfect, isKPerfect, \
-                                isKSemiprimeOperator, isKSphenicOperator, isPerfect, isPernicious, \
+                                getNthTetranacci, getNthThabitNumber, getNthThabit2Number, \
+                                getNthThueMorseNumberOperator, getNthTribonacci, getNthZetaZero, getPolygamma, \
+                                getPowModOperator, getPrimePi, getRadical, getSigmaKOperator, getSigmaOperator, \
+                                getTrigamma, getUnitRoots, getZeta, interpretAsBaseOperator, interpretAsFraction, \
+                                isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumberOperator, \
+                                isDeficient, isFriendly, isHarmonicDivisorNumber, isInteger, isKHyperperfect, \
+                                isKPerfect, isKSemiprimeOperator, isKSphenicOperator, isPerfect, isPernicious, \
                                 isPolydivisible, isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, \
                                 isSemiprime, isSmoothOperator, isSphenic, isSquareFree, isUnusual, \
                                 makeContinuedFraction, makeEulerBrick, makePythagoreanQuadruple, \
@@ -4224,6 +4224,12 @@ operators = {
     'nth_jacobsthal'                : RPNOperator( getNthJacobsthalNumber,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
+    'nth_k_thabit'                  : RPNOperator( getNthKThabitNumber,
+                                                   2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_k_thabit_2'                : RPNOperator( getNthKThabit2Number,
+                                                   2, [ RPNArgumentType.PositiveInteger, RPNArgumentType.PositiveInteger ], [ ] ),
+
     'nth_kynea'                     : RPNOperator( getNthKyneaNumber,
                                                    1, [ RPNArgumentType.Real ], [ ] ),
 
@@ -4252,6 +4258,9 @@ operators = {
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_thabit'                    : RPNOperator( getNthThabitNumber,
+                                                   1, [ RPNArgumentType.PositiveInteger ], [ ] ),
+
+    'nth_thabit_2'                  : RPNOperator( getNthThabit2Number,
                                                    1, [ RPNArgumentType.PositiveInteger ], [ ] ),
 
     'nth_thue_morse'                : RPNOperator( getNthThueMorseNumberOperator,
