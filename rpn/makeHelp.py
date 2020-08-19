@@ -75,10 +75,12 @@ parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM
                                   prefix_chars = '-' )
 
 parser.add_argument( '-d', '--debug', action = 'store_true' )
+parser.add_argument( '-q', '--quiet', action = 'store_true' )
 
 args = parser.parse_args( sys.argv[ 1 : ] )
 
 HELP_DEBUG_MODE = args.debug
+QUIET_MODE = args.quiet
 
 EXAMPLE_COUNT = 0
 
@@ -2449,7 +2451,7 @@ between the least significant digit, 'round_by_digits' will round up.
 ''' + makeCommandExample( '12 0 round_by_digits' ) + '''
 ''' + makeCommandExample( '567 3 round_by_digits' ) + '''
 ''' + makeCommandExample( 'pi -3 round_by_digits' ) + '''
-''' + makeCommandExample( '-a15 -13 pi round_by_digits -d' ),
+''' + makeCommandExample( '-a15 pi -13 round_by_digits -d' ),
 [ 'round', 'round_by_value', 'nearest_int' ] ],
 
     'round_by_value' : [
@@ -13805,68 +13807,69 @@ def main( ):
     noCrossReferences = [ ]
     badCrossReferences = set( )
 
-    for topic, help in operatorHelp.items( ):
-        if len( help ) != 5:
-            print( 'error: malformed help data for topic \'' + topic + '\'' )
-            continue
+    if not QUIET_MODE:
+        for topic, help in operatorHelp.items( ):
+            if len( help ) != 5:
+                print( 'error: malformed help data for topic \'' + topic + '\'' )
+                continue
 
-        if not help[ 0 ]:
-            noCategory.append( topic )
+            if not help[ 0 ]:
+                noCategory.append( topic )
 
-        if not help[ 1 ]:
-            noDescription.append( topic )
+            if not help[ 1 ]:
+                noDescription.append( topic )
 
-        if ( not help[ 2 ] or help[ 2 ] == '\n' ) and \
-           topic not in g.unitOperators:
-            noHelpText.append( topic )
+            if ( not help[ 2 ] or help[ 2 ] == '\n' ) and \
+               topic not in g.unitOperators:
+                noHelpText.append( topic )
 
-        if ( not help[ 3 ] or help[ 3 ] == '\n' ) and \
-           ( topic not in g.unitOperators and topic not in constantOperators ):
-            noExamples.append( topic )
+            if ( not help[ 3 ] or help[ 3 ] == '\n' ) and \
+               ( topic not in g.unitOperators and topic not in constantOperators ):
+                noExamples.append( topic )
 
-        if len( help[ 4 ] )== 0:
-            noCrossReferences.append( topic )
-        else:
-            for crossReference in help[ 4 ]:
-                if crossReference not in g.unitOperators and crossReference not in constantOperators and \
-                   crossReference not in operatorHelp and crossReference not in ( 'constants', 'unit_types' ):
-                    badCrossReferences.add( crossReference )
+            if len( help[ 4 ] )== 0:
+                noCrossReferences.append( topic )
+            else:
+                for crossReference in help[ 4 ]:
+                    if crossReference not in g.unitOperators and crossReference not in constantOperators and \
+                       crossReference not in operatorHelp and crossReference not in ( 'constants', 'unit_types' ):
+                        badCrossReferences.add( crossReference )
 
-    if noCategory:
-        print( )
-        print( 'The following {} topics do not have a category defined:'.format( len( noCategory ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( noCategory ) ) )
+        if noCategory:
+            print( )
+            print( 'The following {} topics do not have a category defined:'.format( len( noCategory ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( noCategory ) ) )
 
-    if noDescription:
-        print( )
-        print( 'The following {} topics do not have any description:'.format( len( noDescription ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( noDescription ) ) )
+        if noDescription:
+            print( )
+            print( 'The following {} topics do not have any description:'.format( len( noDescription ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( noDescription ) ) )
 
-    if noHelpText:
-        print( )
-        print( 'The following {} topics do not have any help text:'.format( len( noHelpText ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( noHelpText ) ) )
+        if noHelpText:
+            print( )
+            print( 'The following {} topics do not have any help text:'.format( len( noHelpText ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( noHelpText ) ) )
 
-    if noExamples:
-        print( )
-        print( 'The following {} topics do not have any examples:'.format( len( noExamples ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( noExamples ) ) )
+        if noExamples:
+            print( )
+            print( 'The following {} topics do not have any examples:'.format( len( noExamples ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( noExamples ) ) )
 
-    if noCrossReferences:
-        print( )
-        print( 'The following {} topics do not have any cross references:'.format( len( noCrossReferences ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( noCrossReferences ) ) )
+        if noCrossReferences:
+            print( )
+            print( 'The following {} topics do not have any cross references:'.format( len( noCrossReferences ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( noCrossReferences ) ) )
 
-    if badCrossReferences:
-        print( )
-        print( 'The following {} cross references are invalid:'.format( len( badCrossReferences ) ) )
-        print( )
-        printParagraph( ', '.join( sorted( badCrossReferences ) ) )
+        if badCrossReferences:
+            print( )
+            print( 'The following {} cross references are invalid:'.format( len( badCrossReferences ) ) )
+            print( )
+            printParagraph( ', '.join( sorted( badCrossReferences ) ) )
 
     print( )
     print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1_000_000_000 ) )

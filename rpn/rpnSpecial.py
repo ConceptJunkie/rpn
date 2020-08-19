@@ -319,11 +319,11 @@ def findPolynomial( n, k ):
 
 #******************************************************************************
 #
-#  generateUUID
+#  generateUUIDOperator
 #
 #******************************************************************************
 
-def generateUUID( ):
+def generateUUIDOperator( ):
     '''
     Generates a UUID that uses the current machine's MAC address and the
     current time as seeds.
@@ -333,11 +333,11 @@ def generateUUID( ):
 
 #******************************************************************************
 #
-#  generateRandomUUID
+#  generateRandomUUIDOperator
 #
 #******************************************************************************
 
-def generateRandomUUID( ):
+def generateRandomUUIDOperator( ):
     '''Generates a completely random UUID.'''
     return str( uuid.uuid4( ) )
 

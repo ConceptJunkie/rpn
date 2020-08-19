@@ -378,40 +378,40 @@ def convertToUnsignedQuadLong( n ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def andOperands( n, k ):
+def andOperator( n, k ):
     return 1 if ( n != 0 and k != 0 ) else 0
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def notOperand( n ):
+def notOperator( n ):
     return 1 if n == 0 else 0
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def nandOperands( n, k ):
+def nandOperator( n, k ):
     return 0 if ( n != 0 and k != 0 ) else 1
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def norOperands( n, k ):
+def norOperator( n, k ):
     return 0 if ( n != 0 or k != 0 ) else 1
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def orOperands( n, k ):
+def orOperator( n, k ):
     return 1 if ( n != 0 or k != 0 ) else 0
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def xnorOperands( n, k ):
+def xnorOperator( n, k ):
     return 1 if ( n != 0 ) == ( k != 0 ) else 0
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ),
                  IntValidator( ) ] )
-def xorOperands( n, k ):
+def xorOperator( n, k ):
     return 1 if ( n != 0 ) != ( k != 0 ) else 0

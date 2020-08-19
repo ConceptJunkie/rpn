@@ -22,7 +22,7 @@ from shutil import copyfile
 
 import ephem
 
-from mpmath import apery, arange, catalan, cplot, e, euler, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
+from mpmath import apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
                    lambertw, limit, mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 
 from rpn.rpnAliases import dumpAliases
@@ -68,14 +68,14 @@ from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynom
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
                                  getPartitionsWithLimit, getPermutations, getStirling1Number, getStirling2Number
 
-from rpn.rpnComputer import andOperands, convertToChar, convertToDouble, convertToFloat, convertToLong, \
+from rpn.rpnComputer import andOperator, convertToChar, convertToDouble, convertToFloat, convertToLong, \
                             convertToLongLong, convertToQuadLong, convertToShort, convertToSignedIntOperator, \
                             convertToUnsignedChar, convertToUnsignedInt, convertToUnsignedLong, \
                             convertToUnsignedLongLong, convertToUnsignedQuadLong, convertToUnsignedShort, \
                             getBitCountOperator, getBitwiseAnd, getBitwiseNand, getBitwiseNor, getBitwiseOr, \
-                            getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, nandOperands, orOperands, \
-                            norOperands, notOperand, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperands, \
-                            xorOperands
+                            getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, nandOperator, orOperator, \
+                            norOperator, notOperator, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperator, \
+                            xorOperator
 
 from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
@@ -139,14 +139,14 @@ from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMeanOp
                         calculateArithmeticMeanOperator, calculateGeometricMeanOperator, \
                         calculateHarmonicMeanOperator, calculatePowerTower, calculatePowerTower2, \
                         calculateRootMeanSquare, collate, compareLists, countElements, doesListRepeat, \
-                        enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, flatten, \
+                        enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, flattenOperator, \
                         getAlternatingSum, getAndAll, getCumulativeListDiffs, getCumulativeListProducts, \
                         getCumulativeListSums, getCumulativeListRatios, getCumulativeOccurrenceRatios, getDifference, \
                         getGCDOperator, getGCDOfList, getListCombinations, getListCombinationsWithRepeats, getLeft, \
                         getListDiffs, getListPowerset, getListRatios, getRight, getIndexOfMax, getIndexOfMin, \
                         getListElement, getListPermutations, getListPermutationsWithRepeats, getNandAll, \
-                        getNonzeroes, getNorAll, getProduct, getOccurrences, getOccurrenceRatios, getOrAll, \
-                        getRandomElement, getReverse, getSlice, getStandardDeviation, getSublist, getSum, \
+                        getNonzeroes, getNorAll, getProductOperator, getOccurrences, getOccurrenceRatios, getOrAll, \
+                        getRandomElement, getReverse, getSlice, getStandardDeviation, getSublist, getSumOperator, \
                         getUniqueElements, getZeroes, groupElements, interleave, isPalindromeList, \
                         listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, permuteLists, \
                         reduceListOperator, shuffleList, sortAscending, sortDescending
@@ -154,20 +154,27 @@ from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMeanOp
 from rpn.rpnLocation import convertLatLongToNAC, getGeographicDistance, getLocation, getLocationInfo, \
                             getTimeZone, makeLocation
 
-from rpn.rpnMath import addOperator, calculateHypotenuse, calculateNthHyperoperator, calculateNthRightHyperoperator, \
-                        cube, decrement, exp, divideOperator, getAbsoluteValue, getAGM, getArgument, getCeiling, \
-                        getConjugate, getCubeRoot, getCubeSuperRoot, getExp, getExp10, getExpPhi, getFloor, \
-                        getImaginary, getLambertW, getLarger, getLI, getLog, getLog10, getLog2, getLogXY, \
-                        getMantissa, getMaximum, getMinimum, getModulo, getNearestInt, getNegative, getPolyexp, \
-                        getPolylog, getPowerOperator, getReal, getReciprocal, getRootOperator, getSign, getSmaller, \
-                        getSquareRoot, getSquareSuperRoot, getSuperRoot, getSuperRoots, getValue, acosOperator, \
-                        acotOperator, acothOperator, acoshOperator, acscOperator, acschOperator, asecOperator, \
-                        asechOperator, asinOperator, asinhOperator, atanOperator, atanhOperator, cotOperator, \
-                        cothOperator, cscOperator, cschOperator, cosOperator, coshOperator, secOperator, \
-                        sechOperator, sinOperator, sinhOperator, tanOperator, tanhOperator, increment, \
-                        isDivisibleOperator, isEqual, isEven, isGreater, isKthPower, isLess, isNotEqual, \
-                        isNotGreater, isNotLess, isNotZero, isOdd, isPower, isSquare, isZero, multiplyOperator, \
-                        roundByDigits, roundByValueOperator, roundOff, square, subtractOperator, tetrate, tetrateRight
+from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, \
+                        addOperator, asecOperator, asechOperator, asinOperator, asinhOperator, atanOperator, \
+                        atanhOperator, calculateHypotenuseOperator, calculateNthHyperoperatorOperator, \
+                        calculateNthRightHyperoperatorOperator, cosOperator, coshOperator, cotOperator, cothOperator, \
+                        cscOperator, cschOperator, cubeOperator, decrementOperator, divideOperator, getAGMOperator, \
+                        getAbsoluteValueOperator, getArgumentOperator, getCeilingOperator, getConjugateOperator, \
+                        getCubeRootOperator, getCubeSuperRootOperator, getExpOperator, getExp10Operator, \
+                        getExpOperator, getExpPhiOperator, getFloorOperator, getImaginaryOperator, getLIOperator, \
+                        getLambertWOperator, getLargerOperator, getLog10Operator, getLog2Operator, getLogOperator, \
+                        getLogXYOperator, getMantissaOperator, getMaximumOperator, getMinimumOperator, \
+                        getModuloOperator, getNearestIntOperator, getNegativeOperator, getPolyexpOperator, \
+                        getPolylogOperator, getPowerOperator, getRealOperator, getReciprocalOperator, \
+                        getRootOperator, getSignOperator, getSmallerOperator, getSquareRootOperator, \
+                        getSquareSuperRootOperator, getSuperRootOperator, getSuperRootsOperator, getValueOperator, \
+                        incrementOperator, isDivisibleOperator, isEqualOperator, isEvenOperator, isGreaterOperator, \
+                        isIntegerOperator, isKthPowerOperator, isLessOperator, isNotEqualOperator, \
+                        isNotGreaterOperator, isNotLessOperator, isNotZeroOperator, isOddOperator, isPowerOperator, \
+                        isSquareOperator, isZeroOperator, multiplyOperator, roundByDigitsOperator, \
+                        roundByValueOperator, roundOffOperator, secOperator, sechOperator, sinOperator, sinhOperator, \
+                        squareOperator, subtractOperator, tanOperator, tanhOperator, tetrateOperator, \
+                        tetrateRightOperator
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
                                convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
@@ -202,7 +209,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getPowModOperator, getPrimePi, getRadical, getSigmaKOperator, getSigmaOperator, \
                                 getTrigamma, getUnitRoots, getZeta, interpretAsBaseOperator, interpretAsFraction, \
                                 isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumberOperator, \
-                                isDeficient, isFriendly, isHarmonicDivisorNumber, isInteger, isKHyperperfect, \
+                                isDeficient, isFriendly, isHarmonicDivisorNumber, isKHyperperfect, \
                                 isKPerfect, isKSemiprimeOperator, isKSphenicOperator, isPerfect, isPernicious, \
                                 isPolydivisible, isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, \
                                 isSemiprime, isSmoothOperator, isSphenic, isSquareFree, isUnusual, \
@@ -284,8 +291,8 @@ from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMo
                             setTimer, setTimerMode
 
 from rpn.rpnSpecial import describeInteger, downloadOEISComment, downloadOEISExtra, downloadOEISName, \
-                           downloadOEISOffset, downloadOEISSequence, findPolynomial, generateRandomUUID, \
-                           generateUUID, getMultipleRandomsGenerator, getRandomInteger, \
+                           downloadOEISOffset, downloadOEISSequence, findPolynomial, generateRandomUUIDOperator, \
+                           generateUUIDOperator, getMultipleRandomsGenerator, getRandomInteger, \
                            getRandomIntegersGenerator, getRandomNumber
 
 from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, oneArgFunctionEvaluator, \
@@ -2240,16 +2247,16 @@ listOperators = {
     'lcm'                           : RPNOperator( getLCMOfList,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'maximum'                       : RPNOperator( getMaximum,
+    'maximum'                       : RPNOperator( getMaximumOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     'mean'                          : RPNOperator( calculateArithmeticMeanOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'minimum'                       : RPNOperator( getMinimum,
+    'minimum'                       : RPNOperator( getMinimumOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'product'                       : RPNOperator( getProduct,
+    'product'                       : RPNOperator( getProductOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     'root_mean_square'              : RPNOperator( calculateRootMeanSquare,
@@ -2258,7 +2265,7 @@ listOperators = {
     'stddev'                        : RPNOperator( getStandardDeviation,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'sum'                           : RPNOperator( getSum,
+    'sum'                           : RPNOperator( getSumOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     # combinatoric
@@ -2387,7 +2394,7 @@ listOperators = {
     'find'                          : RPNOperator( findInList,
                                                    2, [ RPNValidator.List, RPNValidator.Default ], [ ] ),
 
-    'flatten'                       : RPNOperator( flatten,
+    'flatten'                       : RPNOperator( flattenOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     'get_combinations'              : RPNOperator( getListCombinations,
@@ -2580,113 +2587,113 @@ operators = {
                                                         RPNValidator.Default ], [ ] ),
 
     # arithmetic
-    'abs'                           : RPNOperator( getAbsoluteValue,
+    'abs'                           : RPNOperator( getAbsoluteValueOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
     'add'                           : RPNOperator( addOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'ceiling'                       : RPNOperator( getCeiling,
+    'ceiling'                       : RPNOperator( getCeilingOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'decrement'                     : RPNOperator( decrement,
+    'decrement'                     : RPNOperator( decrementOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
     'divide'                        : RPNOperator( divideOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
-    'floor'                         : RPNOperator( getFloor,
+    'floor'                         : RPNOperator( getFloorOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
     'gcd2'                          : RPNOperator( getGCDOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'increment'                     : RPNOperator( increment,
+    'increment'                     : RPNOperator( incrementOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
     'is_divisible'                  : RPNOperator( isDivisibleOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'is_equal'                      : RPNOperator( isEqual,
+    'is_equal'                      : RPNOperator( isEqualOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'is_even'                       : RPNOperator( isEven,
+    'is_even'                       : RPNOperator( isEvenOperator,
                                                    1, [ RPNValidator.Real ], [ ] ),
 
-    'is_greater'                    : RPNOperator( isGreater,
+    'is_greater'                    : RPNOperator( isGreaterOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'is_integer'                    : RPNOperator( isInteger,
+    'is_integer'                    : RPNOperator( isIntegerOperator,
                                                    1, [ RPNValidator.Real ], [ ] ),
 
-    'is_kth_power'                  : RPNOperator( isKthPower,
+    'is_kth_power'                  : RPNOperator( isKthPowerOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
 
-    'is_less'                       : RPNOperator( isLess,
+    'is_less'                       : RPNOperator( isLessOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'is_not_equal'                  : RPNOperator( isNotEqual,
+    'is_not_equal'                  : RPNOperator( isNotEqualOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'is_not_greater'                : RPNOperator( isNotGreater,
+    'is_not_greater'                : RPNOperator( isNotGreaterOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'is_not_less'                   : RPNOperator( isNotLess,
+    'is_not_less'                   : RPNOperator( isNotLessOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'is_not_zero'                   : RPNOperator( isNotZero,
+    'is_not_zero'                   : RPNOperator( isNotZeroOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'is_odd'                        : RPNOperator( isOdd,
+    'is_odd'                        : RPNOperator( isOddOperator,
                                                    1, [ RPNValidator.Real ], [ ] ),
 
-    'is_power_of_k'                 : RPNOperator( isPower,
+    'is_power_of_k'                 : RPNOperator( isPowerOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
 
-    'is_square'                     : RPNOperator( isSquare,
+    'is_square'                     : RPNOperator( isSquareOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'is_zero'                       : RPNOperator( isZero,
+    'is_zero'                       : RPNOperator( isZeroOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'larger'                        : RPNOperator( getLarger,
+    'larger'                        : RPNOperator( getLargerOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
     'lcm2'                          : RPNOperator( getLCM,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'mantissa'                      : RPNOperator( getMantissa,
+    'mantissa'                      : RPNOperator( getMantissaOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'modulo'                        : RPNOperator( getModulo,
+    'modulo'                        : RPNOperator( getModuloOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
     'multiply'                      : RPNOperator( multiplyOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'nearest_int'                   : RPNOperator( getNearestInt,
+    'nearest_int'                   : RPNOperator( getNearestIntOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'negative'                      : RPNOperator( getNegative,
+    'negative'                      : RPNOperator( getNegativeOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'reciprocal'                    : RPNOperator( getReciprocal,
+    'reciprocal'                    : RPNOperator( getReciprocalOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'round'                         : RPNOperator( roundOff,
+    'round'                         : RPNOperator( roundOffOperator,
                                                    1, [ RPNValidator.Real ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'round_by_digits'               : RPNOperator( roundByDigits,
+    'round_by_digits'               : RPNOperator( roundByDigitsOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Integer ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -2694,11 +2701,11 @@ operators = {
                                                    2, [ RPNValidator.Real, RPNValidator.NonnegativeReal ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'sign'                          : RPNOperator( getSign,
+    'sign'                          : RPNOperator( getSignOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'smaller'                       : RPNOperator( getSmaller,
+    'smaller'                       : RPNOperator( getSmallerOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
     'subtract'                      : RPNOperator( subtractOperator,
@@ -3230,16 +3237,16 @@ operators = {
                                                    2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
 
     # complex
-    'argument'                      : RPNOperator( getArgument,
+    'argument'                      : RPNOperator( getArgumentOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'conjugate'                     : RPNOperator( getConjugate,
+    'conjugate'                     : RPNOperator( getConjugateOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'imaginary'                     : RPNOperator( getImaginary,
+    'imaginary'                     : RPNOperator( getImaginaryOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'real'                          : RPNOperator( getReal,
+    'real'                          : RPNOperator( getRealOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
     # conversion
@@ -3696,7 +3703,7 @@ operators = {
     'dodecahedron_volume'           : RPNOperator( getDodecahedronVolume,
                                                    1, [ RPNValidator.NonnegativeReal ], [ ] ),
 
-    'hypotenuse'                    : RPNOperator( calculateHypotenuse,
+    'hypotenuse'                    : RPNOperator( calculateHypotenuseOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
     'icosahedron_area'              : RPNOperator( getIcosahedronSurfaceArea,
@@ -3965,50 +3972,50 @@ operators = {
                                                         RPNValidator.Real ], [ ] ),
 
     # logarithms
-    'lambertw'                      : RPNOperator( getLambertW,
+    'lambertw'                      : RPNOperator( getLambertWOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'li'                            : RPNOperator( getLI,
+    'li'                            : RPNOperator( getLIOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'log'                           : RPNOperator( getLog,
+    'log'                           : RPNOperator( getLogOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'log10'                         : RPNOperator( getLog10,
+    'log10'                         : RPNOperator( getLog10Operator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'log2'                          : RPNOperator( getLog2,
+    'log2'                          : RPNOperator( getLog2Operator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'logxy'                         : RPNOperator( getLogXY,
+    'logxy'                         : RPNOperator( getLogXYOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
-    'polyexp'                       : RPNOperator( getPolyexp,
+    'polyexp'                       : RPNOperator( getPolyexpOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
-    'polylog'                       : RPNOperator( getPolylog,
+    'polylog'                       : RPNOperator( getPolylogOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
     # logical
-    'and'                           : RPNOperator( andOperands,
+    'and'                           : RPNOperator( andOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'nand'                          : RPNOperator( nandOperands,
+    'nand'                          : RPNOperator( nandOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'nor'                           : RPNOperator( norOperands,
+    'nor'                           : RPNOperator( norOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'not'                           : RPNOperator( notOperand,
+    'not'                           : RPNOperator( notOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'or'                            : RPNOperator( orOperands,
+    'or'                            : RPNOperator( orOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'xnor'                          : RPNOperator( xnorOperands,
+    'xnor'                          : RPNOperator( xnorOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'xor'                           : RPNOperator( xorOperands,
+    'xor'                           : RPNOperator( xorOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
     # number_theory
@@ -4420,33 +4427,33 @@ operators = {
                                                    2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
 
     # powers_and_roots
-    'agm'                           : RPNOperator( getAGM,
+    'agm'                           : RPNOperator( getAGMOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
-    'cube'                          : RPNOperator( cube,
+    'cube'                          : RPNOperator( cubeOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'cube_root'                     : RPNOperator( getCubeRoot,
+    'cube_root'                     : RPNOperator( getCubeRootOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'cube_super_root'               : RPNOperator( getCubeSuperRoot,
+    'cube_super_root'               : RPNOperator( getCubeSuperRootOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'exp'                           : RPNOperator( getExp,
+    'exp'                           : RPNOperator( getExpOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'exp10'                         : RPNOperator( getExp10,
+    'exp10'                         : RPNOperator( getExp10Operator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'expphi'                        : RPNOperator( getExpPhi,
+    'expphi'                        : RPNOperator( getExpPhiOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'hyperoperator'                 : RPNOperator( calculateNthHyperoperator,
+    'hyperoperator'                 : RPNOperator( calculateNthHyperoperatorOperator,
                                                    3, [ RPNValidator.NonnegativeInteger, RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
-    'hyperoperator_right'           : RPNOperator( calculateNthRightHyperoperator,
+    'hyperoperator_right'           : RPNOperator( calculateNthRightHyperoperatorOperator,
                                                    3, [ RPNValidator.NonnegativeInteger, RPNValidator.Default, RPNValidator.Default ], [ ] ),
 
     'power'                         : RPNOperator( getPowerOperator,
@@ -4461,27 +4468,27 @@ operators = {
                                                    2, [ RPNValidator.Default, RPNValidator.Real ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'square'                        : RPNOperator( square,
+    'square'                        : RPNOperator( squareOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'square_root'                   : RPNOperator( getSquareRoot,
+    'square_root'                   : RPNOperator( getSquareRootOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'square_super_root'             : RPNOperator( getSquareSuperRoot,
+    'square_super_root'             : RPNOperator( getSquareSuperRootOperator,
                                                    1, [ RPNValidator.Default ], [ ] ),
 
-    'super_root'                    : RPNOperator( getSuperRoot,
+    'super_root'                    : RPNOperator( getSuperRootOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.NonnegativeInteger ], [ ] ),
 
-    'super_roots'                   : RPNOperator( getSuperRoots,
+    'super_roots'                   : RPNOperator( getSuperRootsOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.NonnegativeInteger ], [ ] ),
 
-    'tetrate'                       : RPNOperator( tetrate,
+    'tetrate'                       : RPNOperator( tetrateOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Real ], [ ] ),
 
-    'tetrate_right'                 : RPNOperator( tetrateRight,
+    'tetrate_right'                 : RPNOperator( tetrateRightOperator,
                                                    2, [ RPNValidator.Default, RPNValidator.Real ], [ ] ),
 
     # prime_number
@@ -4808,13 +4815,13 @@ operators = {
 
     #'topics' doesn't need to be handled here, see rpn.py, search for 'topics'
 
-    'uuid'                          : RPNOperator( generateUUID,
+    'uuid'                          : RPNOperator( generateUUIDOperator,
                                                    0, [ ], [ ] ),
 
-    'uuid_random'                   : RPNOperator( generateRandomUUID,
+    'uuid_random'                   : RPNOperator( generateRandomUUIDOperator,
                                                    0, [ ], [ ] ),
 
-    'value'                         : RPNOperator( getValue,
+    'value'                         : RPNOperator( getValueOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 

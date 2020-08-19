@@ -21,6 +21,7 @@ from mpmath import floor, im, mpf
 from mpmath.ctx_mp_python import mpc
 
 from rpn.rpnDateTimeClass import RPNDateTime
+from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 
 import rpn.rpnGlobals as g
@@ -99,6 +100,8 @@ class RPNValidator( ):
             argument = self.validateReal( argument )
         elif self.type == self.Complex:
             argument = self.validateComplex( argument )
+        elif self.type == self.Integer + self.Measurement:
+            argument = self.validateIntOrMeasurement( argument )
         elif self.type == self.Real + self.Measurement:
             argument = self.validateRealOrMeasurement( argument )
         elif self.type == self.Complex + self.Measurement:
@@ -109,6 +112,10 @@ class RPNValidator( ):
             argument = self.validateComplexOrMeasurementOrDateTime( argument )
         elif self.type == self.Length:
             argument = self.validateLength( argument )
+        elif self.type == self.Integer + self.DateTime:
+            argument = self.validateIntOrDateTime( argument )
+        elif self.type == self.List:
+            argument = self.validateList( argument )
 
         for special in self.specials:
             if not special[ 0 ]( argument ):
@@ -121,8 +128,7 @@ class RPNValidator( ):
 
     def validateInt( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            print( 'typeof', type( argument ) )
-            raise ValueError( 'numeric value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
 
         if im( argument ) != 0:
             raise ValueError( 'real argument expected ({})'.format( argument ) )
@@ -140,28 +146,64 @@ class RPNValidator( ):
 
     def validateReal( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'argument is type { type( argument ) }, but numeric value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
 
         if im( argument ) != 0:
             raise ValueError( 'real argument expected ({})'.format( argument ) )
 
         if self.min is not None and argument < self.min:
-            raise ValueError( f'argument value is { argument }, but the minimum valid value is { self.min }.' )
+            raise ValueError( f'argument value is { argument }, minimum valid value is { self.min }.' )
 
         if self.max is not None and argument > self.max:
-            raise ValueError( f'argument value is { argument }, but the maximum valid value is { self.max }.' )
+            raise ValueError( f'argument value is { argument }, maximum valid value is { self.max }.' )
 
         return argument
 
     def validateComplex( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'argument is type { type( argument ) }, but numeric value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
 
         if self.min is not None :
             raise ValueError( 'The min constraint is invalid for validating complex arguments.' )
 
         if self.max is not None :
             raise ValueError( 'The max constraint is invalid for validating complex arguments.' )
+
+        return argument
+
+    def validateDateTime( self, argument ):
+        if isinstance( argument, RPNDateTime ):
+            pass
+        else:
+            raise ValueError( f'argument is type { type( argument ) }, but date-time value expected' )
+
+        return argument
+
+    def validateMeasurement( self, argument ):
+        if isinstance( argument, RPNMeasurement ):
+            pass
+        else:
+            raise ValueError( f'argument is type { type( argument ) }, but measurement value expected' )
+
+        return argument
+
+    def validateIntOrMeasurement( self, argument ):
+        if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
+            argument = self.validateInt( argument )
+        elif isinstance( argument, RPNMeasurement ):
+            self.validateMeasurement( argument )
+        else:
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric or measurement value expected' )
+
+        return argument
+
+    def validateIntOrDateTime( self, argument ):
+        if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
+            argument = self.validateInt( argument )
+        elif isinstance( argument, RPNDateTime ):
+            self.validateDateTime( argument )
+        else:
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric or date-time value expected' )
 
         return argument
 
@@ -181,7 +223,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNMeasurement ):
             pass
         else:
-            raise ValueError( f'argument is type { type( argument ) }, but numeric or measurement value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric or measurement value expected' )
 
         return argument
 
@@ -193,7 +235,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNDateTime ):
             pass
         else:
-            raise ValueError( f'argument is type { type( argument ) }, but numeric, measurement or date-time value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
 
         return argument
 
@@ -205,7 +247,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNDateTime ):
             pass
         else:
-            raise ValueError( f'argument is type { type( argument ) }, but numeric, measurement or date-time value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
 
         return argument
 
@@ -215,11 +257,18 @@ class RPNValidator( ):
             argument = RPNMeasurement( argument, 'meter' )
         elif isinstance( argument, RPNMeasurement ):
             if argument.getDimensions( ) != { 'length' : 1 }:
-                raise ValueError( 'argument must be a length' )
+                raise ValueError( 'measurement argument must be a length' )
         else:
-            raise ValueError( f'argument is type { type( argument ) }, but must be a length' )
+            raise ValueError( f'\'type\' { type( argument ) } found, measurement (length) expected' )
 
         return argument
+
+    def validateList( self, argument ):
+        if not isinstance( argument, ( list, RPNGenerator ) ):
+            raise ValueError( f'\'type\' { type( argument ) } found, list expected' )
+
+        return argument
+
 
 
 class DefaultValidator( RPNValidator ):
@@ -242,9 +291,29 @@ class ComplexValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Complex, min, max, specials )
 
 
+class MeasurementValidator( RPNValidator ):
+    def __init__( self, min=None, max=None, specials=None ):
+        super( ).__init__( RPNValidator.Measurement, min, max, specials=specials )
+
+
 class LengthValidator( RPNValidator ):
+    def __init__( self, min=None, max=None, specials=None ):
+        super( ).__init__( RPNValidator.Length, min, max, specials=specials )
+
+
+class DateTimeValidator( RPNValidator ):
+    def __init__( self, min=None, max=None, specials=None ):
+        super( ).__init__( RPNValidator.DateTime, min, max, specials=specials )
+
+
+class IntOrDateTimeValidator( RPNValidator ):
     def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Length, specials=specials )
+        super( ).__init__( RPNValidator.Integer + RPNValidator.DateTime, specials=specials )
+
+
+class IntOrMeasurementValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Integer + RPNValidator.Measurement, specials=specials )
 
 
 class RealOrMeasurementValidator( RPNValidator ):
@@ -261,6 +330,13 @@ class RealOrMeasurementOrDateTimeValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Real + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
 
+
 class ComplexOrMeasurementOrDateTimeValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
+
+
+class ListValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.List, specials=specials )
+

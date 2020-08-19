@@ -16,7 +16,7 @@ from mpmath import fabs, fdiv, floor, fmod, power
 
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnValidator import argValidator, IntValidator, IntOrMeasurementValidator
 
 
 #******************************************************************************
@@ -316,7 +316,7 @@ def getNumberName( n, ordinal = False ):
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ) ] )
+@argValidator( [ IntOrMeasurementValidator( ) ] )
 def getName( n ):
     return getNumberName( n )
 

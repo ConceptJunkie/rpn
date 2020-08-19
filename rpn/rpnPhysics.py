@@ -12,12 +12,12 @@
 #
 #******************************************************************************
 
-from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, pi, power, sqrt
+from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, ln, pi, power, sqrt
 
 from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
-from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
+from rpn.rpnMath import divide, getPower, getRoot, multiply
 from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurement import RPNMeasurement
 
@@ -212,7 +212,7 @@ def calculateBlackHoleEntropy( measurement ):
 
     entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getConstant( 'newton_constant' ) ] ),
                       getProduct( [ getConstant( 'reduced_planck_constant' ),
-                                    getConstant( 'speed_of_light' ), getLog( 10.0 ) ] ) )
+                                    getConstant( 'speed_of_light' ), ln( 10.0 ) ] ) )
 
     return getConstant( 'boltzmann_constant' ).multiply( entropy ).convert( 'bit' )
 
