@@ -135,21 +135,22 @@ from rpn.rpnLexicographic import addDigits, buildNumbers, buildStepNumbers, comb
                                  permuteDigits, replaceDigits, reverseDigitsOperator, rotateDigitsLeft, \
                                  rotateDigitsRight, showErdosPersistence, showKPersistence, showPersistence, sumDigits
 
-from rpn.rpnList import alternateSigns, appendLists, calculateAntiharmonicMeanOperator, \
-                        calculateArithmeticMeanOperator, calculateGeometricMeanOperator, \
-                        calculateHarmonicMeanOperator, calculatePowerTower, calculatePowerTower2, \
-                        calculateRootMeanSquare, collate, compareLists, countElements, doesListRepeat, \
-                        enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, flattenOperator, \
-                        getAlternatingSum, getAndAll, getCumulativeListDiffs, getCumulativeListProducts, \
-                        getCumulativeListSums, getCumulativeListRatios, getCumulativeOccurrenceRatios, getDifference, \
-                        getGCDOperator, getGCDOfList, getListCombinations, getListCombinationsWithRepeats, getLeft, \
-                        getListDiffs, getListPowerset, getListRatios, getRight, getIndexOfMax, getIndexOfMin, \
-                        getListElement, getListPermutations, getListPermutationsWithRepeats, getNandAll, \
-                        getNonzeroes, getNorAll, getProductOperator, getOccurrences, getOccurrenceRatios, getOrAll, \
-                        getRandomElement, getReverse, getSlice, getStandardDeviation, getSublist, getSumOperator, \
-                        getUniqueElements, getZeroes, groupElements, interleave, isPalindromeList, \
-                        listAndOneArgFunctionEvaluator, makeIntersection, makeUnion, permuteLists, \
-                        reduceListOperator, shuffleList, sortAscending, sortDescending
+from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendListsOperator, \
+                        calculateAntiharmonicMeanOperator, calculateArithmeticMeanOperator, \
+                        calculateGeometricMeanOperator, calculateHarmonicMeanOperator, calculatePowerTowerOperator, \
+                        calculatePowerTower2Operator, calculateRootMeanSquare, collate, compareLists, countElements, \
+                        doesListRepeat, enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, \
+                        flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, getAndAll, \
+                        getCumulativeListDiffs, getCumulativeListProducts, getCumulativeListSums, \
+                        getCumulativeListRatios, getCumulativeOccurrenceRatios, getDifference, getGCDOperator, \
+                        getGCDOfList, getListCombinations, getListCombinationsWithRepeats, getLeft, getListDiffs, \
+                        getListPowerset, getListRatios, getRight, getIndexOfMax, getIndexOfMin, getListElement, \
+                        getListPermutations, getListPermutationsWithRepeats, getNandAll, getNonzeroes, getNorAll, \
+                        getProductOperator, getOccurrences, getOccurrenceRatios, getOrAll, getRandomElement, \
+                        getReverse, getSlice, getStandardDeviation, getSublist, getSumOperator, getUniqueElements, \
+                        getZeroes, groupElements, interleave, isPalindromeList, listAndOneArgFunctionEvaluator, \
+                        makeIntersection, makeUnion, permuteLists, reduceListOperator, shuffleList, sortAscending, \
+                        sortDescending
 
 from rpn.rpnLocation import convertLatLongToNAC, getGeographicDistance, getLocation, getLocationInfo, \
                             getTimeZone, makeLocation
@@ -182,7 +183,7 @@ from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, conve
 from rpn.rpnModifiers import decrementNestedListLevel, duplicateOperation, duplicateTerm, endOperatorList, \
                              getPrevious, incrementNestedListLevel, startOperatorList, unlist
 
-from rpn.rpnName import getName, getOrdinalName
+from rpn.rpnName import getNameOperator, getOrdinalNameOperator
 
 from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFunctionOperator, \
                                 calculateChineseRemainderTheorem, convertFromContinuedFraction, findNthSumOfCubes, \
@@ -2328,22 +2329,22 @@ listOperators = {
                                                    1, [ RPNValidator.Generator ], [ ] ),
 
     # list
-    'alternate_signs'               : RPNOperator( lambda n: RPNGenerator( alternateSigns( n, False ) ),
+    'alternate_signs'               : RPNOperator( lambda n: RPNGenerator( alternateSignsOperator( n ) ),
                                                    1, [ RPNValidator.Generator ], [ ] ),
 
-    'alternate_signs_2'             : RPNOperator( lambda n: RPNGenerator( alternateSigns( n, True ) ),
+    'alternate_signs_2'             : RPNOperator( lambda n: RPNGenerator( alternateSigns2Operator( n ) ),
                                                    1, [ RPNValidator.Generator ], [ ] ),
 
-    'alternating_sum'               : RPNOperator( lambda n: getAlternatingSum( n, False ),
+    'alternating_sum'               : RPNOperator( lambda n: getAlternatingSumOperator( n ),
                                                    1, [ RPNValidator.Generator ], [ ] ),
 
-    'alternating_sum_2'             : RPNOperator( lambda n: getAlternatingSum( n, False ),
+    'alternating_sum_2'             : RPNOperator( lambda n: getAlternatingSum2Operator( n ),
                                                    1, [ RPNValidator.Generator ], [ ] ),
 
     'and_all'                       : RPNOperator( getAndAll,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'append'                        : RPNOperator( appendLists,
+    'append'                        : RPNOperator( appendListsOperator,
                                                    2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
 
     'collate'                       : RPNOperator( lambda n: RPNGenerator( collate( n ) ),
@@ -2538,10 +2539,10 @@ listOperators = {
                                                    2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
 
     # powers_and_roots
-    'power_tower'                   : RPNOperator( calculatePowerTower,
+    'power_tower'                   : RPNOperator( calculatePowerTowerOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'power_tower2'                  : RPNOperator( calculatePowerTower2,
+    'power_tower2'                  : RPNOperator( calculatePowerTower2Operator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     # special
@@ -4755,7 +4756,7 @@ operators = {
     'list_from_file'                : RPNOperator( readListFromFile,
                                                    1, [ RPNValidator.String ], [ ] ),
 
-    'name'                          : RPNOperator( getName,
+    'name'                          : RPNOperator( getNameOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
     'oeis'                          : RPNOperator( downloadOEISSequence,
@@ -4773,7 +4774,7 @@ operators = {
     'oeis_offset'                   : RPNOperator( downloadOEISOffset,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'ordinal_name'                  : RPNOperator( getOrdinalName,
+    'ordinal_name'                  : RPNOperator( getOrdinalNameOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
     'permute_dice'                  : RPNOperator( permuteDiceGenerator,

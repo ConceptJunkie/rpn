@@ -90,6 +90,16 @@ def alternateSigns( n, startNegative = False ):
         yield fneg( i ) if negative else i
         negative = not negative
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def alternateSignsOperator( n ):
+    return alternateSigns( n, False )
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def alternateSigns2Operator( n ):
+    return alternateSigns( n, True )
+
 
 #******************************************************************************
 #
@@ -112,6 +122,16 @@ def getAlternatingSum( args, startNegative = False ):
 
     return result
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getAlternatingSumOperator( n ):
+    return getAlternatingSum( n, False )
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getAlternatingSum2Operator( n ):
+    return getAlternatingSum( n, True )
+
 
 #******************************************************************************
 #
@@ -125,6 +145,10 @@ def appendLists( arg1, arg2 ):
     result.extend( list( arg2 ) )
 
     return result
+
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def appendListsOperator( n, k ):
+    return appendLists( n, k )
 
 
 #******************************************************************************
@@ -623,12 +647,10 @@ def sortDescending( args ):
 
 #******************************************************************************
 #
-#  calculatePowerTower
+#  calculatePowerTowerOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def calculatePowerTower( args ):
     if isinstance( args, RPNGenerator ):
         return calculatePowerTower( list( args ) )
@@ -642,15 +664,18 @@ def calculatePowerTower( args ):
 
     return result
 
-
-#******************************************************************************
-#
-#  calculatePowerTower2
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def calculatePowerTowerOperator( args ):
+    return calculatePowerTower( args )
+
+
+#******************************************************************************
+#
+#  calculatePowerTower2Operator
+#
+#******************************************************************************
+
 def calculatePowerTower2( args ):
     if isinstance( args, RPNGenerator ):
         return calculatePowerTower2( list( args ) )
@@ -663,6 +688,11 @@ def calculatePowerTower2( args ):
         result = power( i, result )
 
     return result
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def calculatePowerTower2Operator( args ):
+    return calculatePowerTower2( args )
 
 
 #******************************************************************************

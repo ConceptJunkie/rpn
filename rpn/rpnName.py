@@ -232,13 +232,16 @@ def getShortOrdinalName( n ):
 
 #******************************************************************************
 #
-#  getOrdinalName
+#  getOrdinalNameOperator
 #
 #******************************************************************************
 
+def getOrdinalName( n ):
+    return getNumberName( n, ordinal = True )
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def getOrdinalName( n ):
+def getOrdinalNameOperator( n ):
     return getNumberName( n, ordinal = True )
 
 
@@ -317,6 +320,6 @@ def getNumberName( n, ordinal = False ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntOrMeasurementValidator( ) ] )
-def getName( n ):
+def getNameOperator( n ):
     return getNumberName( n )
 
