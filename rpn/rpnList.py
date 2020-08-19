@@ -23,7 +23,8 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import add, multiply, square, subtract, divide
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
-                         listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
+                         listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator
 
 
 #******************************************************************************
@@ -57,7 +58,7 @@ def getGCDOfList( args ):
         args = [ args ]
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-        return [ getGCDOfList( validateRealInt( arg ) ) for arg in args ]
+        return [ getGCDOfList( arg ) for arg in args ]
     else:
         result = set( )
 

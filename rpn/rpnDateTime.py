@@ -22,9 +22,11 @@ from dateutil import tz
 
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
+from rpn.rpnDateTimeClass import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement, convertUnits
-from rpn.rpnUtils import oneArgFunctionEvaluator, validateRealInt
+from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 import rpn.rpnGlobals as g
 
@@ -74,198 +76,6 @@ def getLocalTimeZone( ):
 
 #******************************************************************************
 #
-#  class RPNDateTime
-#
-#******************************************************************************
-
-class RPNDateTime( arrow.Arrow ):
-    '''This class wraps the Arrow class, with lots of convenience functions and
-    implements support for date math.'''
-    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = getLocalTimeZone( ), dateOnly = False ):
-        self.dateOnly = dateOnly
-        super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
-                                             int( hour ), int( minute ), int( second ),
-                                             int( microsecond ), tzinfo )
-
-    def setDateOnly( self, dateOnly = True ):
-        self.dateOnly = dateOnly
-
-    def getDateOnly( self ):
-        return self.dateOnly
-
-    @staticmethod
-    def get( *args, **kwargs ):
-        result = arrow.api.get( *args, **kwargs )
-
-        return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzinfo )
-
-    def getYMD( self ):
-        return ( self.year, self.month, self.day )
-
-    @staticmethod
-    def getUTCOffset( timeZone = getLocalTimeZone( ) ):
-        dateTime = datetime.datetime.now( timeZone )
-        return RPNMeasurement( dateTime.utcoffset( ).total_seconds( ), 'seconds' )
-
-    def getLocalTime( self, timeZone = getLocalTimeZone( ) ):
-        result = self
-        result = result.add( self.getUTCOffset( timeZone ) )
-        #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
-        return result
-
-    @staticmethod
-    def parseDateTime( n ):
-        result = arrow.api.get( n )
-
-        return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzinfo )
-
-    @staticmethod
-    def convertFromArrow( arrowDT ):
-        return RPNDateTime( arrowDT.year, arrowDT.month, arrowDT.day, arrowDT.hour,
-                            arrowDT.minute, arrowDT.second, arrowDT.microsecond, arrowDT.tzinfo )
-
-    @staticmethod
-    def convertFromEphemDate( ephemDate ):
-        dateValues = list( ephemDate.tuple( ) )
-
-        dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
-        dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
-
-        return RPNDateTime( *dateValues )
-
-    @staticmethod
-    def getNow( ):
-        return RPNDateTime.convertFromArrow( arrow.now( ) )
-
-    def compare( self, value ):
-        if self.year > value.year:
-            return 1
-        elif self.year < value.year:
-            return -1
-        elif self.month > value.month:
-            return 1
-        elif self.month > value.month:
-            return -1
-        elif self.day > value.day:
-            return 1
-        elif self.day > value.day:
-            return -1
-        elif self.hour > value.hour:
-            return 1
-        elif self.hour > value.hour:
-            return -1
-        elif self.minute > value.minute:
-            return 1
-        elif self.minute > value.minute:
-            return -1
-        elif self.second > value.second:
-            return 1
-        elif self.second > value.second:
-            return -1
-        elif self.microsecond > value.microsecond:
-            return 1
-        elif self.microsecond > value.microsecond:
-            return -1
-        else:
-            return 0
-
-    def incrementMonths( self, months ):
-        newDay = self.day
-        newMonth = self.month + int( months )
-        newYear = self.year
-
-        if not 1 < newMonth < 12:
-            newYear += ( newMonth - 1 ) // 12
-            newMonth = ( ( newMonth - 1 ) % 12 ) + 1
-
-        maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
-
-        if newDay > maxDay:
-            newDay = maxDay
-
-        return RPNDateTime( newYear, newMonth, newDay, self.hour, self.minute, self.second )
-
-    def add( self, time ):
-        if not isinstance( time, RPNMeasurement ):
-            ValueError( 'RPNMeasurement expected' )
-
-        #print( 'time.getUnitName( )', time.getUnitName( ) )
-        #print( 'g.unitOperators[ time.getUnitName( ) ].categories', g.unitOperators[ time.getUnitName( ) ].categories )
-
-        if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
-            years = time.convertValue( 'year' )
-            return self.replace( year = self.year + years )
-        elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
-            months = time.convertValue( 'month' )
-            return self.incrementMonths( months )
-        else:
-            days = int( floor( time.convertValue( 'day' ) ) )
-            seconds = int( fmod( floor( time.convertValue( 'second' ) ), 86400 ) )
-            microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1000000 ) )
-
-            try:
-                return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
-            except OverflowError:
-                print( 'rpn:  value is out of range to be converted into a time' )
-                return nan
-
-    def format( self ):
-        return '{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}'.format( self.year, self.month, self.day,
-                                                                        self.hour, self.minute, self.second )
-
-    def formatDate( self ):
-        return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
-
-    def formatTime( self ):
-        return '{0:02d}:{1:02d}:{2:02d}'.format( self.hour, self.minute, self.second )
-
-    def subtract( self, time ):
-        if isinstance( time, RPNMeasurement ):
-            kneg = RPNMeasurement( fneg( time.value ), time.units )
-            return self.add( kneg )
-        elif isinstance( time, RPNDateTime ):
-            if self > time:
-                delta = self - time
-                factor = 1
-            else:
-                delta = time - self
-                factor = -1
-
-            if delta.days != 0:
-                result = RPNMeasurement( delta.days * factor, 'day' )
-                result = result.add( RPNMeasurement( delta.seconds * factor, 'second' ) )
-                result = result.add( RPNMeasurement( delta.microseconds * factor, 'microsecond' ) )
-            elif delta.seconds != 0:
-                result = RPNMeasurement( delta.seconds * factor, 'second' )
-                result = result.add( RPNMeasurement( delta.microseconds * factor, 'microsecond' ) )
-            else:
-                result = RPNMeasurement( delta.microseconds * factor, 'microsecond' )
-
-            return result
-        else:
-            raise ValueError( 'incompatible type for subtracting from an absolute time' )
-
-    def __gt__( self, value ):
-        return self.compare( value ) > 0
-
-    def __lt__( self, value ):
-        return self.compare( value ) < 0
-
-    def __eq__( self, value ):
-        return self.compare( value ) == 0
-
-    def __ge__( self, value ):
-        return self.compare( value ) >= 0
-
-    def __le__( self, value ):
-        return self.compare( value ) <= 0
-
-
-#******************************************************************************
-#
 #  convertToUnixTime
 #
 #******************************************************************************
@@ -291,9 +101,10 @@ def convertToUnixTime( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def convertFromUnixTime( n ):
     try:
-        result = RPNDateTime.parseDateTime( validateRealInt( n ) )
+        result = RPNDateTime.parseDateTime( int( n ) )
     except OverflowError:
         raise ValueError( 'out of range error' )
     except TypeError:
@@ -470,16 +281,16 @@ def getYesterday( ):
 #
 #  calculateEaster
 #
-#  This algorithm comes from Gauss.
-#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateEaster( year ):
+    '''This algorithm comes from Gauss.'''
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = validateRealInt( year )
+        year = int( year )
 
     a = year % 19
     b = year // 100
@@ -497,13 +308,13 @@ def calculateEaster( year ):
 #
 #  calculateAshWednesday
 #
-#  46 days before Easter (40 days, not counting Sundays)
-#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateAshWednesday( year ):
-    ashWednesday = calculateEaster( validateRealInt( year ) ).add( RPNMeasurement( -46, 'day' ) )
+    '''46 days before Easter (40 days, not counting Sundays)'''
+    ashWednesday = calculateEaster( year ).add( RPNMeasurement( -46, 'day' ) )
     return RPNDateTime( *ashWednesday.getYMD( ), dateOnly = True )
 
 
@@ -511,13 +322,13 @@ def calculateAshWednesday( year ):
 #
 #  calculateGoodFriday
 #
-#  2 days before Easter
-#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateGoodFriday( year ):
-    goodFriday = calculateEaster( validateRealInt( year ) ).add( RPNMeasurement( -2, 'day' ) )
+    '''2 days before Easter'''
+    goodFriday = calculateEaster( year ).add( RPNMeasurement( -2, 'day' ) )
     return RPNDateTime( *goodFriday.getYMD( ), dateOnly = True )
 
 
@@ -528,27 +339,27 @@ def calculateGoodFriday( year ):
 #******************************************************************************
 
 def getLastDayOfMonth( year, month ):
-    return calendar.monthrange( validateRealInt( year ), validateRealInt( month ) )[ 1 ]
+    return calendar.monthrange( int( year ), int( month ) )[ 1 ]
 
 
 #******************************************************************************
 #
 #  calculateNthWeekdayOfYear
 #
-#  Monday = 1, etc., as per arrow, nth == -1 for last
-#
 #******************************************************************************
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( -53, 53 ),
+                 IntValidator( MONDAY, SUNDAY ) ] )
 def calculateNthWeekdayOfYear( year, nth, weekday ):
+    ''' Monday = 1, etc., as per arrow, nth == -1 for last, etc.'''
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
-    if validateRealInt( nth ) > 0:
+    if nth > 0:
         firstDay = RPNDateTime( year, 1, 1 )
 
-        firstWeekDay = validateRealInt( weekday ) - firstDay.isoweekday( ) + 1
+        firstWeekDay = weekday - firstDay.isoweekday( ) + 1
 
         if firstWeekDay < 1:
             firstWeekDay += 7
@@ -560,7 +371,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
     elif nth < 0:
         lastDay = RPNDateTime( year, 12, 31 )
 
-        lastWeekDay = validateRealInt( weekday ) - lastDay.isoweekday( )
+        lastWeekDay = weekday - lastDay.isoweekday( )
 
         if lastWeekDay > 0:
             lastWeekDay -= 7
@@ -579,21 +390,16 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 #
 #  calculateNthWeekdayOfMonth
 #
-#  Monday = 1, etc.
-# ( -1 == last. -2 == next to last, etc.)
-#
 #******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
-    if validateRealInt( weekday ) > SUNDAY or weekday < MONDAY:
+    if weekday > SUNDAY or weekday < MONDAY:
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
-    firstDayOfWeek = arrow.Arrow( validateRealInt( year ), validateRealInt( month ), 1 ).isoweekday( )
+    firstDayOfWeek = arrow.Arrow( year, month, 1 ).isoweekday( )
 
     if nth < 0:
         day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7
@@ -610,6 +416,13 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
 
     return RPNDateTime( year, month, day, dateOnly = True )
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( -5, 5 ),
+                 IntValidator( MONDAY, SUNDAY ) ] )
+def calculateNthWeekdayOfMonthOperator( year, month, nth, weekday ):
+    return calculateNthWeekdayOfMonth( year, month, nth, weekday )
+
 
 #******************************************************************************
 #
@@ -620,11 +433,10 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateThanksgiving( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, NOVEMBER, 4, THURSDAY )
 
@@ -638,11 +450,10 @@ def calculateThanksgiving( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateLaborDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, SEPTEMBER, 1, MONDAY )
 
@@ -656,11 +467,10 @@ def calculateLaborDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateElectionDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     result = calculateNthWeekdayOfMonth( year, NOVEMBER, 1, MONDAY )
     result.replace( day = result.day + 1 )
@@ -677,11 +487,10 @@ def calculateElectionDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateMemorialDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, MAY, -1, MONDAY )
 
@@ -695,11 +504,10 @@ def calculateMemorialDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculatePresidentsDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, FEBRUARY, 3, MONDAY )
 
@@ -713,11 +521,10 @@ def calculatePresidentsDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateMartinLutherKingDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, JANUARY, 3, MONDAY )
 
@@ -731,11 +538,10 @@ def calculateMartinLutherKingDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateColumbusDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, OCTOBER, 2, MONDAY )
 
@@ -749,11 +555,10 @@ def calculateColumbusDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateMothersDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, MAY, 2, SUNDAY )
 
@@ -767,11 +572,10 @@ def calculateMothersDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateFathersDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     return calculateNthWeekdayOfMonth( year, JUNE, 3, SUNDAY )
 
@@ -783,6 +587,7 @@ def calculateFathersDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getNewYearsDay( year ):
     return RPNDateTime( year, JANUARY, 1, dateOnly = True )
 
@@ -794,6 +599,7 @@ def getNewYearsDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getVeteransDay( year ):
     return RPNDateTime( year, NOVEMBER, 11, dateOnly = True )
 
@@ -805,6 +611,7 @@ def getVeteransDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getIndependenceDay( year ):
     return RPNDateTime( year, JULY, 4, dateOnly = True )
 
@@ -816,6 +623,7 @@ def getIndependenceDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getChristmasDay( year ):
     return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
 
@@ -829,8 +637,9 @@ def getChristmasDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateAdvent( year ):
-    firstAdvent = getChristmasDay( validateRealInt( year ) ).add( RPNMeasurement( -3, 'week' ) )
+    firstAdvent = getChristmasDay( year ).add( RPNMeasurement( -3, 'week' ) )
     firstAdvent = firstAdvent.subtract( RPNMeasurement( getWeekday( firstAdvent ), 'day'  ) )
 
     return RPNDateTime( *firstAdvent.getYMD( ), dateOnly = True )
@@ -843,6 +652,7 @@ def calculateAdvent( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getEpiphanyDay( year ):
     return RPNDateTime( year, 1, 6, dateOnly = True )
 
@@ -854,6 +664,7 @@ def getEpiphanyDay( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculatePentecostSunday( year ):
     return RPNDateTime( *( calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) ).getYMD( ) ),
                         dateOnly = True )
@@ -866,12 +677,14 @@ def calculatePentecostSunday( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateAscensionThursday( year ):
     '''
 I don't know why it's 39 days after Easter instead of 40, but that's how
 the math works out.  It's the 40th day of the Easter season.
 
-Or as John Wright says, "Catholics can't count."
+Or as John Wright says, "Catholics can't count.  I think it stems from the
+Church being created before the number 0.
     '''
     return RPNDateTime( *calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) ).getYMD( ),
                         dateOnly = True )
@@ -886,11 +699,10 @@ Or as John Wright says, "Catholics can't count."
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateDSTStart( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, MARCH, 2, SUNDAY )
@@ -911,11 +723,10 @@ def calculateDSTStart( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def calculateDSTEnd( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
-    else:
-        year = validateRealInt( year )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, NOVEMBER, 1, SUNDAY )
@@ -1058,4 +869,3 @@ def getSecond( n ):
 
 def isDST( dateTime, timeZone ):
     return dateTime.astimezone( timeZone ).dst( ) != datetime.timedelta( 0 )
-

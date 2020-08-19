@@ -27,8 +27,8 @@ from rpn.rpnMath import isDivisible
 from rpn.rpnNumberTheory import getPowMod
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt, \
-                         getMPFIntegerAsString
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, getMPFIntegerAsString
+from rpn.rpnValidator import argValidator, IntValidator
 
 
 #******************************************************************************
@@ -42,6 +42,7 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, valid
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def splitNumberByDigits( n ):
     n = getMPFIntegerAsString( n )
 
@@ -69,10 +70,12 @@ def getDigitList( n, dropZeroes = False ):
 
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getDigits( n ):
     return getDigitList( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getNonzeroDigits( n ):
     return getDigitList( n, dropZeroes = True )
 
@@ -84,6 +87,7 @@ def getNonzeroDigits( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def getRightDigits( n, k ):
     return fmod( n, pow( 10, k ) )
 
@@ -95,6 +99,7 @@ def getRightDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def getLeftDigits( n, k ):
     return combineDigits( getDigitList( n )[ : int( k ) ] )
 
@@ -143,10 +148,12 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
 
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
 def getBaseKDigits( n, k ):
     return getBaseKDigitList( n, k )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
 def getNonzeroBaseKDigits( n, k ):
     return getBaseKDigitList( n, k, dropZeroes = True )
 
@@ -158,6 +165,7 @@ def getNonzeroBaseKDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
 def isBaseKPandigital( n, base ):
     digits = convertToBaseN( n, base, outputBaseDigits=True )
 
@@ -177,6 +185,7 @@ def isBaseKPandigital( n, base ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def sumDigits( n ):
     result = 0
 
@@ -202,18 +211,22 @@ def multiplyDigitList( n, exponent = 1, dropZeroes = False ):
     return fprod( [ power( i, exponent ) for i in getDigitList( n, dropZeroes ) ] )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def multiplyDigits( n ):
     return multiplyDigitList( n )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def multiplyDigitPowers( n, k ):
     return multiplyDigitList( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def multiplyNonzeroDigits( n ):
     return multiplyDigitList( n, dropZeroes = True )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def multiplyNonzeroDigitPowers( n, k ):
     return multiplyDigitList( n, k, dropZeroes = True )
 
@@ -224,8 +237,9 @@ def multiplyNonzeroDigitPowers( n, k ):
 #
 #******************************************************************************
 
+
 def appendDigits( n, digits, digitCount ):
-    if validateRealInt( n ) < 0:
+    if ( n ) < 0:
         return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
     else:
         return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
@@ -238,10 +252,8 @@ def appendDigits( n, digits, digitCount ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def addDigits( n, k ):
-    if validateRealInt( k ) < 0:
-        raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
-
     digits = int( k )
 
     if digits == 0:
@@ -276,7 +288,7 @@ def combineDigits( n ):
 
             result.append( combineDigits( i ) )
         else:
-            result = addDigits( result, validateRealInt( i ) )
+            result = addDigits( result, i )
 
     return result
 
@@ -287,13 +299,14 @@ def combineDigits( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( ), IntValidator( 0 ), IntValidator( 0 ) ] )
 def replaceDigits( n, source, replace ):
-    n = getMPFIntegerAsString( validateRealInt( n ) )
+    n = getMPFIntegerAsString( n )
 
-    if  validateRealInt( source ) < 0:
+    if  source < 0:
         raise ValueError( 'source value must be a positive integer' )
 
-    if validateRealInt( replace ) < 0:
+    if replace < 0:
         raise ValueError( 'replace value must be a positive integer' )
 
     return mpmathify( n.replace( str( int ( source ) ), str( int( replace ) ) ) )
@@ -306,11 +319,9 @@ def replaceDigits( n, source, replace ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def duplicateDigits( n, k ):
-    if validateRealInt( k ) < 0:
-        raise ValueError( "'duplicate_digits' requires a non-negative integer for the second argument" )
-
-    return appendDigits( validateRealInt( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
+    return appendDigits( n, fmod( n, power( 10, nint( floor( k ) ) ) ), k )
 
 
 #******************************************************************************
@@ -320,12 +331,10 @@ def duplicateDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def duplicateNumber( n, k ):
-    if validateRealInt( k ) == 0:
+    if k == 0:
         return 0
-
-    if k < 0:
-        raise ValueError( "'duplicate_number' requires a non-negative integer for the second argument" )
 
     return mpmathify( getMPFIntegerAsString( n ) * int( k ) )
 
@@ -340,6 +349,7 @@ def reverseDigits( n ):
     return mpmathify( getMPFIntegerAsString( n )[ : : -1 ] )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def reverseDigitsOperator( n ):
     return reverseDigits( n )
 
@@ -362,6 +372,7 @@ def isPalindrome( n ):
     return 1
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isPalindromeOperator( n ):
     return isPalindrome( n )
 
@@ -373,6 +384,7 @@ def isPalindromeOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isPandigital( n ):
     n = getMPFIntegerAsString( n )
 
@@ -397,6 +409,7 @@ def isPandigital( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def containsDigits( n, k ):
     n = getMPFIntegerAsString( n )
 
@@ -417,6 +430,7 @@ def containsDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def containsAnyDigits( n, k ):
     n = getMPFIntegerAsString( n )
 
@@ -437,6 +451,7 @@ def containsAnyDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def containsOnlyDigits( n, k ):
     if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
@@ -455,6 +470,7 @@ def containsOnlyDigits( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def countDigits( n, k ):
     n = getMPFIntegerAsString( n )
 
@@ -476,6 +492,7 @@ def countDigits( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getDigitCount( n ):
     return len( getMPFIntegerAsString( n ) )
 
@@ -487,6 +504,7 @@ def getDigitCount( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def countDifferentDigits( n ):
     return len( list( set( getMPFIntegerAsString( n ) ) ) )
 
@@ -499,9 +517,8 @@ def countDifferentDigits( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getNthReversalAdditionGenerator( n, k ):
-    next = int( validateRealInt( n ) )
+    next = int( n  )
     yield next
 
     for _ in arange( k ):
@@ -512,6 +529,8 @@ def getNthReversalAdditionGenerator( n, k ):
         if isPalindrome( next ):
             break
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def getNthReversalAddition( n, k ):
     return RPNGenerator( getNthReversalAdditionGenerator( n, k ) )
 
@@ -523,10 +542,11 @@ def getNthReversalAddition( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def findPalindrome( n, k ):
-    next = int( validateRealInt( n ) )
+    next = int( n )
 
-    for i in range( int( validateRealInt( k ) ) + 1 ):
+    for i in range( int( k ) + 1 ):
         next = reverseDigits( next ) + next
 
         if isPalindrome( next ):
@@ -542,8 +562,9 @@ def findPalindrome( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isNarcissistic( n ):
-    digits = getDigitList( validateRealInt( n ) )
+    digits = getDigitList( n )
 
     count = len( digits )
 
@@ -565,8 +586,9 @@ def isNarcissistic( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isPerfectDigitalInvariant( n ):
-    digits = getDigitList( validateRealInt( n ) )
+    digits = getDigitList( n )
 
     exponent = 1
 
@@ -598,8 +620,9 @@ def isPerfectDigitalInvariant( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 def isBaseKNarcissistic( n, k ):
-    digits = getBaseKDigits( validateRealInt( n ), k )
+    digits = getBaseKDigits( n, k )
 
     count = len( digits )
 
@@ -623,6 +646,8 @@ def isBaseKNarcissistic( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 @cachedFunction( 'generalized_dudeney' )
 def isGeneralizedDudeneyNumber( base, exponent ):
     precision = fadd( fmul( base, exponent ), 2 )
@@ -630,7 +655,7 @@ def isGeneralizedDudeneyNumber( base, exponent ):
     if mp.dps < precision:
         mp.dps = precision
 
-    n = power( validateRealInt( base ), validateRealInt( exponent ) )
+    n = power( base, exponent )
     return 1 if sumDigits( n ) == base else 0
 
 
@@ -643,8 +668,10 @@ def isGeneralizedDudeneyNumber( base, exponent ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def isPerfectDigitToDigitInvariant( n, k ):
-    digits = getBaseKDigits( validateRealInt( n ), k )
+    digits = getBaseKDigits( n, k )
 
     sum = 0
 
@@ -669,8 +696,10 @@ def isPerfectDigitToDigitInvariant( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 2 ) ] )
 def isSumProductNumber( n, k ):
-    digits = getBaseKDigits( validateRealInt( n ), k )
+    digits = getBaseKDigits( n, k )
     sum = fmul( fsum( digits ), fprod( digits ) )
     return 1 if sum == n else 0
 
@@ -684,8 +713,9 @@ def isSumProductNumber( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 def isHarshadNumber( n, k ):
-    digits = getBaseKDigits( validateRealInt( n ), k )
+    digits = getBaseKDigits( n, k )
     return 1 if isDivisible( n, fsum( digits ) ) else 0
 
 
@@ -696,6 +726,7 @@ def isHarshadNumber( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isKaprekarNumber( n ):
     if n == 1:
         return 1
@@ -776,7 +807,7 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
 
 def parseNumbersExpression( arg ):
     if not isinstance( arg, str ):
-        arg = str( validateRealInt( arg ) )
+        arg = str( arg )
 
     result = [ ]
 
@@ -899,8 +930,9 @@ def parseNumbersExpression( arg ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def hasUniqueDigits( n ):
-    digits = getDigitList( validateRealInt( n ) )
+    digits = getDigitList( n )
 
     existing = set( )
 
@@ -941,19 +973,23 @@ def isKMorphic( n, k ):
         return 1
 
     modulo = power( 10, ceil( log10( n ) ) )
-    powmod = getPowMod( n, validateRealInt( k ), modulo )
+    powmod = getPowMod( n, k, modulo )
 
     return 1 if ( n == powmod ) else 0
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 1 ) ] )
 def isKMorphicOperator( n, k ):
     return isKMorphic( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isAutomorphic( n ):
     return isKMorphic( n, 2 )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isTrimorphic( n ):
     return isKMorphic( n, 3 )
 
@@ -964,17 +1000,14 @@ def isTrimorphic( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getLeftTruncations( n ):
-    if n < 0:
-        raise ValueError( '\'get_left_truncations\' requires a positive argument' )
-
     n = getMPFIntegerAsString( n )
 
     for i, _ in enumerate( n ):
         yield mpmathify( n[ i : ] )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getLeftTruncationsGenerator( n ):
     return RPNGenerator.createGenerator( getLeftTruncations, n )
 
@@ -985,7 +1018,6 @@ def getLeftTruncationsGenerator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getRightTruncations( n ):
     if n < 0:
         raise ValueError( '\'get_right_truncations\' requires a positive argument' )
@@ -996,6 +1028,7 @@ def getRightTruncations( n ):
         yield mpmathify( result[ 0 : i ] )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getRightTruncationsGenerator( n ):
     return RPNGenerator.createGenerator( getRightTruncations, n )
 
@@ -1017,14 +1050,17 @@ def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persisten
                                              exponent, dropZeroes, persistence + 1 )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getPersistence( n ):
     return getMultiplicativePersistence( n )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def getKPersistence( n, k ):
     return getMultiplicativePersistence( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getErdosPersistence( n ):
     return getMultiplicativePersistence( n, 1, True )
 
@@ -1049,10 +1085,12 @@ def showMultiplicativePersistence( n, exponent = 1, dropZeroes = False ):
             yield n
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def showPersistence( n ):
     return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n ] )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def showKPersistence( n, k ):
     return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n, k ] )
 
@@ -1071,10 +1109,12 @@ def showErdosPersistenceGenerator( n ):
         yield n
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def showErdosPersistence( n ):
     return RPNGenerator.createGenerator( showErdosPersistenceGenerator, [ n ] )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def permuteDigits( n ):
     return RPNGenerator.createPermutations( getMPFIntegerAsString( n ) )
 
@@ -1086,6 +1126,7 @@ def permuteDigits( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isIncreasing( n ):
     n = getMPFIntegerAsString( n )
 
@@ -1103,6 +1144,7 @@ def isIncreasing( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isDecreasing( n ):
     n = getMPFIntegerAsString( n )
 
@@ -1120,6 +1162,7 @@ def isDecreasing( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isBouncy( n ):
     if isIncreasing( n ) == 0 and isDecreasing( n ) == 0:
         return 1
@@ -1134,6 +1177,7 @@ def isBouncy( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( ) ] )
 def rotateDigitsLeft( n, k ):
     if k < 0:
         return rotateDigitsRight( n, fneg( k ) )
@@ -1156,6 +1200,7 @@ def rotateDigitsLeft( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( ) ] )
 def rotateDigitsRight( n, k ):
     if k < 0:
         return rotateDigitsLeft( n, fneg( k ) )
@@ -1178,6 +1223,7 @@ def rotateDigitsRight( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getCyclicPermutations( n ):
     result = [ n ]
 
@@ -1197,6 +1243,7 @@ def getCyclicPermutations( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def isDigitalPermutation( n, k ):
     str1 = getMPFIntegerAsString( n )
     str2 = getMPFIntegerAsString( k )
@@ -1217,7 +1264,7 @@ def isDigitalPermutation( n, k ):
 #******************************************************************************
 
 def generateSquareDigitChainGenerator( n ):
-    n = validateRealInt( floor( n ) )
+    n = int( n )
 
     chain = [ ]
 
@@ -1247,6 +1294,7 @@ def generateSquareDigitChainGenerator( n ):
             yield n
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def generateSquareDigitChain( n ):
     return RPNGenerator.createGenerator( generateSquareDigitChainGenerator, [ n ] )
 
@@ -1258,6 +1306,7 @@ def generateSquareDigitChain( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isStepNumber( n ):
     if n < 10:
         return 0
@@ -1323,6 +1372,7 @@ def buildStepNumbersGenerator( maxLength ):
             yield combineDigits( j )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def buildStepNumbers( n ):
     return RPNGenerator.createGenerator( buildStepNumbersGenerator, [ n ] )
 
@@ -1334,9 +1384,10 @@ def buildStepNumbers( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'smith' )
 def isSmithNumber( n ):
-    if isPrime( validateRealInt( n ) ) or n < 2:
+    if isPrime( n ) or n < 2:
         return 0
 
     sum1 = sumDigits( n )
@@ -1352,18 +1403,16 @@ def isSmithNumber( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 @cachedFunction( 'base_k_smith' )
 def isBaseKSmithNumber( n, k ):
-    if validateRealInt( k ) < 2:
-        raise ValueError( "'is_base_k_smith_number' base argument must be 2 or greater" )
-
     if k > 4 and n == 4:
         return 1
 
     if k > 4 and n < k:
         return 0
 
-    if isPrime( validateRealInt( n ) ) or n < 2:
+    if isPrime( n ) or n < 2:
         return 0
 
     sum1 = fsum( getBaseKDigits( n, k ) )
@@ -1379,9 +1428,10 @@ def isBaseKSmithNumber( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 @cachedFunction( 'order_k_smith' )
 def isOrderKSmithNumber( n, k ):
-    if isPrime( validateRealInt( n ) ) or n < 2:
+    if isPrime( n ) or n < 2:
         return 0
 
     digitList1 = getNonzeroDigits( n )

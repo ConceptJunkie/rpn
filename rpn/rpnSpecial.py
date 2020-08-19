@@ -28,9 +28,7 @@ from rpn.rpnCombinatorics import getNthAperyNumber, getNthDelannoyNumber, getNth
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber
 
 from rpn.rpnDebug import debugPrint
-
 from rpn.rpnFactor import getFactors
-
 from rpn.rpnGenerator import RPNGenerator
 
 from rpn.rpnLexicographic import getErdosPersistence, getPersistence, \
@@ -41,7 +39,6 @@ from rpn.rpnLexicographic import getErdosPersistence, getPersistence, \
                                  multiplyDigits, multiplyNonzeroDigits, sumDigits
 
 from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
-
 from rpn.rpnName import getNumberName, getShortOrdinalName
 
 from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFactorial, getEulerPhi, \
@@ -63,8 +60,8 @@ from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 
 from rpn.rpnPrimeUtils import getPrimes, isPrime
-
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 
 #******************************************************************************
@@ -94,15 +91,15 @@ def getRandomInteger( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getMultipleRandoms( n ):
     '''
     Returns n random numbers.
     '''
-    for _ in arange( 0, validateRealInt( n ) ):
+    for _ in arange( 0, n ):
         yield rand( )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getMultipleRandomsGenerator( n ):
     return RPNGenerator.createGenerator( getMultipleRandoms, n )
 
@@ -117,10 +114,11 @@ def getRandomIntegers( n, k ):
     '''
     Returns k random integers between 0 and n-1.
     '''
-    for _ in arange( 0, validateRealInt( k ) ):
+    for _ in arange( 0, k ):
         yield randrange( n )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def getRandomIntegersGenerator( n, k ):
     return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
@@ -215,20 +213,24 @@ def downloadOEISText( aNumber, char, addCR = False ):
     return result
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISComment( n ):
-    return downloadOEISText( validateRealInt( n ), 'C', True )
+    return downloadOEISText( n, 'C', True )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISExtra( n ):
-    return downloadOEISText( validateRealInt( n ), 'E', True )
+    return downloadOEISText( n, 'E', True )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISName( n ):
-    return downloadOEISText( validateRealInt( n ), 'N', True )
+    return downloadOEISText( n, 'N', True )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISOffset( n ):
-    return int( downloadOEISText( validateRealInt( n ), 'O' ).split( ',' )[ 0 ] )
+    return int( downloadOEISText( n, 'O' ).split( ',' )[ 0 ] )
 
 
 #******************************************************************************
@@ -238,6 +240,7 @@ def downloadOEISOffset( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISTable( aNumber ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
@@ -345,16 +348,16 @@ def generateRandomUUID( ):
 #
 #******************************************************************************
 
-largestNumberToFactor = power( 10, 50 )
+largestNumberToFactor = power( 10, 40 )
 
-def findInput( value, func, estimator, maximum=inf ):
+def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
 
     if guess1 > maximum:
         guess1 = maximum
 
-    if guess1 < 1:
-        guess1 = 1
+    if guess1 < minimum:
+        guess1 = minimum
 
     # closing in
     result = func( guess1 )
@@ -373,6 +376,9 @@ def findInput( value, func, estimator, maximum=inf ):
 
     if guess2 > maximum:
         guess2 = maximum
+
+    if guess2 < minimum:
+        guess2 = minimum
 
     result = func( guess2 )
     debugPrint( 'findInput func call', guess2 )
@@ -393,18 +399,29 @@ def findInput( value, func, estimator, maximum=inf ):
         if guess2 > maximum:
             return False, 0
 
+        if guess2 < minimum:
+            break
+
         result = func( guess2 )
         debugPrint( 'findInput func call', guess2 )
 
         if result == value:
             return True, guess2
 
-    if guess1 > guess2:
+    if guess1 < minimum:
+        guess1 = minimum
+
+    if guess2 < minimum:
+        guess2 = minimum
+
+    if guess1 == guess2:
+        return False, 0
+    elif guess1 > guess2:
         guess1, guess2 = int( guess2 ), int( guess1 )
     else:
         guess1, guess2 = int( guess1 ), int( guess2 )
 
-    debugPrint( 'guesses:', guess1, guess2 )
+    debugPrint( '->guesses:', guess1, guess2 )
 
     while guess1 + 1 != guess2:
         newGuess = guess1 + ( guess2 - guess1 ) // 2
@@ -431,14 +448,12 @@ def findInput( value, func, estimator, maximum=inf ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def describeInteger( n ):
-    if n < 1:
-        raise ValueError( "'describe' requires a positive integer argument" )
-
     indent = ' ' * 4
 
     print( )
-    print( validateRealInt( n ), 'is:' )
+    print( int( n ), 'is:' )
 
     if isOdd( n ):
         print( indent + 'odd' )
@@ -619,7 +634,7 @@ def describeInteger( n ):
     # base-k repunits
     if n > 1:
         for i in range( 2, 21 ):
-            result = findInput( n, lambda x: getNthBaseKRepunit( x, i ), lambda n: log( n, i ) )
+            result = findInput( n, lambda x: getNthBaseKRepunit( x, i ), lambda n: log( n, i ), minimum=1 )
 
             if result[ 0 ]:
                 print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' base-' + str( i ) + ' repunit' )

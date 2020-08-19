@@ -18,8 +18,10 @@ from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, gamma, power, pi, \
 from rpn.rpnList import getProduct, getSum
 from rpn.rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         validateReal, validateRealInt
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, LengthValidator, RealValidator, \
+                             RealOrMeasurementValidator
+
 
 
 #******************************************************************************
@@ -33,11 +35,8 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
 #******************************************************************************
 
 def getRegularPolygonArea( n, k ):
-    if validateReal( n ) < 3:
-        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
-
     if not isinstance( k, RPNMeasurement ):
-        return getRegularPolygonArea( n, RPNMeasurement( validateReal( k ), 'meter' ) )
+        return getRegularPolygonArea( n, RPNMeasurement( k, 'meter' ) )
 
     dimensions = k.getDimensions( )
 
@@ -47,6 +46,7 @@ def getRegularPolygonArea( n, k ):
     return multiply( fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) ), getPower( k, 2 ) ).convert( 'meter^2' )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 3 ), RealOrMeasurementValidator( 0 ) ] )
 def getRegularPolygonAreaOperator( n, k ):
     return getRegularPolygonArea( n, k )
 
@@ -64,7 +64,7 @@ def getRegularPolygonAreaOperator( n, k ):
 #******************************************************************************
 
 def getKSphereRadius( n, k ):
-    if validateRealInt( k ) < 3:
+    if k < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
@@ -94,10 +94,12 @@ def getKSphereRadius( n, k ):
                           str( dimensions ) )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereRadiusOperator( n, k ):
     return getKSphereRadius( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
 def getSphereRadius( n ):
     return getKSphereRadius( n, 3 )
 
@@ -118,11 +120,8 @@ def getSphereRadius( n ):
 #******************************************************************************
 
 def getKSphereSurfaceArea( n, k ):
-    if validateRealInt( k ) < 3:
-        raise ValueError( 'the number of dimensions must be at least 3' )
-
     if not isinstance( n, RPNMeasurement ):
-        return getKSphereSurfaceArea( n, RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getKSphereSurfaceArea( n, RPNMeasurement( n, 'meter' ) )
 
     dimensions = n.getDimensions( )
 
@@ -141,10 +140,12 @@ def getKSphereSurfaceArea( n, k ):
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereSurfaceAreaOperator( n, k ):
     return getKSphereSurfaceArea( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
 def getSphereArea( n ):
     return getKSphereSurfaceArea( n, 3 )
 
@@ -165,11 +166,8 @@ def getSphereArea( n ):
 #******************************************************************************
 
 def getKSphereVolume( n, k ):
-    if validateRealInt( k ) < 1:
-        raise ValueError( 'the number of dimensions must be at least 3' )
-
     if not isinstance( n, RPNMeasurement ):
-        return getKSphereVolume( RPNMeasurement( validateReal( n ), 'meter' ), k )
+        return getKSphereVolume( RPNMeasurement( n, 'meter' ), k )
 
     dimensions = n.getDimensions( )
     m = n.value
@@ -189,10 +187,12 @@ def getKSphereVolume( n, k ):
         raise ValueError( 'incompatible measurement type for computing the volume' )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereVolumeOperator( n, k ):
     return getKSphereVolume( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
 def getSphereVolume( n ):
     return getKSphereVolume( n, 3 )
 
@@ -203,21 +203,22 @@ def getSphereVolume( n ):
 #
 #******************************************************************************
 
+@argValidator( [ LengthValidator( ), LengthValidator( ), LengthValidator( ) ] )
 def getTriangleArea( a, b, c ):
     if not isinstance( a, RPNMeasurement ):
-        return getTriangleArea( RPNMeasurement( validateReal( a ), 'meter' ), b, c )
+        return getTriangleArea( RPNMeasurement( a, 'meter' ), b, c )
 
     if a.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'triangle_area\' argument 1 must be a length' )
 
     if not isinstance( b, RPNMeasurement ):
-        return getTriangleArea( a, RPNMeasurement( validateReal( b ), 'meter' ), c )
+        return getTriangleArea( a, RPNMeasurement( b, 'meter' ), c )
 
     if b.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'triangle_area\' argument 2 must be a length' )
 
     if not isinstance( c, RPNMeasurement ):
-        return getTriangleArea( a, b, RPNMeasurement( validateReal( c ), 'meter' ) )
+        return getTriangleArea( a, b, RPNMeasurement( c, 'meter' ) )
 
     if b.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'triangle_area\' argument 3 must be a length' )
@@ -241,16 +242,17 @@ def getTriangleArea( a, b, c ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ), LengthValidator( ) ] )
 def getTorusSurfaceArea( major, minor ):
     if not isinstance( major, RPNMeasurement ):
-        return getTorusSurfaceArea( RPNMeasurement( validateReal( major ), 'meter' ),
+        return getTorusSurfaceArea( RPNMeasurement( major, 'meter' ),
                                     minor )
 
     if major.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'torus_area\' argument 1 must be a length' )
 
     if not isinstance( minor, RPNMeasurement ):
-        return getTorusSurfaceArea( major, RPNMeasurement( validateReal( minor ), 'meter' ) )
+        return getTorusSurfaceArea( major, RPNMeasurement( minor, 'meter' ) )
 
     if minor.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'torus_area\' argument 2 must be a length' )
@@ -270,15 +272,16 @@ def getTorusSurfaceArea( major, minor ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ), LengthValidator( ) ] )
 def getTorusVolume( major, minor ):
     if not isinstance( major, RPNMeasurement ):
-        return getTorusVolume( RPNMeasurement( validateReal( major ), 'meter' ), minor )
+        return getTorusVolume( RPNMeasurement( major, 'meter' ), minor )
 
     if major.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'torus_volume\' argument 1 must be a length' )
 
     if not isinstance( minor, RPNMeasurement ):
-        return getTorusVolume( major, RPNMeasurement( validateReal( minor ), 'meter' ) )
+        return getTorusVolume( major, RPNMeasurement( minor, 'meter' ) )
 
     if minor.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'torus_volume\' argument 2 must be a length' )
@@ -295,15 +298,16 @@ def getTorusVolume( major, minor ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ), LengthValidator( ) ] )
 def getConeSurfaceArea( radius, height ):
     if not isinstance( radius, RPNMeasurement ):
-        return getConeSurfaceArea( RPNMeasurement( validateReal( radius ), 'meter' ), height )
+        return getConeSurfaceArea( RPNMeasurement( radius, 'meter' ), height )
 
     if radius.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'cone_area\' argument 1 must be a length' )
 
     if not isinstance( height, RPNMeasurement ):
-        return getConeSurfaceArea( radius, RPNMeasurement( validateReal( height ), 'meter' ) )
+        return getConeSurfaceArea( radius, RPNMeasurement( height, 'meter' ) )
 
     if height.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'cone_area\' argument 2 must be a length' )
@@ -322,18 +326,13 @@ def getConeSurfaceArea( radius, height ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ), LengthValidator( ) ] )
 def getConeVolume( radius, height ):
     if not isinstance( radius, RPNMeasurement ):
-        return getConeVolume( RPNMeasurement( validateReal( radius ), 'meter' ), height )
-
-    if radius.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'cone_volume\' argument 1 must be a length' )
+        return getConeVolume( RPNMeasurement( radius, 'meter' ), height )
 
     if not isinstance( height, RPNMeasurement ):
-        return getConeVolume( radius, RPNMeasurement( validateReal( height ), 'meter' ) )
-
-    if height.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'cone_volume\' argument 2 must be a length' )
+        return getConeVolume( radius, RPNMeasurement( height, 'meter' ) )
 
     return getProduct( [ pi, getPower( radius, 2 ), divide( height, 3 ) ] )
 
@@ -347,9 +346,10 @@ def getConeVolume( radius, height ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getTetrahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getTetrahedronSurfaceArea( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getTetrahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'tetrahedron_area\' argument must be a length' )
@@ -366,9 +366,10 @@ def getTetrahedronSurfaceArea( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getTetrahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getTetrahedronVolume( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getTetrahedronVolume( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'tetrahedron_volume\' argument must be a length' )
@@ -385,9 +386,10 @@ def getTetrahedronVolume( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getOctahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getOctahedronSurfaceArea( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getOctahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'octahedron_area\' argument must be a length' )
@@ -404,9 +406,10 @@ def getOctahedronSurfaceArea( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getOctahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getOctahedronVolume( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getOctahedronVolume( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'octahedron_volume\' argument must be a length' )
@@ -423,9 +426,10 @@ def getOctahedronVolume( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getDodecahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getDodecahedronSurfaceArea( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getDodecahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'dodecahedron_area\' argument must be a length' )
@@ -443,9 +447,10 @@ def getDodecahedronSurfaceArea( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getDodecahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getDodecahedronVolume( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getDodecahedronVolume( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'dodecahedron_volume\' argument must be a length' )
@@ -462,9 +467,10 @@ def getDodecahedronVolume( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getIcosahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getIcosahedronSurfaceArea( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getIcosahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'icosahedron_area\' argument must be a length' )
@@ -481,9 +487,10 @@ def getIcosahedronSurfaceArea( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ LengthValidator( ) ] )
 def getIcosahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getIcosahedronVolume( RPNMeasurement( validateReal( n ), 'meter' ) )
+        return getIcosahedronVolume( RPNMeasurement( n, 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'icosahedron_volume\' argument must be a length' )
@@ -503,15 +510,10 @@ def getIcosahedronVolume( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
 def getAntiprismSurfaceArea( n, k ):
-    if validateReal( n ) < 3:
-        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
-
     if not isinstance( k, RPNMeasurement ):
-        return getAntiprismSurfaceArea( n, RPNMeasurement( validateReal( k ), 'meter' ) )
-
-    if k.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'antiprism_area\' argument 2 must be a length' )
+        return getAntiprismSurfaceArea( n, RPNMeasurement( k, 'meter' ) )
 
     result = getProduct( [ fdiv( n, 2 ), fadd( cot( fdiv( pi, n ) ), sqrt( 3 ) ), getPower( k, 2 ) ] )
     return result.convert( 'meter^2' )
@@ -529,12 +531,10 @@ def getAntiprismSurfaceArea( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
 def getAntiprismVolume( n, k ):
-    if validateReal( n ) < 3:
-        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
-
     if not isinstance( k, RPNMeasurement ):
-        return getAntiprismVolume( n, RPNMeasurement( validateReal( k ), 'meter' ) )
+        return getAntiprismVolume( n, RPNMeasurement( k, 'meter' ) )
 
     if k.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'antiprism_volume\' argument 2 must be a length' )
@@ -560,22 +560,8 @@ def getAntiprismVolume( n, k ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( 3 ), LengthValidator( ), LengthValidator( ) ] )
 def getPrismSurfaceArea( n, k, h ):
-    if validateReal( n ) < 3:
-        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
-
-    if not isinstance( k, RPNMeasurement ):
-        return getPrismSurfaceArea( n, RPNMeasurement( validateReal( k ), 'meter' ), h )
-
-    if not isinstance( h, RPNMeasurement ):
-        return getPrismSurfaceArea( n, k, RPNMeasurement( validateReal( h ), 'meter' ) )
-
-    if k.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'prism_area\' argument 2 must be a length' )
-
-    if h.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'prism_area\' argument 3 must be a length' )
-
     result = add( getProduct( [ fdiv( n, 2 ), getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ),
                   getProduct( [ n, k, h ] ) )
     return result.convert( 'meter^2' )
@@ -593,21 +579,7 @@ def getPrismSurfaceArea( n, k, h ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( 3 ), LengthValidator( ), LengthValidator( ) ] )
 def getPrismVolume( n, k, h ):
-    if validateReal( n ) < 3:
-        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
-
-    if not isinstance( k, RPNMeasurement ):
-        return getPrismVolume( n, RPNMeasurement( validateReal( k ), 'meter' ), h )
-
-    if not isinstance( h, RPNMeasurement ):
-        return getPrismVolume( n, k, RPNMeasurement( validateReal( h ), 'meter' ) )
-
-    if k.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'prism_volume\' argument 2 must be a length' )
-
-    if h.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'prism_volume\' argument 3 must be a length' )
-
     return getProduct( [ fdiv( n, 4 ), h, getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ).convert( 'meter^3' )
 

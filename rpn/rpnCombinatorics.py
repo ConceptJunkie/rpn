@@ -21,7 +21,8 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnNumberTheory import getNthLinearRecurrence
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateRealInt
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 
 #******************************************************************************
@@ -31,6 +32,7 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, valid
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'apery' )
 def getNthAperyNumber( n ):
     '''
@@ -48,7 +50,7 @@ def getNthAperyNumber( n ):
 
     result = 0
 
-    for k in arange( 0, validateRealInt( n ) + 1 ):
+    for k in arange( 0, n + 1 ):
         result = fadd( result, fmul( power( binomial( n, k ), 2 ),
                                      power( binomial( fadd( n, k ), k ), 2 ) ) )
 
@@ -62,9 +64,10 @@ def getNthAperyNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
-    if validateRealInt( n ) == 1:
+    if n == 1:
         return 3
 
     if n < 0:
@@ -77,7 +80,7 @@ def getNthDelannoyNumber( n ):
 
     result = 0
 
-    for k in arange( 0, fadd( validateRealInt( n ), 1 ) ):
+    for k in arange( 0, fadd( n, 1 ) ):
         result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
 
     return result
@@ -90,9 +93,10 @@ def getNthDelannoyNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
-    if validateRealInt( n ) == 1:
+    if n == 1:
         return 1
 
     if n < 0:
@@ -121,6 +125,7 @@ def getNthSchroederNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
@@ -135,7 +140,7 @@ def getNthMotzkinNumber( n ):
 
     result = 0
 
-    for j in arange( 0, floor( fdiv( validateRealInt( n ), 3 ) ) + 1 ):
+    for j in arange( 0, floor( fdiv( n, 3 ) ) + 1 ):
         result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
                                         binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
 
@@ -152,9 +157,10 @@ def getNthMotzkinNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
-    if validateRealInt( n ) == 0:
+    if n == 0:
         return 1
 
     if n < 0:
@@ -180,15 +186,13 @@ def getNthSchroederHipparchusNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthPellNumber( n ):
     '''
     From:  http://oeis.org/A000129
 
     a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
     '''
-    if n < 0:
-        raise ValueError( '\'nth_pell\' expects a non-negative argument' )
-
     precision = int( fmul( n, 0.4 ) )
 
     if mp.dps < precision:
@@ -204,8 +208,10 @@ def getNthPellNumber( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getPermutations( n, r ):
-    if validateRealInt( r ) > validateRealInt( n ):
+    if r > n:
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
@@ -218,8 +224,10 @@ def getPermutations( n, r ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getCombinations( n, r ):
-    if validateRealInt( r ) > validateRealInt( n ):
+    if r > n:
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fmul( fac( fsub( n, r ) ), fac( r ) ) )
@@ -232,6 +240,7 @@ def getCombinations( n, r ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getArrangements( n ):
     return floor( fmul( fac( n ), e ) )
 
@@ -243,8 +252,9 @@ def getArrangements( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def getNthSylvesterNumber( n ):
-    if validateRealInt( n ) == 1:
+    if n == 1:
         return 2
     elif n == 2:
         return 3
@@ -264,9 +274,11 @@ def getNthSylvesterNumber( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 1 ) ] )
 def createDeBruijnSequence( n, k ):
-    wordSize = validateRealInt( k )
-    symbolCount = validateRealInt( n )
+    wordSize = int( k )
+    symbolCount = int( n )
 
     v = [ 0 for _ in range( wordSize ) ]
     l = 1
@@ -300,9 +312,11 @@ def getDeBruijnSequence( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getCompositionsGenerator( n, k ):
-    value = int( validateRealInt( n ) )
-    count = int( validateRealInt( k ) )
+    value = int( n )
+    count = int( k )
 
     if count < 1:
         raise ValueError( "'compositions' expects a size argument greater than 0'" )
@@ -318,6 +332,7 @@ def getCompositionsGenerator( n, k ):
                 yield [ nint( i ) ] + comp
 
 @twoArgFunctionEvaluator( )
+
 def getCompositions( n, k ):
     return RPNGenerator( getCompositionsGenerator( n, k ) )
 
@@ -329,10 +344,8 @@ def getCompositions( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def oldGetPartitionNumber2( n ):
-    if validateRealInt( n ) < 0:
-        raise ValueError( 'non-negative argument expected' )
-
     if n in ( 0, 1 ):
         return 1
 
@@ -343,7 +356,7 @@ def oldGetPartitionNumber2( n ):
     k = getNthGeneralizedPolygonalNumber( i, 5 )
 
     while n - k >= 0:
-        total += sign * getPartitionNumber( fsub( n, k ) )
+        total += sign * oldgetPartitionNumber( fsub( n, k ) )
 
         i += 1
 
@@ -458,14 +471,17 @@ def partitionsWithLimit( n, k=None ):
 
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 1 ) ] )
 def getPartitionsWithLimit( n, k ):
-    if validateRealInt( k ) > validateRealInt( n ):
+    if k > n:
         k = n
 
     return RPNGenerator( partitionsWithLimit( n, k ) )
 
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'partition' )
 def getPartitionNumber( n ):
     '''
@@ -482,9 +498,6 @@ def getPartitionNumber( n ):
     every integer smaller than the original argument.
     '''
     debugPrint( 'partition', int( n ) )
-
-    if validateRealInt( n ) < 0:
-        raise ValueError( 'non-negative argument expected' )
 
     if n in ( 0, 1 ):
         return 1
@@ -520,11 +533,9 @@ def getPartitionNumber( n ):
 
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'old_partition' )
 def oldGetPartitionNumber( n ):
-    if n < 0:
-        return 0
-
     if n < 2:
         return 1
 
@@ -637,6 +648,7 @@ def createIntegerPartitions( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getIntegerPartitions( n ):
     return RPNGenerator( createIntegerPartitions( int( n ) ) )
 
@@ -648,8 +660,10 @@ def getIntegerPartitions( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getNthMultifactorial( n, k ):
-    return fprod( arange( validateRealInt( n ), 0, -( validateRealInt( k ) ) ) )
+    return fprod( arange( n, 0, -( k ) ) )
 
 
 #******************************************************************************
@@ -676,8 +690,10 @@ def getMultinomial( args ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getLahNumber( n, k ):
-    return fmul( power( -1, n ), fdiv( fmul( binomial( validateRealInt( n ), validateRealInt( k ) ),
+    return fmul( power( -1, n ), fdiv( fmul( binomial( n, k ),
                                              fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
 
@@ -688,10 +704,14 @@ def getLahNumber( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getNarayanaNumberOperator( n, k ):
     return getNarayanaNumber( n, k )
 
@@ -703,8 +723,9 @@ def getNarayanaNumberOperator( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthCatalanNumber( n ):
-    return fdiv( binomial( fmul( 2, validateRealInt( n ) ), n ), fadd( n, 1 ) )
+    return fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) )
 
 
 #******************************************************************************
@@ -716,10 +737,8 @@ def getNthCatalanNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthMenageNumber( n ):
-    if n < 0:
-        raise ValueError( '\'menage\' requires a non-negative argument' )
-
     if n == 1:
         return -1
     elif n == 2:
@@ -731,18 +750,24 @@ def getNthMenageNumber( n ):
                                               fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ),
+                 IntValidator( ) ] )
 def getBellPolynomial( n, k ):
     return bell( n, k )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def getBinomial( n, k ):
     return binomial( n, k )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthBell( n ):
     return bell( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthBernoulli( n ):
     return bernoulli( n )
 

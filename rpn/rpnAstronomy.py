@@ -24,7 +24,8 @@ from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                         loadAstronomyData, validateRealInt
+                         loadAstronomyData
+from rpn.rpnValidator import argValidator, IntValidator
 
 import rpn.rpnGlobals as g
 
@@ -223,6 +224,9 @@ class RPNAstronomicalObject( ):
 #
 #******************************************************************************
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ),
+                 IntValidator( 0, 3 ) ] )
 def getSeason( n, season ):
     '''Returns the date of the season for year n.'''
     loadAstronomyData( )
@@ -230,7 +234,7 @@ def getSeason( n, season ):
     if not g.astroDataAvailable:
         raise ValueError( 'Astronomy functions are unavailable.' )
 
-    times, _ = almanac.find_discrete( g.timescale.utc( validateRealInt( n ), 1, 1 ),
+    times, _ = almanac.find_discrete( g.timescale.utc( n, 1, 1 ),
                                       g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )

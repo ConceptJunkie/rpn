@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2007
+MAX_EXAMPLE_COUNT = 2018
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1329,7 +1329,7 @@ Construct the square root of two from a continued fraction:
     First, here's the square root of two to 20 places:
 ''' + makeCommandExample( '-a20 2 sqrt', indent=8 ) + '''
     Now let's make a continued fraction from that, calculated to 20 terms.
-''' + makeCommandExample( '2 sqrt 20 make_cf', indent=8 ) + '''
+''' + makeCommandExample( '2 sqrt 20 make_continued_fraction', indent=8 ) + '''
     Here's the nearest fractional approximation of the square root of two,
     taken to 20 terms:
 ''' + makeCommandExample( '2 sqrt 20 frac', indent=8 ) + '''

@@ -2197,22 +2197,22 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
 
     # heptagonal_hexagonal
-    expectEqual( '-a1000 1 200 range heptagonal_hexagonal', '48901 oeis 200 left hexagonal' )
+    expectEqual( '-a1000 1 200 range heptagonal_hexagonal', '-a500 48901 oeis 200 left hexagonal' )
 
     # heptagonal_pentagonal
-    expectEqual( '-a2000 1 558 range heptagonal_pentagonal', '46198 oeis 558 left heptagonal' )
+    expectEqual( '-a2000 1 558 range heptagonal_pentagonal', '-a1000 46198 oeis 558 left heptagonal' )
 
     # heptagonal_square
-    expectEqual( '-a210 1 100 range heptagonal_square', '46195 oeis 100 left heptagonal' )
+    expectEqual( '-a210 1 100 range heptagonal_square', '-a1000 46195 oeis 100 left heptagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 950 range heptagonal_square', '46195 oeis 950 left heptagonal' )
+        expectEqual( '-a2000 1 950 range heptagonal_square', '-a1000 46195 oeis 950 left heptagonal' )
 
     # heptagonal_triangular
-    expectEqual( '-a1000 1 100 range heptagonal_triangular', '46194 oeis 100 left' )
+    expectEqual( '-a1000 1 100 range heptagonal_triangular', '-a1000 46194 oeis 100 left' )
 
     if slow:
-        expectEqual( '-a1000 1 399 range heptagonal_triangular', '46194 oeis 399 left' )
+        expectEqual( '-a1000 1 399 range heptagonal_triangular', '-a1000 46194 oeis 399 left' )
 
     # hexagonal
     expectEqual( '0 100 range hexagonal', '384 oeis 101 left' )
@@ -2245,40 +2245,40 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 10000 range nonagonal', '1106 oeis 10001 left' )
 
     # nonagonal_heptagonal
-    expectEqual( '-a1000 1 50 range nonagonal_heptagonal', '48921 oeis 50 left' )
+    expectEqual( '-a1000 1 50 range nonagonal_heptagonal', '-a1000 48921 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a1000 1 233 range nonagonal_heptagonal', '48921 oeis 233 left' )
+        expectEqual( '-a1000 1 233 range nonagonal_heptagonal', '-a1000 48921 oeis 233 left' )
 
     # nonagonal_hexagonal
-    expectEqual( '-a250 1 50 range nonagonal_hexagonal', '48918 oeis 50 left' )
+    expectEqual( '-a250 1 50 range nonagonal_hexagonal', '-a1000 48918 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a1000 1 208 range nonagonal_hexagonal', '48918 oeis 208 left' )
+        expectEqual( '-a1000 1 208 range nonagonal_hexagonal', '-a1000 48918 oeis 208 left' )
 
     # nonagonal_octagonal
     expectEqual( '-a300 1 50 range nonagonal_octagonal', '48924 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a600 1 100 range nonagonal_octagonal', '48924 oeis 100 left' )
+        expectEqual( '-a600 1 100 range nonagonal_octagonal', '-a1000 48924 oeis 100 left' )
 
     # nonagonal_pentagonal
-    expectEqual( '-a200 1 50 range nonagonal_pentagonal', '48913 oeis 50 left nonagonal' )
+    expectEqual( '-a200 1 50 range nonagonal_pentagonal', '-a1000 48913 oeis 50 left nonagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 490 range nonagonal_pentagonal', '48913 oeis 490 left nonagonal' )
+        expectEqual( '-a2000 1 490 range nonagonal_pentagonal', '-a1000 48913 oeis 490 left nonagonal' )
 
     # nonagonal_square
-    expectEqual( '-a75 1 50 range nonagonal_square', '36411 oeis 50 left' )
+    expectEqual( '-a75 1 50 range nonagonal_square', '-a1000 36411 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a300 1 200 range nonagonal_square', '36411 oeis 200 left' )
+        expectEqual( '-a300 1 200 range nonagonal_square', '-a1000 36411 oeis 200 left' )
 
     # nonagonal_triangular
-    expectEqual( '-a500 1 50 range nonagonal_triangular', '48909 oeis 50 left' )
+    expectEqual( '-a500 1 50 range nonagonal_triangular', '-a1000 48909 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a500 1 416 range nonagonal_triangular', '48909 oeis 416 left' )
+        expectEqual( '-a500 1 416 range nonagonal_triangular', '-a1000 48909 oeis 416 left' )
 
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )
@@ -2347,20 +2347,20 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range octahedral', '5900 oeis 1001 left' )
 
     # octagonal_heptagonal
-    expectEqual( '-a1100 1 200 range octagonal_heptagonal', '48904 oeis 200 left heptagonal' )
-    expectEqual( '-a1100 1 200 range octagonal_heptagonal', '48905 oeis 200 left octagonal' )
+    expectEqual( '-a1100 1 200 range octagonal_heptagonal', '-a1000 48904 oeis 200 left heptagonal' )
+    expectEqual( '-a1100 1 200 range octagonal_heptagonal', '-a1000 48905 oeis 200 left octagonal' )
 
     # octagonal_hexagonal
-    expectEqual( '-a80 1 20 range octagonal_hexagonal', '46190 oeis 20 left octagonal' )
+    expectEqual( '-a80 1 20 range octagonal_hexagonal', '-a40 46190 oeis 20 left octagonal' )
 
     # octagonal_pentagonal
-    expectEqual( '-a1000 1 327 range octagonal_pentagonal', '46189 oeis 327 left' )
+    expectEqual( '-a2000 1 327 range octagonal_pentagonal', '-a1000 46189 oeis 327 left' )
 
     # octagonal_square
-    expectEqual( '-a1000 1 890 range octagonal_square', '28230 oeis 890 left square' )
+    expectEqual( '-a2100 1 890 range octagonal_square', '28230 oeis 890 left square' )
 
     # octagonal_triangular
-    expectEqual( '-a2000 1 1000 range octagonal_triangular', '46181 oeis 1000 left octagonal' )
+    expectEqual( '-a2000 1 1000 range octagonal_triangular', '-a1000 46181 oeis 1000 left octagonal' )
 
     # pentagonal
     expectEqual( '0 100 range pentagonal', '326 oeis 101 left' )
@@ -2369,16 +2369,16 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range pentagonal', '326 oeis 1001 left' )
 
     # pentagonal_square
-    expectEqual( '-a400 1 100 range pentagonal_square', '46172 oeis 100 left pentagonal' )
+    expectEqual( '-a400 1 100 range pentagonal_square', '-a200 46172 oeis 100 left pentagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 503 range pentagonal_square', '46172 oeis 503 left pentagonal' )
+        expectEqual( '-a2000 1 503 range pentagonal_square', '-a1000 46172 oeis 503 left pentagonal' )
 
     # pentagonal_triangular
-    expectEqual( '0 100 range pentagonal_triangular', '46174 oeis 101 left pentagonal' )
+    expectEqual( '-a250 0 100 range pentagonal_triangular', '-a120 46174 oeis 101 left pentagonal' )
 
     if slow:
-        expectEqual( '0 500 range pentagonal_triangular', '46174 oeis 501 left pentagonal' )
+        expectEqual( '-a250 0 500 range pentagonal_triangular', '-a1000 46174 oeis 501 left pentagonal' )
 
     # pentatope
     expectEqual( '1 99 range pentatope', '332 oeis 103 left 99 right' )
@@ -2606,10 +2606,10 @@ def runGeometryOperatorTests( ):
     expectEqual( '-a20 1 574 range lambda x 2 / x cone_volume floor value eval', '228189 oeis 574 left' )
 
     # dodecahedron_area
-    expectEqual( '-a125 1 dodecahedron_area value 10 121 ** * get_digits 120 left', '131595 oeis 120 left' )
+    expectEqual( '-a125 1 dodecahedron_area value 10 121 ** * floor get_digits 120 left', '131595 oeis 120 left' )
 
     # dodecahedron_volume
-    expectEqual( '-a1001 1 dodecahedron_volume value 10 1001 ** * get_digits 1000 left', '102769 oeis 1000 left' )
+    expectEqual( '-a1001 1 dodecahedron_volume value 10 1001 ** * floor get_digits 1000 left', '102769 oeis 1000 left' )
 
     # hypotenuse
     expectEqual( '[ 1 100 range 1 100 range ] multiplex lambda x 0 element x 1 element hypotenuse for_each_list unique sort lambda x is_integer filter 100 filter_max',
@@ -2626,7 +2626,7 @@ def runGeometryOperatorTests( ):
         expectEqual( '0 9999 range icosahedron_area value round', '71398 oeis 10000 left' )
 
     # icosahedron_volume
-    expectEqual( '-a1001 1 icosahedron_volume value 10 1001 ** * get_digits 1000 left', '102208 oeis 1000 left' )
+    expectEqual( '-a1001 1 icosahedron_volume value 10 1001 ** * floor get_digits 1000 left', '102208 oeis 1000 left' )
 
     # k_sphere_area
     testOperator( '34 inches 8 k_sphere_area' )
@@ -2656,7 +2656,7 @@ def runGeometryOperatorTests( ):
         expectEqual( '0 10000 range octahedron_area value round', '71396 oeis 10001 left' )
 
     # octahedron_volume
-    expectEqual( '-a1001 1 octahedron_volume value 10 1001 ** * get_digits 1000 left', '131594 oeis 1000 left' )
+    expectEqual( '-a1001 1 octahedron_volume value 10 1001 ** * floor get_digits 1000 left', '131594 oeis 1000 left' )
 
     # polygon_area
     testOperator( '13 1 inch polygon_area square_inches convert' )
@@ -3293,7 +3293,7 @@ def runLogarithmsOperatorTests( ):
     expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
     expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
     expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
-    expectEqual( '-a5005 phi log 10 5002 ** * get_digits 5000 left', '2390 oeis 5000 left' )
+    expectEqual( '-a5005 phi log 10 5002 ** * floor get_digits 5000 left', '2390 oeis 5000 left' )
 
     # log10
     expectResult( '1000 log10', 3 )
@@ -3467,7 +3467,7 @@ def runNumberTheoryOperatorTests( ):
     # cyclotomic
 
     # digamma
-    expectEqual( '-a110 1 8 / digamma negative 10 107 ** * get_digits 105 left', '250129 oeis 105 left' )
+    expectEqual( '-a110 1 8 / digamma negative 10 107 ** * floor get_digits 105 left', '250129 oeis 105 left' )
 
     expectException( '0 digamma' )
     expectException( '-1 digamma' )
@@ -3914,13 +3914,13 @@ def runNumberTheoryOperatorTests( ):
     if slow:
         expectEqual( '0 4774 range lucas', '32 oeis 4775 left' )
 
-    # make_cf
-    expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_cf', '53002 oeis 100 left' )
-    expectEqual( '-a130 phi phi sqr 4 + sqrt + 2 / 116 make_cf', '188635 oeis 116 left' )
-    expectEqual( '-a2050 pi 2000 make_cf', '1203 oeis 2000 left' )
+    # make_continued_fraction
+    expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_continued_fraction', '53002 oeis 100 left' )
+    expectEqual( '-a130 phi phi sqr 4 + sqrt + 2 / 116 make_continued_fraction', '188635 oeis 116 left' )
+    expectEqual( '-a2050 pi 2000 make_continued_fraction', '1203 oeis 2000 left' )
 
     if slow:
-        expectEqual( '-a21000 pi 20000 make_cf', '1203 oeis 20000 left' )
+        expectEqual( '-a21000 pi 20000 make_continued_fraction', '1203 oeis 20000 left' )
 
     # make_pyth_3
         expectEqual( '1 50 range 2 get_permutations lambda x 0 element x 1 element make_pyth_3 for_each_list lambda x gcd 1 equal filter lambda x 2 element for_each_list unique sort 2500 filter_max',
@@ -4008,9 +4008,11 @@ def runNumberTheoryOperatorTests( ):
 
     # nth_thabit
     expectEqual( '0 998 range nth_thabit', '55010 oeis 1000 left 999 right' )
+    expectEqual( '-a700 0 2000 range lambda x nth_thabit is_prime filter', '2235 oeis 2000 filter_max' )
 
     # nth_thabit_2
     expectEqual( '0 999 range nth_thabit_2', '181565 oeis 1000 left' )
+    expectEqual( '-a700 0 1500 range lambda x nth_thabit_2 is_prime filter', '2253 oeis 1500 filter_max' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
@@ -4031,7 +4033,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
 
     # polygamma
-    expectEqual( '-a105 1 1 5 sqrt + 4 / polygamma 1 3 5 sqrt + 4 / polygamma - 2 / 10 105 ** * get_digits 102 left',
+    expectEqual( '-a105 1 1 5 sqrt + 4 / polygamma 1 3 5 sqrt + 4 / polygamma - 2 / 10 105 ** * floor get_digits 102 left',
                  '91659 oeis 102 left' )
 
     # polygorial
@@ -4087,19 +4089,13 @@ def runNumberTheoryOperatorTests( ):
 
     # sigma
     expectEqual( '1 500 range sigma', '203 oeis 500 left' )
-    expectEqual( '1 99 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval',
+    expectEqual( '1 99 range lambda x sigma 8 * 32 x 4 / floor sigma * 0 x 4 / is_integer if - eval',
                  '118 oeis 100 left 99 right' )
-
-    if slow:
-        expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval',
-                     '118 oeis 500 left 499 right' )
-
-
     expectEqual( '1 1000 range lambda x sigma 2 x * - -22 equals filter', '223606 oeis 7 left' )
 
     if slow:
         expectEqual( '1 100000 range sigma', '203 oeis 100000 left' )
-        expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval',
+        expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / floor sigma * 0 x 4 / is_integer if - eval',
                      '118 oeis 50000 left 49999 right' )
 
     # sigma_k
@@ -4220,11 +4216,11 @@ def runNumberTheoryOperatorTests( ):
     # zeta_zero
     expectEqual( '31 40 range zeta_zero im nint', '2410 oeis 40 left 10 right' )    # The mpmath function is really slow... it does a lot of math!
     expectEqual( '-a20 1 20 range zeta_zero im floor', '135297 oeis 150 left occurrences lambda x 1 element for_each_list cumulative_sums 20 left' )
-    expectEqual( '-a105 1 zeta_zero im 10 98 ** * get_digits', '58303 oeis 100 left' )
+    expectEqual( '-a105 1 zeta_zero im 10 98 ** * floor get_digits', '58303 oeis 100 left' )
 
     if slow:
         expectEqual( '1 400 range zeta_zero im nint', '2410 oeis 400 left' )
-        expectEqual( '-a1005 1 zeta_zero im 10 998 ** * get_digits', '58303 oeis 1000 left' )
+        expectEqual( '-a1005 1 zeta_zero im 10 998 ** * floor get_digits', '58303 oeis 1000 left' )
 
 
 #******************************************************************************
@@ -4653,13 +4649,13 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '3 2 tetrate' )
 
     # tetrate_right
-    expectEqual( '-a40 inf lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * get_digits',
+    expectEqual( '-a40 inf lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * floor get_digits',
                  '277435 oeis 21 left' )
-    expectEqual( '-a100 2 2 sqrt 1 100 range tetrate_right - 5 make_cf lambda x 1 element for_each_list -s1',
+    expectEqual( '-a100 2 2 sqrt 1 100 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
                  '280918 oeis 100 left' )
 
     if slow:
-        expectEqual( '-a100 2 2 sqrt 1 300 range tetrate_right - 5 make_cf lambda x 1 element for_each_list -s1',
+        expectEqual( '-a100 2 2 sqrt 1 300 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
                      '280918 oeis 300 left' )
 
 
@@ -5165,7 +5161,11 @@ def runSpecialOperatorTests( ):
     # Note: the cache is turned off, so only test really small numbers
     testOperator( '1 describe' )
     testOperator( '10 describe' )
+    testOperator( '50 describe' )
     testOperator( '121 describe' )
+    testOperator( '133 describe' )
+
+    expectException( '0 describe' )
 
     # dimensions
     testOperator( '10 MeV c sqr / dimensions' )
@@ -5264,34 +5264,34 @@ def runSpecialOperatorTests( ):
 
 def runTrigonometryOperatorTests( ):
     # acos
-    expectEqual( '-a105 2 pi / acos 10 103 ** * get_digits 102 left', '275477 oeis 102 left' )
-    expectEqual( '-a110 -1 4 / acos 10 107 ** * get_digits 105 left', '140244 oeis 105 left' )
-    expectEqual( '-a110 180 -1 4 / acos * pi / 10 107 ** * get_digits 105 left', '140245 oeis 105 left' )
-    expectEqual( '-a110 7 8 / acos 10 107 ** * get_digits 105 left', '140240 oeis 105 left' )
-    expectEqual( '-a110 180 7 8 / acos * pi / 10 107 ** * get_digits 105 left', '140241 oeis 105 left' )
-    expectEqual( '-a110 11 16 / acos 10 107 ** * get_digits 105 left', '140242 oeis 105 left' )
-    expectEqual( '-a110 180 11 16 / acos * pi / 10 107 ** * get_digits 105 left', '140243 oeis 105 left' )
+    expectEqual( '-a105 2 pi / acos 10 103 ** * floor get_digits 102 left', '275477 oeis 102 left' )
+    expectEqual( '-a110 -1 4 / acos 10 107 ** * floor get_digits 105 left', '140244 oeis 105 left' )
+    expectEqual( '-a110 180 -1 4 / acos * pi / 10 107 ** * floor get_digits 105 left', '140245 oeis 105 left' )
+    expectEqual( '-a110 7 8 / acos 10 107 ** * floor get_digits 105 left', '140240 oeis 105 left' )
+    expectEqual( '-a110 180 7 8 / acos * pi / 10 107 ** * floor get_digits 105 left', '140241 oeis 105 left' )
+    expectEqual( '-a110 11 16 / acos 10 107 ** * floor get_digits 105 left', '140242 oeis 105 left' )
+    expectEqual( '-a110 180 11 16 / acos * pi / 10 107 ** * floor get_digits 105 left', '140243 oeis 105 left' )
 
     # acosh
-    expectEqual( '-a1005 2 sqrt acosh 10 1001 ** * get_digits 1001 left', '91648 oeis 1001 left' )
+    expectEqual( '-a1005 2 sqrt acosh 10 1001 ** * floor get_digits 1001 left', '91648 oeis 1001 left' )
 
     # acot
-    expectEqual( '-a105 9 acot 10 101 ** * get_digits 100 left', '195786 oeis 100 left' )
-    expectEqual( '-a105 10 acot 10 101 ** * get_digits 99 left', '195790 oeis 100 left 99 right' )
+    expectEqual( '-a105 9 acot 10 101 ** * floor get_digits 100 left', '195786 oeis 100 left' )
+    expectEqual( '-a105 10 acot 10 101 ** * floor get_digits 99 left', '195790 oeis 100 left 99 right' )
 
     # acoth
-    expectEqual( '-a110 3 4 / 3 sqrt * 3 sqrt acoth * 10 108 ** * get_digits 100 left', '257436 oeis 100 left' )
+    expectEqual( '-a110 3 4 / 3 sqrt * 3 sqrt acoth * 10 108 ** * floor get_digits 100 left', '257436 oeis 100 left' )
 
     # acsc
-    expectEqual( '-a105 9 acsc 10 101 ** * get_digits 100 left', '195788 oeis 100 left' )
-    expectEqual( '-a105 8 acsc 10 101 ** * get_digits 100 left', '195784 oeis 100 left' )
+    expectEqual( '-a105 9 acsc 10 101 ** * floor get_digits 100 left', '195788 oeis 100 left' )
+    expectEqual( '-a105 8 acsc 10 101 ** * floor get_digits 100 left', '195784 oeis 100 left' )
 
     # acsch
-    expectEqual( '-a110 2 5 sqrt * 5 / 2 acsch * 10 108 ** * get_digits 102 left', '86466 oeis 102 left' )
+    expectEqual( '-a110 2 5 sqrt * 5 / 2 acsch * 10 108 ** * floor get_digits 102 left', '86466 oeis 102 left' )
 
     # asec
-    expectEqual( '-a105 9 asec 10 101 ** * get_digits 100 left', '195787 oeis 100 left' )
-    expectEqual( '-a105 8 asec 10 101 ** * get_digits 100 left', '195783 oeis 100 left' )
+    expectEqual( '-a105 9 asec 10 101 ** * floor get_digits 100 left', '195787 oeis 100 left' )
+    expectEqual( '-a105 8 asec 10 101 ** * floor get_digits 100 left', '195783 oeis 100 left' )
 
     # asech
     testOperator( '0.1 asech' )
@@ -5300,73 +5300,73 @@ def runTrigonometryOperatorTests( ):
     expectEqual( '-a40 0 1000 range lambda x asin x acos - sin sqr eval', '239607 oeis 1001 left' )
 
     # asinh
-    expectEqual( '-a5005 2 2 sqrt + 1 asinh 5 * + 15 / 10 5002 ** * get_digits 5001 left', '91505 oeis 5001 left' )
+    expectEqual( '-a5005 2 2 sqrt + 1 asinh 5 * + 15 / 10 5002 ** * floor get_digits 5001 left', '91505 oeis 5001 left' )
 
     # atan
-    expectEqual( '-a2005 e atan 10 2002 ** * get_digits 2000 left', '257777 oeis 2000 left' )
-    expectEqual( '-a2005 1 e / atan 10 2002 ** * get_digits 2000 left', '258428 oeis 2000 left' )
-    expectEqual( '-a2005 pi e atan - 2 pi * / 10 2002 ** * get_digits 2000 left', '257896 oeis 2000 left' )
-    expectEqual( '-a105 10 atan 10 101 ** * get_digits 100 left', '195789 oeis 100 left' )
-    expectEqual( '-a105 9 atan 10 101 ** * get_digits 100 left', '195785 oeis 100 left' )
-    expectEqual( '-a105 8 atan 10 101 ** * get_digits 100 left', '195781 oeis 100 left' )
+    expectEqual( '-a2005 e atan 10 2002 ** * floor get_digits 2000 left', '257777 oeis 2000 left' )
+    expectEqual( '-a2005 1 e / atan 10 2002 ** * floor get_digits 2000 left', '258428 oeis 2000 left' )
+    expectEqual( '-a2005 pi e atan - 2 pi * / 10 2002 ** * floor get_digits 2000 left', '257896 oeis 2000 left' )
+    expectEqual( '-a105 10 atan 10 101 ** * floor get_digits 100 left', '195789 oeis 100 left' )
+    expectEqual( '-a105 9 atan 10 101 ** * floor get_digits 100 left', '195785 oeis 100 left' )
+    expectEqual( '-a105 8 atan 10 101 ** * floor get_digits 100 left', '195781 oeis 100 left' )
 
     # atanh
-    expectEqual( '-a112 4 -14 pi 7 / sin pi 7 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * get_digits 108 left',
+    expectEqual( '-a112 4 -14 pi 7 / sin pi 7 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * floor get_digits 108 left',
                  '293415 oeis 108 left' )
-    expectEqual( '-a112 4 -18 pi 9 / sin pi 9 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * get_digits 108 left',
+    expectEqual( '-a112 4 -18 pi 9 / sin pi 9 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * floor get_digits 108 left',
                  '293416 oeis 108 left' )
 
     # cos
     expectEqual( '45 degrees cos', '2 sqrt 1/x' )
     expectEqual( '0 lambda 1 x cos - x sqr / limitn', '0.5' )
 
-    expectEqual( '-a105 1 cos 10 100 ** * get_digits 98 left', '49470 oeis 98 left' )
+    expectEqual( '-a105 1 cos 10 100 ** * floor get_digits 98 left', '49470 oeis 98 left' )
 
     # cosh
     expectEqual( '0 250 range cosh floor', '501 oeis 251 left' )
-    expectEqual( '-a1005 1 cosh 10 1000 ** * get_digits 1000 left', '73743 oeis 1000 left' )
+    expectEqual( '-a1005 1 cosh 10 1000 ** * floor get_digits 1000 left', '73743 oeis 1000 left' )
 
     # cot
-    expectEqual( '-a110 1 coth 10 105 ** * get_digits 103 left', '73747 oeis 103 left' )
+    expectEqual( '-a110 1 coth 10 105 ** * floor get_digits 103 left', '73747 oeis 103 left' )
 
     # coth
-    expectEqual( '-a1005 1 coth 10 1000 ** * get_digits 1000 left', '73747 oeis 1000 left' )
+    expectEqual( '-a1005 1 coth 10 1000 ** * floor get_digits 1000 left', '73747 oeis 1000 left' )
 
     # csc
-    expectEqual( '-a110 1 csc 10 107 ** * get_digits 105 left', '73447 oeis 105 left' )
-    expectEqual( '-a1005 phi csc 10 1002 ** * get_digits 1000 left', '139350 oeis 1000 left' )
-    expectEqual( '-a110 pi 8 / csc 10 107 ** * get_digits 105 left', '121601 oeis 105 left' )
-    expectEqual( '-a110 pi 7 / csc 10 107 ** * get_digits 105 left', '121598 oeis 105 left' )
-    expectEqual( '-a110 pi 5 / csc 10 107 ** * get_digits 105 left', '121570 oeis 105 left' )
+    expectEqual( '-a110 1 csc 10 107 ** * floor get_digits 105 left', '73447 oeis 105 left' )
+    expectEqual( '-a1005 phi csc 10 1002 ** * floor get_digits 1000 left', '139350 oeis 1000 left' )
+    expectEqual( '-a110 pi 8 / csc 10 107 ** * floor get_digits 105 left', '121601 oeis 105 left' )
+    expectEqual( '-a110 pi 7 / csc 10 107 ** * floor get_digits 105 left', '121598 oeis 105 left' )
+    expectEqual( '-a110 pi 5 / csc 10 107 ** * floor get_digits 105 left', '121570 oeis 105 left' )
     expectEqual( '1 2000 range lambda x csc x 1 + csc is_less filter', '246410 oeis 2000 filter_max' )
     expectEqual( '1 2000 range lambda x csc x 1 + csc is_greater filter', '246413 oeis 2000 filter_max' )
 
     # csch
-    expectEqual( '-a1005 1 csch 10 1002 ** * get_digits 1001 left', '73745 oeis 1001 left' )
+    expectEqual( '-a1005 1 csch 10 1002 ** * floor get_digits 1001 left', '73745 oeis 1001 left' )
 
     # sec
-    expectEqual( '-a110 1 sec 10 107 ** * get_digits 105 left', '73448 oeis 105 left' )
+    expectEqual( '-a110 1 sec 10 107 ** * floor get_digits 105 left', '73448 oeis 105 left' )
 
     # sech
-    expectEqual( '-a1005 1 sech 10 1001 ** * get_digits 1001 left', '73746 oeis 1001 left' )
+    expectEqual( '-a1005 1 sech 10 1001 ** * floor get_digits 1001 left', '73746 oeis 1001 left' )
 
     # sin
     expectEqual( 'pi 4 / sin', '2 sqrt 1/x' )
     expectEqual( '0 lambda 2 x * sin 3 x * sin / limitn', '2 3 /' )
 
-    expectEqual( '-a105 1 sin 10 100 ** * get_digits 98 left', '49469 oeis 98 left' )
+    expectEqual( '-a105 1 sin 10 100 ** * floor get_digits 98 left', '49469 oeis 98 left' )
 
     # sinh
     expectEqual( '0 250 range sinh nearest_int', '495 oeis 251 left' )
     expectEqual( '0 200 range sinh floor', '471 oeis 201 left' )
-    expectEqual( '-a1005 1 sinh 10 1001 ** * get_digits 1001 left', '73742 oeis 1001 left' )
+    expectEqual( '-a1005 1 sinh 10 1001 ** * floor get_digits 1001 left', '73742 oeis 1001 left' )
 
     # tan
     expectEqual( '0 999 range tan nearest_int', '209 oeis 1000 left' )
     expectEqual( '0 1000 range tan floor', '503 oeis 1001 left' )
 
     # tanh
-    expectEqual( '-a1005 1 tanh 10 1002 ** * get_digits 1001 left', '73744 oeis 1001 left' )
+    expectEqual( '-a1005 1 tanh 10 1002 ** * floor get_digits 1001 left', '73744 oeis 1001 left' )
 
 
 #******************************************************************************

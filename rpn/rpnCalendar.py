@@ -21,8 +21,8 @@ from mpmath import ceil
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnName import getOrdinalName
-from rpn.rpnUtils import oneArgFunctionEvaluator, validateRealInt
-
+from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 #******************************************************************************
 #
@@ -261,6 +261,7 @@ frenchRepublicanMonths = [
     'Messidor',
     'Thermidor',
     'Fructidor',
+    'Sansculottides'
 ]
 
 
@@ -310,7 +311,7 @@ def generateYearCalendar( n ):
     if isinstance( n, RPNDateTime ):
         cal.pryear( n.year )
     else:
-        cal.pryear( validateRealInt( n ) )
+        cal.pryear( int( n ) )
 
     return ''
 
@@ -395,9 +396,11 @@ def getHebrewCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 1, 13 ),
+                 IntValidator( 1, 30 ) ] )
 def convertHebrewDate( year, month, day ):
-    return RPNDateTime( *hebrew.to_gregorian( validateRealInt( year ), validateRealInt( month ),
-                                              validateRealInt( day ) ), dateOnly = True )
+    return RPNDateTime( *hebrew.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
@@ -437,10 +440,11 @@ def getIndianCivilCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( 1, 31 ) ] )
 def convertIndianCivilDate( year, month, day ):
-    return RPNDateTime( *indian_civil.to_gregorian( validateRealInt( year ), validateRealInt( month ),
-                                                    validateRealInt( day ) ),
-                        dateOnly = True )
+    return RPNDateTime( *indian_civil.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
@@ -480,10 +484,13 @@ def getMayanCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( 0 ),
+                 IntValidator( 0 ),
+                 IntValidator( 0 ),
+                 IntValidator( 0 ) ] )
 def convertMayanDate( baktun, katun, tun, uinal, kin ):
-    return RPNDateTime( *mayan.to_gregorian( validateRealInt( baktun ), validateRealInt( katun ),
-                                             validateRealInt( tun ), validateRealInt( uinal ),
-                                             validateRealInt( kin ) ), dateOnly = True )
+    return RPNDateTime( *mayan.to_gregorian( baktun, katun, tun, uinal, kin ), dateOnly = True )
 
 
 #******************************************************************************
@@ -506,10 +513,11 @@ def getIslamicCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( 1, 31 ) ] )
 def convertIslamicDate( year, month, day ):
-    return RPNDateTime( *islamic.to_gregorian( validateRealInt( year ), validateRealInt( month ),
-                                               validateRealInt( day ) ),
-                        dateOnly = True )
+    return RPNDateTime( *islamic.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
@@ -549,10 +557,11 @@ def getJulianCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( 1, 31 ) ] )
 def convertJulianDate( year, month, day ):
-    return RPNDateTime( *julian.to_gregorian( validateRealInt( year ), validateRealInt( month ),
-                                              validateRealInt( day ) ),
-                        dateOnly = True )
+    return RPNDateTime( *julian.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
@@ -575,10 +584,11 @@ def getPersianCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( 1, 31 ) ] )
 def convertPersianDate( year, month, day ):
-    return RPNDateTime( *persian.to_gregorian( validateRealInt( year ), validateRealInt( month ),
-                                               validateRealInt( day ) ),
-                        dateOnly = True )
+    return RPNDateTime( *persian.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
@@ -669,8 +679,11 @@ def getEthiopianCalendarDate( n ):
 #
 #******************************************************************************
 
+@argValidator( [ IntValidator( ),
+                 IntValidator( 1, 12 ),
+                 IntValidator( 1, 31 ) ] )
 def convertEthiopianDate( year, month, day ):
-    ethDate = ethiopian_date.to_gregorian( validateRealInt( year ), validateRealInt( month ), validateRealInt( day ) )
+    ethDate = ethiopian_date.to_gregorian( int( year ), int( month ), int( day ) )
     return RPNDateTime( ethDate.year, ethDate.month, ethDate.day )
 
 
@@ -728,7 +741,9 @@ def getFrenchRepublicanCalendarDateName( n ):
 
     date = french_republican.from_gregorian( n.year, n.month, n.day )
 
-    return frenchRepublicanDays[ n.weekday( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
+    #return frenchRepublicanDays[ n.weekday( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
+    #       ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
+    return frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
 
 

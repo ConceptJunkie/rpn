@@ -24,35 +24,9 @@ from rpn.rpnLocation import RPNLocation
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded
-
+from rpn.rpnValidator import RPNValidator
 
 import rpn.rpnGlobals as g
-
-
-#******************************************************************************
-#
-#  RPNArgumentType class
-#
-#******************************************************************************
-
-class RPNArgumentType( Enum ):
-    Default = 0                 # any argument is valid
-    Real = 1
-    NonnegativeReal = 2         # real >= 0
-    Integer = 3
-    PositiveInteger = 4         # integer >= 1
-    NonnegativeInteger = 5      # integer >= 0
-    PrimeInteger = 649
-
-    String = 7
-    DateTime = 8
-    Location = 9                # location object (operators will automatically convert a string)
-    Boolean = 10                # 0 or 1
-    Measurement = 11
-    AstronomicalObject = 12
-    List = 13                   # the argument must be a list
-    Generator = 14              # Generator is a separate type now, but eventually it should be equivalent to List
-    Function = 15
 
 
 #******************************************************************************
@@ -168,22 +142,22 @@ def generateFunctionArgument( ):
 #******************************************************************************
 
 argumentGenerators = {
-    RPNArgumentType.Default             : generateDefaultArgument,
-    RPNArgumentType.Real                : generateRealArgument,
-    RPNArgumentType.NonnegativeReal     : generateNonnegativeRealArgument,
-    RPNArgumentType.Integer             : generateIntegerArgument,
-    RPNArgumentType.PositiveInteger     : generatePositiveIntegerArgument,
-    RPNArgumentType.NonnegativeInteger  : generateNonnegativeIntegerArgument,
-    RPNArgumentType.PrimeInteger        : generatePrimeArgument,
-    RPNArgumentType.String              : generateStringArgument,
-    RPNArgumentType.DateTime            : generateDateTimeArgument,
-    RPNArgumentType.Location            : generateLocationArgument,
-    RPNArgumentType.Boolean             : generateBooleanArgument,
-    RPNArgumentType.Measurement         : generateMeasurementArgument,
-    RPNArgumentType.AstronomicalObject  : generateAstronomicalObjectArgument,
-    RPNArgumentType.List                : generateListArgument,
-    RPNArgumentType.Generator           : generateGeneratorArgument,
-    RPNArgumentType.Function            : generateFunctionArgument,
+    RPNValidator.Default             : generateDefaultArgument,
+    RPNValidator.Real                : generateRealArgument,
+    RPNValidator.NonnegativeReal     : generateNonnegativeRealArgument,
+    RPNValidator.Integer             : generateIntegerArgument,
+    RPNValidator.PositiveInteger     : generatePositiveIntegerArgument,
+    RPNValidator.NonnegativeInteger  : generateNonnegativeIntegerArgument,
+    RPNValidator.PrimeInteger        : generatePrimeArgument,
+    RPNValidator.String              : generateStringArgument,
+    RPNValidator.DateTime            : generateDateTimeArgument,
+    RPNValidator.Location            : generateLocationArgument,
+    RPNValidator.Boolean             : generateBooleanArgument,
+    RPNValidator.Measurement         : generateMeasurementArgument,
+    RPNValidator.AstronomicalObject  : generateAstronomicalObjectArgument,
+    RPNValidator.List                : generateListArgument,
+    RPNValidator.Generator           : generateGeneratorArgument,
+    RPNValidator.Function            : generateFunctionArgument,
 }
 
 
@@ -258,38 +232,38 @@ class RPNOperator( ):
     @staticmethod
     def validateArgType( term, arg, argType ):
         if isinstance( arg, ( list, RPNGenerator ) ) and \
-           argType not in ( RPNArgumentType.List, RPNArgumentType.Generator ):
+           argType not in ( RPNValidator.List, RPNValidator.Generator ):
             return True
 
-        if argType == RPNArgumentType.Default:
+        if argType == RPNValidator.Default:
             return True
-        elif argType == RPNArgumentType.Real and im( arg ):
+        elif argType == RPNValidator.Real and im( arg ):
             raise ValueError( '\'' + term + '\':  real argument expected' )
-        elif argType == RPNArgumentType.NonnegativeReal and ( im( arg ) or arg < 0 ):
+        elif argType == RPNValidator.NonnegativeReal and ( im( arg ) or arg < 0 ):
             raise ValueError( '\'' + term + '\':  non-negative real argument expected' )
-        elif argType == RPNArgumentType.Integer and arg != floor( arg ):
+        elif argType == RPNValidator.Integer and arg != floor( arg ):
             raise ValueError( '\'' + term + '\':  integer argument expected' )
-        elif argType == RPNArgumentType.NonnegativeInteger and arg != floor( arg ) or arg < 0:
+        elif argType == RPNValidator.NonnegativeInteger and arg != floor( arg ) or arg < 0:
             raise ValueError( '\'' + term + '\':  non-negative integer argument expected' )
-        elif argType == RPNArgumentType.PositiveInteger and arg != floor( arg ) or arg < 1:
+        elif argType == RPNValidator.PositiveInteger and arg != floor( arg ) or arg < 1:
             raise ValueError( '\'' + term + '\':  positive integer argument expected' )
-        elif argType == RPNArgumentType.String and not isinstance( arg, str ):
+        elif argType == RPNValidator.String and not isinstance( arg, str ):
             raise ValueError( '\'' + term + '\':  string argument expected' )
-        elif argType == RPNArgumentType.DateTime and not isinstance( arg, RPNDateTime ):
+        elif argType == RPNValidator.DateTime and not isinstance( arg, RPNDateTime ):
             raise ValueError( '\'' + term + '\':  date-time argument expected' )
-        elif argType == RPNArgumentType.Location and not isinstance( arg, ( RPNLocation, str ) ):
+        elif argType == RPNValidator.Location and not isinstance( arg, ( RPNLocation, str ) ):
             raise ValueError( '\'' + term + '\':  location argument expected' )
-        elif argType == RPNArgumentType.Boolean and arg != 0 and arg != 1:
+        elif argType == RPNValidator.Boolean and arg != 0 and arg != 1:
             raise ValueError( '\'' + term + '\':  boolean argument expected (0 or 1)' )
-        elif argType == RPNArgumentType.Measurement and not isinstance( arg, RPNMeasurement ):
+        elif argType == RPNValidator.Measurement and not isinstance( arg, RPNMeasurement ):
             raise ValueError( '\'' + term + '\':  measurement argument expected' )
-        elif argType == RPNArgumentType.AstronomicalObject:
+        elif argType == RPNValidator.AstronomicalObject:
             pass
-        elif argType == RPNArgumentType.List and not isinstance( arg, ( list, RPNGenerator ) ):
+        elif argType == RPNValidator.List and not isinstance( arg, ( list, RPNGenerator ) ):
             raise ValueError( '\'' + term + '\':  list argument expected' )
-        elif argType == RPNArgumentType.Generator and not isinstance( arg, RPNGenerator ):
+        elif argType == RPNValidator.Generator and not isinstance( arg, RPNGenerator ):
             raise ValueError( '\'' + term + '\':  generator argument expected' )
-        elif argType == RPNArgumentType.Function and not isinstance( arg, RPNFunction ):
+        elif argType == RPNValidator.Function and not isinstance( arg, RPNFunction ):
             raise ValueError( '\'' + term + '\':  function argument expected' )
 
         return False

@@ -252,41 +252,6 @@ def getExpandedFactorList( factors ):
 
 #******************************************************************************
 #
-#  validateReal
-#
-#******************************************************************************
-
-def validateReal( n ):
-    '''Validates that a value is real and throws an error if it isn't.'''
-    if isinstance( n, ( list, RPNGenerator ) ):
-        return n
-
-    if im( n ) != 0:
-        raise ValueError( 'real argument expected ({})'.format( n ) )
-
-    return n
-
-
-#******************************************************************************
-#
-#  validateRealInt
-#
-#******************************************************************************
-
-def validateRealInt( n ):
-    '''Validates that a value is a real integer and throws an error if it
-    isn't.'''
-    if im( n ) != 0:
-        raise ValueError( 'real argument expected ({})'.format( n ) )
-
-    if n != floor( n ):
-        raise ValueError( 'integer argument expected ({})'.format( n ) )
-
-    return int( n )
-
-
-#******************************************************************************
-#
 #  getMPFIntegerAsString
 #
 #******************************************************************************
