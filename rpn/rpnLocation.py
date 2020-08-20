@@ -26,6 +26,7 @@ from timezonefinder import TimezoneFinder
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
@@ -124,12 +125,12 @@ class RPNLocation( ):
 
 #******************************************************************************
 #
-#  makeLocation
+#  makeLocationOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def makeLocation( n, k ):
+def makeLocationOperator( n, k ):
     return RPNLocation( lat=float( n ), long=float( k ) )
 
 
@@ -217,12 +218,12 @@ def getLocation( name ):
 
 #******************************************************************************
 #
-#  getLocationInfo
+#  getLocationInfoOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getLocationInfo( location ):
+def getLocationInfoOperator( location ):
     if isinstance( location, str ):
         location = getLocation( location )
     elif not isinstance( location, RPNLocation ):
@@ -234,11 +235,10 @@ def getLocationInfo( location ):
 
 #******************************************************************************
 #
-#  getTimeZone
+#  getTimeZoneOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getTimeZone( location ):
     tzFinder = TimezoneFinder( )
 
@@ -255,17 +255,19 @@ def getTimeZone( location ):
 
     return timezoneName
 
+@oneArgFunctionEvaluator( )
+def getTimeZoneOperator( location ):
+    return getTimeZone( location )
+
 
 #******************************************************************************
 #
-#  getGeographicDistance
+#  getGeographicDistanceOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getGeographicDistance( location1, location2 ):
-    from rpn.rpnMeasurement import RPNMeasurement
-
+def getGeographicDistanceOperator( location1, location2 ):
     if isinstance( location1, str ):
         location1 = getLocation( location1 )
 
@@ -288,14 +290,14 @@ def getGeographicDistance( location1, location2 ):
 
 #******************************************************************************
 #
-#  convertLatLongToNAC
+#  convertLatLongToNACOperator
 #
 #  https://en.wikipedia.org/wiki/Natural_Area_Code
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def convertLatLongToNAC( args ):
+def convertLatLongToNACOperator( args ):
     if isinstance( args, RPNGenerator ):
         return convertLatLongToNAC( list( args ) )
     elif not isinstance( args, list ):

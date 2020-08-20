@@ -19,7 +19,7 @@ from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdp
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 import rpn.rpnGlobals as g
 

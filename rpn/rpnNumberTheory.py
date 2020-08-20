@@ -2284,7 +2284,7 @@ def getNthHarmonicNumber( n ):
     return harmonic( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getNthHyperfactorial( n ):
     return hyperfac( n )
 
@@ -2314,6 +2314,7 @@ def getNthLeonardoNumber( n ):
     return fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 )
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), ComplexValidator( ) ] )
 def getPolygamma( n, k ):
     return psi( n, k )
 
@@ -2323,7 +2324,7 @@ def getNthSubfactorial( n ):
     return floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getNthSuperfactorial( n ):
     return superfac( n )
 

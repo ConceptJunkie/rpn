@@ -43,21 +43,26 @@ from rpn.rpnAstronomy import getAngularSeparation, getAngularSize, getAntitransi
                              getSolarNoon, getSummerSolstice, getTransitTime, getVernalEquinox, getWinterSolstice, \
                              RPNAstronomicalObject
 
-from rpn.rpnCalendar import convertBahaiDate, convertEthiopianDate, convertFrenchRepublicanDate, convertHebrewDate, \
-                            convertIndianCivilDate, convertIslamicDate, convertJulianDate, convertMayanDate, \
-                            convertPersianDate, generateMonthCalendar, generateYearCalendar, getBahaiCalendarDate, \
-                            getBahaiCalendarDateName, getEthiopianCalendarDate, getEthiopianCalendarDateName, \
-                            getFrenchRepublicanCalendarDate, getFrenchRepublicanCalendarDateName, \
-                            getHebrewCalendarDate, getHebrewCalendarDateName, getIndianCivilCalendarDate, \
-                            getIndianCivilCalendarDateName, getIslamicCalendarDate, getIslamicCalendarDateName, \
-                            getISODate, getISODateName, getJulianCalendarDate, getJulianDay, getLilianDay, \
-                            getMayanCalendarDate, getOrdinalDate, getPersianCalendarDate, \
-                            getPersianCalendarDateName
+from rpn.rpnCalendar import convertBahaiDateOperator, convertEthiopianDateOperator, \
+                            convertFrenchRepublicanDateOperator, convertHebrewDateOperator, \
+                            convertIndianCivilDateOperator, convertIslamicDateOperator, convertJulianDateOperator, \
+                            convertMayanDateOperator, convertPersianDateOperator, generateMonthCalendarOperator, \
+                            generateYearCalendarOperator, getBahaiCalendarDateOperator, \
+                            getBahaiCalendarDateNameOperator, getEthiopianCalendarDateOperator, \
+                            getEthiopianCalendarDateNameOperator, getFrenchRepublicanCalendarDateOperator, \
+                            getFrenchRepublicanCalendarDateNameOperator, getHebrewCalendarDateOperator, \
+                            getHebrewCalendarDateNameOperator, getIndianCivilCalendarDateOperator, \
+                            getIndianCivilCalendarDateNameOperator, getIslamicCalendarDateOperator, \
+                            getIslamicCalendarDateNameOperator, getISODateOperator, getISODateNameOperator, \
+                            getJulianCalendarDateOperator, getJulianDayOperator, getLilianDayOperator, \
+                            getMayanCalendarDateOperator, getOrdinalDateOperator, getPersianCalendarDateOperator, \
+                            getPersianCalendarDateNameOperator
 
-from rpn.rpnChemistry import getAtomicNumber, getAtomicSymbol, getAtomicWeight, getElementBlock, \
-                             getElementBoilingPoint, getElementDensity, getElementDescription, \
-                             getElementGroup, getElementMeltingPoint, getElementName, getElementOccurrence, \
-                             getElementPeriod, getElementState, getMolarMass
+from rpn.rpnChemistry import getAtomicNumberOperator, getAtomicSymbolOperator, getAtomicWeightOperator, \
+                             getElementBlockOperator, getElementBoilingPointOperator, getElementDensityOperator, \
+                             getElementDescriptionOperator, getElementGroupOperator, getElementMeltingPointOperator, \
+                             getElementNameOperator, getElementOccurrenceOperator, getElementPeriodOperator, \
+                             getElementStateOperator, getMolarMassOperator
 
 from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynomial, getBinomial, \
                                  getCombinations, getCompositions, getDeBruijnSequence, getIntegerPartitions, \
@@ -68,14 +73,16 @@ from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynom
                                  getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
                                  getPartitionsWithLimit, getPermutations, getStirling1Number, getStirling2Number
 
-from rpn.rpnComputer import andOperator, convertToChar, convertToDouble, convertToFloat, convertToLong, \
-                            convertToLongLong, convertToQuadLong, convertToShort, convertToSignedIntOperator, \
-                            convertToUnsignedChar, convertToUnsignedInt, convertToUnsignedLong, \
-                            convertToUnsignedLongLong, convertToUnsignedQuadLong, convertToUnsignedShort, \
-                            getBitCountOperator, getBitwiseAnd, getBitwiseNand, getBitwiseNor, getBitwiseOr, \
-                            getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, nandOperator, orOperator, \
-                            norOperator, notOperator, packInteger, shiftLeft, shiftRight, unpackInteger, xnorOperator, \
-                            xorOperator
+from rpn.rpnComputer import andOperator, convertToCharOperator, convertToDoubleOperator, convertToFloatOperator, \
+                            convertToLongOperator, convertToLongLongOperator, convertToQuadLongOperator, \
+                            convertToShortOperator, convertToSignedIntOperator, convertToUnsignedCharOperator, \
+                            convertToUnsignedIntOperator, convertToUnsignedLongOperator, \
+                            convertToUnsignedLongLongOperator, convertToUnsignedQuadLongOperator, \
+                            convertToUnsignedShortOperator, getBitCountOperator, getBitwiseAnd, getBitwiseNand, \
+                            getBitwiseNor, getBitwiseOr, getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, \
+                            interpretAsDoubleOperator, interpretAsFloatOperator, nandOperator, orOperator, \
+                            norOperator, notOperator, packIntegerOperator, shiftLeft, shiftRight, \
+                            unpackIntegerOperator, xnorOperator, xorOperator
 
 from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
@@ -87,18 +94,24 @@ from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConsta
                                  getPlanckViscosity, getPlanckVoltage, getPlanckVolume, getPlanckVolumetricFlowRate, \
                                  getPlasticConstant, getRadiationConstant, getRobbinsConstant, \
                                  getStefanBoltzmannConstant, getThueMorseConstant, getVacuumImpedance, \
-                                 getvonKlitzingConstant, interpretAsDouble, interpretAsFloat
+                                 getvonKlitzingConstant
 
-from rpn.rpnDateTime import calculateAdvent, calculateAscensionThursday, calculateAshWednesday, calculateColumbusDay, \
-                            calculateDSTEnd, calculateDSTStart, calculateEaster, calculateElectionDay, \
-                            calculateFathersDay, calculateGoodFriday, calculateLaborDay, calculateMartinLutherKingDay, \
-                            calculateMemorialDay, calculateMothersDay, calculateNthWeekdayOfMonthOperator, \
-                            calculateNthWeekdayOfYear, calculatePentecostSunday, calculatePresidentsDay, \
-                            calculateThanksgiving, convertFromUnixTime, convertToDHMS, convertToHMS, convertToYDHMS, \
-                            convertToUnixTime, getChristmasDay, getDay, getEpiphanyDay, getHour, getIndependenceDay, \
-                            getISODay, getMinute, getMonth, getNewYearsDay, getSecond, getToday, getTomorrow, \
-                            getVeteransDay, getWeekday, getWeekdayName, getYear, getYesterday, makeDateTime, \
-                            makeISOTime, makeJulianTime, RPNDateTime
+from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayOperator, \
+                            calculateAshWednesdayOperator, calculateColumbusDayOperator, \
+                            calculateDSTEndOperator, calculateDSTStartOperator, calculateEasterOperator, \
+                            calculateElectionDayOperator, calculateFathersDayOperator, calculateGoodFridayOperator, \
+                            calculateLaborDayOperator, calculateMartinLutherKingDayOperator, \
+                            calculateMemorialDayOperator, calculateMothersDayOperator, \
+                            calculateNthWeekdayOfMonthOperator, calculateNthWeekdayOfYearOperator, \
+                            calculatePentecostSundayOperator, calculatePresidentsDayOperator, \
+                            calculateThanksgivingOperator, convertFromUnixTimeOperator, \
+                            convertToDHMSOperator, convertToHMSOperator, convertToYDHMSOperator, \
+                            convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, \
+                            getEpiphanyDayOperator, getHourOperator, getIndependenceDayOperator, getISODayOperator, \
+                            getMinuteOperator, getMonthOperator, getNewYearsDayOperator, getNowOperator, \
+                            getSecondOperator, getTodayOperator, getTomorrowOperator, getVeteransDayOperator, \
+                            getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, \
+                            makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, RPNDateTime
 
 from rpn.rpnDice import enumerateDiceGenerator, enumerateMultipleDiceGenerator, permuteDiceGenerator, rollDice, \
                         rollMultipleDiceGenerator, rollSimpleDice
@@ -144,7 +157,7 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         getCumulativeListDiffs, getCumulativeListProducts, getCumulativeListSums, \
                         getCumulativeListRatios, getCumulativeOccurrenceRatios, getDifference, getGCDOperator, \
                         getGCDOfList, getListCombinations, getListCombinationsWithRepeats, getLeft, getListDiffs, \
-                        getListPowerset, getListRatios, getRight, getIndexOfMax, getIndexOfMin, getListElement, \
+                        getListPowerSet, getListRatios, getRight, getIndexOfMax, getIndexOfMin, getListElement, \
                         getListPermutations, getListPermutationsWithRepeats, getNandAll, getNonzeroes, getNorAll, \
                         getProductOperator, getOccurrences, getOccurrenceRatios, getOrAll, getRandomElement, \
                         getReverse, getSlice, getStandardDeviation, getSublist, getSumOperator, getUniqueElements, \
@@ -152,8 +165,8 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         makeIntersection, makeUnion, permuteLists, reduceListOperator, shuffleList, sortAscending, \
                         sortDescending
 
-from rpn.rpnLocation import convertLatLongToNAC, getGeographicDistance, getLocation, getLocationInfo, \
-                            getTimeZone, makeLocation
+from rpn.rpnLocation import convertLatLongToNACOperator, getGeographicDistanceOperator, getLocationInfoOperator, \
+                            getTimeZoneOperator, makeLocationOperator
 
 from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, \
                         addOperator, asecOperator, asechOperator, asinOperator, asinhOperator, atanOperator, \
@@ -177,8 +190,11 @@ from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator
                         squareOperator, subtractOperator, tanOperator, tanhOperator, tetrateOperator, \
                         tetrateRightOperator
 
-from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnits, convertToDMS, convertToPrimitiveUnits, \
-                               convertUnits, estimate, getDimensions, invertUnits, RPNMeasurement, RPNUnits
+from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, \
+                               convertToPrimitiveUnitsOperator, convertUnits, estimateOperator, getDimensions, \
+                               invertUnitsOperator
+
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 from rpn.rpnModifiers import decrementNestedListLevel, duplicateOperation, duplicateTerm, endOperatorList, \
                              getPrevious, incrementNestedListLevel, startOperatorList, unlist
@@ -295,6 +311,8 @@ from rpn.rpnSpecial import describeInteger, downloadOEISComment, downloadOEISExt
                            downloadOEISOffset, downloadOEISSequence, findPolynomial, generateRandomUUIDOperator, \
                            generateUUIDOperator, getMultipleRandomsGenerator, getRandomInteger, \
                            getRandomIntegersGenerator, getRandomNumber
+
+from rpn.rpnUnitClasses import RPNUnits
 
 from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, oneArgFunctionEvaluator, \
                          twoArgFunctionEvaluator, validateArguments
@@ -2280,23 +2298,23 @@ listOperators = {
     'convert'                       : RPNOperator( convertUnits,
                                                    2, [ RPNValidator.List ], [ ] ),   # list arguments are special
 
-    'lat_long_to_nac'               : RPNOperator( convertLatLongToNAC,
+    'lat_long_to_nac'               : RPNOperator( convertLatLongToNACOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'pack'                          : RPNOperator( packInteger,
+    'pack'                          : RPNOperator( packIntegerOperator,
                                                    2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
 
-    'unpack'                        : RPNOperator( unpackInteger,
+    'unpack'                        : RPNOperator( unpackIntegerOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.List ], [ ] ),
 
     # date_time
-    'make_datetime'                 : RPNOperator( makeDateTime,
+    'make_datetime'                 : RPNOperator( makeDateTimeOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'make_iso_time'                 : RPNOperator( makeISOTime,
+    'make_iso_time'                 : RPNOperator( makeISOTimeOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'make_julian_time'              : RPNOperator( makeJulianTime,
+    'make_julian_time'              : RPNOperator( makeJulianTimeOperator,
                                                    1, [ RPNValidator.List ], [ ] ),
 
     # function
@@ -2455,7 +2473,7 @@ listOperators = {
     'permute_lists'                 : RPNOperator( permuteLists,
                                                    1, [ RPNValidator.List ], [ ] ),
 
-    'powerset'                      : RPNOperator( lambda n: RPNGenerator( getListPowerset( n ) ),
+    'powerset'                      : RPNOperator( lambda n: RPNGenerator( getListPowerSet( n ) ),
                                                    1, [ RPNValidator.List ], [ ] ),
 
     'random_element'                : RPNOperator( getRandomElement,
@@ -2926,236 +2944,236 @@ operators = {
                                                    2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
 
     # calendar
-    'advent'                        : RPNOperator( calculateAdvent,
+    'advent'                        : RPNOperator( calculateAdventOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'ascension'                     : RPNOperator( calculateAscensionThursday,
+    'ascension'                     : RPNOperator( calculateAscensionThursdayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'ash_wednesday'                 : RPNOperator( calculateAshWednesday,
+    'ash_wednesday'                 : RPNOperator( calculateAshWednesdayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'calendar'                      : RPNOperator( generateMonthCalendar,
+    'calendar'                      : RPNOperator( generateMonthCalendarOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'christmas'                     : RPNOperator( getChristmasDay,
+    'christmas'                     : RPNOperator( getChristmasDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'columbus_day'                  : RPNOperator( calculateColumbusDay,
+    'columbus_day'                  : RPNOperator( calculateColumbusDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'dst_end'                       : RPNOperator( calculateDSTEnd,
+    'dst_end'                       : RPNOperator( calculateDSTEndOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'dst_start'                     : RPNOperator( calculateDSTStart,
+    'dst_start'                     : RPNOperator( calculateDSTStartOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'easter'                        : RPNOperator( calculateEaster,
+    'easter'                        : RPNOperator( calculateEasterOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'election_day'                  : RPNOperator( calculateElectionDay,
+    'election_day'                  : RPNOperator( calculateElectionDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'epiphany'                      : RPNOperator( getEpiphanyDay,
+    'epiphany'                      : RPNOperator( getEpiphanyDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'fathers_day'                   : RPNOperator( calculateFathersDay,
+    'fathers_day'                   : RPNOperator( calculateFathersDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_bahai'                    : RPNOperator( convertBahaiDate,
+    'from_bahai'                    : RPNOperator( convertBahaiDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_ethiopian'                : RPNOperator( convertEthiopianDate,
+    'from_ethiopian'                : RPNOperator( convertEthiopianDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_french_republican'        : RPNOperator( convertFrenchRepublicanDate,
+    'from_french_republican'        : RPNOperator( convertFrenchRepublicanDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_hebrew'                   : RPNOperator( convertHebrewDate,
+    'from_hebrew'                   : RPNOperator( convertHebrewDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_indian_civil'             : RPNOperator( convertIndianCivilDate,
+    'from_indian_civil'             : RPNOperator( convertIndianCivilDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_islamic'                  : RPNOperator( convertIslamicDate,
+    'from_islamic'                  : RPNOperator( convertIslamicDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_julian'                   : RPNOperator( convertJulianDate,
+    'from_julian'                   : RPNOperator( convertJulianDateOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_mayan'                    : RPNOperator( convertMayanDate,
+    'from_mayan'                    : RPNOperator( convertMayanDateOperator,
                                                    5, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'from_persian'                  : RPNOperator( convertPersianDate,
+    'from_persian'                  : RPNOperator( convertPersianDateOperator,
                                                    3, [ RPNValidator.Integer, RPNValidator.Integer,
                                                         RPNValidator.Integer ], [ ] ),
 
-    'good_friday'                   : RPNOperator( calculateGoodFriday,
+    'good_friday'                   : RPNOperator( calculateGoodFridayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'independence_day'              : RPNOperator( getIndependenceDay,
+    'independence_day'              : RPNOperator( getIndependenceDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'iso_date'                      : RPNOperator( getISODate,
+    'iso_date'                      : RPNOperator( getISODateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'labor_day'                     : RPNOperator( calculateLaborDay,
+    'labor_day'                     : RPNOperator( calculateLaborDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'martin_luther_king_day'        : RPNOperator( calculateMartinLutherKingDay,
+    'martin_luther_king_day'        : RPNOperator( calculateMartinLutherKingDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'memorial_day'                  : RPNOperator( calculateMemorialDay,
+    'memorial_day'                  : RPNOperator( calculateMemorialDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'mothers_day'                   : RPNOperator( calculateMothersDay,
+    'mothers_day'                   : RPNOperator( calculateMothersDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'new_years_day'                 : RPNOperator( getNewYearsDay,
+    'new_years_day'                 : RPNOperator( getNewYearsDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
     'nth_weekday'                   : RPNOperator( calculateNthWeekdayOfMonthOperator,
                                                    4, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
                                                         RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
 
-    'nth_weekday_of_year'           : RPNOperator( calculateNthWeekdayOfYear,
+    'nth_weekday_of_year'           : RPNOperator( calculateNthWeekdayOfYearOperator,
                                                    3, [ RPNValidator.PositiveInteger, RPNValidator.Integer,
                                                         RPNValidator.PositiveInteger ], [ ] ),
 
-    'pentecost'                     : RPNOperator( calculatePentecostSunday,
+    'pentecost'                     : RPNOperator( calculatePentecostSundayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'presidents_day'                : RPNOperator( calculatePresidentsDay,
+    'presidents_day'                : RPNOperator( calculatePresidentsDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'thanksgiving'                  : RPNOperator( calculateThanksgiving,
+    'thanksgiving'                  : RPNOperator( calculateThanksgivingOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'to_bahai'                      : RPNOperator( getBahaiCalendarDate,
+    'to_bahai'                      : RPNOperator( getBahaiCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_bahai_name'                 : RPNOperator( getBahaiCalendarDateName,
+    'to_bahai_name'                 : RPNOperator( getBahaiCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_ethiopian'                  : RPNOperator( getEthiopianCalendarDate,
+    'to_ethiopian'                  : RPNOperator( getEthiopianCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_ethiopian_name'             : RPNOperator( getEthiopianCalendarDateName,
+    'to_ethiopian_name'             : RPNOperator( getEthiopianCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_french_republican'          : RPNOperator( getFrenchRepublicanCalendarDate,
+    'to_french_republican'          : RPNOperator( getFrenchRepublicanCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_french_republican_name'     : RPNOperator( getFrenchRepublicanCalendarDateName,
+    'to_french_republican_name'     : RPNOperator( getFrenchRepublicanCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_hebrew'                     : RPNOperator( getHebrewCalendarDate,
+    'to_hebrew'                     : RPNOperator( getHebrewCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_hebrew_name'                : RPNOperator( getHebrewCalendarDateName,
+    'to_hebrew_name'                : RPNOperator( getHebrewCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_indian_civil'               : RPNOperator( getIndianCivilCalendarDate,
+    'to_indian_civil'               : RPNOperator( getIndianCivilCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_indian_civil_name'          : RPNOperator( getIndianCivilCalendarDateName,
+    'to_indian_civil_name'          : RPNOperator( getIndianCivilCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_islamic'                    : RPNOperator( getIslamicCalendarDate,
+    'to_islamic'                    : RPNOperator( getIslamicCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_islamic_name'               : RPNOperator( getIslamicCalendarDateName,
+    'to_islamic_name'               : RPNOperator( getIslamicCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_iso'                        : RPNOperator( getISODate,
+    'to_iso'                        : RPNOperator( getISODateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_iso_name'                   : RPNOperator( getISODateName,
+    'to_iso_name'                   : RPNOperator( getISODateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_julian'                     : RPNOperator( getJulianCalendarDate,
+    'to_julian'                     : RPNOperator( getJulianCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_julian_day'                 : RPNOperator( getJulianDay,
+    'to_julian_day'                 : RPNOperator( getJulianDayOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_lilian_day'                 : RPNOperator( getLilianDay,
+    'to_lilian_day'                 : RPNOperator( getLilianDayOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_mayan'                      : RPNOperator( getMayanCalendarDate,
+    'to_mayan'                      : RPNOperator( getMayanCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_ordinal_date'               : RPNOperator( getOrdinalDate,
+    'to_ordinal_date'               : RPNOperator( getOrdinalDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_persian'                    : RPNOperator( getPersianCalendarDate,
+    'to_persian'                    : RPNOperator( getPersianCalendarDateOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'to_persian_name'               : RPNOperator( getPersianCalendarDateName,
+    'to_persian_name'               : RPNOperator( getPersianCalendarDateNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'veterans_day'                  : RPNOperator( getVeteransDay,
+    'veterans_day'                  : RPNOperator( getVeteransDayOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'weekday'                       : RPNOperator( getWeekday,
+    'weekday'                       : RPNOperator( getWeekdayOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'weekday_name'                  : RPNOperator( getWeekdayName,
+    'weekday_name'                  : RPNOperator( getWeekdayNameOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'year_calendar'                 : RPNOperator( generateYearCalendar,
+    'year_calendar'                 : RPNOperator( generateYearCalendarOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
     # chemistry
-    'atomic_number'                 : RPNOperator( getAtomicNumber,
+    'atomic_number'                 : RPNOperator( getAtomicNumberOperator,
                                                    1, [ RPNValidator.String ], [ ] ),
 
-    'atomic_symbol'                 : RPNOperator( getAtomicSymbol,
+    'atomic_symbol'                 : RPNOperator( getAtomicSymbolOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'atomic_weight'                 : RPNOperator( getAtomicWeight,
+    'atomic_weight'                 : RPNOperator( getAtomicWeightOperator,
                                                    1, [ RPNValidator.String ], [ ] ),
 
-    'element_block'                 : RPNOperator( getElementBlock,
+    'element_block'                 : RPNOperator( getElementBlockOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_boiling_point'         : RPNOperator( getElementBoilingPoint,
+    'element_boiling_point'         : RPNOperator( getElementBoilingPointOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_density'               : RPNOperator( getElementDensity,
+    'element_density'               : RPNOperator( getElementDensityOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_description'           : RPNOperator( getElementDescription,
+    'element_description'           : RPNOperator( getElementDescriptionOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_group'                 : RPNOperator( getElementGroup,
+    'element_group'                 : RPNOperator( getElementGroupOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_melting_point'         : RPNOperator( getElementMeltingPoint,
+    'element_melting_point'         : RPNOperator( getElementMeltingPointOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_name'                  : RPNOperator( getElementName,
+    'element_name'                  : RPNOperator( getElementNameOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_occurrence'            : RPNOperator( getElementOccurrence,
+    'element_occurrence'            : RPNOperator( getElementOccurrenceOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_period'                : RPNOperator( getElementPeriod,
+    'element_period'                : RPNOperator( getElementPeriodOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'element_state'                 : RPNOperator( getElementState,
+    'element_state'                 : RPNOperator( getElementStateOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'molar_mass'                    : RPNOperator( getMolarMass,
+    'molar_mass'                    : RPNOperator( getMolarMassOperator,
                                                    1, [ RPNValidator.String ], [ ] ),
 
     # combinatoric
@@ -3251,111 +3269,111 @@ operators = {
                                                    1, [ RPNValidator.Default ], [ ] ),
 
     # conversion
-    'char'                          : RPNOperator( convertToChar,
+    'char'                          : RPNOperator( convertToCharOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'dhms'                          : RPNOperator( convertToDHMS,
+    'dhms'                          : RPNOperator( convertToDHMSOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'dms'                           : RPNOperator( convertToDMS,
+    'dms'                           : RPNOperator( convertToDMSOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'double'                        : RPNOperator( convertToDouble,
+    'double'                        : RPNOperator( convertToDoubleOperator,
                                                    1, [ RPNValidator.Real ], [ ] ),
 
-    'float'                         : RPNOperator( convertToFloat,
+    'float'                         : RPNOperator( convertToFloatOperator,
                                                    1, [ RPNValidator.Real ], [ ] ),
 
-    'from_unix_time'                : RPNOperator( convertFromUnixTime,
+    'from_unix_time'                : RPNOperator( convertFromUnixTimeOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'hms'                           : RPNOperator( convertToHMS,
+    'hms'                           : RPNOperator( convertToHMSOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
     'integer'                       : RPNOperator( convertToSignedIntOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'invert_units'                  : RPNOperator( invertUnits,
+    'invert_units'                  : RPNOperator( invertUnitsOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
-    'long'                          : RPNOperator( convertToLong,
+    'long'                          : RPNOperator( convertToLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'longlong'                      : RPNOperator( convertToLongLong,
+    'longlong'                      : RPNOperator( convertToLongLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'quadlong'                      : RPNOperator( convertToQuadLong,
+    'quadlong'                      : RPNOperator( convertToQuadLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'short'                         : RPNOperator( convertToShort,
+    'short'                         : RPNOperator( convertToShortOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'to_unix_time'                  : RPNOperator( convertToUnixTime,
+    'to_unix_time'                  : RPNOperator( convertToUnixTimeOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'uchar'                         : RPNOperator( convertToUnsignedChar,
+    'uchar'                         : RPNOperator( convertToUnsignedCharOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'uinteger'                      : RPNOperator( convertToUnsignedInt,
+    'uinteger'                      : RPNOperator( convertToUnsignedIntOperator,
                                                    2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
 
-    'ulong'                         : RPNOperator( convertToUnsignedLong,
+    'ulong'                         : RPNOperator( convertToUnsignedLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'ulonglong'                     : RPNOperator( convertToUnsignedLongLong,
+    'ulonglong'                     : RPNOperator( convertToUnsignedLongLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'undouble'                      : RPNOperator( interpretAsDouble,
+    'undouble'                      : RPNOperator( interpretAsDoubleOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'unfloat'                       : RPNOperator( interpretAsFloat,
+    'unfloat'                       : RPNOperator( interpretAsFloatOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'uquadlong'                     : RPNOperator( convertToUnsignedQuadLong,
+    'uquadlong'                     : RPNOperator( convertToUnsignedQuadLongOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'ushort'                        : RPNOperator( convertToUnsignedShort,
+    'ushort'                        : RPNOperator( convertToUnsignedShortOperator,
                                                    1, [ RPNValidator.Integer ], [ ] ),
 
-    'ydhms'                         : RPNOperator( convertToYDHMS,
+    'ydhms'                         : RPNOperator( convertToYDHMSOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
     # date_time
-    'get_year'                      : RPNOperator( getYear,
+    'get_year'                      : RPNOperator( getYearOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'get_month'                     : RPNOperator( getMonth,
+    'get_month'                     : RPNOperator( getMonthOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'get_day'                       : RPNOperator( getDay,
+    'get_day'                       : RPNOperator( getDayOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'get_hour'                      : RPNOperator( getHour,
+    'get_hour'                      : RPNOperator( getHourOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'get_minute'                    : RPNOperator( getMinute,
+    'get_minute'                    : RPNOperator( getMinuteOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'get_second'                    : RPNOperator( getSecond,
+    'get_second'                    : RPNOperator( getSecondOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'iso_day'                       : RPNOperator( getISODay,
+    'iso_day'                       : RPNOperator( getISODayOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'now'                           : RPNOperator( RPNDateTime.getNow,
+    'now'                           : RPNOperator( getNowOperator,
                                                    0, [ ], [ ] ),
 
-    'today'                         : RPNOperator( getToday,
+    'today'                         : RPNOperator( getTodayOperator,
                                                    0, [ ], [ ] ),
 
-    'tomorrow'                      : RPNOperator( getTomorrow,
+    'tomorrow'                      : RPNOperator( getTomorrowOperator,
                                                    0, [ ], [ ] ),
 
-    'yesterday'                     : RPNOperator( getYesterday,
+    'yesterday'                     : RPNOperator( getYesterdayOperator,
                                                    0, [ ], [ ] ),
 
     # figurate
@@ -3673,16 +3691,16 @@ operators = {
                                                    3, [ RPNValidator.Default, RPNValidator.NonnegativeInteger, RPNValidator.Function ], [ ] ),
 
     # geography
-    'geographic_distance'           : RPNOperator( getGeographicDistance,
+    'geographic_distance'           : RPNOperator( getGeographicDistanceOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.Location ], [ ] ),
 
-    'get_timezone'                  : RPNOperator( getTimeZone,
+    'get_timezone'                  : RPNOperator( getTimeZoneOperator,
                                                    1, [ RPNValidator.Location ], [ ] ),
 
-    'lat_long'                      : RPNOperator( makeLocation,
+    'lat_long'                      : RPNOperator( makeLocationOperator,
                                                    2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
 
-    'location_info'                 : RPNOperator( getLocationInfo,
+    'location_info'                 : RPNOperator( getLocationInfoOperator,
                                                    1, [ RPNValidator.String ], [ ] ),
 
     # geometry
@@ -4714,7 +4732,7 @@ operators = {
                                                    0, [ ], [ ] ),
 
     # special
-    'base_units'                    : RPNOperator( convertToBaseUnits,
+    'base_units'                    : RPNOperator( convertToBaseUnitsOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -4737,7 +4755,7 @@ operators = {
     'enumerate_dice_'               : RPNOperator( enumerateMultipleDiceGenerator,
                                                    2, [ RPNValidator.String, RPNValidator.PositiveInteger ], [ ] ),
 
-    'estimate'                      : RPNOperator( estimate,
+    'estimate'                      : RPNOperator( estimateOperator,
                                                    1, [ RPNValidator.Default ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 
@@ -4780,7 +4798,7 @@ operators = {
     'permute_dice'                  : RPNOperator( permuteDiceGenerator,
                                                    1, [ RPNValidator.String ], [ ] ),
 
-    'primitive_units'               : RPNOperator( convertToPrimitiveUnits,
+    'primitive_units'               : RPNOperator( convertToPrimitiveUnitsOperator,
                                                    1, [ RPNValidator.Measurement ], [ ],
                                                    RPNOperator.measurementsAllowed ),
 

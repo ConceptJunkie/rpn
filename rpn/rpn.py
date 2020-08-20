@@ -41,7 +41,7 @@ from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 from rpn.rpnOperator import checkForVariable
 

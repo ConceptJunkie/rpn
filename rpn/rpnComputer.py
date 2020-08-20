@@ -17,10 +17,10 @@ import struct
 from mpmath import fadd, fdiv, floor, fmod, fmul, fsub, fsum, log, mpf, mp, mpmathify, power
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator, RealValidator
+from rpn.rpnValidator import argValidator, IntValidator, ListValidator, RealValidator
 
 import rpn.rpnGlobals as g
 
@@ -46,34 +46,33 @@ def convertToSignedInt( n, k ):
     return value
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def convertToSignedIntOperator( n, k ):
     return convertToSignedInt( n, k )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToChar( n ):
+def convertToCharOperator( n ):
     return convertToSignedInt( n, 8 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToShort( n ):
+def convertToShortOperator( n ):
     return convertToSignedInt( n, 16 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToLong( n ):
+def convertToLongOperator( n ):
     return convertToSignedInt( n, 32 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToLongLong( n ):
+def convertToLongLongOperator( n ):
     return convertToSignedInt( n, 64 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToQuadLong( n ):
+def convertToQuadLongOperator( n ):
     return convertToSignedInt( n, 128 )
 
 
@@ -250,7 +249,8 @@ def getParity( n ):
 #
 #******************************************************************************
 
-def unpackInteger( n, fields ):
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def unpackIntegerOperator( n, fields ):
     if isinstance( n, RPNGenerator ):
         return unpackInteger( list( n ), fields )
     elif isinstance( n, list ):
@@ -278,7 +278,8 @@ def unpackInteger( n, fields ):
 #
 #******************************************************************************
 
-def packInteger( values, fields ):
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def packIntegerOperator( values, fields ):
     if isinstance( values, RPNGenerator ):
         return packInteger( list( values ), fields )
     elif not isinstance( values, list ):
@@ -313,11 +314,14 @@ def packInteger( values, fields ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, 2 ** 32 - 1 ) ] )
 def interpretAsFloat( n ):
     intValue = struct.pack( 'I', int( n ) )
     return mpf( struct.unpack( 'f', intValue )[ 0 ] )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0, 2 ** 32 - 1 ) ] )
+def interpretAsFloatOperator( n ):
+    return interpretAsFloat( n )
 
 
 #******************************************************************************
@@ -334,50 +338,61 @@ def interpretAsDouble( n ):
     intValue = struct.pack( 'Q', int( n ) )
     return mpf( struct.unpack( 'd', intValue )[ 0 ] )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0, 2 ** 64 - 1 ) ] )
+def interpretAsDoubleOperator( n ):
+    return interpretAsDouble( n )
+
+
+#******************************************************************************
+#
+#  conversion operators
+#
+#******************************************************************************
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ) ] )
-def convertToDouble( n ):
+def convertToDoubleOperator( n ):
     return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ) ] )
-def convertToFloat( n ):
+def convertToFloatOperator( n ):
     return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) )
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
-def convertToUnsignedInt( n, k ):
+def convertToUnsignedIntOperator( n, k ):
     return fmod( n, power( 2, k ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToUnsignedChar( n ):
+def convertToUnsignedCharOperator( n ):
     return fmod( n, power( 2, 8 ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToUnsignedShort( n ):
+def convertToUnsignedShortOperator( n ):
     return fmod( n, power( 2, 16 ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToUnsignedLong( n ):
+def convertToUnsignedLongOperator( n ):
     return fmod( n, power( 2, 32 ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToUnsignedLongLong( n ):
+def convertToUnsignedLongLongOperator( n ):
     return fmod( n, power( 2, 64 ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def convertToUnsignedQuadLong( n ):
+def convertToUnsignedQuadLongOperator( n ):
     return fmod( n, power( 2, 128 ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def andOperator( n, k ):
     return 1 if ( n != 0 and k != 0 ) else 0
 

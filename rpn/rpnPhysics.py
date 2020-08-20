@@ -19,7 +19,7 @@ from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getPower, getRoot, multiply
 from rpn.rpnMatchUnitTypes import matchUnitTypes
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 

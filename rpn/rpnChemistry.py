@@ -17,7 +17,7 @@ import string
 
 from mpmath import fadd, fdiv, fmul, mpmathify
 
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
@@ -344,12 +344,12 @@ def convertMeasurementToAtomicSymbol( n ):
 
 #******************************************************************************
 #
-#  getAtomicNumber
+#  getAtomicNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getAtomicNumber( n ):
+def getAtomicNumberOperator( n ):
     if g.elements is None:
         loadChemistryTables( )
 
@@ -364,12 +364,12 @@ def getAtomicNumber( n ):
 
 #******************************************************************************
 #
-#  getAtomicWeight
+#  getAtomicWeightOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getAtomicWeight( n ):
+def getAtomicWeightOperator( n ):
     if isinstance( n, RPNMeasurement ):
         n = convertMeasurementToAtomicSymbol( n )
 
@@ -379,45 +379,45 @@ def getAtomicWeight( n ):
 
 #******************************************************************************
 #
-#  getElementDensity
+#  getElementDensityOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getElementDensity( n ):
+def getElementDensityOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 10 ) ), 'g/cm^3' )
 
 
 #******************************************************************************
 #
-#  getElementMeltingPoint
+#  getElementMeltingPointOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getElementMeltingPoint( n ):
+def getElementMeltingPointOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 11 ) ), 'kelvin' )
 
 
 #******************************************************************************
 #
-#  getElementBoilingPoint
+#  getElementBoilingPointOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getElementBoilingPoint( n ):
+def getElementBoilingPointOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 12 ) ), 'kelvin' )
 
 
 #******************************************************************************
 #
-#  calculateMolarMass
+#  calculateMolarMassOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateMolarMass( n ):
+def calculateMolarMassOperator( n ):
     result = 0
 
     for atom in n:
@@ -427,39 +427,39 @@ def calculateMolarMass( n ):
 
 
 @oneArgFunctionEvaluator( )
-def getAtomicSymbol( n ):
+def getAtomicSymbolOperator( n ):
     return getElementAttribute( n, 1 )
 
 @oneArgFunctionEvaluator( )
-def getElementBlock( n ):
+def getElementBlockOperator( n ):
     return getElementAttribute( n, 4 )
 
 @oneArgFunctionEvaluator( )
-def getElementDescription( n ):
+def getElementDescriptionOperator( n ):
     return getElementAttribute( n, 7 )
 
 @oneArgFunctionEvaluator( )
-def getElementGroup( n ):
+def getElementGroupOperator( n ):
     return getElementAttribute( n, 2 )
 
 @oneArgFunctionEvaluator( )
-def getElementName( n ):
+def getElementNameOperator( n ):
     return getElementAttribute( n, 0 )
 
 @oneArgFunctionEvaluator( )
-def getElementOccurrence( n ):
+def getElementOccurrenceOperator( n ):
     return getElementAttribute( n, 6 )
 
 @oneArgFunctionEvaluator( )
-def getElementPeriod( n ):
+def getElementPeriodOperator( n ):
     return getElementAttribute( n, 3 )
 
 @oneArgFunctionEvaluator( )
-def getElementState( n ):
+def getElementStateOperator( n ):
     return getElementAttribute( n, 5 )
 
 @oneArgFunctionEvaluator( )
-def getMolarMass( n ):
+def getMolarMassOperator( n ):
     if isinstance( n, RPNMeasurement ):
         n = convertMeasurementToAtomicSymbol( n )
 

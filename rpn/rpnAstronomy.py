@@ -21,7 +21,7 @@ from skyfield import almanac
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnLocation import getLocation, getTimeZone, RPNLocation
 from rpn.rpnMatchUnitTypes import matchUnitTypes
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          loadAstronomyData

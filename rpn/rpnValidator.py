@@ -22,7 +22,7 @@ from mpmath.ctx_mp_python import mpc
 
 from rpn.rpnDateTimeClass import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 import rpn.rpnGlobals as g
 

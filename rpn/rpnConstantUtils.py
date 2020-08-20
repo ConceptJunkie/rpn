@@ -26,7 +26,7 @@ from rpn.rpnComputer import interpretAsDouble, interpretAsFloat
 from rpn.rpnInput import convertToBase10
 from rpn.rpnList import getProduct
 from rpn.rpnMath import getPower, getRoot
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnNumberTheory import getNthThueMorseNumber
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPrimeUtils import getNthPrime

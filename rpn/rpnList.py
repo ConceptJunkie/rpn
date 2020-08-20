@@ -21,8 +21,8 @@ from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, inf,
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import add, multiply, square, subtract, divide
-from rpn.rpnMeasurement import RPNMeasurement
-from rpn.rpnUtils import getPowerset, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
+from rpn.rpnMeasurementClass import RPNMeasurement
+from rpn.rpnUtils import getPowerSet, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
                          listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, ListValidator, \
                              RealOrMeasurementOrDateTimeValidator
@@ -1326,14 +1326,14 @@ def equalsOneOf( value, targetList ):
 
 #******************************************************************************
 #
-#  getListPowerset
+#  getListPowerSet
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getListPowerset( n ):
-    for i in getPowerset( n ):
+def getListPowerSet( n ):
+    for i in getPowerSet( n ):
         if len( i ) > 0:
             yield list( i )
 

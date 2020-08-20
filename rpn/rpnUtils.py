@@ -811,11 +811,11 @@ def matchArgumentTypes( args, validArgTypes ):
 
 #******************************************************************************
 #
-#  getPowerset
+#  getPowerSet
 #
 #******************************************************************************
 
-def getPowerset( args ):
+def getPowerSet( args ):
     # standard python powerset recipe, minus the empty subset, which is not useful to us
     return itertools.chain.from_iterable( itertools.combinations( args, n ) \
                                                     for n in range( 1, len( args ) + 1 ) )

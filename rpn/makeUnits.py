@@ -31,7 +31,7 @@ mp.dps = 52
 
 # pylint: disable=wrong-import-position
 from rpn.rpnConstantOperators import constantOperators
-from rpn.rpnMeasurement import specialUnitConversionMatrix
+from rpn.rpnMeasurementClass import specialUnitConversionMatrix
 
 from rpn.rpnUnits import binaryPrefixes, compoundTimeUnits, dataPrefixes, dataUnits, integralMetricUnits, \
                          metricPrefixes, metricUnits, RPNUnitInfo, unitConversionMatrix, timeUnits, \

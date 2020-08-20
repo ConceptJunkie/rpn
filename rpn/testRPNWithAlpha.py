@@ -23,7 +23,7 @@ from rpn.rpnOperators import *
 
 from rpn.rpnAliases import operatorAliases
 from rpn.rpnOperators import constants
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnPersistence import cachedFunction, loadUnitNameData
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnTestUtils import *

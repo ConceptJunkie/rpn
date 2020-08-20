@@ -22,8 +22,7 @@ from dateutil import tz
 
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
-from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement, convertUnits
+from rpn.rpnMeasurementClass import RPNMeasurement
 
 import rpn.rpnGlobals as g
 

@@ -14,7 +14,7 @@
 
 from mpmath import fabs, fdiv, floor, fmod, power
 
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator, IntOrMeasurementValidator
 

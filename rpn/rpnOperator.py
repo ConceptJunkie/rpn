@@ -21,7 +21,7 @@ from mpmath import exp, fadd, fmul, floor, im, nan, nstr
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnLocation import RPNLocation
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded
 from rpn.rpnValidator import RPNValidator

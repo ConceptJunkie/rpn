@@ -25,7 +25,7 @@ from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, ComplexOrMeasurementValidator, ComplexOrMeasurementValidator, \
                              ComplexOrMeasurementOrDateTimeValidator, DefaultValidator, \

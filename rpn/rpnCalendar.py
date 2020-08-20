@@ -22,7 +22,7 @@ from mpmath import ceil
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnName import getOrdinalName
 from rpn.rpnUtils import oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator
 
 #******************************************************************************
 #
@@ -267,29 +267,25 @@ frenchRepublicanMonths = [
 
 #******************************************************************************
 #
-#  getOrdinalDate
+#  getOrdinalDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getOrdinalDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getOrdinalDateOperator( n ):
     return str( n.year ) + '-' + str( n.timetuple( ).tm_yday )
 
 
 #******************************************************************************
 #
-#  generateMonthCalendar
+#  generateMonthCalendarOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def generateMonthCalendar( datetime ):
-    if not isinstance( datetime, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def generateMonthCalendarOperator( datetime ):
     cal = calendar.TextCalendar( firstweekday = 6 )
     print( )
     cal.prmonth( datetime.year, datetime.month )
@@ -300,12 +296,13 @@ def generateMonthCalendar( datetime ):
 
 #******************************************************************************
 #
-#  generateYearCalendar
+#  generateYearCalendarOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def generateYearCalendar( n ):
+@argValidator( [ IntOrDateTimeValidator( ) ] )
+def generateYearCalendarOperator( n ):
     cal = calendar.TextCalendar( firstweekday = 6 )
 
     if isinstance( n, RPNDateTime ):
@@ -318,43 +315,37 @@ def generateYearCalendar( n ):
 
 #******************************************************************************
 #
-#  getJulianDay
+#  getJulianDayOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getJulianDay( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getJulianDayOperator( n ):
     return gregorian.to_jd( n.year, n.month, n.day )
 
 
 #******************************************************************************
 #
-#  getLilianDay
+#  getLilianDayOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getLilianDay( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getLilianDayOperator( n ):
     return ceil( n.subtract( RPNDateTime( 1582, 10, 15 ) ).value )
 
 
 #******************************************************************************
 #
-#  getISODate
+#  getISODateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getISODate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getISODateOperator( n ):
     result = n.isocalendar( )
 
     return list( result )
@@ -362,15 +353,13 @@ def getISODate( n ):
 
 #******************************************************************************
 #
-#  getISODateName
+#  getISODateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getISODateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getISODateNameOperator( n ):
     result = n.isocalendar( )
 
     return str( result[ 0 ] ) + '-W' + str( result[ 1 ] ) + '-' + str( result[ 2 ] )
@@ -378,42 +367,35 @@ def getISODateName( n ):
 
 #******************************************************************************
 #
-#  getHebrewCalendarDate
+#  getHebrewCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getHebrewCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getHebrewCalendarDateOperator( n ):
     return list( hebrew.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertHebrewDate
+#  convertHebrewDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1, 13 ),
-                 IntValidator( 1, 30 ) ] )
-def convertHebrewDate( year, month, day ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1, 13 ), IntValidator( 1, 30 ) ] )
+def convertHebrewDateOperator( year, month, day ):
     return RPNDateTime( *hebrew.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getHebrewCalendarDateName
+#  getHebrewCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getHebrewCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+def getHebrewCalendarDateNameOperator( n ):
     date = hebrew.from_gregorian( n.year, n.month, n.day )
 
     return hebrewDays[ n.weekday( ) ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
@@ -422,42 +404,36 @@ def getHebrewCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getIndianCivilCalendarDate
+#  getIndianCivilCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getIndianCivilCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getIndianCivilCalendarDateOperator( n ):
     return list( indian_civil.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertIndianCivilDate
+#  convertIndianCivilDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1, 12 ),
-                 IntValidator( 1, 31 ) ] )
-def convertIndianCivilDate( year, month, day ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1, 12 ), IntValidator( 1, 31 ) ] )
+def convertIndianCivilDateOperator( year, month, day ):
     return RPNDateTime( *indian_civil.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getIndianCivilCalendarDateName
+#  getIndianCivilCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getIndianCivilCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getIndianCivilCalendarDateNameOperator( n ):
     date = indian_civil.from_gregorian( n.year, n.month, n.day )
 
     return indianCivilDays[ n.weekday( ) ] + ', ' + indianCivilMonths[ date[ 1 ] - 1 ] + \
@@ -466,71 +442,59 @@ def getIndianCivilCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getMayanCalendarDate
+#  getMayanCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getMayanCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getMayanCalendarDateOperator( n ):
     return list( mayan.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertMayanDate
+#  convertMayanDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( 0 ),
-                 IntValidator( 0 ),
-                 IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def convertMayanDate( baktun, katun, tun, uinal, kin ):
+@argValidator( [ IntValidator( ), IntValidator( 0 ), IntValidator( 0 ), IntValidator( 0 ), IntValidator( 0 ) ] )
+def convertMayanDateOperator( baktun, katun, tun, uinal, kin ):
     return RPNDateTime( *mayan.to_gregorian( baktun, katun, tun, uinal, kin ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getIslamicCalendarDate
+#  getIslamicCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getIslamicCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getIslamicCalendarDateOperator( n ):
     return list( islamic.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertIslamicDate
+#  convertIslamicDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1, 12 ),
-                 IntValidator( 1, 31 ) ] )
-def convertIslamicDate( year, month, day ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1, 12 ), IntValidator( 1, 31 ) ] )
+def convertIslamicDateOperator( year, month, day ):
     return RPNDateTime( *islamic.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getIslamicCalendarDateName
+#  getIslamicCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getIslamicCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getIslamicCalendarDateNameOperator( n ):
     date = islamic.from_gregorian( n.year, n.month, n.day )
 
     return islamicDays[ n.weekday( ) ] + ', ' + islamicMonths[ date[ 1 ] - 1 ] + \
@@ -539,69 +503,59 @@ def getIslamicCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getJulianCalendarDate
+#  getJulianCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getJulianCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getJulianCalendarDateOperator( n ):
     return list( julian.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertJulianDate
+#  convertJulianDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( 1, 12 ),
-                 IntValidator( 1, 31 ) ] )
-def convertJulianDate( year, month, day ):
+@argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( 1, 31 ) ] )
+def convertJulianDateOperator( year, month, day ):
     return RPNDateTime( *julian.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getPersianCalendarDate
+#  getPersianCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getPersianCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getPersianCalendarDateOperator( n ):
     return list( persian.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertPersianDate
+#  convertPersianDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( 1, 12 ),
-                 IntValidator( 1, 31 ) ] )
-def convertPersianDate( year, month, day ):
+@argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( 1, 31 ) ] )
+def convertPersianDateOperator( year, month, day ):
     return RPNDateTime( *persian.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getPersianCalendarDateName
+#  getPersianCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getPersianCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getPersianCalendarDateNameOperator( n ):
     date = persian.from_gregorian( n.year, n.month, n.day )
 
     return persianDays[ n.weekday( ) ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
@@ -610,39 +564,36 @@ def getPersianCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getBahaiCalendarDate
+#  getBahaiCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getBahaiCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getBahaiCalendarDateOperator( n ):
     return list( bahai.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertBahaiDate
+#  convertBahaiDateOperator
 #
 #******************************************************************************
 
-def convertBahaiDate( year, month, day ):
+@argValidator( [ IntValidator( ), IntValidator( 1, 19 ), IntValidator( 1, 31 ) ] )
+def convertBahaiDateOperator( year, month, day ):
     return RPNDateTime( *bahai.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getBahaiCalendarDateName
+#  getBahaiCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getBahaiCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getBahaiCalendarDateNameOperator( n ):
     date = bahai.from_gregorian( n.year, n.month, n.day )
 
     result = bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
@@ -661,43 +612,37 @@ def getBahaiCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getEthiopianCalendarDate
+#  getEthiopianCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getEthiopianCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getEthiopianCalendarDateOperator( n ):
     return list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertEthiopianDate
+#  convertEthiopianDateOperator
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( 1, 12 ),
-                 IntValidator( 1, 31 ) ] )
-def convertEthiopianDate( year, month, day ):
+@argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( 1, 31 ) ] )
+def convertEthiopianDateOperator( year, month, day ):
     ethDate = ethiopian_date.to_gregorian( int( year ), int( month ), int( day ) )
     return RPNDateTime( ethDate.year, ethDate.month, ethDate.day )
 
 
 #******************************************************************************
 #
-#  getEthiopianCalendarDateName
+#  getEthiopianCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getEthiopianCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getEthiopianCalendarDateNameOperator( n ):
     date = list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
 
     return ethiopianDays[ date[ 2 ] - 1 ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
@@ -706,44 +651,40 @@ def getEthiopianCalendarDateName( n ):
 
 #******************************************************************************
 #
-#  getFrenchRepublicanCalendarDate
+#  getFrenchRepublicanCalendarDateOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getFrenchRepublicanCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getFrenchRepublicanCalendarDateOperator( n ):
     return list( french_republican.from_gregorian( n.year, n.month, n.day ) )
 
 
 #******************************************************************************
 #
-#  convertFrenchRepublicanDate
+#  convertFrenchRepublicanDateOperator
 #
 #******************************************************************************
 
-def convertFrenchRepublicanDate( year, month, day ):
+@argValidator( [ IntValidator( ), IntValidator( 1, 13 ), IntValidator( 1, 31 ) ] )
+def convertFrenchRepublicanDateOperator( year, month, day ):
     return RPNDateTime( *french_republican.to_gregorian( int( year ), int( month ), int( day ) ), dateOnly = True )
 
 
 #******************************************************************************
 #
-#  getFrenchRepublicanCalendarDateName
+#  getFrenchRepublicanCalendarDateNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getFrenchRepublicanCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
+@argValidator( [ DateTimeValidator( ) ] )
+def getFrenchRepublicanCalendarDateNameOperator( n ):
     date = french_republican.from_gregorian( n.year, n.month, n.day )
 
     #return frenchRepublicanDays[ n.weekday( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
     #       ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
     return frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
-
 

@@ -24,7 +24,7 @@ from rpn.rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnPersistence import loadHelpData, loadUnitData
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import addAliases

@@ -9807,9 +9807,17 @@ The Pentanacci constant:
     'polygamma' : [
 'number_theory', 'calculates the polygamma function for n',
 '''
+From https://en.wikipedia.org/wiki/Polygamma_function:
+
+In mathematics, the polygamma function of order m is a meromorphic function on
+the complex numbers C defined as the (m + 1)th derivative of the logarithm of
+the gamma function.
+
+The operator returns the polygamma function of order n for the value k.
 ''',
 '''
-''' + makeCommandExample( '5 6 polygamma' ),
+''' + makeCommandExample( '5 6 polygamma' ) + '''
+''' + makeCommandExample( '0 5 range 10 polygamma' ),
 [ 'gamma', 'trigamma' ] ],
 
     'polygorial' : [
