@@ -20,7 +20,8 @@ from rpn.rpnUtils import getPowerSet
 
 import rpn.rpnGlobals as g
 
-from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, mpf, mpmathify, power, root
+from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, log10, \
+                   mpf, mpmathify, power, root
 
 
 #******************************************************************************

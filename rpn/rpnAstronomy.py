@@ -25,7 +25,7 @@ from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          loadAstronomyData
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator
 
 import rpn.rpnGlobals as g
 
@@ -218,15 +218,12 @@ class RPNAstronomicalObject( ):
 
 #******************************************************************************
 #
-#  getSeason
+#  getSeasonOperator
 #
-#  0 = spring, 1 = summer, 2 = autumn, 3 = winter
+#  0 = spring, 1 = summer, 2 = mn, 3 = winter
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0, 3 ) ] )
 def getSeason( n, season ):
     '''Returns the date of the season for year n.'''
     loadAstronomyData( )
@@ -239,6 +236,10 @@ def getSeason( n, season ):
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0, 3 ) ] )
+def getSeasonOperator( n, season ):
+    getSeason( n, season )
 
 #******************************************************************************
 #
@@ -247,7 +248,8 @@ def getSeason( n, season ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getVernalEquinox( n ):
+@argValidator( [ IntValidator( 0 ) ] )
+def getVernalEquinoxOperator( n ):
     '''Returns the date of the vernal equinox for year n.'''
     return getSeason( n, 0 )
 
@@ -260,7 +262,8 @@ def getVernalEquinox( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getSummerSolstice( n ):
+@argValidator( [ IntValidator( 0 ) ] )
+def getSummerSolsticeOperator( n ):
     '''Returns the date of the summer solstice for year n.'''
     return getSeason( n, 1 )
 
@@ -272,7 +275,8 @@ def getSummerSolstice( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getAutumnalEquinox( n ):
+@argValidator( [ IntValidator( 0 ) ] )
+def getAutumnalEquinoxOperator( n ):
     '''Returns the date of the autumnal equinox for year n.'''
     return getSeason( n, 2 )
 
@@ -284,7 +288,8 @@ def getAutumnalEquinox( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getWinterSolstice( n ):
+@argValidator( [ IntValidator( 0 ) ] )
+def getWinterSolsticeOperator( n ):
     '''Returns the date of the winter solstice for year n.'''
     return getSeason( n, 3 )
 
@@ -304,45 +309,52 @@ def getEphemTime( n, func ):
     return result.getLocalTime( )
 
 @oneArgFunctionEvaluator( )
-def getNextFirstQuarterMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getNextFirstQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.next_first_quarter_moon )
 
 @oneArgFunctionEvaluator( )
-def getNextFullMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getNextFullMoonOperator( n ):
     return getEphemTime( n, ephem.next_full_moon )
 
 @oneArgFunctionEvaluator( )
-def getNextLastQuarterMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getNextLastQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.next_last_quarter_moon )
 
 @oneArgFunctionEvaluator( )
-def getNextNewMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getNextNewMoonOperator( n ):
     return getEphemTime( n, ephem.next_new_moon )
 
 @oneArgFunctionEvaluator( )
-def getPreviousFirstQuarterMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getPreviousFirstQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.previous_first_quarter_moon )
 
 @oneArgFunctionEvaluator( )
-def getPreviousFullMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getPreviousFullMoonOperator( n ):
     return getEphemTime( n, ephem.previous_full_moon )
 
 @oneArgFunctionEvaluator( )
-def getPreviousLastQuarterMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getPreviousLastQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.previous_last_quarter_moon )
 
 @oneArgFunctionEvaluator( )
-def getPreviousNewMoon( n ):
+@argValidator( [ DateTimeValidator( ) ] )
+def getPreviousNewMoonOperator( n ):
     return getEphemTime( n, ephem.previous_new_moon )
 
 
 #******************************************************************************
 #
-#  getMoonPhase
+#  getMoonPhaseOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getMoonPhase( n ):
     '''Returns the current moon phase as a percentage, starting from the new moon.'''
     if not isinstance( n, RPNDateTime ):
@@ -358,6 +370,11 @@ def getMoonPhase( n ):
 
     return current.total_seconds( ) / cycle.total_seconds( )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ DateTimeValidator( ) ] )
+def getMoonPhaseOperator( n ):
+    return getMoonPhase( n )
+
 
 #******************************************************************************
 #
@@ -365,7 +382,7 @@ def getMoonPhase( n ):
 #
 #******************************************************************************
 
-def getSkyLocation( arg1, arg2, arg3 ):
+def getSkyLocationOperator( arg1, arg2, arg3 ):
     '''Returns the location of an astronomical object in the sky in terms of azimuth and altitude.'''
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
     arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
@@ -380,11 +397,11 @@ def getSkyLocation( arg1, arg2, arg3 ):
 
 #******************************************************************************
 #
-#  getAngularSize
+#  getAngularSizeOperator
 #
 #******************************************************************************
 
-def getAngularSize( arg1, arg2, arg3 ):
+def getAngularSizeOperator( arg1, arg2, arg3 ):
     '''Returns the angular size of an astronomical object in radians.'''
     validUnitTypes = [ [ 'location', 'datetime', 'body' ] ]
     arguments = matchUnitTypes( [ arg1, arg2, arg3 ], validUnitTypes )
@@ -397,25 +414,25 @@ def getAngularSize( arg1, arg2, arg3 ):
 
 #******************************************************************************
 #
-#  getAngularSeparation
+#  getAngularSeparationOperator
 #
 #******************************************************************************
 
-def getAngularSeparation( body1, body2, location, date ):
-    '''Returns the angular size of an astronomical object in radians.'''
-    if isinstance( location, str ):
-        location = getLocation( location )
+def getAngularSeparationOperator( body1, body2, arg3, arg4 ):
+    '''Returns the angular separation of two astronomical objects in radians.'''
+    validUnitTypes = [ [ 'location', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg3, arg4 ], validUnitTypes )
 
-    if not isinstance( body1, RPNAstronomicalObject ) or not isinstance( body2, RPNAstronomicalObject ) and \
-       not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+    if not isinstance( body1, RPNAstronomicalObject ) or not isinstance( body2, RPNAstronomicalObject ) or \
+       not arguments:
         raise ValueError( 'expected two astronomical objects, a location and a date-time' )
 
-    return body1.getAngularSeparation( body2, location, date )
+    return body1.getAngularSeparation( body2, arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 #******************************************************************************
 #
-#  getNextRising
+#  getNextRisingOperator
 #
 #******************************************************************************
 
@@ -431,17 +448,19 @@ def getNextRising( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getNextSunrise( n, k ):
+def getNextSunriseOperator( n, k ):
     return getNextRising( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 @twoArgFunctionEvaluator( )
-def getNextMoonRise( n, k ):
+def getNextMoonRiseOperator( n, k ):
     return getNextRising( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
+def getNextRisingOperator( arg1, arg2, arg3 ):
+    return getNextRising( arg1, arg2, arg3 )
 
 #******************************************************************************
 #
-#  getNextSetting
+#  getNextSettingOperator
 #
 #******************************************************************************
 
@@ -457,17 +476,20 @@ def getNextSetting( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getNextSunset( n, k ):
+def getNextSunsetOperator( n, k ):
     return getNextSetting( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 @twoArgFunctionEvaluator( )
-def getNextMoonSet( n, k ):
+def getNextMoonSetOperator( n, k ):
     return getNextSetting( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+
+def getNextSettingOperator( arg1, arg2, arg3 ):
+    return getNextSetting( arg1, arg2, arg3 )
 
 
 #******************************************************************************
 #
-#  getNextTransit
+#  getNextTransitOperator
 #
 #******************************************************************************
 
@@ -482,17 +504,19 @@ def getNextTransit( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getSolarNoon( n, k ):
+def getSolarNoonOperator( n, k ):
     return getNextTransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 @twoArgFunctionEvaluator( )
-def getNextMoonTransit( n, k ):
+def getNextMoonTransitOperator( n, k ):
     return getNextTransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
+def getNextTransitOperator( arg1, arg2, arg3 ):
+    return getNextTransit( arg1, arg2, arg3 )
 
 #******************************************************************************
 #
-#  getNextAntitransit
+#  getNextAntitransitOperator
 #
 #******************************************************************************
 
@@ -507,17 +531,20 @@ def getNextAntitransit( arg1, arg2, arg3 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getNextSunAntitransit( n, k ):
+def getNextSunAntitransitOperator( n, k ):
     return getNextAntitransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
 @twoArgFunctionEvaluator( )
-def getNextMoonAntitransit( n, k ):
+def getNextMoonAntitransitOperator( n, k ):
     return getNextAntitransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+
+def getNextAntitransitOperator( arg1, arg2, arg3 ):
+    return getNextTransit( arg1, arg2, arg3 )
 
 
 #******************************************************************************
 #
-#  getTransitTime
+#  getTransitTimeOperator
 #
 #******************************************************************************
 
@@ -531,13 +558,16 @@ def getTransitTime( arg1, arg2, arg3 ):
     return arguments[ 'body' ].getTransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 @twoArgFunctionEvaluator( )
-def getDayTime( n, k ):
+def getDayTimeOperator( n, k ):
     return getTransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
+def getTransitTimeOperator( arg1, arg2, arg3 ):
+    return getTransitTime( arg1, arg2, arg3 )
 
 
 #******************************************************************************
 #
-#  getAntitransitTime
+#  getAntitransitTimeOperator
 #
 #******************************************************************************
 
@@ -551,13 +581,16 @@ def getAntitransitTime( arg1, arg2, arg3 ):
     return arguments[ 'body' ].getAntitransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 @twoArgFunctionEvaluator( )
-def getNightTime( n, k ):
+def getNightTimeOperator( n, k ):
     return getAntitransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
+def getAntitransitTimeOperator( arg1, arg2, arg3 ):
+    return getAntitransitTime( arg1, arg2, arg3 )
 
 
 #******************************************************************************
 #
-#  getPreviousRising
+#  getPreviousRisingperator
 #
 #******************************************************************************
 
@@ -572,10 +605,13 @@ def getPreviousRising( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
+def getPreviousRisingOperator( arg1, arg2, arg3 ):
+    return getPreviousRising( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
-#  getPreviousSetting
+#  getPreviousSettingOperator
 #
 #******************************************************************************
 
@@ -590,10 +626,13 @@ def getPreviousSetting( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
+def getPreviousSettingOperator( arg1, arg2, arg3 ):
+    return getPreviousSetting( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
-#  getPreviousTransit
+#  getPreviousTransitOperator
 #
 #******************************************************************************
 
@@ -607,10 +646,13 @@ def getPreviousTransit( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
+def getPreviousTransitOperator( arg1, arg2, arg3 ):
+    return getPreviousTransit( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
-#  getPreviousAntitransit
+#  getPreviousAntitransitOperator
 #
 #******************************************************************************
 
@@ -624,10 +666,13 @@ def getPreviousAntitransit( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
+def getPreviousAntitransitOperator( arg1, arg2, arg3 ):
+    return getPreviousAntitransit( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
-#  getNextDawn
+#  getNextDawnOperator
 #
 #  -6 is "civil" twilight
 #  -12 is nautical twilight
@@ -647,21 +692,21 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getNextCivilDawn( n, k ):
+def getNextCivilDawnOperator( n, k ):
     return getNextDawn( n, k, -6 )
 
 @twoArgFunctionEvaluator( )
-def getNextNauticalDawn( n, k ):
+def getNextNauticalDawnOperator( n, k ):
     return getNextDawn( n, k, -12 )
 
 @twoArgFunctionEvaluator( )
-def getNextAstronomicalDawn( n, k ):
+def getNextAstronomicalDawnOperator( n, k ):
     return getNextDawn( n, k, -18 )
 
 
 #******************************************************************************
 #
-#  getNextDusk
+#  getNextDuskOperator
 #
 #  -6 is "civil" twilight
 #  -12 is nautical twilight
@@ -681,26 +726,26 @@ def getNextDusk( arg1, arg2, horizon = -6 ):
     return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
-def getNextCivilDusk( n, k ):
+def getNextCivilDuskOperator( n, k ):
     return getNextDusk( n, k, -6 )
 
 @twoArgFunctionEvaluator( )
-def getNextNauticalDusk( n, k ):
+def getNextNauticalDuskOperator( n, k ):
     return getNextDusk( n, k, -12 )
 
 @twoArgFunctionEvaluator( )
-def getNextAstronomicalDusk( n, k ):
+def getNextAstronomicalDuskOperator( n, k ):
     return getNextDusk( n, k, -18 )
 
 
 #******************************************************************************
 #
-#  getDistanceFromEarth
+#  getDistanceFromEarthOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getDistanceFromEarth( arg1, arg2 ):
+def getDistanceFromEarthOperator( arg1, arg2 ):
     validUnitTypes = [ [ 'body', 'datetime' ] ]
     arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
 
@@ -743,7 +788,7 @@ def getCircleIntersectionTerm( radius1, radius2, separation ):
 #
 #******************************************************************************
 
-def getEclipseTotality( body1, body2, arg1, arg2 ):
+def getEclipseTotalityOperator( body1, body2, arg1, arg2 ):
     '''Returns the angular size of an astronomical object in radians.'''
     validUnitTypes = [ [ 'location', 'datetime' ] ]
     arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )

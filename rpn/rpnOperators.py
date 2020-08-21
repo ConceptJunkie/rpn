@@ -30,18 +30,22 @@ from rpn.rpnOperator import callers, RPNValidator, RPNOperator
 from rpn.rpnOutput import printTitleScreen
 from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
-from rpn.rpnAstronomy import getAngularSeparation, getAngularSize, getAntitransitTime, getAutumnalEquinox, \
-                             getNextAstronomicalDawn, getDayTime, getDistanceFromEarth, getEclipseTotality, \
-                             getMoonPhase, getNextAntitransit, getNextAstronomicalDusk, getNextCivilDawn, \
-                             getNextCivilDusk, getNextFirstQuarterMoon, getNextFullMoon, getNextLastQuarterMoon, \
-                             getNextMoonAntitransit, getNextMoonRise, getNextMoonSet, getNextMoonTransit, \
-                             getNextNauticalDawn, getNextNauticalDusk, getNextNewMoon, getNextRising, \
-                             getNextSetting, getNextSunAntitransit, getNextSunrise, getNextSunset, getNextTransit, \
-                             getNightTime, getPreviousAntitransit, getPreviousFirstQuarterMoon, \
-                             getPreviousFullMoon, getPreviousLastQuarterMoon, getPreviousNewMoon, \
-                             getPreviousRising, getPreviousSetting, getPreviousTransit, getSkyLocation, \
-                             getSolarNoon, getSummerSolstice, getTransitTime, getVernalEquinox, getWinterSolstice, \
-                             RPNAstronomicalObject
+from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, \
+                             getAutumnalEquinoxOperator, getNextAstronomicalDawnOperator, getDayTimeOperator, \
+                             getDistanceFromEarthOperator, getEclipseTotalityOperator, getMoonPhaseOperator, \
+                             getNextAntitransitOperator, getNextAstronomicalDuskOperator, getNextCivilDawnOperator, \
+                             getNextCivilDuskOperator, getNextFirstQuarterMoonOperator, getNextFullMoonOperator, \
+                             getNextLastQuarterMoonOperator, getNextMoonAntitransitOperator, getNextMoonRiseOperator, \
+                             getNextMoonSetOperator, getNextMoonTransitOperator, getNextNauticalDawnOperator, \
+                             getNextNauticalDuskOperator, getNextNewMoonOperator, getNextRisingOperator, \
+                             getNextSettingOperator, getNextSunAntitransitOperator, getNextSunriseOperator, \
+                             getNextSunsetOperator, getNextTransitOperator, getNightTimeOperator, \
+                             getPreviousAntitransitOperator, getPreviousFirstQuarterMoonOperator, \
+                             getPreviousFullMoonOperator, getPreviousLastQuarterMoonOperator, \
+                             getPreviousNewMoonOperator, getPreviousRisingOperator, getPreviousSettingOperator, \
+                             getPreviousTransitOperator, getSkyLocationOperator, getSolarNoonOperator, \
+                             getSummerSolsticeOperator, getTransitTimeOperator, getVernalEquinoxOperator, \
+                             getWinterSolsticeOperator, RPNAstronomicalObject
 
 from rpn.rpnCalendar import convertBahaiDateOperator, convertEthiopianDateOperator, \
                             convertFrenchRepublicanDateOperator, convertHebrewDateOperator, \
@@ -2732,150 +2736,150 @@ operators = {
                                                    RPNOperator.measurementsAllowed ),
 
     # astronomy
-    'angular_separation'            : RPNOperator( getAngularSeparation,
+    'angular_separation'            : RPNOperator( getAngularSeparationOperator,
                                                    4, [ RPNValidator.AstronomicalObject, RPNValidator.AstronomicalObject,
                                                         RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'angular_size'                  : RPNOperator( getAngularSize,
+    'angular_size'                  : RPNOperator( getAngularSizeOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'antitransit_time'              : RPNOperator( getAntitransitTime,
+    'antitransit_time'              : RPNOperator( getAntitransitTimeOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'astronomical_dawn'             : RPNOperator( getNextAstronomicalDawn,
+    'astronomical_dawn'             : RPNOperator( getNextAstronomicalDawnOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'astronomical_dusk'             : RPNOperator( getNextAstronomicalDusk,
+    'astronomical_dusk'             : RPNOperator( getNextAstronomicalDuskOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'autumnal_equinox'              : RPNOperator( getAutumnalEquinox,
+    'autumnal_equinox'              : RPNOperator( getAutumnalEquinoxOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'dawn'                          : RPNOperator( getNextCivilDawn,
+    'dawn'                          : RPNOperator( getNextCivilDawnOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'day_time'                      : RPNOperator( getDayTime,
+    'day_time'                      : RPNOperator( getDayTimeOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'distance_from_earth'           : RPNOperator( getDistanceFromEarth,
+    'distance_from_earth'           : RPNOperator( getDistanceFromEarthOperator,
                                                    2, [ RPNValidator.AstronomicalObject, RPNValidator.DateTime ], [ ] ),
 
-    'dusk'                          : RPNOperator( getNextCivilDusk,
+    'dusk'                          : RPNOperator( getNextCivilDuskOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'eclipse_totality'              : RPNOperator( getEclipseTotality,
+    'eclipse_totality'              : RPNOperator( getEclipseTotalityOperator,
                                                    4, [ RPNValidator.AstronomicalObject, RPNValidator.AstronomicalObject,
                                                         RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'moonrise'                      : RPNOperator( getNextMoonRise,
+    'moonrise'                      : RPNOperator( getNextMoonRiseOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'moonset'                       : RPNOperator( getNextMoonSet,
+    'moonset'                       : RPNOperator( getNextMoonSetOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'moon_antitransit'              : RPNOperator( getNextMoonAntitransit,
+    'moon_antitransit'              : RPNOperator( getNextMoonAntitransitOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'moon_phase'                    : RPNOperator( getMoonPhase,
+    'moon_phase'                    : RPNOperator( getMoonPhaseOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'moon_transit'                  : RPNOperator( getNextMoonTransit,
+    'moon_transit'                  : RPNOperator( getNextMoonTransitOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'nautical_dawn'                 : RPNOperator( getNextNauticalDawn,
+    'nautical_dawn'                 : RPNOperator( getNextNauticalDawnOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'nautical_dusk'                 : RPNOperator( getNextNauticalDusk,
+    'nautical_dusk'                 : RPNOperator( getNextNauticalDuskOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'next_antitransit'              : RPNOperator( getNextAntitransit,
+    'next_antitransit'              : RPNOperator( getNextAntitransitOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'next_first_quarter_moon'       : RPNOperator( getNextFirstQuarterMoon,
+    'next_first_quarter_moon'       : RPNOperator( getNextFirstQuarterMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'next_full_moon'                : RPNOperator( getNextFullMoon,
+    'next_full_moon'                : RPNOperator( getNextFullMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'next_last_quarter_moon'        : RPNOperator( getNextLastQuarterMoon,
+    'next_last_quarter_moon'        : RPNOperator( getNextLastQuarterMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'next_new_moon'                 : RPNOperator( getNextNewMoon,
+    'next_new_moon'                 : RPNOperator( getNextNewMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'next_rising'                   : RPNOperator( getNextRising,
+    'next_rising'                   : RPNOperator( getNextRisingOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'next_setting'                  : RPNOperator( getNextSetting,
+    'next_setting'                  : RPNOperator( getNextSettingOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'next_transit'                  : RPNOperator( getNextTransit,
+    'next_transit'                  : RPNOperator( getNextTransitOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'night_time'                    : RPNOperator( getNightTime,
+    'night_time'                    : RPNOperator( getNightTimeOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'previous_antitransit'          : RPNOperator( getPreviousAntitransit,
+    'previous_antitransit'          : RPNOperator( getPreviousAntitransitOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'previous_first_quarter_moon'   : RPNOperator( getPreviousFirstQuarterMoon,
+    'previous_first_quarter_moon'   : RPNOperator( getPreviousFirstQuarterMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'previous_full_moon'            : RPNOperator( getPreviousFullMoon,
+    'previous_full_moon'            : RPNOperator( getPreviousFullMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'previous_last_quarter_moon'    : RPNOperator( getPreviousLastQuarterMoon,
+    'previous_last_quarter_moon'    : RPNOperator( getPreviousLastQuarterMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'previous_new_moon'             : RPNOperator( getPreviousNewMoon,
+    'previous_new_moon'             : RPNOperator( getPreviousNewMoonOperator,
                                                    1, [ RPNValidator.DateTime ], [ ] ),
 
-    'previous_rising'               : RPNOperator( getPreviousRising,
+    'previous_rising'               : RPNOperator( getPreviousRisingOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'previous_setting'              : RPNOperator( getPreviousSetting,
+    'previous_setting'              : RPNOperator( getPreviousSettingOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'previous_transit'              : RPNOperator( getPreviousTransit,
+    'previous_transit'              : RPNOperator( getPreviousTransitOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'sky_location'                  : RPNOperator( getSkyLocation,
+    'sky_location'                  : RPNOperator( getSkyLocationOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'solar_noon'                    : RPNOperator( getSolarNoon,
+    'solar_noon'                    : RPNOperator( getSolarNoonOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'summer_solstice'               : RPNOperator( getSummerSolstice,
+    'summer_solstice'               : RPNOperator( getSummerSolsticeOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'sunrise'                       : RPNOperator( getNextSunrise,
+    'sunrise'                       : RPNOperator( getNextSunriseOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'sunset'                        : RPNOperator( getNextSunset,
+    'sunset'                        : RPNOperator( getNextSunsetOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'sun_antitransit'               : RPNOperator( getNextSunAntitransit,
+    'sun_antitransit'               : RPNOperator( getNextSunAntitransitOperator,
                                                    2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
 
-    'transit_time'                  : RPNOperator( getTransitTime,
+    'transit_time'                  : RPNOperator( getTransitTimeOperator,
                                                    3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
                                                         RPNValidator.DateTime ], [ ] ),
 
-    'vernal_equinox'                : RPNOperator( getVernalEquinox,
+    'vernal_equinox'                : RPNOperator( getVernalEquinoxOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
-    'winter_solstice'               : RPNOperator( getWinterSolstice,
+    'winter_solstice'               : RPNOperator( getWinterSolsticeOperator,
                                                    1, [ RPNValidator.PositiveInteger ], [ ] ),
 
     # astronomy - heavenly body operators

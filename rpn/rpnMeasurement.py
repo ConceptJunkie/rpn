@@ -12,7 +12,7 @@
 #
 #******************************************************************************
 
-from mpmath import fmul, mpmathify
+from mpmath import fdiv, fmul, nstr, mpmathify
 
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator

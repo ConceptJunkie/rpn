@@ -249,7 +249,7 @@ def getParity( n ):
 #
 #******************************************************************************
 
-@argValidator( [ ListValidator( ), ListValidator( ) ] )
+@argValidator( [ IntValidator( ), ListValidator( ) ] )
 def unpackIntegerOperator( n, fields ):
     if isinstance( n, RPNGenerator ):
         return unpackInteger( list( n ), fields )

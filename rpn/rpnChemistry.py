@@ -273,22 +273,12 @@ class RPNMolecule( collections.Counter ):
 #******************************************************************************
 
 def getElementAttribute( n, k ):
-    if isinstance( n, RPNMeasurement ):
-        n = convertMeasurementToAtomicSymbol( n )
-
-    if isinstance( n, str ):
-        n = getAtomicNumber( n )
-
-    if int( n ) < 1 or n > len( g.elements ):
-        raise ValueError( 'invalid atomic number' )
+    n = convertAtomicNumber( n )
 
     if k < 0 or k > len( g.elements[ 1 ] ):
         raise ValueError( 'invalid element attribute' )
 
-    if g.elements is None:
-        loadChemistryTables( )
-
-    return g.elements[ int( n ) ][ k ]
+    return g.elements[ n ][ k ]
 
 
 #******************************************************************************
@@ -344,22 +334,39 @@ def convertMeasurementToAtomicSymbol( n ):
 
 #******************************************************************************
 #
-#  getAtomicNumberOperator
+#  convertAtomicNumber
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-def getAtomicNumberOperator( n ):
+def convertAtomicNumber( n ):
     if g.elements is None:
         loadChemistryTables( )
 
     if isinstance( n, RPNMeasurement ):
         n = convertMeasurementToAtomicSymbol( n )
 
-    if n not in g.atomic_numbers:
-        raise ValueError( 'invalid atomic symbol or name' )
+    if isinstance( n, str ):
+        if n in g.atomic_numbers:
+            n = g.atomic_numbers[ n ]
+        else:
+            raise ValueError( 'invalid atomic symbol or name' )
 
-    return g.atomic_numbers[ n ]
+    if n < 1 or n > len( g.elements ):
+        raise ValueError( 'invalid atomic number' )
+
+    return n
+
+
+#******************************************************************************
+#
+#  getAtomicNumberOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+#@argValidator( [ ElementValidator( ) ] )
+def getAtomicNumberOperator( n ):
+    return convertAtomicNumber( n )
 
 
 #******************************************************************************
@@ -368,14 +375,13 @@ def getAtomicNumberOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-def getAtomicWeightOperator( n ):
-    if isinstance( n, RPNMeasurement ):
-        n = convertMeasurementToAtomicSymbol( n )
-
+def getAtomicWeight( n ):
     return fdiv( fadd( mpmathify( getElementAttribute( n, 9 ) ),
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
 
+@oneArgFunctionEvaluator( )
+def getAtomicWeightOperator( n ):
+    return getAtomicWeight( convertAtomicNumber( n ) )
 
 #******************************************************************************
 #
@@ -416,8 +422,7 @@ def getElementBoilingPointOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-def calculateMolarMassOperator( n ):
+def calculateMolarMass( n ):
     result = 0
 
     for atom in n:

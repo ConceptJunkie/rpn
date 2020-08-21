@@ -1356,9 +1356,7 @@ def runChemistryOperatorTests( ):
 
     expectException( 'ZoO2 molar_mass' )       # invalid molecule expression
 
-    expectException( '2 H atomic_number' )     # non-unit measurement can't be a validly expressed atomic symbol
-
-    # Check to see where atomic symbols collide with other aliases, and if the exception handling deals with it correctly.
+# Check to see where atomic symbols collide with other aliases, and if the exception handling deals with it correctly.
     testOperator( 'H molar_mass' )
     testOperator( 'H element_description' )
 

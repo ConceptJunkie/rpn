@@ -635,11 +635,13 @@ def getIndependenceDayOperator( year ):
 #
 #******************************************************************************
 
+def getChristmasDay( year ):
+    return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntOrDateTimeValidator( ) ] )
 def getChristmasDayOperator( year ):
-    return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
-
+    return getChristmasDay( year )
 
 #******************************************************************************
 #

@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2018
+MAX_EXAMPLE_COUNT = 2029
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -10223,16 +10223,21 @@ Ref:  https://en.wikipedia.org/wiki/Heat_index
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '6 feet earth_radius horizon_distance' ) + '''
+''' + makeCommandExample( '6 feet moon_radius horizon_distance' ) + '''
+''' + makeCommandExample( '30 feet earth_radius horizon_distance' ),
 [ ] ],
 
     'kinetic_energy' : [
 'physics', 'calculates kinetic energy from velocity and mass',
 '''
-The kinetic energy is equal to 1/2 mass times velocity squared.
+The kinetic energy is equal to 1/2 mass times velocity squared.  This is a
+non-relativistic calculation.
 ''',
 '''
-''',
+''' + makeCommandExample( '60 mph 2000 pounds kinetic_energy' ) + '''
+''' + makeCommandExample( '120 mph 2000 pounds kinetic_energy' ) + '''
+''' + makeCommandExample( '66 miles second / earth_mass kinetic_energy' ),
 [ 'velocity', 'acceleration', 'escape_velocity' ] ],
 
     'mass_equivalence' : [
@@ -10261,7 +10266,10 @@ object being orbited.
 
 ''',
 '''
-''',
+''' + makeCommandExample( '90.9 minutes earth_radius 200 miles + orbital_mass' ) + '''
+''' + makeCommandExample( '66 miles second / 1 au orbital_mass' ) + '''
+''' + makeCommandExample( 'earth_mass' ) + '''
+''' + makeCommandExample( '20000 mph 24 hours orbital_mass' ),
 [ 'orbital_period', 'orbital_radius', 'orbital_velocity' ] ],
 
     'orbital_period' : [
