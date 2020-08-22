@@ -207,66 +207,10 @@ class RPNVariable( ):
 #******************************************************************************
 
 class RPNOperator( ):
-    measurementsAllowed = True
-    measurementsNotAllowed = False
-
     '''This class represents all the data needed to define an operator.'''
-    def __init__( self, function, argCount, argTypes = None, argTestRanges = None,
-                  allowMeasurements = measurementsNotAllowed ):
+    def __init__( self, function, argCount ):
         self.function = function
         self.argCount = argCount
-
-        if argTypes is None:
-            self.argTypes = list( )
-        else:
-            self.argTypes = argTypes
-
-        if argTestRanges is None:
-            self.argTestRanges = list( )
-        else:
-            self.argTestRanges = argTestRanges
-
-        self.allowMeasurements = allowMeasurements
-
-    # This method isn't used yet, but I hope to start using it soon.
-    @staticmethod
-    def validateArgType( term, arg, argType ):
-        if isinstance( arg, ( list, RPNGenerator ) ) and \
-           argType not in ( RPNValidator.List, RPNValidator.Generator ):
-            return True
-
-        if argType == RPNValidator.Default:
-            return True
-        elif argType == RPNValidator.Real and im( arg ):
-            raise ValueError( '\'' + term + '\':  real argument expected' )
-        elif argType == RPNValidator.NonnegativeReal and ( im( arg ) or arg < 0 ):
-            raise ValueError( '\'' + term + '\':  non-negative real argument expected' )
-        elif argType == RPNValidator.Integer and arg != floor( arg ):
-            raise ValueError( '\'' + term + '\':  integer argument expected' )
-        elif argType == RPNValidator.NonnegativeInteger and arg != floor( arg ) or arg < 0:
-            raise ValueError( '\'' + term + '\':  non-negative integer argument expected' )
-        elif argType == RPNValidator.PositiveInteger and arg != floor( arg ) or arg < 1:
-            raise ValueError( '\'' + term + '\':  positive integer argument expected' )
-        elif argType == RPNValidator.String and not isinstance( arg, str ):
-            raise ValueError( '\'' + term + '\':  string argument expected' )
-        elif argType == RPNValidator.DateTime and not isinstance( arg, RPNDateTime ):
-            raise ValueError( '\'' + term + '\':  date-time argument expected' )
-        elif argType == RPNValidator.Location and not isinstance( arg, ( RPNLocation, str ) ):
-            raise ValueError( '\'' + term + '\':  location argument expected' )
-        elif argType == RPNValidator.Boolean and arg != 0 and arg != 1:
-            raise ValueError( '\'' + term + '\':  boolean argument expected (0 or 1)' )
-        elif argType == RPNValidator.Measurement and not isinstance( arg, RPNMeasurement ):
-            raise ValueError( '\'' + term + '\':  measurement argument expected' )
-        elif argType == RPNValidator.AstronomicalObject:
-            pass
-        elif argType == RPNValidator.List and not isinstance( arg, ( list, RPNGenerator ) ):
-            raise ValueError( '\'' + term + '\':  list argument expected' )
-        elif argType == RPNValidator.Generator and not isinstance( arg, RPNGenerator ):
-            raise ValueError( '\'' + term + '\':  generator argument expected' )
-        elif argType == RPNValidator.Function and not isinstance( arg, RPNFunction ):
-            raise ValueError( '\'' + term + '\':  function argument expected' )
-
-        return False
 
     def evaluate( self, term, index, currentValueList ):
         # handle a regular operator

@@ -341,117 +341,64 @@ import rpn.rpnGlobals as g
 constants = {
     # mathematical constants
     # we use mpf( ) so the type returned is mpf rather than the mpmath constant type
-    'apery_constant'                : RPNOperator( lambda: mpf( apery ),
-                                                   0, [ ] ),
-    'catalan_constant'              : RPNOperator( lambda: mpf( catalan ),
-                                                   0, [ ] ),
-    'champernowne_constant'         : RPNOperator( getChampernowneConstant,
-                                                   0, [ ] ),
-    'copeland_erdos_constant'       : RPNOperator( getCopelandErdosConstant,
-                                                   0, [ ] ),
-    'e'                             : RPNOperator( lambda: mpf( e ),
-                                                   0, [ ] ),
-    'eddington_number'              : RPNOperator( lambda: fmul( 136, power( 2, 256 ) ),
-                                                   0, [ ] ),
-    'euler_mascheroni_constant'     : RPNOperator( lambda: mpf( euler ),
-                                                   0, [ ] ),
-    'glaisher_constant'             : RPNOperator( lambda: mpf( glaisher ),
-                                                   0, [ ] ),
-    'infinity'                      : RPNOperator( lambda: inf,
-                                                   0, [ ] ),
-    'itoi'                          : RPNOperator( lambda: exp( fmul( -0.5, pi ) ),
-                                                   0, [ ] ),
-    'khinchin_constant'             : RPNOperator( lambda: mpf( khinchin ),
-                                                   0, [ ] ),
-    'merten_constant'               : RPNOperator( lambda: mpf( mertens ),
-                                                   0, [ ] ),
-    'mills_constant'                : RPNOperator( getMillsConstant,
-                                                   0, [ ] ),
-    'negative_infinity'             : RPNOperator( lambda: -inf,
-                                                   0, [ ] ),
-    'omega_constant'                : RPNOperator( lambda: lambertw( 1 ),
-                                                   0, [ ] ),
-    'phi'                           : RPNOperator( lambda: mpf( phi ),
-                                                   0, [ ] ),
-    'pi'                            : RPNOperator( lambda: mpf( pi ),
-                                                   0, [ ] ),
-    'plastic_constant'              : RPNOperator( getPlasticConstant,
-                                                   0, [ ] ),
-    'prevost_constant'              : RPNOperator( lambda: nsum( lambda n: fdiv( 1, fib( n ) ), [ 1, inf ] ),
-                                                   0, [ ] ),
-    'robbins_constant'              : RPNOperator( getRobbinsConstant,
-                                                   0, [ ] ),
-    'silver_ratio'                  : RPNOperator( lambda: fadd( 1, sqrt( 2 ) ),
-                                                   0, [ ] ),
-    'tau'                           : RPNOperator( lambda: fmul( mpf( pi ), 2 ),
-                                                   0, [ ] ),
-    'thue_morse_constant'           : RPNOperator( getThueMorseConstant,
-                                                   0, [ ] ),
+    'apery_constant'                : RPNOperator( lambda: mpf( apery ), 0 ),
+    'catalan_constant'              : RPNOperator( lambda: mpf( catalan ), 0 ),
+    'champernowne_constant'         : RPNOperator( getChampernowneConstant, 0 ),
+    'copeland_erdos_constant'       : RPNOperator( getCopelandErdosConstant, 0 ),
+    'e'                             : RPNOperator( lambda: mpf( e ), 0 ),
+    'eddington_number'              : RPNOperator( lambda: fmul( 136, power( 2, 256 ) ), 0 ),
+    'euler_mascheroni_constant'     : RPNOperator( lambda: mpf( euler ), 0 ),
+    'glaisher_constant'             : RPNOperator( lambda: mpf( glaisher ), 0 ),
+    'infinity'                      : RPNOperator( lambda: inf, 0 ),
+    'itoi'                          : RPNOperator( lambda: exp( fmul( -0.5, pi ) ), 0 ),
+    'khinchin_constant'             : RPNOperator( lambda: mpf( khinchin ), 0 ),
+    'merten_constant'               : RPNOperator( lambda: mpf( mertens ), 0 ),
+    'mills_constant'                : RPNOperator( getMillsConstant, 0 ),
+    'negative_infinity'             : RPNOperator( lambda: -inf, 0 ),
+    'omega_constant'                : RPNOperator( lambda: lambertw( 1 ), 0 ),
+    'phi'                           : RPNOperator( lambda: mpf( phi ), 0 ),
+    'pi'                            : RPNOperator( lambda: mpf( pi ), 0 ),
+    'plastic_constant'              : RPNOperator( getPlasticConstant, 0 ),
+    'prevost_constant'              : RPNOperator( lambda: nsum( lambda n: fdiv( 1, fib( n ) ), [ 1, inf ] ), 0 ),
+    'robbins_constant'              : RPNOperator( getRobbinsConstant, 0 ),
+    'silver_ratio'                  : RPNOperator( lambda: fadd( 1, sqrt( 2 ) ), 0 ),
+    'tau'                           : RPNOperator( lambda: fmul( mpf( pi ), 2 ), 0 ),
+    'thue_morse_constant'           : RPNOperator( getThueMorseConstant, 0 ),
 
     # derived physical constants
-    'faraday_constant'              : RPNOperator( getFaradayConstant,
-                                                   0, [ ] ),
-    'fine_structure_constant'       : RPNOperator( getFineStructureConstant,
-                                                   0, [ ] ),
-    'radiation_constant'            : RPNOperator( getRadiationConstant,
-                                                   0, [ ] ),
-    'stefan_boltzmann_constant'     : RPNOperator( getStefanBoltzmannConstant,
-                                                   0, [ ] ),
-    'vacuum_impedance'              : RPNOperator( getVacuumImpedance,
-                                                   0, [ ] ),
-    'von_klitzing_constant'         : RPNOperator( getvonKlitzingConstant,
-                                                   0, [ ] ),
+    'faraday_constant'              : RPNOperator( getFaradayConstant, 0 ),
+    'fine_structure_constant'       : RPNOperator( getFineStructureConstant, 0 ),
+    'radiation_constant'            : RPNOperator( getRadiationConstant, 0 ),
+    'stefan_boltzmann_constant'     : RPNOperator( getStefanBoltzmannConstant, 0 ),
+    'vacuum_impedance'              : RPNOperator( getVacuumImpedance, 0 ),
+    'von_klitzing_constant'         : RPNOperator( getvonKlitzingConstant, 0 ),
 
     # Planck constants
-    'planck_length'                 : RPNOperator( getPlanckLength,
-                                                   0, [ ] ),
-    'planck_mass'                   : RPNOperator( getPlanckMass,
-                                                   0, [ ] ),
-    'planck_time'                   : RPNOperator( getPlanckTime,
-                                                   0, [ ] ),
-    'planck_charge'                 : RPNOperator( getPlanckCharge,
-                                                   0, [ ] ),
-    'planck_temperature'            : RPNOperator( getPlanckTemperature,
-                                                   0, [ ] ),
+    'planck_length'                 : RPNOperator( getPlanckLength, 0 ),
+    'planck_mass'                   : RPNOperator( getPlanckMass, 0 ),
+    'planck_time'                   : RPNOperator( getPlanckTime, 0 ),
+    'planck_charge'                 : RPNOperator( getPlanckCharge, 0 ),
+    'planck_temperature'            : RPNOperator( getPlanckTemperature, 0 ),
 
-    'planck_acceleration'           : RPNOperator( getPlanckAcceleration,
-                                                   0, [ ] ),
-    'planck_angular_frequency'      : RPNOperator( getPlanckAngularFrequency,
-                                                   0, [ ] ),
-    'planck_area'                   : RPNOperator( getPlanckArea,
-                                                   0, [ ] ),
-    'planck_current'                : RPNOperator( getPlanckCurrent,
-                                                   0, [ ] ),
-    'planck_density'                : RPNOperator( getPlanckDensity,
-                                                   0, [ ] ),
-    'planck_energy'                 : RPNOperator( getPlanckEnergy,
-                                                   0, [ ] ),
-    'planck_electrical_inductance'  : RPNOperator( getPlanckElectricalInductance,
-                                                   0, [ ] ),
-    'planck_energy_density'         : RPNOperator( getPlanckEnergyDensity,
-                                                   0, [ ] ),
-    'planck_force'                  : RPNOperator( getPlanckForce,
-                                                   0, [ ] ),
-    'planck_impedance'              : RPNOperator( getPlanckImpedance,
-                                                   0, [ ] ),
-    'planck_intensity'              : RPNOperator( getPlanckIntensity,
-                                                   0, [ ] ),
-    'planck_magnetic_inductance'    : RPNOperator( getPlanckMagneticInductance,
-                                                   0, [ ] ),
-    'planck_momentum'               : RPNOperator( getPlanckMomentum,
-                                                   0, [ ] ),
-    'planck_power'                  : RPNOperator( getPlanckPower,
-                                                   0, [ ] ),
-    'planck_pressure'               : RPNOperator( getPlanckPressure,
-                                                   0, [ ] ),
-    'planck_viscosity'              : RPNOperator( getPlanckViscosity,
-                                                   0, [ ] ),
-    'planck_voltage'                : RPNOperator( getPlanckVoltage,
-                                                   0, [ ] ),
-    'planck_volumetric_flow_rate'   : RPNOperator( getPlanckVolumetricFlowRate,
-                                                   0, [ ] ),
-    'planck_volume'                 : RPNOperator( getPlanckVolume,
-                                                   0, [ ] ),
+    'planck_acceleration'           : RPNOperator( getPlanckAcceleration, 0 ),
+    'planck_angular_frequency'      : RPNOperator( getPlanckAngularFrequency, 0 ),
+    'planck_area'                   : RPNOperator( getPlanckArea, 0 ),
+    'planck_current'                : RPNOperator( getPlanckCurrent, 0 ),
+    'planck_density'                : RPNOperator( getPlanckDensity, 0 ),
+    'planck_energy'                 : RPNOperator( getPlanckEnergy, 0 ),
+    'planck_electrical_inductance'  : RPNOperator( getPlanckElectricalInductance, 0 ),
+    'planck_energy_density'         : RPNOperator( getPlanckEnergyDensity, 0 ),
+    'planck_force'                  : RPNOperator( getPlanckForce, 0 ),
+    'planck_impedance'              : RPNOperator( getPlanckImpedance, 0 ),
+    'planck_intensity'              : RPNOperator( getPlanckIntensity, 0 ),
+    'planck_magnetic_inductance'    : RPNOperator( getPlanckMagneticInductance, 0 ),
+    'planck_momentum'               : RPNOperator( getPlanckMomentum, 0 ),
+    'planck_power'                  : RPNOperator( getPlanckPower, 0 ),
+    'planck_pressure'               : RPNOperator( getPlanckPressure, 0 ),
+    'planck_viscosity'              : RPNOperator( getPlanckViscosity, 0 ),
+    'planck_voltage'                : RPNOperator( getPlanckVoltage, 0 ),
+    'planck_volumetric_flow_rate'   : RPNOperator( getPlanckVolumetricFlowRate, 0 ),
+    'planck_volume'                 : RPNOperator( getPlanckVolume, 0 ),
 }
 
 
@@ -612,18 +559,38 @@ class RPNFunction( ):
                 emptyFunction = False
             elif term in constants:
                 function = constants[ term ].function.__name__
-                debugPrint( 'function', function )
+                debugPrint( 'term (constant):', term )
+                debugPrint( 'function:', function )
 
                 if function == '<lambda>':
                     function = inspect.getsource( constants[ term ].function )
+                    debugPrint( 'lambda:', function )
 
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) :
-                                         function.find( '\n' ) - 1 ] + ' )'
 
-                function += '( )'
+                    start = function.find( className ) + len( className )
+                    end = len( function ) - 1
+
+                    bracketLevel = 0
+                    commaCount = 0
+
+                    for index in range( end - 1, start, -1 ):
+                        if function[ index ] == '[':
+                            bracketLevel -= 1
+                        elif function[ index ] == ']':
+                            bracketLevel += 1
+                        elif function[ index ] == ',' and bracketLevel == 0:
+                            commaCount += 1
+
+                            if commaCount == 2:
+                                end = index
+                                break
+
+                    function = function[ start : end ] + ' )( )'
+                else:
+                    function += '( )'
 
                 if listDepth > 0:
                     listArgs[ listDepth - 1 ].append( function )
@@ -655,7 +622,8 @@ class RPNFunction( ):
             #elif term in specialFormatOperators:
             elif term in operators:
                 function = operators[ term ].function.__name__
-                debugPrint( 'function', function )
+                debugPrint( 'term (operator):', term )
+                debugPrint( 'function:', function )
 
                 if function == '<lambda>':
                     function = inspect.getsource( operators[ term ].function )
@@ -663,9 +631,26 @@ class RPNFunction( ):
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) :
-                                         function.find( '\n' ) -1 ] + ' )'
 
+                    start = function.find( className ) + len( className )
+                    end = len( function ) - 1
+
+                    bracketLevel = 0
+                    commaCount = 0
+
+                    for index in range( end - 1, start, -1 ):
+                        if function[ index ] == '[':
+                            bracketLevel -= 1
+                        elif function[ index ] == ']':
+                            bracketLevel += 1
+                        elif function[ index ] == ',' and bracketLevel == 0:
+                            commaCount += 1
+
+                            if commaCount == 2:
+                                end = index
+                                break
+
+                    function = function[ start : end ] + ' )'
                 function += '( '
 
                 first = True
@@ -1299,21 +1284,21 @@ def handleMultiArgListOperator( func, argList, currentValueList ):
 #
 #******************************************************************************
 
-def handleMultiArgGeneratorOperator( func, args, currentValueList ):
-    newArgList = [ ]
-
-    for arg in args:
-        if isinstance( arg, list ):
-            newArgList.append( RPNGenerator.create( arg ) )
-        else:
-            newArgList.append( arg )
-
-    # check for arguments to be echoed, and echo them before the result
-    if len( g.echoArguments ) > 0:
-        for echoArg in g.echoArguments:
-            currentValueList.append( echoArg )
-
-    currentValueList.append( func( *newArgList ) )
+#def handleMultiArgGeneratorOperator( func, args, currentValueList ):
+#    newArgList = [ ]
+#
+#    for arg in args:
+#        if isinstance( arg, list ):
+#            newArgList.append( RPNGenerator.create( arg ) )
+#        else:
+#            newArgList.append( arg )
+#
+#    # check for arguments to be echoed, and echo them before the result
+#    if len( g.echoArguments ) > 0:
+#        for echoArg in g.echoArguments:
+#            currentValueList.append( echoArg )
+#
+#    currentValueList.append( func( *newArgList ) )
 
 
 #******************************************************************************
@@ -1326,7 +1311,6 @@ def evaluateListOperator( term, index, currentValueList ):
     # handle a list operator
     operatorInfo = listOperators[ term ]
     argsNeeded = operatorInfo.argCount
-    argTypes = operatorInfo.argTypes
 
     # first we validate, and make sure the operator has enough arguments
     if len( currentValueList ) < argsNeeded:
@@ -1338,21 +1322,14 @@ def evaluateListOperator( term, index, currentValueList ):
         currentValueList.append( operatorInfo.function( currentValueList ) )
     elif argsNeeded == 1:
         args = currentValueList.pop( )
-
-        if argTypes[ 0 ] == RPNValidator.Generator:
-            handleOneArgGeneratorOperator( operatorInfo.function, args, currentValueList )
-        else:
-            handleOneArgListOperator( operatorInfo.function, args, currentValueList )
+        handleOneArgListOperator( operatorInfo.function, args, currentValueList )
     else:
         argList = [ ]
 
         for _ in range( 0, argsNeeded ):
             argList.insert( 0, currentValueList.pop( ) )
 
-        if argTypes[ 0 ] == RPNValidator.Generator:
-            handleMultiArgGeneratorOperator( operatorInfo.function, argList, currentValueList )
-        else:
-            handleMultiArgListOperator( operatorInfo.function, argList, currentValueList )
+        handleMultiArgListOperator( operatorInfo.function, argList, currentValueList )
 
     return True
 
@@ -2187,27 +2164,16 @@ functionOperators = [
 
 modifiers = {
     'duplicate_term'                : RPNOperator( duplicateTerm, 1 ),
-
     'duplicate_operator'            : RPNOperator( duplicateOperation, 1 ),
-
     'previous'                      : RPNOperator( getPrevious, 0 ),
-
     'unlist'                        : RPNOperator( unlist, 0 ),
-
     'lambda'                        : RPNOperator( createFunction, 0 ),
-
     'x'                             : RPNOperator( addX, 0 ),
-
     'y'                             : RPNOperator( addY, 0 ),
-
     'z'                             : RPNOperator( addZ, 0 ),
-
     '['                             : RPNOperator( incrementNestedListLevel, 0 ),
-
     ']'                             : RPNOperator( decrementNestedListLevel, 0 ),
-
     '('                             : RPNOperator( startOperatorList, 0 ),
-
     ')'                             : RPNOperator( endOperatorList, 0 ),
 }
 
@@ -2226,350 +2192,134 @@ listOperators = {
     # pylint: disable=line-too-long
 
     # algebra
-    'add_polynomials'               : RPNOperator( addPolynomials,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'discriminant'                  : RPNOperator( getPolynomialDiscriminant,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'eval_polynomial'               : RPNOperator( evaluatePolynomial,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'multiply_polynomials'          : RPNOperator( multiplyPolynomials,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'polynomial_power'              : RPNOperator( exponentiatePolynomial,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'polynomial_product'            : RPNOperator( multiplyPolynomialList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'polynomial_sum'                : RPNOperator( sumPolynomialList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'solve'                         : RPNOperator( solvePolynomial,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'add_polynomials'               : RPNOperator( addPolynomials, 2 ),
+    'discriminant'                  : RPNOperator( getPolynomialDiscriminant, 1 ),
+    'eval_polynomial'               : RPNOperator( evaluatePolynomial, 2 ),
+    'multiply_polynomials'          : RPNOperator( multiplyPolynomials, 2 ),
+    'polynomial_power'              : RPNOperator( exponentiatePolynomial, 2 ),
+    'polynomial_product'            : RPNOperator( multiplyPolynomialList,1 ),
+    'polynomial_sum'                : RPNOperator( sumPolynomialList,1 ),
+    'solve'                         : RPNOperator( solvePolynomial, 1 ),
 
     # arithmetic
-    'antiharmonic_mean'             : RPNOperator( calculateAntiharmonicMeanOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'equals_one_of'                 : RPNOperator( equalsOneOf,
-                                                   2, [ RPNValidator.Default, RPNValidator.List ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'gcd'                           : RPNOperator( getGCDOfList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'geometric_mean'                : RPNOperator( calculateGeometricMeanOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'harmonic_mean'                 : RPNOperator( calculateHarmonicMeanOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'lcm'                           : RPNOperator( getLCMOfList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'maximum'                       : RPNOperator( getMaximumOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'mean'                          : RPNOperator( calculateArithmeticMeanOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'minimum'                       : RPNOperator( getMinimumOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'product'                       : RPNOperator( getProductOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'root_mean_square'              : RPNOperator( calculateRootMeanSquare,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'stddev'                        : RPNOperator( getStandardDeviation,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'sum'                           : RPNOperator( getSumOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'antiharmonic_mean'             : RPNOperator( calculateAntiharmonicMeanOperator, 1 ),
+    'equals_one_of'                 : RPNOperator( equalsOneOf, 2 ),
+    'gcd'                           : RPNOperator( getGCDOfList, 1 ),
+    'geometric_mean'                : RPNOperator( calculateGeometricMeanOperator, 1 ),
+    'harmonic_mean'                 : RPNOperator( calculateHarmonicMeanOperator, 1 ),
+    'lcm'                           : RPNOperator( getLCMOfList, 1 ),
+    'maximum'                       : RPNOperator( getMaximumOperator, 1 ),
+    'mean'                          : RPNOperator( calculateArithmeticMeanOperator, 1 ),
+    'minimum'                       : RPNOperator( getMinimumOperator, 1 ),
+    'product'                       : RPNOperator( getProductOperator, 1 ),
+    'root_mean_square'              : RPNOperator( calculateRootMeanSquare, 1 ),
+    'stddev'                        : RPNOperator( getStandardDeviation, 1 ),
+    'sum'                           : RPNOperator( getSumOperator, 1 ),
 
     # combinatoric
-    'count_frobenius'               : RPNOperator( countFrobenius,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'multinomial'                   : RPNOperator( getMultinomial,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'count_frobenius'               : RPNOperator( countFrobenius, 2 ),
+    'multinomial'                   : RPNOperator( getMultinomial, 1 ),
 
     # conversion
-    'convert'                       : RPNOperator( convertUnits,
-                                                   2, [ RPNValidator.List ], [ ] ),   # list arguments are special
-
-    'lat_long_to_nac'               : RPNOperator( convertLatLongToNACOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'pack'                          : RPNOperator( packIntegerOperator,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'unpack'                        : RPNOperator( unpackIntegerOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.List ], [ ] ),
+    'convert'                       : RPNOperator( convertUnits, 2 ),   # list arguments are special
+    'lat_long_to_nac'               : RPNOperator( convertLatLongToNACOperator, 1 ),
+    'pack'                          : RPNOperator( packIntegerOperator, 2 ),
+    'unpack'                        : RPNOperator( unpackIntegerOperator, 2 ),
 
     # date_time
-    'make_datetime'                 : RPNOperator( makeDateTimeOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'make_iso_time'                 : RPNOperator( makeISOTimeOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'make_julian_time'              : RPNOperator( makeJulianTimeOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'make_datetime'                 : RPNOperator( makeDateTimeOperator, 1 ),
+    'make_iso_time'                 : RPNOperator( makeISOTimeOperator, 1 ),
+    'make_julian_time'              : RPNOperator( makeJulianTimeOperator, 1 ),
 
     # function
-    'filter'                        : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'filter_lists'                  : RPNOperator( lambda n, k: RPNGenerator( filterListOfLists( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'filter_by_index'               : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'for_each'                      : RPNOperator( lambda n, k: RPNGenerator( forEach( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    #'for_each_list'                 : RPNOperator( lambda n, k: RPNGenerator( [ ( yield k.evaluate( i ) ) for i in n ] ),
-    #                                               2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'for_each_list'                 : RPNOperator( lambda n, k: RPNGenerator( forEachList( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'unfilter'                      : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k, True ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
-
-    'unfilter_by_index'             : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k, True ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Function ], [ ] ),
+    'filter'                        : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ), 2 ),
+    'filter_lists'                  : RPNOperator( lambda n, k: RPNGenerator( filterListOfLists( n, k ) ), 2 ),
+    'filter_by_index'               : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ), 2 ),
+    'for_each'                      : RPNOperator( lambda n, k: RPNGenerator( forEach( n, k ) ), 2 ),
+    'for_each_list'                 : RPNOperator( lambda n, k: RPNGenerator( forEachList( n, k ) ), 2 ),
+    'unfilter'                      : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k, True ) ), 2 ),
+    'unfilter_by_index'             : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k, True ) ), 2 ),
 
     # lexicographic
-    'combine_digits'                : RPNOperator( combineDigits,
-                                                   1, [ RPNValidator.Generator ], [ ] ),
+    'combine_digits'                : RPNOperator( combineDigits, 1 ),
 
     # list
-    'alternate_signs'               : RPNOperator( lambda n: RPNGenerator( alternateSignsOperator( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'alternate_signs_2'             : RPNOperator( lambda n: RPNGenerator( alternateSigns2Operator( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'alternating_sum'               : RPNOperator( lambda n: getAlternatingSumOperator( n ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'alternating_sum_2'             : RPNOperator( lambda n: getAlternatingSum2Operator( n ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'and_all'                       : RPNOperator( getAndAll,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'append'                        : RPNOperator( appendListsOperator,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'collate'                       : RPNOperator( lambda n: RPNGenerator( collate( n ) ),
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'compare_lists'                 : RPNOperator( compareLists,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'count'                         : RPNOperator( countElements,
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'cumulative_diffs'              : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'cumulative_products'           : RPNOperator( lambda n: RPNGenerator( getCumulativeListProducts( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'cumulative_ratios'             : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'cumulative_sums'               : RPNOperator( lambda n: RPNGenerator( getCumulativeListSums( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'difference'                    : RPNOperator( getDifference,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'diffs'                         : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'does_list_repeat'              : RPNOperator( doesListRepeat,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'element'                       : RPNOperator( getListElement,
-                                                   2, [ RPNValidator.List, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'enumerate'                     : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Integer ], [ ] ),
-
-    'filter_max'                    : RPNOperator( lambda n, k: RPNGenerator( filterMax( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Real ], [ ] ),
-
-    'filter_min'                    : RPNOperator( lambda n, k: RPNGenerator( filterMin( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.Real ], [ ] ),
-
-    'filter_on_flags'               : RPNOperator( lambda n, k: RPNGenerator( filterOnFlags( n, k ) ),
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'find'                          : RPNOperator( findInList,
-                                                   2, [ RPNValidator.List, RPNValidator.Default ], [ ] ),
-
-    'flatten'                       : RPNOperator( flattenOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'get_combinations'              : RPNOperator( getListCombinations,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_repeat_combinations'       : RPNOperator( getListCombinationsWithRepeats,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_permutations'              : RPNOperator( getListPermutations,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_repeat_permutations'       : RPNOperator( getListPermutationsWithRepeats,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'group_elements'                : RPNOperator( groupElements,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'interleave'                    : RPNOperator( interleave,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'intersection'                  : RPNOperator( makeIntersection,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'is_palindrome_list'            : RPNOperator( isPalindromeList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'left'                          : RPNOperator( getLeft,
-                                                   2, [ RPNValidator.List, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'max_index'                     : RPNOperator( getIndexOfMax,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'min_index'                     : RPNOperator( getIndexOfMin,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'nand_all'                      : RPNOperator( getNandAll,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'nonzero'                       : RPNOperator( getNonzeroes,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'nor_all'                       : RPNOperator( getNorAll,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'occurrences'                   : RPNOperator( getOccurrences,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'occurrence_cumulative'         : RPNOperator( getCumulativeOccurrenceRatios,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'occurrence_ratios'             : RPNOperator( getOccurrenceRatios,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'or_all'                        : RPNOperator( getOrAll,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'permute_lists'                 : RPNOperator( permuteLists,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'powerset'                      : RPNOperator( lambda n: RPNGenerator( getListPowerSet( n ) ),
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'random_element'                : RPNOperator( getRandomElement,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'ratios'                        : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
-                                                   1, [ RPNValidator.Generator ], [ ] ),
-
-    'reduce'                        : RPNOperator( reduceListOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'reverse'                       : RPNOperator( getReverse,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'right'                         : RPNOperator( getRight,
-                                                   2, [ RPNValidator.List, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'shuffle'                       : RPNOperator( shuffleList,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'slice'                         : RPNOperator( lambda a, b, c: RPNGenerator( getSlice( a, b, c ) ),
-                                                   3, [ RPNValidator.List, RPNValidator.Integer,
-                                                        RPNValidator.Integer ], [ ] ),
-
-    'sort'                          : RPNOperator( sortAscending,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'sort_descending'               : RPNOperator( sortDescending,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'sublist'                       : RPNOperator( lambda a, b, c: RPNGenerator( getSublist( a, b, c ) ),
-                                                   3, [ RPNValidator.List, RPNValidator.Integer,
-                                                        RPNValidator.Integer ], [ ] ),
-
-    'union'                         : RPNOperator( makeUnion,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'unique'                        : RPNOperator( getUniqueElements,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'zero'                          : RPNOperator( getZeroes,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'alternate_signs'               : RPNOperator( lambda n: RPNGenerator( alternateSignsOperator( n ) ), 1 ),
+    'alternate_signs_2'             : RPNOperator( lambda n: RPNGenerator( alternateSigns2Operator( n ) ), 1 ),
+    'alternating_sum'               : RPNOperator( lambda n: getAlternatingSumOperator( n ), 1 ),
+    'alternating_sum_2'             : RPNOperator( lambda n: getAlternatingSum2Operator( n ), 1 ),
+    'and_all'                       : RPNOperator( getAndAll, 1 ),
+    'append'                        : RPNOperator( appendListsOperator, 2 ),
+    'collate'                       : RPNOperator( lambda n: RPNGenerator( collate( n ) ), 1 ),
+    'compare_lists'                 : RPNOperator( compareLists, 2 ),
+    'count'                         : RPNOperator( countElements, 1 ),
+    'cumulative_diffs'              : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ), 1 ),
+    'cumulative_products'           : RPNOperator( lambda n: RPNGenerator( getCumulativeListProducts( n ) ), 1 ),
+    'cumulative_ratios'             : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ), 1 ),
+    'cumulative_sums'               : RPNOperator( lambda n: RPNGenerator( getCumulativeListSums( n ) ),1 ),
+    'difference'                    : RPNOperator( getDifference, 2 ),
+    'diffs'                         : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ), 1 ),
+    'does_list_repeat'              : RPNOperator( doesListRepeat, 1 ),
+    'element'                       : RPNOperator( getListElement, 2 ),
+    'enumerate'                     : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ), 2 ),
+    'filter_max'                    : RPNOperator( lambda n, k: RPNGenerator( filterMax( n, k ) ), 2 ),
+    'filter_min'                    : RPNOperator( lambda n, k: RPNGenerator( filterMin( n, k ) ), 2 ),
+    'filter_on_flags'               : RPNOperator( lambda n, k: RPNGenerator( filterOnFlags( n, k ) ), 2 ),
+    'find'                          : RPNOperator( findInList, 2 ),
+    'flatten'                       : RPNOperator( flattenOperator, 1 ),
+    'get_combinations'              : RPNOperator( getListCombinations, 2 ),
+    'get_repeat_combinations'       : RPNOperator( getListCombinationsWithRepeats, 2 ),
+    'get_permutations'              : RPNOperator( getListPermutations, 2 ),
+    'get_repeat_permutations'       : RPNOperator( getListPermutationsWithRepeats, 2 ),
+    'group_elements'                : RPNOperator( groupElements, 2 ),
+    'interleave'                    : RPNOperator( interleave, 2 ),
+    'intersection'                  : RPNOperator( makeIntersection, 2 ),
+    'is_palindrome_list'            : RPNOperator( isPalindromeList, 1 ),
+    'left'                          : RPNOperator( getLeft, 2 ),
+    'max_index'                     : RPNOperator( getIndexOfMax, 1 ),
+    'min_index'                     : RPNOperator( getIndexOfMin, 1 ),
+    'nand_all'                      : RPNOperator( getNandAll, 1 ),
+    'nonzero'                       : RPNOperator( getNonzeroes, 1 ),
+    'nor_all'                       : RPNOperator( getNorAll, 1 ),
+    'occurrences'                   : RPNOperator( getOccurrences, 1 ),
+    'occurrence_cumulative'         : RPNOperator( getCumulativeOccurrenceRatios, 1 ),
+    'occurrence_ratios'             : RPNOperator( getOccurrenceRatios, 1 ),
+    'or_all'                        : RPNOperator( getOrAll, 1 ),
+    'permute_lists'                 : RPNOperator( permuteLists, 1 ),
+    'powerset'                      : RPNOperator( lambda n: RPNGenerator( getListPowerSet( n ) ), 1 ),
+    'random_element'                : RPNOperator( getRandomElement, 1 ),
+    'ratios'                        : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ), 1 ),
+    'reduce'                        : RPNOperator( reduceListOperator, 1 ),
+    'reverse'                       : RPNOperator( getReverse, 1 ),
+    'right'                         : RPNOperator( getRight, 2 ),
+    'shuffle'                       : RPNOperator( shuffleList, 1 ),
+    'slice'                         : RPNOperator( lambda a, b, c: RPNGenerator( getSlice( a, b, c ) ), 3 ),
+    'sort'                          : RPNOperator( sortAscending, 1 ),
+    'sort_descending'               : RPNOperator( sortDescending, 1 ),
+    'sublist'                       : RPNOperator( lambda a, b, c: RPNGenerator( getSublist( a, b, c ) ), 3 ),
+    'union'                         : RPNOperator( makeUnion, 2 ),
+    'unique'                        : RPNOperator( getUniqueElements, 1 ),
+    'zero'                          : RPNOperator( getZeroes, 1 ),
 
     # number_theory
-    'base'                          : RPNOperator( interpretAsBaseOperator,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
-
-    'continued_fraction'            : RPNOperator( convertFromContinuedFraction,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'crt'                           : RPNOperator( calculateChineseRemainderTheorem,
-                                                   2, [ RPNValidator.List, RPNValidator.List ], [ ] ),
-
-    'frobenius'                     : RPNOperator( getFrobeniusNumber,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'geometric_recurrence'          : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrence( a, b, c, d ) ),
-                                                   4, [ RPNValidator.List, RPNValidator.List, RPNValidator.List,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_friendly'                   : RPNOperator( isFriendly,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'linear_recurrence'             : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrence( a, b, c ) ),
-                                                   3, [ RPNValidator.List, RPNValidator.List,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModulo( a, b, c, d ) ),
-                                                   4, [ RPNValidator.List, RPNValidator.List,
-                                                        RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_linear_recurrence'         : RPNOperator( getNthLinearRecurrence,
-                                                   3, [ RPNValidator.List, RPNValidator.List,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_linear_recurrence_with_modulo' : RPNOperator( getNthLinearRecurrenceWithModulo,
-                                                       4, [ RPNValidator.List, RPNValidator.List,
-                                                            RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'solve_frobenius'               : RPNOperator( solveFrobeniusOperator,
-                                                   2, [ RPNValidator.List, RPNValidator.PositiveInteger ], [ ] ),
+    'base'                              : RPNOperator( interpretAsBaseOperator, 2 ),
+    'continued_fraction'                : RPNOperator( convertFromContinuedFraction, 1 ),
+    'crt'                               : RPNOperator( calculateChineseRemainderTheorem, 2 ),
+    'frobenius'                         : RPNOperator( getFrobeniusNumber, 1 ),
+    'geometric_recurrence'              : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrence( a, b, c, d ) ), 4 ),
+    'is_friendly'                       : RPNOperator( isFriendly, 1 ),
+    'linear_recurrence'                 : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrence( a, b, c ) ), 3 ),
+    'linear_recurrence_with_modulo'     : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModulo( a, b, c, d ) ), 4 ),
+    'nth_linear_recurrence'             : RPNOperator( getNthLinearRecurrence, 3 ),
+    'nth_linear_recurrence_with_modulo' : RPNOperator( getNthLinearRecurrenceWithModulo, 4 ),
+    'solve_frobenius'                   : RPNOperator( solveFrobeniusOperator, 2 ),
 
     # powers_and_roots
-    'power_tower'                   : RPNOperator( calculatePowerTowerOperator,
-                                                   1, [ RPNValidator.List ], [ ] ),
-
-    'power_tower2'                  : RPNOperator( calculatePowerTower2Operator,
-                                                   1, [ RPNValidator.List ], [ ] ),
+    'power_tower'                       : RPNOperator( calculatePowerTowerOperator, 1 ),
+    'power_tower2'                      : RPNOperator( calculatePowerTower2Operator, 1 ),
 
     # special
-    'echo'                          : RPNOperator( addEchoArgument,
-                                                   1, [ RPNValidator.Default ], [ ] ),
+    'echo'                              : RPNOperator( addEchoArgument, 1 ),
 }
 
 
@@ -2593,2383 +2343,809 @@ operators = {
     # pylint: disable=line-too-long
 
     # algebra
-    'find_polynomial'               : RPNOperator( findPolynomial,
-                                                   2, [ RPNValidator.Default, RPNValidator.PositiveInteger ], [ ] ),
-
-    'solve_cubic'                   : RPNOperator( solveCubicPolynomial,
-                                                   4, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'solve_quadratic'               : RPNOperator( solveQuadraticPolynomial,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default ], [ ] ),
-
-    'solve_quartic'                 : RPNOperator( solveQuarticPolynomial,
-                                                   5, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default ], [ ] ),
+    'find_polynomial'               : RPNOperator( findPolynomial, 2 ),
+    'solve_cubic'                   : RPNOperator( solveCubicPolynomial, 4 ),
+    'solve_quadratic'               : RPNOperator( solveQuadraticPolynomial, 3 ),
+    'solve_quartic'                 : RPNOperator( solveQuarticPolynomial, 5 ),
 
     # arithmetic
-    'abs'                           : RPNOperator( getAbsoluteValueOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'add'                           : RPNOperator( addOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'ceiling'                       : RPNOperator( getCeilingOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'decrement'                     : RPNOperator( decrementOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'divide'                        : RPNOperator( divideOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'floor'                         : RPNOperator( getFloorOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'gcd2'                          : RPNOperator( getGCDOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'increment'                     : RPNOperator( incrementOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'is_divisible'                  : RPNOperator( isDivisibleOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'is_equal'                      : RPNOperator( isEqualOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'is_even'                       : RPNOperator( isEvenOperator,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'is_greater'                    : RPNOperator( isGreaterOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'is_integer'                    : RPNOperator( isIntegerOperator,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'is_kth_power'                  : RPNOperator( isKthPowerOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_less'                       : RPNOperator( isLessOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'is_not_equal'                  : RPNOperator( isNotEqualOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'is_not_greater'                : RPNOperator( isNotGreaterOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'is_not_less'                   : RPNOperator( isNotLessOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'is_not_zero'                   : RPNOperator( isNotZeroOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'is_odd'                        : RPNOperator( isOddOperator,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'is_power_of_k'                 : RPNOperator( isPowerOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_square'                     : RPNOperator( isSquareOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'is_zero'                       : RPNOperator( isZeroOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'larger'                        : RPNOperator( getLargerOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'lcm2'                          : RPNOperator( getLCM,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'mantissa'                      : RPNOperator( getMantissaOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'modulo'                        : RPNOperator( getModuloOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'multiply'                      : RPNOperator( multiplyOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'nearest_int'                   : RPNOperator( getNearestIntOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'negative'                      : RPNOperator( getNegativeOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'reciprocal'                    : RPNOperator( getReciprocalOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'round'                         : RPNOperator( roundOffOperator,
-                                                   1, [ RPNValidator.Real ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'round_by_digits'               : RPNOperator( roundByDigitsOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Integer ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'round_by_value'                : RPNOperator( roundByValueOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sign'                          : RPNOperator( getSignOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'smaller'                       : RPNOperator( getSmallerOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'subtract'                      : RPNOperator( subtractOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    # astronomy
-    'angular_separation'            : RPNOperator( getAngularSeparationOperator,
-                                                   4, [ RPNValidator.AstronomicalObject, RPNValidator.AstronomicalObject,
-                                                        RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'angular_size'                  : RPNOperator( getAngularSizeOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'antitransit_time'              : RPNOperator( getAntitransitTimeOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'astronomical_dawn'             : RPNOperator( getNextAstronomicalDawnOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'astronomical_dusk'             : RPNOperator( getNextAstronomicalDuskOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'autumnal_equinox'              : RPNOperator( getAutumnalEquinoxOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'dawn'                          : RPNOperator( getNextCivilDawnOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'day_time'                      : RPNOperator( getDayTimeOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'distance_from_earth'           : RPNOperator( getDistanceFromEarthOperator,
-                                                   2, [ RPNValidator.AstronomicalObject, RPNValidator.DateTime ], [ ] ),
-
-    'dusk'                          : RPNOperator( getNextCivilDuskOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'eclipse_totality'              : RPNOperator( getEclipseTotalityOperator,
-                                                   4, [ RPNValidator.AstronomicalObject, RPNValidator.AstronomicalObject,
-                                                        RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'moonrise'                      : RPNOperator( getNextMoonRiseOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'moonset'                       : RPNOperator( getNextMoonSetOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'moon_antitransit'              : RPNOperator( getNextMoonAntitransitOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'moon_phase'                    : RPNOperator( getMoonPhaseOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'moon_transit'                  : RPNOperator( getNextMoonTransitOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'nautical_dawn'                 : RPNOperator( getNextNauticalDawnOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'nautical_dusk'                 : RPNOperator( getNextNauticalDuskOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'next_antitransit'              : RPNOperator( getNextAntitransitOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'next_first_quarter_moon'       : RPNOperator( getNextFirstQuarterMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'next_full_moon'                : RPNOperator( getNextFullMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'next_last_quarter_moon'        : RPNOperator( getNextLastQuarterMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'next_new_moon'                 : RPNOperator( getNextNewMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'next_rising'                   : RPNOperator( getNextRisingOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'next_setting'                  : RPNOperator( getNextSettingOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'next_transit'                  : RPNOperator( getNextTransitOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'night_time'                    : RPNOperator( getNightTimeOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'previous_antitransit'          : RPNOperator( getPreviousAntitransitOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'previous_first_quarter_moon'   : RPNOperator( getPreviousFirstQuarterMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'previous_full_moon'            : RPNOperator( getPreviousFullMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'previous_last_quarter_moon'    : RPNOperator( getPreviousLastQuarterMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'previous_new_moon'             : RPNOperator( getPreviousNewMoonOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'previous_rising'               : RPNOperator( getPreviousRisingOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'previous_setting'              : RPNOperator( getPreviousSettingOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'previous_transit'              : RPNOperator( getPreviousTransitOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'sky_location'                  : RPNOperator( getSkyLocationOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'solar_noon'                    : RPNOperator( getSolarNoonOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'summer_solstice'               : RPNOperator( getSummerSolsticeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sunrise'                       : RPNOperator( getNextSunriseOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'sunset'                        : RPNOperator( getNextSunsetOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'sun_antitransit'               : RPNOperator( getNextSunAntitransitOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.DateTime ], [ ] ),
-
-    'transit_time'                  : RPNOperator( getTransitTimeOperator,
-                                                   3, [ RPNValidator.AstronomicalObject, RPNValidator.Location,
-                                                        RPNValidator.DateTime ], [ ] ),
-
-    'vernal_equinox'                : RPNOperator( getVernalEquinoxOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'winter_solstice'               : RPNOperator( getWinterSolsticeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
+    'abs'                           : RPNOperator( getAbsoluteValueOperator, 1 ),
+    'add'                           : RPNOperator( addOperator, 2 ),
+    'ceiling'                       : RPNOperator( getCeilingOperator, 1 ),
+    'decrement'                     : RPNOperator( decrementOperator, 1 ),
+    'divide'                        : RPNOperator( divideOperator, 2 ),
+    'floor'                         : RPNOperator( getFloorOperator, 1 ),
+    'gcd2'                          : RPNOperator( getGCDOperator, 2 ),
+    'increment'                     : RPNOperator( incrementOperator, 1 ),
+    'is_divisible'                  : RPNOperator( isDivisibleOperator, 2 ),
+    'is_equal'                      : RPNOperator( isEqualOperator, 2 ),
+    'is_even'                       : RPNOperator( isEvenOperator, 1 ),
+    'is_greater'                    : RPNOperator( isGreaterOperator, 2 ),
+    'is_integer'                    : RPNOperator( isIntegerOperator, 1 ),
+    'is_kth_power'                  : RPNOperator( isKthPowerOperator, 2 ),
+    'is_less'                       : RPNOperator( isLessOperator, 2 ),
+    'is_not_equal'                  : RPNOperator( isNotEqualOperator, 2 ),
+    'is_not_greater'                : RPNOperator( isNotGreaterOperator, 2 ),
+    'is_not_less'                   : RPNOperator( isNotLessOperator, 2 ),
+    'is_not_zero'                   : RPNOperator( isNotZeroOperator, 1 ),
+    'is_odd'                        : RPNOperator( isOddOperator, 1 ),
+    'is_power_of_k'                 : RPNOperator( isPowerOperator, 2 ),
+    'is_square'                     : RPNOperator( isSquareOperator, 1 ),
+    'is_zero'                       : RPNOperator( isZeroOperator, 1 ),
+    'larger'                        : RPNOperator( getLargerOperator, 2 ),
+    'lcm2'                          : RPNOperator( getLCM, 2 ),
+    'mantissa'                      : RPNOperator( getMantissaOperator, 1 ),
+    'modulo'                        : RPNOperator( getModuloOperator, 2 ),
+    'multiply'                      : RPNOperator( multiplyOperator, 2 ),
+    'nearest_int'                   : RPNOperator( getNearestIntOperator, 1 ),
+    'negative'                      : RPNOperator( getNegativeOperator, 1 ),
+    'reciprocal'                    : RPNOperator( getReciprocalOperator, 1 ),
+    'round'                         : RPNOperator( roundOffOperator, 1 ),
+    'round_by_digits'               : RPNOperator( roundByDigitsOperator, 2 ),
+    'round_by_value'                : RPNOperator( roundByValueOperator, 2 ),
+    'sign'                          : RPNOperator( getSignOperator, 1 ),
+    'smaller'                       : RPNOperator( getSmallerOperator, 2 ),
+    'subtract'                      : RPNOperator( subtractOperator, 2 ),
+
+    # astronom
+    'angular_separation'            : RPNOperator( getAngularSeparationOperator, 4 ),
+    'angular_size'                  : RPNOperator( getAngularSizeOperator, 3 ),
+    'antitransit_time'              : RPNOperator( getAntitransitTimeOperator, 3 ),
+    'astronomical_dawn'             : RPNOperator( getNextAstronomicalDawnOperator, 2 ),
+    'astronomical_dusk'             : RPNOperator( getNextAstronomicalDuskOperator, 2 ),
+    'autumnal_equinox'              : RPNOperator( getAutumnalEquinoxOperator, 1 ),
+    'dawn'                          : RPNOperator( getNextCivilDawnOperator, 2 ),
+    'day_time'                      : RPNOperator( getDayTimeOperator, 2 ),
+    'distance_from_earth'           : RPNOperator( getDistanceFromEarthOperator, 2 ),
+    'dusk'                          : RPNOperator( getNextCivilDuskOperator, 2 ),
+    'eclipse_totality'              : RPNOperator( getEclipseTotalityOperator, 4 ),
+    'moonrise'                      : RPNOperator( getNextMoonRiseOperator, 2 ),
+    'moonset'                       : RPNOperator( getNextMoonSetOperator, 2 ),
+    'moon_antitransit'              : RPNOperator( getNextMoonAntitransitOperator, 2 ),
+    'moon_phase'                    : RPNOperator( getMoonPhaseOperator, 1 ),
+    'moon_transit'                  : RPNOperator( getNextMoonTransitOperator, 2 ),
+    'nautical_dawn'                 : RPNOperator( getNextNauticalDawnOperator, 2 ),
+    'nautical_dusk'                 : RPNOperator( getNextNauticalDuskOperator, 2 ),
+    'next_antitransit'              : RPNOperator( getNextAntitransitOperator, 3 ),
+    'next_first_quarter_moon'       : RPNOperator( getNextFirstQuarterMoonOperator, 1 ),
+    'next_full_moon'                : RPNOperator( getNextFullMoonOperator, 1 ),
+    'next_last_quarter_moon'        : RPNOperator( getNextLastQuarterMoonOperator, 1 ),
+    'next_new_moon'                 : RPNOperator( getNextNewMoonOperator, 1 ),
+    'next_rising'                   : RPNOperator( getNextRisingOperator, 3 ),
+    'next_setting'                  : RPNOperator( getNextSettingOperator, 3 ),
+    'next_transit'                  : RPNOperator( getNextTransitOperator, 3 ),
+    'night_time'                    : RPNOperator( getNightTimeOperator, 2 ),
+    'previous_antitransit'          : RPNOperator( getPreviousAntitransitOperator, 3 ),
+    'previous_first_quarter_moon'   : RPNOperator( getPreviousFirstQuarterMoonOperator, 1 ),
+    'previous_full_moon'            : RPNOperator( getPreviousFullMoonOperator, 1 ),
+    'previous_last_quarter_moon'    : RPNOperator( getPreviousLastQuarterMoonOperator, 1 ),
+    'previous_new_moon'             : RPNOperator( getPreviousNewMoonOperator, 1 ),
+    'previous_rising'               : RPNOperator( getPreviousRisingOperator, 3 ),
+    'previous_setting'              : RPNOperator( getPreviousSettingOperator, 3 ),
+    'previous_transit'              : RPNOperator( getPreviousTransitOperator, 3 ),
+    'sky_location'                  : RPNOperator( getSkyLocationOperator, 3 ),
+    'solar_noon'                    : RPNOperator( getSolarNoonOperator, 2 ),
+    'summer_solstice'               : RPNOperator( getSummerSolsticeOperator, 1 ),
+    'sunrise'                       : RPNOperator( getNextSunriseOperator, 2 ),
+    'sunset'                        : RPNOperator( getNextSunsetOperator, 2 ),
+    'sun_antitransit'               : RPNOperator( getNextSunAntitransitOperator, 2 ),
+    'transit_time'                  : RPNOperator( getTransitTimeOperator, 3 ),
+    'vernal_equinox'                : RPNOperator( getVernalEquinoxOperator, 1 ),
+    'winter_solstice'               : RPNOperator( getWinterSolsticeOperator, 1 ),
 
     # astronomy - heavenly body operators
-    'sun'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Sun( ) ),
-                                                   0, [ ], [ ] ),
-
-    'mercury'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mercury( ) ),
-                                                   0, [ ], [ ] ),
-
-    'venus'                         : RPNOperator( lambda: RPNAstronomicalObject( ephem.Venus( ) ),
-                                                   0, [ ], [ ] ),
-
-    'moon'                          : RPNOperator( lambda: RPNAstronomicalObject( ephem.Moon( ) ),
-                                                   0, [ ], [ ] ),
-
-    'mars'                          : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mars( ) ),
-                                                   0, [ ], [ ] ),
-
-    'jupiter'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Jupiter( ) ),
-                                                   0, [ ], [ ] ),
-
-    'saturn'                        : RPNOperator( lambda: RPNAstronomicalObject( ephem.Saturn( ) ),
-                                                   0, [ ], [ ] ),
-
-    'uranus'                        : RPNOperator( lambda: RPNAstronomicalObject( ephem.Uranus( ) ),
-                                                   0, [ ], [ ] ),
-
-    'neptune'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Neptune( ) ),
-                                                   0, [ ], [ ] ),
-
-    'pluto'                         : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ),
-                                                   0, [ ], [ ] ),
+    'sun'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Sun( ) ), 0 ),
+    'mercury'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mercury( ) ), 0 ),
+    'venus'                         : RPNOperator( lambda: RPNAstronomicalObject( ephem.Venus( ) ), 0 ),
+    'moon'                          : RPNOperator( lambda: RPNAstronomicalObject( ephem.Moon( ) ), 0 ),
+    'mars'                          : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mars( ) ), 0 ),
+    'jupiter'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Jupiter( ) ), 0 ),
+    'saturn'                        : RPNOperator( lambda: RPNAstronomicalObject( ephem.Saturn( ) ), 0 ),
+    'uranus'                        : RPNOperator( lambda: RPNAstronomicalObject( ephem.Uranus( ) ), 0 ),
+    'neptune'                       : RPNOperator( lambda: RPNAstronomicalObject( ephem.Neptune( ) ), 0 ),
+    'pluto'                         : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ), 0 ),
 
     # bitwise
-    'bitwise_and'                   : RPNOperator( getBitwiseAnd,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_nand'                  : RPNOperator( getBitwiseNand,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_nor'                   : RPNOperator( getBitwiseNor,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_not'                   : RPNOperator( getInvertedBits,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_or'                    : RPNOperator( getBitwiseOr,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_xnor'                  : RPNOperator( getBitwiseXnor,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'bitwise_xor'                   : RPNOperator( getBitwiseXor,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'count_bits'                    : RPNOperator( getBitCountOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'parity'                        : RPNOperator( getParity,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'shift_left'                    : RPNOperator( shiftLeft,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'shift_right'                   : RPNOperator( shiftRight,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
+    'bitwise_and'                   : RPNOperator( getBitwiseAnd, 2 ),
+    'bitwise_nand'                  : RPNOperator( getBitwiseNand, 2 ),
+    'bitwise_nor'                   : RPNOperator( getBitwiseNor, 2 ),
+    'bitwise_not'                   : RPNOperator( getInvertedBits, 1 ),
+    'bitwise_or'                    : RPNOperator( getBitwiseOr, 2 ),
+    'bitwise_xnor'                  : RPNOperator( getBitwiseXnor, 2 ),
+    'bitwise_xor'                   : RPNOperator( getBitwiseXor, 2 ),
+    'count_bits'                    : RPNOperator( getBitCountOperator, 1 ),
+    'parity'                        : RPNOperator( getParity, 1 ),
+    'shift_left'                    : RPNOperator( shiftLeft, 2 ),
+    'shift_right'                   : RPNOperator( shiftRight, 2 ),
 
     # calendar
-    'advent'                        : RPNOperator( calculateAdventOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'ascension'                     : RPNOperator( calculateAscensionThursdayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'ash_wednesday'                 : RPNOperator( calculateAshWednesdayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'calendar'                      : RPNOperator( generateMonthCalendarOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'christmas'                     : RPNOperator( getChristmasDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'columbus_day'                  : RPNOperator( calculateColumbusDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'dst_end'                       : RPNOperator( calculateDSTEndOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'dst_start'                     : RPNOperator( calculateDSTStartOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'easter'                        : RPNOperator( calculateEasterOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'election_day'                  : RPNOperator( calculateElectionDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'epiphany'                      : RPNOperator( getEpiphanyDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'fathers_day'                   : RPNOperator( calculateFathersDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_bahai'                    : RPNOperator( convertBahaiDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_ethiopian'                : RPNOperator( convertEthiopianDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_french_republican'        : RPNOperator( convertFrenchRepublicanDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_hebrew'                   : RPNOperator( convertHebrewDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_indian_civil'             : RPNOperator( convertIndianCivilDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_islamic'                  : RPNOperator( convertIslamicDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_julian'                   : RPNOperator( convertJulianDateOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_mayan'                    : RPNOperator( convertMayanDateOperator,
-                                                   5, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'from_persian'                  : RPNOperator( convertPersianDateOperator,
-                                                   3, [ RPNValidator.Integer, RPNValidator.Integer,
-                                                        RPNValidator.Integer ], [ ] ),
-
-    'good_friday'                   : RPNOperator( calculateGoodFridayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'independence_day'              : RPNOperator( getIndependenceDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'iso_date'                      : RPNOperator( getISODateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'labor_day'                     : RPNOperator( calculateLaborDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'martin_luther_king_day'        : RPNOperator( calculateMartinLutherKingDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'memorial_day'                  : RPNOperator( calculateMemorialDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'mothers_day'                   : RPNOperator( calculateMothersDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'new_years_day'                 : RPNOperator( getNewYearsDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_weekday'                   : RPNOperator( calculateNthWeekdayOfMonthOperator,
-                                                   4, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_weekday_of_year'           : RPNOperator( calculateNthWeekdayOfYearOperator,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.Integer,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentecost'                     : RPNOperator( calculatePentecostSundayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'presidents_day'                : RPNOperator( calculatePresidentsDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'thanksgiving'                  : RPNOperator( calculateThanksgivingOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'to_bahai'                      : RPNOperator( getBahaiCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_bahai_name'                 : RPNOperator( getBahaiCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_ethiopian'                  : RPNOperator( getEthiopianCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_ethiopian_name'             : RPNOperator( getEthiopianCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_french_republican'          : RPNOperator( getFrenchRepublicanCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_french_republican_name'     : RPNOperator( getFrenchRepublicanCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_hebrew'                     : RPNOperator( getHebrewCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_hebrew_name'                : RPNOperator( getHebrewCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_indian_civil'               : RPNOperator( getIndianCivilCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_indian_civil_name'          : RPNOperator( getIndianCivilCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_islamic'                    : RPNOperator( getIslamicCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_islamic_name'               : RPNOperator( getIslamicCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_iso'                        : RPNOperator( getISODateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_iso_name'                   : RPNOperator( getISODateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_julian'                     : RPNOperator( getJulianCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_julian_day'                 : RPNOperator( getJulianDayOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_lilian_day'                 : RPNOperator( getLilianDayOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_mayan'                      : RPNOperator( getMayanCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_ordinal_date'               : RPNOperator( getOrdinalDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_persian'                    : RPNOperator( getPersianCalendarDateOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'to_persian_name'               : RPNOperator( getPersianCalendarDateNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'veterans_day'                  : RPNOperator( getVeteransDayOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'weekday'                       : RPNOperator( getWeekdayOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'weekday_name'                  : RPNOperator( getWeekdayNameOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'year_calendar'                 : RPNOperator( generateYearCalendarOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
+    'advent'                        : RPNOperator( calculateAdventOperator, 1 ),
+    'ascension'                     : RPNOperator( calculateAscensionThursdayOperator, 1 ),
+    'ash_wednesday'                 : RPNOperator( calculateAshWednesdayOperator, 1 ),
+    'calendar'                      : RPNOperator( generateMonthCalendarOperator, 1 ),
+    'christmas'                     : RPNOperator( getChristmasDayOperator, 1 ),
+    'columbus_day'                  : RPNOperator( calculateColumbusDayOperator, 1 ),
+    'dst_end'                       : RPNOperator( calculateDSTEndOperator, 1 ),
+    'dst_start'                     : RPNOperator( calculateDSTStartOperator, 1 ),
+    'easter'                        : RPNOperator( calculateEasterOperator, 1 ),
+    'election_day'                  : RPNOperator( calculateElectionDayOperator, 1 ),
+    'epiphany'                      : RPNOperator( getEpiphanyDayOperator, 1 ),
+    'fathers_day'                   : RPNOperator( calculateFathersDayOperator, 1 ),
+    'from_bahai'                    : RPNOperator( convertBahaiDateOperator, 3 ),
+    'from_ethiopian'                : RPNOperator( convertEthiopianDateOperator, 3 ),
+    'from_french_republican'        : RPNOperator( convertFrenchRepublicanDateOperator, 3 ),
+    'from_hebrew'                   : RPNOperator( convertHebrewDateOperator, 3 ),
+    'from_indian_civil'             : RPNOperator( convertIndianCivilDateOperator, 3 ),
+    'from_islamic'                  : RPNOperator( convertIslamicDateOperator,3 ),
+    'from_julian'                   : RPNOperator( convertJulianDateOperator, 3 ),
+    'from_mayan'                    : RPNOperator( convertMayanDateOperator, 5 ),
+    'from_persian'                  : RPNOperator( convertPersianDateOperator, 3 ),
+    'good_friday'                   : RPNOperator( calculateGoodFridayOperator, 1 ),
+    'independence_day'              : RPNOperator( getIndependenceDayOperator, 1 ),
+    'iso_date'                      : RPNOperator( getISODateOperator, 1 ),
+    'labor_day'                     : RPNOperator( calculateLaborDayOperator, 1 ),
+    'martin_luther_king_day'        : RPNOperator( calculateMartinLutherKingDayOperator, 1 ),
+    'memorial_day'                  : RPNOperator( calculateMemorialDayOperator, 1 ),
+    'mothers_day'                   : RPNOperator( calculateMothersDayOperator, 1 ),
+    'new_years_day'                 : RPNOperator( getNewYearsDayOperator, 1 ),
+    'nth_weekday'                   : RPNOperator( calculateNthWeekdayOfMonthOperator, 4 ),
+    'nth_weekday_of_year'           : RPNOperator( calculateNthWeekdayOfYearOperator, 3 ),
+    'pentecost'                     : RPNOperator( calculatePentecostSundayOperator, 1 ),
+    'presidents_day'                : RPNOperator( calculatePresidentsDayOperator, 1 ),
+    'thanksgiving'                  : RPNOperator( calculateThanksgivingOperator, 1 ),
+    'to_bahai'                      : RPNOperator( getBahaiCalendarDateOperator, 1 ),
+    'to_bahai_name'                 : RPNOperator( getBahaiCalendarDateNameOperator, 1 ),
+    'to_ethiopian'                  : RPNOperator( getEthiopianCalendarDateOperator, 1 ),
+    'to_ethiopian_name'             : RPNOperator( getEthiopianCalendarDateNameOperator, 1 ),
+    'to_french_republican'          : RPNOperator( getFrenchRepublicanCalendarDateOperator, 1 ),
+    'to_french_republican_name'     : RPNOperator( getFrenchRepublicanCalendarDateNameOperator, 1 ),
+    'to_hebrew'                     : RPNOperator( getHebrewCalendarDateOperator, 1 ),
+    'to_hebrew_name'                : RPNOperator( getHebrewCalendarDateNameOperator, 1 ),
+    'to_indian_civil'               : RPNOperator( getIndianCivilCalendarDateOperator, 1 ),
+    'to_indian_civil_name'          : RPNOperator( getIndianCivilCalendarDateNameOperator, 1 ),
+    'to_islamic'                    : RPNOperator( getIslamicCalendarDateOperator, 1 ),
+    'to_islamic_name'               : RPNOperator( getIslamicCalendarDateNameOperator, 1 ),
+    'to_iso'                        : RPNOperator( getISODateOperator, 1 ),
+    'to_iso_name'                   : RPNOperator( getISODateNameOperator, 1 ),
+    'to_julian'                     : RPNOperator( getJulianCalendarDateOperator, 1 ),
+    'to_julian_day'                 : RPNOperator( getJulianDayOperator, 1 ),
+    'to_lilian_day'                 : RPNOperator( getLilianDayOperator, 1 ),
+    'to_mayan'                      : RPNOperator( getMayanCalendarDateOperator, 1 ),
+    'to_ordinal_date'               : RPNOperator( getOrdinalDateOperator, 1 ),
+    'to_persian'                    : RPNOperator( getPersianCalendarDateOperator, 1 ),
+    'to_persian_name'               : RPNOperator( getPersianCalendarDateNameOperator, 1 ),
+    'veterans_day'                  : RPNOperator( getVeteransDayOperator, 1 ),
+    'weekday'                       : RPNOperator( getWeekdayOperator, 1 ),
+    'weekday_name'                  : RPNOperator( getWeekdayNameOperator, 1 ),
+    'year_calendar'                 : RPNOperator( generateYearCalendarOperator, 1 ),
 
     # chemistry
-    'atomic_number'                 : RPNOperator( getAtomicNumberOperator,
-                                                   1, [ RPNValidator.String ], [ ] ),
+    'atomic_number'                 : RPNOperator( getAtomicNumberOperator, 1 ),
+    'atomic_symbol'                 : RPNOperator( getAtomicSymbolOperator, 1 ),
+    'atomic_weight'                 : RPNOperator( getAtomicWeightOperator, 1 ),
+    'element_block'                 : RPNOperator( getElementBlockOperator, 1 ),
+    'element_boiling_point'         : RPNOperator( getElementBoilingPointOperator, 1 ),
+    'element_density'               : RPNOperator( getElementDensityOperator, 1 ),
+    'element_description'           : RPNOperator( getElementDescriptionOperator, 1 ),
+    'element_group'                 : RPNOperator( getElementGroupOperator, 1 ),
+    'element_melting_point'         : RPNOperator( getElementMeltingPointOperator, 1 ),
+    'element_name'                  : RPNOperator( getElementNameOperator, 1 ),
+    'element_occurrence'            : RPNOperator( getElementOccurrenceOperator, 1 ),
+    'element_period'                : RPNOperator( getElementPeriodOperator, 1 ),
 
-    'atomic_symbol'                 : RPNOperator( getAtomicSymbolOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'atomic_weight'                 : RPNOperator( getAtomicWeightOperator,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'element_block'                 : RPNOperator( getElementBlockOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_boiling_point'         : RPNOperator( getElementBoilingPointOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_density'               : RPNOperator( getElementDensityOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_description'           : RPNOperator( getElementDescriptionOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_group'                 : RPNOperator( getElementGroupOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_melting_point'         : RPNOperator( getElementMeltingPointOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_name'                  : RPNOperator( getElementNameOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_occurrence'            : RPNOperator( getElementOccurrenceOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_period'                : RPNOperator( getElementPeriodOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'element_state'                 : RPNOperator( getElementStateOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'molar_mass'                    : RPNOperator( getMolarMassOperator,
-                                                   1, [ RPNValidator.String ], [ ] ),
+    'element_state'                 : RPNOperator( getElementStateOperator, 1 ),
+    'molar_mass'                    : RPNOperator( getMolarMassOperator, 1 ),
 
     # combinatoric
-    'arrangements'                  : RPNOperator( getArrangements,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'bell_polynomial'               : RPNOperator( getBellPolynomial,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'binomial'                      : RPNOperator( getBinomial,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'combinations'                  : RPNOperator( getCombinations,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'compositions'                  : RPNOperator( getCompositions,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'debruijn_sequence'             : RPNOperator( getDeBruijnSequence,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_partitions'                : RPNOperator( getIntegerPartitions,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_partitions_with_limit'     : RPNOperator( getPartitionsWithLimit,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'lah_number'                    : RPNOperator( getLahNumber,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'nth_menage'                    : RPNOperator( getNthMenageNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'multifactorial'                : RPNOperator( getNthMultifactorial,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'narayana_number'               : RPNOperator( getNarayanaNumberOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'nth_apery'                     : RPNOperator( getNthAperyNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_bell'                      : RPNOperator( getNthBell,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_bernoulli'                 : RPNOperator( getNthBernoulli,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_catalan'                   : RPNOperator( getNthCatalanNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_delannoy'                  : RPNOperator( getNthDelannoyNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_motzkin'                   : RPNOperator( getNthMotzkinNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_pell'                      : RPNOperator( getNthPellNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_schroeder'                 : RPNOperator( getNthSchroederNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_schroeder_hipparchus'      : RPNOperator( getNthSchroederHipparchusNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_sylvester'                 : RPNOperator( getNthSylvesterNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'partitions'                    : RPNOperator( getPartitionNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'permutations'                  : RPNOperator( getPermutations,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'stirling1_number'              : RPNOperator( getStirling1Number,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'stirling2_number'              : RPNOperator( getStirling2Number,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
+    'arrangements'                  : RPNOperator( getArrangements, 1 ),
+    'bell_polynomial'               : RPNOperator( getBellPolynomial, 2 ),
+    'binomial'                      : RPNOperator( getBinomial, 2 ),
+    'combinations'                  : RPNOperator( getCombinations, 2 ),
+    'compositions'                  : RPNOperator( getCompositions, 2 ),
+    'debruijn_sequence'             : RPNOperator( getDeBruijnSequence, 2 ),
+    'get_partitions'                : RPNOperator( getIntegerPartitions, 1 ),
+    'get_partitions_with_limit'     : RPNOperator( getPartitionsWithLimit, 2 ),
+    'lah_number'                    : RPNOperator( getLahNumber, 2 ),
+    'nth_menage'                    : RPNOperator( getNthMenageNumber, 1 ),
+    'multifactorial'                : RPNOperator( getNthMultifactorial, 2 ),
+    'narayana_number'               : RPNOperator( getNarayanaNumberOperator, 2 ),
+    'nth_apery'                     : RPNOperator( getNthAperyNumber, 1 ),
+    'nth_bell'                      : RPNOperator( getNthBell, 1 ),
+    'nth_bernoulli'                 : RPNOperator( getNthBernoulli, 1 ),
+    'nth_catalan'                   : RPNOperator( getNthCatalanNumber, 1 ),
+    'nth_delannoy'                  : RPNOperator( getNthDelannoyNumber, 1 ),
+    'nth_motzkin'                   : RPNOperator( getNthMotzkinNumber, 1 ),
+    'nth_pell'                      : RPNOperator( getNthPellNumber, 1 ),
+    'nth_schroeder'                 : RPNOperator( getNthSchroederNumber, 1 ),
+    'nth_schroeder_hipparchus'      : RPNOperator( getNthSchroederHipparchusNumber, 1 ),
+    'nth_sylvester'                 : RPNOperator( getNthSylvesterNumber, 1 ),
+    'partitions'                    : RPNOperator( getPartitionNumber, 1 ),
+    'permutations'                  : RPNOperator( getPermutations, 2 ),
+    'stirling1_number'              : RPNOperator( getStirling1Number, 2 ),
+    'stirling2_number'              : RPNOperator( getStirling2Number, 2 ),
 
     # complex
-    'argument'                      : RPNOperator( getArgumentOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'conjugate'                     : RPNOperator( getConjugateOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'imaginary'                     : RPNOperator( getImaginaryOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'real'                          : RPNOperator( getRealOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
+    'argument'                      : RPNOperator( getArgumentOperator, 1 ),
+    'conjugate'                     : RPNOperator( getConjugateOperator, 1 ),
+    'imaginary'                     : RPNOperator( getImaginaryOperator, 1 ),
+    'real'                          : RPNOperator( getRealOperator, 1 ),
 
     # conversion
-    'char'                          : RPNOperator( convertToCharOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
+    'char'                          : RPNOperator( convertToCharOperator, 1 ),
+    'dhms'                          : RPNOperator( convertToDHMSOperator, 1 ),
+    'dms'                           : RPNOperator( convertToDMSOperator, 1 ),
+    'double'                        : RPNOperator( convertToDoubleOperator, 1 ),
+    'float'                         : RPNOperator( convertToFloatOperator, 1 ),
+    'from_unix_time'                : RPNOperator( convertFromUnixTimeOperator, 1 ),
+    'hms'                           : RPNOperator( convertToHMSOperator, 1 ),
+    'integer'                       : RPNOperator( convertToSignedIntOperator, 2 ),
+    'invert_units'                  : RPNOperator( invertUnitsOperator, 1 ),
+    'long'                          : RPNOperator( convertToLongOperator, 1 ),
+    'longlong'                      : RPNOperator( convertToLongLongOperator, 1 ),
+    'quadlong'                      : RPNOperator( convertToQuadLongOperator, 1 ),
+    'short'                         : RPNOperator( convertToShortOperator, 1 ),
+    'to_unix_time'                  : RPNOperator( convertToUnixTimeOperator, 1 ),
+    'uchar'                         : RPNOperator( convertToUnsignedCharOperator, 1 ),
+    'uinteger'                      : RPNOperator( convertToUnsignedIntOperator, 2 ),
+    'ulong'                         : RPNOperator( convertToUnsignedLongOperator, 1 ),
+    'ulonglong'                     : RPNOperator( convertToUnsignedLongLongOperator, 1 ),
+    'undouble'                      : RPNOperator( interpretAsDoubleOperator, 1 ),
+    'unfloat'                       : RPNOperator( interpretAsFloatOperator, 1 ),
+    'uquadlong'                     : RPNOperator( convertToUnsignedQuadLongOperator, 1 ),
+    'ushort'                        : RPNOperator( convertToUnsignedShortOperator, 1 ),
+    'ydhms'                         : RPNOperator( convertToYDHMSOperator, 1 ),
 
-    'dhms'                          : RPNOperator( convertToDHMSOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'dms'                           : RPNOperator( convertToDMSOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'double'                        : RPNOperator( convertToDoubleOperator,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'float'                         : RPNOperator( convertToFloatOperator,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'from_unix_time'                : RPNOperator( convertFromUnixTimeOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'hms'                           : RPNOperator( convertToHMSOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'integer'                       : RPNOperator( convertToSignedIntOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'invert_units'                  : RPNOperator( invertUnitsOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'long'                          : RPNOperator( convertToLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'longlong'                      : RPNOperator( convertToLongLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'quadlong'                      : RPNOperator( convertToQuadLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'short'                         : RPNOperator( convertToShortOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'to_unix_time'                  : RPNOperator( convertToUnixTimeOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'uchar'                         : RPNOperator( convertToUnsignedCharOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'uinteger'                      : RPNOperator( convertToUnsignedIntOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'ulong'                         : RPNOperator( convertToUnsignedLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'ulonglong'                     : RPNOperator( convertToUnsignedLongLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'undouble'                      : RPNOperator( interpretAsDoubleOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'unfloat'                       : RPNOperator( interpretAsFloatOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'uquadlong'                     : RPNOperator( convertToUnsignedQuadLongOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'ushort'                        : RPNOperator( convertToUnsignedShortOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'ydhms'                         : RPNOperator( convertToYDHMSOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
     # date_time
-    'get_year'                      : RPNOperator( getYearOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'get_month'                     : RPNOperator( getMonthOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'get_day'                       : RPNOperator( getDayOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'get_hour'                      : RPNOperator( getHourOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'get_minute'                    : RPNOperator( getMinuteOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'get_second'                    : RPNOperator( getSecondOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'iso_day'                       : RPNOperator( getISODayOperator,
-                                                   1, [ RPNValidator.DateTime ], [ ] ),
-
-    'now'                           : RPNOperator( getNowOperator,
-                                                   0, [ ], [ ] ),
-
-    'today'                         : RPNOperator( getTodayOperator,
-                                                   0, [ ], [ ] ),
-
-    'tomorrow'                      : RPNOperator( getTomorrowOperator,
-                                                   0, [ ], [ ] ),
-
-    'yesterday'                     : RPNOperator( getYesterdayOperator,
-                                                   0, [ ], [ ] ),
+    'get_year'                      : RPNOperator( getYearOperator, 1 ),
+    'get_month'                     : RPNOperator( getMonthOperator, 1 ),
+    'get_day'                       : RPNOperator( getDayOperator, 1 ),
+    'get_hour'                      : RPNOperator( getHourOperator, 1 ),
+    'get_minute'                    : RPNOperator( getMinuteOperator, 1 ),
+    'get_second'                    : RPNOperator( getSecondOperator, 1 ),
+    'iso_day'                       : RPNOperator( getISODayOperator, 1 ),
+    'now'                           : RPNOperator( getNowOperator, 0 ),
+    'today'                         : RPNOperator( getTodayOperator, 0 ),
+    'tomorrow'                      : RPNOperator( getTomorrowOperator, 0 ),
+    'yesterday'                     : RPNOperator( getYesterdayOperator, 0 ),
 
     # figurate
-    'centered_cube'                 : RPNOperator( getNthCenteredCubeNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_decagonal'            : RPNOperator( getNthCenteredDecagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_dodecahedral'         : RPNOperator( getNthCenteredDodecahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_heptagonal'           : RPNOperator( getNthCenteredHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_hexagonal'            : RPNOperator( getNthCenteredHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_icosahedral'          : RPNOperator( getNthCenteredIcosahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_nonagonal'            : RPNOperator( getNthCenteredNonagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_octagonal'            : RPNOperator( getNthCenteredOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_octahedral'           : RPNOperator( getNthCenteredOctahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_pentagonal'           : RPNOperator( getNthCenteredPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_polygonal'            : RPNOperator( getNthCenteredPolygonalNumberOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_square'               : RPNOperator( getNthCenteredSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_tetrahedral'          : RPNOperator( getNthCenteredTetrahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'centered_triangular'           : RPNOperator( getNthCenteredTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal'                     : RPNOperator( getNthDecagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_centered_square'     : RPNOperator( getNthDecagonalCenteredSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_heptagonal'          : RPNOperator( getNthDecagonalHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_hexagonal'           : RPNOperator( getNthDecagonalHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_nonagonal'           : RPNOperator( getNthDecagonalNonagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_octagonal'           : RPNOperator( getNthDecagonalOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_pentagonal'          : RPNOperator( getNthDecagonalPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'decagonal_triangular'          : RPNOperator( getNthDecagonalTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'dodecahedral'                  : RPNOperator( getNthDodecahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'generalized_pentagonal'        : RPNOperator( getNthGeneralizedPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptagonal'                    : RPNOperator( getNthHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptagonal_hexagonal'          : RPNOperator( getNthHeptagonalHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptagonal_pentagonal'         : RPNOperator( getNthHeptagonalPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptagonal_square'             : RPNOperator( getNthHeptagonalSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptagonal_triangular'         : RPNOperator( getNthHeptagonalTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hexagonal'                     : RPNOperator( getNthHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hexagonal_pentagonal'          : RPNOperator( getNthHexagonalPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hexagonal_square'              : RPNOperator( getNthHexagonalSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'icosahedral'                   : RPNOperator( getNthIcosahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal'                     : RPNOperator( getNthNonagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_heptagonal'          : RPNOperator( getNthNonagonalHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_hexagonal'           : RPNOperator( getNthNonagonalHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_octagonal'           : RPNOperator( getNthNonagonalOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_pentagonal'          : RPNOperator( getNthNonagonalPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_square'              : RPNOperator( getNthNonagonalSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nonagonal_triangular'          : RPNOperator( getNthNonagonalTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_decagonal'        : RPNOperator( findCenteredDecagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_heptagonal'       : RPNOperator( findCenteredHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_hexagonal'        : RPNOperator( findCenteredHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_nonagonal'        : RPNOperator( findCenteredNonagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_octagonal'        : RPNOperator( findCenteredOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_pentagonal'       : RPNOperator( findCenteredPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_polygonal'        : RPNOperator( findCenteredPolygonalNumberOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_square'           : RPNOperator( findCenteredSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_centered_triangular'       : RPNOperator( findCenteredTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_decagonal'                 : RPNOperator( findDecagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_heptagonal'                : RPNOperator( findHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_hexagonal'                 : RPNOperator( findHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_nonagonal'                 : RPNOperator( findNonagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_octagonal'                 : RPNOperator( findOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_pentagonal'                : RPNOperator( findPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_polygonal'                 : RPNOperator( findPolygonalNumberOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_square'                    : RPNOperator( findSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_triangular'                : RPNOperator( findTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal'                     : RPNOperator( getNthOctagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal_heptagonal'          : RPNOperator( getNthOctagonalHeptagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal_hexagonal'           : RPNOperator( getNthOctagonalHexagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal_pentagonal'          : RPNOperator( getNthOctagonalPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal_square'              : RPNOperator( getNthOctagonalSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octagonal_triangular'          : RPNOperator( getNthOctagonalTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octahedral'                    : RPNOperator( getNthOctahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentagonal'                    : RPNOperator( getNthPentagonalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentagonal_square'             : RPNOperator( getNthPentagonalSquareNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentagonal_triangular'         : RPNOperator( getNthPentagonalTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentatope'                     : RPNOperator( getNthPentatopeNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'polygonal'                     : RPNOperator( getNthPolygonalNumberOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'polygonal_pyramidal'           : RPNOperator( getNthPolygonalPyramidalNumber,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'polytope'                      : RPNOperator( getNthPolytopeNumber,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'pyramidal'                     : RPNOperator( getNthPyramidalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'rhombic_dodecahedral'          : RPNOperator( getNthRhombicDodecahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'square_triangular'             : RPNOperator( getNthSquareTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'star'                          : RPNOperator( getNthStarNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'stella_octangula'              : RPNOperator( getNthStellaOctangulaNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'tetrahedral'                   : RPNOperator( getNthTetrahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'triangular'                    : RPNOperator( getNthTriangularNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'truncated_octahedral'          : RPNOperator( getNthTruncatedOctahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'truncated_tetrahedral'         : RPNOperator( getNthTruncatedTetrahedralNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
+    'centered_cube'                 : RPNOperator( getNthCenteredCubeNumber, 1 ),
+    'centered_decagonal'            : RPNOperator( getNthCenteredDecagonalNumber, 1 ),
+    'centered_dodecahedral'         : RPNOperator( getNthCenteredDodecahedralNumber, 1 ),
+    'centered_heptagonal'           : RPNOperator( getNthCenteredHeptagonalNumber, 1 ),
+    'centered_hexagonal'            : RPNOperator( getNthCenteredHexagonalNumber, 1 ),
+    'centered_icosahedral'          : RPNOperator( getNthCenteredIcosahedralNumber, 1 ),
+    'centered_nonagonal'            : RPNOperator( getNthCenteredNonagonalNumber, 1 ),
+    'centered_octagonal'            : RPNOperator( getNthCenteredOctagonalNumber, 1 ),
+    'centered_octahedral'           : RPNOperator( getNthCenteredOctahedralNumber, 1 ),
+    'centered_pentagonal'           : RPNOperator( getNthCenteredPentagonalNumber, 1 ),
+    'centered_polygonal'            : RPNOperator( getNthCenteredPolygonalNumberOperator, 2 ),
+    'centered_square'               : RPNOperator( getNthCenteredSquareNumber, 1 ),
+    'centered_tetrahedral'          : RPNOperator( getNthCenteredTetrahedralNumber, 1 ),
+    'centered_triangular'           : RPNOperator( getNthCenteredTriangularNumber, 1 ),
+    'decagonal'                     : RPNOperator( getNthDecagonalNumber, 1 ),
+    'decagonal_centered_square'     : RPNOperator( getNthDecagonalCenteredSquareNumber, 1 ),
+    'decagonal_heptagonal'          : RPNOperator( getNthDecagonalHeptagonalNumber, 1 ),
+    'decagonal_hexagonal'           : RPNOperator( getNthDecagonalHexagonalNumber, 1 ),
+    'decagonal_nonagonal'           : RPNOperator( getNthDecagonalNonagonalNumber, 1 ),
+    'decagonal_octagonal'           : RPNOperator( getNthDecagonalOctagonalNumber, 1 ),
+    'decagonal_pentagonal'          : RPNOperator( getNthDecagonalPentagonalNumber, 1 ),
+    'decagonal_triangular'          : RPNOperator( getNthDecagonalTriangularNumber, 1 ),
+    'dodecahedral'                  : RPNOperator( getNthDodecahedralNumber, 1 ),
+    'generalized_pentagonal'        : RPNOperator( getNthGeneralizedPentagonalNumber, 1 ),
+    'heptagonal'                    : RPNOperator( getNthHeptagonalNumber, 1 ),
+    'heptagonal_hexagonal'          : RPNOperator( getNthHeptagonalHexagonalNumber, 1 ),
+    'heptagonal_pentagonal'         : RPNOperator( getNthHeptagonalPentagonalNumber, 1 ),
+    'heptagonal_square'             : RPNOperator( getNthHeptagonalSquareNumber, 1 ),
+    'heptagonal_triangular'         : RPNOperator( getNthHeptagonalTriangularNumber, 1 ),
+    'hexagonal'                     : RPNOperator( getNthHexagonalNumber, 1 ),
+    'hexagonal_pentagonal'          : RPNOperator( getNthHexagonalPentagonalNumber, 1 ),
+    'hexagonal_square'              : RPNOperator( getNthHexagonalSquareNumber, 1 ),
+    'icosahedral'                   : RPNOperator( getNthIcosahedralNumber, 1 ),
+    'nonagonal'                     : RPNOperator( getNthNonagonalNumber, 1 ),
+    'nonagonal_heptagonal'          : RPNOperator( getNthNonagonalHeptagonalNumber, 1 ),
+    'nonagonal_hexagonal'           : RPNOperator( getNthNonagonalHexagonalNumber, 1 ),
+    'nonagonal_octagonal'           : RPNOperator( getNthNonagonalOctagonalNumber, 1 ),
+    'nonagonal_pentagonal'          : RPNOperator( getNthNonagonalPentagonalNumber, 1 ),
+    'nonagonal_square'              : RPNOperator( getNthNonagonalSquareNumber, 1 ),
+    'nonagonal_triangular'          : RPNOperator( getNthNonagonalTriangularNumber, 1 ),
+    'nth_centered_decagonal'        : RPNOperator( findCenteredDecagonalNumber, 1 ),
+    'nth_centered_heptagonal'       : RPNOperator( findCenteredHeptagonalNumber, 1 ),
+    'nth_centered_hexagonal'        : RPNOperator( findCenteredHexagonalNumber, 1 ),
+    'nth_centered_nonagonal'        : RPNOperator( findCenteredNonagonalNumber, 1 ),
+    'nth_centered_octagonal'        : RPNOperator( findCenteredOctagonalNumber, 1 ),
+    'nth_centered_pentagonal'       : RPNOperator( findCenteredPentagonalNumber, 1 ),
+    'nth_centered_polygonal'        : RPNOperator( findCenteredPolygonalNumberOperator, 2 ),
+    'nth_centered_square'           : RPNOperator( findCenteredSquareNumber, 1 ),
+    'nth_centered_triangular'       : RPNOperator( findCenteredTriangularNumber, 1 ),
+    'nth_decagonal'                 : RPNOperator( findDecagonalNumber, 1 ),
+    'nth_heptagonal'                : RPNOperator( findHeptagonalNumber, 1 ),
+    'nth_hexagonal'                 : RPNOperator( findHexagonalNumber, 1 ),
+    'nth_nonagonal'                 : RPNOperator( findNonagonalNumber, 1 ),
+    'nth_octagonal'                 : RPNOperator( findOctagonalNumber, 1 ),
+    'nth_pentagonal'                : RPNOperator( findPentagonalNumber, 1 ),
+    'nth_polygonal'                 : RPNOperator( findPolygonalNumberOperator, 2 ),
+    'nth_square'                    : RPNOperator( findSquareNumber, 1 ),
+    'nth_triangular'                : RPNOperator( findTriangularNumber, 1 ),
+    'octagonal'                     : RPNOperator( getNthOctagonalNumber, 1 ),
+    'octagonal_heptagonal'          : RPNOperator( getNthOctagonalHeptagonalNumber, 1 ),
+    'octagonal_hexagonal'           : RPNOperator( getNthOctagonalHexagonalNumber, 1 ),
+    'octagonal_pentagonal'          : RPNOperator( getNthOctagonalPentagonalNumber, 1 ),
+    'octagonal_square'              : RPNOperator( getNthOctagonalSquareNumber, 1 ),
+    'octagonal_triangular'          : RPNOperator( getNthOctagonalTriangularNumber, 1 ),
+    'octahedral'                    : RPNOperator( getNthOctahedralNumber, 1 ),
+    'pentagonal'                    : RPNOperator( getNthPentagonalNumber, 1 ),
+    'pentagonal_square'             : RPNOperator( getNthPentagonalSquareNumber, 1 ),
+    'pentagonal_triangular'         : RPNOperator( getNthPentagonalTriangularNumber, 1 ),
+    'pentatope'                     : RPNOperator( getNthPentatopeNumber, 1 ),
+    'polygonal'                     : RPNOperator( getNthPolygonalNumberOperator, 2 ),
+    'polygonal_pyramidal'           : RPNOperator( getNthPolygonalPyramidalNumber, 2 ),
+    'polytope'                      : RPNOperator( getNthPolytopeNumber, 2 ),
+    'pyramidal'                     : RPNOperator( getNthPyramidalNumber, 1 ),
+    'rhombic_dodecahedral'          : RPNOperator( getNthRhombicDodecahedralNumber, 1 ),
+    'square_triangular'             : RPNOperator( getNthSquareTriangularNumber, 1 ),
+    'star'                          : RPNOperator( getNthStarNumber, 1 ),
+    'stella_octangula'              : RPNOperator( getNthStellaOctangulaNumber, 1 ),
+    'tetrahedral'                   : RPNOperator( getNthTetrahedralNumber, 1 ),
+    'triangular'                    : RPNOperator( getNthTriangularNumber, 1 ),
+    'truncated_octahedral'          : RPNOperator( getNthTruncatedOctahedralNumber, 1 ),
+    'truncated_tetrahedral'         : RPNOperator( getNthTruncatedTetrahedralNumber, 1 ),
 
     # function
-    #'break_on'                      : RPNOperator( breakOnCondition,
-    #                                               3, [ RPNValidator.Default, RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'eval0'                         : RPNOperator( evaluateFunction0,
-                                                   1, [ RPNValidator.Function ], [ ] ),
-
-    'eval'                          : RPNOperator( evaluateFunction,
-                                                   2, [ RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'eval2'                         : RPNOperator( evaluateFunction2,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Function ], [ ] ),
-
-    'eval3'                         : RPNOperator( evaluateFunction3,
-                                                   4, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'eval_list'                     : RPNOperator( evaluateListFunction,
-                                                   2, [ RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'eval_list2'                    : RPNOperator( evaluateListFunction2,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Function ], [ ] ),
-
-    'eval_list3'                    : RPNOperator( evaluateListFunction3,
-                                                   4, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'filter_integers'               : RPNOperator( filterIntegers,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.Function ], [ ] ),
-
-    'function'                      : RPNOperator( createUserFunction,
-                                                   2, [ RPNValidator.String, RPNValidator.Function ], [ ] ),
-
-    'limit'                         : RPNOperator( evaluateLimit,
-                                                   2, [ RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'limitn'                        : RPNOperator( evaluateReverseLimit,
-                                                   2, [ RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'nprod'                         : RPNOperator( evaluateProduct,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Function ], [ ] ),
-
-    'nsum'                          : RPNOperator( evaluateSum,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Function ], [ ] ),
-
-    'plot'                          : RPNOperator( plotFunction,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Function ], [ ] ),
-
-    'plot2'                         : RPNOperator( plot2DFunction,
-                                                   5, [ RPNValidator.Default, RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'plot_complex'                  : RPNOperator( plotComplexFunction,
-                                                   5, [ RPNValidator.Default, RPNValidator.Default, RPNValidator.Default,
-                                                        RPNValidator.Default, RPNValidator.Function ], [ ] ),
-
-    'recurrence'                    : RPNOperator( evaluateRecurrence,
-                                                   3, [ RPNValidator.Default, RPNValidator.PositiveInteger, RPNValidator.Function ], [ ] ),
-
-    'repeat'                        : RPNOperator( repeat,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.Function ], [ ] ),
-
-    'sequence'                      : RPNOperator( getSequence,
-                                                   3, [ RPNValidator.Default, RPNValidator.NonnegativeInteger, RPNValidator.Function ], [ ] ),
+    #'break_on'                      : RPNOperator( breakOnCondition, 3 ),
+    'eval0'                         : RPNOperator( evaluateFunction0, 1 ),
+    'eval'                          : RPNOperator( evaluateFunction, 2 ),
+    'eval2'                         : RPNOperator( evaluateFunction2, 3 ),
+    'eval3'                         : RPNOperator( evaluateFunction3, 4 ),
+    'eval_list'                     : RPNOperator( evaluateListFunction, 2 ),
+    'eval_list2'                    : RPNOperator( evaluateListFunction2, 3 ),
+    'eval_list3'                    : RPNOperator( evaluateListFunction3, 4 ),
+    'filter_integers'               : RPNOperator( filterIntegers, 2 ),
+    'function'                      : RPNOperator( createUserFunction, 2 ),
+    'limit'                         : RPNOperator( evaluateLimit, 2 ),
+    'limitn'                        : RPNOperator( evaluateReverseLimit, 2 ),
+    'nprod'                         : RPNOperator( evaluateProduct, 3 ),
+    'nsum'                          : RPNOperator( evaluateSum, 3 ),
+    'plot'                          : RPNOperator( plotFunction, 3 ),
+    'plot2'                         : RPNOperator( plot2DFunction, 5 ),
+    'plot_complex'                  : RPNOperator( plotComplexFunction, 5 ),
+    'recurrence'                    : RPNOperator( evaluateRecurrence, 3 ),
+    'repeat'                        : RPNOperator( repeat, 2 ),
+    'sequence'                      : RPNOperator( getSequence, 3 ),
 
     # geography
-    'geographic_distance'           : RPNOperator( getGeographicDistanceOperator,
-                                                   2, [ RPNValidator.Location, RPNValidator.Location ], [ ] ),
-
-    'get_timezone'                  : RPNOperator( getTimeZoneOperator,
-                                                   1, [ RPNValidator.Location ], [ ] ),
-
-    'lat_long'                      : RPNOperator( makeLocationOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'location_info'                 : RPNOperator( getLocationInfoOperator,
-                                                   1, [ RPNValidator.String ], [ ] ),
+    'geographic_distance'           : RPNOperator( getGeographicDistanceOperator, 2 ),
+    'get_timezone'                  : RPNOperator( getTimeZoneOperator, 1 ),
+    'lat_long'                      : RPNOperator( makeLocationOperator, 2 ),
+    'location_info'                 : RPNOperator( getLocationInfoOperator, 1 ),
 
     # geometry
-    'antiprism_area'                : RPNOperator( getAntiprismSurfaceArea,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'antiprism_volume'              : RPNOperator( getAntiprismVolume,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'cone_area'                     : RPNOperator( getConeSurfaceArea,
-                                                   2, [ RPNValidator.NonnegativeReal, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'cone_volume'                   : RPNOperator( getConeVolume,
-                                                   2, [ RPNValidator.NonnegativeReal, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'dodecahedron_area'             : RPNOperator( getDodecahedronSurfaceArea,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'dodecahedron_volume'           : RPNOperator( getDodecahedronVolume,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'hypotenuse'                    : RPNOperator( calculateHypotenuseOperator,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'icosahedron_area'              : RPNOperator( getIcosahedronSurfaceArea,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'icosahedron_volume'            : RPNOperator( getIcosahedronVolume,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'k_sphere_area'                 : RPNOperator( getKSphereSurfaceAreaOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'k_sphere_radius'               : RPNOperator( getKSphereRadiusOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'k_sphere_volume'               : RPNOperator( getKSphereVolumeOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'octahedron_area'               : RPNOperator( getOctahedronSurfaceArea,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'octahedron_volume'             : RPNOperator( getOctahedronVolume,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'polygon_area'                  : RPNOperator( getRegularPolygonAreaOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.Measurement ], [ ] ),
-
-    'prism_area'                    : RPNOperator( getPrismSurfaceArea,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal,
-                                                        RPNValidator.NonnegativeReal ], [ ] ),
-
-    'prism_volume'                  : RPNOperator( getPrismVolume,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.NonnegativeReal,
-                                                        RPNValidator.NonnegativeReal ], [ ] ),
-
-    'sphere_area'                   : RPNOperator( getSphereArea,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sphere_radius'                 : RPNOperator( getSphereRadius,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sphere_volume'                 : RPNOperator( getSphereVolume,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'tetrahedron_area'              : RPNOperator( getTetrahedronSurfaceArea,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'tetrahedron_volume'            : RPNOperator( getTetrahedronVolume,
-                                                   1, [ RPNValidator.NonnegativeReal ], [ ] ),
-
-    'torus_area'                    : RPNOperator( getTorusSurfaceArea,
-                                                   2, [ RPNValidator.NonnegativeReal, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'torus_volume'                  : RPNOperator( getTorusVolume,
-                                                   2, [ RPNValidator.NonnegativeReal, RPNValidator.NonnegativeReal ], [ ] ),
-
-    'triangle_area'                 : RPNOperator( getTriangleArea,
-                                                   3, [ RPNValidator.NonnegativeReal, RPNValidator.NonnegativeReal,
-                                                        RPNValidator.NonnegativeReal ], [ ] ),
+    'antiprism_area'                : RPNOperator( getAntiprismSurfaceArea, 2 ),
+    'antiprism_volume'              : RPNOperator( getAntiprismVolume, 2 ),
+    'cone_area'                     : RPNOperator( getConeSurfaceArea, 2 ),
+    'cone_volume'                   : RPNOperator( getConeVolume, 2 ),
+    'dodecahedron_area'             : RPNOperator( getDodecahedronSurfaceArea, 1 ),
+    'dodecahedron_volume'           : RPNOperator( getDodecahedronVolume, 1 ),
+    'hypotenuse'                    : RPNOperator( calculateHypotenuseOperator, 2 ),
+    'icosahedron_area'              : RPNOperator( getIcosahedronSurfaceArea, 1 ),
+    'icosahedron_volume'            : RPNOperator( getIcosahedronVolume, 1 ),
+    'k_sphere_area'                 : RPNOperator( getKSphereSurfaceAreaOperator, 2 ),
+    'k_sphere_radius'               : RPNOperator( getKSphereRadiusOperator, 2 ),
+    'k_sphere_volume'               : RPNOperator( getKSphereVolumeOperator, 2 ),
+    'octahedron_area'               : RPNOperator( getOctahedronSurfaceArea, 1 ),
+    'octahedron_volume'             : RPNOperator( getOctahedronVolume, 1 ),
+    'polygon_area'                  : RPNOperator( getRegularPolygonAreaOperator, 2 ),
+    'prism_area'                    : RPNOperator( getPrismSurfaceArea, 3 ),
+    'prism_volume'                  : RPNOperator( getPrismVolume, 3 ),
+    'sphere_area'                   : RPNOperator( getSphereArea, 1 ),
+    'sphere_radius'                 : RPNOperator( getSphereRadius, 1 ),
+    'sphere_volume'                 : RPNOperator( getSphereVolume, 1 ),
+    'tetrahedron_area'              : RPNOperator( getTetrahedronSurfaceArea, 1 ),
+    'tetrahedron_volume'            : RPNOperator( getTetrahedronVolume, 1 ),
+    'torus_area'                    : RPNOperator( getTorusSurfaceArea, 2 ),
+    'torus_volume'                  : RPNOperator( getTorusVolume, 2 ),
+    'triangle_area'                 : RPNOperator( getTriangleArea, 3 ),
 
     # lexicographic
-    'add_digits'                    : RPNOperator( addDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'build_numbers'                 : RPNOperator( buildNumbers,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'build_step_numbers'            : RPNOperator( buildStepNumbers,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'count_different_digits'        : RPNOperator( countDifferentDigits,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'count_digits'                  : RPNOperator( countDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'cyclic_permutations'           : RPNOperator( getCyclicPermutations,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'digits'                        : RPNOperator( getDigitCount,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'duplicate_digits'              : RPNOperator( duplicateDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'duplicate_number'              : RPNOperator( duplicateNumber,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'erdos_persistence'             : RPNOperator( getErdosPersistence,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'find_palindrome'               : RPNOperator( findPalindrome,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'get_base_k_digits'             : RPNOperator( getBaseKDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
-
-    'get_digits'                    : RPNOperator( getDigits,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'get_left_digits'               : RPNOperator( getLeftDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'get_left_truncations'          : RPNOperator( getLeftTruncationsGenerator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'get_nonzero_base_k_digits'     : RPNOperator( getNonzeroBaseKDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'get_nonzero_digits'            : RPNOperator( getNonzeroDigits,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'get_right_digits'              : RPNOperator( getRightDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'get_right_truncations'         : RPNOperator( getRightTruncationsGenerator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'has_any_digits'                : RPNOperator( containsAnyDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'has_digits'                    : RPNOperator( containsDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'has_only_digits'               : RPNOperator( containsOnlyDigits,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'is_automorphic'                : RPNOperator( isAutomorphic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_base_k_pandigital'          : RPNOperator( isBaseKPandigital,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_base_k_smith_number'        : RPNOperator( isBaseKSmithNumber,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_bouncy'                     : RPNOperator( isBouncy,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_decreasing'                 : RPNOperator( isDecreasing,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_digital_palindrome'         : RPNOperator( isPalindromeOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_digital_permutation'        : RPNOperator( isDigitalPermutation,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_generalized_dudeney'        : RPNOperator( isGeneralizedDudeneyNumber,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_harshad'                    : RPNOperator( isHarshadNumber,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_increasing'                 : RPNOperator( isIncreasing,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_kaprekar'                   : RPNOperator( isKaprekarNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_k_morphic'                  : RPNOperator( isKMorphicOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_k_narcissistic'             : RPNOperator( isBaseKNarcissistic,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_narcissistic'               : RPNOperator( isNarcissistic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumber,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_pandigital'                 : RPNOperator( isPandigital,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_pddi'                       : RPNOperator( isPerfectDigitToDigitInvariant,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_pdi'                        : RPNOperator( isPerfectDigitalInvariant,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_smith_number'               : RPNOperator( isSmithNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_step_number'                : RPNOperator( isStepNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_sum_product'                : RPNOperator( isSumProductNumber,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_trimorphic'                 : RPNOperator( isTrimorphic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'k_persistence'                 : RPNOperator( getKPersistence,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'multiply_digits'               : RPNOperator( multiplyDigits,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'multiply_digit_powers'         : RPNOperator( multiplyDigitPowers,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'multiply_nonzero_digits'       : RPNOperator( multiplyNonzeroDigits,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'multiply_nonzero_digit_powers' : RPNOperator( multiplyNonzeroDigitPowers,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'permute_digits'                : RPNOperator( permuteDigits,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'persistence'                   : RPNOperator( getPersistence,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'replace_digits'                : RPNOperator( replaceDigits,
-                                                   3, [ RPNValidator.Integer, RPNValidator.NonnegativeInteger,
-                                                        RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'reverse_digits'                : RPNOperator( reverseDigitsOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'rotate_digits_left'            : RPNOperator( rotateDigitsLeft,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.Integer ], [ ] ),
-
-    'rotate_digits_right'           : RPNOperator( rotateDigitsRight,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.Integer ], [ ] ),
-
-    'show_erdos_persistence'        : RPNOperator( showErdosPersistence,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'show_k_persistence'            : RPNOperator( showKPersistence,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'show_persistence'              : RPNOperator( showPersistence,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'square_digit_chain'            : RPNOperator( generateSquareDigitChain,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sum_digits'                    : RPNOperator( sumDigits,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
+    'add_digits'                    : RPNOperator( addDigits, 2 ),
+    'build_numbers'                 : RPNOperator( buildNumbers, 1 ),
+    'build_step_numbers'            : RPNOperator( buildStepNumbers, 1 ),
+    'count_different_digits'        : RPNOperator( countDifferentDigits, 1 ),
+    'count_digits'                  : RPNOperator( countDigits, 2 ),
+    'cyclic_permutations'           : RPNOperator( getCyclicPermutations, 1 ),
+    'digits'                        : RPNOperator( getDigitCount, 1 ),
+    'duplicate_digits'              : RPNOperator( duplicateDigits, 2 ),
+    'duplicate_number'              : RPNOperator( duplicateNumber, 2 ),
+    'erdos_persistence'             : RPNOperator( getErdosPersistence, 1 ),
+    'find_palindrome'               : RPNOperator( findPalindrome, 2 ),
+    'get_base_k_digits'             : RPNOperator( getBaseKDigits, 2 ),
+    'get_digits'                    : RPNOperator( getDigits, 1 ),
+    'get_left_digits'               : RPNOperator( getLeftDigits, 2 ),
+    'get_left_truncations'          : RPNOperator( getLeftTruncationsGenerator, 1 ),
+    'get_nonzero_base_k_digits'     : RPNOperator( getNonzeroBaseKDigits, 2 ),
+    'get_nonzero_digits'            : RPNOperator( getNonzeroDigits, 1 ),
+    'get_right_digits'              : RPNOperator( getRightDigits, 2 ),
+    'get_right_truncations'         : RPNOperator( getRightTruncationsGenerator, 1 ),
+    'has_any_digits'                : RPNOperator( containsAnyDigits, 2 ),
+    'has_digits'                    : RPNOperator( containsDigits, 2 ),
+    'has_only_digits'               : RPNOperator( containsOnlyDigits, 2 ),
+    'is_automorphic'                : RPNOperator( isAutomorphic, 1 ),
+    'is_base_k_pandigital'          : RPNOperator( isBaseKPandigital, 2 ),
+    'is_base_k_smith_number'        : RPNOperator( isBaseKSmithNumber, 2 ),
+    'is_bouncy'                     : RPNOperator( isBouncy, 1 ),
+    'is_decreasing'                 : RPNOperator( isDecreasing, 1 ),
+    'is_digital_palindrome'         : RPNOperator( isPalindromeOperator, 1 ),
+    'is_digital_permutation'        : RPNOperator( isDigitalPermutation, 2 ),
+    'is_generalized_dudeney'        : RPNOperator( isGeneralizedDudeneyNumber, 2 ),
+    'is_harshad'                    : RPNOperator( isHarshadNumber, 2 ),
+    'is_increasing'                 : RPNOperator( isIncreasing, 1 ),
+    'is_kaprekar'                   : RPNOperator( isKaprekarNumber, 1 ),
+    'is_k_morphic'                  : RPNOperator( isKMorphicOperator, 2 ),
+    'is_k_narcissistic'             : RPNOperator( isBaseKNarcissistic, 2 ),
+    'is_narcissistic'               : RPNOperator( isNarcissistic, 1 ),
+    'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumber, 2 ),
+    'is_pandigital'                 : RPNOperator( isPandigital, 1 ),
+    'is_pddi'                       : RPNOperator( isPerfectDigitToDigitInvariant, 2 ),
+    'is_pdi'                        : RPNOperator( isPerfectDigitalInvariant, 1 ),
+    'is_smith_number'               : RPNOperator( isSmithNumber, 1 ),
+    'is_step_number'                : RPNOperator( isStepNumber, 1 ),
+    'is_sum_product'                : RPNOperator( isSumProductNumber, 2 ),
+    'is_trimorphic'                 : RPNOperator( isTrimorphic, 1 ),
+    'k_persistence'                 : RPNOperator( getKPersistence, 2 ),
+    'multiply_digits'               : RPNOperator( multiplyDigits, 1 ),
+    'multiply_digit_powers'         : RPNOperator( multiplyDigitPowers, 2 ),
+    'multiply_nonzero_digits'       : RPNOperator( multiplyNonzeroDigits, 1 ),
+    'multiply_nonzero_digit_powers' : RPNOperator( multiplyNonzeroDigitPowers, 2 ),
+    'permute_digits'                : RPNOperator( permuteDigits, 1 ),
+    'persistence'                   : RPNOperator( getPersistence, 1 ),
+    'replace_digits'                : RPNOperator( replaceDigits, 3 ),
+    'reverse_digits'                : RPNOperator( reverseDigitsOperator, 1 ),
+    'rotate_digits_left'            : RPNOperator( rotateDigitsLeft, 2 ),
+    'rotate_digits_right'           : RPNOperator( rotateDigitsRight, 2 ),
+    'show_erdos_persistence'        : RPNOperator( showErdosPersistence, 1 ),
+    'show_k_persistence'            : RPNOperator( showKPersistence, 2 ),
+    'show_persistence'              : RPNOperator( showPersistence, 1 ),
+    'square_digit_chain'            : RPNOperator( generateSquareDigitChain, 1 ),
+    'sum_digits'                    : RPNOperator( sumDigits, 1 ),
 
     # list
-    'exponential_range'             : RPNOperator( createExponentialRange,
-                                                   3, [ RPNValidator.Real, RPNValidator.Real,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'geometric_range'               : RPNOperator( createGeometricRange,
-                                                   3, [ RPNValidator.Real, RPNValidator.Real,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'interval_range'                : RPNOperator( createIntervalRangeOperator,
-                                                   3, [ RPNValidator.Real, RPNValidator.Real,
-                                                        RPNValidator.Real ], [ ] ),
-
-    'range'                         : RPNOperator( createRange,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'sized_range'                   : RPNOperator( createSizedRangeOperator,
-                                                   3, [ RPNValidator.Real, RPNValidator.Real,
-                                                        RPNValidator.Real ], [ ] ),
+    'exponential_range'             : RPNOperator( createExponentialRange, 3 ),
+    'geometric_range'               : RPNOperator( createGeometricRange, 3 ),
+    'interval_range'                : RPNOperator( createIntervalRangeOperator, 3 ),
+    'range'                         : RPNOperator( createRange, 2 ),
+    'sized_range'                   : RPNOperator( createSizedRangeOperator, 3 ),
 
     # logarithms
-    'lambertw'                      : RPNOperator( getLambertWOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'li'                            : RPNOperator( getLIOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'log'                           : RPNOperator( getLogOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'log10'                         : RPNOperator( getLog10Operator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'log2'                          : RPNOperator( getLog2Operator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'logxy'                         : RPNOperator( getLogXYOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'polyexp'                       : RPNOperator( getPolyexpOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'polylog'                       : RPNOperator( getPolylogOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
+    'lambertw'                      : RPNOperator( getLambertWOperator, 1 ),
+    'li'                            : RPNOperator( getLIOperator, 1 ),
+    'log'                           : RPNOperator( getLogOperator, 1 ),
+    'log10'                         : RPNOperator( getLog10Operator, 1 ),
+    'log2'                          : RPNOperator( getLog2Operator, 1 ),
+    'logxy'                         : RPNOperator( getLogXYOperator, 2 ),
+    'polyexp'                       : RPNOperator( getPolyexpOperator, 2 ),
+    'polylog'                       : RPNOperator( getPolylogOperator, 2 ),
 
     # logical
-    'and'                           : RPNOperator( andOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'nand'                          : RPNOperator( nandOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'nor'                           : RPNOperator( norOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'not'                           : RPNOperator( notOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'or'                            : RPNOperator( orOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'xnor'                          : RPNOperator( xnorOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'xor'                           : RPNOperator( xorOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
+    'and'                           : RPNOperator( andOperator, 2 ),
+    'nand'                          : RPNOperator( nandOperator, 2 ),
+    'nor'                           : RPNOperator( norOperator, 2 ),
+    'not'                           : RPNOperator( notOperator, 1 ),
+    'or'                            : RPNOperator( orOperator, 2 ),
+    'xnor'                          : RPNOperator( xnorOperator, 2 ),
+    'xor'                           : RPNOperator( xorOperator, 2 ),
 
     # number_theory
-    'abundance'                     : RPNOperator( getAbundanceOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'abundance_ratio'               : RPNOperator( getAbundanceRatio,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'ackermann_number'              : RPNOperator( calculateAckermannFunctionOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'aliquot'                       : RPNOperator( getAliquotSequence,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'aliquot_limit'                 : RPNOperator( getLimitedAliquotSequence,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'alternating_factorial'         : RPNOperator( getNthAlternatingFactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'alternating_harmonic_fraction' : RPNOperator( getAlternatingHarmonicFraction,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'barnesg'                       : RPNOperator( getBarnesG,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'beta'                          : RPNOperator( getBeta,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'calkin_wilf'                   : RPNOperator( getNthCalkinWilf,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'collatz'                       : RPNOperator( getCollatzSequence,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'count_divisors'                : RPNOperator( getDivisorCountOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'cyclotomic'                    : RPNOperator( getCyclotomic,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.Default ], [ ] ),
-
-    'digamma'                       : RPNOperator( getDigamma,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'digital_root'                  : RPNOperator( getDigitalRoot,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'divisors'                      : RPNOperator( getDivisorsOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'double_factorial'              : RPNOperator( getNthDoubleFactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'egyptian_fractions'            : RPNOperator( getGreedyEgyptianFraction,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'eta'                           : RPNOperator( getAltZeta,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'euler_brick'                   : RPNOperator( makeEulerBrick,
-                                                   3, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger,
-                                                        RPNValidator.PositiveInteger ], [ ] ),
-
-    'euler_phi'                     : RPNOperator( getEulerPhi,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'factor'                        : RPNOperator( getFactorsOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'factorial'                     : RPNOperator( getNthFactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'fibonacci'                     : RPNOperator( getNthFibonacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'fibonorial'                    : RPNOperator( getNthFibonorial,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'find_sum_of_cubes'             : RPNOperator( findNthSumOfCubes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'find_sum_of_squares'           : RPNOperator( findNthSumOfSquares,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'fraction'                      : RPNOperator( interpretAsFraction,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'gamma'                         : RPNOperator( getGamma,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'generate_polydivisibles'       : RPNOperator( generatePolydivisibles,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'harmonic_fraction'             : RPNOperator( getHarmonicFraction,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'harmonic_residue'              : RPNOperator( getHarmonicResidueOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'heptanacci'                    : RPNOperator( getNthHeptanacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hexanacci'                     : RPNOperator( getNthHexanacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hurwitz_zeta'                  : RPNOperator( getHurwitzZeta,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'hyperfactorial'                : RPNOperator( getNthHyperfactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_abundant'                   : RPNOperator( isAbundant,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_achilles'                   : RPNOperator( isAchillesNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_antiharmonic'               : RPNOperator( isAntiharmonic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_carmichael'                 : RPNOperator( isCarmichaelNumberOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_composite'                  : RPNOperator( isComposite,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_deficient'                  : RPNOperator( isDeficient,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_harmonic_divisor_number'    : RPNOperator( isHarmonicDivisorNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_k_hyperperfect'             : RPNOperator( isKHyperperfect,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_k_perfect'                  : RPNOperator( isKPerfect,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'is_k_semiprime'                : RPNOperator( isKSemiprimeOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_k_sphenic'                  : RPNOperator( isKSphenicOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_perfect'                    : RPNOperator( isPerfect,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_pernicious'                 : RPNOperator( isPernicious,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_polydivisible'              : RPNOperator( isPolydivisible,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_powerful'                   : RPNOperator( isPowerful,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_prime'                      : RPNOperator( isPrimeOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_pronic'                     : RPNOperator( isPronic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_rough'                      : RPNOperator( isRoughOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PrimeInteger ], [ ] ),
-
-    'is_ruth_aaron'                 : RPNOperator( isRuthAaronNumber,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_semiprime'                  : RPNOperator( isSemiprime,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_smooth'                     : RPNOperator( isSmoothOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PrimeInteger ], [ ] ),
-
-    'is_sphenic'                    : RPNOperator( isSphenic,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_squarefree'                 : RPNOperator( isSquareFree,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_strong_pseudoprime'         : RPNOperator( isStrongPseudoprime,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'is_unusual'                    : RPNOperator( isUnusual,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'k_fibonacci'                   : RPNOperator( getNthKFibonacciNumber,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'leyland_number'                : RPNOperator( getLeylandNumber,
-                                                   2, [ RPNValidator.Real, RPNValidator.Real ], [ ] ),
-
-    'log_gamma'                     : RPNOperator( getLogGamma,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'lucas'                         : RPNOperator( getNthLucasNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'make_continued_fraction'       : RPNOperator( makeContinuedFraction,
-                                                   2, [ RPNValidator.Real, RPNValidator.PositiveInteger ], [ ] ),
-
-    'make_pyth_3'                   : RPNOperator( makePythagoreanTriple,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger], [ ] ),
-
-    'make_pyth_4'                   : RPNOperator( makePythagoreanQuadruple,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'nth_carol'                     : RPNOperator( getNthCarolNumber,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'nth_harmonic_number'           : RPNOperator( getNthHarmonicNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_jacobsthal'                : RPNOperator( getNthJacobsthalNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_k_thabit'                  : RPNOperator( getNthKThabitNumber,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_k_thabit_2'                : RPNOperator( getNthKThabit2Number,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_kynea'                     : RPNOperator( getNthKyneaNumber,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'nth_leonardo'                  : RPNOperator( getNthLeonardoNumber,
-                                                   1, [ RPNValidator.Real ], [ ] ),
-
-    'nth_mersenne_exponent'         : RPNOperator( getNthMersenneExponent,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_mersenne_prime'            : RPNOperator( getNthMersennePrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_merten'                    : RPNOperator( getNthMerten,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_mobius'                    : RPNOperator( getNthMobiusNumberOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_padovan'                   : RPNOperator( getNthPadovanNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_perfect_number'            : RPNOperator( getNthPerfectNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_stern'                     : RPNOperator( getNthSternNumberOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_thabit'                    : RPNOperator( getNthThabitNumber,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_thabit_2'                  : RPNOperator( getNthThabit2Number,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_thue_morse'                : RPNOperator( getNthThueMorseNumberOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octanacci'                     : RPNOperator( getNthOctanacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pascal_triangle'               : RPNOperator( getNthPascalLine,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pentanacci'                    : RPNOperator( getNthPentanacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'phitorial'                     : RPNOperator( getNthPhitorial,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'polygamma'                     : RPNOperator( getPolygamma,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.Default ], [ ] ),
-
-    'polygorial'                    : RPNOperator( getNthKPolygorial,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'primorial'                     : RPNOperator( getNthPrimorial,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'pythagorean_triples'           : RPNOperator( makePythagoreanTriples,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'radical'                       : RPNOperator( getRadical,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'relatively_prime'              : RPNOperator( areRelativelyPrimeOperator,
-                                                   2, [ RPNValidator.Integer, RPNValidator.Integer ], [ ] ),
-
-    'repunit'                       : RPNOperator( getNthBaseKRepunit,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'reversal_addition'             : RPNOperator( getNthReversalAddition,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'sigma'                         : RPNOperator( getSigmaOperator,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'sigma_k'                       : RPNOperator( getSigmaKOperator,
-                                                   2, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'subfactorial'                  : RPNOperator( getNthSubfactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'sums_of_k_powers'              : RPNOperator( findSumsOfKPowers,
-                                                   3, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'sums_of_k_nonzero_powers'      : RPNOperator( findSumsOfKNonzeroPowers,
-                                                   3, [ RPNValidator.NonnegativeInteger, RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'superfactorial'                : RPNOperator( getNthSuperfactorial,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'tetranacci'                    : RPNOperator( getNthTetranacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'tribonacci'                    : RPNOperator( getNthTribonacci,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'trigamma'                      : RPNOperator( getTrigamma,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'unit_roots'                    : RPNOperator( getUnitRoots,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'zeta'                          : RPNOperator( getZeta,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'zeta_zero'                     : RPNOperator( getNthZetaZero,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
+    'abundance'                     : RPNOperator( getAbundanceOperator, 1 ),
+    'abundance_ratio'               : RPNOperator( getAbundanceRatio, 1 ),
+    'ackermann_number'              : RPNOperator( calculateAckermannFunctionOperator, 2 ),
+    'aliquot'                       : RPNOperator( getAliquotSequence, 2 ),
+    'aliquot_limit'                 : RPNOperator( getLimitedAliquotSequence, 2 ),
+    'alternating_factorial'         : RPNOperator( getNthAlternatingFactorial, 1 ),
+    'alternating_harmonic_fraction' : RPNOperator( getAlternatingHarmonicFraction, 1 ),
+    'barnesg'                       : RPNOperator( getBarnesG, 1 ),
+    'beta'                          : RPNOperator( getBeta, 2 ),
+    'calkin_wilf'                   : RPNOperator( getNthCalkinWilf, 1 ),
+    'collatz'                       : RPNOperator( getCollatzSequence, 2 ),
+    'count_divisors'                : RPNOperator( getDivisorCountOperator, 1 ),
+    'cyclotomic'                    : RPNOperator( getCyclotomic, 2 ),
+    'digamma'                       : RPNOperator( getDigamma, 1 ),
+    'digital_root'                  : RPNOperator( getDigitalRoot, 1 ),
+    'divisors'                      : RPNOperator( getDivisorsOperator, 1 ),
+    'double_factorial'              : RPNOperator( getNthDoubleFactorial, 1 ),
+    'egyptian_fractions'            : RPNOperator( getGreedyEgyptianFraction, 2 ),
+    'eta'                           : RPNOperator( getAltZeta, 1 ),
+    'euler_brick'                   : RPNOperator( makeEulerBrick, 3 ),
+    'euler_phi'                     : RPNOperator( getEulerPhi, 1 ),
+    'factor'                        : RPNOperator( getFactorsOperator, 1 ),
+    'factorial'                     : RPNOperator( getNthFactorial, 1 ),
+    'fibonacci'                     : RPNOperator( getNthFibonacci, 1 ),
+    'fibonorial'                    : RPNOperator( getNthFibonorial, 1 ),
+    'find_sum_of_cubes'             : RPNOperator( findNthSumOfCubes, 1 ),
+    'find_sum_of_squares'           : RPNOperator( findNthSumOfSquares, 1 ),
+    'fraction'                      : RPNOperator( interpretAsFraction, 2 ),
+    'gamma'                         : RPNOperator( getGamma, 1 ),
+    'generate_polydivisibles'       : RPNOperator( generatePolydivisibles, 1 ),
+    'harmonic_fraction'             : RPNOperator( getHarmonicFraction, 1 ),
+    'harmonic_residue'              : RPNOperator( getHarmonicResidueOperator, 1 ),
+    'heptanacci'                    : RPNOperator( getNthHeptanacci, 1 ),
+    'hexanacci'                     : RPNOperator( getNthHexanacci, 1 ),
+    'hurwitz_zeta'                  : RPNOperator( getHurwitzZeta, 2 ),
+    'hyperfactorial'                : RPNOperator( getNthHyperfactorial, 1 ),
+    'is_abundant'                   : RPNOperator( isAbundant, 1 ),
+    'is_achilles'                   : RPNOperator( isAchillesNumber, 1 ),
+    'is_antiharmonic'               : RPNOperator( isAntiharmonic, 1 ),
+    'is_carmichael'                 : RPNOperator( isCarmichaelNumberOperator, 1 ),
+    'is_composite'                  : RPNOperator( isComposite, 1 ),
+    'is_deficient'                  : RPNOperator( isDeficient, 1 ),
+    'is_harmonic_divisor_number'    : RPNOperator( isHarmonicDivisorNumber, 1 ),
+    'is_k_hyperperfect'             : RPNOperator( isKHyperperfect, 2 ),
+    'is_k_perfect'                  : RPNOperator( isKPerfect, 2 ),
+    'is_k_semiprime'                : RPNOperator( isKSemiprimeOperator, 2 ),
+    'is_k_sphenic'                  : RPNOperator( isKSphenicOperator, 2 ),
+    'is_perfect'                    : RPNOperator( isPerfect, 1 ),
+    'is_pernicious'                 : RPNOperator( isPernicious, 1 ),
+    'is_polydivisible'              : RPNOperator( isPolydivisible, 1 ),
+    'is_powerful'                   : RPNOperator( isPowerful, 1 ),
+    'is_prime'                      : RPNOperator( isPrimeOperator, 1 ),
+    'is_pronic'                     : RPNOperator( isPronic, 1 ),
+    'is_rough'                      : RPNOperator( isRoughOperator, 2 ),
+    'is_ruth_aaron'                 : RPNOperator( isRuthAaronNumber, 1 ),
+    'is_semiprime'                  : RPNOperator( isSemiprime, 1 ),
+    'is_smooth'                     : RPNOperator( isSmoothOperator, 2 ),
+    'is_sphenic'                    : RPNOperator( isSphenic, 1 ),
+    'is_squarefree'                 : RPNOperator( isSquareFree, 1 ),
+    'is_strong_pseudoprime'         : RPNOperator( isStrongPseudoprime, 2 ),
+    'is_unusual'                    : RPNOperator( isUnusual, 1 ),
+    'k_fibonacci'                   : RPNOperator( getNthKFibonacciNumber, 2 ),
+    'leyland_number'                : RPNOperator( getLeylandNumber, 2 ),
+    'log_gamma'                     : RPNOperator( getLogGamma, 1 ),
+    'lucas'                         : RPNOperator( getNthLucasNumber, 1 ),
+    'make_continued_fraction'       : RPNOperator( makeContinuedFraction, 2 ),
+    'make_pyth_3'                   : RPNOperator( makePythagoreanTriple, 2 ),
+    'make_pyth_4'                   : RPNOperator( makePythagoreanQuadruple, 2 ),
+    'nth_carol'                     : RPNOperator( getNthCarolNumber, 1 ),
+    'nth_harmonic_number'           : RPNOperator( getNthHarmonicNumber, 1 ),
+    'nth_jacobsthal'                : RPNOperator( getNthJacobsthalNumber, 1 ),
+    'nth_k_thabit'                  : RPNOperator( getNthKThabitNumber, 2 ),
+    'nth_k_thabit_2'                : RPNOperator( getNthKThabit2Number, 2 ),
+    'nth_kynea'                     : RPNOperator( getNthKyneaNumber, 1 ),
+    'nth_leonardo'                  : RPNOperator( getNthLeonardoNumber, 1 ),
+    'nth_mersenne_exponent'         : RPNOperator( getNthMersenneExponent, 1 ),
+    'nth_mersenne_prime'            : RPNOperator( getNthMersennePrime, 1 ),
+    'nth_merten'                    : RPNOperator( getNthMerten, 1 ),
+    'nth_mobius'                    : RPNOperator( getNthMobiusNumberOperator, 1 ),
+    'nth_padovan'                   : RPNOperator( getNthPadovanNumber, 1 ),
+    'nth_perfect_number'            : RPNOperator( getNthPerfectNumber, 1 ),
+    'nth_stern'                     : RPNOperator( getNthSternNumberOperator, 1 ),
+    'nth_thabit'                    : RPNOperator( getNthThabitNumber, 1 ),
+    'nth_thabit_2'                  : RPNOperator( getNthThabit2Number, 1 ),
+    'nth_thue_morse'                : RPNOperator( getNthThueMorseNumberOperator, 1 ),
+    'octanacci'                     : RPNOperator( getNthOctanacci, 1 ),
+    'pascal_triangle'               : RPNOperator( getNthPascalLine, 1 ),
+    'pentanacci'                    : RPNOperator( getNthPentanacci, 1 ),
+    'phitorial'                     : RPNOperator( getNthPhitorial, 1 ),
+    'polygamma'                     : RPNOperator( getPolygamma, 2 ),
+    'polygorial'                    : RPNOperator( getNthKPolygorial, 2 ),
+    'primorial'                     : RPNOperator( getNthPrimorial, 1 ),
+    'pythagorean_triples'           : RPNOperator( makePythagoreanTriples, 1 ),
+    'radical'                       : RPNOperator( getRadical, 1 ),
+    'relatively_prime'              : RPNOperator( areRelativelyPrimeOperator, 2 ),
+    'repunit'                       : RPNOperator( getNthBaseKRepunit, 2 ),
+    'reversal_addition'             : RPNOperator( getNthReversalAddition, 2 ),
+    'sigma'                         : RPNOperator( getSigmaOperator, 1 ),
+    'sigma_k'                       : RPNOperator( getSigmaKOperator, 2 ),
+    'subfactorial'                  : RPNOperator( getNthSubfactorial, 1 ),
+    'sums_of_k_powers'              : RPNOperator( findSumsOfKPowers, 3 ),
+    'sums_of_k_nonzero_powers'      : RPNOperator( findSumsOfKNonzeroPowers, 3 ),
+    'superfactorial'                : RPNOperator( getNthSuperfactorial, 1 ),
+    'tetranacci'                    : RPNOperator( getNthTetranacci, 1 ),
+    'tribonacci'                    : RPNOperator( getNthTribonacci, 1 ),
+    'trigamma'                      : RPNOperator( getTrigamma, 1 ),
+    'unit_roots'                    : RPNOperator( getUnitRoots, 1 ),
+    'zeta'                          : RPNOperator( getZeta, 1 ),
+    'zeta_zero'                     : RPNOperator( getNthZetaZero, 1 ),
 
     # physics
-    'acceleration'                  : RPNOperator( calculateAcceleration,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_entropy'            : RPNOperator( calculateBlackHoleEntropy,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_lifetime'           : RPNOperator( calculateBlackHoleLifetime,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_luminosity'         : RPNOperator( calculateBlackHoleLuminosity,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_mass'               : RPNOperator( calculateBlackHoleMass,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_radius'             : RPNOperator( calculateBlackHoleRadius,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_surface_area'       : RPNOperator( calculateBlackHoleSurfaceArea,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_surface_gravity'    : RPNOperator( calculateBlackHoleSurfaceGravity,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_surface_tides'      : RPNOperator( calculateBlackHoleSurfaceTides,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'black_hole_temperature'        : RPNOperator( calculateBlackHoleTemperature,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'distance'                      : RPNOperator( calculateDistance,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'energy_equivalence'            : RPNOperator( calculateEnergyEquivalence,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'escape_velocity'               : RPNOperator( calculateEscapeVelocity,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'heat_index'                    : RPNOperator( calculateHeatIndex,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'horizon_distance'              : RPNOperator( calculateHorizonDistance,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'kinetic_energy'                : RPNOperator( calculateKineticEnergy,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'mass_equivalence'              : RPNOperator( calculateMassEquivalence,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'orbital_mass'                  : RPNOperator( calculateOrbitalMass,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'orbital_period'                : RPNOperator( calculateOrbitalPeriod,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'orbital_radius'                : RPNOperator( calculateOrbitalRadius,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'orbital_velocity'              : RPNOperator( calculateOrbitalVelocity,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'surface_gravity'               : RPNOperator( calculateSurfaceGravity,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'tidal_force'                   : RPNOperator( calculateTidalForce,
-                                                   3, [ RPNValidator.Measurement, RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'time_dilation'                 : RPNOperator( calculateTimeDilation,
-                                                   1, [ RPNValidator.Measurement ], [ ] ),
-
-    'velocity'                      : RPNOperator( calculateVelocity,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
-
-    'wind_chill'                    : RPNOperator( calculateWindChill,
-                                                   2, [ RPNValidator.Measurement, RPNValidator.Measurement ], [ ] ),
+    'acceleration'                  : RPNOperator( calculateAcceleration, 2 ),
+    'black_hole_entropy'            : RPNOperator( calculateBlackHoleEntropy, 1 ),
+    'black_hole_lifetime'           : RPNOperator( calculateBlackHoleLifetime, 1 ),
+    'black_hole_luminosity'         : RPNOperator( calculateBlackHoleLuminosity, 1 ),
+    'black_hole_mass'               : RPNOperator( calculateBlackHoleMass, 1 ),
+    'black_hole_radius'             : RPNOperator( calculateBlackHoleRadius, 1 ),
+    'black_hole_surface_area'       : RPNOperator( calculateBlackHoleSurfaceArea, 1 ),
+    'black_hole_surface_gravity'    : RPNOperator( calculateBlackHoleSurfaceGravity, 1 ),
+    'black_hole_surface_tides'      : RPNOperator( calculateBlackHoleSurfaceTides, 1 ),
+    'black_hole_temperature'        : RPNOperator( calculateBlackHoleTemperature, 1 ),
+    'distance'                      : RPNOperator( calculateDistance, 2 ),
+    'energy_equivalence'            : RPNOperator( calculateEnergyEquivalence, 1 ),
+    'escape_velocity'               : RPNOperator( calculateEscapeVelocity, 2 ),
+    'heat_index'                    : RPNOperator( calculateHeatIndex, 2 ),
+    'horizon_distance'              : RPNOperator( calculateHorizonDistance, 2 ),
+    'kinetic_energy'                : RPNOperator( calculateKineticEnergy, 2 ),
+    'mass_equivalence'              : RPNOperator( calculateMassEquivalence, 1 ),
+    'orbital_mass'                  : RPNOperator( calculateOrbitalMass, 2 ),
+    'orbital_period'                : RPNOperator( calculateOrbitalPeriod, 2 ),
+    'orbital_radius'                : RPNOperator( calculateOrbitalRadius, 2 ),
+    'orbital_velocity'              : RPNOperator( calculateOrbitalVelocity, 2 ),
+    'surface_gravity'               : RPNOperator( calculateSurfaceGravity, 2 ),
+    'tidal_force'                   : RPNOperator( calculateTidalForce, 3 ),
+    'time_dilation'                 : RPNOperator( calculateTimeDilation, 1 ),
+    'velocity'                      : RPNOperator( calculateVelocity, 2 ),
+    'wind_chill'                    : RPNOperator( calculateWindChill, 2 ),
 
     # powers_and_roots
-    'agm'                           : RPNOperator( getAGMOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'cube'                          : RPNOperator( cubeOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'cube_root'                     : RPNOperator( getCubeRootOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'cube_super_root'               : RPNOperator( getCubeSuperRootOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'exp'                           : RPNOperator( getExpOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'exp10'                         : RPNOperator( getExp10Operator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'expphi'                        : RPNOperator( getExpPhiOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'hyperoperator'                 : RPNOperator( calculateNthHyperoperatorOperator,
-                                                   3, [ RPNValidator.NonnegativeInteger, RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'hyperoperator_right'           : RPNOperator( calculateNthRightHyperoperatorOperator,
-                                                   3, [ RPNValidator.NonnegativeInteger, RPNValidator.Default, RPNValidator.Default ], [ ] ),
-
-    'power'                         : RPNOperator( getPowerOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'powmod'                        : RPNOperator( getPowModOperator,
-                                                   3, [ RPNValidator.Integer, RPNValidator.Integer,
-                                                        RPNValidator.Integer ], [ ] ),
-
-    'root'                          : RPNOperator( getRootOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Real ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'square'                        : RPNOperator( squareOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'square_root'                   : RPNOperator( getSquareRootOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'square_super_root'             : RPNOperator( getSquareSuperRootOperator,
-                                                   1, [ RPNValidator.Default ], [ ] ),
-
-    'super_root'                    : RPNOperator( getSuperRootOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'super_roots'                   : RPNOperator( getSuperRootsOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'tetrate'                       : RPNOperator( tetrateOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Real ], [ ] ),
-
-    'tetrate_right'                 : RPNOperator( tetrateRightOperator,
-                                                   2, [ RPNValidator.Default, RPNValidator.Real ], [ ] ),
+    'agm'                           : RPNOperator( getAGMOperator, 2 ),
+    'cube'                          : RPNOperator( cubeOperator, 1 ),
+    'cube_root'                     : RPNOperator( getCubeRootOperator, 1 ),
+    'cube_super_root'               : RPNOperator( getCubeSuperRootOperator, 1 ),
+    'exp'                           : RPNOperator( getExpOperator, 1 ),
+    'exp10'                         : RPNOperator( getExp10Operator, 1 ),
+    'expphi'                        : RPNOperator( getExpPhiOperator, 1 ),
+    'hyperoperator'                 : RPNOperator( calculateNthHyperoperatorOperator, 3 ),
+    'hyperoperator_right'           : RPNOperator( calculateNthRightHyperoperatorOperator, 3 ),
+    'power'                         : RPNOperator( getPowerOperator, 2 ),
+    'powmod'                        : RPNOperator( getPowModOperator, 3 ),
+    'root'                          : RPNOperator( getRootOperator, 2 ),
+    'square'                        : RPNOperator( squareOperator, 1 ),
+    'square_root'                   : RPNOperator( getSquareRootOperator, 1 ),
+    'square_super_root'             : RPNOperator( getSquareSuperRootOperator, 1 ),
+    'super_root'                    : RPNOperator( getSuperRootOperator, 2 ),
+    'super_roots'                   : RPNOperator( getSuperRootsOperator, 2 ),
+    'tetrate'                       : RPNOperator( tetrateOperator, 2 ),
+    'tetrate_right'                 : RPNOperator( tetrateRightOperator, 2 ),
 
     # prime_number
-    'balanced_prime'                : RPNOperator( getNthBalancedPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'balanced_primes'               : RPNOperator( getNthBalancedPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'cousin_prime'                  : RPNOperator( getNthCousinPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'cousin_primes'                 : RPNOperator( getNthCousinPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'double_balanced_prime'         : RPNOperator( getNthDoubleBalancedPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'double_balanced_primes'        : RPNOperator( getNthDoubleBalancedPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'isolated_prime'                : RPNOperator( getNthIsolatedPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_prime'                    : RPNOperator( getNextPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_primes'                   : RPNOperator( getNextPrimesOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_quadruplet_prime'         : RPNOperator( getNextQuadrupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_quadruplet_primes'        : RPNOperator( getNextQuadrupletPrimes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_quintuplet_prime'         : RPNOperator( getNextQuintupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_quintuplet_primes'        : RPNOperator( getNextQuintupletPrimes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_sextuplet_prime'          : RPNOperator( getNextSextupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_sextuplet_primes'         : RPNOperator( getNextSextupletPrimes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_triplet_prime'            : RPNOperator( getNextTripletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_triplet_primes'           : RPNOperator( getNextTripletPrimes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_twin_prime'               : RPNOperator( getNextTwinPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'next_twin_primes'              : RPNOperator( getNextTwinPrimes,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_prime'                     : RPNOperator( findPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_quadruplet_prime'          : RPNOperator( findQuadrupletPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_quintuplet_prime'          : RPNOperator( findQuintupletPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_sextuplet_prime'           : RPNOperator( findSextupletPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_triplet_prime'             : RPNOperator( findTripletPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'nth_twin_prime'                : RPNOperator( findTwinPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octy_prime'                    : RPNOperator( getNthOctyPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'octy_primes'                   : RPNOperator( getNthOctyPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'polyprime'                     : RPNOperator( getNthPolyPrime,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'previous_prime'                : RPNOperator( getPreviousPrimeOperator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'previous_primes'               : RPNOperator( getPreviousPrimesOperator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'prime'                         : RPNOperator( getNthPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'primes'                        : RPNOperator( getPrimesGenerator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'prime_pi'                      : RPNOperator( getPrimePi,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'prime_range'                   : RPNOperator( getPrimeRange,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'quadruplet_prime'              : RPNOperator( getNthQuadrupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'quadruplet_primes'             : RPNOperator( getNthQuadrupletPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'quadruple_balanced_prime'      : RPNOperator( getNthQuadrupleBalancedPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'quadruple_balanced_primes'     : RPNOperator( getNthQuadrupleBalancedPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'quintuplet_prime'              : RPNOperator( getNthQuintupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'quintuplet_primes'             : RPNOperator( getNthQuintupletPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'safe_prime'                    : RPNOperator( getSafePrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sextuplet_prime'               : RPNOperator( getNthSextupletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sextuplet_primes'              : RPNOperator( getNthSextupletPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_prime'                    : RPNOperator( getNthSexyPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_primes'                   : RPNOperator( getNthSexyPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_quadruplet'               : RPNOperator( getNthSexyQuadruplet,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_quadruplets'              : RPNOperator( getNthSexyQuadrupletList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_triplet'                  : RPNOperator( getNthSexyTriplet,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sexy_triplets'                 : RPNOperator( getNthSexyTripletList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'sophie_prime'                  : RPNOperator( getNthSophiePrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'super_prime'                   : RPNOperator( getNthSuperPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'triplet_prime'                 : RPNOperator( getNthTripletPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'triplet_primes'                : RPNOperator( getNthTripletPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'triple_balanced_prime'         : RPNOperator( getNthTripleBalancedPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'triple_balanced_primes'        : RPNOperator( getNthTripleBalancedPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'twin_prime'                    : RPNOperator( getNthTwinPrime,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'twin_primes'                   : RPNOperator( getNthTwinPrimeList,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
+    'balanced_prime'                : RPNOperator( getNthBalancedPrime, 1 ),
+    'balanced_primes'               : RPNOperator( getNthBalancedPrimeList, 1 ),
+    'cousin_prime'                  : RPNOperator( getNthCousinPrime, 1 ),
+    'cousin_primes'                 : RPNOperator( getNthCousinPrimeList, 1 ),
+    'double_balanced_prime'         : RPNOperator( getNthDoubleBalancedPrime, 1 ),
+    'double_balanced_primes'        : RPNOperator( getNthDoubleBalancedPrimeList, 1 ),
+    'isolated_prime'                : RPNOperator( getNthIsolatedPrime, 1 ),
+    'next_prime'                    : RPNOperator( getNextPrimeOperator, 1 ),
+    'next_primes'                   : RPNOperator( getNextPrimesOperator, 2 ),
+    'next_quadruplet_prime'         : RPNOperator( getNextQuadrupletPrime, 1 ),
+    'next_quadruplet_primes'        : RPNOperator( getNextQuadrupletPrimes, 1 ),
+    'next_quintuplet_prime'         : RPNOperator( getNextQuintupletPrime, 1 ),
+    'next_quintuplet_primes'        : RPNOperator( getNextQuintupletPrimes, 1 ),
+    'next_sextuplet_prime'          : RPNOperator( getNextSextupletPrime, 1 ),
+    'next_sextuplet_primes'         : RPNOperator( getNextSextupletPrimes, 1 ),
+    'next_triplet_prime'            : RPNOperator( getNextTripletPrime, 1 ),
+    'next_triplet_primes'           : RPNOperator( getNextTripletPrimes, 1 ),
+    'next_twin_prime'               : RPNOperator( getNextTwinPrime, 1 ),
+    'next_twin_primes'              : RPNOperator( getNextTwinPrimes, 1 ),
+    'nth_prime'                     : RPNOperator( findPrimeOperator, 1 ),
+    'nth_quadruplet_prime'          : RPNOperator( findQuadrupletPrimeOperator, 1 ),
+    'nth_quintuplet_prime'          : RPNOperator( findQuintupletPrimeOperator, 1 ),
+    'nth_sextuplet_prime'           : RPNOperator( findSextupletPrimeOperator, 1 ),
+    'nth_triplet_prime'             : RPNOperator( findTripletPrimeOperator, 1 ),
+    'nth_twin_prime'                : RPNOperator( findTwinPrimeOperator, 1 ),
+    'octy_prime'                    : RPNOperator( getNthOctyPrime, 1 ),
+    'octy_primes'                   : RPNOperator( getNthOctyPrimeList, 1 ),
+    'polyprime'                     : RPNOperator( getNthPolyPrime, 2 ),
+    'previous_prime'                : RPNOperator( getPreviousPrimeOperator, 1 ),
+    'previous_primes'               : RPNOperator( getPreviousPrimesOperator, 2 ),
+    'prime'                         : RPNOperator( getNthPrime, 1 ),
+    'primes'                        : RPNOperator( getPrimesGenerator, 2 ),
+    'prime_pi'                      : RPNOperator( getPrimePi, 1 ),
+    'prime_range'                   : RPNOperator( getPrimeRange, 2 ),
+    'quadruplet_prime'              : RPNOperator( getNthQuadrupletPrime, 1 ),
+    'quadruplet_primes'             : RPNOperator( getNthQuadrupletPrimeList, 1 ),
+    'quadruple_balanced_prime'      : RPNOperator( getNthQuadrupleBalancedPrime, 1 ),
+    'quadruple_balanced_primes'     : RPNOperator( getNthQuadrupleBalancedPrimeList, 1 ),
+    'quintuplet_prime'              : RPNOperator( getNthQuintupletPrime, 1 ),
+    'quintuplet_primes'             : RPNOperator( getNthQuintupletPrimeList, 1 ),
+    'safe_prime'                    : RPNOperator( getSafePrime, 1 ),
+    'sextuplet_prime'               : RPNOperator( getNthSextupletPrime, 1 ),
+    'sextuplet_primes'              : RPNOperator( getNthSextupletPrimeList, 1 ),
+    'sexy_prime'                    : RPNOperator( getNthSexyPrime, 1 ),
+    'sexy_primes'                   : RPNOperator( getNthSexyPrimeList, 1 ),
+    'sexy_quadruplet'               : RPNOperator( getNthSexyQuadruplet, 1 ),
+    'sexy_quadruplets'              : RPNOperator( getNthSexyQuadrupletList, 1 ),
+    'sexy_triplet'                  : RPNOperator( getNthSexyTriplet, 1 ),
+    'sexy_triplets'                 : RPNOperator( getNthSexyTripletList, 1 ),
+    'sophie_prime'                  : RPNOperator( getNthSophiePrime, 1 ),
+    'super_prime'                   : RPNOperator( getNthSuperPrime, 1 ),
+    'triplet_prime'                 : RPNOperator( getNthTripletPrime, 1 ),
+    'triplet_primes'                : RPNOperator( getNthTripletPrimeList, 1 ),
+    'triple_balanced_prime'         : RPNOperator( getNthTripleBalancedPrime, 1 ),
+    'triple_balanced_primes'        : RPNOperator( getNthTripleBalancedPrimeList, 1 ),
+    'twin_prime'                    : RPNOperator( getNthTwinPrime, 1 ),
+    'twin_primes'                   : RPNOperator( getNthTwinPrimeList, 1 ),
 
     # settings
-    'accuracy'                      : RPNOperator( lambda n: setAccuracy( fadd( n, 2 ) ),
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'comma'                         : RPNOperator( setComma,
-                                                   1, [ RPNValidator.Boolean ], [ ] ),
-
-    'comma_mode'                    : RPNOperator( setCommaMode,
-                                                   0, [ ], [ ] ),
-
-    'decimal_grouping'              : RPNOperator( setDecimalGrouping,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'hex_mode'                      : RPNOperator( setHexMode,
-                                                   0, [ ], [ ] ),
-
-    'identify'                      : RPNOperator( setIdentify,
-                                                   1, [ RPNValidator.Boolean ], [ ] ),
-
-    'identify_mode'                 : RPNOperator( setIdentifyMode,
-                                                   0, [ ], [ ] ),
-
-    'input_radix'                   : RPNOperator( setInputRadix,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'integer_grouping'              : RPNOperator( setIntegerGrouping,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'leading_zero'                  : RPNOperator( setLeadingZero,
-                                                   1, [ RPNValidator.Boolean ], [ ] ),
-
-    'leading_zero_mode'             : RPNOperator( setLeadingZeroMode,
-                                                   0, [ ], [ ] ),
-
-    'octal_mode'                    : RPNOperator( setOctalMode,
-                                                   0, [ ], [ ] ),
-
-    'output_radix'                  : RPNOperator( setOutputRadix,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'precision'                     : RPNOperator( setPrecision,
-                                                   1, [ RPNValidator.NonnegativeInteger ], [ ] ),
-
-    'timer'                         : RPNOperator( setTimer,
-                                                   1, [ RPNValidator.Boolean ], [ ] ),
-
-    'timer_mode'                    : RPNOperator( setTimerMode,
-                                                   0, [ ], [ ] ),
+    'accuracy'                      : RPNOperator( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
+    'comma'                         : RPNOperator( setComma, 1 ),
+    'comma_mode'                    : RPNOperator( setCommaMode, 0 ),
+    'decimal_grouping'              : RPNOperator( setDecimalGrouping, 1 ),
+    'hex_mode'                      : RPNOperator( setHexMode, 0 ),
+    'identify'                      : RPNOperator( setIdentify, 1 ),
+    'identify_mode'                 : RPNOperator( setIdentifyMode, 0 ),
+    'input_radix'                   : RPNOperator( setInputRadix, 1 ),
+    'integer_grouping'              : RPNOperator( setIntegerGrouping, 1 ),
+    'leading_zero'                  : RPNOperator( setLeadingZero, 1 ),
+    'leading_zero_mode'             : RPNOperator( setLeadingZeroMode, 0 ),
+    'octal_mode'                    : RPNOperator( setOctalMode, 0 ),
+    'output_radix'                  : RPNOperator( setOutputRadix, 1 ),
+    'precision'                     : RPNOperator( setPrecision, 1 ),
+    'timer'                         : RPNOperator( setTimer, 1 ),
+    'timer_mode'                    : RPNOperator( setTimerMode, 0 ),
 
     # special
-    'base_units'                    : RPNOperator( convertToBaseUnitsOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'delete_config'                 : RPNOperator( deleteUserConfiguration,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'describe'                      : RPNOperator( describeInteger,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'dimensions'                    : RPNOperator( getDimensions,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'dump_config'                   : RPNOperator( dumpUserConfiguration,
-                                                   0, [ ], [ ] ),
-
-    'enumerate_dice'                : RPNOperator( enumerateDiceGenerator,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'enumerate_dice_'               : RPNOperator( enumerateMultipleDiceGenerator,
-                                                   2, [ RPNValidator.String, RPNValidator.PositiveInteger ], [ ] ),
-
-    'estimate'                      : RPNOperator( estimateOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'help'                          : RPNOperator( printHelpMessage,
-                                                   0, [ ], [ ] ),
-
-    'get_config'                    : RPNOperator( getUserConfiguration,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'get_variable'                  : RPNOperator( getUserVariable,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'if'                            : RPNOperator( lambda a, b, c: a if c else b,
-                                                   3, [ RPNValidator.Default, RPNValidator.Default, RPNValidator.Integer ], [ ] ),
-
-    'list_from_file'                : RPNOperator( readListFromFile,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'name'                          : RPNOperator( getNameOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'oeis'                          : RPNOperator( downloadOEISSequence,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'oeis_comment'                  : RPNOperator( downloadOEISComment,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'oeis_ex'                       : RPNOperator( downloadOEISExtra,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'oeis_name'                     : RPNOperator( downloadOEISName,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'oeis_offset'                   : RPNOperator( downloadOEISOffset,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'ordinal_name'                  : RPNOperator( getOrdinalNameOperator,
-                                                   1, [ RPNValidator.Integer ], [ ] ),
-
-    'permute_dice'                  : RPNOperator( permuteDiceGenerator,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'primitive_units'               : RPNOperator( convertToPrimitiveUnitsOperator,
-                                                   1, [ RPNValidator.Measurement ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'random'                        : RPNOperator( getRandomNumber,
-                                                   0, [ ], [ ] ),
-
-    'random_'                       : RPNOperator( getMultipleRandomsGenerator,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'random_integer'                : RPNOperator( getRandomInteger,
-                                                   1, [ RPNValidator.PositiveInteger ], [ ] ),
-
-    'random_integers'               : RPNOperator( getRandomIntegersGenerator,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'result'                        : RPNOperator( loadResult,
-                                                   0, [ ], [ ] ),
-
-    'roll_dice'                     : RPNOperator( rollDice,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    'roll_simple_dice'              : RPNOperator( rollSimpleDice,
-                                                   2, [ RPNValidator.PositiveInteger, RPNValidator.PositiveInteger ], [ ] ),
-
-    'roll_dice_'                    : RPNOperator( rollMultipleDiceGenerator,
-                                                   2, [ RPNValidator.String, RPNValidator.PositiveInteger ], [ ] ),
-
-    'set_config'                    : RPNOperator( setUserConfiguration,
-                                                   2, [ RPNValidator.String, RPNValidator.String ], [ ] ),
-
-    'set_variable'                  : RPNOperator( setUserVariable,
-                                                   2, [ RPNValidator.String, RPNValidator.String ], [ ] ),
+    'base_units'                    : RPNOperator( convertToBaseUnitsOperator, 1 ),
+    'delete_config'                 : RPNOperator( deleteUserConfiguration, 1 ),
+    'describe'                      : RPNOperator( describeInteger, 1 ),
+    'dimensions'                    : RPNOperator( getDimensions, 1 ),
+    'dump_config'                   : RPNOperator( dumpUserConfiguration, 0 ),
+    'enumerate_dice'                : RPNOperator( enumerateDiceGenerator, 1 ),
+    'enumerate_dice_'               : RPNOperator( enumerateMultipleDiceGenerator, 2 ),
+    'estimate'                      : RPNOperator( estimateOperator, 1 ),
+    'help'                          : RPNOperator( printHelpMessage, 0 ),
+    'get_config'                    : RPNOperator( getUserConfiguration, 1 ),
+    'get_variable'                  : RPNOperator( getUserVariable, 1 ),
+    'if'                            : RPNOperator( lambda a, b, c: a if c else b, 3 ),
+    'list_from_file'                : RPNOperator( readListFromFile, 1 ),
+    'name'                          : RPNOperator( getNameOperator, 1 ),
+    'oeis'                          : RPNOperator( downloadOEISSequence, 1 ),
+    'oeis_comment'                  : RPNOperator( downloadOEISComment, 1 ),
+    'oeis_ex'                       : RPNOperator( downloadOEISExtra, 1 ),
+    'oeis_name'                     : RPNOperator( downloadOEISName, 1 ),
+    'oeis_offset'                   : RPNOperator( downloadOEISOffset, 1 ),
+    'ordinal_name'                  : RPNOperator( getOrdinalNameOperator, 1 ),
+    'permute_dice'                  : RPNOperator( permuteDiceGenerator, 1 ),
+    'primitive_units'               : RPNOperator( convertToPrimitiveUnitsOperator, 1 ),
+    'random'                        : RPNOperator( getRandomNumber, 0 ),
+    'random_'                       : RPNOperator( getMultipleRandomsGenerator, 1 ),
+    'random_integer'                : RPNOperator( getRandomInteger, 1 ),
+    'random_integers'               : RPNOperator( getRandomIntegersGenerator, 2 ),
+    'result'                        : RPNOperator( loadResult, 0 ),
+    'roll_dice'                     : RPNOperator( rollDice, 1 ),
+    'roll_simple_dice'              : RPNOperator( rollSimpleDice, 2 ),
+    'roll_dice_'                    : RPNOperator( rollMultipleDiceGenerator, 2 ),
+    'set_config'                    : RPNOperator( setUserConfiguration, 2 ),
+    'set_variable'                  : RPNOperator( setUserVariable, 2 ),
 
     #'topics' doesn't need to be handled here, see rpn.py, search for 'topics'
 
-    'uuid'                          : RPNOperator( generateUUIDOperator,
-                                                   0, [ ], [ ] ),
-
-    'uuid_random'                   : RPNOperator( generateRandomUUIDOperator,
-                                                   0, [ ], [ ] ),
-
-    'value'                         : RPNOperator( getValueOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
+    'uuid'                          : RPNOperator( generateUUIDOperator, 0 ),
+    'uuid_random'                   : RPNOperator( generateRandomUUIDOperator, 0 ),
+    'value'                         : RPNOperator( getValueOperator, 1 ),
 
     # trigonometry
-    'acos'                          : RPNOperator( acosOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'acosh'                         : RPNOperator( acoshOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'acot'                          : RPNOperator( acotOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'acoth'                         : RPNOperator( acothOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'acsc'                          : RPNOperator( acscOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'acsch'                         : RPNOperator( acschOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'asec'                          : RPNOperator( asecOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'asech'                         : RPNOperator( asechOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'asin'                          : RPNOperator( asinOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'asinh'                         : RPNOperator( asinhOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'atan'                          : RPNOperator( atanOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'atanh'                         : RPNOperator( atanhOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'cos'                           : RPNOperator( cosOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'cosh'                          : RPNOperator( coshOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'cot'                           : RPNOperator( cotOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'coth'                          : RPNOperator( cothOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'csc'                           : RPNOperator( cscOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'csch'                          : RPNOperator( cschOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sec'                           : RPNOperator( secOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sech'                          : RPNOperator( sechOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sin'                           : RPNOperator( sinOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'sinh'                          : RPNOperator( sinhOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'tan'                           : RPNOperator( tanOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
-
-    'tanh'                          : RPNOperator( tanhOperator,
-                                                   1, [ RPNValidator.Default ], [ ],
-                                                   RPNOperator.measurementsAllowed ),
+    'acos'                          : RPNOperator( acosOperator, 1 ),
+    'acosh'                         : RPNOperator( acoshOperator, 1 ),
+    'acot'                          : RPNOperator( acotOperator, 1 ),
+    'acoth'                         : RPNOperator( acothOperator, 1 ),
+    'acsc'                          : RPNOperator( acscOperator, 1 ),
+    'acsch'                         : RPNOperator( acschOperator, 1 ),
+    'asec'                          : RPNOperator( asecOperator, 1 ),
+    'asech'                         : RPNOperator( asechOperator, 1 ),
+    'asin'                          : RPNOperator( asinOperator, 1 ),
+    'asinh'                         : RPNOperator( asinhOperator, 1 ),
+    'atan'                          : RPNOperator( atanOperator, 1 ),
+    'atanh'                         : RPNOperator( atanhOperator, 1 ),
+    'cos'                           : RPNOperator( cosOperator, 1 ),
+    'cosh'                          : RPNOperator( coshOperator, 1 ),
+    'cot'                           : RPNOperator( cotOperator, 1 ),
+    'coth'                          : RPNOperator( cothOperator, 1 ),
+    'csc'                           : RPNOperator( cscOperator, 1 ),
+    'csch'                          : RPNOperator( cschOperator, 1 ),
+    'sec'                           : RPNOperator( secOperator, 1 ),
+    'sech'                          : RPNOperator( sechOperator, 1 ),
+    'sin'                           : RPNOperator( sinOperator, 1 ),
+    'sinh'                          : RPNOperator( sinhOperator, 1 ),
+    'tan'                           : RPNOperator( tanOperator, 1 ),
+    'tanh'                          : RPNOperator( tanhOperator, 1 ),
 
     # internal
-    '_dump_aliases'                 : RPNOperator( dumpAliases,
-                                                   0, [ ], [ ] ),
-
-    '_dump_cache'                   : RPNOperator( dumpFunctionCache,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    '_dump_constants'               : RPNOperator( dumpConstants,
-                                                   0, [ ], [ ] ),
-
-    '_dump_conversions'             : RPNOperator( dumpUnitConversions,
-                                                   0, [ ], [ ] ),
-
-    '_dump_operators'               : RPNOperator( dumpOperators,
-                                                   0, [ ], [ ] ),
-
-    '_dump_prime_cache'             : RPNOperator( dumpPrimeCache,
-                                                   1, [ RPNValidator.String ], [ ] ),
-
-    '_dump_stats'                   : RPNOperator( dumpStats,
-                                                   0, [ ], [ ] ),
-
-    '_dump_units'                   : RPNOperator( dumpUnits,
-                                                   0, [ ], [ ] ),
-
+    '_dump_aliases'                 : RPNOperator( dumpAliases, 0 ),
+    '_dump_cache'                   : RPNOperator( dumpFunctionCache, 1 ),
+    '_dump_constants'               : RPNOperator( dumpConstants, 0 ),
+    '_dump_conversions'             : RPNOperator( dumpUnitConversions, 0 ),
+    '_dump_operators'               : RPNOperator( dumpOperators, 0 ),
+    '_dump_prime_cache'             : RPNOperator( dumpPrimeCache, 1 ),
+    '_dump_stats'                   : RPNOperator( dumpStats, 0 ),
+    '_dump_units'                   : RPNOperator( dumpUnits, 0 ),
     #'antitet'                       : RPNOperator( findTetrahedralNumber, 0 ),
     #'bernfrac'                      : RPNOperator( bernfrac, 1 ),
 }
