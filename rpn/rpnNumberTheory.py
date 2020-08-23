@@ -180,7 +180,7 @@ def getNthJacobsthalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthBaseKRepunit
+#  getNthBaseKRepunitOperator
 #
 #******************************************************************************
 
@@ -190,6 +190,10 @@ def getNthBaseKRepunit( n, k ):
     return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ],
                                    [ 1, fadd( k, 1 ) ], fsub( n, 1 ) )
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 2 ) ] )
+def getNthBaseKRepunitOperator( n, k ):
+    return getNthBaseKRepunit( n, k )
 
 #******************************************************************************
 #

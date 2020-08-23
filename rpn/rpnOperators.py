@@ -144,21 +144,28 @@ from rpn.rpnGeometry import getAntiprismSurfaceAreaOperator, getAntiprismVolumeO
 
 from rpn.rpnInput import parseInputValue, readListFromFile
 
-from rpn.rpnLexicographic import addDigits, buildNumbers, buildStepNumbers, combineDigits, containsAnyDigits, \
-                                 containsDigits, containsOnlyDigits, countDifferentDigits, countDigits, \
-                                 duplicateDigits, duplicateNumber, findPalindrome, generateSquareDigitChain, \
-                                 getBaseKDigits, getCyclicPermutations, getDigitCount, getDigits, getErdosPersistence, \
-                                 getPersistence, getKPersistence, getLeftDigits, getLeftTruncationsGenerator, \
-                                 getNonzeroBaseKDigits, getNonzeroDigits, getNthReversalAddition, getRightDigits, \
-                                 getRightTruncationsGenerator, isAutomorphic, isBaseKNarcissistic, isBaseKPandigital, \
-                                 isBaseKSmithNumber, isBouncy, isDecreasing, isDigitalPermutation, \
-                                 isGeneralizedDudeneyNumber, isHarshadNumber, isIncreasing, isKaprekarNumber, \
-                                 isKMorphicOperator, isNarcissistic, isOrderKSmithNumber, isPalindromeOperator, \
-                                 isPandigital, isPerfectDigitalInvariant, isPerfectDigitToDigitInvariant, \
-                                 isSmithNumber, isStepNumber, isSumProductNumber, isTrimorphic, multiplyDigits, \
-                                 multiplyDigitPowers, multiplyNonzeroDigitPowers, multiplyNonzeroDigits, \
-                                 permuteDigits, replaceDigits, reverseDigitsOperator, rotateDigitsLeft, \
-                                 rotateDigitsRight, showErdosPersistence, showKPersistence, showPersistence, sumDigits
+from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, \
+                                 combineDigitsOperator, containsAnyDigitsOperator, containsDigitsOperator, \
+                                 containsOnlyDigitsOperator, countDifferentDigitsOperator, countDigitsOperator, \
+                                 duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
+                                 generateSquareDigitChainOperator, getBaseKDigitsOperator, \
+                                 getCyclicPermutationsOperator, getDigitCountOperator, getDigitsOperator, \
+                                 getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
+                                 getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroBaseKDigitsOperator, \
+                                 getNonzeroDigitsOperator, getNthReversalAdditionOperator, getRightDigitsOperator, \
+                                 getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
+                                 isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, \
+                                 isDecreasingOperator, isDigitalPermutationOperator, \
+                                 isGeneralizedDudeneyNumberOperator, isHarshadNumberOperator, isIncreasingOperator, \
+                                 isKaprekarNumberOperator, isKMorphicOperator, isNarcissisticOperator, \
+                                 isOrderKSmithNumberOperator, isPalindromeOperator, isPandigitalOperator, \
+                                 isPerfectDigitalInvariantOperator, isPerfectDigitToDigitInvariantOperator, \
+                                 isSmithNumberOperator, isStepNumberOperator, isSumProductNumberOperator, \
+                                 isTrimorphicOperator, multiplyDigitsOperator, multiplyDigitPowersOperator, \
+                                 multiplyNonzeroDigitPowersOperator, multiplyNonzeroDigitsOperator, \
+                                 permuteDigitsOperator, replaceDigitsOperator, reverseDigitsOperator, \
+                                 rotateDigitsLeftOperator, rotateDigitsRightOperator, showErdosPersistenceOperator, \
+                                 showKPersistenceOperator, showPersistenceOperator, sumDigitsOperator
 
 from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendListsOperator, \
                         calculateAntiharmonicMeanOperator, calculateArithmeticMeanOperator, \
@@ -224,7 +231,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getGeometricRecurrence, getHarmonicFraction, getHarmonicResidueOperator, \
                                 getHurwitzZeta, getLCM, getLCMOfList, getLeylandNumber, getLimitedAliquotSequence, \
                                 getLinearRecurrence, getLinearRecurrenceWithModulo, getLogGamma, \
-                                getNthAlternatingFactorial, getGreedyEgyptianFraction, getNthBaseKRepunit, \
+                                getNthAlternatingFactorial, getGreedyEgyptianFraction, getNthBaseKRepunitOperator, \
                                 getNthCarolNumber, getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, \
                                 getNthFibonacci, getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, \
                                 getNthHexanacci, getNthHyperfactorial, getNthJacobsthalNumber, \
@@ -249,15 +256,19 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
 from rpn.rpnPersistence import dumpFunctionCacheOperator, dumpPrimeCacheOperator, getUserFunctionsFileName, \
                                loadConstants, loadResult, loadUnitConversionMatrix, loadUnitData
 
-from rpn.rpnPhysics import calculateAcceleration, calculateBlackHoleEntropy, calculateBlackHoleLifetime, \
-                           calculateBlackHoleLuminosity, calculateBlackHoleMass, calculateBlackHoleRadius, \
-                           calculateBlackHoleSurfaceArea, calculateBlackHoleSurfaceGravity, \
-                           calculateBlackHoleSurfaceTides, calculateBlackHoleTemperature, calculateDistance, \
-                           calculateEnergyEquivalence, calculateEscapeVelocity, calculateHeatIndex, \
-                           calculateHorizonDistance, calculateKineticEnergy, calculateMassEquivalence, \
-                           calculateOrbitalMass, calculateOrbitalPeriod, calculateOrbitalRadius, \
-                           calculateOrbitalVelocity, calculateSurfaceGravity, calculateTidalForce, \
-                           calculateTimeDilation, calculateVelocity, calculateWindChill
+from rpn.rpnPhysics import calculateAccelerationOperator, calculateBlackHoleEntropyOperator, \
+                           calculateBlackHoleLifetimeOperator, calculateBlackHoleLuminosityOperator, \
+                           calculateBlackHoleMassOperator, calculateBlackHoleRadiusOperator, \
+                           calculateBlackHoleSurfaceAreaOperator, calculateBlackHoleSurfaceGravityOperator, \
+                           calculateBlackHoleSurfaceTidesOperator, calculateBlackHoleTemperatureOperator, \
+                           calculateDistanceOperator, calculateEnergyEquivalenceOperator, \
+                           calculateEscapeVelocityOperator, calculateHeatIndexOperator, \
+                           calculateHorizonDistanceOperator, calculateKineticEnergyOperator, \
+                           calculateMassEquivalenceOperator, calculateOrbitalMassOperator, \
+                           calculateOrbitalPeriodOperator, calculateOrbitalRadiusOperator, \
+                           calculateOrbitalVelocityOperator, calculateSurfaceGravityOperator, \
+                           calculateTidalForceOperator, calculateTimeDilationOperator, \
+                           calculateVelocityOperator, calculateWindChillOperator
 
 from rpn.rpnPolynomials import addPolynomialsOperator, evaluatePolynomialOperator, exponentiatePolynomialOperator, \
                                getPolynomialDiscriminantOperator, multiplyPolynomialsOperator, \
@@ -2265,7 +2276,7 @@ listOperators = {
     'unfilter_by_index'             : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k, True ) ), 2 ),
 
     # lexicographic
-    'combine_digits'                : RPNOperator( combineDigits, 1 ),
+    'combine_digits'                : RPNOperator( combineDigitsOperator, 1 ),
 
     # list
     'alternate_signs'               : RPNOperator( lambda n: RPNGenerator( alternateSignsOperator( n ) ), 1 ),
@@ -2561,7 +2572,6 @@ operators = {
 
     # combinatoric
     'arrangements'                  : RPNOperator( getArrangementsOperator, 1 ),
-    'bell_polynomial'               : RPNOperator( getNthBellPolynomialOperator, 2 ),
     'binomial'                      : RPNOperator( getBinomialOperator, 2 ),
     'combinations'                  : RPNOperator( getCombinationsOperator, 2 ),
     'compositions'                  : RPNOperator( getCompositionsOperator, 2 ),
@@ -2574,6 +2584,7 @@ operators = {
     'narayana_number'               : RPNOperator( getNarayanaNumberOperator, 2 ),
     'nth_apery'                     : RPNOperator( getNthAperyNumberOperator, 1 ),
     'nth_bell'                      : RPNOperator( getNthBellNumberOperator, 1 ),
+    'nth_bell_polynomial'           : RPNOperator( getNthBellPolynomialOperator, 2 ),
     'nth_bernoulli'                 : RPNOperator( getNthBernoulliNumberOperator, 1 ),
     'nth_catalan'                   : RPNOperator( getNthCatalanNumberOperator, 1 ),
     'nth_delannoy'                  : RPNOperator( getNthDelannoyNumberOperator, 1 ),
@@ -2774,66 +2785,66 @@ operators = {
     'triangle_area'                 : RPNOperator( getTriangleAreaOperator, 3 ),
 
     # lexicographic
-    'add_digits'                    : RPNOperator( addDigits, 2 ),
-    'build_numbers'                 : RPNOperator( buildNumbers, 1 ),
-    'build_step_numbers'            : RPNOperator( buildStepNumbers, 1 ),
-    'count_different_digits'        : RPNOperator( countDifferentDigits, 1 ),
-    'count_digits'                  : RPNOperator( countDigits, 2 ),
-    'cyclic_permutations'           : RPNOperator( getCyclicPermutations, 1 ),
-    'digits'                        : RPNOperator( getDigitCount, 1 ),
-    'duplicate_digits'              : RPNOperator( duplicateDigits, 2 ),
-    'duplicate_number'              : RPNOperator( duplicateNumber, 2 ),
-    'erdos_persistence'             : RPNOperator( getErdosPersistence, 1 ),
-    'find_palindrome'               : RPNOperator( findPalindrome, 2 ),
-    'get_base_k_digits'             : RPNOperator( getBaseKDigits, 2 ),
-    'get_digits'                    : RPNOperator( getDigits, 1 ),
-    'get_left_digits'               : RPNOperator( getLeftDigits, 2 ),
-    'get_left_truncations'          : RPNOperator( getLeftTruncationsGenerator, 1 ),
-    'get_nonzero_base_k_digits'     : RPNOperator( getNonzeroBaseKDigits, 2 ),
-    'get_nonzero_digits'            : RPNOperator( getNonzeroDigits, 1 ),
-    'get_right_digits'              : RPNOperator( getRightDigits, 2 ),
-    'get_right_truncations'         : RPNOperator( getRightTruncationsGenerator, 1 ),
-    'has_any_digits'                : RPNOperator( containsAnyDigits, 2 ),
-    'has_digits'                    : RPNOperator( containsDigits, 2 ),
-    'has_only_digits'               : RPNOperator( containsOnlyDigits, 2 ),
-    'is_automorphic'                : RPNOperator( isAutomorphic, 1 ),
-    'is_base_k_pandigital'          : RPNOperator( isBaseKPandigital, 2 ),
-    'is_base_k_smith_number'        : RPNOperator( isBaseKSmithNumber, 2 ),
-    'is_bouncy'                     : RPNOperator( isBouncy, 1 ),
-    'is_decreasing'                 : RPNOperator( isDecreasing, 1 ),
+    'add_digits'                    : RPNOperator( addDigitsOperator, 2 ),
+    'build_numbers'                 : RPNOperator( buildNumbersOperator, 1 ),
+    'build_step_numbers'            : RPNOperator( buildStepNumbersOperator, 1 ),
+    'count_different_digits'        : RPNOperator( countDifferentDigitsOperator, 1 ),
+    'count_digits'                  : RPNOperator( countDigitsOperator, 2 ),
+    'cyclic_permutations'           : RPNOperator( getCyclicPermutationsOperator, 1 ),
+    'digits'                        : RPNOperator( getDigitCountOperator, 1 ),
+    'duplicate_digits'              : RPNOperator( duplicateDigitsOperator, 2 ),
+    'duplicate_number'              : RPNOperator( duplicateNumberOperator, 2 ),
+    'erdos_persistence'             : RPNOperator( getErdosPersistenceOperator, 1 ),
+    'find_palindrome'               : RPNOperator( findPalindromeOperator, 2 ),
+    'get_base_k_digits'             : RPNOperator( getBaseKDigitsOperator, 2 ),
+    'get_digits'                    : RPNOperator( getDigitsOperator, 1 ),
+    'get_left_digits'               : RPNOperator( getLeftDigitsOperator, 2 ),
+    'get_left_truncations'          : RPNOperator( getLeftTruncationsOperator, 1 ),
+    'get_nonzero_base_k_digits'     : RPNOperator( getNonzeroBaseKDigitsOperator, 2 ),
+    'get_nonzero_digits'            : RPNOperator( getNonzeroDigitsOperator, 1 ),
+    'get_right_digits'              : RPNOperator( getRightDigitsOperator, 2 ),
+    'get_right_truncations'         : RPNOperator( getRightTruncationsOperator, 1 ),
+    'has_any_digits'                : RPNOperator( containsAnyDigitsOperator, 2 ),
+    'has_digits'                    : RPNOperator( containsDigitsOperator, 2 ),
+    'has_only_digits'               : RPNOperator( containsOnlyDigitsOperator, 2 ),
+    'is_automorphic'                : RPNOperator( isAutomorphicOperator, 1 ),
+    'is_base_k_pandigital'          : RPNOperator( isBaseKPandigitalOperator, 2 ),
+    'is_base_k_smith_number'        : RPNOperator( isBaseKSmithNumberOperator, 2 ),
+    'is_bouncy'                     : RPNOperator( isBouncyOperator, 1 ),
+    'is_decreasing'                 : RPNOperator( isDecreasingOperator, 1 ),
     'is_digital_palindrome'         : RPNOperator( isPalindromeOperator, 1 ),
-    'is_digital_permutation'        : RPNOperator( isDigitalPermutation, 2 ),
-    'is_generalized_dudeney'        : RPNOperator( isGeneralizedDudeneyNumber, 2 ),
-    'is_harshad'                    : RPNOperator( isHarshadNumber, 2 ),
-    'is_increasing'                 : RPNOperator( isIncreasing, 1 ),
-    'is_kaprekar'                   : RPNOperator( isKaprekarNumber, 1 ),
+    'is_digital_permutation'        : RPNOperator( isDigitalPermutationOperator, 2 ),
+    'is_generalized_dudeney'        : RPNOperator( isGeneralizedDudeneyNumberOperator, 2 ),
+    'is_harshad'                    : RPNOperator( isHarshadNumberOperator, 2 ),
+    'is_increasing'                 : RPNOperator( isIncreasingOperator, 1 ),
+    'is_kaprekar'                   : RPNOperator( isKaprekarNumberOperator, 1 ),
     'is_k_morphic'                  : RPNOperator( isKMorphicOperator, 2 ),
-    'is_k_narcissistic'             : RPNOperator( isBaseKNarcissistic, 2 ),
-    'is_narcissistic'               : RPNOperator( isNarcissistic, 1 ),
-    'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumber, 2 ),
-    'is_pandigital'                 : RPNOperator( isPandigital, 1 ),
-    'is_pddi'                       : RPNOperator( isPerfectDigitToDigitInvariant, 2 ),
-    'is_pdi'                        : RPNOperator( isPerfectDigitalInvariant, 1 ),
-    'is_smith_number'               : RPNOperator( isSmithNumber, 1 ),
-    'is_step_number'                : RPNOperator( isStepNumber, 1 ),
-    'is_sum_product'                : RPNOperator( isSumProductNumber, 2 ),
-    'is_trimorphic'                 : RPNOperator( isTrimorphic, 1 ),
-    'k_persistence'                 : RPNOperator( getKPersistence, 2 ),
-    'multiply_digits'               : RPNOperator( multiplyDigits, 1 ),
-    'multiply_digit_powers'         : RPNOperator( multiplyDigitPowers, 2 ),
-    'multiply_nonzero_digits'       : RPNOperator( multiplyNonzeroDigits, 1 ),
-    'multiply_nonzero_digit_powers' : RPNOperator( multiplyNonzeroDigitPowers, 2 ),
-    'permute_digits'                : RPNOperator( permuteDigits, 1 ),
-    'persistence'                   : RPNOperator( getPersistence, 1 ),
-    'replace_digits'                : RPNOperator( replaceDigits, 3 ),
+    'is_k_narcissistic'             : RPNOperator( isBaseKNarcissisticOperator, 2 ),
+    'is_narcissistic'               : RPNOperator( isNarcissisticOperator, 1 ),
+    'is_order_k_smith_number'       : RPNOperator( isOrderKSmithNumberOperator, 2 ),
+    'is_pandigital'                 : RPNOperator( isPandigitalOperator, 1 ),
+    'is_pddi'                       : RPNOperator( isPerfectDigitToDigitInvariantOperator, 2 ),
+    'is_pdi'                        : RPNOperator( isPerfectDigitalInvariantOperator, 1 ),
+    'is_smith_number'               : RPNOperator( isSmithNumberOperator, 1 ),
+    'is_step_number'                : RPNOperator( isStepNumberOperator, 1 ),
+    'is_sum_product'                : RPNOperator( isSumProductNumberOperator, 2 ),
+    'is_trimorphic'                 : RPNOperator( isTrimorphicOperator, 1 ),
+    'k_persistence'                 : RPNOperator( getKPersistenceOperator, 2 ),
+    'multiply_digits'               : RPNOperator( multiplyDigitsOperator, 1 ),
+    'multiply_digit_powers'         : RPNOperator( multiplyDigitPowersOperator, 2 ),
+    'multiply_nonzero_digits'       : RPNOperator( multiplyNonzeroDigitsOperator, 1 ),
+    'multiply_nonzero_digit_powers' : RPNOperator( multiplyNonzeroDigitPowersOperator, 2 ),
+    'permute_digits'                : RPNOperator( permuteDigitsOperator, 1 ),
+    'persistence'                   : RPNOperator( getPersistenceOperator, 1 ),
+    'replace_digits'                : RPNOperator( replaceDigitsOperator, 3 ),
     'reverse_digits'                : RPNOperator( reverseDigitsOperator, 1 ),
-    'rotate_digits_left'            : RPNOperator( rotateDigitsLeft, 2 ),
-    'rotate_digits_right'           : RPNOperator( rotateDigitsRight, 2 ),
-    'show_erdos_persistence'        : RPNOperator( showErdosPersistence, 1 ),
-    'show_k_persistence'            : RPNOperator( showKPersistence, 2 ),
-    'show_persistence'              : RPNOperator( showPersistence, 1 ),
-    'square_digit_chain'            : RPNOperator( generateSquareDigitChain, 1 ),
-    'sum_digits'                    : RPNOperator( sumDigits, 1 ),
+    'rotate_digits_left'            : RPNOperator( rotateDigitsLeftOperator, 2 ),
+    'rotate_digits_right'           : RPNOperator( rotateDigitsRightOperator, 2 ),
+    'show_erdos_persistence'        : RPNOperator( showErdosPersistenceOperator, 1 ),
+    'show_k_persistence'            : RPNOperator( showKPersistenceOperator, 2 ),
+    'show_persistence'              : RPNOperator( showPersistenceOperator, 1 ),
+    'square_digit_chain'            : RPNOperator( generateSquareDigitChainOperator, 1 ),
+    'sum_digits'                    : RPNOperator( sumDigitsOperator, 1 ),
 
     # list
     'exponential_range'             : RPNOperator( createExponentialRangeOperator, 3 ),
@@ -2957,8 +2968,8 @@ operators = {
     'pythagorean_triples'           : RPNOperator( makePythagoreanTriples, 1 ),
     'radical'                       : RPNOperator( getRadical, 1 ),
     'relatively_prime'              : RPNOperator( areRelativelyPrimeOperator, 2 ),
-    'repunit'                       : RPNOperator( getNthBaseKRepunit, 2 ),
-    'reversal_addition'             : RPNOperator( getNthReversalAddition, 2 ),
+    'repunit'                       : RPNOperator( getNthBaseKRepunitOperator, 2 ),
+    'reversal_addition'             : RPNOperator( getNthReversalAdditionOperator, 2 ),
     'sigma'                         : RPNOperator( getSigmaOperator, 1 ),
     'sigma_k'                       : RPNOperator( getSigmaKOperator, 2 ),
     'subfactorial'                  : RPNOperator( getNthSubfactorial, 1 ),
@@ -2973,32 +2984,32 @@ operators = {
     'zeta_zero'                     : RPNOperator( getNthZetaZero, 1 ),
 
     # physics
-    'acceleration'                  : RPNOperator( calculateAcceleration, 2 ),
-    'black_hole_entropy'            : RPNOperator( calculateBlackHoleEntropy, 1 ),
-    'black_hole_lifetime'           : RPNOperator( calculateBlackHoleLifetime, 1 ),
-    'black_hole_luminosity'         : RPNOperator( calculateBlackHoleLuminosity, 1 ),
-    'black_hole_mass'               : RPNOperator( calculateBlackHoleMass, 1 ),
-    'black_hole_radius'             : RPNOperator( calculateBlackHoleRadius, 1 ),
-    'black_hole_surface_area'       : RPNOperator( calculateBlackHoleSurfaceArea, 1 ),
-    'black_hole_surface_gravity'    : RPNOperator( calculateBlackHoleSurfaceGravity, 1 ),
-    'black_hole_surface_tides'      : RPNOperator( calculateBlackHoleSurfaceTides, 1 ),
-    'black_hole_temperature'        : RPNOperator( calculateBlackHoleTemperature, 1 ),
-    'distance'                      : RPNOperator( calculateDistance, 2 ),
-    'energy_equivalence'            : RPNOperator( calculateEnergyEquivalence, 1 ),
-    'escape_velocity'               : RPNOperator( calculateEscapeVelocity, 2 ),
-    'heat_index'                    : RPNOperator( calculateHeatIndex, 2 ),
-    'horizon_distance'              : RPNOperator( calculateHorizonDistance, 2 ),
-    'kinetic_energy'                : RPNOperator( calculateKineticEnergy, 2 ),
-    'mass_equivalence'              : RPNOperator( calculateMassEquivalence, 1 ),
-    'orbital_mass'                  : RPNOperator( calculateOrbitalMass, 2 ),
-    'orbital_period'                : RPNOperator( calculateOrbitalPeriod, 2 ),
-    'orbital_radius'                : RPNOperator( calculateOrbitalRadius, 2 ),
-    'orbital_velocity'              : RPNOperator( calculateOrbitalVelocity, 2 ),
-    'surface_gravity'               : RPNOperator( calculateSurfaceGravity, 2 ),
-    'tidal_force'                   : RPNOperator( calculateTidalForce, 3 ),
-    'time_dilation'                 : RPNOperator( calculateTimeDilation, 1 ),
-    'velocity'                      : RPNOperator( calculateVelocity, 2 ),
-    'wind_chill'                    : RPNOperator( calculateWindChill, 2 ),
+    'acceleration'                  : RPNOperator( calculateAccelerationOperator, 2 ),
+    'black_hole_entropy'            : RPNOperator( calculateBlackHoleEntropyOperator, 1 ),
+    'black_hole_lifetime'           : RPNOperator( calculateBlackHoleLifetimeOperator, 1 ),
+    'black_hole_luminosity'         : RPNOperator( calculateBlackHoleLuminosityOperator, 1 ),
+    'black_hole_mass'               : RPNOperator( calculateBlackHoleMassOperator, 1 ),
+    'black_hole_radius'             : RPNOperator( calculateBlackHoleRadiusOperator, 1 ),
+    'black_hole_surface_area'       : RPNOperator( calculateBlackHoleSurfaceAreaOperator, 1 ),
+    'black_hole_surface_gravity'    : RPNOperator( calculateBlackHoleSurfaceGravityOperator, 1 ),
+    'black_hole_surface_tides'      : RPNOperator( calculateBlackHoleSurfaceTidesOperator, 1 ),
+    'black_hole_temperature'        : RPNOperator( calculateBlackHoleTemperatureOperator, 1 ),
+    'distance'                      : RPNOperator( calculateDistanceOperator, 2 ),
+    'energy_equivalence'            : RPNOperator( calculateEnergyEquivalenceOperator, 1 ),
+    'escape_velocity'               : RPNOperator( calculateEscapeVelocityOperator, 2 ),
+    'heat_index'                    : RPNOperator( calculateHeatIndexOperator, 2 ),
+    'horizon_distance'              : RPNOperator( calculateHorizonDistanceOperator, 2 ),
+    'kinetic_energy'                : RPNOperator( calculateKineticEnergyOperator, 2 ),
+    'mass_equivalence'              : RPNOperator( calculateMassEquivalenceOperator, 1 ),
+    'orbital_mass'                  : RPNOperator( calculateOrbitalMassOperator, 2 ),
+    'orbital_period'                : RPNOperator( calculateOrbitalPeriodOperator, 2 ),
+    'orbital_radius'                : RPNOperator( calculateOrbitalRadiusOperator, 2 ),
+    'orbital_velocity'              : RPNOperator( calculateOrbitalVelocityOperator, 2 ),
+    'surface_gravity'               : RPNOperator( calculateSurfaceGravityOperator, 2 ),
+    'tidal_force'                   : RPNOperator( calculateTidalForceOperator, 3 ),
+    'time_dilation'                 : RPNOperator( calculateTimeDilationOperator, 1 ),
+    'velocity'                      : RPNOperator( calculateVelocityOperator, 2 ),
+    'wind_chill'                    : RPNOperator( calculateWindChillOperator, 2 ),
 
     # powers_and_roots
     'agm'                           : RPNOperator( getAGMOperator, 2 ),

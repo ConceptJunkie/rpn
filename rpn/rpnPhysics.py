@@ -22,15 +22,17 @@ from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurementClass import RPNMeasurement
 
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, MeasurementValidator
 
 
 #******************************************************************************
 #
-#  calculateBlackHoleMass
+#  calculateBlackHoleMassOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ MeasurementValidator( ) ] )
 def calculateBlackHoleMass( measurement ):
     # pylint: disable=line-too-long
     validUnitTypes = [
@@ -90,15 +92,21 @@ def calculateBlackHoleMass( measurement ):
 
     raise ValueError( 'invalid arguments to black hole operator' )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleMassOperator( measurement ):
+    return calculateBlackHoleMass( measurement )
+
 
 #******************************************************************************
 #
-#  calculateBlackHoleRadius
+#  calculateBlackHoleRadiusOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleRadius( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleRadiusOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -124,12 +132,13 @@ def calculateBlackHoleRadius( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleSurfaceArea
+#  calculateBlackHoleSurfaceAreaOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleSurfaceArea( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleSurfaceAreaOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -155,12 +164,13 @@ def calculateBlackHoleSurfaceArea( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleSurfaceGravity
+#  calculateBlackHoleSurfaceGravityOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleSurfaceGravity( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleSurfaceGravityOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -186,12 +196,13 @@ def calculateBlackHoleSurfaceGravity( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleEntropy
+#  calculateBlackHoleEntropyOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleEntropy( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleEntropyOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -219,12 +230,13 @@ def calculateBlackHoleEntropy( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleTemperature
+#  calculateBlackHoleTemperatureOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleTemperature( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleTemperatureOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -253,12 +265,13 @@ def calculateBlackHoleTemperature( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleLuminosity
+#  calculateBlackHoleLuminosityOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleLuminosity( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleLuminosityOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -287,12 +300,13 @@ def calculateBlackHoleLuminosity( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleLifetime
+#  calculateBlackHoleLifetimeOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleLifetime( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleLifetimeOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -321,12 +335,13 @@ def calculateBlackHoleLifetime( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleTidalForce
+#  calculateBlackHoleTidalForceOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleSurfaceTides( measurement ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateBlackHoleSurfaceTidesOperator( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -353,13 +368,14 @@ def calculateBlackHoleSurfaceTides( measurement ):
 
 #******************************************************************************
 #
-#  calculateTidalForce
+#  calculateTidalForceOperator
 #
 #  Two arguments are the same unit type, so the order needs to be fixed.
 #
 #******************************************************************************
 
-def calculateTidalForce( mass, distance, delta ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateTidalForceOperator( mass, distance, delta ):
     mass.validateUnits( 'mass' )
     distance.validateUnits( 'length' )
     delta.validateUnits( 'length' )
@@ -372,12 +388,13 @@ def calculateTidalForce( mass, distance, delta ):
 
 #******************************************************************************
 #
-#  calculateTimeDilation
+#  calculateTimeDilationOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateTimeDilation( velocity ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateTimeDilationOperator( velocity ):
     velocity.validateUnits( 'velocity' )
 
     ratio = divide( velocity, getConstant( 'speed_of_light' ) )
@@ -390,12 +407,13 @@ def calculateTimeDilation( velocity ):
 
 #******************************************************************************
 #
-#  calculateEscapeVelocity
+#  calculateEscapeVelocityOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateEscapeVelocity( mass, radius ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateEscapeVelocityOperator( mass, radius ):
     mass.validateUnits( 'mass' )
     radius.validateUnits( 'length' )
 
@@ -405,12 +423,13 @@ def calculateEscapeVelocity( mass, radius ):
 
 #******************************************************************************
 #
-#  calculateOrbitalMass
+#  calculateOrbitalMassOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateOrbitalMass( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateOrbitalMassOperator( measurement1, measurement2 ):
     '''
     To solve for the planetary mass for an object in a circular orbit, we need
     Newton's gravitational constant and two of the following three items:
@@ -471,12 +490,13 @@ def calculateOrbitalMass( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateOrbitalPeriod
+#  calculateOrbitalPeriodOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateOrbitalPeriod( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateOrbitalPeriodOperator( measurement1, measurement2 ):
     '''
     To solve the period of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -537,12 +557,13 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateOrbitalRadius
+#  calculateOrbitalRadiusOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateOrbitalRadius( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateOrbitalRadiusOperator( measurement1, measurement2 ):
     '''
     To solve the radius of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -603,12 +624,13 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateOrbitalVelocity
+#  calculateOrbitalVelocityOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateOrbitalVelocity( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateOrbitalVelocityOperator( measurement1, measurement2 ):
     '''
     To solve the velocity of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -670,11 +692,12 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateDistance
+#  calculateDistanceOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
 def calculateDistance( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
@@ -708,15 +731,20 @@ def calculateDistance( measurement1, measurement2 ):
 
     return distance.convert( 'meter' )
 
+@twoArgFunctionEvaluator( )
+def calculateDistanceOperator( measurement1, measurement2 ):
+    return calculateDistance( measurement1, measurement2 )
+
 
 #******************************************************************************
 #
-#  calculateVelocity
+#  calculateVelocityOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateVelocity( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateVelocityOperator( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
         [ 'acceleration', 'length' ],
@@ -760,12 +788,13 @@ def calculateVelocity( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateAcceleration
+#  calculateAccelerationOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateAcceleration( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateAccelerationOperator( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'length' ],
         [ 'velocity', 'time' ],
@@ -791,12 +820,13 @@ def calculateAcceleration( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateKineticEnergy
+#  calculateKineticEnergyOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateKineticEnergy( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateKineticEnergyOperator( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'mass' ],
     ]
@@ -814,12 +844,13 @@ def calculateKineticEnergy( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateHorizonDistance
+#  calculateHorizonDistanceOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateHorizonDistance( altitude, radius ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateHorizonDistanceOperator( altitude, radius ):
     altitude.validateUnits( 'length' )
     radius.validateUnits( 'length' )
 
@@ -829,12 +860,13 @@ def calculateHorizonDistance( altitude, radius ):
 
 #******************************************************************************
 #
-#  calculateEnergyEquivalence
+#  calculateEnergyEquivalenceOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateEnergyEquivalence( mass ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateEnergyEquivalenceOperator( mass ):
     mass.validateUnits( 'mass' )
 
     energy = getProduct( [ mass, getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ] )
@@ -843,12 +875,13 @@ def calculateEnergyEquivalence( mass ):
 
 #******************************************************************************
 #
-#  calculateMassEquivalence
+#  calculateMassEquivalenceOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateMassEquivalence( energy ):
+@argValidator( [ MeasurementValidator( ) ] )
+def calculateMassEquivalenceOperator( energy ):
     energy.validateUnits( 'energy' )
 
     mass = divide( energy, multiply( getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ) )
@@ -857,12 +890,13 @@ def calculateMassEquivalence( energy ):
 
 #******************************************************************************
 #
-#  calculateSurfaceGravity
+#  calculateSurfaceGravityOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateSurfaceGravity( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateSurfaceGravityOperator( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'mass', 'density' ],
         [ 'mass', 'length' ],
@@ -903,14 +937,15 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateWindChill
-#
-#  https://www.ibiblio.org/units/dictW.html
+#  calculateWindChillOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateWindChill( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateWindChillOperator( measurement1, measurement2 ):
+    '''https://www.ibiblio.org/units/dictW.html'''
+
     validUnitTypes = [
         [ 'velocity', 'temperature' ],
     ]
@@ -941,14 +976,14 @@ def calculateWindChill( measurement1, measurement2 ):
 
 #******************************************************************************
 #
-#  calculateHeatIndex
-#
-#  https://en.wikipedia.org/wiki/Heat_index#Formula
+#  calculateHeatIndexOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def calculateHeatIndex( measurement1, measurement2 ):
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
+def calculateHeatIndexOperator( measurement1, measurement2 ):
+    '''https://en.wikipedia.org/wiki/Heat_index#Formula'''
     # pylint: disable=invalid-name
     validUnitTypes = [
         [ 'temperature', 'constant' ],
@@ -985,4 +1020,3 @@ def calculateHeatIndex( measurement1, measurement2 ):
                         fprod( [ c9, T, T, R, R ] ) ] )
 
     return RPNMeasurement( heatIndex, 'fahrenheit' ).convert( arguments[ 'temperature' ].units )
-

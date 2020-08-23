@@ -4265,14 +4265,6 @@ Where E is the atomic symbol of an element, and N is the count of atoms.
 ''' + makeCommandExample( '5 0 5 range permutations sum' ),
 [ 'compositions', 'partitions' ] ],
 
-    'bell_polynomial' : [
-'combinatorics', 'evaluates the nth Bell polynomial with k',
-'''
-''',
-'''
-''',
-[ 'nth_bell' ] ],
-
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
@@ -4461,7 +4453,16 @@ https://oeis.org/A000110
 '''
 ''' + makeCommandExample( '-a20 1 12 range nth_bell' ) + '''
 ''' + makeCommandExample( '-a40 40 nth_bell' ),
-[ 'bell_polynomial', 'partitions' ] ],
+[ 'nth_bell_polynomial', 'partitions' ] ],
+
+
+    'nth_bell_polynomial' : [
+'combinatorics', 'evaluates the nth Bell polynomial with k',
+'''
+''',
+'''
+''',
+[ 'nth_bell' ] ],
 
     'nth_bernoulli' : [
 'combinatorics', 'calculates the nth Bernoulli number',
