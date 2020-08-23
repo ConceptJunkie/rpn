@@ -776,12 +776,10 @@ def getProductOperator( n ):
 
 #******************************************************************************
 #
-#  getStandardDeviation
+#  getStandardDeviationOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def getStandardDeviation( args ):
     if isinstance( args, RPNGenerator ):
         return getStandardDeviation( list( args ) )
@@ -796,6 +794,10 @@ def getStandardDeviation( args ):
     dev = [ power( fsub( i, mean ), 2 ) for i in args ]
     return sqrt( fdiv( fsum( dev ), fsub( len( dev ), 1 ) ) )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getStandardDeviationOperator( args ):
+    return getStandardDeviation( args )
 
 #******************************************************************************
 #
@@ -935,8 +937,6 @@ def calculateArithmeticMeanOperator( args ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def calculateRootMeanSquare( args ):
     if isinstance( args, RPNGenerator ):
         total = 0
@@ -957,6 +957,11 @@ def calculateRootMeanSquare( args ):
             return sqrt( fdiv( fsum( args, squared=True ), len( args ) ) )
     else:
         return args
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def calculateRootMeanSquareOperator( args ):
+    return calculateRootMeanSquare( args )
 
 
 #******************************************************************************

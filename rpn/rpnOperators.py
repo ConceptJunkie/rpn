@@ -170,7 +170,8 @@ from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildS
 from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendListsOperator, \
                         calculateAntiharmonicMeanOperator, calculateArithmeticMeanOperator, \
                         calculateGeometricMeanOperator, calculateHarmonicMeanOperator, calculatePowerTowerOperator, \
-                        calculatePowerTower2Operator, calculateRootMeanSquare, collate, compareLists, countElements, \
+                        calculatePowerTower2Operator, calculateRootMeanSquareOperator, collate, compareLists, \
+                        countElements, \
                         doesListRepeat, enumerateList, equalsOneOf, filterMax, filterMin, filterOnFlags, findInList, \
                         flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, getAndAll, \
                         getCumulativeListDiffs, getCumulativeListProducts, getCumulativeListSums, \
@@ -179,7 +180,7 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         getListPowerSet, getListRatios, getRight, getIndexOfMax, getIndexOfMin, getListElement, \
                         getListPermutations, getListPermutationsWithRepeats, getNandAll, getNonzeroes, getNorAll, \
                         getProductOperator, getOccurrences, getOccurrenceRatios, getOrAll, getRandomElement, \
-                        getReverse, getSlice, getStandardDeviation, getSublist, getSumOperator, getUniqueElements, \
+                        getReverse, getSlice, getStandardDeviationOperator, getSublist, getSumOperator, getUniqueElements, \
                         getZeroes, groupElements, interleave, isPalindromeList, listAndOneArgFunctionEvaluator, \
                         makeIntersection, makeUnion, permuteLists, reduceListOperator, shuffleList, sortAscending, \
                         sortDescending
@@ -222,36 +223,47 @@ from rpn.rpnModifiers import decrementNestedListLevelOperator, duplicateOperatio
 from rpn.rpnName import getNameOperator, getOrdinalNameOperator
 
 from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFunctionOperator, \
-                                calculateChineseRemainderTheorem, convertFromContinuedFraction, findNthSumOfCubes, \
-                                findNthSumOfSquares, findSumsOfKNonzeroPowers, findSumsOfKPowers, \
-                                generatePolydivisibles, getAbundanceOperator, getAbundanceRatio, getAliquotSequence, \
-                                getAlternatingHarmonicFraction, getAltZeta, getBarnesG, getBeta, getCollatzSequence, \
-                                getCyclotomic, getDigamma, getDigitalRoot, getDivisorCountOperator, \
-                                getDivisorsOperator, getEulerPhi, getFrobeniusNumber, getGamma, \
-                                getGeometricRecurrence, getHarmonicFraction, getHarmonicResidueOperator, \
-                                getHurwitzZeta, getLCM, getLCMOfList, getLeylandNumber, getLimitedAliquotSequence, \
-                                getLinearRecurrence, getLinearRecurrenceWithModulo, getLogGamma, \
-                                getNthAlternatingFactorial, getGreedyEgyptianFraction, getNthBaseKRepunitOperator, \
-                                getNthCarolNumber, getNthDoubleFactorial, getNthCalkinWilf, getNthFactorial, \
-                                getNthFibonacci, getNthFibonorial, getNthHarmonicNumber, getNthHeptanacci, \
-                                getNthHexanacci, getNthHyperfactorial, getNthJacobsthalNumber, \
-                                getNthKFibonacciNumber, getNthKThabitNumber, getNthKThabit2Number, getNthKyneaNumber, \
-                                getNthLeonardoNumber, getNthLinearRecurrence, getNthLinearRecurrenceWithModulo, \
-                                getNthLucasNumber, getNthMersenneExponent, getNthMersennePrime, getNthMerten, \
-                                getNthMobiusNumberOperator, getNthPadovanNumber, getNthPhitorial, getNthOctanacci, \
-                                getNthPascalLine, getNthPentanacci, getNthPerfectNumber, getNthKPolygorial, \
-                                getNthSternNumberOperator, getNthSubfactorial, getNthSuperfactorial, \
-                                getNthTetranacci, getNthThabitNumber, getNthThabit2Number, \
-                                getNthThueMorseNumberOperator, getNthTribonacci, getNthZetaZero, getPolygamma, \
-                                getPowModOperator, getPrimePi, getRadical, getSigmaKOperator, getSigmaOperator, \
-                                getTrigamma, getUnitRoots, getZeta, interpretAsBaseOperator, interpretAsFraction, \
-                                isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumberOperator, \
-                                isDeficient, isFriendly, isHarmonicDivisorNumber, isKHyperperfect, \
-                                isKPerfect, isKSemiprimeOperator, isKSphenicOperator, isPerfect, isPernicious, \
-                                isPolydivisible, isPowerful, isPronic, isRoughOperator, isRuthAaronNumber, \
-                                isSemiprime, isSmoothOperator, isSphenic, isSquareFree, isUnusual, \
-                                makeContinuedFraction, makeEulerBrick, makePythagoreanQuadruple, \
-                                makePythagoreanTriple, makePythagoreanTriples, solveFrobeniusOperator
+                                calculateChineseRemainderTheoremOperator, convertFromContinuedFractionOperator, \
+                                findNthSumOfCubesOperator, findNthSumOfSquaresOperator, \
+                                findSumsOfKNonzeroPowersOperator, findSumsOfKPowersOperator, \
+                                generatePolydivisiblesOperator, getAbundanceOperator, getAbundanceRatioOperator, \
+                                getAliquotSequenceOperator, getAlternatingHarmonicFractionOperator, \
+                                getAltZetaOperator, getBarnesGOperator, getBetaOperator, getCollatzSequenceOperator, \
+                                getCyclotomicOperator, getDigammaOperator, getDigitalRootOperator, \
+                                getDivisorCountOperator, getDivisorsOperator, getEulerPhiOperator, \
+                                getFrobeniusNumberOperator, getGammaOperator, getGeometricRecurrenceOperator, \
+                                getHarmonicFractionOperator, getHarmonicResidueOperator, getHurwitzZetaOperator, \
+                                getLCMOperator, getLCMOfListOperator, getLeylandNumberOperator, \
+                                getLimitedAliquotSequenceOperator, getLinearRecurrenceOperator, \
+                                getLinearRecurrenceWithModuloOperator, getLogGammaOperator, \
+                                getNthAlternatingFactorialOperator, getGreedyEgyptianFractionOperator, \
+                                getNthBaseKRepunitOperator, getNthCarolNumberOperator, getNthDoubleFactorialOperator, \
+                                getNthCalkinWilfOperator, getNthFactorialOperator, getNthFibonacciOperator, \
+                                getNthFibonorialOperator, getNthHarmonicNumberOperator, getNthHeptanacciOperator, \
+                                getNthHexanacciOperator, getNthHyperfactorialOperator, \
+                                getNthJacobsthalNumberOperator, getNthKFibonacciNumberOperator, \
+                                getNthKThabitNumberOperator, getNthKThabit2NumberOperator, getNthKyneaNumberOperator, \
+                                getNthLeonardoNumberOperator, getNthLinearRecurrenceOperator, \
+                                getNthLinearRecurrenceWithModuloOperator, getNthLucasNumberOperator, \
+                                getNthMersenneExponentOperator, getNthMersennePrimeOperator, getNthMertenOperator, \
+                                getNthMobiusNumberOperator, getNthPadovanNumberOperator, getNthPhitorialOperator, \
+                                getNthOctanacciOperator, getNthPascalLineOperator, getNthPentanacciOperator, \
+                                getNthPerfectNumberOperator, getNthKPolygorialOperator, getNthSternNumberOperator, \
+                                getNthSubfactorialOperator, getNthSuperfactorialOperator, getNthTetranacciOperator, \
+                                getNthThabitNumberOperator, getNthThabit2NumberOperator, \
+                                getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, \
+                                getPolygammaOperator, getPowModOperator, getPrimePiOperator, getRadicalOperator, \
+                                getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
+                                getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
+                                isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
+                                isCarmichaelNumberOperator, isDeficientOperator, isFriendlyOperator, \
+                                isHarmonicDivisorNumberOperator, isKHyperperfectOperator, isKPerfectOperator, \
+                                isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, \
+                                isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, \
+                                isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, isSphenicOperator, \
+                                isSquareFreeOperator, isUnusualOperator, makeContinuedFractionOperator, \
+                                makeEulerBrickOperator, makePythagoreanQuadrupleOperator, \
+                                makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator
 
 from rpn.rpnPersistence import dumpFunctionCacheOperator, dumpPrimeCacheOperator, getUserFunctionsFileName, \
                                loadConstants, loadResult, loadUnitConversionMatrix, loadUnitData
@@ -2242,13 +2254,13 @@ listOperators = {
     'gcd'                           : RPNOperator( getGCDOfList, 1 ),
     'geometric_mean'                : RPNOperator( calculateGeometricMeanOperator, 1 ),
     'harmonic_mean'                 : RPNOperator( calculateHarmonicMeanOperator, 1 ),
-    'lcm'                           : RPNOperator( getLCMOfList, 1 ),
+    'lcm'                           : RPNOperator( getLCMOfListOperator, 1 ),
     'maximum'                       : RPNOperator( getMaximumOperator, 1 ),
     'mean'                          : RPNOperator( calculateArithmeticMeanOperator, 1 ),
     'minimum'                       : RPNOperator( getMinimumOperator, 1 ),
     'product'                       : RPNOperator( getProductOperator, 1 ),
-    'root_mean_square'              : RPNOperator( calculateRootMeanSquare, 1 ),
-    'stddev'                        : RPNOperator( getStandardDeviation, 1 ),
+    'root_mean_square'              : RPNOperator( calculateRootMeanSquareOperator, 1 ),
+    'stddev'                        : RPNOperator( getStandardDeviationOperator, 1 ),
     'sum'                           : RPNOperator( getSumOperator, 1 ),
 
     # combinatoric
@@ -2338,15 +2350,15 @@ listOperators = {
 
     # number_theory
     'base'                              : RPNOperator( interpretAsBaseOperator, 2 ),
-    'continued_fraction'                : RPNOperator( convertFromContinuedFraction, 1 ),
-    'crt'                               : RPNOperator( calculateChineseRemainderTheorem, 2 ),
-    'frobenius'                         : RPNOperator( getFrobeniusNumber, 1 ),
-    'geometric_recurrence'              : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrence( a, b, c, d ) ), 4 ),
-    'is_friendly'                       : RPNOperator( isFriendly, 1 ),
-    'linear_recurrence'                 : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrence( a, b, c ) ), 3 ),
-    'linear_recurrence_with_modulo'     : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModulo( a, b, c, d ) ), 4 ),
-    'nth_linear_recurrence'             : RPNOperator( getNthLinearRecurrence, 3 ),
-    'nth_linear_recurrence_with_modulo' : RPNOperator( getNthLinearRecurrenceWithModulo, 4 ),
+    'continued_fraction'                : RPNOperator( convertFromContinuedFractionOperator, 1 ),
+    'crt'                               : RPNOperator( calculateChineseRemainderTheoremOperator, 2 ),
+    'frobenius'                         : RPNOperator( getFrobeniusNumberOperator, 1 ),
+    'geometric_recurrence'              : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrenceOperator( a, b, c, d ) ), 4 ),
+    'is_friendly'                       : RPNOperator( isFriendlyOperator, 1 ),
+    'linear_recurrence'                 : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrenceOperator( a, b, c ) ), 3 ),
+    'linear_recurrence_with_modulo'     : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModuloOperator( a, b, c, d ) ), 4 ),
+    'nth_linear_recurrence'             : RPNOperator( getNthLinearRecurrenceOperator, 3 ),
+    'nth_linear_recurrence_with_modulo' : RPNOperator( getNthLinearRecurrenceWithModuloOperator, 4 ),
     'solve_frobenius'                   : RPNOperator( solveFrobeniusOperator, 2 ),
 
     # powers_and_roots
@@ -2408,7 +2420,7 @@ operators = {
     'is_square'                     : RPNOperator( isSquareOperator, 1 ),
     'is_zero'                       : RPNOperator( isZeroOperator, 1 ),
     'larger'                        : RPNOperator( getLargerOperator, 2 ),
-    'lcm2'                          : RPNOperator( getLCM, 2 ),
+    'lcm2'                          : RPNOperator( getLCMOperator, 2 ),
     'mantissa'                      : RPNOperator( getMantissaOperator, 1 ),
     'modulo'                        : RPNOperator( getModuloOperator, 2 ),
     'multiply'                      : RPNOperator( multiplyOperator, 2 ),
@@ -2874,114 +2886,114 @@ operators = {
 
     # number_theory
     'abundance'                     : RPNOperator( getAbundanceOperator, 1 ),
-    'abundance_ratio'               : RPNOperator( getAbundanceRatio, 1 ),
+    'abundance_ratio'               : RPNOperator( getAbundanceRatioOperator, 1 ),
     'ackermann_number'              : RPNOperator( calculateAckermannFunctionOperator, 2 ),
-    'aliquot'                       : RPNOperator( getAliquotSequence, 2 ),
-    'aliquot_limit'                 : RPNOperator( getLimitedAliquotSequence, 2 ),
-    'alternating_factorial'         : RPNOperator( getNthAlternatingFactorial, 1 ),
-    'alternating_harmonic_fraction' : RPNOperator( getAlternatingHarmonicFraction, 1 ),
-    'barnesg'                       : RPNOperator( getBarnesG, 1 ),
-    'beta'                          : RPNOperator( getBeta, 2 ),
-    'calkin_wilf'                   : RPNOperator( getNthCalkinWilf, 1 ),
-    'collatz'                       : RPNOperator( getCollatzSequence, 2 ),
+    'aliquot'                       : RPNOperator( getAliquotSequenceOperator, 2 ),
+    'aliquot_limit'                 : RPNOperator( getLimitedAliquotSequenceOperator, 2 ),
+    'alternating_factorial'         : RPNOperator( getNthAlternatingFactorialOperator, 1 ),
+    'alternating_harmonic_fraction' : RPNOperator( getAlternatingHarmonicFractionOperator, 1 ),
+    'barnesg'                       : RPNOperator( getBarnesGOperator, 1 ),
+    'beta'                          : RPNOperator( getBetaOperator, 2 ),
+    'calkin_wilf'                   : RPNOperator( getNthCalkinWilfOperator, 1 ),
+    'collatz'                       : RPNOperator( getCollatzSequenceOperator, 2 ),
     'count_divisors'                : RPNOperator( getDivisorCountOperator, 1 ),
-    'cyclotomic'                    : RPNOperator( getCyclotomic, 2 ),
-    'digamma'                       : RPNOperator( getDigamma, 1 ),
-    'digital_root'                  : RPNOperator( getDigitalRoot, 1 ),
+    'cyclotomic'                    : RPNOperator( getCyclotomicOperator, 2 ),
+    'digamma'                       : RPNOperator( getDigammaOperator, 1 ),
+    'digital_root'                  : RPNOperator( getDigitalRootOperator, 1 ),
     'divisors'                      : RPNOperator( getDivisorsOperator, 1 ),
-    'double_factorial'              : RPNOperator( getNthDoubleFactorial, 1 ),
-    'egyptian_fractions'            : RPNOperator( getGreedyEgyptianFraction, 2 ),
-    'eta'                           : RPNOperator( getAltZeta, 1 ),
-    'euler_brick'                   : RPNOperator( makeEulerBrick, 3 ),
-    'euler_phi'                     : RPNOperator( getEulerPhi, 1 ),
+    'double_factorial'              : RPNOperator( getNthDoubleFactorialOperator, 1 ),
+    'egyptian_fractions'            : RPNOperator( getGreedyEgyptianFractionOperator, 2 ),
+    'eta'                           : RPNOperator( getAltZetaOperator, 1 ),
+    'euler_brick'                   : RPNOperator( makeEulerBrickOperator, 3 ),
+    'euler_phi'                     : RPNOperator( getEulerPhiOperator, 1 ),
     'factor'                        : RPNOperator( getFactorsOperator, 1 ),
-    'factorial'                     : RPNOperator( getNthFactorial, 1 ),
-    'fibonacci'                     : RPNOperator( getNthFibonacci, 1 ),
-    'fibonorial'                    : RPNOperator( getNthFibonorial, 1 ),
-    'find_sum_of_cubes'             : RPNOperator( findNthSumOfCubes, 1 ),
-    'find_sum_of_squares'           : RPNOperator( findNthSumOfSquares, 1 ),
-    'fraction'                      : RPNOperator( interpretAsFraction, 2 ),
-    'gamma'                         : RPNOperator( getGamma, 1 ),
-    'generate_polydivisibles'       : RPNOperator( generatePolydivisibles, 1 ),
-    'harmonic_fraction'             : RPNOperator( getHarmonicFraction, 1 ),
+    'factorial'                     : RPNOperator( getNthFactorialOperator, 1 ),
+    'fibonacci'                     : RPNOperator( getNthFibonacciOperator, 1 ),
+    'fibonorial'                    : RPNOperator( getNthFibonorialOperator, 1 ),
+    'find_sum_of_cubes'             : RPNOperator( findNthSumOfCubesOperator, 1 ),
+    'find_sum_of_squares'           : RPNOperator( findNthSumOfSquaresOperator, 1 ),
+    'fraction'                      : RPNOperator( interpretAsFractionOperator, 2 ),
+    'gamma'                         : RPNOperator( getGammaOperator, 1 ),
+    'generate_polydivisibles'       : RPNOperator( generatePolydivisiblesOperator, 1 ),
+    'harmonic_fraction'             : RPNOperator( getHarmonicFractionOperator, 1 ),
     'harmonic_residue'              : RPNOperator( getHarmonicResidueOperator, 1 ),
-    'heptanacci'                    : RPNOperator( getNthHeptanacci, 1 ),
-    'hexanacci'                     : RPNOperator( getNthHexanacci, 1 ),
-    'hurwitz_zeta'                  : RPNOperator( getHurwitzZeta, 2 ),
-    'hyperfactorial'                : RPNOperator( getNthHyperfactorial, 1 ),
-    'is_abundant'                   : RPNOperator( isAbundant, 1 ),
-    'is_achilles'                   : RPNOperator( isAchillesNumber, 1 ),
-    'is_antiharmonic'               : RPNOperator( isAntiharmonic, 1 ),
+    'heptanacci'                    : RPNOperator( getNthHeptanacciOperator, 1 ),
+    'hexanacci'                     : RPNOperator( getNthHexanacciOperator, 1 ),
+    'hurwitz_zeta'                  : RPNOperator( getHurwitzZetaOperator, 2 ),
+    'hyperfactorial'                : RPNOperator( getNthHyperfactorialOperator, 1 ),
+    'is_abundant'                   : RPNOperator( isAbundantOperator, 1 ),
+    'is_achilles'                   : RPNOperator( isAchillesNumberOperator, 1 ),
+    'is_antiharmonic'               : RPNOperator( isAntiharmonicOperator, 1 ),
     'is_carmichael'                 : RPNOperator( isCarmichaelNumberOperator, 1 ),
     'is_composite'                  : RPNOperator( isCompositeOperator, 1 ),
-    'is_deficient'                  : RPNOperator( isDeficient, 1 ),
-    'is_harmonic_divisor_number'    : RPNOperator( isHarmonicDivisorNumber, 1 ),
-    'is_k_hyperperfect'             : RPNOperator( isKHyperperfect, 2 ),
-    'is_k_perfect'                  : RPNOperator( isKPerfect, 2 ),
+    'is_deficient'                  : RPNOperator( isDeficientOperator, 1 ),
+    'is_harmonic_divisor_number'    : RPNOperator( isHarmonicDivisorNumberOperator, 1 ),
+    'is_k_hyperperfect'             : RPNOperator( isKHyperperfectOperator, 2 ),
+    'is_k_perfect'                  : RPNOperator( isKPerfectOperator, 2 ),
     'is_k_semiprime'                : RPNOperator( isKSemiprimeOperator, 2 ),
     'is_k_sphenic'                  : RPNOperator( isKSphenicOperator, 2 ),
-    'is_perfect'                    : RPNOperator( isPerfect, 1 ),
-    'is_pernicious'                 : RPNOperator( isPernicious, 1 ),
-    'is_polydivisible'              : RPNOperator( isPolydivisible, 1 ),
-    'is_powerful'                   : RPNOperator( isPowerful, 1 ),
+    'is_perfect'                    : RPNOperator( isPerfectOperator, 1 ),
+    'is_pernicious'                 : RPNOperator( isPerniciousOperator, 1 ),
+    'is_polydivisible'              : RPNOperator( isPolydivisibleOperator, 1 ),
+    'is_powerful'                   : RPNOperator( isPowerfulOperator, 1 ),
     'is_prime'                      : RPNOperator( isPrimeOperator, 1 ),
-    'is_pronic'                     : RPNOperator( isPronic, 1 ),
+    'is_pronic'                     : RPNOperator( isPronicOperator, 1 ),
     'is_rough'                      : RPNOperator( isRoughOperator, 2 ),
-    'is_ruth_aaron'                 : RPNOperator( isRuthAaronNumber, 1 ),
-    'is_semiprime'                  : RPNOperator( isSemiprime, 1 ),
+    'is_ruth_aaron'                 : RPNOperator( isRuthAaronNumberOperator, 1 ),
+    'is_semiprime'                  : RPNOperator( isSemiprimeOperator, 1 ),
     'is_smooth'                     : RPNOperator( isSmoothOperator, 2 ),
-    'is_sphenic'                    : RPNOperator( isSphenic, 1 ),
-    'is_squarefree'                 : RPNOperator( isSquareFree, 1 ),
+    'is_sphenic'                    : RPNOperator( isSphenicOperator, 1 ),
+    'is_squarefree'                 : RPNOperator( isSquareFreeOperator, 1 ),
     'is_strong_pseudoprime'         : RPNOperator( isStrongPseudoprime, 2 ),
-    'is_unusual'                    : RPNOperator( isUnusual, 1 ),
-    'k_fibonacci'                   : RPNOperator( getNthKFibonacciNumber, 2 ),
-    'leyland_number'                : RPNOperator( getLeylandNumber, 2 ),
-    'log_gamma'                     : RPNOperator( getLogGamma, 1 ),
-    'lucas'                         : RPNOperator( getNthLucasNumber, 1 ),
-    'make_continued_fraction'       : RPNOperator( makeContinuedFraction, 2 ),
-    'make_pyth_3'                   : RPNOperator( makePythagoreanTriple, 2 ),
-    'make_pyth_4'                   : RPNOperator( makePythagoreanQuadruple, 2 ),
-    'nth_carol'                     : RPNOperator( getNthCarolNumber, 1 ),
-    'nth_harmonic_number'           : RPNOperator( getNthHarmonicNumber, 1 ),
-    'nth_jacobsthal'                : RPNOperator( getNthJacobsthalNumber, 1 ),
-    'nth_k_thabit'                  : RPNOperator( getNthKThabitNumber, 2 ),
-    'nth_k_thabit_2'                : RPNOperator( getNthKThabit2Number, 2 ),
-    'nth_kynea'                     : RPNOperator( getNthKyneaNumber, 1 ),
-    'nth_leonardo'                  : RPNOperator( getNthLeonardoNumber, 1 ),
-    'nth_mersenne_exponent'         : RPNOperator( getNthMersenneExponent, 1 ),
-    'nth_mersenne_prime'            : RPNOperator( getNthMersennePrime, 1 ),
-    'nth_merten'                    : RPNOperator( getNthMerten, 1 ),
+    'is_unusual'                    : RPNOperator( isUnusualOperator, 1 ),
+    'k_fibonacci'                   : RPNOperator( getNthKFibonacciNumberOperator, 2 ),
+    'leyland_number'                : RPNOperator( getLeylandNumberOperator, 2 ),
+    'log_gamma'                     : RPNOperator( getLogGammaOperator, 1 ),
+    'lucas'                         : RPNOperator( getNthLucasNumberOperator, 1 ),
+    'make_continued_fraction'       : RPNOperator( makeContinuedFractionOperator, 2 ),
+    'make_pyth_3'                   : RPNOperator( makePythagoreanTripleOperator, 2 ),
+    'make_pyth_4'                   : RPNOperator( makePythagoreanQuadrupleOperator, 2 ),
+    'nth_carol'                     : RPNOperator( getNthCarolNumberOperator, 1 ),
+    'nth_harmonic_number'           : RPNOperator( getNthHarmonicNumberOperator, 1 ),
+    'nth_jacobsthal'                : RPNOperator( getNthJacobsthalNumberOperator, 1 ),
+    'nth_k_thabit'                  : RPNOperator( getNthKThabitNumberOperator, 2 ),
+    'nth_k_thabit_2'                : RPNOperator( getNthKThabit2NumberOperator, 2 ),
+    'nth_kynea'                     : RPNOperator( getNthKyneaNumberOperator, 1 ),
+    'nth_leonardo'                  : RPNOperator( getNthLeonardoNumberOperator, 1 ),
+    'nth_mersenne_exponent'         : RPNOperator( getNthMersenneExponentOperator, 1 ),
+    'nth_mersenne_prime'            : RPNOperator( getNthMersennePrimeOperator, 1 ),
+    'nth_merten'                    : RPNOperator( getNthMertenOperator, 1 ),
     'nth_mobius'                    : RPNOperator( getNthMobiusNumberOperator, 1 ),
-    'nth_padovan'                   : RPNOperator( getNthPadovanNumber, 1 ),
-    'nth_perfect_number'            : RPNOperator( getNthPerfectNumber, 1 ),
+    'nth_padovan'                   : RPNOperator( getNthPadovanNumberOperator, 1 ),
+    'nth_perfect_number'            : RPNOperator( getNthPerfectNumberOperator, 1 ),
     'nth_stern'                     : RPNOperator( getNthSternNumberOperator, 1 ),
-    'nth_thabit'                    : RPNOperator( getNthThabitNumber, 1 ),
-    'nth_thabit_2'                  : RPNOperator( getNthThabit2Number, 1 ),
+    'nth_thabit'                    : RPNOperator( getNthThabitNumberOperator, 1 ),
+    'nth_thabit_2'                  : RPNOperator( getNthThabit2NumberOperator, 1 ),
     'nth_thue_morse'                : RPNOperator( getNthThueMorseNumberOperator, 1 ),
-    'octanacci'                     : RPNOperator( getNthOctanacci, 1 ),
-    'pascal_triangle'               : RPNOperator( getNthPascalLine, 1 ),
-    'pentanacci'                    : RPNOperator( getNthPentanacci, 1 ),
-    'phitorial'                     : RPNOperator( getNthPhitorial, 1 ),
-    'polygamma'                     : RPNOperator( getPolygamma, 2 ),
-    'polygorial'                    : RPNOperator( getNthKPolygorial, 2 ),
+    'octanacci'                     : RPNOperator( getNthOctanacciOperator, 1 ),
+    'pascal_triangle'               : RPNOperator( getNthPascalLineOperator, 1 ),
+    'pentanacci'                    : RPNOperator( getNthPentanacciOperator, 1 ),
+    'phitorial'                     : RPNOperator( getNthPhitorialOperator, 1 ),
+    'polygamma'                     : RPNOperator( getPolygammaOperator, 2 ),
+    'polygorial'                    : RPNOperator( getNthKPolygorialOperator, 2 ),
     'primorial'                     : RPNOperator( getNthPrimorial, 1 ),
-    'pythagorean_triples'           : RPNOperator( makePythagoreanTriples, 1 ),
-    'radical'                       : RPNOperator( getRadical, 1 ),
+    'pythagorean_triples'           : RPNOperator( makePythagoreanTriplesOperator, 1 ),
+    'radical'                       : RPNOperator( getRadicalOperator, 1 ),
     'relatively_prime'              : RPNOperator( areRelativelyPrimeOperator, 2 ),
     'repunit'                       : RPNOperator( getNthBaseKRepunitOperator, 2 ),
     'reversal_addition'             : RPNOperator( getNthReversalAdditionOperator, 2 ),
     'sigma'                         : RPNOperator( getSigmaOperator, 1 ),
     'sigma_k'                       : RPNOperator( getSigmaKOperator, 2 ),
-    'subfactorial'                  : RPNOperator( getNthSubfactorial, 1 ),
-    'sums_of_k_powers'              : RPNOperator( findSumsOfKPowers, 3 ),
-    'sums_of_k_nonzero_powers'      : RPNOperator( findSumsOfKNonzeroPowers, 3 ),
-    'superfactorial'                : RPNOperator( getNthSuperfactorial, 1 ),
-    'tetranacci'                    : RPNOperator( getNthTetranacci, 1 ),
-    'tribonacci'                    : RPNOperator( getNthTribonacci, 1 ),
-    'trigamma'                      : RPNOperator( getTrigamma, 1 ),
-    'unit_roots'                    : RPNOperator( getUnitRoots, 1 ),
-    'zeta'                          : RPNOperator( getZeta, 1 ),
-    'zeta_zero'                     : RPNOperator( getNthZetaZero, 1 ),
+    'subfactorial'                  : RPNOperator( getNthSubfactorialOperator, 1 ),
+    'sums_of_k_powers'              : RPNOperator( findSumsOfKPowersOperator, 3 ),
+    'sums_of_k_nonzero_powers'      : RPNOperator( findSumsOfKNonzeroPowersOperator, 3 ),
+    'superfactorial'                : RPNOperator( getNthSuperfactorialOperator, 1 ),
+    'tetranacci'                    : RPNOperator( getNthTetranacciOperator, 1 ),
+    'tribonacci'                    : RPNOperator( getNthTribonacciOperator, 1 ),
+    'trigamma'                      : RPNOperator( getTrigammaOperator, 1 ),
+    'unit_roots'                    : RPNOperator( getUnitRootsOperator, 1 ),
+    'zeta'                          : RPNOperator( getZetaOperator, 1 ),
+    'zeta_zero'                     : RPNOperator( getNthZetaZeroOperator, 1 ),
 
     # physics
     'acceleration'                  : RPNOperator( calculateAccelerationOperator, 2 ),
@@ -3065,7 +3077,7 @@ operators = {
     'previous_primes'               : RPNOperator( getPreviousPrimesOperator, 2 ),
     'prime'                         : RPNOperator( getNthPrime, 1 ),
     'primes'                        : RPNOperator( getPrimesGenerator, 2 ),
-    'prime_pi'                      : RPNOperator( getPrimePi, 1 ),
+    'prime_pi'                      : RPNOperator( getPrimePiOperator, 1 ),
     'prime_range'                   : RPNOperator( getPrimeRange, 2 ),
     'quadruplet_prime'              : RPNOperator( getNthQuadrupletPrime, 1 ),
     'quadruplet_primes'             : RPNOperator( getNthQuadrupletPrimeList, 1 ),

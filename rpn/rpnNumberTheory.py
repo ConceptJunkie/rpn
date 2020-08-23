@@ -34,7 +34,7 @@ from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
                          twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, ComplexValidator, IntValidator, RealValidator
+from rpn.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator, RealValidator
 
 
 #******************************************************************************
@@ -43,8 +43,6 @@ from rpn.rpnValidator import argValidator, ComplexValidator, IntValidator, RealV
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -60,6 +58,11 @@ def getNthAlternatingFactorial( n ):
 
     return result
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthAlternatingFactorialOperator( n ):
+    return getNthAlternatingFactorial( n )
+
 
 #******************************************************************************
 #
@@ -73,7 +76,7 @@ def getNthPascalLineGenerator( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthPascalLine( n ):
+def getNthPascalLineOperator( n ):
     return RPNGenerator.createGenerator( getNthPascalLineGenerator, n )
 
 
@@ -146,8 +149,6 @@ def getDivisorsOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthLucasNumber( n ):
     if n == 0:
         return 2
@@ -161,6 +162,11 @@ def getNthLucasNumber( n ):
 
         return floor( fadd( power( phi, n ), 0.5 ) )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthLucasNumberOperator( n ):
+    return getNthLucasNumber( n )
+
 
 #******************************************************************************
 #
@@ -172,10 +178,13 @@ def getNthLucasNumber( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], n )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthJacobsthalNumberOperator( n ):
+    return getNthJacobsthalNumber( n )
 
 
 #******************************************************************************
@@ -203,7 +212,7 @@ def getNthBaseKRepunitOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getPrimePi( n ):
+def getPrimePiOperator( n ):
     if n <= 60_000_000_000:  # max huge prime...
         result = findPrime( n )[ 0 ]
 
@@ -228,7 +237,7 @@ def getPrimePi( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthFibonacci( n ):
+def getNthFibonacciOperator( n ):
     return fib( n )
 
 
@@ -262,14 +271,13 @@ def getNthFibonacciPolynomial( n ):
 def getNthFibonacciPolynomialOperator( n ):
     return getNthFibonacciPolynomial( n )
 
+
 #******************************************************************************
 #
 #  getNthKFibonacciNumber
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 def getNthKFibonacciNumber( n, k ):
     if n < k - 1:
         return 0
@@ -303,34 +311,39 @@ def getNthKFibonacciNumber( n, k ):
 
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
+def getNthKFibonacciNumberOperator( n, k ):
+    return getNthKFibonacciNumber( n, k )
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTribonacci( n ):
+def getNthTribonacciOperator( n ):
     return getNthKFibonacciNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTetranacci( n ):
+def getNthTetranacciOperator( n ):
     return getNthKFibonacciNumber( n, 4 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPentanacci( n ):
+def getNthPentanacciOperator( n ):
     return getNthKFibonacciNumber( n, 5 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHexanacci( n ):
+def getNthHexanacciOperator( n ):
     return getNthKFibonacciNumber( n, 6 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptanacci( n ):
+def getNthHeptanacciOperator( n ):
     return getNthKFibonacciNumber( n, 7 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctanacci( n ):
+def getNthOctanacciOperator( n ):
     return getNthKFibonacciNumber( n, 8 )
 
 
@@ -373,8 +386,6 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthPadovanNumber( arg ):
     n = fadd( arg, 4 )
 
@@ -391,6 +402,11 @@ def getNthPadovanNumber( arg ):
     return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthPadovanNumberOperator( n ):
+    return getNthPadovanNumber( n )
 
 
 #******************************************************************************
@@ -449,11 +465,11 @@ class RPNContinuedFraction( list ):
 
 #******************************************************************************
 #
-#  convertFromContinuedFraction
+#  convertFromContinuedFractionOperator
 #
 #******************************************************************************
 
-def convertFromContinuedFraction( n ):
+def convertFromContinuedFractionOperator( n ):
     if not isinstance( n, list ):
         n = [ n ]
 
@@ -467,13 +483,13 @@ def convertFromContinuedFraction( n ):
 
 #******************************************************************************
 #
-#  makeContinuedFraction
+#  makeContinuedFractionOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
-def makeContinuedFraction( n, k ):
+def makeContinuedFractionOperator( n, k ):
     return RPNContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps - 2 ) ) )
 
 
@@ -485,7 +501,7 @@ def makeContinuedFraction( n, k ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
-def interpretAsFraction( n, k ):
+def interpretAsFractionOperator( n, k ):
     k = int( k )
 
     if mp.dps < k:
@@ -535,13 +551,13 @@ def interpretAsBaseOperator( args, base ):
 
 #******************************************************************************
 #
-#  getGreedyEgyptianFraction
+#  getGreedyEgyptianFractionOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
-def getGreedyEgyptianFraction( nominator, denominator ):
+def getGreedyEgyptianFractionOperator( nominator, denominator ):
     if nominator > denominator:
         raise ValueError( "'egyptian_fractions' requires the numerator to be smaller than the denominator" )
 
@@ -618,6 +634,10 @@ def getLinearRecurrence( recurrence, seeds, count ):
 
             del result[ 0 ]
 
+@argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ) ] )
+def getLinearRecurrenceOperator( recurrence, seeds, count ):
+    return getLinearRecurrence( recurrence, seeds, count )
+
 
 #******************************************************************************
 #
@@ -663,6 +683,10 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         del result[ 0 ]
 
     return result[ -1 ]
+
+@argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ) ] )
+def getNthLinearRecurrenceOperator( recurrence, seeds, n ):
+    return getNthLinearRecurrence( recurrence, seeds, n )
 
 
 #******************************************************************************
@@ -710,6 +734,10 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
 
             del result[ 0 ]
 
+@argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ), IntValidator( 2 ) ] )
+def getLinearRecurrenceWithModuloOperator( recurrence, seeds, count, modulo ):
+    return getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo )
+
 
 #******************************************************************************
 #
@@ -752,6 +780,10 @@ def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
             del result[ 0 ]
 
     return result[ -1 ]
+
+@argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ), IntValidator( 2 ) ] )
+def getNthLinearRecurrenceWithModuloOperator( recurrence, seeds, n, modulo ):
+    return getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo )
 
 
 #******************************************************************************
@@ -806,6 +838,10 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
 
             del result[ 0 ]
 
+@argValidator( [ ListValidator( ), ListValidator( ), ListValidator( ), IntValidator( 2 ) ] )
+def getGeometricRecurrenceOperator( recurrence, powers, seeds, count ):
+    return getGeometricRecurrence( recurrence, powers, seeds, count )
+
 
 #******************************************************************************
 #
@@ -819,7 +855,7 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
-def makePythagoreanTriple( n, k ):
+def makePythagoreanTripleOperator( n, k ):
     if n == k:
         raise ValueError( "'make_pyth_3' requires unequal arguments" )
 
@@ -882,7 +918,7 @@ def generatePythagoreanTriples( limit ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def makePythagoreanTriples( n ):
+def makePythagoreanTriplesOperator( n ):
     return RPNGenerator.createGenerator( generatePythagoreanTriples, n )
 
 
@@ -908,7 +944,7 @@ def makePythagoreanTriples( n ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
-def makePythagoreanQuadruple( a, b ):
+def makePythagoreanQuadrupleOperator( a, b ):
     # pylint: disable=invalid-name
     odd1 = ( fmod( a, 2 ) == 1 )
     odd2 = ( fmod( b, 2 ) == 1 )
@@ -953,10 +989,8 @@ def makePythagoreanQuadruple( a, b ):
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
-def makeEulerBrick( _a, _b, _c ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ), IntValidator( 1 ) ] )
+def makeEulerBrickOperator( _a, _b, _c ):
     # pylint: disable=invalid-name
     a, b, c = sorted( [ _a, _b, _c ] )
 
@@ -982,8 +1016,6 @@ def makeEulerBrick( _a, _b, _c ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthFibonorial( n ):
     result = 1
 
@@ -991,6 +1023,11 @@ def getNthFibonorial( n ):
         result = fmul( result, fib( i ) )
 
     return result
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthFibonorialOperator( n ):
+    return getNthFibonorial( n )
 
 
 #******************************************************************************
@@ -1002,8 +1039,7 @@ def getNthFibonorial( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getExtendedGCD( a, b ):
     # pylint: disable=invalid-name
     '''
@@ -1027,7 +1063,7 @@ def getExtendedGCD( a, b ):
 
 #******************************************************************************
 #
-#  getLCM
+#  getLCMOperator
 #
 #******************************************************************************
 
@@ -1043,10 +1079,14 @@ def getLCMOfList( args ):
     return result
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getLCM( n, k ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getLCMOperator( n, k ):
     return getLCMOfList( [ n, k ] )
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getLCMOfListOperator( n ):
+    return getLCMOfList( n )
 
 
 #******************************************************************************
@@ -1126,6 +1166,11 @@ def getFrobeniusNumber( args ):
     else:
         return 1 if args > 1 else -1
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getFrobeniusNumberOperator( args ):
+    return getFrobeniusNumber( args )
+
 
 #******************************************************************************
 #
@@ -1169,6 +1214,7 @@ def solveFrobenius( n, k, translate, prefix=None ):
 
 
 @listAndOneArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ), IntValidator( 0 ) ] )
 def solveFrobeniusOperator( n, k ):
     if len( n ) > 1 and getGCDOfList( n ) > 1:
         raise ValueError( 'the \'solve_frobenius\' operator is only valid for lists '
@@ -1268,19 +1314,22 @@ def calculateChineseRemainderTheorem( values, mods ):
         if not x:
             return 0
 
-        mm = getLCM( mods[ i ], mm )
+        mm = getLCMOfList( [ mods[ i ], mm ] )
 
     return x
 
 
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def calculateChineseRemainderTheoremOperator( values, mods ):
+    return calculateChineseRemainderTheorem( values, mods )
+
+
 #******************************************************************************
 #
-#  getRadical
+#  getRadicalOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getRadical( target ):
     '''
     Returns the value of the radical function for n, which is the largest
@@ -1301,6 +1350,11 @@ def getRadical( target ):
         result = fmul( result, i )
 
     return result
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
+def getRadicalOperator( n ):
+    return getRadical( n )
 
 
 #******************************************************************************
@@ -1348,7 +1402,7 @@ def getSigmaOperator( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getAbundanceRatio( n ):
+def getAbundanceRatioOperator( n ):
     return fdiv( getSigma( n ), n )
 
 
@@ -1421,9 +1475,8 @@ def getAliquotSequenceGenerator( n, k ):
         results.append( a )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
-def getAliquotSequence( n, k ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def getAliquotSequenceOperator( n, k ):
     return RPNGenerator.createGenerator( getAliquotSequenceGenerator, [ n, k ] )
 
 
@@ -1455,11 +1508,9 @@ def getLimitedAliquotSequenceGenerator( n, k ):
 
         results.append( a )
 
-
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
-def getLimitedAliquotSequence( n, k ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def getLimitedAliquotSequenceOperator( n, k ):
     return RPNGenerator.createGenerator( getLimitedAliquotSequenceGenerator, [ n, k ] )
 
 
@@ -1493,14 +1544,12 @@ def getNthMobiusNumberOperator( n ):
 
 #******************************************************************************
 #
-#  getNthMerten
+#  getNthMertenOperator
 #
 #  This recursive version is much, much faster when the cache is being used.
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
 @cachedFunction( 'merten' )
 def getNthMerten( n ):
     if n == 1:
@@ -1513,15 +1562,18 @@ def getNthMerten( n ):
 
     return result
 
-
-#******************************************************************************
-#
-#  getEulerPhi
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ IntValidator( 1 ) ] )
+def getNthMertenOperator( n ):
+    return getNthMerten( n )
+
+
+#******************************************************************************
+#
+#  getEulerPhiOperator
+#
+#******************************************************************************
+
 @cachedFunction( 'euler_phi' )
 def getEulerPhi( n ):
     if n < 2:
@@ -1530,10 +1582,15 @@ def getEulerPhi( n ):
     return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ),
                                  power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactorList( n ) ) )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getEulerPhiOperator( n ):
+    return getEulerPhi( n )
+
 
 #******************************************************************************
 #
-#  getPowMod
+#  getPowModOperator
 #
 #******************************************************************************
 
@@ -1552,9 +1609,7 @@ def getPowMod( a, b, c ):
 
     return result
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( ),
-                 IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
 def getPowModOperator( a, b, c ):
     return pow( int( a ), int( b ), int( c ) )
 
@@ -1565,16 +1620,14 @@ def getPowModOperator( a, b, c ):
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ),
-                 IntValidator( ),
-                 IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
 def getPowModOperatorNew( a, b, c ):
     return getPowMod( a, b, c )
 
 
 #******************************************************************************
 #
-#  getAbundance
+#  getAbundanceOperator
 #
 #******************************************************************************
 
@@ -1593,7 +1646,7 @@ def getAbundanceOperator( n ):
 
 #******************************************************************************
 #
-#  isDeficient
+#  isDeficientOperator
 #
 #******************************************************************************
 
@@ -1607,20 +1660,29 @@ def isDeficient( n ):
 
     return 1 if getAbundance( n ) < 0 else 0
 
-
-#******************************************************************************
-#
-#  isAbundant
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def isDeficientOperator( n ):
+    return isDeficient( n )
+
+
+#******************************************************************************
+#
+#  isAbundantOperator
+#
+#******************************************************************************
+
 def isAbundant( n ):
     if n < 2:
         return 0
 
     return 1 if getAbundance( n ) > 0 else 0
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isAbundantOperator( n ):
+    return isAbundant( n )
 
 
 #******************************************************************************
@@ -1629,13 +1691,16 @@ def isAbundant( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def isPerfect( n ):
     if n < 2:
         return 0
 
     return 1 if getAbundance( n ) == 0 else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPerfectOperator( n ):
+    return isPerfect( n )
 
 
 #******************************************************************************
@@ -1653,9 +1718,6 @@ def isSmooth( n, k ):
 @argValidator( [ IntValidator( 1 ),
                  IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
 def isSmoothOperator( n, k ):
-    if not isPrime( k ):
-        raise ValueError( "'is_smooth' requires a prime number for the second argument" )
-
     if n <= k:
         return 1
 
@@ -1664,17 +1726,20 @@ def isSmoothOperator( n, k ):
 
 #******************************************************************************
 #
-#  isPernicious
+#  isPerniciousOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def isPernicious( n ):
-    if n< 1:
+    if n < 1:
         return 0
 
     return 1 if isPrime( getBitCount( n ) ) else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPerniciousOperator( n ):
+    return isPernicious( n )
 
 
 #******************************************************************************
@@ -1711,9 +1776,6 @@ def isRoughOperator( n, k ):
     if n == k:
         return 1
 
-    if not isPrime( k ):
-        raise ValueError( "'is_rough' requires a prime number for the second argument" )
-
     return isRough( n, k )
 
 
@@ -1728,15 +1790,17 @@ def isKSemiprime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def isKSemiprimeOperator( n, k ):
     return isKSemiprime( n, k )
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
 def isSemiprime( n ):
     return isKSemiprime( n, 2 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def isSemiprimeOperator( n ):
+    return isSemiprime( n )
 
 
 #******************************************************************************
@@ -1758,14 +1822,16 @@ def isKSphenic( n, k ):
 
     return 1
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def isSphenic( n ):
     return isKSphenic( n, 3 )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isSphenicOperator( n ):
+    return isSphenic( n )
+
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def isKSphenicOperator( n, k ):
     return isKSphenic( n, k )
 
@@ -1776,8 +1842,6 @@ def isKSphenicOperator( n, k ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'squarefree' )
 def isSquareFree( n ):
     if n == 0:
@@ -1789,6 +1853,11 @@ def isSquareFree( n ):
 
     return 1
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isSquareFreeOperator( n ):
+    return isSquareFree( n )
+
 
 #******************************************************************************
 #
@@ -1796,8 +1865,6 @@ def isSquareFree( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
 @cachedFunction( 'powerful' )
 def isPowerful( n ):
     if n == 1:
@@ -1809,6 +1876,11 @@ def isPowerful( n ):
 
     return 1
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def isPowerfulOperator( n ):
+    return isPowerful( n )
+
 
 #******************************************************************************
 #
@@ -1816,8 +1888,6 @@ def isPowerful( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
 @cachedFunction( 'achilles' )
 def isAchillesNumber( n ):
     factorList = getFactorList( n )
@@ -1827,6 +1897,10 @@ def isAchillesNumber( n ):
 
     return 1 if getGCDOfList( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def isAchillesNumberOperator( n ):
+    return isAchillesNumber( n )
 
 #******************************************************************************
 #
@@ -1836,8 +1910,6 @@ def isAchillesNumber( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'unusual' )
 def isUnusual( n ):
     if n < 2:
@@ -1845,6 +1917,10 @@ def isUnusual( n ):
 
     return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) > sqrt( n ) else 0
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isUnusualOperator( n ):
+    return isUnusual( n )
 
 #******************************************************************************
 #
@@ -1852,11 +1928,14 @@ def isUnusual( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def isPronic( n ):
     a = floor( sqrt( n ) )
     return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPronicOperator( n ):
+    return isPronic( n )
 
 
 #******************************************************************************
@@ -1868,8 +1947,6 @@ def isPronic( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'polydivisible' )
 def isPolydivisible( n ):
     strValue = getMPFIntegerAsString( n )
@@ -1888,6 +1965,11 @@ def isPolydivisible( n ):
             return 0
 
     return 1
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPolydivisibleOperator( n ):
+    return isPolydivisible( n )
 
 
 #******************************************************************************
@@ -1975,7 +2057,7 @@ def generatePolydivisiblesGenerator( _base ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 2 ) ] )
-def generatePolydivisibles( n ):
+def generatePolydivisiblesOperator( n ):
     return RPNGenerator.createGenerator( generatePolydivisiblesGenerator, n )
 
 
@@ -2008,13 +2090,16 @@ def getNthSternNumberOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthCalkinWilf( n ):
     if n == 0:
         return [ 0, 1 ]
 
     return [ getNthSternNumber( n ), getNthSternNumber( fadd( n, 1 ) ) ]
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthCalkinWilfOperator( n ):
+    return getNthCalkinWilf( n )
 
 
 #******************************************************************************
@@ -2024,7 +2109,8 @@ def getNthCalkinWilf( n ):
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
-def isFriendly( n ):
+@argValidator( [ ListValidator( ) ] )
+def isFriendlyOperator( n ):
     if len( n ) < 2:
         raise ValueError( '\'is_friendly\' requires a list with more than one element' )
 
@@ -2048,13 +2134,15 @@ def isFriendly( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
 @cachedFunction( 'k_hyperperfect' )
 def isKHyperperfect( n, k ):
     setAccuracyForN( n )
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def isKHyperperfectOperator( n, k ):
+    return isKHyperperfect( n, k )
 
 
 #******************************************************************************
@@ -2063,13 +2151,15 @@ def isKHyperperfect( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
 @cachedFunction( 'k_perfect' )
 def isKPerfect( n, k ):
     setAccuracyForN( n )
     return 1 if fdiv( getSigma( n ), n ) == k else 0
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def isKPerfectOperator( n, k ):
+    return isKPerfect( n, k )
 
 
 #******************************************************************************
@@ -2080,7 +2170,7 @@ def isKPerfect( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthZetaZero( n ):
+def getNthZetaZeroOperator( n ):
     return zetazero( int( n ) )
 
 
@@ -2144,29 +2234,36 @@ mersennePrimeExponents = {
     51:  82589933
 }
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
 def getNthMersenneExponent( n ):
     if n == 0:
         return 1
 
     return mersennePrimeExponents[ n ]
 
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+def getNthMersenneExponentOperator( n ):
+    return getNthMersenneExponent( n )
+
 def getNthMersennePrime( n ):
     if n == 0:
         return 1
 
     return fsub( power( 2, getNthMersenneExponent( n ) ), 1 )
 
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+def getNthMersennePrimeOperator( n ):
+    return getNthMersennePrime( n )
+
 def getNthPerfectNumber( n ):
     exponent = getNthMersenneExponent( n )
     return fmul( fsub( power( 2, exponent ), 1 ), power( 2, fsub( exponent, 1 ) ) )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+def getNthPerfectNumberOperator( n ):
+    return getNthPerfectNumber( n )
 
 
 #******************************************************************************
@@ -2229,12 +2326,12 @@ def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=None ):
 
 @cachedFunction( 'sums_of_k_powers' )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ), IntValidator( 1 ) ] )
-def findSumsOfKPowers( n, k, p ):
+def findSumsOfKPowersOperator( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p ) )
 
 @cachedFunction( 'sums_of_k_nonzero_powers' )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ), IntValidator( 1 ) ] )
-def findSumsOfKNonzeroPowers( n, k, p ):
+def findSumsOfKNonzeroPowersOperator( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p, bNonZero = True ) )
 
 
@@ -2246,127 +2343,157 @@ def findSumsOfKNonzeroPowers( n, k, p ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getBarnesG( n ):
+def getBarnesGOperator( n ):
     return barnesg( n )
 
 @twoArgFunctionEvaluator( )
-def getBeta( n, k ):
+def getBetaOperator( n, k ):
     return beta( n, k )
 
 @twoArgFunctionEvaluator( )
-def getCyclotomic( n, k ):
+def getCyclotomicOperator( n, k ):
     return cyclotomic( n, k )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getDigamma( n ):
+def getDigammaOperator( n ):
     return psi( 0, n )
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator( ) ] )
 def getNthDoubleFactorial( n ):
     return fac2( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getAltZeta( n ):
-    return altzeta( n )
+def getNthDoubleFactorialOperator( n ):
+    return fac2( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
+def getAltZetaOperator( n ):
+    return altzeta( n )
+
 def getNthFactorial( n ):
     return fac( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getGamma( n ):
+def getNthFactorialOperator( n ):
+    return fac( n )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ ComplexValidator( ) ] )
+def getGammaOperator( n ):
     return gamma( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHarmonicNumber( n ):
+def getNthHarmonicNumberOperator( n ):
     return harmonic( n )
+
+def getNthHyperfactorial( n ):
+    return hyperfac( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getNthHyperfactorial( n ):
+def getNthHyperfactorialOperator( n ):
     return hyperfac( n )
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
-def getLeylandNumber( n, k ):
+def getLeylandNumberOperator( n, k ):
     return fadd( power( n, k ), power( k, n ) )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
-def getLogGamma( n ):
+def getLogGammaOperator( n ):
     return loggamma( n )
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 def getNthCarolNumber( n ):
     return fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthCarolNumberOperator( n ):
+    return getNthCarolNumber( n )
+
 def getNthKyneaNumber( n ):
     return fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthKyneaNumberOperator( n ):
+    return getNthKyneaNumber( n )
+
 def getNthLeonardoNumber( n ):
     return fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 )
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ), ComplexValidator( ) ] )
-def getPolygamma( n, k ):
-    return psi( n, k )
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthLeonardoNumberOperator( n ):
+    return getNthLeonardoNumber( n )
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), ComplexValidator( ) ] )
+def getPolygammaOperator( n, k ):
+    return psi( n, k )
+
 def getNthSubfactorial( n ):
     return floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator( ) ] )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthSubfactorialOperator( n ):
+    return getNthSubfactorial( n )
+
 def getNthSuperfactorial( n ):
     return superfac( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ ComplexValidator( ) ] )
+def getNthSuperfactorialOperator( n ):
+    return getNthSuperfactorial( n )
+
 def getNthThabitNumber( n ):
     return fsub( fmul( 3, power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthThabit2Number( n ):
+def getNthThabitNumberOperator( n ):
+    return getNthThabitNumber( n )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthThabit2NumberOperator( n ):
     return fadd( fmul( 3, power( 2, n ) ), 1 )
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
-def getNthKThabitNumber( n, k ):
+def getNthKThabitNumberOperator( n, k ):
     return fsub( fmul( fadd( k, 1 ), power( k, n ) ), 1 )
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
-def getNthKThabit2Number( n, k ):
+def getNthKThabit2NumberOperator( n, k ):
     return fadd( fmul( fadd( k, 1 ), power( k, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
-def getTrigamma( n ):
+@argValidator( [ ComplexValidator( ) ] )
+def getTrigammaOperator( n ):
     return psi( 1, n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getUnitRoots( n ):
+def getUnitRootsOperator( n ):
     return unitroots( int( n ) )
 
 @oneArgFunctionEvaluator( )
-def getZeta( n ):
+@argValidator( [ ComplexValidator( ) ] )
+def getZetaOperator( n ):
     return zeta( n )
 
 @twoArgFunctionEvaluator( )
-def getHurwitzZeta( n, k ):
+@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
+def getHurwitzZetaOperator( n, k ):
     return zeta( n, k )
 
 
@@ -2398,13 +2525,13 @@ def getCollatzSequenceGenerator( n, k ):
         a = b
 
 @twoArgFunctionEvaluator( )
-def getCollatzSequence( n, k ):
+def getCollatzSequenceOperator( n, k ):
     return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )
 
 
 #******************************************************************************
 #
-#  findNthSumOfSquares
+#  findNthSumOfSquaresOperator
 #
 #  http://www.wolframalpha.com/input/?i=(+n+(+n+%2B+1+)+(+2n+%2B+1+)+)+%2F+6+%3D+x,+solve+for+n
 #
@@ -2412,7 +2539,7 @@ def getCollatzSequence( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findNthSumOfSquares( n ):
+def findNthSumOfSquaresOperator( n ):
     sqrt3 = sqrt( 3 )
 
     bigTerm = root( fadd( fmul( sqrt3, sqrt( fsub( fmul( 3888, power( n, 2 ) ), 1 ) ) ), fmul( 108, n ) ), 3 )
@@ -2423,7 +2550,7 @@ def findNthSumOfSquares( n ):
 
 #******************************************************************************
 #
-#  findNthSumOfCubes
+#  findNthSumOfCubesOperator
 #
 #  http://www.wolframalpha.com/input/?i=x+%3D+1%2F4+n%5E2+(+n+%2B+1+)%5E2+for+n
 #
@@ -2431,20 +2558,18 @@ def findNthSumOfSquares( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findNthSumOfCubes( n ):
+def findNthSumOfCubesOperator( n ):
     return fdiv( fsub( sqrt( fadd( fmul( 8, sqrt( n ) ), 1 ) ), 1 ), 2 )
 
 
 #******************************************************************************
 #
-#  getDigitalRoot
+#  getDigitalRootOperator
 #
 #  https://en.wikipedia.org/wiki/Digital_root
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ) ] )
 def getDigitalRoot( n ):
     if n == 0:
         return 0
@@ -2455,6 +2580,11 @@ def getDigitalRoot( n ):
         return 9
     else:
         return result
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
+def getDigitalRootOperator( n ):
+    return getDigitalRoot( n )
 
 
 #******************************************************************************
@@ -2501,29 +2631,33 @@ def isCarmichaelNumberOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'ruth_aaron' )
 def isRuthAaronNumber( n ):
     return 1 if fsum( getFactors( n ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isRuthAaronNumberOperator( n ):
+    return isRuthAaronNumber( n )
+
 
 #******************************************************************************
 #
-#  calculateAckermannFunction
-#
-#  https://stackoverflow.com/questions/12678099/ackermann-function-understanding
+#  calculateAckermannFunctionOperator
 #
 #******************************************************************************
 
 def calculateAckermannFunction( n, k ):
-    """
+    '''
+    https://stackoverflow.com/questions/12678099/ackermann-function-understanding
+
     Computes the value of the Ackermann function for the input integers m and n.
     the Ackermann function being:
     A( n, k ) = k + 1                        if n = 0
               = A ( n - 1 , 1 )              if n > 0 and k == 1
               = A ( n - 1 , A ( n , k - 1 )  if n > 0 and k > 0
-    """
+    '''
+
     # shortcuts to help with excessive recursion
     if n == 1:
         return fadd( k, 2 )
@@ -2560,7 +2694,7 @@ def calculateAckermannFunctionOperator( n, k ):
 
 #******************************************************************************
 #
-#  getHarmonicResidue
+#  getHarmonicResidueOperator
 #
 #******************************************************************************
 
@@ -2578,13 +2712,13 @@ def getHarmonicResidueOperator( n ):
 
 #******************************************************************************
 #
-#  isHarmonicDivisorNumber
+#  isHarmonicDivisorNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def isHarmonicDivisorNumber( n ):
+def isHarmonicDivisorNumberOperator( n ):
     if n < 1:
         return 0
 
@@ -2593,7 +2727,7 @@ def isHarmonicDivisorNumber( n ):
 
 #******************************************************************************
 #
-#  isAntiharmonic
+#  isAntiharmonicOperator
 #
 #******************************************************************************
 
@@ -2605,16 +2739,21 @@ def isAntiharmonic( n ):
 
     return 1 if isDivisible( getSigmaK( n, 2 ), getSigmaK( n, 1 ) ) else 0
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isAntiharmonicOperator( n ):
+    return isAntiharmonic( n )
+
 
 #******************************************************************************
 #
-#  getHarmonicFraction
+#  getHarmonicFractionOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getHarmonicFraction( n ):
+def getHarmonicFractionOperator( n ):
     n = int( n )
 
     if n == 1:
@@ -2632,13 +2771,13 @@ def getHarmonicFraction( n ):
 
 #******************************************************************************
 #
-#  getAlternatingHarmonicFraction
+#  getAlternatingHarmonicFractionOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getAlternatingHarmonicFraction( n ):
+def getAlternatingHarmonicFractionOperator( n ):
     n = int( n )
 
     if n == 1:
@@ -2659,7 +2798,7 @@ def getAlternatingHarmonicFraction( n ):
 
 #******************************************************************************
 #
-#  areRelativelyPrime
+#  areRelativelyPrimeOperator
 #
 #******************************************************************************
 
@@ -2674,13 +2813,13 @@ def areRelativelyPrimeOperator( n, k ):
 
 #******************************************************************************
 #
-#  getNthPhitorial
+#  getNthPhitorialOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPhitorial( n ):
+def getNthPhitorialOperator( n ):
     if n < 2:
         return 1
 
@@ -2695,13 +2834,13 @@ def getNthPhitorial( n ):
 
 #******************************************************************************
 #
-#  getNthKPolygorial
+#  getNthKPolygorialOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 3 ) ] )
-def getNthKPolygorial( n, k ):
+def getNthKPolygorialOperator( n, k ):
     return fmul( fdiv( fac( n ), power( 2, n ) ),
                  fdiv( fmul( power( fsub( k, 2 ), n ),
                              gamma( fdiv( fadd( fsub( fmul( n, k ), fmul( 2, n ) ), 2 ), fsub( k, 2 ) ) ) ),

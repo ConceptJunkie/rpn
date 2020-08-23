@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2037
+MAX_EXAMPLE_COUNT = 2040
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -7094,10 +7094,35 @@ determines:  whether or not n is a Dudeney number of power k.
     'is_harshad' : [
 'lexicography', 'returns whether an integer n is a Harshad number',
 '''
+From https://en.wikipedia.org/wiki/Harshad_number:
+
+In mathematics, a harshad number (or Niven number) in a given number base is an
+integer that is divisible by the sum of its digits when written in that base.
+Harshad numbers in base n are also known as n-harshad (or n-Niven) numbers.
+Harshad numbers were defined by D. R. Kaprekar, a mathematician from India.  The
+word "harshad" comes from the Sanskrit harsa (joy) + da (give), meaning
+joy-giver.  The term "Niven number" arose from a paper delivered by Ivan M.
+Niven at a conference on number theory in 1977.  All integers between zero and
+n are n-harshad numbers.
+
+The number 18 is a harshad number in base 10, because the sum of the digits 1
+and 8 is 9 (1 + 8 = 9), and 18 is divisible by 9.
+
+Given the divisibility test for 9, one might be tempted to generalize that all
+numbers divisible by 9 are also harshad numbers.  But for the purpose of
+determining the harshadness of n, the digits of n can only be added up once and
+n must be divisible by that sum; otherwise, it is not a harshad number.  For
+example, 99 is not a harshad number, since 9 + 9 = 18, and 99 is not divisible
+by 18.
+
+The base number (and furthermore, its powers) will always be a harshad number in
+its own base, since it will be represented as "10" and 1 + 0 = 1.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 40 range lambda x 10 is_harshad filter' ) + '''
+''' + makeCommandExample( '100 150 range lambda x 9 is_harshad filter' ) + '''
+''' + makeCommandExample( '1000 1100 range lambda x 27 is_harshad filter' ),
+[ 'sum_digits', 'get_base_k_digits' ] ],
 
     'is_increasing' : [
 'lexicography', 'returns whether an integer n is increasing',
@@ -8660,7 +8685,7 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
 ''' + makeCommandExample( '0 10 range calkin_wilf' ) + '''
 ''' + makeCommandExample( '1000000 calkin_wilf' ) + '''
 ''' + makeCommandExample( '1000000000000000000000000000000000 calkin_wilf' ),
-[ ] ],
+[ 'fraction', 'continued_fraction' ] ],
 
     'continued_fraction' : [
 'number_theory', 'interprets list n as a continued fraction',
@@ -9053,7 +9078,7 @@ Achilles numbers whose Euler totients are also Achilles numbers.
 ''',
 '''
 ''' + makeCommandExample( '1 1000 range lambda x is_achilles filter' ),
-[ ] ],
+[ 'is_powerful', 'is_perfect' ] ],
 
     'is_antiharmonic' : [
 'number_theory', 'returns whether or not n is an antiharmonic number',
@@ -9064,15 +9089,26 @@ sum of its divisors.
 '''
 The first several antiharmonic numbers:
 ''' + makeCommandExample( '1 150 range lambda x is_antiharmonic filter' ),
-[ ] ],
+[ 'divisors' ] ],
 
     'is_carmichael' : [
 'number_theory', 'returns whether n is a Carmichael number',
 '''
+From https://en.wikipedia.org/wiki/Carmichael_number:
+
+In number theory, a Carmichael number is a composite number n which satisfies
+the modular arithmetic congruence relation:  b^(n-1) equiv 1 (mod n)
+
+for all integers b which are relatively prime to n.  They are named for Robert
+Carmichael.
+
+Equivalently, a Carmichael number is a composite number n for which
+
+b^n equiv b (mod n).
 ''',
 '''
 ''' + makeCommandExample( '1 10000 range lambda x is_carmichael filter' ),
-[ ] ],
+[ 'gcd', 'modulo' ] ],
 
     'is_composite' : [
 'number_theory', 'returns whether n is composite',
@@ -9191,7 +9227,7 @@ A pernicious number has a prime number of ones in its binary representation.
 ''',
 '''
 ''' + makeCommandExample( '1 30 range is_pernicious' ),
-[ ] ],
+[ 'parity', 'count_bits' ] ],
 
     'is_polydivisible' : [
 'number_theory', 'returns whether or not n is polydivisible',
