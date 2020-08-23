@@ -19,6 +19,8 @@ from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub,
                    fsum, im, libmp, mp, mpc, polyroots, polyval, power, root, sin, sqrt
 
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
 
 def determinant( M ):
@@ -241,7 +243,7 @@ class Polynomial( ):
 
 #******************************************************************************
 #
-#  solveQuadraticPolynomial
+#  solveQuadraticPolynomialOperator
 #
 #******************************************************************************
 
@@ -265,15 +267,20 @@ def solveQuadraticPolynomial( a, b, c ):
 
         return [ x1, x2 ]
 
+@argValidator( [ ComplexValidator( ), ComplexValidator( ), ComplexValidator( ) ] )
+def solveQuadraticPolynomialOperator( a, b, c ):
+    return solveQuadraticPolynomial( a, b, c )
+
 
 #******************************************************************************
 #
-#  solveCubicPolynomial
+#  solveCubicPolynomialOperator
 #
 #  Adapted from http://www.1728.org/cubic2.htm
 #
 #******************************************************************************
 
+@argValidator( [ ComplexValidator( ), ComplexValidator( ), ComplexValidator( ), ComplexValidator( ) ] )
 def solveCubicPolynomial( a, b, c, d ):
     # pylint: disable=invalid-name
     '''
@@ -341,16 +348,21 @@ def solveCubicPolynomial( a, b, c, d ):
 
     return [ chop( x1 ), chop( x2 ), chop( x3 ) ]
 
+@argValidator( [ ComplexValidator( ), ComplexValidator( ), ComplexValidator( ), ComplexValidator( ) ] )
+def solveCubicPolynomialOperator( a, b, c, d ):
+    return solveCubicPolynomial( a, b, c, d )
 
 #******************************************************************************
 #
-#  solveQuarticPolynomial
+#  solveQuarticPolynomialOperator
 #
 #  Adapted from http://www.1728.org/quartic2.htm
 #
 #******************************************************************************
 
-def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
+@argValidator( [ ComplexValidator( ), ComplexValidator( ), ComplexValidator( ), ComplexValidator( ),
+                 ComplexValidator( ) ] )
+def solveQuarticPolynomialOperator( _a, _b, _c, _d, _e ):
     # pylint: disable=invalid-name
     '''
     This function applies the quartic formula to solve a polynomial
@@ -430,11 +442,11 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 
 #******************************************************************************
 #
-#  addPolynomials
+#  addPolynomialsOperator
 #
 #******************************************************************************
 
-def addPolynomials( a, b ):
+def addPolynomialsOperator( a, b ):
     '''Adds two polynomials.'''
     lengthDiff = len( a ) - len( b )
 
@@ -453,7 +465,7 @@ def addPolynomials( a, b ):
 
 #******************************************************************************
 #
-#  multiplyPolynomials
+#  multiplyPolynomialsOperator
 #
 #******************************************************************************
 
@@ -464,53 +476,48 @@ def multiplyPolynomials( a, b ):
 
     return result.getCoefficients( )
 
-
-#******************************************************************************
-#
-#  evaluatePolynomial
-#
-#******************************************************************************
-
-def evaluatePolynomial( a, b ):
-    '''Evaluates an arbitrary polynomial a for value b.'''
-    if not isinstance( a, list ):
-        a = [ a ]
-
-    if isinstance( b, list ):
-        return [ evaluatePolynomial( a, i ) for i in b ]
-    else:
-        return polyval( a, b )
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def multiplyPolynomialsOperator( a, b ):
+    return multiplyPolynomials( a, b )
 
 
 #******************************************************************************
 #
-#  exponentiatePolynomial
+#  evaluatePolynomialOperator
 #
 #******************************************************************************
 
-def exponentiatePolynomial( n, k ):
+@listAndOneArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ), ComplexValidator( ) ] )
+def evaluatePolynomialOperator( a, b ):
+    return polyval( a, b )
+
+
+#******************************************************************************
+#
+#  exponentiatePolynomialOperator
+#
+#******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
+def exponentiatePolynomialOperator( n, k ):
     '''Exponentiates an arbitrary polynomial by an integral power k.'''
-    if not isinstance( n, list ):
-        n = [ n ]
+    result = n
 
-    if isinstance( k, list ):
-        return [ exponentiatePolynomial( n, i ) for i in k ]
-    else:
-        result = n
+    for _ in arange( 0, k - 1 ):
+        result = multiplyPolynomials( result, n )
 
-        for _ in arange( 0, k - 1 ):
-            result = multiplyPolynomials( result, n )
-
-        return result
+    return result
 
 
 #******************************************************************************
 #
-#  solvePolynomial
+#  solvePolynomialOperator
 #
 #******************************************************************************
 
-def solvePolynomial( args ):
+def solvePolynomialOperator( args ):
     '''Uses the mpmath solve function to numerically solve an arbitrary polynomial.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
@@ -556,7 +563,7 @@ def solvePolynomial( args ):
 
 #******************************************************************************
 #
-#  multiplyPolynomialList
+#  multiplyPolynomialListOperator
 #
 #******************************************************************************
 
@@ -587,10 +594,15 @@ def multiplyPolynomialList( args ):
 
     return result.getCoefficients( )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def multiplyPolynomialListOperator( args ):
+    return  multiplyPolynomialList( args )
+
 
 #******************************************************************************
 #
-#  sumPolynomialList
+#  sumPolynomialListOperator
 #
 #******************************************************************************
 
@@ -621,13 +633,18 @@ def sumPolynomialList( args ):
 
     return result.getCoefficients( )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def sumPolynomialListOperator( args ):
+    return  sumPolynomialList( args )
+
 
 #******************************************************************************
 #
-#  getPolynomialDiscriminant
+#  getPolynomialDiscriminantOperator
 #
 #******************************************************************************
 
-def getPolynomialDiscriminant( n ):
+def getPolynomialDiscriminantOperator( n ):
     return Polynomial( n ).getDiscriminant( )
 

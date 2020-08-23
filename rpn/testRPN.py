@@ -2183,10 +2183,19 @@ def runFigurateNumberOperatorTests( ):
     expectEqual( '0 1000 range dodecahedral', '6566 oeis 1001 left' )
 
     # generalized_pentagonal
-    expectEqual( '0 100 range generalized_pentagonal', '1318 oeis 101 left' )
+    expectEqual( '0 1000 range generalized_pentagonal', '1318 oeis 1001 left' )
 
-    if slow:
-        expectEqual( '0 1000 range generalized_pentagonal', '1318 oeis 1001 left' )
+    # generalized_heptagonal
+    expectEqual( '0 10000 range generalized_heptagonal', '85787 oeis 10001 left' )
+
+    # generalized_octagonal
+    expectEqual( '0 999 range generalized_octagonal', '1082 oeis 1000 left' )
+
+    # generalized_nonagonal
+    expectEqual( '0 10000 range generalized_nonagonal', '118277 oeis 10001 left' )
+
+    # generalized_decagonal
+    expectEqual( '0 1000 range generalized_decagonal', '74377 oeis 1001 left' )
 
     # heptagonal
     expectEqual( '0 100 range heptagonal', '566 oeis 101 left' )

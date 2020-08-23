@@ -25,8 +25,6 @@ from rpn.rpnValidator import argValidator, IntValidator
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ), IntValidator( 3 ) ] )
 def getNthGeneralizedPolygonalNumber( n, k ):
     negative = ( fmod( n, 2 ) == 0 )
 
@@ -37,10 +35,129 @@ def getNthGeneralizedPolygonalNumber( n, k ):
 
     return getNthPolygonalNumber( n, k )
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 3 ) ] )
+def getNthGeneralizedPolygonalNumberOperator( n, k ):
+    return getNthGeneralizedPolygonalNumber( n, k )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedTriangulartNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedTriangularNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 3 )
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedTriangularNumberOperator( n ):
+    return getNthGeneralizedTriangularNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedSquareNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedSquareNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedSquareNumberOperator( n ):
+    return getNthGeneralizedSquareNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedPentagonalNumberOperator
+#
+#******************************************************************************
+
 def getNthGeneralizedPentagonalNumber( n ):
     return getNthGeneralizedPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedPentagonalNumberOperator( n ):
+    return getNthGeneralizedPentagonalNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedHexagonalNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedHexagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedHexagonalNumberOperator( n ):
+    return getNthGeneralizedHexagonalNumber( n )
+
+#******************************************************************************
+#
+#  getNthGeneralizedHeptagonalNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedHeptagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedHeptagonalNumberOperator( n ):
+    return getNthGeneralizedHeptagonalNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedOctagonalNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedOctagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 8 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedOctagonalNumberOperator( n ):
+    return getNthGeneralizedOctagonalNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedNonagonalNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedNonagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 9 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedNonagonalNumberOperator( n ):
+    return getNthGeneralizedNonagonalNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthGeneralizedDecagonalNumberOperator
+#
+#******************************************************************************
+
+def getNthGeneralizedDecagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 10 )
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthGeneralizedDecagonalNumberOperator( n ):
+    return getNthGeneralizedDecagonalNumber( n )
 
 
 #******************************************************************************
@@ -60,37 +177,37 @@ def getNthPolygonalNumberOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTriangularNumber( n ):
+def getNthTriangularNumberOperator( n ):
     return getNthPolygonalNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPentagonalNumber( n ):
+def getNthPentagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 5 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHexagonalNumber( n ):
+def getNthHexagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 6 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptagonalNumber( n ):
+def getNthHeptagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 7 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalNumber( n ):
+def getNthOctagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 8 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalNumber( n ):
+def getNthNonagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 9 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalNumber( n ):
+def getNthDecagonalNumberOperator( n ):
     return getNthPolygonalNumber( n, 10 )
 
 
@@ -114,42 +231,42 @@ def findPolygonalNumberOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findTriangularNumber( n ):
+def findTriangularNumberOperator( n ):
     return findPolygonalNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findSquareNumber( n ):
+def findSquareNumberOperator( n ):
     return findPolygonalNumber( n, 4 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findPentagonalNumber( n ):
+def findPentagonalNumberOperator( n ):
     return findPolygonalNumber( n, 5 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findHexagonalNumber( n ):
+def findHexagonalNumberOperator( n ):
     return findPolygonalNumber( n, 6 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findHeptagonalNumber( n ):
+def findHeptagonalNumberOperator( n ):
     return findPolygonalNumber( n, 7 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findOctagonalNumber( n ):
+def findOctagonalNumberOperator( n ):
     return findPolygonalNumber( n, 8 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findNonagonalNumber( n ):
+def findNonagonalNumberOperator( n ):
     return findPolygonalNumber( n, 9 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findDecagonalNumber( n ):
+def findDecagonalNumberOperator( n ):
     return findPolygonalNumber( n, 10 )
 
 
@@ -170,42 +287,42 @@ def getNthCenteredPolygonalNumberOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredTriangularNumber( n ):
+def getNthCenteredTriangularNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredSquareNumber( n ):
+def getNthCenteredSquareNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 4 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredPentagonalNumber( n ):
+def getNthCenteredPentagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 5 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredHexagonalNumber( n ):
+def getNthCenteredHexagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 6 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredHeptagonalNumber( n ):
+def getNthCenteredHeptagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 7 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredOctagonalNumber( n ):
+def getNthCenteredOctagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 8 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredNonagonalNumber( n ):
+def getNthCenteredNonagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 9 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredDecagonalNumber( n ):
+def getNthCenteredDecagonalNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 10 )
 
 
@@ -230,49 +347,48 @@ def findCenteredPolygonalNumberOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredTriangularNumber( n ):
+def findCenteredTriangularNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredSquareNumber( n ):
+def findCenteredSquareNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 4 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredPentagonalNumber( n ):
+def findCenteredPentagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 5 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredHexagonalNumber( n ):
+def findCenteredHexagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 6 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredHeptagonalNumber( n ):
+def findCenteredHeptagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 7 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredOctagonalNumber( n ):
+def findCenteredOctagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 8 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredNonagonalNumber( n ):
+def findCenteredNonagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 9 )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def findCenteredDecagonalNumber( n ):
+def findCenteredDecagonalNumberOperator( n ):
     return findCenteredPolygonalNumber( n, 10 )
-
 
 
 #******************************************************************************
 #
-#  getNthPentagonalTriangularNumber
+#  getNthPentagonalTriangularNumberOperator
 #
 #  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
 #
@@ -280,7 +396,7 @@ def findCenteredDecagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPentagonalTriangularNumber( n ):
+def getNthPentagonalTriangularNumberOperator( n ):
     if n == 0:
         return 0
 
@@ -289,7 +405,7 @@ def getNthPentagonalTriangularNumber( n ):
 
 #******************************************************************************
 #
-#  getNthPentagonalSquareNumber
+#  getNthPentagonalSquareNumberOperator
 #
 #  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
 #
@@ -297,13 +413,13 @@ def getNthPentagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPentagonalSquareNumber( n ):
+def getNthPentagonalSquareNumberOperator( n ):
     return getNthLinearRecurrence( [ 1, -9603, 9603 ], [ 1, 9801, 94109401 ], fsub( n, 1 ) )
 
 
 #******************************************************************************
 #
-#  getNthHexagonalSquareNumber
+#  getNthHexagonalSquareNumberOperator
 #
 #  http://oeis.org/A046177
 #
@@ -313,14 +429,14 @@ def getNthPentagonalSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHexagonalSquareNumber( n ):
+def getNthHexagonalSquareNumberOperator( n ):
     return nint( floor( fdiv( power( tan( fdiv( fmul( 3, pi ), 8 ) ),
                                      fsub( fmul( 8, n ), 4 ) ), 32 ) ) )
 
 
 #******************************************************************************
 #
-#  getNthHexagonalPentagonalNumber
+#  getNthHexagonalPentagonalNumberOperator
 #
 #  http://oeis.org/A046178
 #
@@ -330,7 +446,7 @@ def getNthHexagonalSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHexagonalPentagonalNumber( n ):
+def getNthHexagonalPentagonalNumberOperator( n ):
     return nint( ceil( fdiv( fmul( fsub( sqrt( 3 ), 1 ),
                                    power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ) ),
                              12 ) ) )
@@ -338,7 +454,7 @@ def getNthHexagonalPentagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthHeptagonalTriangularNumber
+#  getNthHeptagonalTriangularNumberOperator
 #
 #  http://oeis.org/A046194
 #
@@ -352,14 +468,14 @@ def getNthHexagonalPentagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptagonalTriangularNumber( n ):
+def getNthHeptagonalTriangularNumberOperator( n ):
     return getNthLinearRecurrence( [ 1, -1, -103682, 103682, 1 ],
                                    [ 1, 55, 121771, 5720653, 12625478965 ], fsub( n, 1 ) )
 
 
 #******************************************************************************
 #
-#  getNthHeptagonalSquareNumber
+#  getNthHeptagonalSquareNumberOperator
 #
 #  http://oeis.org/A046195
 #
@@ -370,7 +486,7 @@ def getNthHeptagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptagonalSquareNumber( n ):
+def getNthHeptagonalSquareNumberOperator( n ):
     index = getNthLinearRecurrence( [ 1, -1, 0, -1442, 1442, 0, 1 ],
                                     [ 1, 6, 49, 961, 8214, 70225, 1385329 ], fsub( n, 1 ) )
 
@@ -379,7 +495,7 @@ def getNthHeptagonalSquareNumber( n ):
 
 #******************************************************************************
 #
-#  getNthHeptagonalPentagonalNumber
+#  getNthHeptagonalPentagonalNumberOperator
 #
 #  http://oeis.org/A048900
 #
@@ -389,7 +505,7 @@ def getNthHeptagonalSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptagonalPentagonalNumber( n ):
+def getNthHeptagonalPentagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( power( fadd( 2, sqrt( 15 ) ), 2 ),
                                     power( fadd( 4, sqrt( 15 ) ),
                                            fsub( fmul( 4, n ), 3 ) ) ), 240 ) ) )
@@ -397,7 +513,7 @@ def getNthHeptagonalPentagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthHeptagonalHexagonalNumber
+#  getNthHeptagonalHexagonalNumberOperator
 #
 #  http://oeis.org/A048903
 #
@@ -407,7 +523,7 @@ def getNthHeptagonalPentagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthHeptagonalHexagonalNumber( n ):
+def getNthHeptagonalHexagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( fsub( sqrt( 5 ), 1 ),
                                     power( fadd( 2, sqrt( 5 ) ),
                                            fsub( fmul( 8, n ), 5 ) ) ), 80 ) ) )
@@ -415,7 +531,7 @@ def getNthHeptagonalHexagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthOctagonalTriangularNumber
+#  getNthOctagonalTriangularNumberOperator
 #
 #  From http://oeis.org/A046183
 #
@@ -427,7 +543,7 @@ def getNthHeptagonalHexagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalTriangularNumber( n ):
+def getNthOctagonalTriangularNumberOperator( n ):
     sign = power( -1, n )
 
     return nint( floor( fdiv( fmul( fsub( 7, fprod( [ 2, sqrt( 6 ), sign ] ) ),
@@ -438,7 +554,7 @@ def getNthOctagonalTriangularNumber( n ):
 
 #******************************************************************************
 #
-#  getNthOctagonalSquareNumber
+#  getNthOctagonalSquareNumberOperator
 #
 #  From http://oeis.org/A036428:
 #
@@ -449,13 +565,13 @@ def getNthOctagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalSquareNumber( n ):
+def getNthOctagonalSquareNumberOperator( n ):
     return nint( floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) ) )
 
 
 #******************************************************************************
 #
-#  getNthOctagonalPentagonalNumber
+#  getNthOctagonalPentagonalNumberOperator
 #
 #  http://oeis.org/A046189
 #
@@ -465,14 +581,14 @@ def getNthOctagonalSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalPentagonalNumber( n ):
+def getNthOctagonalPentagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
                                     power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) ) )
 
 
 #******************************************************************************
 #
-#  getNthOctagonalHexagonalNumber
+#  getNthOctagonalHexagonalNumberOperator
 #
 #  http://oeis.org/A046192
 #
@@ -482,7 +598,7 @@ def getNthOctagonalPentagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalHexagonalNumber( n ):
+def getNthOctagonalHexagonalNumberOperator( n ):
     return floor( fdiv( fmul( fsub( fmul( 3, sqrt( 3 ) ), sqrt( 2 ) ),
                               power( fadd( sqrt( 3 ), sqrt( 2 ) ),
                                      fsub( fmul( 8, n ), 5 ) ) ), 96 ) )
@@ -490,7 +606,7 @@ def getNthOctagonalHexagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthOctagonalHeptagonalNumber
+#  getNthOctagonalHeptagonalNumberOperator
 #
 #  http://oeis.org/A048906
 #
@@ -500,7 +616,7 @@ def getNthOctagonalHexagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctagonalHeptagonalNumber( n ):
+def getNthOctagonalHeptagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
                                     power( fadd( sqrt( 5 ), sqrt( 6 ) ),
                                            fsub( fmul( 8, n ), 6 ) ) ), 480 ) ) )
@@ -508,7 +624,7 @@ def getNthOctagonalHeptagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthNonagonalTriangularNumber
+#  getNthNonagonalTriangularNumberOperator
 #
 #  From http://oeis.org/A048909:
 #
@@ -518,14 +634,14 @@ def getNthOctagonalHeptagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalTriangularNumber( n ):
+def getNthNonagonalTriangularNumberOperator( n ):
     n = fsub( n, 1 )
     return getNthLinearRecurrence( [ 1, -255, 255 ], [ 1, 325, 82621 ], n )
 
 
 #******************************************************************************
 #
-#  getNthNonagonalSquareNumber
+#  getNthNonagonalSquareNumberOperator
 #
 #  From http://oeis.org/A048911:
 #
@@ -542,7 +658,7 @@ def getNthNonagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalSquareNumber( n ):
+def getNthNonagonalSquareNumberOperator( n ):
     p = fsum( [ fmul( 8, sqrt( 7 ) ), fmul( 9, sqrt( 14 ) ), fmul( -7, sqrt( 2 ) ), -28 ] )
     q = fsum( [ fmul( 7, sqrt( 2 ) ), fmul( 9, sqrt( 14 ) ), fmul( -8, sqrt( 7 ) ), -28 ] )
     sign = power( -1, n )
@@ -557,7 +673,7 @@ def getNthNonagonalSquareNumber( n ):
 
 #******************************************************************************
 #
-#  getNthNonagonalPentagonalNumber
+#  getNthNonagonalPentagonalNumberOperator
 #
 #  http://oeis.org/A048915
 #
@@ -569,7 +685,7 @@ def getNthNonagonalSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalPentagonalNumber( n ):
+def getNthNonagonalPentagonalNumberOperator( n ):
     sqrt21 = sqrt( 21 )
     sign = power( -1, n )
 
@@ -582,7 +698,7 @@ def getNthNonagonalPentagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthNonagonalHexagonalNumber
+#  getNthNonagonalHexagonalNumberOperator
 #
 #  From http://oeis.org/A048907:
 #
@@ -593,7 +709,7 @@ def getNthNonagonalPentagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalHexagonalNumber( n ):
+def getNthNonagonalHexagonalNumberOperator( n ):
     # a = fmul( 3, sqrt( 7 ) )
     # b = fadd( 8, a )
     # c = fsub( 8, a )
@@ -612,7 +728,7 @@ def getNthNonagonalHexagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthNonagonalHeptagonalNumber
+#  getNthNonagonalHeptagonalNumberOperator
 #
 #  From http://oeis.org/A048921
 #
@@ -624,7 +740,7 @@ def getNthNonagonalHexagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalHeptagonalNumber( n ):
+def getNthNonagonalHeptagonalNumberOperator( n ):
     sqrt35 = sqrt( 35 )
 
     return nint( floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
@@ -633,7 +749,7 @@ def getNthNonagonalHeptagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthNonagonalOctagonalNumber
+#  getNthNonagonalOctagonalNumberOperator
 #
 #  From http://oeis.org/A048924:
 #
@@ -645,7 +761,7 @@ def getNthNonagonalHeptagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthNonagonalOctagonalNumber( n ):
+def getNthNonagonalOctagonalNumberOperator( n ):
     sqrt6 = sqrt( 6 )
     sqrt7 = sqrt( 7 )
 
@@ -656,7 +772,7 @@ def getNthNonagonalOctagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalTriangularNumber
+#  getNthDecagonalTriangularNumberOperator
 #
 #  from http://oeis.org/A133216
 #
@@ -666,7 +782,7 @@ def getNthNonagonalOctagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalTriangularNumber( n ):
+def getNthDecagonalTriangularNumberOperator( n ):
     return nint( floor( fdiv( fmul( fadd( 9, fprod( [ 4, sqrt( 2 ),
                                                       power( -1, fadd( n, 1 ) ) ] ) ),
                                     power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 4, fadd( n, 1 ) ), 6 ) ) ), 64 ) ) )
@@ -674,7 +790,7 @@ def getNthDecagonalTriangularNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalCenteredSquareNumber
+#  getNthDecagonalCenteredSquareNumberOperator
 #
 #  from http://oeis.org/A133142
 #
@@ -688,7 +804,7 @@ def getNthDecagonalTriangularNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalCenteredSquareNumber( n ):
+def getNthDecagonalCenteredSquareNumberOperator( n ):
     sqrt10 = sqrt( 10 )
 
     dps = 7 * int( n )
@@ -707,7 +823,7 @@ def getNthDecagonalCenteredSquareNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalPentagonalNumber
+#  getNthDecagonalPentagonalNumberOperator
 #
 #  from http://oeis.org/A202563
 #
@@ -717,7 +833,7 @@ def getNthDecagonalCenteredSquareNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalPentagonalNumber( n ):
+def getNthDecagonalPentagonalNumberOperator( n ):
     return nint( floor( fmul( fdiv( 25, 192 ),
                               power( fadd( sqrt( 3 ), sqrt( 2 ) ),
                                      fsub( fmul( 8, n ), 6 ) ) ) ) )
@@ -725,7 +841,7 @@ def getNthDecagonalPentagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalHexagonalNumber
+#  getNthDecagonalHexagonalNumberOperator
 #
 #  http://oeis.org/A203134
 #
@@ -735,7 +851,7 @@ def getNthDecagonalPentagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalHexagonalNumber( n ):
+def getNthDecagonalHexagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( fsub( fmul( 5, sqrt( 2 ) ), 1 ),
                                     power( fadd( sqrt( 2 ), 1 ),
                                            fsub( fmul( 8, n ), 5 ) ) ), 64 ) ) )
@@ -743,7 +859,7 @@ def getNthDecagonalHexagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalHeptagonalNumber
+#  getNthDecagonalHeptagonalNumberOperator
 #
 #  http://oeis.org/A203408
 #
@@ -753,7 +869,7 @@ def getNthDecagonalHexagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalHeptagonalNumber( n ):
+def getNthDecagonalHeptagonalNumberOperator( n ):
     sqrt10 = sqrt( 10 )
 
     return nint( floor( fdiv( fprod( [ fsub( 11,
@@ -766,7 +882,7 @@ def getNthDecagonalHeptagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalOctagonalNumber
+#  getNthDecagonalOctagonalNumberOperator
 #
 #  http://oeis.org/A203624
 #
@@ -776,7 +892,7 @@ def getNthDecagonalHeptagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalOctagonalNumber( n ):
+def getNthDecagonalOctagonalNumberOperator( n ):
     return nint( floor( fdiv( fmul( fadd( 13, fmul( 4, sqrt( 3 ) ) ),
                                     power( fadd( 2, sqrt( 3 ) ),
                                            fsub( fmul( 8, n ), 6 ) ) ), 192 ) ) )
@@ -784,7 +900,7 @@ def getNthDecagonalOctagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthDecagonalNonagonalNumber
+#  getNthDecagonalNonagonalNumberOperator
 #
 #  http://oeis.org/A203627
 #
@@ -794,7 +910,7 @@ def getNthDecagonalOctagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDecagonalNonagonalNumber( n ):
+def getNthDecagonalNonagonalNumberOperator( n ):
     dps = 8 * int( n )
 
     if mp.dps < dps:
@@ -825,7 +941,7 @@ def getNthDecagonalNonagonalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthTruncatedTetrahedralNumber
+#  getNthTruncatedTetrahedralNumberOperator
 #
 #  Take the (3n-2)th terahedral number and chop off the (n-1)th tetrahedral
 #  number from each corner.
@@ -836,19 +952,19 @@ def getNthDecagonalNonagonalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTruncatedTetrahedralNumber( n ):
+def getNthTruncatedTetrahedralNumberOperator( n ):
     return fmul( fdiv( n, 6 ), fsum( [ fprod( [ 23, n, n ] ), fmul( -27, n ), 10 ] ) )
 
 
 #******************************************************************************
 #
-#  getNthSquareTriangularNumber
+#  getNthSquareTriangularNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthSquareTriangularNumber( n ):
+def getNthSquareTriangularNumberOperator( n ):
     neededPrecision = int( n * 3.5 )  # determined by experimentation
 
     if mp.dps < neededPrecision:
@@ -863,20 +979,23 @@ def getNthSquareTriangularNumber( n ):
 
 #******************************************************************************
 #
-#  getNthPolygonalPyramidalNumber
+#  getNthPolygonalPyramidalNumberOperator
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def getNthPolygonalPyramidalNumber( n, k ):
     return fprod( [ n, fadd( n, 1 ),
                     fsub( fmul( fsub( k, 2 ), n ), fsub( k, 5 ) ),
                     fdiv( 1, 6 ) ] )
 
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
+def getNthPolygonalPyramidalNumberOperator( n, k ):
+    return getNthPolygonalPyramidalNumber( n, k )
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPyramidalNumber( n ):
+def getNthPyramidalNumberOperator( n ):
     return getNthPolygonalPyramidalNumber( n, 4 )
 
 
@@ -930,7 +1049,7 @@ def getNthPyramidalNumber( n ):
 
 #******************************************************************************
 #
-#  getNthStellaOctangulaNumber
+#  getNthStellaOctangulaNumberOperator
 #
 #  http://oeis.org/A007588
 #
@@ -938,13 +1057,13 @@ def getNthPyramidalNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthStellaOctangulaNumber( n ):
+def getNthStellaOctangulaNumberOperator( n ):
     return polyval( [ 2, 0, -1, 0 ], n )
 
 
 #******************************************************************************
 #
-#  getNthCenteredCubeNumber
+#  getNthCenteredCubeNumberOperator
 #
 #  from Conway and Guy's "The Book of Numbers"
 #
@@ -952,13 +1071,13 @@ def getNthStellaOctangulaNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredCubeNumber( n ):
+def getNthCenteredCubeNumberOperator( n ):
     return fadd( power( n, 3 ), power( fsub( n, 1 ), 3 ) )
 
 
 #******************************************************************************
 #
-#  getNthCenteredTetrahedralNumber
+#  getNthCenteredTetrahedralNumberOperator
 #
 #  https://oeis.org/A005894
 #
@@ -966,52 +1085,52 @@ def getNthCenteredCubeNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredTetrahedralNumber( n ):
+def getNthCenteredTetrahedralNumberOperator( n ):
     return fdiv( fmul( fadd( fmul( n, 2 ), 1 ), fsum( [ power( n, 2 ), n, 3 ] ) ), 3 )
 
 
 #******************************************************************************
 #
-#  getNthCenteredOctahedralNumber
+#  getNthCenteredOctahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredOctahedralNumber( n ):
+def getNthCenteredOctahedralNumberOperator( n ):
     arg = fsub( n, 1 )
     return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 2, 2, 3 ], arg ), 3 ) )
 
 
 #******************************************************************************
 #
-#  getNthCenteredDodecahedralNumber
+#  getNthCenteredDodecahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredDodecahedralNumber( n ):
+def getNthCenteredDodecahedralNumberOperator( n ):
     arg = fsub( n, 1 )
     return fmul( fadd( fmul( arg, 2 ), 1 ), polyval( [ 5, 5, 1 ], arg ) )
 
 
 #******************************************************************************
 #
-#  getNthCenteredIcosahedralNumber
+#  getNthCenteredIcosahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCenteredIcosahedralNumber( n ):
+def getNthCenteredIcosahedralNumberOperator( n ):
     arg = fsub( n, 1 )
     return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 5, 5, 3 ], arg ), 3 ) )
 
 
 #******************************************************************************
 #
-#  getNthTruncatedOctahedralNumber
+#  getNthTruncatedOctahedralNumberOperator
 #
 #  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
 #  number from each of the six vertices.
@@ -1024,13 +1143,13 @@ def getNthCenteredIcosahedralNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTruncatedOctahedralNumber( n ):
+def getNthTruncatedOctahedralNumberOperator( n ):
     return polyval( [ 16, -33, 24, -6 ], n )
 
 
 #******************************************************************************
 #
-#  getNthRhombicDodecahedralNumber
+#  getNthRhombicDodecahedralNumberOperator
 #
 #  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
 #  number from each of the six vertices.
@@ -1045,13 +1164,13 @@ def getNthTruncatedOctahedralNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthRhombicDodecahedralNumber( n ):
+def getNthRhombicDodecahedralNumberOperator( n ):
     return polyval( [ 4, 6, 4, 1 ], fsub( n, 1 ) )
 
 
 #******************************************************************************
 #
-#  getNthPentatopeNumber
+#  getNthPentatopeNumberOperator
 #
 #  1/24n ( n + 1 )( n + 2 )( n + 3 ) == 1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
 #
@@ -1061,13 +1180,13 @@ def getNthRhombicDodecahedralNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthPentatopeNumber( n ):
+def getNthPentatopeNumberOperator( n ):
     return fdiv( polyval( [ 1, 6, 11, 6, 0 ], n ), 24 )
 
 
 #******************************************************************************
 #
-#  getNthPolytopeNumber
+#  getNthPolytopeNumberOperator
 #
 #  d = dimension
 #
@@ -1079,7 +1198,7 @@ def getNthPentatopeNumber( n ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
-def getNthPolytopeNumber( n, d ):
+def getNthPolytopeNumberOperator( n, d ):
     result = n
     m = fadd( n, 1 )
 
@@ -1092,7 +1211,7 @@ def getNthPolytopeNumber( n, d ):
 
 #******************************************************************************
 #
-#  getNthStarNumber
+#  getNthStarNumberOperator
 #
 #  https://en.wikipedia.org/wiki/Star_number
 #
@@ -1100,54 +1219,53 @@ def getNthPolytopeNumber( n, d ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthStarNumber( n ):
+def getNthStarNumberOperator( n ):
     return getNthCenteredPolygonalNumber( n, 12 )
 
 
 #******************************************************************************
 #
-#  getNthDodecahedralNumber
+#  getNthDodecahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthDodecahedralNumber( n ):
+def getNthDodecahedralNumberOperator( n ):
     return polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], n )
 
 
 #******************************************************************************
 #
-#  getNthIcosahedralNumber
+#  getNthIcosahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthIcosahedralNumber( n ):
+def getNthIcosahedralNumberOperator( n ):
     return polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n )
 
 
 #******************************************************************************
 #
-#  getNthOctahedralNumber
+#  getNthOctahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthOctahedralNumber( n ):
+def getNthOctahedralNumberOperator( n ):
     return polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n )
 
 
 #******************************************************************************
 #
-#  getNthTetrahedralNumber
+#  getNthTetrahedralNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthTetrahedralNumber( n ):
+def getNthTetrahedralNumberOperator( n ):
     return polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n )
-

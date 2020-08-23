@@ -250,42 +250,55 @@ from rpn.rpnPhysics import calculateAcceleration, calculateBlackHoleEntropy, cal
                            calculateOrbitalVelocity, calculateSurfaceGravity, calculateTidalForce, \
                            calculateTimeDilation, calculateVelocity, calculateWindChill
 
-from rpn.rpnPolynomials import addPolynomials, evaluatePolynomial, exponentiatePolynomial, getPolynomialDiscriminant, \
-                               multiplyPolynomials, multiplyPolynomialList, solveCubicPolynomial, \
-                               solveQuadraticPolynomial, solveQuarticPolynomial, solvePolynomial, sumPolynomialList
+from rpn.rpnPolynomials import addPolynomialsOperator, evaluatePolynomialOperator, exponentiatePolynomialOperator, \
+                               getPolynomialDiscriminantOperator, multiplyPolynomialsOperator, \
+                               multiplyPolynomialListOperator, solveCubicPolynomialOperator, \
+                               solveQuadraticPolynomialOperator, solveQuarticPolynomialOperator, \
+                               solvePolynomialOperator, sumPolynomialListOperator
 
-from rpn.rpnPolytope import findCenteredDecagonalNumber, findCenteredHeptagonalNumber, findCenteredHexagonalNumber, \
-                            findCenteredNonagonalNumber, findCenteredOctagonalNumber, findCenteredPentagonalNumber, \
-                            findCenteredPolygonalNumberOperator, findCenteredSquareNumber, \
-                            findCenteredTriangularNumber, findDecagonalNumber, findHeptagonalNumber, \
-                            findHexagonalNumber, findNonagonalNumber, findOctagonalNumber, findPentagonalNumber, \
-                            findPolygonalNumberOperator, findSquareNumber, findTriangularNumber, \
-                            getNthCenteredCubeNumber, getNthCenteredDecagonalNumber, \
-                            getNthCenteredDodecahedralNumber, getNthCenteredHeptagonalNumber, \
-                            getNthCenteredHexagonalNumber, getNthCenteredIcosahedralNumber, \
-                            getNthCenteredNonagonalNumber, getNthCenteredOctagonalNumber, \
-                            getNthCenteredOctahedralNumber, getNthCenteredPentagonalNumber, \
-                            getNthCenteredPolygonalNumberOperator, getNthCenteredSquareNumber, \
-                            getNthCenteredTetrahedralNumber, getNthCenteredTriangularNumber, \
-                            getNthDecagonalCenteredSquareNumber, getNthDecagonalHeptagonalNumber, \
-                            getNthDecagonalHexagonalNumber, getNthDecagonalNonagonalNumber, \
-                            getNthDecagonalNumber, getNthDecagonalOctagonalNumber, \
-                            getNthDecagonalPentagonalNumber, getNthDecagonalTriangularNumber, \
-                            getNthDodecahedralNumber, getNthGeneralizedPentagonalNumber, \
-                            getNthHeptagonalHexagonalNumber, getNthHeptagonalNumber, getNthHeptagonalPentagonalNumber, \
-                            getNthHeptagonalSquareNumber, getNthHeptagonalTriangularNumber, getNthHexagonalNumber, \
-                            getNthHexagonalPentagonalNumber, getNthHexagonalSquareNumber, getNthIcosahedralNumber, \
-                            getNthNonagonalHeptagonalNumber, getNthNonagonalHexagonalNumber, getNthNonagonalNumber, \
-                            getNthNonagonalOctagonalNumber, getNthNonagonalPentagonalNumber, \
-                            getNthNonagonalSquareNumber, getNthNonagonalTriangularNumber, \
-                            getNthOctagonalHeptagonalNumber, getNthOctagonalHexagonalNumber, getNthOctagonalNumber, \
-                            getNthOctagonalPentagonalNumber, getNthOctagonalSquareNumber, \
-                            getNthOctagonalTriangularNumber, getNthTruncatedOctahedralNumber, getNthOctahedralNumber, \
-                            getNthPentagonalNumber, getNthPentagonalSquareNumber, getNthPentagonalTriangularNumber, \
-                            getNthPentatopeNumber, getNthPolygonalNumberOperator, getNthPolygonalPyramidalNumber, \
-                            getNthPolytopeNumber, getNthPyramidalNumber, getNthRhombicDodecahedralNumber, \
-                            getNthSquareTriangularNumber, getNthStarNumber, getNthStellaOctangulaNumber, \
-                            getNthTetrahedralNumber, getNthTruncatedTetrahedralNumber, getNthTriangularNumber
+from rpn.rpnPolytope import findCenteredDecagonalNumberOperator, findCenteredHeptagonalNumberOperator, \
+                            findCenteredHexagonalNumberOperator, findCenteredNonagonalNumberOperator, \
+                            findCenteredOctagonalNumberOperator, findCenteredPentagonalNumberOperator, \
+                            findCenteredPolygonalNumberOperator, findCenteredSquareNumberOperator, \
+                            findCenteredTriangularNumberOperator, findDecagonalNumberOperator, \
+                            findHeptagonalNumberOperator, findHexagonalNumberOperator, findNonagonalNumberOperator, \
+                            findOctagonalNumberOperator, findPentagonalNumberOperator, \
+                            findPolygonalNumberOperator, findSquareNumberOperator, findTriangularNumberOperator, \
+                            getNthCenteredCubeNumberOperator, getNthCenteredDecagonalNumberOperator, \
+                            getNthCenteredDodecahedralNumberOperator, getNthCenteredHeptagonalNumberOperator, \
+                            getNthCenteredHexagonalNumberOperator, getNthCenteredIcosahedralNumberOperator, \
+                            getNthCenteredNonagonalNumberOperator, getNthCenteredOctagonalNumberOperator, \
+                            getNthCenteredOctahedralNumberOperator, getNthCenteredPentagonalNumberOperator, \
+                            getNthCenteredPolygonalNumberOperator, getNthCenteredSquareNumberOperator, \
+                            getNthCenteredTetrahedralNumberOperator, getNthCenteredTriangularNumberOperator, \
+                            getNthDecagonalCenteredSquareNumberOperator, getNthDecagonalHeptagonalNumberOperator, \
+                            getNthDecagonalHexagonalNumberOperator, getNthDecagonalNonagonalNumberOperator, \
+                            getNthDecagonalNumberOperator, getNthDecagonalOctagonalNumberOperator, \
+                            getNthDecagonalPentagonalNumberOperator, getNthDecagonalTriangularNumberOperator, \
+                            getNthDodecahedralNumberOperator, getNthGeneralizedDecagonalNumberOperator, \
+                            getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedHexagonalNumberOperator, \
+                            getNthGeneralizedNonagonalNumberOperator, getNthGeneralizedOctagonalNumberOperator, \
+                            getNthGeneralizedPentagonalNumberOperator, getNthGeneralizedSquareNumberOperator, \
+                            getNthGeneralizedTriangularNumberOperator, getNthHeptagonalHexagonalNumberOperator, \
+                            getNthHeptagonalNumberOperator, getNthHeptagonalPentagonalNumberOperator, \
+                            getNthHeptagonalSquareNumberOperator, getNthHeptagonalTriangularNumberOperator, \
+                            getNthHexagonalNumberOperator, getNthHexagonalPentagonalNumberOperator, \
+                            getNthHexagonalSquareNumberOperator, getNthIcosahedralNumberOperator, \
+                            getNthNonagonalHeptagonalNumberOperator, getNthNonagonalHexagonalNumberOperator, \
+                            getNthNonagonalNumberOperator, getNthNonagonalOctagonalNumberOperator, \
+                            getNthNonagonalPentagonalNumberOperator, getNthNonagonalSquareNumberOperator, \
+                            getNthNonagonalTriangularNumberOperator, getNthOctagonalHeptagonalNumberOperator, \
+                            getNthOctagonalHexagonalNumberOperator, getNthOctagonalNumberOperator, \
+                            getNthOctagonalPentagonalNumberOperator, getNthOctagonalSquareNumberOperator, \
+                            getNthOctagonalTriangularNumberOperator, getNthTruncatedOctahedralNumberOperator, \
+                            getNthOctahedralNumberOperator, getNthPentagonalNumberOperator, \
+                            getNthPentagonalSquareNumberOperator, getNthPentagonalTriangularNumberOperator, \
+                            getNthPentatopeNumberOperator, getNthPolygonalNumberOperator, \
+                            getNthPolygonalPyramidalNumberOperator, getNthPolytopeNumberOperator, \
+                            getNthPyramidalNumberOperator, getNthRhombicDodecahedralNumberOperator, \
+                            getNthSquareTriangularNumberOperator, getNthStarNumberOperator, \
+                            getNthStellaOctangulaNumberOperator, getNthTetrahedralNumberOperator, \
+                            getNthTruncatedTetrahedralNumberOperator, getNthTriangularNumberOperator
 
 from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
                               findQuintupletPrimeOperator, findSextupletPrimeOperator, findTripletPrimeOperator, \
@@ -2192,14 +2205,14 @@ listOperators = {
     # pylint: disable=line-too-long
 
     # algebra
-    'add_polynomials'               : RPNOperator( addPolynomials, 2 ),
-    'discriminant'                  : RPNOperator( getPolynomialDiscriminant, 1 ),
-    'eval_polynomial'               : RPNOperator( evaluatePolynomial, 2 ),
-    'multiply_polynomials'          : RPNOperator( multiplyPolynomials, 2 ),
-    'polynomial_power'              : RPNOperator( exponentiatePolynomial, 2 ),
-    'polynomial_product'            : RPNOperator( multiplyPolynomialList,1 ),
-    'polynomial_sum'                : RPNOperator( sumPolynomialList,1 ),
-    'solve'                         : RPNOperator( solvePolynomial, 1 ),
+    'add_polynomials'               : RPNOperator( addPolynomialsOperator, 2 ),
+    'discriminant'                  : RPNOperator( getPolynomialDiscriminantOperator, 1 ),
+    'eval_polynomial'               : RPNOperator( evaluatePolynomialOperator, 2 ),
+    'multiply_polynomials'          : RPNOperator( multiplyPolynomialsOperator, 2 ),
+    'polynomial_power'              : RPNOperator( exponentiatePolynomialOperator, 2 ),
+    'polynomial_product'            : RPNOperator( multiplyPolynomialListOperator, 1 ),
+    'polynomial_sum'                : RPNOperator( sumPolynomialListOperator, 1 ),
+    'solve'                         : RPNOperator( solvePolynomialOperator, 1 ),
 
     # arithmetic
     'antiharmonic_mean'             : RPNOperator( calculateAntiharmonicMeanOperator, 1 ),
@@ -2344,9 +2357,9 @@ operators = {
 
     # algebra
     'find_polynomial'               : RPNOperator( findPolynomial, 2 ),
-    'solve_cubic'                   : RPNOperator( solveCubicPolynomial, 4 ),
-    'solve_quadratic'               : RPNOperator( solveQuadraticPolynomial, 3 ),
-    'solve_quartic'                 : RPNOperator( solveQuarticPolynomial, 5 ),
+    'solve_cubic'                   : RPNOperator( solveCubicPolynomialOperator, 4 ),
+    'solve_quadratic'               : RPNOperator( solveQuadraticPolynomialOperator, 3 ),
+    'solve_quartic'                 : RPNOperator( solveQuarticPolynomialOperator, 5 ),
 
     # arithmetic
     'abs'                           : RPNOperator( getAbsoluteValueOperator, 1 ),
@@ -2609,87 +2622,91 @@ operators = {
     'yesterday'                     : RPNOperator( getYesterdayOperator, 0 ),
 
     # figurate
-    'centered_cube'                 : RPNOperator( getNthCenteredCubeNumber, 1 ),
-    'centered_decagonal'            : RPNOperator( getNthCenteredDecagonalNumber, 1 ),
-    'centered_dodecahedral'         : RPNOperator( getNthCenteredDodecahedralNumber, 1 ),
-    'centered_heptagonal'           : RPNOperator( getNthCenteredHeptagonalNumber, 1 ),
-    'centered_hexagonal'            : RPNOperator( getNthCenteredHexagonalNumber, 1 ),
-    'centered_icosahedral'          : RPNOperator( getNthCenteredIcosahedralNumber, 1 ),
-    'centered_nonagonal'            : RPNOperator( getNthCenteredNonagonalNumber, 1 ),
-    'centered_octagonal'            : RPNOperator( getNthCenteredOctagonalNumber, 1 ),
-    'centered_octahedral'           : RPNOperator( getNthCenteredOctahedralNumber, 1 ),
-    'centered_pentagonal'           : RPNOperator( getNthCenteredPentagonalNumber, 1 ),
+    'centered_cube'                 : RPNOperator( getNthCenteredCubeNumberOperator, 1 ),
+    'centered_decagonal'            : RPNOperator( getNthCenteredDecagonalNumberOperator, 1 ),
+    'centered_dodecahedral'         : RPNOperator( getNthCenteredDodecahedralNumberOperator, 1 ),
+    'centered_heptagonal'           : RPNOperator( getNthCenteredHeptagonalNumberOperator, 1 ),
+    'centered_hexagonal'            : RPNOperator( getNthCenteredHexagonalNumberOperator, 1 ),
+    'centered_icosahedral'          : RPNOperator( getNthCenteredIcosahedralNumberOperator, 1 ),
+    'centered_nonagonal'            : RPNOperator( getNthCenteredNonagonalNumberOperator, 1 ),
+    'centered_octagonal'            : RPNOperator( getNthCenteredOctagonalNumberOperator, 1 ),
+    'centered_octahedral'           : RPNOperator( getNthCenteredOctahedralNumberOperator, 1 ),
+    'centered_pentagonal'           : RPNOperator( getNthCenteredPentagonalNumberOperator, 1 ),
     'centered_polygonal'            : RPNOperator( getNthCenteredPolygonalNumberOperator, 2 ),
-    'centered_square'               : RPNOperator( getNthCenteredSquareNumber, 1 ),
-    'centered_tetrahedral'          : RPNOperator( getNthCenteredTetrahedralNumber, 1 ),
-    'centered_triangular'           : RPNOperator( getNthCenteredTriangularNumber, 1 ),
-    'decagonal'                     : RPNOperator( getNthDecagonalNumber, 1 ),
-    'decagonal_centered_square'     : RPNOperator( getNthDecagonalCenteredSquareNumber, 1 ),
-    'decagonal_heptagonal'          : RPNOperator( getNthDecagonalHeptagonalNumber, 1 ),
-    'decagonal_hexagonal'           : RPNOperator( getNthDecagonalHexagonalNumber, 1 ),
-    'decagonal_nonagonal'           : RPNOperator( getNthDecagonalNonagonalNumber, 1 ),
-    'decagonal_octagonal'           : RPNOperator( getNthDecagonalOctagonalNumber, 1 ),
-    'decagonal_pentagonal'          : RPNOperator( getNthDecagonalPentagonalNumber, 1 ),
-    'decagonal_triangular'          : RPNOperator( getNthDecagonalTriangularNumber, 1 ),
-    'dodecahedral'                  : RPNOperator( getNthDodecahedralNumber, 1 ),
-    'generalized_pentagonal'        : RPNOperator( getNthGeneralizedPentagonalNumber, 1 ),
-    'heptagonal'                    : RPNOperator( getNthHeptagonalNumber, 1 ),
-    'heptagonal_hexagonal'          : RPNOperator( getNthHeptagonalHexagonalNumber, 1 ),
-    'heptagonal_pentagonal'         : RPNOperator( getNthHeptagonalPentagonalNumber, 1 ),
-    'heptagonal_square'             : RPNOperator( getNthHeptagonalSquareNumber, 1 ),
-    'heptagonal_triangular'         : RPNOperator( getNthHeptagonalTriangularNumber, 1 ),
-    'hexagonal'                     : RPNOperator( getNthHexagonalNumber, 1 ),
-    'hexagonal_pentagonal'          : RPNOperator( getNthHexagonalPentagonalNumber, 1 ),
-    'hexagonal_square'              : RPNOperator( getNthHexagonalSquareNumber, 1 ),
-    'icosahedral'                   : RPNOperator( getNthIcosahedralNumber, 1 ),
-    'nonagonal'                     : RPNOperator( getNthNonagonalNumber, 1 ),
-    'nonagonal_heptagonal'          : RPNOperator( getNthNonagonalHeptagonalNumber, 1 ),
-    'nonagonal_hexagonal'           : RPNOperator( getNthNonagonalHexagonalNumber, 1 ),
-    'nonagonal_octagonal'           : RPNOperator( getNthNonagonalOctagonalNumber, 1 ),
-    'nonagonal_pentagonal'          : RPNOperator( getNthNonagonalPentagonalNumber, 1 ),
-    'nonagonal_square'              : RPNOperator( getNthNonagonalSquareNumber, 1 ),
-    'nonagonal_triangular'          : RPNOperator( getNthNonagonalTriangularNumber, 1 ),
-    'nth_centered_decagonal'        : RPNOperator( findCenteredDecagonalNumber, 1 ),
-    'nth_centered_heptagonal'       : RPNOperator( findCenteredHeptagonalNumber, 1 ),
-    'nth_centered_hexagonal'        : RPNOperator( findCenteredHexagonalNumber, 1 ),
-    'nth_centered_nonagonal'        : RPNOperator( findCenteredNonagonalNumber, 1 ),
-    'nth_centered_octagonal'        : RPNOperator( findCenteredOctagonalNumber, 1 ),
-    'nth_centered_pentagonal'       : RPNOperator( findCenteredPentagonalNumber, 1 ),
+    'centered_square'               : RPNOperator( getNthCenteredSquareNumberOperator, 1 ),
+    'centered_tetrahedral'          : RPNOperator( getNthCenteredTetrahedralNumberOperator, 1 ),
+    'centered_triangular'           : RPNOperator( getNthCenteredTriangularNumberOperator, 1 ),
+    'decagonal'                     : RPNOperator( getNthDecagonalNumberOperator, 1 ),
+    'decagonal_centered_square'     : RPNOperator( getNthDecagonalCenteredSquareNumberOperator, 1 ),
+    'decagonal_heptagonal'          : RPNOperator( getNthDecagonalHeptagonalNumberOperator, 1 ),
+    'decagonal_hexagonal'           : RPNOperator( getNthDecagonalHexagonalNumberOperator, 1 ),
+    'decagonal_nonagonal'           : RPNOperator( getNthDecagonalNonagonalNumberOperator, 1 ),
+    'decagonal_octagonal'           : RPNOperator( getNthDecagonalOctagonalNumberOperator, 1 ),
+    'decagonal_pentagonal'          : RPNOperator( getNthDecagonalPentagonalNumberOperator, 1 ),
+    'decagonal_triangular'          : RPNOperator( getNthDecagonalTriangularNumberOperator, 1 ),
+    'dodecahedral'                  : RPNOperator( getNthDodecahedralNumberOperator, 1 ),
+    'generalized_decagonal'         : RPNOperator( getNthGeneralizedDecagonalNumberOperator, 1 ),
+    'generalized_heptagonal'        : RPNOperator( getNthGeneralizedHeptagonalNumberOperator, 1 ),
+    'generalized_nonagonal'         : RPNOperator( getNthGeneralizedNonagonalNumberOperator, 1 ),
+    'generalized_octagonal'         : RPNOperator( getNthGeneralizedOctagonalNumberOperator, 1 ),
+    'generalized_pentagonal'        : RPNOperator( getNthGeneralizedPentagonalNumberOperator, 1 ),
+    'heptagonal'                    : RPNOperator( getNthHeptagonalNumberOperator, 1 ),
+    'heptagonal_hexagonal'          : RPNOperator( getNthHeptagonalHexagonalNumberOperator, 1 ),
+    'heptagonal_pentagonal'         : RPNOperator( getNthHeptagonalPentagonalNumberOperator, 1 ),
+    'heptagonal_square'             : RPNOperator( getNthHeptagonalSquareNumberOperator, 1 ),
+    'heptagonal_triangular'         : RPNOperator( getNthHeptagonalTriangularNumberOperator, 1 ),
+    'hexagonal'                     : RPNOperator( getNthHexagonalNumberOperator, 1 ),
+    'hexagonal_pentagonal'          : RPNOperator( getNthHexagonalPentagonalNumberOperator, 1 ),
+    'hexagonal_square'              : RPNOperator( getNthHexagonalSquareNumberOperator, 1 ),
+    'icosahedral'                   : RPNOperator( getNthIcosahedralNumberOperator, 1 ),
+    'nonagonal'                     : RPNOperator( getNthNonagonalNumberOperator, 1 ),
+    'nonagonal_heptagonal'          : RPNOperator( getNthNonagonalHeptagonalNumberOperator, 1 ),
+    'nonagonal_hexagonal'           : RPNOperator( getNthNonagonalHexagonalNumberOperator, 1 ),
+    'nonagonal_octagonal'           : RPNOperator( getNthNonagonalOctagonalNumberOperator, 1 ),
+    'nonagonal_pentagonal'          : RPNOperator( getNthNonagonalPentagonalNumberOperator, 1 ),
+    'nonagonal_square'              : RPNOperator( getNthNonagonalSquareNumberOperator, 1 ),
+    'nonagonal_triangular'          : RPNOperator( getNthNonagonalTriangularNumberOperator, 1 ),
+    'nth_centered_decagonal'        : RPNOperator( findCenteredDecagonalNumberOperator, 1 ),
+    'nth_centered_heptagonal'       : RPNOperator( findCenteredHeptagonalNumberOperator, 1 ),
+    'nth_centered_hexagonal'        : RPNOperator( findCenteredHexagonalNumberOperator, 1 ),
+    'nth_centered_nonagonal'        : RPNOperator( findCenteredNonagonalNumberOperator, 1 ),
+    'nth_centered_octagonal'        : RPNOperator( findCenteredOctagonalNumberOperator, 1 ),
+    'nth_centered_pentagonal'       : RPNOperator( findCenteredPentagonalNumberOperator, 1 ),
     'nth_centered_polygonal'        : RPNOperator( findCenteredPolygonalNumberOperator, 2 ),
-    'nth_centered_square'           : RPNOperator( findCenteredSquareNumber, 1 ),
-    'nth_centered_triangular'       : RPNOperator( findCenteredTriangularNumber, 1 ),
-    'nth_decagonal'                 : RPNOperator( findDecagonalNumber, 1 ),
-    'nth_heptagonal'                : RPNOperator( findHeptagonalNumber, 1 ),
-    'nth_hexagonal'                 : RPNOperator( findHexagonalNumber, 1 ),
-    'nth_nonagonal'                 : RPNOperator( findNonagonalNumber, 1 ),
-    'nth_octagonal'                 : RPNOperator( findOctagonalNumber, 1 ),
-    'nth_pentagonal'                : RPNOperator( findPentagonalNumber, 1 ),
+    'nth_centered_square'           : RPNOperator( findCenteredSquareNumberOperator, 1 ),
+    'nth_centered_triangular'       : RPNOperator( findCenteredTriangularNumberOperator, 1 ),
+    'nth_decagonal'                 : RPNOperator( findDecagonalNumberOperator, 1 ),
+    'nth_heptagonal'                : RPNOperator( findHeptagonalNumberOperator, 1 ),
+    'nth_hexagonal'                 : RPNOperator( findHexagonalNumberOperator, 1 ),
+    'nth_nonagonal'                 : RPNOperator( findNonagonalNumberOperator, 1 ),
+    'nth_octagonal'                 : RPNOperator( findOctagonalNumberOperator, 1 ),
+    'nth_pentagonal'                : RPNOperator( findPentagonalNumberOperator, 1 ),
     'nth_polygonal'                 : RPNOperator( findPolygonalNumberOperator, 2 ),
-    'nth_square'                    : RPNOperator( findSquareNumber, 1 ),
-    'nth_triangular'                : RPNOperator( findTriangularNumber, 1 ),
-    'octagonal'                     : RPNOperator( getNthOctagonalNumber, 1 ),
-    'octagonal_heptagonal'          : RPNOperator( getNthOctagonalHeptagonalNumber, 1 ),
-    'octagonal_hexagonal'           : RPNOperator( getNthOctagonalHexagonalNumber, 1 ),
-    'octagonal_pentagonal'          : RPNOperator( getNthOctagonalPentagonalNumber, 1 ),
-    'octagonal_square'              : RPNOperator( getNthOctagonalSquareNumber, 1 ),
-    'octagonal_triangular'          : RPNOperator( getNthOctagonalTriangularNumber, 1 ),
-    'octahedral'                    : RPNOperator( getNthOctahedralNumber, 1 ),
-    'pentagonal'                    : RPNOperator( getNthPentagonalNumber, 1 ),
-    'pentagonal_square'             : RPNOperator( getNthPentagonalSquareNumber, 1 ),
-    'pentagonal_triangular'         : RPNOperator( getNthPentagonalTriangularNumber, 1 ),
-    'pentatope'                     : RPNOperator( getNthPentatopeNumber, 1 ),
+    'nth_square'                    : RPNOperator( findSquareNumberOperator, 1 ),
+    'nth_triangular'                : RPNOperator( findTriangularNumberOperator, 1 ),
+    'octagonal'                     : RPNOperator( getNthOctagonalNumberOperator, 1 ),
+    'octagonal_heptagonal'          : RPNOperator( getNthOctagonalHeptagonalNumberOperator, 1 ),
+    'octagonal_hexagonal'           : RPNOperator( getNthOctagonalHexagonalNumberOperator, 1 ),
+    'octagonal_pentagonal'          : RPNOperator( getNthOctagonalPentagonalNumberOperator, 1 ),
+    'octagonal_square'              : RPNOperator( getNthOctagonalSquareNumberOperator, 1 ),
+    'octagonal_triangular'          : RPNOperator( getNthOctagonalTriangularNumberOperator, 1 ),
+    'octahedral'                    : RPNOperator( getNthOctahedralNumberOperator, 1 ),
+    'pentagonal'                    : RPNOperator( getNthPentagonalNumberOperator, 1 ),
+    'pentagonal_square'             : RPNOperator( getNthPentagonalSquareNumberOperator, 1 ),
+    'pentagonal_triangular'         : RPNOperator( getNthPentagonalTriangularNumberOperator, 1 ),
+    'pentatope'                     : RPNOperator( getNthPentatopeNumberOperator, 1 ),
     'polygonal'                     : RPNOperator( getNthPolygonalNumberOperator, 2 ),
-    'polygonal_pyramidal'           : RPNOperator( getNthPolygonalPyramidalNumber, 2 ),
-    'polytope'                      : RPNOperator( getNthPolytopeNumber, 2 ),
-    'pyramidal'                     : RPNOperator( getNthPyramidalNumber, 1 ),
-    'rhombic_dodecahedral'          : RPNOperator( getNthRhombicDodecahedralNumber, 1 ),
-    'square_triangular'             : RPNOperator( getNthSquareTriangularNumber, 1 ),
-    'star'                          : RPNOperator( getNthStarNumber, 1 ),
-    'stella_octangula'              : RPNOperator( getNthStellaOctangulaNumber, 1 ),
-    'tetrahedral'                   : RPNOperator( getNthTetrahedralNumber, 1 ),
-    'triangular'                    : RPNOperator( getNthTriangularNumber, 1 ),
-    'truncated_octahedral'          : RPNOperator( getNthTruncatedOctahedralNumber, 1 ),
-    'truncated_tetrahedral'         : RPNOperator( getNthTruncatedTetrahedralNumber, 1 ),
+    'polygonal_pyramidal'           : RPNOperator( getNthPolygonalPyramidalNumberOperator, 2 ),
+    'polytope'                      : RPNOperator( getNthPolytopeNumberOperator, 2 ),
+    'pyramidal'                     : RPNOperator( getNthPyramidalNumberOperator, 1 ),
+    'rhombic_dodecahedral'          : RPNOperator( getNthRhombicDodecahedralNumberOperator, 1 ),
+    'square_triangular'             : RPNOperator( getNthSquareTriangularNumberOperator, 1 ),
+    'star'                          : RPNOperator( getNthStarNumberOperator, 1 ),
+    'stella_octangula'              : RPNOperator( getNthStellaOctangulaNumberOperator, 1 ),
+    'tetrahedral'                   : RPNOperator( getNthTetrahedralNumberOperator, 1 ),
+    'triangular'                    : RPNOperator( getNthTriangularNumberOperator, 1 ),
+    'truncated_octahedral'          : RPNOperator( getNthTruncatedOctahedralNumberOperator, 1 ),
+    'truncated_tetrahedral'         : RPNOperator( getNthTruncatedTetrahedralNumberOperator, 1 ),
 
     # function
     #'break_on'                      : RPNOperator( breakOnCondition, 3 ),

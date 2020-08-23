@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2029
+MAX_EXAMPLE_COUNT = 2037
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -10624,6 +10624,42 @@ triangular.
 ''' + makeCommandExample( '1 10 range dodecahedral' ) + '''
 ''' + makeCommandExample( '507 dodecahedral' ),
 [ 'centered_dodecahedral', 'rhombic_dodecahedral' ] ],
+
+   'generalized_decagonal' : [
+'figurate_numbers', 'calculates the nth generalized decagonal number',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range generalized_decagonal' ) + '''
+''' + makeCommandExample( '986 generalized_decagonal' ),
+[ 'decagonal', 'polygonal' ] ],
+
+    'generalized_heptagonal' : [
+'figurate_numbers', 'calculates the nth generalized heptagonal number',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range generalized_heptagonal' ) + '''
+''' + makeCommandExample( '1437 generalized_heptagonal' ),
+[ 'heptagonal', 'polygonal' ] ],
+
+    'generalized_nonagonal' : [
+'figurate_numbers', 'calculates the nth generalized nonagonal number',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range generalized_nonagonal' ) + '''
+''' + makeCommandExample( '692 generalized_nonagonal' ),
+[ 'nonagonal', 'polygonal' ] ],
+
+   'generalized_octagonal' : [
+'figurate_numbers', 'calculates the nth generalized octagonal number',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range generalized_octagonal' ) + '''
+''' + makeCommandExample( '436 generalized_octagonal' ),
+[ 'octagonal', 'polygonal' ] ],
 
     'generalized_pentagonal' : [
 'figurate_numbers', 'calculates the nth generalized pentagonal number',
