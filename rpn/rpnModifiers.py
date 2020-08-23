@@ -19,11 +19,11 @@ import rpn.rpnGlobals as g
 
 #******************************************************************************
 #
-#  incrementNestedListLevel
+#  incrementNestedListLevelOperator
 #
 #******************************************************************************
 
-def incrementNestedListLevel( valueList ):
+def incrementNestedListLevelOperator( valueList ):
     g.nestedListLevel += 1
 
     valueList.append( list( ) )
@@ -31,11 +31,11 @@ def incrementNestedListLevel( valueList ):
 
 #******************************************************************************
 #
-#  decrementNestedListLevel
+#  decrementNestedListLevelOperator
 #
 #******************************************************************************
 
-def decrementNestedListLevel( _ ):
+def decrementNestedListLevelOperator( _ ):
     g.nestedListLevel -= 1
 
     if g.nestedListLevel < 0:
@@ -44,11 +44,11 @@ def decrementNestedListLevel( _ ):
 
 #******************************************************************************
 #
-#  startOperatorList
+#  startOperatorListOperator
 #
 #******************************************************************************
 
-def startOperatorList( valueList ):
+def startOperatorListOperator( valueList ):
     if g.operatorList:
         raise ValueError( 'nested operator lists are not supported' )
 
@@ -62,11 +62,11 @@ def startOperatorList( valueList ):
 
 #******************************************************************************
 #
-#  endOperatorList
+#  endOperatorListOperator
 #
 #******************************************************************************
 
-def endOperatorList( valueList ):
+def endOperatorListOperator( valueList ):
     if not g.operatorList:
         raise ValueError( 'mismatched operator list ending (\'}\')' )
 
@@ -86,11 +86,11 @@ def endOperatorList( valueList ):
 
 #******************************************************************************
 #
-#  duplicateTerm
+#  duplicateTermOperator
 #
 #******************************************************************************
 
-def duplicateTerm( valueList ):
+def duplicateTermOperator( valueList ):
     count = valueList.pop( )
     value = valueList.pop( )
 
@@ -104,11 +104,11 @@ def duplicateTerm( valueList ):
 
 #******************************************************************************
 #
-#  duplicateOperation
+#  duplicateOperationOperator
 #
 #******************************************************************************
 
-def duplicateOperation( valueList ):
+def duplicateOperationOperator( valueList ):
     if g.duplicateOperations > 0:
         raise ValueError( "'duplicate_operator' must be followed by another operation" )
 
@@ -125,11 +125,11 @@ def duplicateOperation( valueList ):
 
 #******************************************************************************
 #
-#  unlist
+#  unlistOperator
 #
 #******************************************************************************
 
-def unlist( valueList ):
+def unlistOperator( valueList ):
     arg = valueList.pop( )
 
     if isinstance( arg, list ):
@@ -141,10 +141,10 @@ def unlist( valueList ):
 
 #******************************************************************************
 #
-#  getPrevious
+#  getPreviousOperator
 #
 #******************************************************************************
 
-def getPrevious( valueList ):
+def getPreviousOperator( valueList ):
     valueList.append( valueList[ -1 ] )
 

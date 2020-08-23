@@ -299,12 +299,12 @@ def openPrimeCache( name ):
 
 #******************************************************************************
 #
-#  dumpPrimeCache
+#  dumpPrimeCacheOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def dumpPrimeCache( name ):
+def dumpPrimeCacheOperator( name ):
     if name not in g.cursors:
         if not doesCacheExist( name ):
             raise ValueError( 'cache \'' + name + '\' does not exist.' )
@@ -512,12 +512,12 @@ def openFunctionCache( name ):
 
 #******************************************************************************
 #
-#  dumpFunctionCache
+#  dumpFunctionCacheOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def dumpFunctionCache( name ):
+def dumpFunctionCacheOperator( name ):
     if not doesCacheExist( name ):
         raise ValueError( 'cache \'' + name + '\' does not exist.' )
 

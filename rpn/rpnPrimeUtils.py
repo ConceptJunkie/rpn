@@ -48,7 +48,7 @@ def isPrime( n ):
         return 1 if gmpy2.is_bpsw_prp( int( n ) ) else 0
 
 @oneArgFunctionEvaluator( )
-def isComposite( n ):
+def isCompositeOperator( n ):
     return 0 if n == 1 or isPrime( n ) else 1
 
 @oneArgFunctionEvaluator( )

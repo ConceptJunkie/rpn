@@ -17,11 +17,11 @@ import rpn.rpnGlobals as g
 
 #******************************************************************************
 #
-#  dumpAliases
+#  dumpAliasesOperator
 #
 #******************************************************************************
 
-def dumpAliases( ):
+def dumpAliasesOperator( ):
     for alias in sorted( g.aliases.keys( ) ):
         print( alias, g.aliases[ alias ] )
 

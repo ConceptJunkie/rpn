@@ -25,8 +25,8 @@ import ephem
 from mpmath import apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
                    lambertw, limit, mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 
-from rpn.rpnAliases import dumpAliases
-from rpn.rpnOperator import callers, RPNValidator, RPNOperator
+from rpn.rpnAliases import dumpAliasesOperator
+from rpn.rpnOperator import callers, RPNOperator
 from rpn.rpnOutput import printTitleScreen
 from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
@@ -126,13 +126,15 @@ from rpn.rpnFactor import getFactorsOperator
 
 from rpn.rpnGenerator import RPNGenerator
 
-from rpn.rpnGeometry import getAntiprismSurfaceArea, getAntiprismVolume, getConeSurfaceArea, getConeVolume, \
-                            getDodecahedronSurfaceArea, getDodecahedronVolume, getIcosahedronSurfaceArea, \
-                            getIcosahedronVolume, getKSphereSurfaceAreaOperator, getKSphereRadiusOperator, \
-                            getKSphereVolumeOperator, getOctahedronSurfaceArea, getOctahedronVolume, \
-                            getRegularPolygonAreaOperator, getPrismSurfaceArea, getPrismVolume, getSphereArea, \
-                            getSphereRadius, getSphereVolume, getTetrahedronSurfaceArea, getTetrahedronVolume, \
-                            getTorusSurfaceArea, getTorusVolume, getTriangleArea
+from rpn.rpnGeometry import getAntiprismSurfaceAreaOperator, getAntiprismVolumeOperator, getConeSurfaceAreaOperator, \
+                            getConeVolumeOperator, getDodecahedronSurfaceAreaOperator, getDodecahedronVolumeOperator, \
+                            getIcosahedronSurfaceAreaOperator, getIcosahedronVolumeOperator, \
+                            getKSphereSurfaceAreaOperator, getKSphereRadiusOperator, getKSphereVolumeOperator, \
+                            getOctahedronSurfaceAreaOperator, getOctahedronVolumeOperator, \
+                            getRegularPolygonAreaOperator, getPrismSurfaceAreaOperator, getPrismVolumeOperator, \
+                            getSphereAreaOperator, getSphereRadiusOperator, getSphereVolumeOperator, \
+                            getTetrahedronSurfaceAreaOperator, getTetrahedronVolumeOperator, \
+                            getTorusSurfaceAreaOperator, getTorusVolumeOperator, getTriangleAreaOperator
 
 from rpn.rpnInput import parseInputValue, readListFromFile
 
@@ -200,8 +202,9 @@ from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperato
 
 from rpn.rpnMeasurementClass import RPNMeasurement
 
-from rpn.rpnModifiers import decrementNestedListLevel, duplicateOperation, duplicateTerm, endOperatorList, \
-                             getPrevious, incrementNestedListLevel, startOperatorList, unlist
+from rpn.rpnModifiers import decrementNestedListLevelOperator, duplicateOperationOperator, duplicateTermOperator, \
+                             endOperatorListOperator, getPreviousOperator, incrementNestedListLevelOperator, \
+                             startOperatorListOperator, unlistOperator
 
 from rpn.rpnName import getNameOperator, getOrdinalNameOperator
 
@@ -237,8 +240,8 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 makeContinuedFraction, makeEulerBrick, makePythagoreanQuadruple, \
                                 makePythagoreanTriple, makePythagoreanTriples, solveFrobeniusOperator
 
-from rpn.rpnPersistence import dumpFunctionCache, dumpPrimeCache, getUserFunctionsFileName, loadConstants, \
-                               loadResult, loadUnitConversionMatrix, loadUnitData
+from rpn.rpnPersistence import dumpFunctionCacheOperator, dumpPrimeCacheOperator, getUserFunctionsFileName, \
+                               loadConstants, loadResult, loadUnitConversionMatrix, loadUnitData
 
 from rpn.rpnPhysics import calculateAcceleration, calculateBlackHoleEntropy, calculateBlackHoleLifetime, \
                            calculateBlackHoleLuminosity, calculateBlackHoleMass, calculateBlackHoleRadius, \
@@ -316,7 +319,7 @@ from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrime
                               getNthSexyTripletList, getNthSophiePrime, getNthSuperPrime, getNthTripleBalancedPrime, \
                               getNthTripleBalancedPrimeList, getNthTripletPrime, getNthTripletPrimeList, \
                               getNthTwinPrime, getNthTwinPrimeList, getSafePrime, getPreviousPrimeOperator, \
-                              getPreviousPrimesOperator, getPrimeRange, getPrimesGenerator, isComposite, \
+                              getPreviousPrimesOperator, getPrimeRange, getPrimesGenerator, isCompositeOperator, \
                               isPrimeOperator, isStrongPseudoprime
 
 from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMode, setIdentify, \
@@ -334,7 +337,7 @@ from rpn.rpnUnitClasses import RPNUnits
 from rpn.rpnUtils import addEchoArgument, abortArgsNeeded, oneArgFunctionEvaluator, \
                          twoArgFunctionEvaluator, validateArguments
 
-from rpn.rpnValidator import argValidator
+from rpn.rpnValidator import argValidator, RPNValidator
 
 import rpn.rpnGlobals as g
 
@@ -820,24 +823,24 @@ class RPNFunction( ):
 
 #******************************************************************************
 #
-#  createFunction
+#  createFunctionOperator
 #
 #  This only gets called if we are not already creating a function.
 #
 #******************************************************************************
 
-def createFunction( valueList ):
+def createFunctionOperator( valueList ):
     g.creatingFunction = True
     valueList.append( RPNFunction( valueList, len( valueList ) ) )
 
 
 #******************************************************************************
 #
-#  addX
+#  addXOperator
 #
 #******************************************************************************
 
-def addX( valueList ):
+def addXOperator( valueList ):
     if not g.creatingFunction:
         raise ValueError( '\'x\' requires \'lambda\' to start a function declaration' )
 
@@ -846,11 +849,11 @@ def addX( valueList ):
 
 #******************************************************************************
 #
-#  addY
+#  addYOperator
 #
 #******************************************************************************
 
-def addY( valueList ):
+def addYOperator( valueList ):
     if not g.creatingFunction:
         raise ValueError( '\'y\' requires \'lambda\' to start a function declaration' )
 
@@ -859,11 +862,11 @@ def addY( valueList ):
 
 #******************************************************************************
 #
-#  addZ
+#  addZOperator
 #
 #******************************************************************************
 
-def addZ( valueList ):
+def addZOperator( valueList ):
     if not g.creatingFunction:
         raise ValueError( '\'z\' requires \'lambda\' to start a function declaration' )
 
@@ -914,22 +917,22 @@ def saveUserFunctionsFile( ):
 
 #******************************************************************************
 #
-#  plotFunction
+#  plotFunctionOperator
 #
 #******************************************************************************
 
-def plotFunction( start, end, func ):
+def plotFunctionOperator( start, end, func ):
     plot( func.evaluate, [ start, end ] )
     return 0
 
 
 #******************************************************************************
 #
-#  plot2DFunction
+#  plot2DFunctionOperator
 #
 #******************************************************************************
 
-def plot2DFunction( start1, end1, start2, end2, func ):
+def plot2DFunctionOperator( start1, end1, start2, end2, func ):
     splot( func.evaluate,
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
@@ -937,11 +940,11 @@ def plot2DFunction( start1, end1, start2, end2, func ):
 
 #******************************************************************************
 #
-#  plotComplexFunction
+#  plotComplexFunctionOperator
 #
 #******************************************************************************
 
-def plotComplexFunction( start1, end1, start2, end2, func ):
+def plotComplexFunctionOperator( start1, end1, start2, end2, func ):
     cplot( func.evaluate,
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
            points = 10000 )
@@ -950,11 +953,11 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
 
 #******************************************************************************
 #
-#  evaluateRecurrence
+#  evaluateRecurrenceOperator
 #
 #******************************************************************************
 
-def evaluateRecurrence( start, count, func ):
+def evaluateRecurrenceOperator( start, count, func ):
     arg = start
     result = [ start ]
 
@@ -978,12 +981,12 @@ def repeatGenerator( n, func ):
 
 #******************************************************************************
 #
-#  repeat
+#  repeatOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def repeat( n, func ):
+def repeatOperator( n, func ):
     return RPNGenerator( repeatGenerator( n, func ) )
 
 
@@ -1006,11 +1009,11 @@ def sequenceGenerator( n, k, func ):
 
 #******************************************************************************
 #
-#  getSequence
+#  getSequenceOperator
 #
 #******************************************************************************
 
-def getSequence( n, k, func ):
+def getSequenceOperator( n, k, func ):
     return RPNGenerator( sequenceGenerator( n, k, func ) )
 
 
@@ -1082,12 +1085,12 @@ def filterIntegersGenerator( n, k ):
 
 #******************************************************************************
 #
-#  filterIntegers
+#  filterIntegersOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def filterIntegers( n, func ):
+def filterIntegersOperator( n, func ):
     return RPNGenerator( filterIntegersGenerator( n, func ) )
 
 
@@ -1349,7 +1352,7 @@ def evaluateListOperator( term, index, currentValueList ):
 
 #******************************************************************************
 #
-#  dumpOperators
+#  dumpOperatorsOperator
 #
 #******************************************************************************
 
@@ -1418,14 +1421,16 @@ def dumpOperators( totalsOnly=False ):
 
     return total
 
+def dumpOperatorsOperator( totalsOnly=False ):
+    return dumpOperators( totalsOnly )
 
 #******************************************************************************
 #
-#  dumpConstants
+#  dumpConstantsOperator
 #
 #******************************************************************************
 
-def dumpConstants( ):
+def dumpConstantsOperator( ):
     if not g.constantOperators:
         loadUnitData( )
         loadConstants( )
@@ -1441,11 +1446,11 @@ def dumpConstants( ):
 
 #******************************************************************************
 #
-#  dumpUnits
+#  dumpUnitsOperator
 #
 #******************************************************************************
 
-def dumpUnits( ):
+def dumpUnitsOperator( ):
     if not g.unitOperators:
         loadUnitData( )
         loadConstants( )
@@ -1460,11 +1465,11 @@ def dumpUnits( ):
 
 #******************************************************************************
 #
-#  dumpUnitConversions
+#  dumpUnitConversionsOperator
 #
 #******************************************************************************
 
-def dumpUnitConversions( ):
+def dumpUnitConversionsOperator( ):
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
@@ -1491,11 +1496,11 @@ def printStats( cacheName, name ):
 
 #******************************************************************************
 #
-#  dumpStats
+#  dumpStatsOperator
 #
 #******************************************************************************
 
-def dumpStats( printTitle=True ):
+def dumpStatsOperator( printTitle=True ):
     if printTitle:
         printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION, showHelp=False )
         print( )
@@ -1951,12 +1956,12 @@ def dumpUserConfiguration( ):
 
 #******************************************************************************
 #
-#  createUserFunction
+#  createUserFunctionOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def createUserFunction( key, func ):
+def createUserFunctionOperator( key, func ):
     g.userFunctions[ key ] = func
     g.userFunctionsAreDirty = True
 
@@ -1964,17 +1969,17 @@ def createUserFunction( key, func ):
 
 
 @oneArgFunctionEvaluator( )
-def evaluateFunction0( func ):
+def evaluateFunction0Operator( func ):
     return func.evaluate( )
 
 @twoArgFunctionEvaluator( )
-def evaluateFunction( n, func ):
+def evaluateFunctionOperator( n, func ):
     return func.evaluate( n )
 
-def evaluateFunction2( n, k, func ):
+def evaluateFunction2Operator( n, k, func ):
     return func.evaluate( n, k )
 
-def evaluateFunction3( a, b, c, func ):
+def evaluateFunction3Operator( a, b, c, func ):
     return func.evaluate( a, b, c )
 
 
@@ -1985,13 +1990,13 @@ def evaluateFunction3( a, b, c, func ):
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
-def evaluateListFunction( n, func ):
+def evaluateListFunctionOperator( n, func ):
     return func.evaluate( n )
 
-def evaluateListFunction2( n, k, func ):
+def evaluateListFunction2Operator( n, k, func ):
     return func.evaluate( n, k )
 
-def evaluateListFunction3( a, b, c, func ):
+def evaluateListFunction3Operator( a, b, c, func ):
     return func.evaluate( a, b, c )
 
 
@@ -2017,74 +2022,74 @@ def filterListOfLists( n, func, invert=False ):
 
 #******************************************************************************
 #
-#  evaluateLimit
+#  evaluateLimitOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def evaluateLimit( n, func ):
+def evaluateLimitOperator( n, func ):
     return limit( func.evaluate, n )
 
 
 #******************************************************************************
 #
-#  evaluateReverseLimit
+#  evaluateReverseLimitOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def evaluateReverseLimit( n, func ):
+def evaluateReverseLimitOperator( n, func ):
     return limit( func.evaluate, n, direction = -1 )
 
 
 #******************************************************************************
 #
-#  evaluateProduct
+#  evaluateProductOperator
 #
 #******************************************************************************
 
-def evaluateProduct( start, end, func ):
+def evaluateProductOperator( start, end, func ):
     return nprod( func.evaluate, [ start, end ] )
 
 
 #******************************************************************************
 #
-#  evaluateSum
+#  evaluateSumOperator
 #
 #******************************************************************************
 
-def evaluateSum( start, end, func ):
+def evaluateSumOperator( start, end, func ):
     return nsum( func.evaluate, [ start, end ] )
 
 
 #******************************************************************************
 #
-#  createExponentialRange
+#  createExponentialRangeOperator
 #
 #******************************************************************************
 
-def createExponentialRange( a, b, c ):
+def createExponentialRangeOperator( a, b, c ):
     return RPNGenerator.createExponential( a, b, c )
 
 
 #******************************************************************************
 #
-#  createGeometricRange
+#  createGeometricRangeOperator
 #
 #******************************************************************************
 
-def createGeometricRange( a, b, c ):
+def createGeometricRangeOperator( a, b, c ):
     return RPNGenerator.createGeometric( a, b, c )
 
 
 #******************************************************************************
 #
-#  createRange
+#  createRangeOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def createRange( start, end ):
+def createRangeOperator( start, end ):
     return RPNGenerator.createRange( start, end )
 
 
@@ -2176,18 +2181,18 @@ functionOperators = [
 #******************************************************************************
 
 modifiers = {
-    'duplicate_term'                : RPNOperator( duplicateTerm, 1 ),
-    'duplicate_operator'            : RPNOperator( duplicateOperation, 1 ),
-    'previous'                      : RPNOperator( getPrevious, 0 ),
-    'unlist'                        : RPNOperator( unlist, 0 ),
-    'lambda'                        : RPNOperator( createFunction, 0 ),
-    'x'                             : RPNOperator( addX, 0 ),
-    'y'                             : RPNOperator( addY, 0 ),
-    'z'                             : RPNOperator( addZ, 0 ),
-    '['                             : RPNOperator( incrementNestedListLevel, 0 ),
-    ']'                             : RPNOperator( decrementNestedListLevel, 0 ),
-    '('                             : RPNOperator( startOperatorList, 0 ),
-    ')'                             : RPNOperator( endOperatorList, 0 ),
+    'duplicate_term'                : RPNOperator( duplicateTermOperator, 1 ),
+    'duplicate_operator'            : RPNOperator( duplicateOperationOperator, 1 ),
+    'previous'                      : RPNOperator( getPreviousOperator, 0 ),
+    'unlist'                        : RPNOperator( unlistOperator, 0 ),
+    'lambda'                        : RPNOperator( createFunctionOperator, 0 ),
+    'x'                             : RPNOperator( addXOperator, 0 ),
+    'y'                             : RPNOperator( addYOperator, 0 ),
+    'z'                             : RPNOperator( addZOperator, 0 ),
+    '['                             : RPNOperator( incrementNestedListLevelOperator, 0 ),
+    ']'                             : RPNOperator( decrementNestedListLevelOperator, 0 ),
+    '('                             : RPNOperator( startOperatorListOperator, 0 ),
+    ')'                             : RPNOperator( endOperatorListOperator, 0 ),
 }
 
 
@@ -2710,25 +2715,25 @@ operators = {
 
     # function
     #'break_on'                      : RPNOperator( breakOnCondition, 3 ),
-    'eval0'                         : RPNOperator( evaluateFunction0, 1 ),
-    'eval'                          : RPNOperator( evaluateFunction, 2 ),
-    'eval2'                         : RPNOperator( evaluateFunction2, 3 ),
-    'eval3'                         : RPNOperator( evaluateFunction3, 4 ),
-    'eval_list'                     : RPNOperator( evaluateListFunction, 2 ),
-    'eval_list2'                    : RPNOperator( evaluateListFunction2, 3 ),
-    'eval_list3'                    : RPNOperator( evaluateListFunction3, 4 ),
-    'filter_integers'               : RPNOperator( filterIntegers, 2 ),
-    'function'                      : RPNOperator( createUserFunction, 2 ),
-    'limit'                         : RPNOperator( evaluateLimit, 2 ),
-    'limitn'                        : RPNOperator( evaluateReverseLimit, 2 ),
-    'nprod'                         : RPNOperator( evaluateProduct, 3 ),
-    'nsum'                          : RPNOperator( evaluateSum, 3 ),
-    'plot'                          : RPNOperator( plotFunction, 3 ),
-    'plot2'                         : RPNOperator( plot2DFunction, 5 ),
-    'plot_complex'                  : RPNOperator( plotComplexFunction, 5 ),
-    'recurrence'                    : RPNOperator( evaluateRecurrence, 3 ),
-    'repeat'                        : RPNOperator( repeat, 2 ),
-    'sequence'                      : RPNOperator( getSequence, 3 ),
+    'eval0'                         : RPNOperator( evaluateFunction0Operator, 1 ),
+    'eval'                          : RPNOperator( evaluateFunctionOperator, 2 ),
+    'eval2'                         : RPNOperator( evaluateFunction2Operator, 3 ),
+    'eval3'                         : RPNOperator( evaluateFunction3Operator, 4 ),
+    'eval_list'                     : RPNOperator( evaluateListFunctionOperator, 2 ),
+    'eval_list2'                    : RPNOperator( evaluateListFunction2Operator, 3 ),
+    'eval_list3'                    : RPNOperator( evaluateListFunction3Operator, 4 ),
+    'filter_integers'               : RPNOperator( filterIntegersOperator, 2 ),
+    'function'                      : RPNOperator( createUserFunctionOperator, 2 ),
+    'limit'                         : RPNOperator( evaluateLimitOperator, 2 ),
+    'limitn'                        : RPNOperator( evaluateReverseLimitOperator, 2 ),
+    'nprod'                         : RPNOperator( evaluateProductOperator, 3 ),
+    'nsum'                          : RPNOperator( evaluateSumOperator, 3 ),
+    'plot'                          : RPNOperator( plotFunctionOperator, 3 ),
+    'plot2'                         : RPNOperator( plot2DFunctionOperator, 5 ),
+    'plot_complex'                  : RPNOperator( plotComplexFunctionOperator, 5 ),
+    'recurrence'                    : RPNOperator( evaluateRecurrenceOperator, 3 ),
+    'repeat'                        : RPNOperator( repeatOperator, 2 ),
+    'sequence'                      : RPNOperator( getSequenceOperator, 3 ),
 
     # geography
     'geographic_distance'           : RPNOperator( getGeographicDistanceOperator, 2 ),
@@ -2737,31 +2742,31 @@ operators = {
     'location_info'                 : RPNOperator( getLocationInfoOperator, 1 ),
 
     # geometry
-    'antiprism_area'                : RPNOperator( getAntiprismSurfaceArea, 2 ),
-    'antiprism_volume'              : RPNOperator( getAntiprismVolume, 2 ),
-    'cone_area'                     : RPNOperator( getConeSurfaceArea, 2 ),
-    'cone_volume'                   : RPNOperator( getConeVolume, 2 ),
-    'dodecahedron_area'             : RPNOperator( getDodecahedronSurfaceArea, 1 ),
-    'dodecahedron_volume'           : RPNOperator( getDodecahedronVolume, 1 ),
+    'antiprism_area'                : RPNOperator( getAntiprismSurfaceAreaOperator, 2 ),
+    'antiprism_volume'              : RPNOperator( getAntiprismVolumeOperator, 2 ),
+    'cone_area'                     : RPNOperator( getConeSurfaceAreaOperator, 2 ),
+    'cone_volume'                   : RPNOperator( getConeVolumeOperator, 2 ),
+    'dodecahedron_area'             : RPNOperator( getDodecahedronSurfaceAreaOperator, 1 ),
+    'dodecahedron_volume'           : RPNOperator( getDodecahedronVolumeOperator, 1 ),
     'hypotenuse'                    : RPNOperator( calculateHypotenuseOperator, 2 ),
-    'icosahedron_area'              : RPNOperator( getIcosahedronSurfaceArea, 1 ),
-    'icosahedron_volume'            : RPNOperator( getIcosahedronVolume, 1 ),
+    'icosahedron_area'              : RPNOperator( getIcosahedronSurfaceAreaOperator, 1 ),
+    'icosahedron_volume'            : RPNOperator( getIcosahedronVolumeOperator, 1 ),
     'k_sphere_area'                 : RPNOperator( getKSphereSurfaceAreaOperator, 2 ),
     'k_sphere_radius'               : RPNOperator( getKSphereRadiusOperator, 2 ),
     'k_sphere_volume'               : RPNOperator( getKSphereVolumeOperator, 2 ),
-    'octahedron_area'               : RPNOperator( getOctahedronSurfaceArea, 1 ),
-    'octahedron_volume'             : RPNOperator( getOctahedronVolume, 1 ),
+    'octahedron_area'               : RPNOperator( getOctahedronSurfaceAreaOperator, 1 ),
+    'octahedron_volume'             : RPNOperator( getOctahedronVolumeOperator, 1 ),
     'polygon_area'                  : RPNOperator( getRegularPolygonAreaOperator, 2 ),
-    'prism_area'                    : RPNOperator( getPrismSurfaceArea, 3 ),
-    'prism_volume'                  : RPNOperator( getPrismVolume, 3 ),
-    'sphere_area'                   : RPNOperator( getSphereArea, 1 ),
-    'sphere_radius'                 : RPNOperator( getSphereRadius, 1 ),
-    'sphere_volume'                 : RPNOperator( getSphereVolume, 1 ),
-    'tetrahedron_area'              : RPNOperator( getTetrahedronSurfaceArea, 1 ),
-    'tetrahedron_volume'            : RPNOperator( getTetrahedronVolume, 1 ),
-    'torus_area'                    : RPNOperator( getTorusSurfaceArea, 2 ),
-    'torus_volume'                  : RPNOperator( getTorusVolume, 2 ),
-    'triangle_area'                 : RPNOperator( getTriangleArea, 3 ),
+    'prism_area'                    : RPNOperator( getPrismSurfaceAreaOperator, 3 ),
+    'prism_volume'                  : RPNOperator( getPrismVolumeOperator, 3 ),
+    'sphere_area'                   : RPNOperator( getSphereAreaOperator, 1 ),
+    'sphere_radius'                 : RPNOperator( getSphereRadiusOperator, 1 ),
+    'sphere_volume'                 : RPNOperator( getSphereVolumeOperator, 1 ),
+    'tetrahedron_area'              : RPNOperator( getTetrahedronSurfaceAreaOperator, 1 ),
+    'tetrahedron_volume'            : RPNOperator( getTetrahedronVolumeOperator, 1 ),
+    'torus_area'                    : RPNOperator( getTorusSurfaceAreaOperator, 2 ),
+    'torus_volume'                  : RPNOperator( getTorusVolumeOperator, 2 ),
+    'triangle_area'                 : RPNOperator( getTriangleAreaOperator, 3 ),
 
     # lexicographic
     'add_digits'                    : RPNOperator( addDigits, 2 ),
@@ -2826,10 +2831,10 @@ operators = {
     'sum_digits'                    : RPNOperator( sumDigits, 1 ),
 
     # list
-    'exponential_range'             : RPNOperator( createExponentialRange, 3 ),
-    'geometric_range'               : RPNOperator( createGeometricRange, 3 ),
+    'exponential_range'             : RPNOperator( createExponentialRangeOperator, 3 ),
+    'geometric_range'               : RPNOperator( createGeometricRangeOperator, 3 ),
     'interval_range'                : RPNOperator( createIntervalRangeOperator, 3 ),
-    'range'                         : RPNOperator( createRange, 2 ),
+    'range'                         : RPNOperator( createRangeOperator, 2 ),
     'sized_range'                   : RPNOperator( createSizedRangeOperator, 3 ),
 
     # logarithms
@@ -2892,7 +2897,7 @@ operators = {
     'is_achilles'                   : RPNOperator( isAchillesNumber, 1 ),
     'is_antiharmonic'               : RPNOperator( isAntiharmonic, 1 ),
     'is_carmichael'                 : RPNOperator( isCarmichaelNumberOperator, 1 ),
-    'is_composite'                  : RPNOperator( isComposite, 1 ),
+    'is_composite'                  : RPNOperator( isCompositeOperator, 1 ),
     'is_deficient'                  : RPNOperator( isDeficient, 1 ),
     'is_harmonic_divisor_number'    : RPNOperator( isHarmonicDivisorNumber, 1 ),
     'is_k_hyperperfect'             : RPNOperator( isKHyperperfect, 2 ),
@@ -3155,14 +3160,15 @@ operators = {
     'tanh'                          : RPNOperator( tanhOperator, 1 ),
 
     # internal
-    '_dump_aliases'                 : RPNOperator( dumpAliases, 0 ),
-    '_dump_cache'                   : RPNOperator( dumpFunctionCache, 1 ),
-    '_dump_constants'               : RPNOperator( dumpConstants, 0 ),
-    '_dump_conversions'             : RPNOperator( dumpUnitConversions, 0 ),
-    '_dump_operators'               : RPNOperator( dumpOperators, 0 ),
-    '_dump_prime_cache'             : RPNOperator( dumpPrimeCache, 1 ),
-    '_dump_stats'                   : RPNOperator( dumpStats, 0 ),
-    '_dump_units'                   : RPNOperator( dumpUnits, 0 ),
+    '_dump_aliases'                 : RPNOperator( dumpAliasesOperator, 0 ),
+    '_dump_cache'                   : RPNOperator( dumpFunctionCacheOperator, 1 ),
+    '_dump_constants'               : RPNOperator( dumpConstantsOperator, 0 ),
+    '_dump_conversions'             : RPNOperator( dumpUnitConversionsOperator, 0 ),
+    '_dump_operators'               : RPNOperator( dumpOperatorsOperator, 0 ),
+    '_dump_prime_cache'             : RPNOperator( dumpPrimeCacheOperator, 1 ),
+    '_dump_stats'                   : RPNOperator( dumpStatsOperator, 0 ),
+    '_dump_units'                   : RPNOperator( dumpUnitsOperator, 0 ),
+
     #'antitet'                       : RPNOperator( findTetrahedralNumber, 0 ),
     #'bernfrac'                      : RPNOperator( bernfrac, 1 ),
 }

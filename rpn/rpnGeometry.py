@@ -23,7 +23,6 @@ from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, Lengt
                              RealOrMeasurementValidator
 
 
-
 #******************************************************************************
 #
 #  getRegularPolygonArea
@@ -53,7 +52,7 @@ def getRegularPolygonAreaOperator( n, k ):
 
 #******************************************************************************
 #
-#  getKSphereRadius
+#  getKSphereRadiusOperator
 #
 #  n - measurement
 #  k - dimension
@@ -100,13 +99,13 @@ def getKSphereRadiusOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealOrMeasurementValidator( 0 ) ] )
-def getSphereRadius( n ):
+def getSphereRadiusOperator( n ):
     return getKSphereRadius( n, 3 )
 
 
 #******************************************************************************
 #
-#  getKSphereSurfaceArea
+#  getKSphereSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 #
@@ -146,13 +145,13 @@ def getKSphereSurfaceAreaOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealOrMeasurementValidator( 0 ) ] )
-def getSphereArea( n ):
+def getSphereAreaOperator( n ):
     return getKSphereSurfaceArea( n, 3 )
 
 
 #******************************************************************************
 #
-#  getKSphereVolume
+#  getKSphereVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 #
@@ -193,46 +192,26 @@ def getKSphereVolumeOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealOrMeasurementValidator( 0 ) ] )
-def getSphereVolume( n ):
+def getSphereVolumeOperator( n ):
     return getKSphereVolume( n, 3 )
 
 
 #******************************************************************************
 #
-#  getTriangleArea
+#  getTriangleAreaOperator
 #
 #******************************************************************************
 
 @argValidator( [ LengthValidator( ), LengthValidator( ), LengthValidator( ) ] )
-def getTriangleArea( a, b, c ):
-    if not isinstance( a, RPNMeasurement ):
-        return getTriangleArea( RPNMeasurement( a, 'meter' ), b, c )
 
-    if a.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'triangle_area\' argument 1 must be a length' )
-
-    if not isinstance( b, RPNMeasurement ):
-        return getTriangleArea( a, RPNMeasurement( b, 'meter' ), c )
-
-    if b.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'triangle_area\' argument 2 must be a length' )
-
-    if not isinstance( c, RPNMeasurement ):
-        return getTriangleArea( a, b, RPNMeasurement( c, 'meter' ) )
-
-    if b.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'triangle_area\' argument 3 must be a length' )
-
-    if add( a, b ).isNotLarger( c ) or add( b, c ).isNotLarger( a ) or add( a, c ).isNotLarger( b ):
-        raise ValueError( 'invalid triangle, the sum of any two sides must be longer than the third side' )
-
+def getTriangleAreaOperator( a, b, c ):
     s = divide( getSum( [ a, b, c ] ), 2 )   # semi-perimeter
     return getRoot( getProduct( [ s, subtract( s, a ), subtract( s, b ), subtract( s, c ) ] ), 2 )
 
 
 #******************************************************************************
 #
-#  getTorusSurfaceArea
+#  getTorusSurfaceAreaperator
 #
 #  http://preccalc.sourceforge.net/geometry.shtml
 #
@@ -243,26 +222,13 @@ def getTriangleArea( a, b, c ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ), LengthValidator( ) ] )
-def getTorusSurfaceArea( major, minor ):
-    if not isinstance( major, RPNMeasurement ):
-        return getTorusSurfaceArea( RPNMeasurement( major, 'meter' ),
-                                    minor )
-
-    if major.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'torus_area\' argument 1 must be a length' )
-
-    if not isinstance( minor, RPNMeasurement ):
-        return getTorusSurfaceArea( major, RPNMeasurement( minor, 'meter' ) )
-
-    if minor.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'torus_area\' argument 2 must be a length' )
-
+def getTorusSurfaceAreaOperator( major, minor ):
     return getProduct( [ 4, power( pi, 2 ), major, minor ] )
 
 
 #******************************************************************************
 #
-#  getTorusVolume
+#  getTorusVolumeOperator
 #
 #  http://preccalc.sourceforge.net/geometry.shtml
 #
@@ -273,25 +239,13 @@ def getTorusSurfaceArea( major, minor ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ), LengthValidator( ) ] )
-def getTorusVolume( major, minor ):
-    if not isinstance( major, RPNMeasurement ):
-        return getTorusVolume( RPNMeasurement( major, 'meter' ), minor )
-
-    if major.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'torus_volume\' argument 1 must be a length' )
-
-    if not isinstance( minor, RPNMeasurement ):
-        return getTorusVolume( major, RPNMeasurement( minor, 'meter' ) )
-
-    if minor.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'torus_volume\' argument 2 must be a length' )
-
+def getTorusVolumeOperator( major, minor ):
     return getProduct( [ 2, power( pi, 2 ), major, getPower( minor, 2 ) ] )
 
 
 #******************************************************************************
 #
-#  getConeSurfaceArea
+#  getConeSurfaceAreaOperator
 #
 #  http://preccalc.sourceforge.net/geometry.shtml
 #
@@ -299,27 +253,14 @@ def getTorusVolume( major, minor ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ), LengthValidator( ) ] )
-def getConeSurfaceArea( radius, height ):
-    if not isinstance( radius, RPNMeasurement ):
-        return getConeSurfaceArea( RPNMeasurement( radius, 'meter' ), height )
-
-    if radius.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'cone_area\' argument 1 must be a length' )
-
-    if not isinstance( height, RPNMeasurement ):
-        return getConeSurfaceArea( radius, RPNMeasurement( height, 'meter' ) )
-
-    if height.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'cone_area\' argument 2 must be a length' )
-
+def getConeSurfaceAreaOperator( radius, height ):
     hypotenuse = getRoot( add( getPower( radius, 2 ), getPower( height, 2 ) ), 2 )
-
     return getProduct( [ pi, radius, add( radius, hypotenuse ) ] )
 
 
 #******************************************************************************
 #
-#  getConeVolume
+#  getConeVolumeOperator
 #
 #  http://preccalc.sourceforge.net/geometry.shtml
 #
@@ -327,19 +268,13 @@ def getConeSurfaceArea( radius, height ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ), LengthValidator( ) ] )
-def getConeVolume( radius, height ):
-    if not isinstance( radius, RPNMeasurement ):
-        return getConeVolume( RPNMeasurement( radius, 'meter' ), height )
-
-    if not isinstance( height, RPNMeasurement ):
-        return getConeVolume( radius, RPNMeasurement( height, 'meter' ) )
-
+def getConeVolumeOperator( radius, height ):
     return getProduct( [ pi, getPower( radius, 2 ), divide( height, 3 ) ] )
 
 
 #******************************************************************************
 #
-#  getTetrahedronSurfaceArea
+#  getTetrahedronSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Tetrahedron
 #
@@ -347,19 +282,13 @@ def getConeVolume( radius, height ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getTetrahedronSurfaceArea( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getTetrahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'tetrahedron_area\' argument must be a length' )
-
+def getTetrahedronSurfaceAreaOperator( n ):
     return multiply( sqrt( 3 ), getPower( n, 2 ) )
 
 
 #******************************************************************************
 #
-#  getTetrahedronVolume
+#  getTetrahedronVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/Tetrahedron
 #
@@ -367,19 +296,13 @@ def getTetrahedronSurfaceArea( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getTetrahedronVolume( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getTetrahedronVolume( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'tetrahedron_volume\' argument must be a length' )
-
+def getTetrahedronVolumeOperator( n ):
     return divide( getPower( n, 3 ), fmul( 6, sqrt( 2 ) ) )
 
 
 #******************************************************************************
 #
-#  getOctahedronSurfaceArea
+#  getOctahedronSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Octahedron
 #
@@ -387,19 +310,13 @@ def getTetrahedronVolume( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getOctahedronSurfaceArea( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getOctahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'octahedron_area\' argument must be a length' )
-
+def getOctahedronSurfaceAreaOperator( n ):
     return getProduct( [ 2, sqrt( 3 ), getPower( n, 2 ) ] )
 
 
 #******************************************************************************
 #
-#  getOctahedronVolume
+#  getOctahedronVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/Octahedron
 #
@@ -407,19 +324,13 @@ def getOctahedronSurfaceArea( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getOctahedronVolume( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getOctahedronVolume( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'octahedron_volume\' argument must be a length' )
-
+def getOctahedronVolumeOperator( n ):
     return divide( multiply( sqrt( 2 ), getPower( n, 3 ) ), 3 )
 
 
 #******************************************************************************
 #
-#  getDodecahedronSurfaceArea
+#  getDodecahedronSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Dodecahedron
 #
@@ -427,20 +338,14 @@ def getOctahedronVolume( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getDodecahedronSurfaceArea( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getDodecahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'dodecahedron_area\' argument must be a length' )
-
+def getDodecahedronSurfaceAreaOperator( n ):
     area = getProduct( [ 3, getRoot( add( 25, fmul( 10, sqrt( 5 ) ) ), 2 ), getPower( n, 2 ) ] )
     return area.convert( 'meter^2' )
 
 
 #******************************************************************************
 #
-#  getDodecahedronVolume
+#  getDodecahedronVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/Dodecahedron
 #
@@ -448,19 +353,13 @@ def getDodecahedronSurfaceArea( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getDodecahedronVolume( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getDodecahedronVolume( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'dodecahedron_volume\' argument must be a length' )
-
+def getDodecahedronVolumeOperator( n ):
     return divide( multiply( fadd( 15, fmul( 7, sqrt( 5 ) ) ), getPower( n, 3 ) ), 4 ).convert( 'meter^3' )
 
 
 #******************************************************************************
 #
-#  getIcosahedronSurfaceArea
+#  getIcosahedronSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Icosahedron
 #
@@ -468,19 +367,13 @@ def getDodecahedronVolume( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getIcosahedronSurfaceArea( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getIcosahedronSurfaceArea( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'icosahedron_area\' argument must be a length' )
-
+def getIcosahedronSurfaceAreaOperator( n ):
     return getProduct( [ 5, sqrt( 3 ), getPower( n, 2 ) ] ).convert( 'meter^2' )
 
 
 #******************************************************************************
 #
-#  getIcosahedronVolume
+#  getIcosahedronVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/Icosahedron
 #
@@ -488,19 +381,13 @@ def getIcosahedronSurfaceArea( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LengthValidator( ) ] )
-def getIcosahedronVolume( n ):
-    if not isinstance( n, RPNMeasurement ):
-        return getIcosahedronVolume( RPNMeasurement( n, 'meter' ) )
-
-    if n.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'icosahedron_volume\' argument must be a length' )
-
+def getIcosahedronVolumeOperator( n ):
     return getProduct( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), getPower( n, 3 ) ] ).convert( 'meter^3' )
 
 
 #******************************************************************************
 #
-#  getAntiprismSurfaceArea
+#  getAntiprismSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Antiprism
 #
@@ -511,17 +398,14 @@ def getIcosahedronVolume( n ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
-def getAntiprismSurfaceArea( n, k ):
-    if not isinstance( k, RPNMeasurement ):
-        return getAntiprismSurfaceArea( n, RPNMeasurement( k, 'meter' ) )
-
+def getAntiprismSurfaceAreaOperator( n, k ):
     result = getProduct( [ fdiv( n, 2 ), fadd( cot( fdiv( pi, n ) ), sqrt( 3 ) ), getPower( k, 2 ) ] )
     return result.convert( 'meter^2' )
 
 
 #******************************************************************************
 #
-#  getAntiprismVolume
+#  getAntiprismVolumeOperator
 #
 #  http://www.fxsolver.com/browse/formulas/Antiprism+uniform+%28Volume%29
 #
@@ -532,13 +416,7 @@ def getAntiprismSurfaceArea( n, k ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
-def getAntiprismVolume( n, k ):
-    if not isinstance( k, RPNMeasurement ):
-        return getAntiprismVolume( n, RPNMeasurement( k, 'meter' ) )
-
-    if k.getDimensions( ) != { 'length' : 1 }:
-        raise ValueError( '\'antiprism_volume\' argument 2 must be a length' )
-
+def getAntiprismVolumeOperator( n, k ):
     result = getProduct( [ fdiv( fprod( [ n, sqrt( fsub( fmul( 4, cos( cos( fdiv( pi, fmul( n, 2 ) ) ) ) ), 1 ) ),
                                           sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ) ] ),
                                  fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
@@ -550,7 +428,7 @@ def getAntiprismVolume( n, k ):
 
 #******************************************************************************
 #
-#  getPrismSurfaceArea
+#  getPrismSurfaceAreaOperator
 #
 #  https://en.wikipedia.org/wiki/Prism
 #
@@ -561,7 +439,7 @@ def getAntiprismVolume( n, k ):
 #******************************************************************************
 
 @argValidator( [ IntValidator( 3 ), LengthValidator( ), LengthValidator( ) ] )
-def getPrismSurfaceArea( n, k, h ):
+def getPrismSurfaceAreaOperator( n, k, h ):
     result = add( getProduct( [ fdiv( n, 2 ), getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ),
                   getProduct( [ n, k, h ] ) )
     return result.convert( 'meter^2' )
@@ -569,7 +447,7 @@ def getPrismSurfaceArea( n, k, h ):
 
 #******************************************************************************
 #
-#  getPrismVolume
+#  getPrismVolumeOperator
 #
 #  https://en.wikipedia.org/wiki/Prism
 #
@@ -580,6 +458,6 @@ def getPrismSurfaceArea( n, k, h ):
 #******************************************************************************
 
 @argValidator( [ IntValidator( 3 ), LengthValidator( ), LengthValidator( ) ] )
-def getPrismVolume( n, k, h ):
+def getPrismVolumeOperator( n, k, h ):
     return getProduct( [ fdiv( n, 4 ), h, getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ).convert( 'meter^3' )
 
