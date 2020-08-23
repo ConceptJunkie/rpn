@@ -78,7 +78,7 @@ def convertToQuadLongOperator( n ):
 
 #******************************************************************************
 #
-#  getInvertedBits
+#  getInvertedBitsOperator
 #
 #******************************************************************************
 
@@ -107,6 +107,11 @@ def getInvertedBits( n ):
         multiplier = fmul( multiplier, placeValue )
 
     return result
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
+def getInvertedBitsOperator( n ):
+    return getInvertedBits( n )
 
 
 #******************************************************************************
@@ -159,51 +164,43 @@ def performBitwiseOperation( i, j, operation ):
     return result
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseAnd( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseAndOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x & y )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseNand( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseNandOperator( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseNor( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseNorOperator( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseOr( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseOrOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x | y )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseXor( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseXorOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x ^ y )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBitwiseXnor( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getBitwiseXnorOperator( n, k ):
     return getInvertedBit( performBitwiseOperation( n, k, lambda x, y: x ^ y ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def shiftLeft( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def shiftLeftOperator( n, k ):
     return fmul( n, 1 << int( k ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def shiftRight( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def shiftRightOperator( n, k ):
     return floor( fdiv( n, 1 << int( k ) ) )
 
 
@@ -239,7 +236,7 @@ def getBitCountOperator( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
-def getParity( n ):
+def getParityOperator( n ):
     return fmod( getBitCount( n ), 2 )
 
 
@@ -330,8 +327,6 @@ def interpretAsFloatOperator( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, 2 ** 64 - 1 ) ] )
 def interpretAsDouble( n ):
     setAccuracy( 25 )
 
@@ -402,31 +397,26 @@ def notOperator( n ):
     return 1 if n == 0 else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def nandOperator( n, k ):
     return 0 if ( n != 0 and k != 0 ) else 1
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def norOperator( n, k ):
     return 0 if ( n != 0 or k != 0 ) else 1
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def orOperator( n, k ):
     return 1 if ( n != 0 or k != 0 ) else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def xnorOperator( n, k ):
     return 1 if ( n != 0 ) == ( k != 0 ) else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
 def xorOperator( n, k ):
     return 1 if ( n != 0 ) != ( k != 0 ) else 0

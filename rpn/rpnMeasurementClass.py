@@ -13,7 +13,7 @@
 #******************************************************************************
 
 from rpn.rpnDebug import debugPrint
-from rpn.rpnPersistence import loadUnitConversionMatrix
+from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import getPowerSet

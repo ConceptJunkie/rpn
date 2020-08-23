@@ -20,7 +20,7 @@ from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, MeasurementValidator
 
 import rpn.rpnGlobals as g
@@ -74,6 +74,10 @@ def convertUnits( unit1, unit2 ):
 
         return RPNMeasurement( newValue, unit2.units )
 
+@twoArgFunctionEvaluator( )
+def convertUnitsOperator( unit1, unit2 ):
+    return convertUnits( unit1, unit2 )
+
 
 #******************************************************************************
 #
@@ -82,6 +86,7 @@ def convertUnits( unit1, unit2 ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ MeasurementValidator( ) ] )
 def convertToDMSOperator( n ):
     return convertUnits( n, [ 'degree', 'arcminute', 'arcsecond' ] )
 

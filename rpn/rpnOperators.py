@@ -68,25 +68,31 @@ from rpn.rpnChemistry import getAtomicNumberOperator, getAtomicSymbolOperator, g
                              getElementNameOperator, getElementOccurrenceOperator, getElementPeriodOperator, \
                              getElementStateOperator, getMolarMassOperator
 
-from rpn.rpnCombinatorics import countFrobenius, getArrangements, getBellPolynomial, getBinomial, \
-                                 getCombinations, getCompositions, getDeBruijnSequence, getIntegerPartitions, \
-                                 getLahNumber, getMultinomial, getNarayanaNumberOperator, getNthAperyNumber, \
-                                 getNthBell, \
-                                 getNthBernoulli, getNthCatalanNumber, getNthDelannoyNumber,getNthMenageNumber, \
-                                 getNthMotzkinNumber, getNthMultifactorial, getNthPellNumber, getNthSchroederNumber, \
-                                 getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber, \
-                                 getPartitionsWithLimit, getPermutations, getStirling1Number, getStirling2Number
+from rpn.rpnCombinatorics import countFrobeniusOperator, getArrangementsOperator, getNthBellPolynomialOperator, \
+                                 getBinomialOperator, getCombinationsOperator, getCompositionsOperator, \
+                                 getDeBruijnSequenceOperator, getIntegerPartitionsOperator, getLahNumberOperator, \
+                                 getMultinomialOperator, getNarayanaNumberOperator, getNthAperyNumberOperator, \
+                                 getNthBellNumberOperator, getNthBernoulliNumberOperator, \
+                                 getNthCatalanNumberOperator, getNthDelannoyNumberOperator, \
+                                 getNthMenageNumberOperator, getNthMotzkinNumberOperator, \
+                                 getNthMultifactorialOperator, getNthPellNumberOperator, \
+                                 getNthSchroederNumberOperator, getNthSchroederHipparchusNumberOperator, \
+                                 getNthSylvesterNumberOperator, getPartitionNumberOperator, \
+                                 getPartitionsWithLimitOperator, getPermutationsOperator, getStirling1NumberOperator, \
+                                 getStirling2NumberOperator
 
 from rpn.rpnComputer import andOperator, convertToCharOperator, convertToDoubleOperator, convertToFloatOperator, \
                             convertToLongOperator, convertToLongLongOperator, convertToQuadLongOperator, \
                             convertToShortOperator, convertToSignedIntOperator, convertToUnsignedCharOperator, \
                             convertToUnsignedIntOperator, convertToUnsignedLongOperator, \
                             convertToUnsignedLongLongOperator, convertToUnsignedQuadLongOperator, \
-                            convertToUnsignedShortOperator, getBitCountOperator, getBitwiseAnd, getBitwiseNand, \
-                            getBitwiseNor, getBitwiseOr, getBitwiseXnor, getBitwiseXor, getInvertedBits, getParity, \
-                            interpretAsDoubleOperator, interpretAsFloatOperator, nandOperator, orOperator, \
-                            norOperator, notOperator, packIntegerOperator, shiftLeft, shiftRight, \
-                            unpackIntegerOperator, xnorOperator, xorOperator
+                            convertToUnsignedShortOperator, getBitCountOperator, getBitwiseAndOperator, \
+                            getBitwiseNandOperator, getBitwiseNorOperator, getBitwiseOrOperator, \
+                            getBitwiseXnorOperator, getBitwiseXorOperator, getInvertedBitsOperator, \
+                            getParityOperator, interpretAsDoubleOperator, interpretAsFloatOperator, \
+                            nandOperator, orOperator, norOperator, notOperator, packIntegerOperator, \
+                            shiftLeftOperator, shiftRightOperator, unpackIntegerOperator, xnorOperator, \
+                            xorOperator
 
 from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
@@ -2235,8 +2241,8 @@ listOperators = {
     'sum'                           : RPNOperator( getSumOperator, 1 ),
 
     # combinatoric
-    'count_frobenius'               : RPNOperator( countFrobenius, 2 ),
-    'multinomial'                   : RPNOperator( getMultinomial, 1 ),
+    'count_frobenius'               : RPNOperator( countFrobeniusOperator, 2 ),
+    'multinomial'                   : RPNOperator( getMultinomialOperator, 1 ),
 
     # conversion
     'convert'                       : RPNOperator( convertUnits, 2 ),   # list arguments are special
@@ -2464,17 +2470,17 @@ operators = {
     'pluto'                         : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ), 0 ),
 
     # bitwise
-    'bitwise_and'                   : RPNOperator( getBitwiseAnd, 2 ),
-    'bitwise_nand'                  : RPNOperator( getBitwiseNand, 2 ),
-    'bitwise_nor'                   : RPNOperator( getBitwiseNor, 2 ),
-    'bitwise_not'                   : RPNOperator( getInvertedBits, 1 ),
-    'bitwise_or'                    : RPNOperator( getBitwiseOr, 2 ),
-    'bitwise_xnor'                  : RPNOperator( getBitwiseXnor, 2 ),
-    'bitwise_xor'                   : RPNOperator( getBitwiseXor, 2 ),
+    'bitwise_and'                   : RPNOperator( getBitwiseAndOperator, 2 ),
+    'bitwise_nand'                  : RPNOperator( getBitwiseNandOperator, 2 ),
+    'bitwise_nor'                   : RPNOperator( getBitwiseNorOperator, 2 ),
+    'bitwise_not'                   : RPNOperator( getInvertedBitsOperator, 1 ),
+    'bitwise_or'                    : RPNOperator( getBitwiseOrOperator, 2 ),
+    'bitwise_xnor'                  : RPNOperator( getBitwiseXnorOperator, 2 ),
+    'bitwise_xor'                   : RPNOperator( getBitwiseXorOperator, 2 ),
     'count_bits'                    : RPNOperator( getBitCountOperator, 1 ),
-    'parity'                        : RPNOperator( getParity, 1 ),
-    'shift_left'                    : RPNOperator( shiftLeft, 2 ),
-    'shift_right'                   : RPNOperator( shiftRight, 2 ),
+    'parity'                        : RPNOperator( getParityOperator, 1 ),
+    'shift_left'                    : RPNOperator( shiftLeftOperator, 2 ),
+    'shift_right'                   : RPNOperator( shiftRightOperator, 2 ),
 
     # calendar
     'advent'                        : RPNOperator( calculateAdventOperator, 1 ),
@@ -2550,37 +2556,36 @@ operators = {
     'element_name'                  : RPNOperator( getElementNameOperator, 1 ),
     'element_occurrence'            : RPNOperator( getElementOccurrenceOperator, 1 ),
     'element_period'                : RPNOperator( getElementPeriodOperator, 1 ),
-
     'element_state'                 : RPNOperator( getElementStateOperator, 1 ),
     'molar_mass'                    : RPNOperator( getMolarMassOperator, 1 ),
 
     # combinatoric
-    'arrangements'                  : RPNOperator( getArrangements, 1 ),
-    'bell_polynomial'               : RPNOperator( getBellPolynomial, 2 ),
-    'binomial'                      : RPNOperator( getBinomial, 2 ),
-    'combinations'                  : RPNOperator( getCombinations, 2 ),
-    'compositions'                  : RPNOperator( getCompositions, 2 ),
-    'debruijn_sequence'             : RPNOperator( getDeBruijnSequence, 2 ),
-    'get_partitions'                : RPNOperator( getIntegerPartitions, 1 ),
-    'get_partitions_with_limit'     : RPNOperator( getPartitionsWithLimit, 2 ),
-    'lah_number'                    : RPNOperator( getLahNumber, 2 ),
-    'nth_menage'                    : RPNOperator( getNthMenageNumber, 1 ),
-    'multifactorial'                : RPNOperator( getNthMultifactorial, 2 ),
+    'arrangements'                  : RPNOperator( getArrangementsOperator, 1 ),
+    'bell_polynomial'               : RPNOperator( getNthBellPolynomialOperator, 2 ),
+    'binomial'                      : RPNOperator( getBinomialOperator, 2 ),
+    'combinations'                  : RPNOperator( getCombinationsOperator, 2 ),
+    'compositions'                  : RPNOperator( getCompositionsOperator, 2 ),
+    'debruijn_sequence'             : RPNOperator( getDeBruijnSequenceOperator, 2 ),
+    'get_partitions'                : RPNOperator( getIntegerPartitionsOperator, 1 ),
+    'get_partitions_with_limit'     : RPNOperator( getPartitionsWithLimitOperator, 2 ),
+    'lah_number'                    : RPNOperator( getLahNumberOperator, 2 ),
+    'nth_menage'                    : RPNOperator( getNthMenageNumberOperator, 1 ),
+    'multifactorial'                : RPNOperator( getNthMultifactorialOperator, 2 ),
     'narayana_number'               : RPNOperator( getNarayanaNumberOperator, 2 ),
-    'nth_apery'                     : RPNOperator( getNthAperyNumber, 1 ),
-    'nth_bell'                      : RPNOperator( getNthBell, 1 ),
-    'nth_bernoulli'                 : RPNOperator( getNthBernoulli, 1 ),
-    'nth_catalan'                   : RPNOperator( getNthCatalanNumber, 1 ),
-    'nth_delannoy'                  : RPNOperator( getNthDelannoyNumber, 1 ),
-    'nth_motzkin'                   : RPNOperator( getNthMotzkinNumber, 1 ),
-    'nth_pell'                      : RPNOperator( getNthPellNumber, 1 ),
-    'nth_schroeder'                 : RPNOperator( getNthSchroederNumber, 1 ),
-    'nth_schroeder_hipparchus'      : RPNOperator( getNthSchroederHipparchusNumber, 1 ),
-    'nth_sylvester'                 : RPNOperator( getNthSylvesterNumber, 1 ),
-    'partitions'                    : RPNOperator( getPartitionNumber, 1 ),
-    'permutations'                  : RPNOperator( getPermutations, 2 ),
-    'stirling1_number'              : RPNOperator( getStirling1Number, 2 ),
-    'stirling2_number'              : RPNOperator( getStirling2Number, 2 ),
+    'nth_apery'                     : RPNOperator( getNthAperyNumberOperator, 1 ),
+    'nth_bell'                      : RPNOperator( getNthBellNumberOperator, 1 ),
+    'nth_bernoulli'                 : RPNOperator( getNthBernoulliNumberOperator, 1 ),
+    'nth_catalan'                   : RPNOperator( getNthCatalanNumberOperator, 1 ),
+    'nth_delannoy'                  : RPNOperator( getNthDelannoyNumberOperator, 1 ),
+    'nth_motzkin'                   : RPNOperator( getNthMotzkinNumberOperator, 1 ),
+    'nth_pell'                      : RPNOperator( getNthPellNumberOperator, 1 ),
+    'nth_schroeder'                 : RPNOperator( getNthSchroederNumberOperator, 1 ),
+    'nth_schroeder_hipparchus'      : RPNOperator( getNthSchroederHipparchusNumberOperator, 1 ),
+    'nth_sylvester'                 : RPNOperator( getNthSylvesterNumberOperator, 1 ),
+    'partitions'                    : RPNOperator( getPartitionNumberOperator, 1 ),
+    'permutations'                  : RPNOperator( getPermutationsOperator, 2 ),
+    'stirling1_number'              : RPNOperator( getStirling1NumberOperator, 2 ),
+    'stirling2_number'              : RPNOperator( getStirling2NumberOperator, 2 ),
 
     # complex
     'argument'                      : RPNOperator( getArgumentOperator, 1 ),

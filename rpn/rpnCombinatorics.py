@@ -21,18 +21,17 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnNumberTheory import getNthLinearRecurrence
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
+                         oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator, ListValidator
 
 
 #******************************************************************************
 #
-#  getNthAperyNumber
+#  getNthAperyNumberOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'apery' )
 def getNthAperyNumber( n ):
     '''
@@ -40,9 +39,6 @@ def getNthAperyNumber( n ):
 
     a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
     '''
-    if n < 0:
-        raise ValueError( '\'nth_apery\' expects a non-negative argument' )
-
     precision = int( fmul( n, 1.6 ) )
 
     if mp.dps < precision:
@@ -56,22 +52,22 @@ def getNthAperyNumber( n ):
 
     return result
 
-
-#******************************************************************************
-#
-#  getNthDelannoyNumber
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthAperyNumberOperator( n ):
+    return getNthAperyNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthDelannoyNumberOperator
+#
+#******************************************************************************
+
 @cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
     if n == 1:
         return 3
-
-    if n < 0:
-        raise ValueError( '\'nth_delannoy\' expects a non-negative argument' )
 
     precision = int( fmul( n, 0.8 ) )
 
@@ -85,22 +81,22 @@ def getNthDelannoyNumber( n ):
 
     return result
 
-
-#******************************************************************************
-#
-#  getNthSchroederNumber
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthDelannoyNumberOperator( n ):
+    return getNthDelannoyNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthSchroederNumberOperator
+#
+#******************************************************************************
+
 @cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
     if n == 1:
         return 1
-
-    if n < 0:
-        raise ValueError( '\'nth_schroeder\' expects a non-negative argument' )
 
     n = fsub( n, 1 )
 
@@ -117,15 +113,18 @@ def getNthSchroederNumber( n ):
 
     return result
 
-
-#******************************************************************************
-#
-#  getNthMotzkinNumber
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthSchroederNumberOperator( n ):
+    return getNthSchroederNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthMotzkinNumberOperator
+#
+#******************************************************************************
+
 @cachedFunction( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
@@ -146,25 +145,26 @@ def getNthMotzkinNumber( n ):
 
     return fdiv( result, fadd( n, 1 ) )
 
-
-#******************************************************************************
-#
-#  getNthSchroederHipparchusNumber
-#
-#  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
-#  https://oeis.org/A001003
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthMotzkinNumberOperator( n ):
+    return getNthMotzkinNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthSchroederHipparchusNumberOperator
+#
+#******************************************************************************
+
 @cachedFunction( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
+    '''
+    https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
+    https://oeis.org/A001003
+    '''
     if n == 0:
         return 1
-
-    if n < 0:
-        raise ValueError( '\'nth_schroeder_hipparchus\' expects a non-negative argument' )
 
     precision = int( fmul( n, 0.8 ) )
 
@@ -178,19 +178,21 @@ def getNthSchroederHipparchusNumber( n ):
 
     return result
 
-
-#******************************************************************************
-#
-#  getNthPellNumber
-#
-#******************************************************************************
-
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
+def getNthSchroederHipparchusNumberOperator( n ):
+    return getNthSchroederHipparchusNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthPellNumberOperator
+#
+#******************************************************************************
+
 def getNthPellNumber( n ):
     '''
-    From:  http://oeis.org/A000129
-
+    From:  http://oeis.org/A000129:
     a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
     '''
     precision = int( fmul( n, 0.4 ) )
@@ -200,6 +202,11 @@ def getNthPellNumber( n ):
 
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthPellNumberOperator( n ):
+    return getNthPellNumber( n )
+
 
 #******************************************************************************
 #
@@ -208,9 +215,8 @@ def getNthPellNumber( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getPermutations( n, r ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getPermutationsOperator( n, r ):
     if r > n:
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
@@ -224,9 +230,8 @@ def getPermutations( n, r ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getCombinations( n, r ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getCombinationsOperator( n, r ):
     if r > n:
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
@@ -241,18 +246,16 @@ def getCombinations( n, r ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getArrangements( n ):
+def getArrangementsOperator( n ):
     return floor( fmul( fac( n ), e ) )
 
 
 #******************************************************************************
 #
-#  getNthSylvesterNumber
+#  getNthSylvesterNumberOperator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
 def getNthSylvesterNumber( n ):
     if n == 1:
         return 2
@@ -266,6 +269,11 @@ def getNthSylvesterNumber( n ):
 
     return sylvesters[ -1 ]
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def getNthSylvesterNumberOperator( n ):
+    return getNthSylvesterNumber( n )
+
 
 #******************************************************************************
 #
@@ -273,9 +281,6 @@ def getNthSylvesterNumber( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
 def createDeBruijnSequence( n, k ):
     wordSize = int( k )
     symbolCount = int( n )
@@ -301,7 +306,9 @@ def createDeBruijnSequence( n, k ):
 
         v[ l - 1 ] += 1
 
-def getDeBruijnSequence( n, k ):
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def getDeBruijnSequenceOperator( n, k ):
     return RPNGenerator( createDeBruijnSequence( n, k ) )
 
 
@@ -311,9 +318,6 @@ def getDeBruijnSequence( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
 def getCompositionsGenerator( n, k ):
     value = int( n )
     count = int( k )
@@ -332,8 +336,8 @@ def getCompositionsGenerator( n, k ):
                 yield [ nint( i ) ] + comp
 
 @twoArgFunctionEvaluator( )
-
-def getCompositions( n, k ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getCompositionsOperator( n, k ):
     return RPNGenerator( getCompositionsGenerator( n, k ) )
 
 
@@ -471,17 +475,14 @@ def partitionsWithLimit( n, k=None ):
 
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 1 ) ] )
-def getPartitionsWithLimit( n, k ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def getPartitionsWithLimitOperator( n, k ):
     if k > n:
         k = n
 
     return RPNGenerator( partitionsWithLimit( n, k ) )
 
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
 @cachedFunction( 'partition' )
 def getPartitionNumber( n ):
     '''
@@ -531,6 +532,10 @@ def getPartitionNumber( n ):
 
     return total
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getPartitionNumberOperator( n ):
+    return getPartitionNumber( n )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -649,7 +654,7 @@ def createIntegerPartitions( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getIntegerPartitions( n ):
+def getIntegerPartitionsOperator( n ):
     return RPNGenerator( createIntegerPartitions( int( n ) ) )
 
 
@@ -660,9 +665,8 @@ def getIntegerPartitions( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getNthMultifactorial( n, k ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getNthMultifactorialOperator( n, k ):
     return fprod( arange( n, 0, -( k ) ) )
 
 
@@ -672,7 +676,9 @@ def getNthMultifactorial( n, k ):
 #
 #******************************************************************************
 
-def getMultinomial( args ):
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getMultinomialOperator( args ):
     numerator = fac( fsum( args ) )
 
     denominator = 1
@@ -685,14 +691,13 @@ def getMultinomial( args ):
 
 #******************************************************************************
 #
-#  getLahNumber
+#  getLahNumberOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getLahNumber( n, k ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getLahNumberOperator( n, k ):
     return fmul( power( -1, n ), fdiv( fmul( binomial( n, k ),
                                              fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
@@ -703,15 +708,11 @@ def getLahNumber( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getNarayanaNumberOperator( n, k ):
     return getNarayanaNumber( n, k )
 
@@ -724,21 +725,20 @@ def getNarayanaNumberOperator( n, k ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthCatalanNumber( n ):
+def getNthCatalanNumberOperator( n ):
     return fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) )
 
 
 #******************************************************************************
 #
-#  getNthMenageNumber
-#
-#  https://oeis.org/A000179
+#  getNthMenageNumberOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthMenageNumber( n ):
+    '''https://oeis.org/A000179'''
     if n == 1:
         return -1
     elif n == 2:
@@ -749,43 +749,77 @@ def getNthMenageNumber( n ):
         return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
                                               fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthMenageNumberOperator( n ):
+    return getNthMenageNumber( n )
+
+
+#******************************************************************************
+#
+#  getNthBellPolynomialOperator
+#
+#******************************************************************************
+
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ),
-                 IntValidator( ) ] )
-def getBellPolynomial( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getNthBellPolynomialOperator( n, k ):
     return bell( n, k )
 
+
+#******************************************************************************
+#
+#  getBinomialOperator
+#
+#******************************************************************************
+
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ),
-                 IntValidator( 0 ) ] )
-def getBinomial( n, k ):
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+def getBinomialOperator( n, k ):
     return binomial( n, k )
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def getNthBell( n ):
-    return bell( n )
+
+#******************************************************************************
+#
+#  getNthBellNumberOperator
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getNthBernoulli( n ):
+def getNthBellNumberOperator( n ):
+    return bell( n )
+
+
+#******************************************************************************
+#
+#  getNthBernoulliNumberOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthBernoulliNumberOperator( n ):
     return bernoulli( n )
 
 
 #******************************************************************************
 #
-#  countFrobenius
-#
-#  https://math.stackexchange.com/questions/176363/keep-getting-generating- \
-#      function-wrong-making-change-for-a-dollar/176397#176397
-#
-#  Here's another way from Sloane that doesn't require so much memory:
-#
-#  a(n) = (1/n)*Sum_{k=1..n} A008472(k)*a(n-k).
+#  countFrobeniusOperator
 #
 #******************************************************************************
 
-def countFrobenius( denominations, target ):
+@listAndOneArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ), IntValidator( ) ] )
+def countFrobeniusOperator( denominations, target ):
+    '''
+    https://math.stackexchange.com/questions/176363/keep-getting-generating- \
+    function-wrong-making-change-for-a-dollar/176397#176397
+
+    Here's another way from Sloane that doesn't require so much memory:
+
+    a(n) = (1/n)*Sum_{k=1..n} A008472(k)*a(n-k).
+    '''
     target = int( target )
     data = [ 0 ] * ( target + 1 )
     data[ 0 ] = 1
@@ -801,23 +835,25 @@ def countFrobenius( denominations, target ):
 
 #******************************************************************************
 #
-#  getStirling1Number
+#  getStirling1NumberOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getStirling1Number( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getStirling1NumberOperator( n, k ):
     return stirling1( n, k )
 
 
 #******************************************************************************
 #
-#  getStirling2Number
+#  getStirling2NumberOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getStirling2Number( n, k ):
+@argValidator( [ IntValidator( ), IntValidator( ) ] )
+def getStirling2NumberOperator( n, k ):
     return stirling2( n, k )
 
 
