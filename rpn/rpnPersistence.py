@@ -142,11 +142,11 @@ def loadHelpData( ):
 
 #******************************************************************************
 #
-#  loadResult
+#  loadResultOperator
 #
 #******************************************************************************
 
-def loadResult( ):
+def loadResultOperator( ):
     try:
         fileName = getUserDataPath( ) + os.sep + 'result.pckl.bz2'
 

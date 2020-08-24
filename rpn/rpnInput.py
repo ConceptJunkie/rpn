@@ -251,6 +251,6 @@ def readListFromFileGenerator( filename ):
                 pass
 
 @oneArgFunctionEvaluator( )
-def readListFromFile( filename ):
+def readListFromFileOperator( filename ):
     return RPNGenerator( readListFromFileGenerator( filename ) )
 

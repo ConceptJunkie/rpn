@@ -123,8 +123,8 @@ from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayO
                             getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, \
                             makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, RPNDateTime
 
-from rpn.rpnDice import enumerateDiceGenerator, enumerateMultipleDiceGenerator, permuteDiceGenerator, rollDice, \
-                        rollMultipleDiceGenerator, rollSimpleDice
+from rpn.rpnDice import enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
+                        rollMultipleDiceOperator, rollSimpleDiceOperator
 
 from rpn.rpnDebug import debugPrint
 
@@ -142,7 +142,7 @@ from rpn.rpnGeometry import getAntiprismSurfaceAreaOperator, getAntiprismVolumeO
                             getTetrahedronSurfaceAreaOperator, getTetrahedronVolumeOperator, \
                             getTorusSurfaceAreaOperator, getTorusVolumeOperator, getTriangleAreaOperator
 
-from rpn.rpnInput import parseInputValue, readListFromFile
+from rpn.rpnInput import parseInputValue, readListFromFileOperator
 
 from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, \
                                  combineDigitsOperator, containsAnyDigitsOperator, containsDigitsOperator, \
@@ -215,8 +215,8 @@ from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator
                         tetrateRightOperator
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, \
-                               convertToPrimitiveUnitsOperator, convertUnits, estimateOperator, getDimensions, \
-                               invertUnitsOperator
+                               convertToPrimitiveUnitsOperator, convertUnits, estimateOperator, \
+                               getDimensionsOperator, invertUnitsOperator
 
 from rpn.rpnMeasurementClass import RPNMeasurement
 
@@ -270,7 +270,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator
 
 from rpn.rpnPersistence import dumpFunctionCacheOperator, dumpPrimeCacheOperator, getUserFunctionsFileName, \
-                               loadConstants, loadResult, loadUnitConversionMatrix, loadUnitData
+                               loadConstants, loadResultOperator, loadUnitConversionMatrix, loadUnitData
 
 from rpn.rpnPhysics import calculateAccelerationOperator, calculateBlackHoleEntropyOperator, \
                            calculateBlackHoleLifetimeOperator, calculateBlackHoleLuminosityOperator, \
@@ -367,10 +367,11 @@ from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMo
                             setLeadingZeroMode, setAccuracy, setPrecision, setOctalMode, setOutputRadix, \
                             setTimer, setTimerMode
 
-from rpn.rpnSpecial import describeInteger, downloadOEISComment, downloadOEISExtra, downloadOEISName, \
-                           downloadOEISOffset, downloadOEISSequence, findPolynomial, generateRandomUUIDOperator, \
-                           generateUUIDOperator, getMultipleRandomsGenerator, getRandomInteger, \
-                           getRandomIntegersGenerator, getRandomNumber
+from rpn.rpnSpecial import describeIntegerOperator, downloadOEISCommentOperator, downloadOEISExtraOperator, \
+                           downloadOEISNameOperator, downloadOEISOffsetOperator, downloadOEISSequenceOperator, \
+                           findPolynomialOperator, generateRandomUUIDOperator, generateUUIDOperator, \
+                           getMultipleRandomsOperator, getRandomIntegerOperator, getRandomIntegersOperator, \
+                           getRandomNumberOperator, ifOperator
 
 from rpn.rpnUnitClasses import RPNUnits
 
@@ -1887,11 +1888,11 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
 #******************************************************************************
 #
-#  printHelpMessage
+#  printHelpMessageOperator
 #
 #******************************************************************************
 
-def printHelpMessage( ):
+def printHelpMessageOperator( ):
     from rpnOutput import printHelp
     printHelp( interactive=True )
     return 0
@@ -1925,7 +1926,7 @@ def printHelpTopic( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getUserVariable( key ):
+def getUserVariableOperator( key ):
     if not isinstance( key, str ):
         raise ValueError( 'variable names must be strings' )
 
@@ -1942,7 +1943,7 @@ def getUserVariable( key ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def setUserVariable( key, value ):
+def setUserVariableOperator( key, value ):
     if not isinstance( key, str ):
         raise ValueError( 'variable names must be strings' )
 
@@ -1959,7 +1960,7 @@ def setUserVariable( key, value ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getUserConfiguration( key ):
+def getUserConfigurationOperator( key ):
     if key in g.userConfiguration:
         return g.userConfiguration[ key ]
     else:
@@ -1973,7 +1974,7 @@ def getUserConfiguration( key ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def setUserConfiguration( key, value ):
+def setUserConfigurationOperator( key, value ):
     g.userConfiguration[ key ] = value
     g.userConfigurationIsDirty = True
 
@@ -1987,7 +1988,7 @@ def setUserConfiguration( key, value ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def deleteUserConfiguration( key ):
+def deleteUserConfigurationOperator( key ):
     if key not in g.userConfiguration:
         raise ValueError( 'key \'' + key + '\' not found' )
 
@@ -1999,11 +2000,11 @@ def deleteUserConfiguration( key ):
 
 #******************************************************************************
 #
-#  dumpUserConfiguration
+#  dumpUserConfigurationOperator
 #
 #******************************************************************************
 
-def dumpUserConfiguration( ):
+def dumpUserConfigurationOperator( ):
     for i in g.userConfiguration:
         print( i + ':', '"' + g.userConfiguration[ i ] + '"' )
 
@@ -2425,7 +2426,7 @@ operators = {
     # pylint: disable=line-too-long
 
     # algebra
-    'find_polynomial'                   : RPNOperator( findPolynomial, 2 ),
+    'find_polynomial'                   : RPNOperator( findPolynomialOperator, 2 ),
     'solve_cubic'                       : RPNOperator( solveCubicPolynomialOperator, 4 ),
     'solve_quadratic'                   : RPNOperator( solveQuadraticPolynomialOperator, 3 ),
     'solve_quartic'                     : RPNOperator( solveQuarticPolynomialOperator, 5 ),
@@ -3158,37 +3159,37 @@ operators = {
 
     # special
     'base_units'                        : RPNOperator( convertToBaseUnitsOperator, 1 ),
-    'delete_config'                     : RPNOperator( deleteUserConfiguration, 1 ),
-    'describe'                          : RPNOperator( describeInteger, 1 ),
-    'dimensions'                        : RPNOperator( getDimensions, 1 ),
-    'dump_config'                       : RPNOperator( dumpUserConfiguration, 0 ),
-    'enumerate_dice'                    : RPNOperator( enumerateDiceGenerator, 1 ),
-    'enumerate_dice_'                   : RPNOperator( enumerateMultipleDiceGenerator, 2 ),
+    'delete_config'                     : RPNOperator( deleteUserConfigurationOperator, 1 ),
+    'describe'                          : RPNOperator( describeIntegerOperator, 1 ),
+    'dimensions'                        : RPNOperator( getDimensionsOperator, 1 ),
+    'dump_config'                       : RPNOperator( dumpUserConfigurationOperator, 0 ),
+    'enumerate_dice'                    : RPNOperator( enumerateDiceOperator, 1 ),
+    'enumerate_dice_'                   : RPNOperator( enumerateMultipleDiceOperator, 2 ),
     'estimate'                          : RPNOperator( estimateOperator, 1 ),
-    'help'                              : RPNOperator( printHelpMessage, 0 ),
-    'get_config'                        : RPNOperator( getUserConfiguration, 1 ),
-    'get_variable'                      : RPNOperator( getUserVariable, 1 ),
-    'if'                                : RPNOperator( lambda a, b, c: a if c else b, 3 ),
-    'list_from_file'                    : RPNOperator( readListFromFile, 1 ),
+    'help'                              : RPNOperator( printHelpMessageOperator, 0 ),
+    'get_config'                        : RPNOperator( getUserConfigurationOperator, 1 ),
+    'get_variable'                      : RPNOperator( getUserVariableOperator, 1 ),
+    'if'                                : RPNOperator( ifOperator, 3 ),
+    'list_from_file'                    : RPNOperator( readListFromFileOperator, 1 ),
     'name'                              : RPNOperator( getNameOperator, 1 ),
-    'oeis'                              : RPNOperator( downloadOEISSequence, 1 ),
-    'oeis_comment'                      : RPNOperator( downloadOEISComment, 1 ),
-    'oeis_ex'                           : RPNOperator( downloadOEISExtra, 1 ),
-    'oeis_name'                         : RPNOperator( downloadOEISName, 1 ),
-    'oeis_offset'                       : RPNOperator( downloadOEISOffset, 1 ),
+    'oeis'                              : RPNOperator( downloadOEISSequenceOperator, 1 ),
+    'oeis_comment'                      : RPNOperator( downloadOEISCommentOperator, 1 ),
+    'oeis_ex'                           : RPNOperator( downloadOEISExtraOperator, 1 ),
+    'oeis_name'                         : RPNOperator( downloadOEISNameOperator, 1 ),
+    'oeis_offset'                       : RPNOperator( downloadOEISOffsetOperator, 1 ),
     'ordinal_name'                      : RPNOperator( getOrdinalNameOperator, 1 ),
-    'permute_dice'                      : RPNOperator( permuteDiceGenerator, 1 ),
+    'permute_dice'                      : RPNOperator( permuteDiceOperator, 1 ),
     'primitive_units'                   : RPNOperator( convertToPrimitiveUnitsOperator, 1 ),
-    'random'                            : RPNOperator( getRandomNumber, 0 ),
-    'random_'                           : RPNOperator( getMultipleRandomsGenerator, 1 ),
-    'random_integer'                    : RPNOperator( getRandomInteger, 1 ),
-    'random_integers'                   : RPNOperator( getRandomIntegersGenerator, 2 ),
-    'result'                            : RPNOperator( loadResult, 0 ),
-    'roll_dice'                         : RPNOperator( rollDice, 1 ),
-    'roll_simple_dice'                  : RPNOperator( rollSimpleDice, 2 ),
-    'roll_dice_'                        : RPNOperator( rollMultipleDiceGenerator, 2 ),
-    'set_config'                        : RPNOperator( setUserConfiguration, 2 ),
-    'set_variable'                      : RPNOperator( setUserVariable, 2 ),
+    'random'                            : RPNOperator( getRandomNumberOperator, 0 ),
+    'random_'                           : RPNOperator( getMultipleRandomsOperator, 1 ),
+    'random_integer'                    : RPNOperator( getRandomIntegerOperator, 1 ),
+    'random_integers'                   : RPNOperator( getRandomIntegersOperator, 2 ),
+    'result'                            : RPNOperator( loadResultOperator, 0 ),
+    'roll_dice'                         : RPNOperator( rollDiceOperator, 1 ),
+    'roll_simple_dice'                  : RPNOperator( rollSimpleDiceOperator, 2 ),
+    'roll_dice_'                        : RPNOperator( rollMultipleDiceOperator, 2 ),
+    'set_config'                        : RPNOperator( setUserConfigurationOperator, 2 ),
+    'set_variable'                      : RPNOperator( setUserVariableOperator, 2 ),
 
     #'topics' doesn't need to be handled here, see rpn.py, search for 'topics'
 

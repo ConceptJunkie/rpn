@@ -21,7 +21,7 @@ from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, MeasurementValidator
+from rpn.rpnValidator import argValidator, ComplexOrMeasurementValidator, MeasurementValidator
 
 import rpn.rpnGlobals as g
 
@@ -178,7 +178,8 @@ def applyNumberValueToUnit( number, term, constant ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getDimensions( n ):
+@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+def getDimensionsOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return n.getDimensions( )
     else:

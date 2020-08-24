@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  rpnSpecial.py
 #
@@ -10,7 +10,7 @@
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
 #
-#******************************************************************************
+# ******************************************************************************
 
 import re as regex
 import sys
@@ -21,7 +21,7 @@ from random import randrange
 
 from mpmath import arange, cbrt, ceil, fabs, fadd, fdiv, fib, findpoly, \
                    floor, fmul, fsub, identify, inf, log, log10, mpmathify, \
-                   phi,  power, rand, root, sqrt
+                   phi, power, rand, root, sqrt
 
 from rpn.rpnCombinatorics import getNthAperyNumber, getNthDelannoyNumber, getNthMenageNumber, \
                                  getNthMotzkinNumber, getNthPellNumber, getNthSchroederNumber, \
@@ -61,35 +61,44 @@ from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
 
 from rpn.rpnPrimeUtils import getPrimes, isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  getRandomNumber
 #
-#******************************************************************************
+# ******************************************************************************
 
 def getRandomNumber( ):
     return rand( )
 
 
-#******************************************************************************
+def getRandomNumberOperator( ):
+    return getRandomNumber( )
+
+
+# ******************************************************************************
 #
 #  getRandomInteger
 #
-#******************************************************************************
+# ******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getRandomInteger( n ):
     return randrange( n )
 
 
-#******************************************************************************
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getRandomIntegerOperator( n ):
+    return getRandomInteger( n )
+
+
+# ******************************************************************************
 #
 #  getMultipleRandoms
 #
-#******************************************************************************
+# ******************************************************************************
 
 def getMultipleRandoms( n ):
     '''
@@ -98,17 +107,18 @@ def getMultipleRandoms( n ):
     for _ in arange( 0, n ):
         yield rand( )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def getMultipleRandomsGenerator( n ):
+def getMultipleRandomsOperator( n ):
     return RPNGenerator.createGenerator( getMultipleRandoms, n )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  getRandomIntegers
 #
-#******************************************************************************
+# ******************************************************************************
 
 def getRandomIntegers( n, k ):
     '''
@@ -117,17 +127,18 @@ def getRandomIntegers( n, k ):
     for _ in arange( 0, k ):
         yield randrange( n )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
-def getRandomIntegersGenerator( n, k ):
+def getRandomIntegersOperator( n, k ):
     return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  removeUnderscores
 #
-#******************************************************************************
+# ******************************************************************************
 
 def removeUnderscores( source ):
     '''
@@ -145,13 +156,12 @@ def removeUnderscores( source ):
     return result
 
 
-#******************************************************************************
+# ******************************************************************************
 #
-#  downloadOEISSequence
+#  downloadOEISSequenceOperator
 #
-#******************************************************************************
+# ******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedOEISFunction( 'oeis', overrideIgnore=True )
 def downloadOEISSequence( aNumber ):
     '''Downloads and formats data from oeis.org.'''
@@ -180,15 +190,20 @@ def downloadOEISSequence( aNumber ):
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
     else:
-        #return [ mpmathify( i ) for i in result.split( ',' ) ]
+        # return [ mpmathify( i ) for i in result.split( ',' ) ]
         return [ int( i ) for i in result.split( ',' ) ]
 
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def downloadOEISSequenceOperator( aNumber ):
+    return downloadOEISSequence( aNumber )
 
-#******************************************************************************
+
+# ******************************************************************************
 #
 #  downloadOEISText
 #
-#******************************************************************************
+# ******************************************************************************
 
 def downloadOEISText( aNumber, char, addCR = False ):
     '''Downloads, formats and caches text data from oeis.org.'''
@@ -212,36 +227,40 @@ def downloadOEISText( aNumber, char, addCR = False ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISComment( n ):
+def downloadOEISCommentOperator( n ):
     return downloadOEISText( n, 'C', True )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISExtra( n ):
+def downloadOEISExtraOperator( n ):
     return downloadOEISText( n, 'E', True )
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISName( n ):
-    return downloadOEISText( n, 'N', True )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISOffset( n ):
+def downloadOEISNameOperator( n ):
+    return downloadOEISText( n, 'N', True )
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def downloadOEISOffsetOperator( n ):
     return int( downloadOEISText( n, 'O' ).split( ',' )[ 0 ] )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  downloadOEISTable
 #
-#******************************************************************************
+# ******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISTable( aNumber ):
+def downloadOEISTableOperator( aNumber ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
     except:
@@ -271,11 +290,11 @@ def downloadOEISTable( aNumber ):
     return result, True
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  handleIdentify
 #
-#******************************************************************************
+# ******************************************************************************
 
 def handleIdentify( result, file=sys.stdout ):
     '''Calls the mpmath identify function to try to identify a constant.'''
@@ -291,14 +310,14 @@ def handleIdentify( result, file=sys.stdout ):
         print( '    = ' + formula, file=file )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  findPolynomial
 #
-#******************************************************************************
+# ******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def findPolynomial( n, k ):
+def findPolynomialOperator( n, k ):
     '''
     Calls the mpmath findpoly function to try to identify a polynomial of
     degree <= k for which n is a zero.
@@ -317,11 +336,11 @@ def findPolynomial( n, k ):
         return poly
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  generateUUIDOperator
 #
-#******************************************************************************
+# ******************************************************************************
 
 def generateUUIDOperator( ):
     '''
@@ -331,24 +350,25 @@ def generateUUIDOperator( ):
     return str( uuid.uuid1( ) )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  generateRandomUUIDOperator
 #
-#******************************************************************************
+# ******************************************************************************
 
 def generateRandomUUIDOperator( ):
     '''Generates a completely random UUID.'''
     return str( uuid.uuid4( ) )
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  findInput
 #
-#******************************************************************************
+# ******************************************************************************
 
 largestNumberToFactor = power( 10, 40 )
+
 
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
@@ -387,9 +407,9 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
         return True, guess2
 
     if over:
-        comparator = lambda a, b: a > b
+        def comparator(a, b): return a > b
     else:
-        comparator = lambda a, b: a < b
+        def comparator(a, b): return a < b
 
     while comparator( result, value ):
         delta *= 2
@@ -441,15 +461,15 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
     return False, 0
 
 
-#******************************************************************************
+# ******************************************************************************
 #
 #  describeInteger
 #
-#******************************************************************************
+# ******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def describeInteger( n ):
+def describeIntegerOperator( n ):
     indent = ' ' * 4
 
     print( )
@@ -477,7 +497,7 @@ def describeInteger( n ):
 
     for i in arange( 4, fadd( ceil( log( fabs( n ), 2 ) ), 1 ) ):
         if isKthPower( n, i ):
-            print( indent + 'the ' + getShortOrdinalName( root( n, i ) ) + ' ' + \
+            print( indent + 'the ' + getShortOrdinalName( root( n, i ) ) + ' ' +
                    getNumberName( i, True ) + ' power'  )
 
     # triangular
@@ -522,7 +542,7 @@ def describeInteger( n ):
     if getNthPolygonalNumber( guess, 10 ) == n:
         print( indent + 'the ' + getShortOrdinalName( guess ) + ' decagonal number' )
 
-    #if n > 1:
+    # if n > 1:
     #    for i in range( 11, 101 ):
     #        if getNthPolygonalNumber( findPolygonalNumber( n, i ), i ) == n:
     #            print( indent + str( i ) + '-gonal' )
@@ -579,7 +599,7 @@ def describeInteger( n ):
     if isPandigital( n ):
         print( indent + 'pandigital' )
 
-    #for i in range( 4, 21 ):
+    # for i in range( 4, 21 ):
     #    if isBaseKPandigital( n, i ):
     #        print( indent + 'base ' + str( i ) + ' pandigital' )
 
@@ -663,7 +683,7 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne prime' )
 
-    ## perfect number
+    # perfect number
     result = findInput( n, getNthPerfectNumber, lambda n: fmul( log( log( n ) ), 2.6 ) )
 
     if result[ 0 ]:
@@ -772,7 +792,6 @@ def describeInteger( n ):
     # pronic
     if isPronic( n ):
         print( indent + 'pronic' )
-
 
     # Achilles
     if isAchillesNumber( n ):
@@ -962,7 +981,7 @@ def describeInteger( n ):
         # factors
         factors = getFactors( n )
         factorCount = len( factors )
-        print( indent + str( factorCount ) + ' prime factor' + ( 's' if factorCount > 1 else '' ) + \
+        print( indent + str( factorCount ) + ' prime factor' + ( 's' if factorCount > 1 else '' ) +
                ': ' + ', '.join( [ str( int( i ) ) for i in factors ] ) )
 
         # number of divisors
@@ -973,7 +992,7 @@ def describeInteger( n ):
         print( indent + 'a divisor sum of ' + str( int( getSigma( n ) ) ) )
         print( indent + 'a Stern value of ' + str( int( getNthSternNumber( n ) ) ) )
         calkinWilf = getNthCalkinWilf( n )
-        print( indent + 'a Calkin-Wilf value of ' + str( int( calkinWilf[ 0 ] ) ) + '/' + \
+        print( indent + 'a Calkin-Wilf value of ' + str( int( calkinWilf[ 0 ] ) ) + '/' +
                                                     str( int( calkinWilf[ 1 ] ) ) )
         print( indent + 'a Mobius value of ' + str( int( getNthMobiusNumber( n ) ) ) )
         print( indent + 'a radical of ' + str( int( getRadical( n ) ) ) )
@@ -996,4 +1015,15 @@ def describeInteger( n ):
     print( )
 
     return n
+
+
+# ******************************************************************************
+#
+#  ifOperator
+#
+# ******************************************************************************
+
+@argValidator( [ DefaultValidator( ), DefaultValidator( ), ComplexValidator( ) ] )
+def ifOperator( a, b, c ):
+    return a if c else b
 

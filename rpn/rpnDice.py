@@ -23,6 +23,7 @@ from mpmath import arange
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 
 # TODO:  write a function to enumerate the number of outcomes for a dice expression
@@ -83,7 +84,7 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def rollDice( expression ):
+def rollDiceOperator( expression ):
     values, modifier = evaluateDiceExpression( parseDiceExpression( expression ) )
     return sum( values ) + modifier
 
@@ -102,7 +103,7 @@ def rollMultipleDice( expression, times ):
         values, modifier = evaluateDiceExpression( dice )
         yield sum( values ) + modifier
 
-def rollMultipleDiceGenerator( n, k ):
+def rollMultipleDiceOperator( n, k ):
     return RPNGenerator( rollMultipleDice( n, k ) )
 
 
@@ -116,7 +117,7 @@ def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
 
 @oneArgFunctionEvaluator( )
-def enumerateDiceGenerator( n ):
+def enumerateDiceOperator( n ):
     return RPNGenerator( enumerateDice( n ) )
 
 
@@ -133,7 +134,7 @@ def enumerateMultipleDice( expression, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
 
 @twoArgFunctionEvaluator( )
-def enumerateMultipleDiceGenerator( n, k ):
+def enumerateMultipleDiceOperator( n, k ):
     return RPNGenerator( enumerateMultipleDice( n, k ) )
 
 
@@ -203,7 +204,7 @@ def permuteDice( expression ):
             yield sum( values ) + modifierTotal
 
 @oneArgFunctionEvaluator( )
-def permuteDiceGenerator( n ):
+def permuteDiceOperator( n ):
     return RPNGenerator( permuteDice( n ) )
 
 
@@ -402,7 +403,8 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def rollSimpleDice( n, k ):
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def rollSimpleDiceOperator( n, k ):
     values, modifier = evaluateDiceExpression( [ ( int( n ), int( k ), 0, 0, 0 ) ] )
     return sum( values ) + modifier
 
