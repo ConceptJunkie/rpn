@@ -48,12 +48,10 @@ def getGCDOperator( n, k ):
 
 #******************************************************************************
 #
-#  getGCDOfList
+#  getGCDOfListOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def getGCDOfList( args ):
     if isinstance( args, RPNGenerator ):
         args = list( args )
@@ -76,6 +74,11 @@ def getGCDOfList( args ):
         else:
             return getGCDOfList( list( result ) )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getGCDOfListOperator( n ):
+    return getGCDOfList( n )
+
 
 #******************************************************************************
 #
@@ -93,12 +96,12 @@ def alternateSigns( n, startNegative = False ):
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def alternateSignsOperator( n ):
-    return alternateSigns( n, False )
+    return RPNGenerator( alternateSigns( n, False ) )
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def alternateSigns2Operator( n ):
-    return alternateSigns( n, True )
+    return RPNGenerator( alternateSigns( n, True ) )
 
 
 #******************************************************************************
@@ -139,7 +142,6 @@ def getAlternatingSum2Operator( n ):
 #
 #******************************************************************************
 
-@argValidator( [ ListValidator( ), ListValidator( ) ] )
 def appendLists( arg1, arg2 ):
     result = list( arg1 )
     result.extend( list( arg2 ) )
@@ -153,12 +155,12 @@ def appendListsOperator( n, k ):
 
 #******************************************************************************
 #
-#  compareLists
+#  compareListsOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), ListValidator( ) ] )
-def compareLists( arg1, arg2 ):
+def compareListsOperator( arg1, arg2 ):
     if len( arg1 ) != len( arg2 ):
         return 0
 
@@ -171,13 +173,13 @@ def compareLists( arg1, arg2 ):
 
 #******************************************************************************
 #
-#  countElements
+#  countElementsOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def countElements( args ):
+def countElementsOperator( args ):
     if isinstance( args, list ):
         return len( args )
     elif isinstance( args, RPNGenerator ) and args.getCount( ) > -1:
@@ -194,25 +196,23 @@ def countElements( args ):
 
 #******************************************************************************
 #
-#  interleave
+#  interleaveOperator
 #
 #  http://stackoverflow.com/questions/7946798/interleaving-two-lists-in-python
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), ListValidator( ) ] )
-def interleave( arg1, arg2 ):
+def interleaveOperator( arg1, arg2 ):
     return [ val for pair in zip( arg1, arg2 ) for val in pair ]
 
 
 #******************************************************************************
 #
-#  collate
+#  collateOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def collate( argList ):
     if not isinstance( argList, list ):
         yield argList
@@ -241,51 +241,56 @@ def collate( argList ):
 
         yield newSubList
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def collateOperator( n ):
+    return RPNGenerator( collate( n ) )
+
 
 #******************************************************************************
 #
-#  makeUnion
+#  makeUnionOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), ListValidator( ) ] )
-def makeUnion( arg1, arg2 ):
+def makeUnionOperator( arg1, arg2 ):
     result = set( arg1 )
     return list( result.union( set( arg2 ) ) )
 
 
 #******************************************************************************
 #
-#  makeIntersection
+#  makeIntersectionOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), ListValidator( ) ] )
-def makeIntersection( arg1, arg2 ):
+def makeIntersectionOperator( arg1, arg2 ):
     result = set( arg1 )
     return list( result.intersection( set( arg2 ) ) )
 
 
 #******************************************************************************
 #
-#  getDifference
+#  getDifferenceOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), ListValidator( ) ] )
-def getDifference( arg1, arg2 ):
+def getDifferenceOperator( arg1, arg2 ):
     return list( set( arg2 ) - set( arg1 ) )
 
 
 #******************************************************************************
 #
-#  getIndexOfMax
+#  getIndexOfMaxOperator
 #
 #******************************************************************************
 
 #@listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getIndexOfMax( args ):
+def getIndexOfMaxOperator( args ):
     maximum = -inf
     result = -1
     index = 0
@@ -302,13 +307,13 @@ def getIndexOfMax( args ):
 
 #******************************************************************************
 #
-#  getIndexOfMin
+#  getIndexOfMinOperator
 #
 #******************************************************************************
 
 #@listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getIndexOfMin( args ):
+def getIndexOfMinOperator( args ):
     minimum = inf
     result = -1
     index = 0
@@ -325,12 +330,12 @@ def getIndexOfMin( args ):
 
 #******************************************************************************
 #
-#  getListElement
+#  getListElementOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ), IntValidator( ) ] )
-def getListElement( args, index ):
+def getListElementOperator( args, index ):
     if isinstance( index, ( list, RPNGenerator ) ):
         for i in index:
             return args[ int( i ) ]
@@ -340,12 +345,12 @@ def getListElement( args, index ):
 
 #******************************************************************************
 #
-#  getRandomElement
+#  getRandomElementOperator
 #
 #******************************************************************************
 
 @argValidator( [ ListValidator( ) ] )
-def getRandomElement( arg ):
+def getRandomElementOperator( arg ):
     return random.choice( arg )
 
 
@@ -363,7 +368,7 @@ def enumerateListGenerator( args, k ):
         i += 1
 
 @argValidator( [ ListValidator( ), IntValidator( ) ] )
-def enumerateList( args, k ):
+def enumerateListOperator( args, k ):
     return RPNGenerator.createGenerator( enumerateListGenerator, [ args, k ] )
 
 
@@ -383,7 +388,7 @@ def getSliceGenerator( args, start, end ):
 
 @listAndTwoArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( ), IntValidator( ) ] )
-def getSlice( args, start, end ):
+def getSliceOperator( args, start, end ):
     return RPNGenerator.createGenerator( getSliceGenerator, [ args, start, end ] )
 
 
@@ -399,19 +404,19 @@ def getSublistGenerator( args, start, count ):
 
 @listAndTwoArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( ), IntValidator( ) ] )
-def getSublist( args, start, count ):
+def getSublistOperator( args, start, count ):
     return RPNGenerator.createGenerator( getSublistGenerator, [ args, start, count ] )
 
 
 #******************************************************************************
 #
-#  getLeft
+#  getLeftOperator
 #
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( ) ] )
-def getLeft( args, count ):
+def getLeftOperator( args, count ):
     result = [ ]
 
     if isinstance( count, list ):
@@ -428,13 +433,13 @@ def getLeft( args, count ):
 
 #******************************************************************************
 #
-#  getRight
+#  getRightOperator
 #
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( ) ] )
-def getRight( args, count ):
+def getRightOperator( args, count ):
     result = [ ]
 
     if isinstance( count, list ):
@@ -451,12 +456,10 @@ def getRight( args, count ):
 
 #******************************************************************************
 #
-#  getListDiffs
+#  getListDiffsOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def getListDiffs( args ):
     old = None
 
@@ -466,15 +469,18 @@ def getListDiffs( args ):
 
         old = i
 
-
-#******************************************************************************
-#
-#  getCumulativeListDiffs
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def getListDiffsOperator( n ):
+    return RPNGenerator( getListDiffs( n ) )
+
+
+#******************************************************************************
+#
+#  getCumulativeListDiffsOperator
+#
+#******************************************************************************
+
 def getCumulativeListDiffs( args ):
     first = None
 
@@ -484,15 +490,18 @@ def getCumulativeListDiffs( args ):
         else:
             yield subtract( i, first )
 
-
-#******************************************************************************
-#
-#  getCumulativeListProducts
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def getCumulativeListDiffsOperator( n ):
+    return RPNGenerator( getCumulativeListDiffs( n ) )
+
+
+#******************************************************************************
+#
+#  getCumulativeListProductsOperator
+#
+#******************************************************************************
+
 def getCumulativeListProducts( args ):
     sum = 1
 
@@ -500,15 +509,18 @@ def getCumulativeListProducts( args ):
         sum = multiply( sum, i )
         yield sum
 
-
-#******************************************************************************
-#
-#  getCumulativeListSums
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def getCumulativeListProductsOperator( n ):
+    return RPNGenerator( getCumulativeListProducts( n ) )
+
+
+#******************************************************************************
+#
+#  getCumulativeListSumsOperator
+#
+#******************************************************************************
+
 def getCumulativeListSums( args ):
     sum = 0
 
@@ -516,15 +528,18 @@ def getCumulativeListSums( args ):
         sum = add( sum, i )
         yield sum
 
-
-#******************************************************************************
-#
-#  getListRatios
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def getCumulativeListSumsOperator( n ):
+    return RPNGenerator( getCumulativeListSums( n ) )
+
+
+#******************************************************************************
+#
+#  getListRatiosOperator
+#
+#******************************************************************************
+
 def getListRatios( args ):
     old = None
 
@@ -534,15 +549,18 @@ def getListRatios( args ):
 
         old = i
 
-
-#******************************************************************************
-#
-#  getCumulativeListRatios
-#
-#******************************************************************************
-
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
+def getListRatiosOperator( n ):
+    return RPNGenerator( getListRatios( n ) )
+
+
+#******************************************************************************
+#
+#  getCumulativeListRatiosOperator
+#
+#******************************************************************************
+
 def getCumulativeListRatios( args ):
     first = None
 
@@ -552,16 +570,21 @@ def getCumulativeListRatios( args ):
         else:
             yield divide( i, first )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getCumulativeListRatiosOperator( n ):
+    return RPNGenerator( getCumulativeListRatios( n ) )
+
 
 #******************************************************************************
 #
-#  getReverse
+#  getReverseOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getReverse( args ):
+def getReverseOperator( args ):
     # These list comprehensions _are_ needed.
     # pylint: disable=unnecessary-comprehension
     return [ i for i in reversed( [ j for j in args ] ) ]
@@ -569,13 +592,13 @@ def getReverse( args ):
 
 #******************************************************************************
 #
-#  shuffleList
+#  shuffleListOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def shuffleList( args ):
+def shuffleListOperator( args ):
     if isinstance( args, RPNGenerator ):
         return shuffleList( list( args ) )
     elif not isinstance( args, list ):
@@ -595,25 +618,25 @@ def shuffleList( args ):
 
 #******************************************************************************
 #
-#  getUniqueElements
+#  getUniqueElementsOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getUniqueElements( args ):
+def getUniqueElementsOperator( args ):
     return list( set( args ) )
 
 
 #******************************************************************************
 #
-#  sortAscending
+#  sortAscendingOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def sortAscending( args ):
+def sortAscendingOperator( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
@@ -627,13 +650,13 @@ def sortAscending( args ):
 
 #******************************************************************************
 #
-#  sortDescending
+#  sortDescendingOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def sortDescending( args ):
+def sortDescendingOperator( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
@@ -666,8 +689,8 @@ def calculatePowerTower( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculatePowerTowerOperator( args ):
-    return calculatePowerTower( args )
+def calculatePowerTowerOperator( n ):
+    return calculatePowerTower( n )
 
 
 #******************************************************************************
@@ -691,13 +714,13 @@ def calculatePowerTower2( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculatePowerTower2Operator( args ):
-    return calculatePowerTower2( args )
+def calculatePowerTower2Operator( n ):
+    return calculatePowerTower2( n )
 
 
 #******************************************************************************
 #
-#  getSum
+#  getSumOperator
 #
 #******************************************************************************
 
@@ -796,12 +819,13 @@ def getStandardDeviation( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getStandardDeviationOperator( args ):
-    return getStandardDeviation( args )
+def getStandardDeviationOperator( n ):
+    return getStandardDeviation( n )
+
 
 #******************************************************************************
 #
-#  reduceList
+#  reduceListOperator
 #
 #  This function reduces out the greatest common denominator from a list of
 #  values.
@@ -823,13 +847,13 @@ def reduceList( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def reduceListOperator( args ):
-    return reduceList( args )
+def reduceListOperator( n ):
+    return reduceList( n )
 
 
 #******************************************************************************
 #
-#  calculateGeometricMean
+#  calculateGeometricMeanOperator
 #
 #******************************************************************************
 
@@ -841,13 +865,13 @@ def calculateGeometricMean( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculateGeometricMeanOperator( args ):
-    return calculateGeometricMean( args )
+def calculateGeometricMeanOperator( n ):
+    return calculateGeometricMean( n )
 
 
 #******************************************************************************
 #
-#  calculateHarmonicMean
+#  calculateHarmonicMeanOperator
 #
 #******************************************************************************
 
@@ -869,13 +893,13 @@ def calculateHarmonicMean( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculateHarmonicMeanOperator( args ):
-    return calculateHarmonicMean( args )
+def calculateHarmonicMeanOperator( n ):
+    return calculateHarmonicMean( n )
 
 
 #******************************************************************************
 #
-#  calculateAntiharmonicMean
+#  calculateAntiharmonicMeanOperator
 #
 # https://en.wikipedia.org/wiki/Contraharmonic_mean
 #
@@ -894,13 +918,13 @@ def calculateAntiharmonicMean( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculateAntiharmonicMeanOperator( args ):
-    return calculateAntiharmonicMean( args )
+def calculateAntiharmonicMeanOperator( n ):
+    return calculateAntiharmonicMean( n )
 
 
 #******************************************************************************
 #
-#  calculateArithmeticMean
+#  calculateArithmeticMeanOperator
 #
 #******************************************************************************
 
@@ -927,13 +951,13 @@ def calculateArithmeticMean( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculateArithmeticMeanOperator( args ):
-    return calculateArithmeticMean( args )
+def calculateArithmeticMeanOperator( n ):
+    return calculateArithmeticMean( n )
 
 
 #******************************************************************************
 #
-#  calculateRootMeanSquare
+#  calculateRootMeanSquareOperator
 #
 #******************************************************************************
 
@@ -960,19 +984,19 @@ def calculateRootMeanSquare( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculateRootMeanSquareOperator( args ):
-    return calculateRootMeanSquare( args )
+def calculateRootMeanSquareOperator( n ):
+    return calculateRootMeanSquare( n )
 
 
 #******************************************************************************
 #
-#  getZeroes
+#  getZeroesOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getZeroes( args ):
+def getZeroesOperator( args ):
     if isinstance( args, ( RPNGenerator, list ) ):
         return [ index for index, e in enumerate( args ) if e == 0 ]
     else:
@@ -981,13 +1005,13 @@ def getZeroes( args ):
 
 #******************************************************************************
 #
-#  getNonzeroes
+#  getNonzeroesOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getNonzeroes( args ):
+def getNonzeroesOperator( args ):
     if isinstance( args, ( RPNGenerator, list ) ):
         return [ index for index, e in enumerate( args ) if e != 0 ]
     else:
@@ -996,13 +1020,13 @@ def getNonzeroes( args ):
 
 #******************************************************************************
 #
-#  groupElements
+#  groupElementsOperator
 #
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def groupElements( args, count ):
+def groupElementsOperator( args, count ):
     if isinstance( count, list ):
         return [ groupElements( args, i ) for i in count ]
     elif isinstance( args, list ):
@@ -1023,13 +1047,13 @@ def groupElements( args, count ):
 
 #******************************************************************************
 #
-#  getOccurrences
+#  getOccurrencesOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getOccurrences( args ):
+def getOccurrencesOperator( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getOccurrences( arg ) for arg in args ]
@@ -1045,20 +1069,19 @@ def getOccurrences( args ):
                 result.append( [ i, counter[ i ] ] )
 
             return sorted( result )
-
     else:
         return [ [ args, 1 ] ]
 
 
 #******************************************************************************
 #
-#  getOccurrenceRatios
+#  getOccurrenceRatiosOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getOccurrenceRatios( args ):
+def getOccurrenceRatiosOperator( args ):
     if isinstance( args, list ):
         count = len( args )
 
@@ -1083,13 +1106,13 @@ def getOccurrenceRatios( args ):
 
 #******************************************************************************
 #
-#  getCumulativeOccurrenceRatios
+#  getCumulativeOccurrenceRatiosOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getCumulativeOccurrenceRatios( args ):
+def getCumulativeOccurrenceRatiosOperator( args ):
     if isinstance( args, list ):
         count = len( args )
 
@@ -1109,14 +1132,13 @@ def getCumulativeOccurrenceRatios( args ):
                 result.append( [ i, runningTotal / count ] )
 
             return sorted( result )
-
     else:
         return [ [ args, 1 ] ]
 
 
 #******************************************************************************
 #
-#  flatten
+#  flattenOperator
 #
 #******************************************************************************
 
@@ -1140,13 +1162,13 @@ def flattenOperator( value ):
 
 #******************************************************************************
 #
-#  getAndAll
+#  getAndAllOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getAndAll( value ):
+def getAndAllOperator( value ):
     for i in value:
         if not i:
             return 0
@@ -1156,13 +1178,13 @@ def getAndAll( value ):
 
 #******************************************************************************
 #
-#  getNandAll
+#  getNandAllOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getNandAll( value ):
+def getNandAllOperator( value ):
     for i in value:
         if i:
             return 0
@@ -1172,13 +1194,13 @@ def getNandAll( value ):
 
 #******************************************************************************
 #
-#  getOrAll
+#  getOrAllOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getOrAll( value ):
+def getOrAllOperator( value ):
     for i in value:
         if i:
             return 1
@@ -1188,13 +1210,13 @@ def getOrAll( value ):
 
 #******************************************************************************
 #
-#  getNorAll
+#  getNorAllOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getNorAll( value ):
+def getNorAllOperator( value ):
     for i in value:
         if not i:
             return 1
@@ -1204,13 +1226,13 @@ def getNorAll( value ):
 
 #******************************************************************************
 #
-#  permuteLists
+#  permuteListsOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def permuteLists( lists ):
+def permuteListsOperator( lists ):
     for i in lists:
         if not isinstance( i, ( list, RPNGenerator ) ):
             raise ValueError( '\'permute_lists\' expects a list of lists' )
@@ -1220,7 +1242,7 @@ def permuteLists( lists ):
 
 #******************************************************************************
 #
-#  getListCombinationsGenerator
+#  getListCombinationsOperator
 #
 #******************************************************************************
 
@@ -1228,16 +1250,9 @@ def getListCombinationsGenerator( n, k ):
     for i in itertools.combinations( n, int( k ) ):
         yield list( i )
 
-
-#******************************************************************************
-#
-#  getListCombinations
-#
-#******************************************************************************
-
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def getListCombinations( n, k ):
+def getListCombinationsOperator( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'get_combinations\' expects a list' )
 
@@ -1249,7 +1264,7 @@ def getListCombinations( n, k ):
 
 #******************************************************************************
 #
-#  getListCombinationsWithRepeatsGenerator
+#  getListCombinationsWithRepeatsOperator
 #
 #******************************************************************************
 
@@ -1259,7 +1274,7 @@ def getListCombinationsWithRepeatsGenerator( n, k ):
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def getListCombinationsWithRepeats( n, k ):
+def getListCombinationsWithRepeatsOperator( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'get_repeat_combinations\' expects a list' )
 
@@ -1271,7 +1286,7 @@ def getListCombinationsWithRepeats( n, k ):
 
 #******************************************************************************
 #
-#  getListPermutationsGenerator
+#  getListPermutationsOperator
 #
 #******************************************************************************
 
@@ -1281,7 +1296,7 @@ def getListPermutationsGenerator( n, k ):
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def getListPermutations( n, k ):
+def getListPermutationsOperator( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'permute_list\' expects a list' )
 
@@ -1293,7 +1308,7 @@ def getListPermutations( n, k ):
 
 #******************************************************************************
 #
-#  getListPermutationsWithRepeatsGenerator
+#  getListPermutationsWithRepeatsOperator
 #
 #******************************************************************************
 
@@ -1303,7 +1318,7 @@ def getListPermutationsWithRepeatsGenerator( n, k ):
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def getListPermutationsWithRepeats( n, k ):
+def getListPermutationsWithRepeatsOperator( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'get_repeat_permutations\' expects a list' )
 
@@ -1315,13 +1330,13 @@ def getListPermutationsWithRepeats( n, k ):
 
 #******************************************************************************
 #
-#  equalsOneOf
+#  equalsOneOfOperator
 #
 #******************************************************************************
 
 # rpn 1 1000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter
 
-def equalsOneOf( value, targetList ):
+def equalsOneOfOperator( value, targetList ):
     for i in targetList:
         if value == i:
             return 1
@@ -1331,27 +1346,30 @@ def equalsOneOf( value, targetList ):
 
 #******************************************************************************
 #
-#  getListPowerSet
+#  getListPowerSetOperator
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
 def getListPowerSet( n ):
     for i in getPowerSet( n ):
         if len( i ) > 0:
             yield list( i )
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getListPowerSetOperator( n ):
+    return RPNGenerator( getListPowerSet( n ) )
+
 
 #******************************************************************************
 #
-#  findInList
+#  findInListOperator
 #
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), DefaultValidator( ) ] )
-def findInList( target, k ):
+def findInListOperator( target, k ):
     try:
         result = k.index( target )
     except AttributeError:
@@ -1362,13 +1380,13 @@ def findInList( target, k ):
 
 #******************************************************************************
 #
-#  isPalindromeList
+#  isPalindromeListOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def isPalindromeList( n ):
+def isPalindromeListOperator( n ):
     length = len( n )
 
     for i in range( 0, length // 2 ):
@@ -1384,13 +1402,13 @@ def isPalindromeList( n ):
 #
 #******************************************************************************
 
-@argValidator( [ ListValidator( ), ListValidator( ) ] )
 def filterOnFlagsGenerator( n, k ):
     for nItem, kItem in zip( n, k ):
         if kItem:
             yield nItem
 
-def filterOnFlags( n, k ):
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def filterOnFlagsOperator( n, k ):
     return RPNGenerator.createGenerator( filterOnFlagsGenerator, [ n, k ] )
 
 
@@ -1407,7 +1425,7 @@ def filterMaxGenerator( n, k ):
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), RealOrMeasurementOrDateTimeValidator( ) ] )
-def filterMax( n, k ):
+def filterMaxOperator( n, k ):
     return RPNGenerator.createGenerator( filterMaxGenerator, [ n, k ] )
 
 
@@ -1424,19 +1442,19 @@ def filterMinGenerator( n, k ):
 
 @listAndOneArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ), RealOrMeasurementOrDateTimeValidator( ) ] )
-def filterMin( n, k ):
+def filterMinOperator( n, k ):
     return RPNGenerator.createGenerator( filterMinGenerator, [ n, k ] )
 
 
 #******************************************************************************
 #
-#  doesListRepeat
+#  doesListRepeatOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def doesListRepeat( n ):
+def doesListRepeatOperator( n ):
     n = list( n )
     length = len( n )
 

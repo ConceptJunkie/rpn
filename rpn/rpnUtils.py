@@ -267,11 +267,11 @@ def getMPFIntegerAsString( n ):
 
 #******************************************************************************
 #
-#  addEchoArgument
+#  addEchoArgumentOperator
 #
 #******************************************************************************
 
-def addEchoArgument( argument ):
+def addEchoArgumentOperator( argument ):
     '''Echos the argument in the rpn output while continuing to use it for
     evaluation.'''
     if isinstance( argument, list ) and len( argument ) == 1:

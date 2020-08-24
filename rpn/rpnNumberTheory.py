@@ -636,7 +636,7 @@ def getLinearRecurrence( recurrence, seeds, count ):
 
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ) ] )
 def getLinearRecurrenceOperator( recurrence, seeds, count ):
-    return getLinearRecurrence( recurrence, seeds, count )
+    return RPNGenerator( getLinearRecurrence( recurrence, seeds, count ) )
 
 
 #******************************************************************************
@@ -736,7 +736,7 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
 
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ), IntValidator( 2 ) ] )
 def getLinearRecurrenceWithModuloOperator( recurrence, seeds, count, modulo ):
-    return getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo )
+    return RPNGenerator( getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ) )
 
 
 #******************************************************************************
@@ -840,7 +840,7 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
 
 @argValidator( [ ListValidator( ), ListValidator( ), ListValidator( ), IntValidator( 2 ) ] )
 def getGeometricRecurrenceOperator( recurrence, powers, seeds, count ):
-    return getGeometricRecurrence( recurrence, powers, seeds, count )
+    return RPNGenerator( getGeometricRecurrence( recurrence, powers, seeds, count ) )
 
 
 #******************************************************************************
