@@ -174,20 +174,20 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         compareListsOperator, countElementsOperator, doesListRepeatOperator, enumerateListOperator, \
                         equalsOneOfOperator, filterMaxOperator, filterMinOperator, filterOnFlagsOperator, \
                         findInListOperator, flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, \
-                        getAndAllOperator, getCumulativeListDiffsOperator, getCumulativeListProductsOperator, \
-                        getCumulativeListSumsOperator, getCumulativeListRatiosOperator, \
-                        getCumulativeOccurrenceRatiosOperator, getDifferenceOperator, getGCDOperator, \
-                        getGCDOfListOperator, getListCombinationsOperator, getListCombinationsWithRepeatsOperator, \
-                        getLeftOperator, getListDiffsOperator, getListPowerSetOperator, getListRatiosOperator, \
-                        getRightOperator, getIndexOfMaxOperator, getIndexOfMinOperator, getListElementOperator, \
-                        getListPermutationsOperator, getListPermutationsWithRepeatsOperator, getNandAllOperator, \
-                        getNonzeroesOperator, getNorAllOperator, getProductOperator, getOccurrencesOperator, \
-                        getOccurrenceRatiosOperator, getOrAllOperator, getRandomElementOperator, getReverseOperator, \
-                        getSliceOperator, getStandardDeviationOperator, getSublistOperator, getSumOperator, \
-                        getUniqueElementsOperator, getZeroesOperator, groupElementsOperator, interleaveOperator, \
-                        isPalindromeListOperator, makeIntersectionOperator, \
-                        makeUnionOperator, permuteListsOperator, reduceListOperator, shuffleListOperator, \
-                        sortAscendingOperator, sortDescendingOperator
+                        getAndAllOperator, getCumulativeListDiffsOperator, getCumulativeListMeansOperator, \
+                        getCumulativeListProductsOperator, getCumulativeListRatiosOperator, \
+                        getCumulativeListSumsOperator, getCumulativeOccurrenceRatiosOperator, getDifferenceOperator, \
+                        getGCDOperator, getGCDOfListOperator, getListCombinationsOperator, \
+                        getListCombinationsWithRepeatsOperator, getLeftOperator, getListDiffsOperator, \
+                        getListPowerSetOperator, getListRatiosOperator, getRightOperator, getIndexOfMaxOperator, \
+                        getIndexOfMinOperator, getListElementOperator, getListPermutationsOperator, \
+                        getListPermutationsWithRepeatsOperator, getNandAllOperator, getNonzeroesOperator, \
+                        getNorAllOperator, getProductOperator, getOccurrencesOperator, getOccurrenceRatiosOperator, \
+                        getOrAllOperator, getRandomElementOperator, getReverseOperator, getSliceOperator, \
+                        getStandardDeviationOperator, getSublistOperator, getSumOperator, getUniqueElementsOperator, \
+                        getZeroesOperator, groupElementsOperator, interleaveOperator, isPalindromeListOperator, \
+                        makeIntersectionOperator, makeUnionOperator, permuteListsOperator, reduceListOperator, \
+                        shuffleListOperator, sortAscendingOperator, sortDescendingOperator
 
 from rpn.rpnLocation import convertLatLongToNACOperator, getGeographicDistanceOperator, getLocationInfoOperator, \
                             getTimeZoneOperator, makeLocationOperator
@@ -215,7 +215,7 @@ from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator
                         tetrateRightOperator
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, \
-                               convertToPrimitiveUnitsOperator, convertUnits, estimateOperator, \
+                               convertToPrimitiveUnitsOperator, convertUnitsOperator, estimateOperator, \
                                getDimensionsOperator, invertUnitsOperator
 
 from rpn.rpnMeasurementClass import RPNMeasurement
@@ -362,10 +362,11 @@ from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrime
                               getPreviousPrimesOperator, getPrimeRangeOperator, getPrimesOperator, \
                               isCompositeOperator, isPrimeOperator, isStrongPseudoprimeOperator
 
-from rpn.rpnSettings import setComma, setCommaMode, setDecimalGrouping, setHexMode, setIdentify, \
-                            setIdentifyMode, setInputRadix, setIntegerGrouping, setLeadingZero, \
-                            setLeadingZeroMode, setAccuracy, setPrecision, setOctalMode, setOutputRadix, \
-                            setTimer, setTimerMode
+from rpn.rpnSettings import setCommaOperator, setCommaModeOperator, setDecimalGroupingOperator, setHexModeOperator, \
+                            setIdentifyOperator, setIdentifyModeOperator, setInputRadixOperator, \
+                            setIntegerGroupingOperator, setLeadingZeroOperator, setLeadingZeroModeOperator, \
+                            setAccuracyOperator, setPrecisionOperator, setOctalModeOperator, setOutputRadixOperator, \
+                            setTimerOperator, setTimerModeOperator
 
 from rpn.rpnSpecial import describeIntegerOperator, downloadOEISCommentOperator, downloadOEISExtraOperator, \
                            downloadOEISNameOperator, downloadOEISOffsetOperator, downloadOEISSequenceOperator, \
@@ -2304,7 +2305,7 @@ listOperators = {
     'multinomial'                       : RPNOperator( getMultinomialOperator, 1 ),
 
     # conversion
-    'convert'                           : RPNOperator( convertUnits, 2 ),   # list arguments are special
+    'convert'                           : RPNOperator( convertUnitsOperator, 2 ),
     'lat_long_to_nac'                   : RPNOperator( convertLatLongToNACOperator, 1 ),
     'pack'                              : RPNOperator( packIntegerOperator, 2 ),
     'unpack'                            : RPNOperator( unpackIntegerOperator, 2 ),
@@ -2337,6 +2338,7 @@ listOperators = {
     'compare_lists'                     : RPNOperator( compareListsOperator, 2 ),
     'count'                             : RPNOperator( countElementsOperator, 1 ),
     'cumulative_diffs'                  : RPNOperator( getCumulativeListDiffsOperator, 1 ),
+    'cumulative_means'                  : RPNOperator( getCumulativeListMeansOperator, 1 ),
     'cumulative_products'               : RPNOperator( getCumulativeListProductsOperator, 1 ),
     'cumulative_ratios'                 : RPNOperator( getCumulativeListRatiosOperator, 1 ),
     'cumulative_sums'                   : RPNOperator( getCumulativeListSumsOperator, 1 ),
@@ -3140,22 +3142,22 @@ operators = {
     'twin_primes'                       : RPNOperator( getNthTwinPrimeListOperator, 1 ),
 
     # settings
-    'accuracy'                          : RPNOperator( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
-    'comma'                             : RPNOperator( setComma, 1 ),
-    'comma_mode'                        : RPNOperator( setCommaMode, 0 ),
-    'decimal_grouping'                  : RPNOperator( setDecimalGrouping, 1 ),
-    'hex_mode'                          : RPNOperator( setHexMode, 0 ),
-    'identify'                          : RPNOperator( setIdentify, 1 ),
-    'identify_mode'                     : RPNOperator( setIdentifyMode, 0 ),
-    'input_radix'                       : RPNOperator( setInputRadix, 1 ),
-    'integer_grouping'                  : RPNOperator( setIntegerGrouping, 1 ),
-    'leading_zero'                      : RPNOperator( setLeadingZero, 1 ),
-    'leading_zero_mode'                 : RPNOperator( setLeadingZeroMode, 0 ),
-    'octal_mode'                        : RPNOperator( setOctalMode, 0 ),
-    'output_radix'                      : RPNOperator( setOutputRadix, 1 ),
-    'precision'                         : RPNOperator( setPrecision, 1 ),
-    'timer'                             : RPNOperator( setTimer, 1 ),
-    'timer_mode'                        : RPNOperator( setTimerMode, 0 ),
+    'accuracy'                          : RPNOperator( setAccuracyOperator, 1 ),
+    'comma'                             : RPNOperator( setCommaOperator, 1 ),
+    'comma_mode'                        : RPNOperator( setCommaModeOperator, 0 ),
+    'decimal_grouping'                  : RPNOperator( setDecimalGroupingOperator, 1 ),
+    'hex_mode'                          : RPNOperator( setHexModeOperator, 0 ),
+    'identify'                          : RPNOperator( setIdentifyOperator, 1 ),
+    'identify_mode'                     : RPNOperator( setIdentifyModeOperator, 0 ),
+    'input_radix'                       : RPNOperator( setInputRadixOperator, 1 ),
+    'integer_grouping'                  : RPNOperator( setIntegerGroupingOperator, 1 ),
+    'leading_zero'                      : RPNOperator( setLeadingZeroOperator, 1 ),
+    'leading_zero_mode'                 : RPNOperator( setLeadingZeroModeOperator, 0 ),
+    'octal_mode'                        : RPNOperator( setOctalModeOperator, 0 ),
+    'output_radix'                      : RPNOperator( setOutputRadixOperator, 1 ),
+    'precision'                         : RPNOperator( setPrecisionOperator, 1 ),
+    'timer'                             : RPNOperator( setTimerOperator, 1 ),
+    'timer_mode'                        : RPNOperator( setTimerModeOperator, 0 ),
 
     # special
     'base_units'                        : RPNOperator( convertToBaseUnitsOperator, 1 ),

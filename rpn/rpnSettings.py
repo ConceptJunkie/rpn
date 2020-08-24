@@ -16,7 +16,7 @@ from mpmath import mp
 
 import rpn.rpnGlobals as g
 
-from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 
 #******************************************************************************
@@ -25,7 +25,6 @@ from rpn.rpnUtils import oneArgFunctionEvaluator
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setAccuracy( n ):
     if n == -1:
         g.outputAccuracy = g.defaultOutputAccuracy
@@ -38,13 +37,17 @@ def setAccuracy( n ):
     return g.outputAccuracy
 
 
+@argValidator( [ IntValidator( 0 ) ] )
+def setAccuracyOperator( n ):
+    return setAccuracy( fadd( n, 2 ) )
+
+
 #******************************************************************************
 #
 #  setPrecision
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setPrecision( n ):
     if n == -1:
         mp.dps = g.defaultPrecision
@@ -56,6 +59,10 @@ def setPrecision( n ):
 
     return mp.dps
 
+@argValidator( [ IntValidator( 0 ) ] )
+def setPrecisionOperator( n ):
+    setPrecision( n )
+
 
 #******************************************************************************
 #
@@ -63,7 +70,6 @@ def setPrecision( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setComma( n ):
     if n == 1:
         g.comma = True
@@ -72,6 +78,10 @@ def setComma( n ):
 
     return 1 if g.comma else 0
 
+@argValidator( [ IntValidator( 0, 1 ) ] )
+def setCommaOperator( n ):
+    setComma( n )
+
 
 #******************************************************************************
 #
@@ -79,7 +89,6 @@ def setComma( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setTimer( n ):
     if n == 1:
         g.timer = True
@@ -88,6 +97,10 @@ def setTimer( n ):
 
     return 1 if g.timer else 0
 
+@argValidator( [ IntValidator( 0, 1 ) ] )
+def setTimerOperator( n ):
+    setTimer( n )
+
 
 #******************************************************************************
 #
@@ -95,7 +108,6 @@ def setTimer( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setIntegerGrouping( n ):
     if n == -1:
         g.integerGrouping = g.defaultIntegerGrouping
@@ -103,6 +115,10 @@ def setIntegerGrouping( n ):
         g.integerGrouping = int( n )
 
     return g.integerGrouping
+
+@argValidator( [ IntValidator( -1 ) ] )
+def setIntegerGroupingOperator( n ):
+    setIntegerGrouping( n )
 
 
 #******************************************************************************
@@ -119,6 +135,10 @@ def setDecimalGrouping( n ):
 
     return g.decimalGrouping
 
+@argValidator( [ IntValidator( -1 ) ] )
+def setDecimalGroupingOperator( n ):
+    setDecimalGrouping( n )
+
 
 #******************************************************************************
 #
@@ -126,7 +146,6 @@ def setDecimalGrouping( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setInputRadix( n ):
     if n in [ 0, -1 ]:
         g.inputRadix = g.defaultInputRadix
@@ -135,6 +154,10 @@ def setInputRadix( n ):
 
     return g.inputRadix
 
+@argValidator( [ IntValidator( -1 ) ] )
+def setInputRadixOperator( n ):
+    setInputRadix( n )
+
 
 #******************************************************************************
 #
@@ -142,7 +165,6 @@ def setInputRadix( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setOutputRadix( n ):
     if n in [ 0, -1 ]:
         g.outputRadix = g.defaultOutputRadix
@@ -151,6 +173,10 @@ def setOutputRadix( n ):
 
     return g.outputRadix
 
+@argValidator( [ IntValidator( -1 ) ] )
+def setOutputRadixOperator( n ):
+    setOutputRadix( n )
+
 
 #******************************************************************************
 #
@@ -158,7 +184,6 @@ def setOutputRadix( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setLeadingZero( n ):
     result = 1 if g.leadingZero else 0
 
@@ -169,6 +194,10 @@ def setLeadingZero( n ):
 
     return result
 
+@argValidator( [ IntValidator( 0, 1 ) ] )
+def setLeadingZeroOperator( n ):
+    setLeadingZero( n )
+
 
 #******************************************************************************
 #
@@ -176,7 +205,6 @@ def setLeadingZero( n ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def setIdentify( n ):
     result = 1 if g.identify else 0
 
@@ -187,69 +215,73 @@ def setIdentify( n ):
 
     return result
 
+@argValidator( [ IntValidator( 0, 1 ) ] )
+def setIdentifyOperator( n ):
+    setIdentify( n )
+
 
 #******************************************************************************
 #
-#  setHexMode
+#  setHexModeOperator
 #
 #******************************************************************************
 
-def setHexMode( ):
+def setHexModeOperator( ):
     g.tempHexMode = True
     return 0
 
 
 #******************************************************************************
 #
-#  setOctalMode
+#  setOctalModeOperator
 #
 #******************************************************************************
 
-def setOctalMode( ):
+def setOctalModeOperator( ):
     g.tempOctalMode = True
     return 0
 
 
 #******************************************************************************
 #
-#  setCommaMode
+#  setCommaModeOperator
 #
 #******************************************************************************
 
-def setCommaMode( ):
+def setCommaModeOperator( ):
     g.tempCommaMode = True
     return 0
 
 
 #******************************************************************************
 #
-#  setTimerMode
+#  setTimerModeOperator
 #
 #******************************************************************************
 
-def setTimerMode( ):
+def setTimerModeOperator( ):
     g.tempTimerMode = True
     return 0
 
 
 #******************************************************************************
 #
-#  setLeadingZeroMode
+#  setLeadingZeroModeOperator
 #
 #******************************************************************************
 
-def setLeadingZeroMode( ):
+def setLeadingZeroModeOperator( ):
     g.tempLeadingZeroMode = True
     return 0
 
 
 #******************************************************************************
 #
-#  setIdentifyMode
+#  setIdentifyModeOperator
 #
 #******************************************************************************
 
-def setIdentifyMode( ):
+def setIdentifyModeOperator( ):
     g.tempIdentifyMode = True
     return 0
 

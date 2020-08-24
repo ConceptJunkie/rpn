@@ -46,7 +46,7 @@ from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOperator import checkForVariable
 
 from rpn.rpnOperators import evaluateTerm, functionOperators, loadUserFunctionsFile, \
-                             RPNFunction, saveUserFunctionsFile, setAccuracy, setPrecision
+                             RPNFunction, saveUserFunctionsFile
 
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
@@ -56,6 +56,8 @@ from rpn.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariables
                                saveUserConfigurationFile
 
 from rpn.rpnPrimeUtils import checkForPrimeData
+
+from rpn.rpnSettings import setAccuracy, setPrecision
 
 from rpn.rpnSpecial import handleIdentify
 
@@ -71,8 +73,6 @@ if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
-
-
 
 
 #******************************************************************************

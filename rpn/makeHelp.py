@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2040
+MAX_EXAMPLE_COUNT = 2041
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -6594,6 +6594,14 @@ c:\\>rpn 'thue_morse _dump_cache
 The operator returns number of constants.
 ''',
 '''
+c:\\>rpn _dump_constants
+aa_battery:  15400 joule
+alpha_particle_mass:  6.644657230e-27 kilogram
+april:  4
+august:  8
+avogadro_number:  6.022140756e23
+bohr_radius:  5.29177210903e-11 meter
+...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
@@ -6603,6 +6611,15 @@ The operator returns number of constants.
 The operator returns number of unit conversions.
 ''',
 '''
+c:\\>rpn _dump_conversions
+('1/second', 'attobecquerel') 1000000000000000000.0
+('1/second', 'attocurie') 27027027.02702702702702702702702702702702702702702703
+('1/second', 'attohertz') 1000000000000000000.0
+('1/second', 'becquerel') 1.0
+('1/second', 'centibecquerel') 100.0
+('1/second', 'centicurie') 0.000000002702702702702702702702702702702702702702702702702703
+('1/second', 'centihertz') 100.0
+...
 ''',
 [ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
 
@@ -6634,6 +6651,16 @@ regular operators:
 The operator returns the number of key-value pairs stored in the cache.
 ''',
 '''
+c:\\>rpn 'twin_primes _dump_prime_cache
+            1 3
+            2 5
+            3 11
+            4 17
+            5 29
+            6 41
+            7 59
+            8 71
+            ...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units', '_dump_constants' ] ],
 
@@ -6647,6 +6674,16 @@ highest prime number and the value of the highest prime number.
 The operator returns the rpnChilada version number in list format.
 ''',
 '''
+c:\\>rpn _dump_stats
+rpnChilada 8.5.0 - RPN command-line calculator
+copyright (c) 2020 (1988), Rick Gutleber (rickg@his.com)
+
+rpnChilada Statistics:
+
+       742 regular operators
+       109 list operators
+        12 modifier operators
+        ...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
 
@@ -6656,6 +6693,16 @@ The operator returns the rpnChilada version number in list format.
 The operator returns number of units.
 ''',
 '''
+c:\\>rpn _dump_units
+1/second
+1/siemens
+_null_unit
+abampere
+abcoulomb
+abfarad
+abhenry
+abmho
+...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants', '_dump_prime_cache' ] ],
 
@@ -7710,25 +7757,40 @@ This simply counts the number of elements in the list.
     'cumulative_diffs' : [
 'list_operators', 'returns a list with the differences between each element of list n with the first element',
 '''
+This operator returns a list with the differences between each element of list
+n with the first element.
+
 The list returned will be one shorter than the length of the list n.
 ''',
 '''
 ''' + makeCommandExample( '[ 0 1 2 3 4 5 ] cumulative_diffs' ) + '''
 ''' + makeCommandExample( '[ 1 3 6 10 15 21 28 36 45 55 ] cumulative_diffs' ) + '''
 ''' + makeCommandExample( '[ 100 200 300 400 500 ] cumulative_diffs' ),
-[ 'diffs', 'ratios', 'cumulative_ratios', 'cumulative_sums' ] ],
+[ 'diffs', 'ratios', 'cumulative_ratios', 'cumulative_sums', 'cumulative_means' ] ],
+
+    'cumulative_means' : [
+'list_operators', 'returns a list of the cumulative means of each element and the elements that precede it',
+'''
+This operator returns a list of the cumulative means of each element in list n
+and all the elements that precede it.
+
+The xth item of the resulting list is the mean of the first x items in n.
+''',
+'''
+''' + makeCommandExample( '1 10 range cumulative_means' ),
+[ 'cumulative_sums', 'cumulative_ratios', 'cumulative_products', 'cumulative_diffs' ] ],
 
     'cumulative_products' : [
 'list_operators', 'returns a list of the cumulative products of element with the elements that precede it',
 '''
-This operator returns a list of the cumulative products of element with the
+This operator returns a list of the cumulative products of each element with the
 elements that precede it
 
 The xth item of the resulting list is the product of the first x items in n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range cumulative_products' ),
-[ 'cumulative_sums', 'cumulative_ratios', 'cumulative_diffs' ] ],
+[ 'cumulative_sums', 'cumulative_ratios', 'cumulative_diffs', 'cumulative_means' ] ],
 
     'cumulative_ratios' : [
 'list_operators', 'returns a list with the ratios between each element of n and the first',
@@ -7737,7 +7799,7 @@ This operator is analogous to the 'cumulative_diffs' operator.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range fibonacci cumulative_ratios' ),
-[ 'ratios', 'diffs', 'cumulative_diffs', 'cumulative_products' ] ],
+[ 'ratios', 'diffs', 'cumulative_diffs', 'cumulative_products', 'cumulative_means' ] ],
 
     'cumulative_sums' : [
 'list_operators', 'return a list of the cumulative sums of n',
@@ -7746,7 +7808,7 @@ The xth item of the resulting list is the sum of the first x items in n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range cumulative_sums' ),
-[ 'cumulative_products', 'cumulative_ratios', 'cumulative_diffs' ] ],
+[ 'cumulative_products', 'cumulative_ratios', 'cumulative_diffs', 'cumulative_means' ] ],
 
     'difference' : [
 'list_operators', 'returns a list of unique elements in list k that are not found in list n',
@@ -8585,6 +8647,26 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
     'ackermann_number' : [
 'number_theory', 'calculates the value of the Ackermann function for n and k',
 '''
+From https://en.wikipedia.org/wiki/Ackermann_function:
+
+In computability theory, the Ackermann function, named after Wilhelm Ackermann,
+is one of the simplest and earliest-discovered examples of a total computable
+function that is not primitive recursive.  All primitive recursive functions are
+total and computable, but the Ackermann function illustrates that not all total
+computable functions are primitive recursive.
+
+After Ackermann's publication of his function (which had three nonnegative
+integer arguments), many authors modified it to suit various purposes, so that
+today "the Ackermann function" may refer to any of numerous variants of the
+original function.  One common version, the two-argument Ackermann–Peter
+function, is defined as follows for nonnegative integers m and n:
+
+A⁡(0,n)	= n+1
+A⁡(m+1,0) = A⁡(m,1)
+A⁡(m+1,n+1) = A⁡(m,A(m+1,n))
+
+This is the version of the function implemented by the 'ackermann_number'
+operator.
 ''',
 '''
 ''' + makeCommandExample( '1 3 range 4 ackermann_number' ) + '''

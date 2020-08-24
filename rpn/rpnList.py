@@ -517,6 +517,29 @@ def getCumulativeListProductsOperator( n ):
 
 #******************************************************************************
 #
+#  getCumulativeListMeansOperator
+#
+#******************************************************************************
+
+def getCumulativeListMeans( args ):
+    mean = None
+
+    for index, i in enumerate( args ):
+        if mean is None:
+            mean = i
+        else:
+            mean = fdiv( fadd( fmul( mean, index ), i ), fadd( index, 1 ) )
+
+        yield mean
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getCumulativeListMeansOperator( n ):
+    return RPNGenerator( getCumulativeListMeans( n ) )
+
+
+#******************************************************************************
+#
 #  getCumulativeListSumsOperator
 #
 #******************************************************************************
