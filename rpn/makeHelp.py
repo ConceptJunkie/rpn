@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2041
+MAX_EXAMPLE_COUNT = 2048
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -8631,18 +8631,40 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
     'abundance' : [
 'number_theory', 'returns the abundance of n',
 '''
+From https://en.wikipedia.org/wiki/Abundant_number:
+
+In number theory, an abundant number or excessive number is a number for which
+the sum of its proper divisors is greater than the number itself.  The integer
+12 is the first abundant number.  Its proper divisors are 1, 2, 3, 4 and 6 for a
+total of 16.  The amount by which the sum exceeds the number is the abundance.
+The number 12 has an abundance of 4, for example.
+
+The sum of the proper divisors is also called the aliquot sum.
+
+An abundant number has a positive abundance.  A deficient number has a negative
+abundance.  A perfect number (or 1) has a zero abundance.
 ''',
 '''
-''',
-[ 'abundance_ratio' ] ],
+''' + makeCommandExample( '1 20 range abundance' ) + '''
+''' + makeCommandExample( '672 abundance' ),
+[ 'abundance_ratio', 'aliquot', 'is_abundant', 'is_deficient', 'is_perfect' ] ],
 
     'abundance_ratio' : [
 'number_theory', 'returns the abundance ratio of n',
 '''
+The abundance ratio of n is the ratio of the sum of the proper divisors of n
+(i.e., the aliquot sum) to n itself.
+
+An abundant number has an abundance ratio greater than 2.  A deficient number
+has an abundance ratio less than 2.  A perfect number has an abundance ratio of
+2, exactly.
 ''',
 '''
-''',
-[ 'abundance' ] ],
+''' + makeCommandExample( '1 10 range abundance_ratio' ) + '''
+''' + makeCommandExample( '672 abundance_ratio' ) + '''
+''' + makeCommandExample( '1680 abundance_ratio' ) + '''
+''' + makeCommandExample( '32760 abundance_ratio' ),
+[ 'abundance', 'aliquot', 'is_abundant', 'is_deficient', 'is_perfect' ] ],
 
     'ackermann_number' : [
 'number_theory', 'calculates the value of the Ackermann function for n and k',
@@ -8676,15 +8698,49 @@ operator.
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''
+The sum of the proper divisors of an integer is called the aliquot sum.  An
+aliquot sequence is created by taking successive aliquot sums, starting from
+a particular integer.
+
+An aliquot sequence can result in an infinite loop of amicable numbers, a set of
+numbers for which the aliquot sums loop.  For instance, 220 has an aliquot sum
+of 284, which in turn has an aliquot sum of 220.
+
+Otherwise, an aliquot sequence can terminate by going to 0, since the aliquot
+sum of 1 is defined to be 0.
+
+It is conjectured that all aliquot sequences that do not end up in a loop of
+amicable numbers eventually go to 0.
+
+This operator will generating the aliquot sequence, starting with n and
+continuing until k numbers are generated, or a repeat occurs.
 ''',
 '''
 ''' + makeCommandExample( '276 10 aliquot' ) + '''
+''' + makeCommandExample( '614 20 aliquot' ) + '''
 ''' + makeCommandExample( '320 25 aliquot' ),
 [ 'aliquot_limit', 'collatz' ] ],
 
     'aliquot_limit' : [
 'number_theory', 'returns the members of the aliquot sequence of n until a value in the sequence exceeds 10^k',
 '''
+The sum of the proper divisors of an integer is called the aliquot sum.  An
+aliquot sequence is created by taking successive aliquot sums, starting from
+a particular integer.
+
+An aliquot sequence can result in an infinite loop of amicable numbers, a set of
+numbers for which the aliquot sums loop.  For instance, 220 has an aliquot sum
+of 284, which in turn has an aliquot sum of 220.
+
+Otherwise, an aliquot sequence can terminate by going to 0, since the aliquot
+sum of 1 is defined to be 0.
+
+It is conjectured that all aliquot sequences that do not end up in a loop of
+amicable numbers eventually go to 0.
+
+This operator will generating the aliquot sequence, starting with n and
+continuing until k numbers are generated, or a repeat occurs, or the sequence
+produces a number exceeding 10^k (i.e., has more than k digits).
 ''',
 '''
 ''' + makeCommandExample( '276 4 aliquot_limit' ) + '''
@@ -13378,7 +13434,7 @@ This operator returns the sum of n randomly generated values from 1 to k.
 ''',
 '''
 ''' + makeCommandExample( '3 6 roll_simple_dice' ) + '''
-''' + makeCommandExample( '4 random_int 4 roll_simple_dice' ),
+''' + makeCommandExample( '4 random_int 1 + 4 roll_simple_dice' ),
 [ 'roll_dice' ] ],
 
     'set_config' : [

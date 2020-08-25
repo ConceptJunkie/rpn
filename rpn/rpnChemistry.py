@@ -19,7 +19,7 @@ from mpmath import fadd, fdiv, fmul, mpmathify
 
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntOrStringValidator
+from rpn.rpnValidator import argValidator, ElementValidator
 
 import rpn.rpnGlobals as g
 
@@ -365,7 +365,7 @@ def convertAtomicNumber( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getAtomicNumberOperator( n ):
     return convertAtomicNumber( n )
 
@@ -381,7 +381,7 @@ def getAtomicWeight( n ):
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getAtomicWeightOperator( n ):
     return getAtomicWeight( convertAtomicNumber( n ) )
 
@@ -392,7 +392,7 @@ def getAtomicWeightOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementDensityOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 10 ) ), 'g/cm^3' )
 
@@ -404,7 +404,7 @@ def getElementDensityOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementMeltingPointOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 11 ) ), 'kelvin' )
 
@@ -416,7 +416,7 @@ def getElementMeltingPointOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementBoilingPointOperator( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 12 ) ), 'kelvin' )
 
@@ -437,47 +437,47 @@ def calculateMolarMass( n ):
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getAtomicSymbolOperator( n ):
     return getElementAttribute( n, 1 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementBlockOperator( n ):
     return getElementAttribute( n, 4 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementDescriptionOperator( n ):
     return getElementAttribute( n, 7 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementGroupOperator( n ):
     return getElementAttribute( n, 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementNameOperator( n ):
     return getElementAttribute( n, 0 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementOccurrenceOperator( n ):
     return getElementAttribute( n, 6 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementPeriodOperator( n ):
     return getElementAttribute( n, 3 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getElementStateOperator( n ):
     return getElementAttribute( n, 5 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrStringValidator( ) ] )
+@argValidator( [ ElementValidator( ) ] )
 def getMolarMassOperator( n ):
     if isinstance( n, RPNMeasurement ):
         n = convertMeasurementToAtomicSymbol( n )

@@ -470,7 +470,7 @@ class RPNContinuedFraction( list ):
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
-@argValidator( [ ListValidator ] )
+@argValidator( [ ListValidator( )] )
 def convertFromContinuedFractionOperator( n ):
     if ( len( n ) == 1 ) and ( n[ 0 ] <= 0 ):
         raise ValueError( 'invalid input for evaluating a continued fraction' )
@@ -544,7 +544,7 @@ def interpretAsBase( args, base ):
 
 
 @listAndOneArgFunctionEvaluator( )
-@argValidator( [ ListValidator, IntValidator( 2 ) ] )
+@argValidator( [ ListValidator( ),IntValidator( 2 ) ] )
 def interpretAsBaseOperator( args, base ):
     return interpretAsBase( args, base )
 
@@ -1084,7 +1084,7 @@ def getLCMOperator( n, k ):
     return getLCMOfList( [ n, k ] )
 
 @listArgFunctionEvaluator( )
-@argValidator( [ ListValidator ] )
+@argValidator( [ ListValidator( )] )
 def getLCMOfListOperator( n ):
     return getLCMOfList( n )
 
@@ -1167,7 +1167,7 @@ def getFrobeniusNumber( args ):
         return 1 if args > 1 else -1
 
 @listArgFunctionEvaluator( )
-@argValidator( [ ListValidator ] )
+@argValidator( [ ListValidator( )] )
 def getFrobeniusNumberOperator( n ):
     return getFrobeniusNumber( n )
 
@@ -2341,22 +2341,22 @@ def findSumsOfKNonzeroPowersOperator( n, k, p ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getBarnesGOperator( n ):
     return barnesg( n )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator, ComplexValidator ] )
+@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
 def getBetaOperator( n, k ):
     return beta( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator, ComplexValidator ] )
+@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
 def getCyclotomicOperator( n, k ):
     return cyclotomic( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getDigammaOperator( n ):
     return psi( 0, n )
 
@@ -2364,12 +2364,12 @@ def getNthDoubleFactorial( n ):
     return fac2( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getNthDoubleFactorialOperator( n ):
     return fac2( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getAltZetaOperator( n ):
     return altzeta( n )
 
@@ -2377,12 +2377,12 @@ def getNthFactorial( n ):
     return fac( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getNthFactorialOperator( n ):
     return fac( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getGammaOperator( n ):
     return gamma( n )
 
@@ -2395,7 +2395,7 @@ def getNthHyperfactorial( n ):
     return hyperfac( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getNthHyperfactorialOperator( n ):
     return hyperfac( n )
 
@@ -2405,7 +2405,7 @@ def getLeylandNumberOperator( n, k ):
     return fadd( power( n, k ), power( k, n ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getLogGammaOperator( n ):
     return loggamma( n )
 
@@ -2488,12 +2488,12 @@ def getUnitRootsOperator( n ):
     return unitroots( int( n ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator ] )
+@argValidator( [ ComplexValidator( ) ] )
 def getZetaOperator( n ):
     return zeta( n )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator, ComplexValidator ] )
+@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
 def getHurwitzZetaOperator( n, k ):
     return zeta( n, k )
 
@@ -2584,7 +2584,7 @@ def getDigitalRoot( n ):
         return result
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator ] )
+@argValidator( [ IntValidator( ) ] )
 def getDigitalRootOperator( n ):
     return getDigitalRoot( n )
 
@@ -2707,7 +2707,7 @@ def getHarmonicResidue( n ):
     return fmod( fmul( n, getDivisorCount( n ) ), getSigma( n ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator ] )
+@argValidator( [ IntValidator( ) ] )
 def getHarmonicResidueOperator( n ):
     return getHarmonicResidue( n )
 

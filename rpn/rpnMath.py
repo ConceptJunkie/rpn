@@ -28,8 +28,8 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, ComplexOrMeasurementValidator, ComplexOrMeasurementValidator, \
-                             ComplexOrMeasurementOrDateTimeValidator, DefaultValidator, \
-                             IntValidator, ListValidator, RealValidator, RealOrMeasurementValidator, \
+                             ComplexOrMeasurementOrDateTimeValidator, DefaultValidator, IntValidator, \
+                             ListValidator, RealValidator, RealOrMeasurementValidator, \
                              RealOrMeasurementOrDateTimeValidator
 
 

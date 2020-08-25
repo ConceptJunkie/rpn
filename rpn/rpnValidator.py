@@ -117,8 +117,8 @@ class RPNValidator( ):
             argument = self.validateIntOrDateTime( argument )
         elif self.type == self.List:
             argument = self.validateList( argument )
-        elif self.type == self.Integer + self.String:
-            argument = self.validateIntOrString( argument )
+        elif self.type == self.Integer + self.String + self.Measurement:
+            argument = self.validateElement( argument )
         elif self.type == self.String + self.Location:
             argument = self.validateStringOrLocation( argument )
 
@@ -282,9 +282,11 @@ class RPNValidator( ):
 
         return argument
 
-    def validateIntOrString( self, argument ):
+    def validateElement( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             self.validateInt( argument )
+        elif isinstance( argument, RPNMeasurement ):
+            self.validateMeasurement( argument )
         elif not isinstance( argument, str ):
             raise ValueError( f'\'type\' { type( argument ) } found, string or integer expected' )
 
@@ -299,7 +301,7 @@ class RPNValidator( ):
 
 class DefaultValidator( RPNValidator ):
     def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Real, specials=specials )
+        super( ).__init__( RPNValidator.Default, specials=specials )
 
 
 class IntValidator( RPNValidator ):
@@ -374,7 +376,7 @@ class ComplexOrMeasurementOrDateTimeValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
 
 
-class IntOrStringValidator( RPNValidator ):
+class ElementValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Integer + RPNValidator.String, specials=specials )
 

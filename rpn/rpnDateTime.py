@@ -777,7 +777,7 @@ def getWeekday( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getWeekdayOperator( n ):
-    return getWeekday( )
+    return getWeekday( n )
 
 
 #******************************************************************************

@@ -252,7 +252,7 @@ def readListFromFileGenerator( filename ):
                 pass
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringValidator ] )
+@argValidator( [ StringValidator( ) ] )
 def readListFromFileOperator( filename ):
     return RPNGenerator( readListFromFileGenerator( filename ) )
 

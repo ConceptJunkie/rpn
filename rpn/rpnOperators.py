@@ -269,8 +269,8 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 makeEulerBrickOperator, makePythagoreanQuadrupleOperator, \
                                 makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator
 
-from rpn.rpnPersistence import dumpFunctionCacheOperator, dumpPrimeCacheOperator, getUserFunctionsFileName, \
-                               loadConstants, loadResultOperator, loadUnitConversionMatrix, loadUnitData
+from rpn.rpnPersistence import doesCacheExist, getUserFunctionsFileName, loadConstants, loadResultOperator, \
+                               loadUnitConversionMatrix, loadUnitData, openFunctionCache, openPrimeCache
 
 from rpn.rpnPhysics import calculateAccelerationOperator, calculateBlackHoleEntropyOperator, \
                            calculateBlackHoleLifetimeOperator, calculateBlackHoleLuminosityOperator, \
@@ -379,7 +379,7 @@ from rpn.rpnUnitClasses import RPNUnits
 from rpn.rpnUtils import addEchoArgumentOperator, abortArgsNeeded, listAndOneArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateArguments
 
-from rpn.rpnValidator import argValidator, RPNValidator
+from rpn.rpnValidator import argValidator, RPNValidator, StringValidator
 
 import rpn.rpnGlobals as g
 
@@ -1481,8 +1481,9 @@ def dumpOperators( totalsOnly=False ):
 
     return total
 
-def dumpOperatorsOperator( totalsOnly=False ):
-    return dumpOperators( totalsOnly )
+def dumpOperatorsOperator( ):
+    return dumpOperators( )
+
 
 #******************************************************************************
 #
@@ -1539,6 +1540,54 @@ def dumpUnitConversionsOperator( ):
     print( )
 
     return len( g.unitConversionMatrix )
+
+
+#******************************************************************************
+#
+#  dumpFunctionCacheOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ) ] )
+def dumpFunctionCacheOperator( name ):
+    if not doesCacheExist( name ):
+        raise ValueError( 'cache \'' + name + '\' does not exist.' )
+
+    cache = openFunctionCache( name )
+
+    keys = sorted( cache.keys( ) )
+
+    for key in keys:
+        print( key, cache[ key ] )
+
+    return len( cache )
+
+
+
+#******************************************************************************
+#
+#  dumpPrimeCacheOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ) ] )
+def dumpPrimeCacheOperator( name ):
+    if name not in g.cursors:
+        if not doesCacheExist( name ):
+            raise ValueError( 'cache \'' + name + '\' does not exist.' )
+
+        openPrimeCache( name )
+
+    rows = g.cursors[ name ].execute( 'SELECT id, value FROM cache ORDER BY id' ).fetchall( )
+
+    rows.sort( key=lambda x: x[ 0 ] )
+
+    for row in rows:
+        print( '{:13} {}'.format( row[ 0 ], row[ 1 ] ) )
+
+    return len( rows )
 
 
 #******************************************************************************

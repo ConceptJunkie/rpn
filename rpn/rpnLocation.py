@@ -30,7 +30,8 @@ from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, RealValidator, StringValidator, StringOrLocationValidator
+from rpn.rpnValidator import argValidator, DefaultValidator, RealValidator, StringValidator, \
+                             StringOrLocationValidator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -85,7 +86,7 @@ def saveLocationCache( locationCache ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringValidator ] )
+@argValidator( [ StringValidator( ) ] )
 def getLocation( name ):
     if not isinstance( name, str ):
         raise ValueError( '\'location\' expects a string argument' )
@@ -138,7 +139,7 @@ def getLocation( name ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator ] )
+@argValidator( [ StringOrLocationValidator( ) ] )
 def getLocationInfoOperator( location ):
     if isinstance( location, str ):
         location = getLocation( location )
@@ -172,7 +173,7 @@ def getTimeZone( location ):
     return timezoneName
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator ] )
+@argValidator( [ StringOrLocationValidator( ) ] )
 def getTimeZoneOperator( location ):
     return getTimeZone( location )
 
@@ -184,7 +185,7 @@ def getTimeZoneOperator( location ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator, StringOrLocationValidator ] )
+@argValidator( [ StringOrLocationValidator( ), StringOrLocationValidator( ) ] )
 def getGeographicDistanceOperator( location1, location2 ):
     if isinstance( location1, str ):
         location1 = getLocation( location1 )
@@ -214,14 +215,20 @@ def getGeographicDistanceOperator( location1, location2 ):
 #
 #******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator ] )
+@argValidator( [ DefaultValidator( ) ] )
 def convertLatLongToNACOperator( n ):
-    if isinstance( n, str ):
-        n = getLocation( n )
-    elif isinstance( args, RPNLocation ):
+    if isinstance( n[ 0 ], str ):
+        n = getLocation( n[ 0 ] )
         lat = n.getLat( )
         long = n.getLong( )
+    elif isinstance( n, list ) and len( n ) == 2:
+        lat = n[ 0 ]
+        long = n[ 1 ]
+    elif isinstance( n[ 0 ], RPNLocation ):
+        lat = n[ 0 ].getLat( )
+        long = n[ 0 ].getLong( )
+    else:
+        raise ValueError( 'location or lat-long (in a list) expected' )
 
     numerals = '0123456789BCDFGHJKLMNPQRSTVWXZ'
 

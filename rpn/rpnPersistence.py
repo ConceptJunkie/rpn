@@ -28,7 +28,6 @@ from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, StringValidator
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -297,32 +296,6 @@ def openPrimeCache( name ):
     return g.cursors[ name ]
 
 
-
-#******************************************************************************
-#
-#  dumpPrimeCacheOperator
-#
-#******************************************************************************
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ StringValidator ] )
-def dumpPrimeCacheOperator( name ):
-    if name not in g.cursors:
-        if not doesCacheExist( name ):
-            raise ValueError( 'cache \'' + name + '\' does not exist.' )
-
-        openPrimeCache( name )
-
-    rows = g.cursors[ name ].execute( 'SELECT id, value FROM cache ORDER BY id' ).fetchall( )
-
-    rows.sort( key=lambda x: x[ 0 ] )
-
-    for row in rows:
-        print( '{:13} {}'.format( row[ 0 ], row[ 1 ] ) )
-
-    return len( rows )
-
-
 #******************************************************************************
 #
 #  class PersistentDict
@@ -510,28 +483,6 @@ def openFunctionCache( name ):
 #    #    debugPrint( 'opening', name, 'function cache database' )
 #    #    g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
 #    #    return g.functionCaches[ name ]
-
-
-#******************************************************************************
-#
-#  dumpFunctionCacheOperator
-#
-#******************************************************************************
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ StringValidator ] )
-def dumpFunctionCacheOperator( name ):
-    if not doesCacheExist( name ):
-        raise ValueError( 'cache \'' + name + '\' does not exist.' )
-
-    cache = openFunctionCache( name )
-
-    keys = sorted( cache.keys( ) )
-
-    for key in keys:
-        print( key, cache[ key ] )
-
-    return len( cache )
 
 
 #******************************************************************************

@@ -317,7 +317,7 @@ def handleIdentify( result, file=sys.stdout ):
 # ******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator, IntValidator( 1 ) ] )
+@argValidator( [ ComplexValidator( ), IntValidator( 1 ) ] )
 def findPolynomialOperator( n, k ):
     '''
     Calls the mpmath findpoly function to try to identify a polynomial of
@@ -1023,7 +1023,7 @@ def describeIntegerOperator( n ):
 #
 # ******************************************************************************
 
-@argValidator( [ DefaultValidator, DefaultValidator, ComplexValidator ] )
+@argValidator( [ DefaultValidator( ), DefaultValidator( ), ComplexValidator( ) ] )
 def ifOperator( a, b, c ):
     return a if c else b
 

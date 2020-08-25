@@ -75,7 +75,7 @@ def convertUnits( unit1, unit2 ):
         return RPNMeasurement( newValue, unit2.units )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ MeasurementValidator, MeasurementValidator ] )
+@argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
 def convertUnitsOperator( unit1, unit2 ):
     return convertUnits( unit1, unit2 )
 
@@ -87,7 +87,7 @@ def convertUnitsOperator( unit1, unit2 ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ MeasurementValidator ] )
+@argValidator( [ MeasurementValidator( ) ] )
 def convertToDMSOperator( n ):
     return convertUnits( n, [ 'degree', 'arcminute', 'arcsecond' ] )
 
@@ -99,7 +99,7 @@ def convertToDMSOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ MeasurementValidator ] )
+@argValidator( [ MeasurementValidator( ) ] )
 def estimateOperator( measurement ):
     if not isinstance( measurement, RPNMeasurement ):
         raise TypeError( 'incompatible type for estimating' )

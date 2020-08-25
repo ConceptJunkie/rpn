@@ -395,11 +395,11 @@ def runArithmeticOperatorTests( ):
 
     # equals_one_of
     if g.primeDataAvailable:
-        expectEqual( '1 5000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter',
+        expectEqual( '1 5000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / floor is_prime and filter',
                      '353 oeis 5000 prime filter_max' )
 
         if slow:
-            expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter',
+            expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / floor is_prime and filter',
                          '353 oeis 33100 prime filter_max' )
 
     # floor
@@ -1957,6 +1957,9 @@ def runConversionOperatorTests( ):
 
     # lat_long_to_nac
     testOperator( '"Detroit, MI" location_info lat_long_to_nac' )
+    testOperator( '"Leesburg, VA" lat_long_to_nac' )
+    testOperator( '[ 30 -120 ] lat_long_to_nac' )
+    testOperator( '[ -45 90 ] lat_long_to_nac' )
 
     # long
     testOperator( '3456789012 long' )
