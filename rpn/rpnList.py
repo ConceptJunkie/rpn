@@ -1380,7 +1380,10 @@ def getListPowerSet( n ):
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def getListPowerSetOperator( n ):
-    return RPNGenerator( getListPowerSet( n ) )
+    if isinstance( n, RPNGenerator ):
+        return RPNGenerator( getListPowerSet( list( n ) ) )
+    else:
+        return RPNGenerator( getListPowerSet( n ) )
 
 
 #******************************************************************************
@@ -1394,7 +1397,7 @@ def getListPowerSetOperator( n ):
 def findInListOperator( target, k ):
     try:
         result = target.index( k )
-    except AttributeError:
+    except ValueError:
         return -1
 
     return result
