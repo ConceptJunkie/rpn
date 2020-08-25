@@ -1384,7 +1384,7 @@ def getListPowerSetOperator( n ):
 
 
 #******************************************************************************
-#
+
 #  findInListOperator
 #
 #******************************************************************************
@@ -1393,7 +1393,7 @@ def getListPowerSetOperator( n ):
 @argValidator( [ ListValidator( ), DefaultValidator( ) ] )
 def findInListOperator( target, k ):
     try:
-        result = k.index( target )
+        result = target.index( k )
     except AttributeError:
         return -1
 

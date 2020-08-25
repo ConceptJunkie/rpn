@@ -7886,7 +7886,7 @@ the bth power.  The list is expanded to contain c items.
 This used to have the arguments swapped, but that seemed wrong.
 ''',
 '''
-''' + makeCommandExample( '6 [ 1 4 5 6 9 ] find' ) + '''
+''' + makeCommandExample( '[ 1 4 5 6 9 ] 6 find' ) + '''
 And we can access the found item using the 'element' operator:
 ''' + makeCommandExample( '[ 1 4 5 6 9 ] 3 element', indent=4 ),
 [ 'count', 'filter' ] ],
