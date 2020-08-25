@@ -23,7 +23,7 @@ from mpmath import arange
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator
+from rpn.rpnValidator import argValidator, IntValidator, StringValidator
 
 
 # TODO:  write a function to enumerate the number of outcomes for a dice expression
@@ -84,6 +84,7 @@ from rpn.rpnValidator import argValidator, IntValidator
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ) ] )
 def rollDiceOperator( expression ):
     values, modifier = evaluateDiceExpression( parseDiceExpression( expression ) )
     return sum( values ) + modifier
@@ -96,6 +97,7 @@ def rollDiceOperator( expression ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ), IntValidator( 0 ) ] )
 def rollMultipleDice( expression, times ):
     dice = parseDiceExpression( expression )
 
@@ -117,6 +119,7 @@ def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ) ] )
 def enumerateDiceOperator( n ):
     return RPNGenerator( enumerateDice( n ) )
 
@@ -134,6 +137,7 @@ def enumerateMultipleDice( expression, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ), IntValidator( 0 ) ] )
 def enumerateMultipleDiceOperator( n, k ):
     return RPNGenerator( enumerateMultipleDice( n, k ) )
 
@@ -407,4 +411,3 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
 def rollSimpleDiceOperator( n, k ):
     values, modifier = evaluateDiceExpression( [ ( int( n ), int( k ), 0, 0, 0 ) ] )
     return sum( values ) + modifier
-

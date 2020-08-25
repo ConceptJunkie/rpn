@@ -2,9 +2,9 @@
 
 #******************************************************************************
 #
-#  rpnOperator.py
+#  rpnValidator.py
 #
-#  rpnChilada operator class definitions
+#  rpnChilada argument validation classes
 #  copyright (c) 2020, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -22,6 +22,7 @@ from mpmath.ctx_mp_python import mpc
 
 from rpn.rpnDateTimeClass import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 
 import rpn.rpnGlobals as g
@@ -58,25 +59,25 @@ def argValidator( validators ):
 class RPNValidator( ):
     Default =               0           # any argument is valid
     Real =                  1
-    Integer =               2
-    Complex =               4
-    ComplexInteger =        8
-    String =                16
-    DateTime =              32
-    Location =              64          # location object (operators will automatically convert a string)
-    Boolean =               128         # 0 or 1
-    Measurement =           256
-    Length =                512
-    AstronomicalObject =    1024
-    List =                  2048        # the argument must be a list
-    Generator =             4096        # Generator is a separate type now, but eventually it should be equivalent to List
-    Function =              8192
+    Integer =               1 << 1
+    Complex =               1 << 2
+    ComplexInteger =        1 << 3
+    String =                1 << 4
+    DateTime =              1 << 5
+    Location =              1 << 6      # location object (operators will automatically convert a string)
+    Boolean =               1 << 7      # 0 or 1
+    Measurement =           1 << 8
+    Length =                1 << 9
+    AstronomicalObject =    1 << 10
+    List =                  1 << 11     # the argument must be a list
+    Generator =             1 << 12     # Generator is a separate type now, but eventually it should be equivalent to List
+    Function =              1 << 13
 
     # These will be eliminated
-    NonnegativeReal =       16384
-    PositiveInteger =       32768
-    NonnegativeInteger =    65536
-    PrimeInteger =          131072
+    NonnegativeReal =       1 << 14
+    PositiveInteger =       1 << 15
+    NonnegativeInteger =    1 << 16
+    PrimeInteger =          1 << 17
 
     type = Default
     min = None
@@ -116,6 +117,10 @@ class RPNValidator( ):
             argument = self.validateIntOrDateTime( argument )
         elif self.type == self.List:
             argument = self.validateList( argument )
+        elif self.type == self.Integer + self.String:
+            argument = self.validateIntOrString( argument )
+        elif self.type == self.String + self.Location:
+            argument = self.validateStringOrLocation( argument )
 
         for special in self.specials:
             if not special[ 0 ]( argument ):
@@ -128,7 +133,7 @@ class RPNValidator( ):
 
     def validateInt( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, integer value expected' )
 
         if im( argument ) != 0:
             raise ValueError( 'real argument expected ({})'.format( argument ) )
@@ -179,6 +184,14 @@ class RPNValidator( ):
 
         return argument
 
+    def validateString( self, argument ):
+        if isinstance( argument, str ):
+            pass
+        else:
+            raise ValueError( f'argument is type { type( argument ) }, but string value expected' )
+
+        return argument
+
     def validateMeasurement( self, argument ):
         if isinstance( argument, RPNMeasurement ):
             pass
@@ -193,7 +206,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNMeasurement ):
             self.validateMeasurement( argument )
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric or measurement value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, integer or measurement value expected' )
 
         return argument
 
@@ -203,7 +216,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNDateTime ):
             self.validateDateTime( argument )
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric or date-time value expected' )
+            raise ValueError( f'\'type\' { type( argument ) } found, integer or date-time value expected' )
 
         return argument
 
@@ -269,6 +282,19 @@ class RPNValidator( ):
 
         return argument
 
+    def validateIntOrString( self, argument ):
+        if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
+            self.validateInt( argument )
+        elif not isinstance( argument, str ):
+            raise ValueError( f'\'type\' { type( argument ) } found, string or integer expected' )
+
+        return argument
+
+    def validateStringOrLocation( self, argument ):
+        if not isinstance( argument, ( str, RPNLocation ) ):
+            raise ValueError( f'\'type\' { type( argument ) } found, string or location object expected' )
+
+        return argument
 
 
 class DefaultValidator( RPNValidator ):
@@ -296,6 +322,11 @@ class MeasurementValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Measurement, min, max, specials=specials )
 
 
+class StringValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.String, specials )
+
+
 class LengthValidator( RPNValidator ):
     def __init__( self, min=None, max=None, specials=None ):
         super( ).__init__( RPNValidator.Length, min, max, specials=specials )
@@ -305,6 +336,13 @@ class DateTimeValidator( RPNValidator ):
     def __init__( self, min=None, max=None, specials=None ):
         super( ).__init__( RPNValidator.DateTime, min, max, specials=specials )
 
+
+class ListValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.List, specials=specials )
+
+
+# compound validators
 
 class IntOrDateTimeValidator( RPNValidator ):
     def __init__( self, specials=None ):
@@ -336,7 +374,11 @@ class ComplexOrMeasurementOrDateTimeValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
 
 
-class ListValidator( RPNValidator ):
+class IntOrStringValidator( RPNValidator ):
     def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.List, specials=specials )
+        super( ).__init__( RPNValidator.Integer + RPNValidator.String, specials=specials )
 
+
+class StringOrLocationValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.String + RPNValidator.Location, specials=specials )

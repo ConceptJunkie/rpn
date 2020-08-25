@@ -24,6 +24,7 @@ from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
 from rpn.rpnPrimeUtils import isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, IntValidator
 
 import rpn.rpnGlobals as g
 
@@ -85,6 +86,7 @@ def getFactors( target ):
     return result
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ) ] )
 def getFactorsOperator( n ):
     return getFactors( n )
 

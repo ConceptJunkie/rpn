@@ -129,7 +129,7 @@ def getRandomIntegers( n, k ):
 
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( 1 ), IntValidator( 0 ) ] )
 def getRandomIntegersOperator( n, k ):
     return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
@@ -317,6 +317,7 @@ def handleIdentify( result, file=sys.stdout ):
 # ******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ ComplexValidator, IntValidator( 1 ) ] )
 def findPolynomialOperator( n, k ):
     '''
     Calls the mpmath findpoly function to try to identify a polynomial of
@@ -368,7 +369,6 @@ def generateRandomUUIDOperator( ):
 # ******************************************************************************
 
 largestNumberToFactor = power( 10, 40 )
-
 
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
@@ -1023,7 +1023,7 @@ def describeIntegerOperator( n ):
 #
 # ******************************************************************************
 
-@argValidator( [ DefaultValidator( ), DefaultValidator( ), ComplexValidator( ) ] )
+@argValidator( [ DefaultValidator, DefaultValidator, ComplexValidator ] )
 def ifOperator( a, b, c ):
     return a if c else b
 

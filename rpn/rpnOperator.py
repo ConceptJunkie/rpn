@@ -18,9 +18,8 @@ from enum import Enum
 
 from mpmath import exp, fadd, fmul, floor, im, nan, nstr
 
-from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnLocation import RPNLocation
+from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded

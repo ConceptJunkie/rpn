@@ -25,7 +25,7 @@ from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          loadAstronomyData
-from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator
 
 import rpn.rpnGlobals as g
 
@@ -228,6 +228,9 @@ def getSeason( n, season ):
     '''Returns the date of the season for year n.'''
     loadAstronomyData( )
 
+    if isinstance( n, RPNDateTime ):
+        n = n.year
+
     if not g.astroDataAvailable:
         raise ValueError( 'Astronomy functions are unavailable.' )
 
@@ -248,7 +251,7 @@ def getSeasonOperator( n, season ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
 def getVernalEquinoxOperator( n ):
     '''Returns the date of the vernal equinox for year n.'''
     return getSeason( n, 0 )
@@ -262,7 +265,7 @@ def getVernalEquinoxOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
 def getSummerSolsticeOperator( n ):
     '''Returns the date of the summer solstice for year n.'''
     return getSeason( n, 1 )
@@ -275,7 +278,7 @@ def getSummerSolsticeOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
 def getAutumnalEquinoxOperator( n ):
     '''Returns the date of the autumnal equinox for year n.'''
     return getSeason( n, 2 )
@@ -288,7 +291,7 @@ def getAutumnalEquinoxOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
+@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
 def getWinterSolsticeOperator( n ):
     '''Returns the date of the winter solstice for year n.'''
     return getSeason( n, 3 )
@@ -357,9 +360,6 @@ def getPreviousNewMoonOperator( n ):
 
 def getMoonPhase( n ):
     '''Returns the current moon phase as a percentage, starting from the new moon.'''
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'moon_phase\' expects a date-time argument' )
-
     datetime = n.format( )
 
     previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( datetime ) )

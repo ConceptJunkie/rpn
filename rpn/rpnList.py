@@ -24,8 +24,8 @@ from rpn.rpnMath import add, multiply, square, subtract, divide
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import getPowerSet, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
                          listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, ListValidator, \
-                             RealOrMeasurementOrDateTimeValidator
+from rpn.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator, \
+                             ListValidator, RealOrMeasurementOrDateTimeValidator
 
 
 #******************************************************************************
@@ -1357,8 +1357,7 @@ def getListPermutationsWithRepeatsOperator( n, k ):
 #
 #******************************************************************************
 
-# rpn 1 1000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter
-
+@argValidator( [ ComplexValidator( ), ListValidator( ) ] )
 def equalsOneOfOperator( value, targetList ):
     for i in targetList:
         if value == i:

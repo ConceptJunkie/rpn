@@ -28,6 +28,7 @@ from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, StringValidator
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -304,6 +305,7 @@ def openPrimeCache( name ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator ] )
 def dumpPrimeCacheOperator( name ):
     if name not in g.cursors:
         if not doesCacheExist( name ):
@@ -517,6 +519,7 @@ def openFunctionCache( name ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator ] )
 def dumpFunctionCacheOperator( name ):
     if not doesCacheExist( name ):
         raise ValueError( 'cache \'' + name + '\' does not exist.' )

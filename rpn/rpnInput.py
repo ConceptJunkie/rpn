@@ -22,6 +22,7 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, StringValidator
 
 import rpn.rpnGlobals as g
 
@@ -251,6 +252,7 @@ def readListFromFileGenerator( filename ):
                 pass
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator ] )
 def readListFromFileOperator( filename ):
     return RPNGenerator( readListFromFileGenerator( filename ) )
 

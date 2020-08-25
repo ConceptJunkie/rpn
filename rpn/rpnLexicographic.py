@@ -1056,9 +1056,6 @@ def getLeftTruncationsOperator( n ):
 #******************************************************************************
 
 def getRightTruncationsGenerator( n ):
-    if n < 0:
-        raise ValueError( '\'get_right_truncations\' requires a positive argument' )
-
     result = getMPFIntegerAsString( n )
 
     for i in range( len( result ), 0, -1 ):

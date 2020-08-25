@@ -267,7 +267,7 @@ def solveQuadraticPolynomial( a, b, c ):
 
         return [ x1, x2 ]
 
-@argValidator( [ ComplexValidator( ), ComplexValidator( ), ComplexValidator( ) ] )
+@argValidator( [ ComplexValidator, ComplexValidator, ComplexValidator ] )
 def solveQuadraticPolynomialOperator( a, b, c ):
     return solveQuadraticPolynomial( a, b, c )
 
@@ -446,6 +446,7 @@ def solveQuarticPolynomialOperator( _a, _b, _c, _d, _e ):
 #
 #******************************************************************************
 
+@argValidator( [ ListValidator, ListValidator ] )
 def addPolynomialsOperator( a, b ):
     '''Adds two polynomials.'''
     lengthDiff = len( a ) - len( b )
@@ -476,7 +477,7 @@ def multiplyPolynomials( a, b ):
 
     return result.getCoefficients( )
 
-@argValidator( [ ListValidator( ), ListValidator( ) ] )
+@argValidator( [ ListValidator, ListValidator ] )
 def multiplyPolynomialsOperator( a, b ):
     return multiplyPolynomials( a, b )
 
@@ -500,7 +501,7 @@ def evaluatePolynomialOperator( a, b ):
 #******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
+@argValidator( [ ListValidator, IntValidator( 1 ) ] )
 def exponentiatePolynomialOperator( n, k ):
     '''Exponentiates an arbitrary polynomial by an integral power k.'''
     result = n
@@ -517,6 +518,8 @@ def exponentiatePolynomialOperator( n, k ):
 #
 #******************************************************************************
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator ] )
 def solvePolynomialOperator( args ):
     '''Uses the mpmath solve function to numerically solve an arbitrary polynomial.'''
     if isinstance( args, RPNGenerator ):
@@ -596,8 +599,8 @@ def multiplyPolynomialList( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def multiplyPolynomialListOperator( args ):
-    return  multiplyPolynomialList( args )
+def multiplyPolynomialListOperator( n ):
+    return  multiplyPolynomialList( n )
 
 
 #******************************************************************************
@@ -634,9 +637,9 @@ def sumPolynomialList( args ):
     return result.getCoefficients( )
 
 @listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def sumPolynomialListOperator( args ):
-    return  sumPolynomialList( args )
+@argValidator( [ ListValidator ] )
+def sumPolynomialListOperator( n ):
+    return  sumPolynomialList( n )
 
 
 #******************************************************************************
@@ -645,6 +648,7 @@ def sumPolynomialListOperator( args ):
 #
 #******************************************************************************
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator ] )
 def getPolynomialDiscriminantOperator( n ):
     return Polynomial( n ).getDiscriminant( )
-

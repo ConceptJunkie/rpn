@@ -94,8 +94,8 @@ def calculateBlackHoleMass( measurement ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( ) ] )
-def calculateBlackHoleMassOperator( measurement ):
-    return calculateBlackHoleMass( measurement )
+def calculateBlackHoleMassOperator( n ):
+    return calculateBlackHoleMass( n )
 
 
 #******************************************************************************

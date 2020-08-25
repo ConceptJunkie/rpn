@@ -246,6 +246,7 @@ def getParityOperator( n ):
 #
 #******************************************************************************
 
+#@oneArgAndListFunctionEvaluator( )
 @argValidator( [ IntValidator( ), ListValidator( ) ] )
 def unpackIntegerOperator( n, fields ):
     if isinstance( n, RPNGenerator ):

@@ -395,6 +395,7 @@ def convertHebrewDateOperator( year, month, day ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ DateTimeValidator( ) ] )
 def getHebrewCalendarDateNameOperator( n ):
     date = hebrew.from_gregorian( n.year, n.month, n.day )
 

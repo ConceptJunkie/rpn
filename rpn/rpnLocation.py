@@ -4,7 +4,7 @@
 #
 #  rpnLocation.py
 #
-#  rpnChilada location class declarations
+#  rpnChilada location operators
 #  copyright (c) 2020, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -26,101 +26,14 @@ from timezonefinder import TimezoneFinder
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
+from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnValidator import argValidator, RealValidator, StringValidator, StringOrLocationValidator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
-
-
-#******************************************************************************
-#
-#  class RPNLocation
-#
-#  The observer class measures lat/long in radians, but no one else does,
-#  so the methods assume degrees.
-#
-#******************************************************************************
-
-class RPNLocation( ):
-    observer = None
-    name = None
-
-    '''This class represents a location on the surface of the Earth.'''
-    def __init__( self, *args, **kwargs ):
-        name = kwargs.get( 'name', None )
-        observer = kwargs.get( 'observer', None )
-        lat = kwargs.get( 'lat', None )
-        long = kwargs.get( 'long', None )
-
-        if observer:
-            self.observer = observer
-        else:
-            self.observer = ephem.Observer( )
-
-        if lat:
-            self.setLat( lat )
-
-        if long:
-            self.setLong( long )
-
-    def setObserver( self, observer ):
-        self.observer.lat = observer.lat
-        self.observer.long = observer.long
-        self.observer.epoch = observer.epoch
-        self.observer.date = observer.date
-        self.observer.elevation = observer.elevation
-        self.observer.temp = observer.temp
-        self.observer.pressure = observer.pressure
-
-    def getName( self ):
-        return self.name
-
-    def getLat( self ):
-        return fdiv( fmul( mpmathify( float( self.observer.lat ) ), 180 ), pi )
-
-    def getLong( self ):
-        return fdiv( fmul( mpmathify( float( self.observer.long ) ), 180 ), pi )
-
-    def getDate( self ):
-        return self.observer.date
-
-    def getEpoch( self ):
-        return self.observer.epoch
-
-    def getElevation( self ):
-        return self.observer.elevation
-
-    def getTemp( self ):
-        return self.observer.temp
-
-    def getPressure( self ):
-        return self.observer.pressure
-
-    def setName( self, value ):
-        self.name = value
-
-    def setLat( self, value ):
-        self.observer.lat = fmul( fdiv( value, 180 ), pi )
-
-    def setLong( self, value ):
-        self.observer.long = fmul( fdiv( value, 180 ), pi )
-
-    def setDate( self, value ):
-        self.observer.date = value
-
-    def setEpoch( self, value ):
-        self.observer.epoch = value
-
-    def setElevation( self, value ):
-        self.observer.elevation = value
-
-    def setTemp( self, value ):
-        self.observer.temp = value
-
-    def setPressure( self, value ):
-        self.observer.pressure = value
 
 
 #******************************************************************************
@@ -130,6 +43,7 @@ class RPNLocation( ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ RealValidator( 0, 90 ), RealValidator( -180, 180 ) ] )
 def makeLocationOperator( n, k ):
     return RPNLocation( lat=float( n ), long=float( k ) )
 
@@ -171,6 +85,7 @@ def saveLocationCache( locationCache ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator ] )
 def getLocation( name ):
     if not isinstance( name, str ):
         raise ValueError( '\'location\' expects a string argument' )
@@ -223,6 +138,7 @@ def getLocation( name ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringOrLocationValidator ] )
 def getLocationInfoOperator( location ):
     if isinstance( location, str ):
         location = getLocation( location )
@@ -256,6 +172,7 @@ def getTimeZone( location ):
     return timezoneName
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ StringOrLocationValidator ] )
 def getTimeZoneOperator( location ):
     return getTimeZone( location )
 
@@ -267,6 +184,7 @@ def getTimeZoneOperator( location ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ StringOrLocationValidator, StringOrLocationValidator ] )
 def getGeographicDistanceOperator( location1, location2 ):
     if isinstance( location1, str ):
         location1 = getLocation( location1 )
@@ -297,26 +215,24 @@ def getGeographicDistanceOperator( location1, location2 ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def convertLatLongToNACOperator( args ):
-    if isinstance( args, RPNGenerator ):
-        return convertLatLongToNAC( list( args ) )
-    elif not isinstance( args, list ):
-        args = [ args, 0 ]
-    elif args and isinstance( args[ 0 ], list ):
-        return [ convertLatLongToNAC( i ) for i in args ]
-    elif len( args ) == 1:
-        args.append( 0 )
+@argValidator( [ StringOrLocationValidator ] )
+def convertLatLongToNACOperator( n ):
+    if isinstance( n, str ):
+        n = getLocation( n )
+    elif isinstance( args, RPNLocation ):
+        lat = n.getLat( )
+        long = n.getLong( )
 
     numerals = '0123456789BCDFGHJKLMNPQRSTVWXZ'
 
-    if args[ 0 ] > 90.0 or args[ 0 ] < -90.0:
+    if lat > 90.0 or lat < -90.0:
         raise ValueError( '\'natural_area_code\' requires a latitude parameter of -90 to 90' )
 
-    if args[ 1 ] > 180.0 or args[ 1 ] < -180.0:
+    if long > 180.0 or long < -180.0:
         raise ValueError( '\'natural_area_code\' requires a longitutde parameter of -180 to 180' )
 
-    lat = fdiv( fadd( args[ 0 ], 90 ), 180 ) * 729000000
-    long = fdiv( fadd( args[ 1 ], 180 ), 360 ) * 729000000   # 30 ** 6
+    lat = fdiv( fadd( lat, 90 ), 180 ) * 729000000
+    long = fdiv( fadd( long, 180 ), 360 ) * 729000000   # 30 ** 6
 
     return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
 

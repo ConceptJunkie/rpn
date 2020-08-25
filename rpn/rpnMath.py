@@ -652,8 +652,6 @@ def tanhOperator( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
 def isEqual( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isEqual( k ) else 0

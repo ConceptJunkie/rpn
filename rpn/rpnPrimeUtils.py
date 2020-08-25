@@ -48,10 +48,12 @@ def isPrime( n ):
         return 1 if gmpy2.is_bpsw_prp( int( n ) ) else 0
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isCompositeOperator( n ):
     return 0 if n == 1 or isPrime( n ) else 1
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def isPrimeOperator( n ):
     return 1 if isPrime( n ) else 0
 
@@ -350,6 +352,7 @@ def getPreviousPrimeCandidateForAny( p ):
 #
 #******************************************************************************
 
+@cachedFunction( 'next_prime' )
 def getNextPrime( p, func=getNextPrimeCandidateForAny ):
     if p < 2:
         return 2
@@ -373,7 +376,7 @@ def getNextPrime( p, func=getNextPrimeCandidateForAny ):
     return p
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'next_prime' )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNextPrimeOperator( n ):
     return getNextPrime( n, func=getNextPrimeCandidateForAny )
 
@@ -384,6 +387,7 @@ def getNextPrimeOperator( n ):
 #
 #******************************************************************************
 
+@cachedFunction( 'previous_prime' )
 def getPreviousPrime( p, func=getPreviousPrimeCandidateForAny ):
     if p < 12:
         if p < 3:
@@ -409,7 +413,7 @@ def getPreviousPrime( p, func=getPreviousPrimeCandidateForAny ):
     return p
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'previous_prime' )
+@argValidator( [ IntValidator( 0 ) ] )
 def getPreviousPrimeOperator( n ):
     return getPreviousPrime( n, func=getPreviousPrimeCandidateForAny )
 
@@ -430,6 +434,7 @@ def getNextPrimes( p, k, func=getNextPrimeCandidateForAny ):
     return result
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getNextPrimesOperator( n, k ):
     return getNextPrimes( n, k, func=getNextPrimeCandidateForAny )
 
@@ -453,6 +458,7 @@ def getPreviousPrimes( p, k, func = getPreviousPrimeCandidateForAny ):
     return result
 
 @twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getPreviousPrimesOperator( n, k ):
     return getPreviousPrimes( n, k, func=getPreviousPrimeCandidateForAny )
 
@@ -925,8 +931,8 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthDoubleBalancedPrimeListOperator( arg ):
-    p = getNthDoubleBalancedPrimeElement( arg, first = False )
+def getNthDoubleBalancedPrimeListOperator( n ):
+    p = getNthDoubleBalancedPrimeElement( n, first = False )
 
     result = [ 0, 0, p, 0, 0 ]
     middle = 2
@@ -939,8 +945,8 @@ def getNthDoubleBalancedPrimeListOperator( arg ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthDoubleBalancedPrimeOperator( arg ):
-    return getNthDoubleBalancedPrimeElement( arg )
+def getNthDoubleBalancedPrimeOperator( n ):
+    return getNthDoubleBalancedPrimeElement( n )
 
 
 #******************************************************************************
@@ -1012,8 +1018,8 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthTripleBalancedPrimeListOperator( arg ):
-    p = getNthTripleBalancedPrimeElement( arg, first = True )
+def getNthTripleBalancedPrimeListOperator( n ):
+    p = getNthTripleBalancedPrimeElement( n, first = True )
 
     result = [ 0, 0, 0, p, 0, 0, 0 ]
     middle = 3
@@ -1026,8 +1032,8 @@ def getNthTripleBalancedPrimeListOperator( arg ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthTripleBalancedPrimeOperator( arg ):
-    return getNthTripleBalancedPrimeElement( arg )
+def getNthTripleBalancedPrimeOperator( n ):
+    return getNthTripleBalancedPrimeElement( n )
 
 
 #******************************************************************************
@@ -1100,8 +1106,8 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthQuadrupleBalancedPrimeListOperator( arg ):
-    p = getNthQuadrupleBalancedPrimeElement( arg, first = True )
+def getNthQuadrupleBalancedPrimeListOperator( n ):
+    p = getNthQuadrupleBalancedPrimeElement( n, first = True )
 
     result = [ 0, 0, 0, 0, p, 0, 0, 0, 0 ]
     middle = 4
@@ -1114,8 +1120,8 @@ def getNthQuadrupleBalancedPrimeListOperator( arg ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
-def getNthQuadrupleBalancedPrimeOperator( arg ):
-    return getNthQuadrupleBalancedPrimeElement( arg )
+def getNthQuadrupleBalancedPrimeOperator( n ):
+    return getNthQuadrupleBalancedPrimeElement( n )
 
 
 #******************************************************************************
@@ -1302,6 +1308,7 @@ def getNthSexyPrimeOperator( n ):
     return getNthSexyPrime( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def getNthSexyPrimeListOperator( n ):
     p = getNthSexyPrime( n )
     return [ p, fadd( p, 6 ) ]
@@ -1359,6 +1366,7 @@ def getNthSexyTripletOperator( n ):
     return getNthSexyTriplet( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def getNthSexyTripletListOperator( n ):
     p = getNthSexyTriplet( n )
     return [ p, fadd( p, 6 ), fadd( p, 12 ) ]
@@ -1409,6 +1417,7 @@ def getNthSexyQuadrupletOperator( n ):
     return getNthSexyQuadruplet( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def getNthSexyQuadrupletListOperator( n ):
     p = getNthSexyQuadruplet( n )
     return [ p, fadd( p, 6 ), fadd( p, 12 ), fadd( p, 18 ) ]
@@ -1568,6 +1577,7 @@ def getNthTripletPrimeListOperator( n ):
     return getNthTripletPrimeList( n )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
 def getNthTripletPrimeOperator( arg ):
     return getNthTripletPrimeList( arg )[ 0 ]
 
@@ -2051,6 +2061,7 @@ def getNthPrimorial( n ):
     return fprod( getPrimes( 1, n ) )
 
 @oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
 def getNthPrimorialOperator( n ):
     return getNthPrimorial( n )
 

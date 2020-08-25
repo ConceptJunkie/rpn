@@ -203,7 +203,6 @@ def getSphereVolumeOperator( n ):
 #******************************************************************************
 
 @argValidator( [ LengthValidator( ), LengthValidator( ), LengthValidator( ) ] )
-
 def getTriangleAreaOperator( a, b, c ):
     s = divide( getSum( [ a, b, c ] ), 2 )   # semi-perimeter
     return getRoot( getProduct( [ s, subtract( s, a ), subtract( s, b ), subtract( s, c ) ] ), 2 )
