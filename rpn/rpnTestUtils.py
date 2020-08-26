@@ -31,6 +31,54 @@ else:
 
 #******************************************************************************
 #
+#  compareLists
+#
+#******************************************************************************
+
+def compareLists( result1, result2 ):
+    if len( result1 ) != len( result2 ):
+        raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
+
+    for i in range( 0, len( result1 ) ):
+        if isinstance( result1[ i ], RPNGenerator ):
+            return compareLists( list( result1[ i ].getGenerator( ) ), result2[ i ] )
+
+        if isinstance( result2[ i ], RPNGenerator ):
+            return compareResults( result1[ i ], list( result2[ i ].getGenerator( ) ) )
+
+        if isinstance( result1[ i ], list ) != isinstance( result2[ i ], list ):
+            raise ValueError( 'lists are nested to different levels:', result1, result2 )
+
+        if isinstance( result1[ i ], list ) and isinstance( result2[ i ], list ):
+            compareLists( result1[ i ], result2[ i ] )
+        else:
+            if isinf( result1[ i ] ):
+                if isinf( result2[ i ] ):
+                    return True
+                else:
+                    print( '**** error in results comparison' )
+                    print( type( result1[ i ] ), type( result2[ i ] ) )
+                    print( result1[ i ], result2[ i ], 'are not equal' )
+
+                    raise ValueError( 'unit test failed' )
+
+            if not compareValues( result1[ i ], result2[ i ] ):
+                digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
+
+                mp.dps = digits
+
+                print( '**** error in results comparison' )
+                print( type( result1[ i ] ), type( result2[ i ] ) )
+                print( result1[ i ], result2[ i ], 'are not equal' )
+                print( 'difference', fsub( result1[ i ], result2[ i ] ) )
+                print( 'difference found at index', i )
+
+                raise ValueError( 'unit test failed' )
+    return True
+
+
+#******************************************************************************
+#
 #  compareResults
 #
 #******************************************************************************
@@ -85,32 +133,7 @@ def compareResults( result1, result2 ):
         return True
 
     if isinstance( result1, list ) and isinstance( result2, list ):
-        if len( result1 ) != len( result2 ):
-            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
-
-        for i in range( 0, len( result1 ) ):
-            if isinf( result1[ i ] ):
-                if isinf( result2[ i ] ):
-                    return True
-                else:
-                    print( '**** error in results comparison' )
-                    print( type( result1[ i ] ), type( result2[ i ] ) )
-                    print( result1[ i ], result2[ i ], 'are not equal' )
-
-                    raise ValueError( 'unit test failed' )
-
-            if not compareValues( result1[ i ], result2[ i ] ):
-                digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
-
-                mp.dps = digits
-
-                print( '**** error in results comparison' )
-                print( type( result1[ i ] ), type( result2[ i ] ) )
-                print( result1[ i ], result2[ i ], 'are not equal' )
-                print( 'difference', fsub( result1[ i ], result2[ i ] ) )
-                print( 'difference found at index', i )
-
-                raise ValueError( 'unit test failed' )
+        compareLists( result1, result2 )
     else:
         if not compareValues( result1, result2 ):
             print( '**** error in results comparison' )
