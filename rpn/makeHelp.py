@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2048
+MAX_EXAMPLE_COUNT = 2057
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -536,22 +536,23 @@ this happens, but it's probably something stupid on my part.
 
 '$varname' syntax doesn't work in interactive mode!
 
-Using 'for_each' on a nested list should give a nice error message.
-
-'rpn [ 1 2 3 ] lambda x 2 + for_each' crashes.  I'm not sure why it crashes,
-and I'm not even sure what it should do.
+"rpn 4 lambda 1 x range powerset geometric_mean eval" loses the first item in
+the powerset.  Trying it without 'geometric_mean' shows the powerset correctly.
+But adding the 'geometric_mean' operator gives results that clearly don't
+include the first result of the powerset '[ 1 ]'.
 
 -i doesn't work for lists.
 
 '(' and ')' (multiple operators) don't work with generators because the
 generator only works once.   The structure of the evaluator won't allow me to
-fix this, I think..  It may have to wait until I convert all rpn expressions to
+fix this, I think.  It may have to wait until I convert all rpn expressions to
 Python before this can be fixed.
 
 'collate' does not work with generators.
 
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
-related operators probably do the same thing.
+related operators probably do the same thing.   This appears to be a timezone
+issue.
 
 -d needs to parse out the scientific notation part of the value
 
@@ -1281,6 +1282,14 @@ Added the 'bitwise_xnor', 'from_french_republican', 'to_french_republican',
 A fix was made to support using rpn on OS X.
 
 A number of bugs were fixed, and I did extensive touch-ups based on pylint.
+
+8.5.0
+
+Much more thorough argument validation has been implemented on all operators.
+In addition, all non-constant operator function names now end with 'Operator',
+which means I can be sure they are not being called recursively, or being called
+by other operator functions, so that the argument expansion and validation isn't
+being done more than once.
     ''',
     'license' :
     '''
@@ -8836,9 +8845,21 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
     'collatz' : [
 'number_theory', 'returns the first k members of the Collatz sequence of n',
 '''
+From https://en.wikipedia.org/wiki/Collatz_conjecture:
+
+The Collatz conjecture is a conjecture in mathematics that concerns a sequence
+defined as follows:  start with any positive integer n.  Then each term is
+obtained from the previous term as follows:  if the previous term is even, the
+next term is one half of the previous term.  If the previous term is odd, the
+next term is 3 times the previous term plus 1.  The conjecture is that no matter
+what value of n, the sequence will always reach 1.
+
+This operator will generate the first k elements of the Collatz sequence for n,
+or until 1 is reached.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 10 collatz' ) + '''
+''' + makeCommandExample( '74 25 collatz' ),
 [ 'aliquot' ] ],
 
     'count_divisors' : [
@@ -8858,12 +8879,13 @@ can generate prohibitively large lists for numbers with a lot of factors.
     'crt' : [
 'number_theory', 'calculates Chinese Remainder Theorem result of a list n of values and a list k of modulos',
 '''
-So using the Chinese Remainder Theorem, this function calculates a number that
-is equal to n[ x ] modulo k[ x ], with x iterating through the indices of each
+Using the Chinese Remainder Theorem, this function calculates a number that is
+equal to n[ x ] modulo k[ x ], with x iterating through the indices of each
 list (which must be the same size).
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 2 3 5 7 ] [ 1 2 3 4 ] crt' ) + '''
+''' + makeCommandExample( '[ 101 103 107 109 ] [ 21 22 23 25 ] crt' ),
 [ 'digital_root', 'harmonic_residue' ] ],
 
     'cyclotomic' : [
@@ -8872,24 +8894,33 @@ list (which must be the same size).
 ''',
 '''
 ''',
-[ ] ],
+[ 'nth_mobius', 'unit_roots' ] ],
 
     'digamma' : [
 'number_theory', 'calculates the digamma function for n',
 '''
+The digamma function is defined as the logarithmic derivative of the gamma
+function.
+
 This is the equivalent of '0 n polygamma'.
 ''',
 '''
-''',
-[ 'polygamma' ] ],
+''' + makeCommandExample( '1 10 10 geometric_range digamma' ),
+[ 'polygamma', 'trigamma' ] ],
 
     'digital_root' : [
-'number_theory', 'returns the digital root of N',
+'number_theory', 'returns the digital root of n',
 '''
-https://en.wikipedia.org/wiki/Digital_root
+From https://en.wikipedia.org/wiki/Digital_root:
+
+The digital root (also repeated digital sum) of a natural number in a given
+number base is the (single digit) value obtained by an iterative process of
+summing digits, on each iteration using the result from the previous iteration
+to compute a digit sum.  The process continues until a single-digit number is
+reached.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 20 range digital_root' ),
 [ 'harmonic_residue', 'crt' ] ],
 
     'divisors' : [
@@ -10168,21 +10199,32 @@ The Tribonacci constant:
     'trigamma' : [
 'number_theory', 'calculates the trigamma function for n',
 '''
+The trigamma function is defined as the logarithmic second derivative of the
+gamma function.
+
 This is the equivalent of '1 n polygamma'.
 ''',
 '''
-''' + makeCommandExample( '23 trigamma' ),
+''' + makeCommandExample( '1 10 10 geometric_range trigamma' ),
 [ 'polygamma' ] ],
 
     'unit_roots' : [
 'number_theory', 'calculates the nth roots of unity',
 '''
+From https://en.wikipedia.org/wiki/Root_of_unity:
+
+In mathematics, a root of unity, occasionally called a de Moivre number, is any
+complex number that yields 1 when raised to some positive integer power n.
+Roots of unity are used in many branches of mathematics, and are especially
+important in number theory, the theory of group characters, and the discrete
+Fourier transform.
+
 ''',
 '''
 ''' + makeCommandExample( '2 unit_roots' ) + '''
 ''' + makeCommandExample( '3 unit_roots' ) + '''
 ''' + makeCommandExample( '4 unit_roots' ),
-[ 'root' ] ],
+[ 'cyclotomic', 'root' ] ],
 
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
@@ -10378,24 +10420,56 @@ order), from one of the following combinations of units:
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
 '''
+From https://en.wikipedia.org/wiki/Escape_velocity:
+
+In physics (specifically, celestial mechanics), escape velocity is the minimum
+speed needed for a free, non-propelled object to escape from the gravitational
+influence of a massive body, that is, to achieve an infinite distance from it.
+Escape velocity is a function of the mass of the body and distance to the center
+of mass of the body.
+
+A rocket, continuously accelerated by its exhaust, need not reach ballistic
+escape velocity at any distance since it is supplied with additional kinetic
+energy by the expulsion of its reaction mass.  It can achieve escape at any
+speed, given a suitable mode of propulsion and sufficient propellant to provide
+the accelerating force on the object to escape.
 ''',
 '''
-''',
+''' + makeCommandExample( 'earth_mass earth_radius escape_velocity' ) + '''
+''' + makeCommandExample( 'moon_mass moon_radius escape_velocity' ),
 [ 'velocity', 'acceleration', 'orbital_velocity' ] ],
 
     'heat_index' : [
 'physics', 'calculates the heat index given the temperature and the relative humidity',
 '''
-Ref:  https://en.wikipedia.org/wiki/Heat_index
+From https://en.wikipedia.org/wiki/Heat_index:
+
+The heat index (HI) is an index that combines air temperature and relative
+humidity, in shaded areas, to posit a human-perceived equivalent temperature, as
+how hot it would feel if the humidity were some other value in the shade.  The
+result is also known as the "felt air temperature", "apparent temperature",
+"real feel" or "feels like".  For example, when the temperature is 32 degrees C
+(90 degrees F) with 70% relative humidity, the heat index is 41 degrees C (106
+degrees F).
+
+The heat index was developed in 1979 by Robert G. Steadman.  Like the wind chill
+index, the heat index contains assumptions about the human body mass and height,
+clothing, amount of physical activity, individual heat tolerance, sunlight and
+ultraviolet radiation exposure, and the wind speed.  Significant deviations from
+these will result in heat index values which do not accurately reflect the
+perceived temperature
 ''',
 '''
 ''' + makeCommandExample( '90 degrees_F 50 percent heat_index' ) + '''
+''' + makeCommandExample( '90 degrees_F 70 percent heat_index' ) + '''
 ''' + makeCommandExample( '30 degrees_C 80 percent heat_index' ),
 [ 'wind_chill' ] ],
 
     'horizon_distance' : [
-'physics', 'calculates the distance to the horizon for altitude n on a body of radius k (assuming the body is a perfect sphere)',
+'physics', 'calculates the distance to the horizon for altitude n on a body of radius k',
 '''
+This operator calculates the distance to the horizon for altitude n on a body of
+radius k, assuming the body is a perfect sphere.
 ''',
 '''
 ''' + makeCommandExample( '6 feet earth_radius horizon_distance' ) + '''

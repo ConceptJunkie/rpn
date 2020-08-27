@@ -1159,7 +1159,12 @@ def forEach( listArg, func ):
         raise ValueError( '\'for_each\' expects a function argument' )
 
     for i in listArg:
-        yield func.evaluate( *i )
+        if isinstance( i, RPNGenerator ):
+            yield func.evaluate( *list( i ) )
+        elif isinstance( i, list ):
+            yield func.evaluate( *i )
+        else:
+            yield func.evaluate( i )
 
 def forEachOperator( listArg, func ):
     return RPNGenerator( forEach( listArg,func ) )

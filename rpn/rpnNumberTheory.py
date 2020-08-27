@@ -2504,12 +2504,11 @@ def getHurwitzZetaOperator( n, k ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def getCollatzSequenceGenerator( n, k ):
     if n == 0:
+        yield 0
         return
-
+        
     a = n
 
     for _ in arange( 0, k - 1 ):
@@ -2528,7 +2527,7 @@ def getCollatzSequenceGenerator( n, k ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def getCollatzSequenceOperator( n, k ):
-    return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )
+    return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, fadd( k, 1 ) ] )
 
 
 #******************************************************************************

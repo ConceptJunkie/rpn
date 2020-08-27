@@ -34,7 +34,7 @@ def runHelpTests( ):
     testOperator( 'help options', False )
     testOperator( 'help output', False )
     testOperator( 'help release_notes', False )
-    testOperator( 'help release_notes_5', False )
+    testOperator( 'help old_release_notes', False )
     testOperator( 'help time_features', False )
     testOperator( 'help unit_conversion', False )
     testOperator( 'help unit_types', False )

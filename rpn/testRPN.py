@@ -359,6 +359,11 @@ def runArithmeticOperatorTests( ):
     expectEqual( '1 100 range 1 100 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags',
                  '179871 oeis 100 filter_max' )
 
+    expectEqual( '0 5000 range lambda x get_digits mean is_integer filter', '61383 oeis 5000 filter_max' )
+
+    if slow:
+        expectEqual( '0 46983 range lambda x get_digits mean is_integer filter', '61383 oeis 10001 left' )
+
     if slow:
         expectEqual( '1 1000 range 1 1000 range lambda x y gcd2 1 equals filter_integers antiharmonic_mean is_integer filter_on_flags',
                      '179871 oeis 1000 filter_max' )
@@ -634,6 +639,8 @@ def runArithmeticOperatorTests( ):
     # mantissa
     expectException( '3.4j 0.5 + mantissa' )
 
+    expectEqual( 'phi mantissa', 'phi 1/x' )
+
     expectEqual( '-p180 1 3000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 2 left' )
 
     if slow:
@@ -685,11 +692,14 @@ def runArithmeticOperatorTests( ):
     expectException( '20j 3 modulo' )
 
     # multiply
-    testOperator( '15 mph 10 hours *' )
-    testOperator( 'c 1 nanosecond * inches convert' )
-    testOperator( '10 5j + 20 4j + *' )
+    testOperator( '15 mph 10 hours multiply' )
+    testOperator( 'c 1 nanosecond multiply inches convert' )
+    testOperator( '10 5j + 20 4j + multiply' )
 
     expectResult( '5 7 multiply', 35 )
+
+    expectEqual( '5 feet 2 feet multiply', '10 feet^2' )
+    expectEqual( 'i i multiply', '-1' )
 
     # nearest_int
     expectResult( '0.1 nearest_int', 0 )
@@ -1022,7 +1032,7 @@ def runBitwiseOperatorTests( ):
     expectEqual( '0 999 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 1000 left' )
 
     if slow:
-        expectEqual( '1 16384 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 16384 left' )
+        expectEqual( '0 16383 range lambda x x 1 + bitwise_not bitwise_and eval', '135481 oeis 16384 left' )
 
     # bitwise_or
     expectEqual( '1 200 range lambda x x sigma x - bitwise_or eval', '318456 oeis 200 left' )
@@ -2207,16 +2217,16 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
 
     # heptagonal_hexagonal
-    expectEqual( '-a1000 1 200 range heptagonal_hexagonal', '-a500 48901 oeis 200 left hexagonal' )
+    expectEqual( '-a1000 1 200 range heptagonal_hexagonal', '-a1000 48901 oeis 200 left hexagonal' )
 
     # heptagonal_pentagonal
-    expectEqual( '-a2000 1 558 range heptagonal_pentagonal', '-a1000 46198 oeis 558 left heptagonal' )
+    expectEqual( '-a2000 1 558 range heptagonal_pentagonal', '-a2000 46198 oeis 558 left heptagonal' )
 
     # heptagonal_square
-    expectEqual( '-a210 1 100 range heptagonal_square', '-a1000 46195 oeis 100 left heptagonal' )
+    expectEqual( '-a210 1 100 range heptagonal_square', '-a2000 46195 oeis 100 left heptagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 950 range heptagonal_square', '-a1000 46195 oeis 950 left heptagonal' )
+        expectEqual( '-a2000 1 950 range heptagonal_square', '-a2000 46195 oeis 950 left heptagonal' )
 
     # heptagonal_triangular
     expectEqual( '-a1000 1 100 range heptagonal_triangular', '-a1000 46194 oeis 100 left' )
@@ -2255,40 +2265,40 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 10000 range nonagonal', '1106 oeis 10001 left' )
 
     # nonagonal_heptagonal
-    expectEqual( '-a1000 1 50 range nonagonal_heptagonal', '-a1000 48921 oeis 50 left' )
+    expectEqual( '-a1000 1 50 range nonagonal_heptagonal', '48921 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a1000 1 233 range nonagonal_heptagonal', '-a1000 48921 oeis 233 left' )
+        expectEqual( '-a1200 1 233 range nonagonal_heptagonal', '48921 oeis 233 left' )
 
     # nonagonal_hexagonal
-    expectEqual( '-a250 1 50 range nonagonal_hexagonal', '-a1000 48918 oeis 50 left' )
+    expectEqual( '-a250 1 50 range nonagonal_hexagonal', '48918 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a1000 1 208 range nonagonal_hexagonal', '-a1000 48918 oeis 208 left' )
+        expectEqual( '-a1000 1 208 range nonagonal_hexagonal', '48918 oeis 208 left' )
 
     # nonagonal_octagonal
     expectEqual( '-a300 1 50 range nonagonal_octagonal', '48924 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a600 1 100 range nonagonal_octagonal', '-a1000 48924 oeis 100 left' )
+        expectEqual( '-a600 1 100 range nonagonal_octagonal', '48924 oeis 100 left' )
 
     # nonagonal_pentagonal
-    expectEqual( '-a200 1 50 range nonagonal_pentagonal', '-a1000 48913 oeis 50 left nonagonal' )
+    expectEqual( '-a200 1 50 range nonagonal_pentagonal', '-a200 48913 oeis 50 left nonagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 490 range nonagonal_pentagonal', '-a1000 48913 oeis 490 left nonagonal' )
+        expectEqual( '-a2000 1 490 range nonagonal_pentagonal', '-a2000 48913 oeis 490 left nonagonal' )
 
     # nonagonal_square
-    expectEqual( '-a75 1 50 range nonagonal_square', '-a1000 36411 oeis 50 left' )
+    expectEqual( '-a75 1 50 range nonagonal_square', '36411 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a300 1 200 range nonagonal_square', '-a1000 36411 oeis 200 left' )
+        expectEqual( '-a300 1 200 range nonagonal_square', '36411 oeis 200 left' )
 
     # nonagonal_triangular
-    expectEqual( '-a500 1 50 range nonagonal_triangular', '-a1000 48909 oeis 50 left' )
+    expectEqual( '-a500 1 50 range nonagonal_triangular', '48909 oeis 50 left' )
 
     if slow:
-        expectEqual( '-a500 1 416 range nonagonal_triangular', '-a1000 48909 oeis 416 left' )
+        expectEqual( '-a1000 1 416 range nonagonal_triangular', '48909 oeis 416 left' )
 
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )
@@ -2379,16 +2389,16 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '0 1000 range pentagonal', '326 oeis 1001 left' )
 
     # pentagonal_square
-    expectEqual( '-a400 1 100 range pentagonal_square', '-a200 46172 oeis 100 left pentagonal' )
+    expectEqual( '-a400 1 100 range pentagonal_square', '-a400 46172 oeis 100 left pentagonal' )
 
     if slow:
-        expectEqual( '-a2000 1 503 range pentagonal_square', '-a1000 46172 oeis 503 left pentagonal' )
+        expectEqual( '-a2000 1 503 range pentagonal_square', '-a2000 46172 oeis 503 left pentagonal' )
 
     # pentagonal_triangular
-    expectEqual( '-a250 0 100 range pentagonal_triangular', '-a120 46174 oeis 101 left pentagonal' )
+    expectEqual( '-a250 0 100 range pentagonal_triangular', '-a250 46174 oeis 101 left pentagonal' )
 
     if slow:
-        expectEqual( '-a250 0 500 range pentagonal_triangular', '-a1000 46174 oeis 501 left pentagonal' )
+        expectEqual( '-a1000 0 500 range pentagonal_triangular', '-a1000 46174 oeis 501 left pentagonal' )
 
     # pentatope
     expectEqual( '1 99 range pentatope', '332 oeis 103 left 99 right' )
@@ -2506,6 +2516,7 @@ def runFunctionOperatorTests( ):
 
     # for_each
     testOperator( '[ [ 2 3 ] [ 4 5 ] ] lambda x y add for_each' )
+    expectEqual( '1 3 range lambda x 2 + for_each', '3 5 range' )
 
     # for_each_list
     expectEqual( '[ 1 100 range 1 100 range ] multiplex lambda x 0 element sqr x 1 element sqr + for_each_list unique sort lambda x is_square filter sqrt 100 filter_max',
@@ -2526,12 +2537,11 @@ def runFunctionOperatorTests( ):
     expectEqual( 'inf lambda 7 x / 1 + 3 x * ** limit', 'e 7 3 * **' )
 
     # limitn
-    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limitn' )
-
     expectEqual( '0 lambda x x sin / limitn', '1' )
 
-    # negate
+    # not
     expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
+    expectEqual( '1 100 range nth_thue_morse', '1 100 range nth_thue_morse not not' )
 
     # nprod
     testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
@@ -2788,9 +2798,14 @@ def runLexicographyOperatorTests( ):
 
     if slow:
         expectEqual( '1 100000 range triangular lambda x count_different_digits 2 equals filter',
-                     '62691 oeis 39 left' )
+                     '62691 oeis 38 left' )
 
     # count_digits
+    expectResult( '2233445 23 count_digits', 4 )
+    expectResult( '2233445 45 count_digits', 3 )
+    expectResult( '2233445 56 count_digits', 1 )
+    expectResult( '2233445 256 count_digits', 3 )
+    expectResult( '2233445 1 count_digits', 0 )
 
     # duplicate_digits
     expectResult( '543 2 duplicate_digits', 54343 )
@@ -2870,6 +2885,12 @@ def runLexicographyOperatorTests( ):
 
     # is_bouncy
     testOperator( '23 is_bouncy' )
+
+    expectEqual( '1 10000 range lambda x is_bouncy filter', '152054 oeis 10000 filter_max' )
+    expectEqual( '1 10000 range lambda x is_bouncy filter count', '204692 oeis 3 element' )
+
+    if slow:
+        expectEqual( '1 1000000 range lambda x is_bouncy filter count', '204692 oeis 5 element' )
 
     # is_decreasing
     testOperator( '13884576 is_decreasing' )
@@ -2975,6 +2996,7 @@ def runLexicographyOperatorTests( ):
     expectEqual( '123456789 multiply_digits', '9 !' )
     expectEqual( '1 2000 range lambda x 0 has_digits not filter lambda x multiply_digits 3 is_kth_power filter',
                  '237767 oeis 2000 filter_max' )
+    expectEqual( '1 10000 range sum_digits multiply_digits', '128244 oeis 10000 left' )
 
     if slow:
         expectEqual( '1 33883 range lambda x 0 has_digits not filter lambda x multiply_digits 3 is_kth_power filter',
@@ -3131,24 +3153,28 @@ def runListOperatorTests( ):
     testOperator( '-a25 1 100 range fibonacci 55 element' )
 
     # enumerate
-    testOperator( '1 5 range 1 enumerate' )
+    expectEqual( '1 5 range 1 enumerate', '[ [ 1 1 ] [ 2 2 ] [ 3 3 ] [ 4 4 ] [ 5 5 ] ]' )
 
     # exponential_range
-    testOperator( '1.1 1.1 10 exponential_range' )
+    expectEqual( '2 2 10 exponential_range', '0 9 range lambda 2 2 x ** ** eval' )
 
     # find
-    testOperator( '1 10 range 4 find' )
+    expectResult( '1 10 range 4 find', 3 )
+    expectResult( '1 10 range 1 find', 0 )
+    expectResult( '1 10 range 10 find', 9 )
+    expectResult( '1 10 range 14 find', -1 )
 
     # flatten
     expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
 
     # geometric_mean
-    testOperator( '1 1 10 range range geometric_mean' )
-    testOperator( '1 100 range geometric_mean' )
-    testOperator( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
+    expectEqual( '1 500 range lambda [ x sigma x euler_phi ] geometric_mean is_integer filter', '11257 oeis 500 filter_max' )
+    # rpn isn't smart enough to let me turn this into a lamdba I can run on a range, so let's just pick 2 particular values to try.
+    expectEqual( '12 lambda 1 x range powerset eval geometric_mean lambda x is_integer filter count', '326027 oeis 12 element' )
+    expectEqual( '14 lambda 1 x range powerset eval geometric_mean lambda x is_integer filter count', '326027 oeis 14 element' )
 
     # geometric_range
-    testOperator( '2 8 8 geometric_range' )
+    expectEqual( '2 8 8 geometric_range', '0 7 range lambda 2 8 x ** * eval' )
 
     # get_combinations
     testOperator( '[ 1 2 3 4 ] 2 get_combinations' )
@@ -3160,7 +3186,7 @@ def runListOperatorTests( ):
     testOperator( '[ 1 2 3 4 ] 2 get_permutations' )
 
     # group_elements
-    #expectEqual( '1 10 range 5 group_elements', '[ 1 5 range 6 10 range ]' )
+    expectEqual( '1 10 range 5 group_elements', '[ 1 5 range 6 10 range ]' )
     testOperator( '1 10 range 5 group_elements' )
 
     # interleave
@@ -3444,7 +3470,14 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a30 1 19 range 20 base' )
 
     # barnesg
-    expectEqual( '-a30 3 12 range barnesg', '-a30 1 10 range superfac' )
+    expectEqual( '3 1002 range barnesg', '1 1000 range superfac' )
+    expectEqual( '-a102 0.25 barnesg 10 100 ** * floor get_digits', '87013 oeis 100 left' )
+    expectEqual( '-a102 0.5 barnesg 10 100 ** * floor get_digits', '87014 oeis 100 left' )
+    expectEqual( '-a102 0.75 barnesg 10 100 ** * floor get_digits', '87015 oeis 100 left' )
+    expectEqual( '-a102 1.5 barnesg 10 99 ** * floor get_digits', '87016 oeis 100 left' )
+    expectEqual( '-a102 2.5 barnesg 10 100 ** * floor get_digits', '87017 oeis 100 left' )
+    expectEqual( '-a102 1 3 / barnesg 10 100 ** * floor get_digits', '252798 oeis 100 left' )
+    expectEqual( '-a102 2 3 / barnesg 10 100 ** * floor get_digits', '252799 oeis 100 left' )
 
     # beta
     testOperator( '5 2 beta' )
@@ -3452,11 +3485,24 @@ def runNumberTheoryOperatorTests( ):
     # calkin_wilf
     testOperator( '1 100 range calkin_wilf' )
 
+    expectEqual( '0 499 range calkin_wilf lambda x 0 element for_each_list', '2487 oeis 500 left' )
+    expectEqual( '5000 5099 range calkin_wilf lambda x 1 element for_each_list', '2487 oeis 5101 left 100 right' )
+    expectEqual( '9949 9998 range calkin_wilf lambda x 1 element for_each_list', '2487 oeis 10000 left 50 right' )
+
+    if slow:
+        expectEqual( '0 9998 range calkin_wilf lambda x 1 element for_each_list', '2487 oeis 10000 left 9999 right' )
+
     # cf
     testOperator( '1 10 range cf' )
 
     # collatz
     testOperator( '127 10 collatz' )
+
+    expectEqual( '0 999 range 1 collatz flatten', '6370 oeis 1000 left' )
+    expectEqual( '2 201 range 200 collatz lambda x length for_each_list 1 +', '8908 oeis 201 left 200 right' )
+
+    if slow:
+        expectEqual( '2 10000 range 300 collatz lambda x length for_each_list 1 +', '8908 oeis 10000 left 9999 right' )
 
     # count_divisors
     expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
@@ -3474,6 +3520,15 @@ def runNumberTheoryOperatorTests( ):
 
     expectResult( '[ 2 3 2 ] [ 3 5 7 ] crt', 23 )
 
+    # rpn isn't smart enough to let me turn this into a user-defined function, so we'll just try a few values.
+    expectEqual( '1 10 range 1 10 primes crt', '53664 oeis 9 element' )
+    expectEqual( '-a50 1 20 range 1 20 primes crt', '53664 oeis 19 element' )
+    expectEqual( '-a100 1 30 range 1 30 primes crt', '53664 oeis 29 element' )
+    expectEqual( '-a500 1 100 range 1 100 primes crt', '53664 oeis 99 element' )
+    expectEqual( '-a1500 1 200 range 1 200 primes crt', '53664 oeis 199 element' )
+    expectEqual( '-a1700 1 300 range 1 300 primes crt', '53664 oeis 299 element' )
+    expectEqual( '-a2000 1 350 range 1 350 primes crt', '53664 oeis 349 element' )
+
     # cyclotomic
 
     # digamma
@@ -3483,6 +3538,7 @@ def runNumberTheoryOperatorTests( ):
     expectException( '-1 digamma' )
 
     # digital_root
+    expectEqual( '0 10000 range digital_root', '10888 oeis 10001 left' )
 
     # divisors
     testOperator( '2 3 ** 3 4 ** * divisors' )
@@ -3639,7 +3695,8 @@ def runNumberTheoryOperatorTests( ):
         #expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
 
     # hurwitz_zeta
-    expectEqual( '1 1 100 range range square 1/x sum', '2 zeta 2 2 101 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
+    expectEqual( '1 1 200 range range square 1/x sum', '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
+    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval', '-p100 173947 oeis 173948 oeis / 250 left 249 right' )
 
     # hyperfactorial
     expectEqual( '-a120 0 10 range hyperfactorial', '2109 oeis 11 left' )
@@ -4011,10 +4068,11 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 14 range nth_perfect_number', '396 oeis 14 left' )
 
     # nth_stern
-    expectEqual( '0 99 range nth_stern', '2487 oeis 100 left' )
+    expectEqual( '0 499 range nth_stern', '2487 oeis 500 left' )
+    expectEqual( '9901 10000 range nth_stern', '2487 oeis 10001 left 100 right' )
 
     if slow:
-        expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
+        expectEqual( '0 10000 range nth_stern', '2487 oeis 10001 left' )
 
     # nth_thabit
     expectEqual( '0 998 range nth_thabit', '55010 oeis 1000 left 999 right' )
@@ -4025,7 +4083,10 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a700 0 1500 range lambda x nth_thabit_2 is_prime filter', '2253 oeis 1500 filter_max' )
 
     # nth_thue_morse
-    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
+    expectEqual( '0 4000 range nth_thue_morse', '10060 oeis 4001 left' )
+
+    if slow:
+        expectEqual( '0 16383 range nth_thue_morse', '10060 oeis 16384 left' )
 
     # octanacci
     expectEqual( '-a30 0 29 range octanacci', '79262 oeis 30 left' )
@@ -4080,6 +4141,11 @@ def runNumberTheoryOperatorTests( ):
 
     # radical
     testOperator( '1 10 range radical' )
+
+    expectEqual( '1 1000 range radical', '7947 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 100000 range radical', '7947 oeis 100000 left' )
 
     # repunit
     expectEqual( '-a300 1 250 range 15 repunit', '135518 oeis 250 left' )
@@ -4203,12 +4269,15 @@ def runNumberTheoryOperatorTests( ):
 
     if slow:
         expectEqual( '-a25 0 1000 range tribonacci', '73 oeis 1001 left' )
-
-    if slow:
         expectEqual( '-a275 0 3000 range tribonacci', '73 oeis 3001 left' )
 
     # trigamma
     testOperator( '3 trigamma' )
+
+    expectEqual( '-a2002 0.5 trigamma 10 1999 ** * floor get_digits', '102753 oeis 2000 left' )
+
+    if slow:
+        expectEqual( '-a10002 0.5 trigamma 10 9999 ** * floor get_digits', '102753 oeis 10000 left' )
 
     # unit_roots
     testOperator( '7 unit_roots -s1' )

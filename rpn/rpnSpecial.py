@@ -258,9 +258,7 @@ def downloadOEISOffsetOperator( n ):
 #
 # ******************************************************************************
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
-def downloadOEISTableOperator( aNumber ):
+def downloadOEISTable( aNumber ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
     except:
@@ -288,6 +286,11 @@ def downloadOEISTableOperator( aNumber ):
         result.append( int( line.split( )[ 1 ] ) )
 
     return result, True
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def downloadOEISTableOperator( aNumber ):
+    downloadOEISTable( aNumber )
 
 
 # ******************************************************************************
