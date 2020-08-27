@@ -51,14 +51,14 @@ def getLocalTimeZone( ):
 class RPNDateTime( arrow.Arrow ):
     '''This class wraps the Arrow class, with lots of convenience functions and
     implements support for date math.'''
-    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = getLocalTimeZone( ), dateOnly = False ):
+    def __init__( self, year, month, day, hour=0, minute=0, second=0,
+                  microsecond = 0, tzinfo = getLocalTimeZone( ), fold=0, dateOnly=False ):
         self.dateOnly = dateOnly
-        super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
-                                             int( hour ), int( minute ), int( second ),
-                                             int( microsecond ), tzinfo )
+        super( RPNDateTime, self ).__init__( year=int( year ), month=int( month ), day=int( day ),
+                                             hour=int( hour ), minute=int( minute ), second=int( second ),
+                                             microsecond=int( microsecond ), tzinfo=tzinfo, fold=fold )
 
-    def setDateOnly( self, dateOnly = True ):
+    def setDateOnly( self, dateOnly=True ):
         self.dateOnly = dateOnly
 
     def getDateOnly( self ):
@@ -75,11 +75,11 @@ class RPNDateTime( arrow.Arrow ):
         return ( self.year, self.month, self.day )
 
     @staticmethod
-    def getUTCOffset( timeZone = getLocalTimeZone( ) ):
+    def getUTCOffset( timeZone=getLocalTimeZone( ) ):
         dateTime = datetime.datetime.now( timeZone )
         return RPNMeasurement( dateTime.utcoffset( ).total_seconds( ), 'seconds' )
 
-    def getLocalTime( self, timeZone = getLocalTimeZone( ) ):
+    def getLocalTime( self, timeZone=getLocalTimeZone( ) ):
         result = self
         result = result.add( self.getUTCOffset( timeZone ) )
         #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
