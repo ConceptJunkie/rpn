@@ -14,11 +14,11 @@
 
 import calendar
 import datetime
-import pytz
 
 import arrow
 
 from dateutil import tz
+from functools import lru_cache
 
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
@@ -29,17 +29,29 @@ import rpn.rpnGlobals as g
 
 #******************************************************************************
 #
+#  getUTCOffset
+#
+#******************************************************************************
+
+def getUTCOffset( timeZone ):
+    dateTime = datetime.datetime.now( timeZone )
+    return RPNMeasurement( dateTime.utcoffset( ).total_seconds( ), 'seconds' )
+
+
+#******************************************************************************
+#
 #  getLocalTimeZone
 #
 #******************************************************************************
 
+@lru_cache( 1 )
 def getLocalTimeZone( ):
     if 'time_zone' in g.userVariables:
-        return pytz.timezone( g.userVariables[ 'time_zone' ] )
-    elif tz.tzlocal( ) is None:
-        return pytz.timezone( 'US/Eastern' )
-    else:
-        return tz.tzlocal( )
+        #print( 'tz from g.userVariables' )
+        return tz.gettz( g.userVariables[ 'time_zone' ] )
+
+    #print( 'tz from tz.gettz( )', tz.gettz( ), getUTCOffset( tz.gettz( ) ).value )
+    return tz.gettz( )
 
 
 #******************************************************************************
@@ -49,10 +61,15 @@ def getLocalTimeZone( ):
 #******************************************************************************
 
 class RPNDateTime( arrow.Arrow ):
-    '''This class wraps the Arrow class, with lots of convenience functions and
-    implements support for date math.'''
+    '''
+    This class wraps the Arrow class, with lots of convenience functions and
+    implements support for date math.
+
+    There was a temptation here to try to normalize timezones in this class, but
+    I decided it's best left to the operator functions.
+    '''
     def __init__( self, year, month, day, hour=0, minute=0, second=0,
-                  microsecond = 0, tzinfo = getLocalTimeZone( ), fold=0, dateOnly=False ):
+                  microsecond=0, tzinfo=getLocalTimeZone( ), fold=0, dateOnly=False ):
         self.dateOnly = dateOnly
         super( RPNDateTime, self ).__init__( year=int( year ), month=int( month ), day=int( day ),
                                              hour=int( hour ), minute=int( minute ), second=int( second ),
@@ -74,14 +91,11 @@ class RPNDateTime( arrow.Arrow ):
     def getYMD( self ):
         return ( self.year, self.month, self.day )
 
-    @staticmethod
-    def getUTCOffset( timeZone=getLocalTimeZone( ) ):
-        dateTime = datetime.datetime.now( timeZone )
-        return RPNMeasurement( dateTime.utcoffset( ).total_seconds( ), 'seconds' )
-
     def getLocalTime( self, timeZone=getLocalTimeZone( ) ):
         result = self
-        result = result.add( self.getUTCOffset( timeZone ) )
+        result = result.subtract( getUTCOffset( self.tzinfo ) )
+        result = result.add( getUTCOffset( timeZone ) )
+        result.tzinfo = timeZone
         #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
         return result
 
@@ -117,27 +131,27 @@ class RPNDateTime( arrow.Arrow ):
             return -1
         elif self.month > value.month:
             return 1
-        elif self.month > value.month:
+        elif self.month < value.month:
             return -1
         elif self.day > value.day:
             return 1
-        elif self.day > value.day:
+        elif self.day < value.day:
             return -1
         elif self.hour > value.hour:
             return 1
-        elif self.hour > value.hour:
+        elif self.hour < value.hour:
             return -1
         elif self.minute > value.minute:
             return 1
-        elif self.minute > value.minute:
+        elif self.minute < value.minute:
             return -1
         elif self.second > value.second:
             return 1
-        elif self.second > value.second:
+        elif self.second < value.second:
             return -1
         elif self.microsecond > value.microsecond:
             return 1
-        elif self.microsecond > value.microsecond:
+        elif self.microsecond < value.microsecond:
             return -1
         else:
             return 0

@@ -115,13 +115,14 @@ from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayO
                             calculateNthWeekdayOfMonthOperator, calculateNthWeekdayOfYearOperator, \
                             calculatePentecostSundayOperator, calculatePresidentsDayOperator, \
                             calculateThanksgivingOperator, convertFromUnixTimeOperator, \
-                            convertToDHMSOperator, convertToHMSOperator, convertToYDHMSOperator, \
+                            convertTimeZoneOperator, convertToDHMSOperator, convertToHMSOperator, convertToYDHMSOperator, \
                             convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, \
                             getEpiphanyDayOperator, getHourOperator, getIndependenceDayOperator, getISODayOperator, \
-                            getMinuteOperator, getMonthOperator, getNewYearsDayOperator, getNowOperator, \
-                            getSecondOperator, getTodayOperator, getTomorrowOperator, getVeteransDayOperator, \
-                            getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, \
-                            makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, RPNDateTime
+                            getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator,\
+                            getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, \
+                            getVeteransDayOperator, getWeekdayOperator, getWeekdayNameOperator, getYearOperator, \
+                            getYesterdayOperator, makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, \
+                            RPNDateTime, setTimeZoneOperator
 
 from rpn.rpnDice import enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
                         rollMultipleDiceOperator, rollSimpleDiceOperator
@@ -2734,14 +2735,18 @@ operators = {
     'ydhms'                             : RPNOperator( convertToYDHMSOperator, 1 ),
 
     # date_time
+    'convert_time_zone'                 : RPNOperator( convertTimeZoneOperator, 2 ),
     'get_year'                          : RPNOperator( getYearOperator, 1 ),
     'get_month'                         : RPNOperator( getMonthOperator, 1 ),
     'get_day'                           : RPNOperator( getDayOperator, 1 ),
     'get_hour'                          : RPNOperator( getHourOperator, 1 ),
+    'get_local_time'                    : RPNOperator( getLocalTimeOperator, 1 ),
     'get_minute'                        : RPNOperator( getMinuteOperator, 1 ),
     'get_second'                        : RPNOperator( getSecondOperator, 1 ),
+    'get_utc'                           : RPNOperator( getUTCOperator, 1 ),
     'iso_day'                           : RPNOperator( getISODayOperator, 1 ),
     'now'                               : RPNOperator( getNowOperator, 0 ),
+    'set_time_zone'                     : RPNOperator( setTimeZoneOperator, 2 ),
     'today'                             : RPNOperator( getTodayOperator, 0 ),
     'tomorrow'                          : RPNOperator( getTomorrowOperator, 0 ),
     'yesterday'                         : RPNOperator( getYesterdayOperator, 0 ),

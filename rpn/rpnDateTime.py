@@ -14,7 +14,6 @@
 
 import calendar
 import datetime
-import pytz
 
 import arrow
 
@@ -22,11 +21,11 @@ from dateutil import tz
 
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
-from rpn.rpnDateTimeClass import RPNDateTime
+from rpn.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMeasurement import convertUnits
-from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator
+from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator, \
                              ListValidator
 
@@ -63,21 +62,6 @@ DECEMBER = 12
 
 #******************************************************************************
 #
-#  getLocalTimeZone
-#
-#******************************************************************************
-
-def getLocalTimeZone( ):
-    if 'time_zone' in g.userVariables:
-        return pytz.timezone( g.userVariables[ 'time_zone' ] )
-    elif tz.tzlocal( ) is None:
-        return pytz.timezone( 'US/Eastern' )
-    else:
-        return tz.tzlocal( )
-
-
-#******************************************************************************
-#
 #  convertToUnixTimeOperator
 #
 #******************************************************************************
@@ -107,7 +91,7 @@ def convertToUnixTimeOperator( n ):
 @argValidator( [ IntValidator( ) ] )
 def convertFromUnixTimeOperator( n ):
     try:
-        result = RPNDateTime.parseDateTime( int( n ) )
+        result = RPNDateTime.parseDateTime( int( n ) ).getLocalTime( )
     except OverflowError:
         raise ValueError( 'out of range error' )
     except TypeError:
@@ -251,7 +235,7 @@ def makeDateTimeOperator( n ):
 #******************************************************************************
 
 def getNow( ):
-    return RPNDateTime.now( tzinfo = getLocalTimeZone( ) )
+    return RPNDateTime.now( tzinfo=getLocalTimeZone( ) )
 
 def getNowOperator( ):
     return getNow( )
@@ -861,7 +845,7 @@ def getMinuteOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getSecondOperator( n ):
-    return n.second + n.microsecond / 1000000
+    return n.second
 
 
 #******************************************************************************
@@ -873,3 +857,54 @@ def getSecondOperator( n ):
 def isDST( dateTime, timeZone ):
     return dateTime.astimezone( timeZone ).dst( ) != datetime.timedelta( 0 )
 
+
+#******************************************************************************
+#
+#  setUTCOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ DateTimeValidator( ) ] )
+def getUTCOperator( datetime ):
+    return datetime.to( 'utc' )
+
+
+#******************************************************************************
+#
+#  setLocalTimeOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ DateTimeValidator( ) ] )
+def getLocalTimeOperator( datetime ):
+    return datetime.getLocalTime( )
+
+
+#******************************************************************************
+#
+#  setTimeZoneOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+#@argValidator( [ DateTimeValidator( ) ] )
+def setTimeZoneOperator( datetime, timezone ):
+    tz = arrow.now( timezone ).tzinfo
+    datetime = RPNDateTime.parseDateTime( datetime )
+    datetime.tzinfo = tz
+    return datetime
+
+
+#******************************************************************************
+#
+#  convertTimeZoneOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+#@argValidator( [ DateTimeValidator( ) ] )
+def convertTimeZoneOperator( datetime, timezone ):
+    tz = arrow.now( timezone ).tzinfo
+    return datetime.to( tz )

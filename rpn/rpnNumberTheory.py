@@ -1789,7 +1789,7 @@ def isKSemiprime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def isKSemiprimeOperator( n, k ):
     return isKSemiprime( n, k )
 
@@ -1797,7 +1797,7 @@ def isSemiprime( n ):
     return isKSemiprime( n, 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
+@argValidator( [ IntValidator( 0 ) ] )
 def isSemiprimeOperator( n ):
     return isSemiprime( n )
 
@@ -2508,7 +2508,7 @@ def getCollatzSequenceGenerator( n, k ):
     if n == 0:
         yield 0
         return
-        
+
     a = n
 
     for _ in arange( 0, k - 1 ):

@@ -72,12 +72,13 @@ class RPNValidator( ):
     List =                  1 << 11     # the argument must be a list
     Generator =             1 << 12     # Generator is a separate type now, but eventually it should be equivalent to List
     Function =              1 << 13
+    TimeZone =              1 << 14
 
     # These will be eliminated
-    NonnegativeReal =       1 << 14
-    PositiveInteger =       1 << 15
-    NonnegativeInteger =    1 << 16
-    PrimeInteger =          1 << 17
+    NonnegativeReal =       1 << 15
+    PositiveInteger =       1 << 16
+    NonnegativeInteger =    1 << 17
+    PrimeInteger =          1 << 18
 
     type = Default
     min = None

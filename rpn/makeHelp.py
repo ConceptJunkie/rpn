@@ -550,10 +550,6 @@ Python before this can be fixed.
 
 'collate' does not work with generators.
 
-Chained calls to 'next_new_moon' give the same answer over and over.  Other
-related operators probably do the same thing.   This appears to be a timezone
-issue.
-
 -d needs to parse out the scientific notation part of the value
 
 Converting negative numbers to different bases gives weird answers.
@@ -5658,10 +5654,10 @@ number of seconds since the epoch, January 1, 1970 00:00:00.  Times from before
 the epoch are undefined for this operator.
 ''',
 '''
-''' + makeCommandExample( '"1970-01-01 00:01:00" to_unix_time' ) + '''
+''' + makeCommandExample( '"1970-01-01 00:00:00" utc set_time_zone to_unix_time' ) + '''
 ''' + makeCommandExample( '2001-01-01 to_unix_time' ) + '''
 ''' + makeCommandExample( '2020-08-05 to_unix_time' ) + '''
-''' + makeCommandExample( '"2038-01-19 03:14:07" to_unix_time' ),
+''' + makeCommandExample( '"2038-01-18 22:14:07" utc set_time_zone to_unix_time' ),
 [ 'from_unix_time' ] ],
 
     'uchar' : [
@@ -5795,6 +5791,17 @@ and seconds.
     #
     #******************************************************************************
 
+    'convert_time_zone' : [
+'date_time', 'converts the date-time n to the timezone k',
+'''
+This operator converts the date-time value of n to the timezone of k.
+
+To set the timezone for a particular date-time value without converting, use 'set_time_zone".
+''',
+'''
+''',
+[ 'set_time_zone', 'get_local_time' ] ],
+
     'iso_day' : [
 'date_time', 'returns the ISO day and week for a date-time value',
 '''
@@ -5820,6 +5827,14 @@ and seconds.
 ''',
 [ 'get_minute', 'get_second' ] ],
 
+    'get_local_time' : [
+'date_time', 'convert a datetime to the local timezone',
+'''
+''',
+'''
+''',
+[ 'set_time_zone', 'get_utc' ] ],
+
     'get_minute' : [
 'date_time', 'returns the minute value of a date-time',
 '''
@@ -5843,6 +5858,14 @@ and seconds.
 '''
 ''',
 [ 'get_minute', 'get_second' ] ],
+
+    'get_utc' : [
+'date_time', 'returns the datetime converted to UTC time',
+'''
+''',
+'''
+''',
+[ 'get_local_time', 'set_time_zone' ] ],
 
     'get_year' : [
 'date_time', 'returns the year value of a date-time',
@@ -5884,6 +5907,19 @@ and seconds.
 ''' + makeCommandExample( 'today' ) + '''
 ''' + makeCommandExample( 'now' ),
 [ 'today' ] ],
+
+    'set_time_zone' : [
+'date_time', 'sets the date-time n to the timezone k',
+'''
+This operator sets the timezone value of n to timezone k.  It does not convert
+the date-time value to a different time zone.  It is used to specift a time in a
+different timezone.
+
+To convert a date-time value to a different time zone, use 'convert_time_zone'.
+''',
+'''
+''',
+[ 'convert_time_zone', 'get_local_time' ] ],
 
     'today' : [
 'date_time', 'returns the current date',

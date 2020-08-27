@@ -14,8 +14,9 @@
 
 import ephem
 
+from dateutil import tz
+
 from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
-from pytz import timezone
 from skyfield import almanac
 
 from rpn.rpnDateTime import RPNDateTime
@@ -98,10 +99,13 @@ class RPNAstronomicalObject( ):
         location.observer.date = date.to( 'utc' ).format( )
         location.observer.horizon = str( horizon )
 
+        #print( 'date', date )
+        #print( 'utc date', location.observer.date )
+
         if useCenter:
-            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, use_center=useCenter ) )
+            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, use_center=useCenter ) ).getLocalTime( )
         else:
-            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) )
+            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) ).getLocalTime( )
 
         location.observer.horizon = oldHorizon
 
@@ -244,6 +248,7 @@ def getSeason( n, season ):
 def getSeasonOperator( n, season ):
     getSeason( n, season )
 
+
 #******************************************************************************
 #
 #  getVernalEquinox
@@ -255,7 +260,6 @@ def getSeasonOperator( n, season ):
 def getVernalEquinoxOperator( n ):
     '''Returns the date of the vernal equinox for year n.'''
     return getSeason( n, 0 )
-
 
 
 #*****************************************************************************
@@ -308,8 +312,13 @@ def getEphemTime( n, func ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'expected a date-time argument' )
 
-    result = RPNDateTime.convertFromEphemDate( func( n.format( ) ) )
-    return result.getLocalTime( )
+    # We always convert to UTC when passing to any third-party library, and
+    # convert the answer back to the previous timezone.
+    tzinfo = n.tzinfo
+
+    result = RPNDateTime.convertFromEphemDate( func( n.to( 'utc' ).format( ) ) )
+    result.tzinfo = tz.UTC
+    return result.getLocalTime( tzinfo )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
@@ -445,7 +454,7 @@ def getNextRising( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getNextRising( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunriseOperator( n, k ):
@@ -473,7 +482,7 @@ def getNextSetting( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunsetOperator( n, k ):
@@ -501,7 +510,7 @@ def getNextTransit( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getNextTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getSolarNoonOperator( n, k ):
@@ -528,7 +537,7 @@ def getNextAntitransit( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getNextAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunAntitransitOperator( n, k ):
@@ -603,7 +612,7 @@ def getPreviousRising( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 def getPreviousRisingOperator( arg1, arg2, arg3 ):
     return getPreviousRising( arg1, arg2, arg3 )
@@ -624,7 +633,7 @@ def getPreviousSetting( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 def getPreviousSettingOperator( arg1, arg2, arg3 ):
     return getPreviousSetting( arg1, arg2, arg3 )
@@ -644,7 +653,7 @@ def getPreviousTransit( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 def getPreviousTransitOperator( arg1, arg2, arg3 ):
     return getPreviousTransit( arg1, arg2, arg3 )
@@ -664,7 +673,7 @@ def getPreviousAntitransit( arg1, arg2, arg3 ):
         raise ValueError( 'unexpected arguments' )
 
     result = arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 def getPreviousAntitransitOperator( arg1, arg2, arg3 ):
     return getPreviousAntitransit( arg1, arg2, arg3 )
@@ -689,7 +698,7 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
 
     result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( arguments[ 'location' ],
                                                                   arguments[ 'datetime' ], horizon=horizon )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextCivilDawnOperator( n, k ):
@@ -723,7 +732,7 @@ def getNextDusk( arg1, arg2, horizon = -6 ):
 
     result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( arguments[ 'location' ],
                                                                    arguments[ 'datetime' ], horizon=horizon )
-    return result.getLocalTime( timezone( getTimeZone( arguments[ 'location' ] ) ) )
+    return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
 @twoArgFunctionEvaluator( )
 def getNextCivilDuskOperator( n, k ):
