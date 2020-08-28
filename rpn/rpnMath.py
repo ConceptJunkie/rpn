@@ -1281,3 +1281,41 @@ def calculateNthRightHyperoperatorOperator( a, b, c ):
 
     return hyperop( a )( b, c )
 
+
+#******************************************************************************
+#
+#  getPowModOperator
+#
+#******************************************************************************
+
+def getPowMod( a, b, c ):
+    '''
+    Calculate (a ** y) % z efficiently.
+    '''
+    result = 1
+
+    while b:
+        if fmod( b, 2 ) == 1:
+            result = fmod( fmul( result, a ), c )
+
+        b = floor( fdiv( b, 2 ) )
+        a = fmod( fmul( a, a ), c )
+
+    return result
+
+@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
+def getPowModOperator( a, b, c ):
+    return pow( int( a ), int( b ), int( c ) )
+
+
+#******************************************************************************
+#
+#  getPowModOperatorNew
+#
+#******************************************************************************
+
+@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
+def getPowModOperatorNew( a, b, c ):
+    return getPowMod( a, b, c )
+
+

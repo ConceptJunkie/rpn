@@ -18,13 +18,10 @@ import string
 from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, \
                    fsum, log10, mp, mpf, mpmathify, nint, power
 
-import gmpy2
-
-from rpn.rpnBase import convertToBaseN
+from rpn.rpnBase import convertToBaseN, getBaseKDigits
 from rpn.rpnFactor import getFactors
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMath import isDivisible
-from rpn.rpnNumberTheory import getPowMod
+from rpn.rpnMath import isDivisible, getPowMod
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, getMPFIntegerAsString, \
@@ -100,62 +97,6 @@ def getRightDigitsOperator( n, k ):
 @argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def getLeftDigitsOperator( n, k ):
     return combineDigits( getDigitList( n )[ : int( k ) ] )
-
-
-#******************************************************************************
-#
-#  getBaseKDigitList
-#
-#  gmpy2's digits( ) function is way faster, but only works for bases 2 to
-#  62.  I need to overhaul convertToBaseN( )... it's way too slow.
-#
-#******************************************************************************
-
-def getBaseKDigitList( n, base, dropZeroes = False ):
-    if 1 < base < 63:
-        if n < 0:
-            raise ValueError( '\'get_base_k_digits\' does not support negative numbers.' )
-
-        asciiDigits = gmpy2.digits( int( n ), int( base ) )
-
-        digits = [ ]
-
-        ord0 = ord( '0' )
-        orda = ord( 'a' )
-        ordA = ord( 'A' )
-
-        for i in asciiDigits:
-            if '0' <= i <= '9':
-                digits.append( ord( i ) - ord0 )
-            elif 'a' <= i <= 'z':
-                digits.append( ord( i ) - orda + 10 )
-            else:
-                digits.append( ord( i ) - ordA + 36 )
-    else:
-        digits = convertToBaseN( n, base, outputBaseDigits=True )
-
-    result = [ ]
-
-    for digit in digits:
-        if dropZeroes and digit == 0:
-            continue
-
-        result.append( digit )
-
-    return result
-
-def getBaseKDigits( n, k ):
-    return getBaseKDigitList( n, k )
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
-def getBaseKDigitsOperator( n, k ):
-    return getBaseKDigitList( n, k )
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
-def getNonzeroBaseKDigitsOperator( n, k ):
-    return getBaseKDigitList( n, k, dropZeroes = True )
 
 
 #******************************************************************************

@@ -19,13 +19,12 @@ import textwrap
 
 from mpmath import e, floor, frac, im, mp, mpf, mpmathify, nstr, phi, pi, re, sqrt
 
-from rpn.rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
-                        convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
-
+from rpn.rpnBase import convertFractionToBaseN, convertToBaseN
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnPersistence import loadHelpData, loadUnitData
+from rpn.rpnSpecialBase import convertToFibBase, convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import addAliases
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \

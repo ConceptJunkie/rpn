@@ -23,7 +23,7 @@ from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpn.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator, ListValidator
+from rpn.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
 
 #******************************************************************************
@@ -774,7 +774,7 @@ def getNthBellPolynomialOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
+@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
 def getBinomialOperator( n, k ):
     return binomial( n, k )
 

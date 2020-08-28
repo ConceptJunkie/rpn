@@ -36,13 +36,11 @@ except ImportError:
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
 from rpn.rpnAliases import operatorAliases
-from rpn.rpnBase import specialBaseNames
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
-
 from rpn.rpnOperator import checkForVariable
 
 from rpn.rpnOperators import evaluateTerm, functionOperators, loadUserFunctionsFile, \
@@ -56,10 +54,9 @@ from rpn.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariables
                                saveUserConfigurationFile
 
 from rpn.rpnPrimeUtils import checkForPrimeData
-
 from rpn.rpnSettings import setAccuracy, setPrecision
-
 from rpn.rpnSpecial import handleIdentify
+from rpn.rpnSpecialBase import specialBaseNames
 
 from rpn.rpnUtils import getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, \
                          validateOptions

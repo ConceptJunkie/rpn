@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2057
+MAX_EXAMPLE_COUNT = 2143
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -4273,9 +4273,22 @@ Where E is the atomic symbol of an element, and N is the count of atoms.
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
+The operator computers the binomial coefficient for n and k, which is:
+
+         n!
+    ------------
+    k!( n - k )!
+
+The binomial coefficient gives the number of ways that k items can be chosen
+from a set of n items.  More generally, the binomial coefficient is a
+well-defined function of arbitrary real or complex n and k, via the gamma
+function.
 ''',
 '''
-''',
+''' + makeCommandExample( '5 6 binomial' ) + '''
+Generating Pascal's triangle:
+''' + makeCommandExample( '0 5 range lambda x 0 x range binomial eval -s1' ) + '''
+''' + makeCommandExample( '10 20 ** 10 10 ** binomial' ),
 [ 'multinomial' ] ],
 
     'combinations' : [
@@ -4316,7 +4329,7 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
 ''' + makeCommandExample( '3 3 debruijn_sequence' ),
-[ 'permutations' ] ],
+[ 'permutations', 'nth_thue_morse' ] ],
 
     'count_frobenius' : [
 'combinatorics', 'calculates the number of combinations of items on n that add up to k',
@@ -4780,7 +4793,7 @@ defined by the alternating sum of the reciprocals of the square of the odd
 numbers:
 
        1    1    1    1    1
-b(2) = _  - _  + _  - _  + _  -  ...
+b(2) = __ - __ + __ - __ + __ -  ...
         2    2    2    2    2
        1    3    5    7    9
 
@@ -8489,19 +8502,54 @@ n.
     'polyexp' : [
 'logarithms', 'calculates the polyexponential of n, k',
 '''
+Evaluates the polyexponential function, defined for arbitrary complex n, k by
+the series:
+                      inf
+                    ------
+                     \      x^n
+    E_sub_n( k ) =    \     --- k^x
+                     /       x!
+                    ------
+                     x = 1
+
+E_sub_n( k ) is constructed from the exponential function analogously to how the
+polylogarithm is constructed from the ordinary logarithm; as a function of n
+(with k fixed), E_sub_n is an L-series.  It is an entire function of both n and
+k.
 ''',
 '''
-''',
+''' + makeCommandExample( '0.5 1 polyexp' ) + '''
+''' + makeCommandExample( '1 inf lambda x 0.5 ** x ! / nsum' ) + '''
+''' + makeCommandExample( '-3 4j - 2.5 2j + polyexp' ) + '''
+''' + makeCommandExample( '4 -100 polyexp' ),
 [ 'polylog', 'exp' ] ],
-
 
     'polylog' : [
 'logarithms', 'calculates the polylogarithm of n, k',
 '''
+Computes the polylogarithm, defined by the sum
+
+                       inf
+                     ------
+                      \       k^x
+    Li_sub_n( k ) =    \      ---
+                      /       x^n
+                     ------
+                      x = 1
+
+This series is convergent only for |k| < 1, so elsewhere the analytic
+continuation is implied.
+
+The polylogarithm should not be confused with the logarithmic integral (also
+denoted by Li or li), which is implemented as 'li'.
 ''',
 '''
-''',
-[ 'log', 'polyexp' ] ],
+''' + makeCommandExample( '1 0.5 polylog' ) + '''
+''' + makeCommandExample( '2 log' ) + '''
+''' + makeCommandExample( '2 0.5 polylog' ) + '''
+''' + makeCommandExample( 'pi sqr 6 2 log sqr * - 12 /' ) + '''
+''' + makeCommandExample( '2 10 polylog' ),
+[ 'log', 'polyexp', 'li' ] ],
 
 
     #******************************************************************************
@@ -8841,10 +8889,22 @@ complex numbers.
     'beta' : [
 'number_theory', 'evaluates the Beta function for n and k',
 '''
-The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
+The operator computer the Beta function, which is equal to:
+
+    gamma( x ) gamma( y )
+    ---------------------
+       gamma( x + y )
+
+The 'beta' operator is the equivalent to 'n gamma k gamma * n k + gamma /'.
+
+For integer and half-integer arguments where all three gamma functions are
+finite, the Beta function becomes either rational number or a rational multiple
+of pi.
 ''',
 '''
-''',
+''' + makeCommandExample( '5 2 beta' ) + '''
+''' + makeCommandExample( '-1.5 2 beta' ) + '''
+''' + makeCommandExample( '2.5 1.5 beta 16 *' ),
 [ 'zeta', 'gamma' ] ],
 
     'calkin_wilf' : [
@@ -8868,7 +8928,7 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
 ''' + makeCommandExample( '0 10 range calkin_wilf' ) + '''
 ''' + makeCommandExample( '1000000 calkin_wilf' ) + '''
 ''' + makeCommandExample( '1000000000000000000000000000000000 calkin_wilf' ),
-[ 'fraction', 'continued_fraction' ] ],
+[ 'nth_stern', 'fraction', 'continued_fraction' ] ],
 
     'continued_fraction' : [
 'number_theory', 'interprets list n as a continued fraction',
@@ -9016,10 +9076,33 @@ a Pythogorean triples, therefore the face diagonals are also integers.
     'euler_phi' : [
 'number_theory', 'calculates Euler\'s totient function for n',
 '''
+From https://en.wikipedia.org/wiki/Euler%27s_totient_function:
+
+In number theory, Euler's totient function counts the positive integers up to a
+given integer n that are relatively prime to n.  It is written using the Greek
+letter phi as phi( n ), and may also be called Euler's phi function.  In other
+words, it is the number of integers k in the range 1 <= k <= n for which the
+greatest common divisor gcd( n, k ) is equal to 1.  The integers k of this form
+are sometimes referred to as totatives of n.
+
+For example, the totatives of n = 9 are the six numbers 1, 2, 4, 5, 7 and 8.
+They are all relatively prime to 9, but the other three numbers in this range,
+3, 6, and 9 are not, since gcd( 9, 3 ) = gcd( 9, 6 ) = 3 and gcd( 9, 9 ) = 9.
+Therefore, phi( 9 ) = 6.  As another example, phi( 1 ) = 1 since for n = 1 the
+only integer in the range from 1 to n is 1 itself, and gcd( 1, 1 ) = 1.
+
+Euler's totient function is a multiplicative function, meaning that if two
+numbers m and n are relatively prime, then phi( mn ) = phi( m ) phi( n ).  This
+function gives the order of the multiplicative group of integers modulo n (the
+group of units of the ring ℤ/nℤ).  It is also used for defining the RSA
+encryption system.
 ''',
 '''
-''',
-[ 'sigma' ] ],
+''' + makeCommandExample( '17 euler_phi' ) + '''
+''' + makeCommandExample( '48 euler_phi' ) + '''
+''' + makeCommandExample( '17 48 * euler_phi' ) + '''
+''' + makeCommandExample( '1 20 range euler_phi' ),
+[ 'sigma', 'factor' ] ],
 
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
@@ -9212,6 +9295,9 @@ count of n, divided by the sum of the divisors of n.
     'heptanacci' : [
 'number_theory', 'calculates the nth Heptanacci number',
 '''
+The Heptanacci sequence is a generalization of the Fibonacci sequence, starting
+with: 0, 0, 0, 0, 0, 0, 1, and where each successive value is the sum of the
+previous seven terms.
 ''',
 '''
 The first several heptanacci numbers:
@@ -9223,6 +9309,9 @@ The Heptanacci constant:
     'hexanacci' : [
 'number_theory', 'calculates the nth Hexanacci number',
 '''
+The Hexanacci sequence is a generalization of the Fibonacci sequence, starting
+with: 0, 0, 0, 0, 0, 1, and where each successive value is the sum of the
+previous six terms.
 ''',
 '''
 The first several hexanacci numbers:
@@ -9343,7 +9432,7 @@ The first several deficient numbers:
 ''',
 '''
 ''',
-[ ] ],
+[ 'sigma', 'aliquot' ] ],
 
     'is_harmonic_divisor_number' : [
 'number_theory', 'returns whether or not n is a harmonic divisor number',
@@ -9375,6 +9464,28 @@ The first few harmonic divisor numbers:
 ''',
 [ 'is_k_hyperperfect', 'is_perfect' ] ],
 
+    'is_k_polydivisible' : [
+'number_theory', 'returns whether or not n is base-k polydivisible',
+'''
+This operator returns whether or not n is a base-k polydivisible number.
+
+From https://en.wikipedia.org/wiki/Polydivisible_number:
+
+In mathematics a polydivisible number (or magic number) is a number in a given
+number base with digits abcde... that has the following properties:
+
+Its first digit a is not 0.
+The number formed by its first two digits ab is a multiple of 2.
+The number formed by its first three digits abc is a multiple of 3.
+The number formed by its first four digits abcd is a multiple of 4.
+...
+''',
+'''
+''' + makeCommandExample( '1 1000 range lambda x 3 is_k_polydivisible filter' ) + '''
+''' + makeCommandExample( '1 200 range lambda x 4 is_k_polydivisible filter' ) + '''
+''' + makeCommandExample( '100 150 range lambda x 10 is_k_polydivisible filter' ),
+[ 'is_divisible', 'generate_polydivisibles' ] ],
+
     'is_k_semiprime' : [
 'number_theory', 'returns whether n is a k-factor square-free number',
 '''
@@ -9404,8 +9515,9 @@ be an appropriate term to describe having a squarefree number of other than 1
 Fewer numbers are k_sphenic than k_semiprime because sphenic numbers must have
 unique factors:
 
-''' + makeCommandExample( '70 100 range lambda x 3 is_k_sphenic filter' ) + '''
-''' + makeCommandExample( '70 100 range lambda x 3 is_k_semiprime filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x 3 is_k_sphenic filter' ) + '''
+Let's contrast that with the 3-semiprime numbers:
+''' + makeCommandExample( '1 100 range lambda x 3 is_k_semiprime filter' ) + '''
 ''' + makeCommandExample( '10 primorial 10 is_k_sphenic' ),
 [ 'is_prime', 'is_k_semiprime', 'is_semiprime', 'is_sphenic' ] ],
 
@@ -9437,6 +9549,19 @@ A pernicious number has a prime number of ones in its binary representation.
     'is_polydivisible' : [
 'number_theory', 'returns whether or not n is polydivisible',
 '''
+From https://en.wikipedia.org/wiki/Polydivisible_number:
+
+In mathematics a polydivisible number (or magic number) is a number in a given
+number base with digits abcde... that has the following properties:
+
+Its first digit a is not 0.
+The number formed by its first two digits ab is a multiple of 2.
+The number formed by its first three digits abc is a multiple of 3.
+The number formed by its first four digits abcd is a multiple of 4.
+...
+
+This operator works only with base 10.  For other bases, use
+'is_k_polydivisible'.
 ''',
 '''
 ''' + makeCommandExample( '100 200 range lambda x is_polydivisible filter' ) + '''
@@ -9515,18 +9640,46 @@ Therefore, by this definition, all numbers are 2-rough.
     'is_ruth_aaron' : [
 'number_theory', 'returns whether n is a Ruth-Aaron number',
 '''
-    #  http://mathworld.wolfram.com/Ruth-AaronPair.html
+From https://en.wikipedia.org/wiki/Ruth–Aaron_pair:
+
+In mathematics, a Ruth–Aaron pair consists of two consecutive integers (e.g.,
+714 and 715) for which the sums of the prime factors of each integer are equal:
+
+714 = 2 × 3 × 7 × 17,
+715 = 5 × 11 × 13,
+
+and
+
+2 + 3 + 7 + 17 = 5 + 11 + 13 = 29.
+
+This operator returns 1 if n is the smaller number of a Ruth-Aaron pair, along
+with n + 1.
+
+The name was given by Carl Pomerance for Babe Ruth and Hank Aaron, as Ruth's
+career regular-season home run total was 714, a record which Aaron eclipsed on
+April 8, 1974, when he hit his 715th career home run.  Pomerance was a
+mathematician at the University of Georgia at the time Aaron (a member of the
+nearby Atlanta Braves) broke Ruth's record, and the student of one of
+Pomerance's colleagues noticed that the sums of the prime factors of 714 and 715
+were equal.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 1000 range lambda x is_ruth_aaron filter' ),
+[ 'sigma', 'aliquot' ] ],
 
     'is_semiprime' : [
 'number_theory', 'returns whether n is a semiprime number',
 '''
+A semiprime number is a number that has two unique prime factors.
+
+This concept can be generalized to any number, and that is implemented in the
+'is_k_sphenic' operator.
 ''',
 '''
-''' + makeCommandExample( '1 10 range is_semiprime' ),
+''' + makeCommandExample( '1 20 range lambda x is_semiprime filter' ) + '''
+''' + makeCommandExample( '1 20 range lambda x is_semiprime filter factor -s1' ) + '''
+''' + makeCommandExample( '71 97 * is_semiprime' ) + '''
+''' + makeCommandExample( '[ 71 97 107 ] product is_semiprime' ),
 [ 'is_prime', 'is_sphenic', 'is_k_sphenic' ] ],
 
     'is_smooth' : [
@@ -9552,11 +9705,16 @@ numbers are known as regular numbers.
     'is_sphenic' : [
 'number_theory', 'returns whether n is a sphenic number',
 '''
+A sphenic number is a number that has three unique prime factors.
+
+This concept can be generalized to any number, and that is implemented in the
+'is_k_sphenic' operator.
 ''',
 '''
-''' + makeCommandExample( '1 20 range lambda x is_sphenic filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x is_sphenic filter' ) + '''
+''' + makeCommandExample( '1 100 range lambda x is_sphenic filter factor -s1' ) + '''
 ''' + makeCommandExample( '71 97 * is_sphenic' ) + '''
-''' + makeCommandExample( '[ 71 97 107 ] is_pronic' ),
+''' + makeCommandExample( '[ 71 97 107 ] product is_sphenic' ),
 [ 'is_k_sphenic', 'is_semiprime', 'is_prime' ] ],
 
     'is_squarefree' : [
@@ -9566,14 +9724,27 @@ A square-free number is a number that only has unique prime factors.
 ''',
 '''
 ''' + makeCommandExample( '1 25 range lambda x is_squarefree filter' ),
-[ 'is_semiprime', 'is_pronic' ] ],
+[ 'is_semiprime', 'is_pronic', 'nth_mobius' ] ],
 
     'is_strong_pseudoprime' : [
 'number_theory', 'returns whether n is a strong pseudoprime to base k',
 '''
+From https://en.wikipedia.org/wiki/Strong_pseudoprime:
+
+A strong pseudoprime is a composite number that passes the Miller–Rabin
+primality test.  All prime numbers pass this test, but a small fraction of
+composites also pass.
+
+Unlike the Fermat pseudoprimes, for which there exist numbers that are
+pseudoprimes to all coprime bases (the Carmichael numbers), there are no
+composites that are strong pseudoprimes to all bases.
 ''',
 '''
-''',
+''' + makeCommandExample( '74593 3 is_strong_pseudoprime' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 4 is_strong_pseudoprime filter' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 5 is_strong_pseudoprime filter' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 15 is_strong_pseudoprime filter' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 347 is_strong_pseudoprime filter' ),
 [ 'is_prime', 'is_k_sphenic', 'is_semiprime' ] ],
 
     'is_unusual' : [
@@ -9594,6 +9765,12 @@ an unusual number is non-sqrt( n )-smooth.
     'k_fibonacci' : [
 'number_theory', 'calculates the nth K-Fibonacci number',
 '''
+This operator allows for an arbitrary generalization of the Fibonacci sequence.
+The sequence of numbers generated starts with k - 1 zeroes, and a 1 with each
+successive value being the sum of the previous k terms.
+
+The nth Fibonacci number can be obtained with "n 2 k_fibonacci".  The nth
+Tribonacci number can be obtained with "n 3 k_fibonacci", etc.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 2 k_fibonacci' ) + '''
@@ -9604,26 +9781,52 @@ an unusual number is non-sqrt( n )-smooth.
     'leyland_number' : [
 'number_theory', 'returns the Leyland number for n and k',
 '''
+From https://en.wikipedia.org/wiki/Leyland_number:
+
+In number theory, a Leyland number is a number of the form x^y + y^x where x and
+y are integers greater than 1.  They are named after the mathematician Paul
+Leyland.  The first few Leyland numbers are
+
+8, 17, 32, 54, 57, 100, 145, 177, 320, 368, 512, 593, 945, 1124...
+
+The requirement that x and y both be greater than 1 is important, since without
+it every positive integer would be a Leyland number of the form x1 + 1x.  Also,
+because of the commutative property of addition, the condition x >= y is usually
+added to avoid double-covering the set of Leyland numbers (so we have 1 < y <=
+x).
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '2 3 leyland_number' ) + '''
+''' + makeCommandExample( '4 5 leyland_number' ) + '''
+''' + makeCommandExample( '14 27 leyland_number' ) + '''
+The first 15 Leyland numbers in order:
+''' + makeCommandExample( '2 10 range lambda 2 x range x leyland_number eval flatten sort 15 left' ),
+[ 'nth_carol', 'nth_kynea' ] ],
 
     'log_gamma' : [
 'number_theory', 'calculates the loggamma function for n',
 '''
 The logarithm of the gamma function is treated as a special function.
+
+This operator computes the principal branch of the log-gamma function, which has
+infinitely many complex branch cuts, the principal log-gamma function only has a
+single branch cut along the negative half-axis.
 ''',
 '''
 ''' + makeCommandExample( '0.1 loggamma' ) + '''
 ''' + makeCommandExample( '1 loggamma' ) + '''
-''' + makeCommandExample( '2 loggamma' ) + '''
-''' + makeCommandExample( '10 loggamma' ),
+''' + makeCommandExample( '3 loggamma' ) + '''
+''' + makeCommandExample( '-1.5 loggamma' ) + '''
+''' + makeCommandExample( '3 4j +' ) + '''
+''' + makeCommandExample( '1e3000j loggamma' ),
 [ 'log', 'gamma' ] ],
 
     'linear_recurrence' : [
-'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b)',
+'number_theory', 'calculates the first c values of a linear recurrence specified by factors (a) and seeds (b)',
 '''
+This operator calculates the first c values of a linear recurrence specified by
+a list of factors (a) and a list of seeds (b).
+
 The factors (a) indicate the multiple of each preceding value to add to create
 the next value in the recurrence list, listed from right to left (meaning the
 last factor corresponds to the n - 1'th value in the sequence.  For the
@@ -9659,11 +9862,27 @@ The Perrin sequence:
 [ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'linear_recurrence_with_modulo' : [
-'number_theory', 'calculates the first c values of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
+'number_theory', 'calculates the first c values of a linear recurrence specified by factors (a) and seeds (b), modulo d',
 '''
+This operator calculates the first c values of a linear recurrence specified by
+a list of factors (a) and a list of seeds (b),  where each successive result is
+taken modulo d.
+
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (b), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
 ''',
 '''
-''',
+The Fibonacci sequence modulo 100:
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 18 100 linear_recurrence_with_modulo' ) + '''
+The Lucas Sequence modulo 100:
+''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 17 100 linear_recurrence_with_modulo' ),
 [ 'linear_recurrence', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'lucas' : [
@@ -9705,11 +9924,23 @@ n and k cannot both be odd.
     'nth_carol' : [
 'number_theory', 'gets the nth Carol number',
 '''
+From https://en.wikipedia.org/wiki/Carol_number:
+
+A Carol number is an integer of the form 4^n - 2^n+1 - 1, or equivalently
+(2^n - 1)^2.   The first few Carol numbers are: −1, 7, 47, 223, 959, 3967,
+16127, 65023, 261119, 1046527, ...
+
+The numbers were first studied by Cletus Emmanuel, who named them after a
+friend, Carol G. Kirnon.
+
+For n > 2, the binary representation of the n-th Carol number is n − 2
+consecutive ones, a single zero in the middle, and n + 1 more consecutive ones.
+
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_carol' ) + '''
 ''' + makeCommandExample( '25337 nth_carol' ),
-[ ] ],
+[ 'nth_thabit', 'nth_kynea' ] ],
 
     'nth_harmonic_number' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
@@ -9726,11 +9957,22 @@ The harmonic series consists of the reciprocals of the natural numbers.
     'nth_jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
 '''
+From https://en.wikipedia.org/wiki/Jacobsthal_number:
+
+In mathematics, the Jacobsthal numbers are an integer sequence named after the
+German mathematician Ernst Jacobsthal.  Like the related Fibonacci numbers, they
+are a specific type of Lucas sequence U sub n(P,Q) for which P = 1, and Q = −2 -
+and are defined by a similar recurrence relation:  in simple terms, the sequence
+starts with 0 and 1, then each following number is found by adding the number
+before it to twice the number before that.  The first Jacobsthal numbers are:
+
+0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845,
+43691, 87381, 174763, 349525, ...
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_jacobsthal' ) + '''
 ''' + makeCommandExample( '4783 nth_jacobsthal' ),
-[ ] ],
+[ 'fibonacci', 'lucas' ] ],
 
     'nth_kynea' : [
 'number_theory', 'gets the nth Kynea number',
@@ -9742,7 +9984,7 @@ added to the (n + 1)th Mersenne number.
 '''
 ''' + makeCommandExample( '1 20 range nth_kynea' ) + '''
 ''' + makeCommandExample( '63598 nth_kynea' ),
-[ 'nth_mersenne_prime', 'nth_carol', 'nth_jacobsthal' ] ],
+[ 'nth_mersenne_prime', 'nth_carol', 'nth_jacobsthal', 'leyland_number' ] ],
 
     'nth_k_thabit' : [
 'number_theory', 'gets the nth base k Thabit number',
@@ -9863,7 +10105,7 @@ The last 6 digits of the 20000th Fibonacci number:
 'number_theory', 'returns the nth Leonardo number',
 '''
 The Leonardo numbers form a recurrence relation where zeroth and first values
-are 1 and 1, and each subsequent value is calculated by:
+are 0 and 1, and each subsequent value is calculated by:
 
 L( n ) = L( n - 1 ) + L( n - 2 ) + 1
 
@@ -9874,7 +10116,7 @@ L( n ) = 2F( n + 1 ) - 1
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_leonardo' ),
-[ ] ],
+[ 'fibonacci', 'lucas', 'nth_jacobsthal' ] ],
 
     'nth_mersenne_exponent' : [
 'number_theory', 'returns the exponent in the nth Mersenne prime',
@@ -9909,20 +10151,54 @@ https://primes.utm.edu/mersenne/index.html
     'nth_merten' : [
 'number_theory', 'returns Merten\'s function for n',
 '''
+From https://en.wikipedia.org/wiki/Mertens_function:
+
+In number theory, the Mertens function is defined for all positive integers n as
+           n
+         -----
+          \
+M( n ) =   \     mu( k )
+          /
+         -----
+         k = 1
+
+where mu( k ) is the Moebius function.  The function is named in honour of Franz
+Mertens.
+
+Less formally, M( x ) is the count of square-free integers up to x that have an
+even number of prime factors, minus the count of those that have an odd number.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_merten' ) + '''
 ''' + makeCommandExample( '3563 nth_merten' ),
-[ ] ],
+[ 'nth_mobius' ] ],
 
     'nth_mobius' : [
 'number_theory', 'calculates the Mobius function for n',
 '''
+https://en.wikipedia.org/wiki/M%C3%B6bius_function
+
+The classical Moebius function mu(n) is an important multiplicative function in
+number theory and combinatorics.  The German mathematician August Ferdinand
+Moebius introduced it in 1832.  It is a special case of a more general object in
+combinatorics.
+
+For any positive integer n, define mu(n) as the sum of the primitive nth roots
+of unity.  It has values in {−1, 0, 1} depending on the factorization of n into
+prime factors:
+
+mu(n) = 1 if n is a square-free positive integer with an even number of prime
+factors.
+
+mu(n) = −1 if n is a square-free positive integer with an odd number of prime
+factors.
+
+mu(n) = 0 if n has a squared prime factor.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_mobius' ) + '''
 ''' + makeCommandExample( '4398 nth_mobius' ),
-[ ] ],
+[ 'factor', 'is_squarefree', 'nth_merten' ] ],
 
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
@@ -9962,11 +10238,33 @@ as new Mersenne Primes are being actively searched for.
     'nth_stern' : [
 'number_theory', 'calculates the nth value of the Stern diatomic series',
 '''
+Stern's diatomic sequence is the integer sequence
+
+0, 1, 1, 2, 1, 3, 2, 3, 1, 4, 3, 5, 2, 5, 3, 4, ...
+
+Using zero-based numbering, the nth value in the sequence is the value fusc(n)
+of the fusc function, named according to the obfuscating appearance of the
+ sequence of values and defined by the recurrence relations
+
+fusc⁡( 2n ) = fusc⁡( n )
+fusc⁡( 2n + 1 ) = fusc⁡( n ) + fusc⁡( n + 1 ),
+
+with the base cases fusc( 0 ) = 0 and fusc( 1 ) = 1.
+
+The nth rational number in a breadth-first traversal of the Calkin–Wilf tree is
+the number:
+
+ fusc( n )
+ ----------
+fusc( n + 1 )
+
+Thus, the diatomic sequence forms both the sequence of numerators and the
+sequence of denominators of the numbers in the Calkin–Wilf sequence.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_stern' ) + '''
 ''' + makeCommandExample( '223800 223810 range nth_stern' ),
-[ ] ],
+[ 'calkin_wilf' ] ],
 
     'nth_thabit' : [
 'number_theory', 'gets the nth Thabit number',
@@ -9986,7 +10284,7 @@ long, consisting of "10" followed by n 1s.
 '''
 ''' + makeCommandExample( '1 20 range nth_thabit' ) + '''
 ''' + makeCommandExample( '2375 nth_thabit' ),
-[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit_2' ] ],
+[ 'nth_thabit', 'nth_thabit_2', 'nth_k_thabit_2', 'nth_carol' ] ],
 
     'nth_thabit_2' : [
 'number_theory', 'gets the nth Thabit number of the second kind',
@@ -10009,11 +10307,34 @@ amicable numbers.
     'nth_thue_morse' : [
 'number_theory', 'calculates the nth value of the Thue-Morse sequence',
 '''
+From https://en.wikipedia.org/wiki/Thue–Morse_sequence:
+
+In mathematics, the Thue–Morse sequence, or Prouhet–Thue–Morse sequence, is the
+binary sequence (an infinite sequence of 0s and 1s) obtained by starting with 0
+and successively appending the Boolean complement of the sequence obtained thus
+far.  The first few steps of this procedure yield the strings 0 then 01, 0110,
+01101001, 0110100110010110, and so on, which are prefixes of the Thue–Morse
+sequence.  The full sequence begins:
+
+01101001100101101001011001101001...
+
+The sequence is named after Axel Thue and Marston Morse.
+
+In their book on the problem of fair division, Steven Brams and Alan Taylor
+invoked the Thue–Morse sequence but did not identify it as such.  When
+allocating a contested pile of items between two parties who agree on the items'
+relative values, Brams and Taylor suggested a method they called balanced
+alternation, or taking turns taking turns taking turns... , as a way to
+circumvent the favoritism inherent when one party chooses before the other.  An
+example showed how a divorcing couple might reach a fair settlement in the
+distribution of jointly-owned items.  The parties would take turns to be the
+first chooser at different points in the selection process:  Ann chooses one
+item, then Ben does, then Ben chooses one item, then Ann does.
 ''',
 '''
 The first 20 members of the Thue Morse sequence:
 ''' + makeCommandExample( '1 20 range nth_thue_morse', indent=4 ),
-[ ] ],
+[ 'debruijn_sequence' ] ],
 
     'octanacci' : [
 'number_theory', 'calculates the nth Octanacci number',
@@ -10038,6 +10359,9 @@ The first 10 lines of Pascal's triangle:
     'pentanacci' : [
 'number_theory', 'calculates the nth Pentanacci number',
 '''
+The Pentanacci sequence is a generalization of the Fibonacci sequence, starting
+with: 0, 0, 0, 0, 1, and where each successive value is the sum of the previous
+five terms.
 ''',
 '''
 The first several pentanacci numbers:
@@ -10213,6 +10537,13 @@ the Barnes G-function.
     'tetranacci' : [
 'number_theory', 'calculates the nth Tetranacci number',
 '''
+From https://en.wikipedia.org/wiki/Generalizations_of_Fibonacci_numbers:
+
+The tetranacci numbers start with four predetermined terms, each term afterwards
+being the sum of the preceding four terms.
+
+The tetranacci constant is the ratio toward which adjacent tetranacci numbers
+tend.  It is a root of the polynomial x^4 - x^3 - x^2 - x - 1 = 0.
 ''',
 '''
 The first several tetranacci numbers:
@@ -10224,6 +10555,18 @@ The Tetranacci constant:
     'tribonacci' : [
 'number_theory', 'calculates the nth Tribonacci number',
 '''
+From https://en.wikipedia.org/wiki/Generalizations_of_Fibonacci_numbers:
+
+The tribonacci numbers are like the Fibonacci numbers, but instead of starting
+with two predetermined terms, the sequence starts with three predetermined terms
+and each term afterwards is the sum of the preceding three terms.  The first few
+tribonacci numbers are:
+
+The series was first described formally by Agronomof in 1914, but its first
+unintentional use is in the Origin of species by Charles R. Darwin.  In the
+example of illustrating the growth of elephant population, he relied on the
+calculations made by his son, George H. Darwin.  The term tribonacci was
+suggested by Feinberg in 1963.
 ''',
 '''
 The first several tribonacci numbers:
@@ -10265,17 +10608,38 @@ Fourier transform.
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
 '''
+This operator computes the Riemann zeta function:
+
+                          1     1     1     1
+        zeta( n ) =  1 + --- + --- + --- + --- ...
+                         2^n   3^n   4^n   5^n
+
+Although these series only converge for re( s ) > 1, the Riemann and Hurwitz
+zeta functions are defined through analytic continuation for arbitrary complex
+n != 1.  n = 1 is a pole.
 ''',
 '''
-''' + makeCommandExample( '2 zeta' ),
+''' + makeCommandExample( '2 zeta' ) + '''
+''' + makeCommandExample( 'pi sqr 6 /' ) + '''
+''' + makeCommandExample( '0 zeta' ) + '''
+''' + makeCommandExample( '-1 zeta' ) + '''
+''' + makeCommandExample( '20 zeta' ) + '''
+''' + makeCommandExample( '-3 4j + zeta' ),
 [ 'hurwitz_zeta', 'eta' ] ],
 
     'zeta_zero' : [
 'number_theory', 'calculates the nth non-trivial zero of Riemann\'s zeta function',
 '''
+This operator omputes the n-th nontrivial zero of zeta( s ) on the critical
+line, i.e. returns an approximation of the n-th largest complex number s = 1/2 +
+ti for which zeta( s ) = 0.
+
+The Riemann Hypothesis in short claims that all non-trivial zeroes of the zeta
+function have a real part equal to 1/2.
 ''',
 '''
-''' + makeCommandExample( '1 5 range zeta_zero' ),
+''' + makeCommandExample( '1 5 range zeta_zero' ) + '''
+''' + makeCommandExample( '183456 zeta_zero' ),
 [ 'zeta' ] ],
 
 
@@ -10511,7 +10875,7 @@ radius k, assuming the body is a perfect sphere.
 ''' + makeCommandExample( '6 feet earth_radius horizon_distance' ) + '''
 ''' + makeCommandExample( '6 feet moon_radius horizon_distance' ) + '''
 ''' + makeCommandExample( '30 feet earth_radius horizon_distance' ),
-[ ] ],
+[ 'orbital_radius', 'distance' ] ],
 
     'kinetic_energy' : [
 'physics', 'calculates kinetic energy from velocity and mass',
@@ -10548,7 +10912,6 @@ arguments:
 
 Mass returned is really the combined mass of the object orbiting and the
 object being orbited.
-
 ''',
 '''
 ''' + makeCommandExample( '90.9 minutes earth_radius 200 miles + orbital_mass' ) + '''
@@ -10627,12 +10990,15 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 https://en.wikipedia.org/wiki/Tidal_force#Formulation
 ''',
 '''
+Let's say we have a 500-meter long spaceship pointing at a black hole of 500,000
+solar masses at the event horizon.  How much tidal force is the ship
+experiencing between the bow and the stern:
 ''' + makeCommandExample( '500000 solar_mass previous black_hole_radius 500 meters tidal_force' ) + '''
 Calculate the lunar tidal force on Earth for a delta of one meter (i.e., how
 much tidal force affects an object one meter in size (assuming it's pointing
 at the Moon).
 ''' + makeCommandExample( 'earth_mass 238900 miles 1 meter tidal_force' ),
-[ ] ],
+[  ] ],
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
@@ -10641,7 +11007,7 @@ at the Moon).
 '''
 ''' + makeCommandExample( '1 million mph time_dilation' ) + '''
 ''' + makeCommandExample( '0.99 c * time_dilation' ),
-[ ] ],
+[ 'velocity' ] ],
 
     'velocity' : [
 'physics', 'calculates velocity given different measurement types',
@@ -11135,7 +11501,8 @@ If n is not a centered decagonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '10000000 nth_centered_decagonal' ) + '''
+''' + makeCommandExample( '1415 centered_decagonal' ),
 [ 'centered_decagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_heptagonal' : [
@@ -11149,7 +11516,8 @@ If n is not a centered heptagonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000 nth_centered_heptagonal' ) + '''
+''' + makeCommandExample( '535 centered_heptagonal' ),
 [ 'centered_heptagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_hexagonal' : [
@@ -11163,7 +11531,8 @@ If n is not a centered hexagonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000 nth_centered_hexagonal' ) + '''
+''' + makeCommandExample( '578 centered_hexagonal' ),
 [ 'centered_hexagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_nonagonal' : [
@@ -11177,7 +11546,8 @@ If n is not a centered nonagonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000 nth_centered_nonagonal' ) + '''
+''' + makeCommandExample( '472 centered_nonagonal' ),
 [ 'centered_nonagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_octagonal' : [
@@ -11187,10 +11557,12 @@ number.
 'centered_octagonal' to get the index i of the ith centered octagonal number
 that corresponds to the value n.
 
-If n is not a centered octagonal number, the result will not be a whole number.
+If n is not a centered octagonal number, the result will be the index of the
+highest centered octagonal number less than n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000 nth_centered_octagonal' ) + '''
+''' + makeCommandExample( '16 centered_octagonal' ),
 [ 'nth_centered_polygonal', 'centered_octagonal' ] ],
 
     'nth_centered_pentagonal' : [
@@ -11204,7 +11576,8 @@ If n is not a centered pentagonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '10000000 nth_centered_pentagonal' ) + '''
+''' + makeCommandExample( '2000 centered_pentagonal' ),
 [ 'centered_pentagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_polygonal' : [
@@ -11231,7 +11604,8 @@ value n.
 If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
-''',
+''' + makeCommandExample( '10000000 nth_centered_square' ) + '''
+''' + makeCommandExample( '2237 centered_square' ),
 [ 'centered_square', 'nth_centered_polygonal' ] ],
 
     'nth_centered_triangular' : [
@@ -11245,7 +11619,8 @@ If n is not a centered triangular number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_centered_triangular' ) + '''
+''' + makeCommandExample( '8165 centered_triangular' ),
 [ 'centered_triangular', 'nth_centered_polygonal' ] ],
 
     'nth_decagonal' : [
@@ -11253,7 +11628,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_decagonal' ) + '''
+''' + makeCommandExample( '5000 decagonal' ),
 [ 'decagonal', 'nth_polygonal', 'nth_centered_decagonal' ] ],
 
     'nth_hexagonal' : [
@@ -11261,7 +11637,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_hexagonal' ) + '''
+''' + makeCommandExample( '7071 hexagonal' ),
 [ 'hexagonal', 'nth_polygonal', 'nth_centered_hexagonal' ] ],
 
     'nth_heptagonal' : [
@@ -11269,7 +11646,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_heptagonal' ) + '''
+''' + makeCommandExample( '6324 heptagonal' ),
 [ 'heptagonal', 'nth_polygonal', 'nth_centered_heptagonal' ] ],
 
     'nth_nonagonal' : [
@@ -11277,7 +11655,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_nonagonal' ) + '''
+''' + makeCommandExample( '5345 nonagonal' ),
 [ 'nonagonal', 'nth_polygonal', 'nth_centered_nonagonal' ] ],
 
     'nth_octagonal' : [
@@ -11285,7 +11664,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '100000000 nth_octagonal' ) + '''
+''' + makeCommandExample( '5773 octagonal' ),
 [ 'octagonal', 'nth_polygonal', 'nth_centered_octagonal' ] ],
 
     'nth_pentagonal' : [
@@ -11293,7 +11673,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000000 nth_pentagonal' ) + '''
+''' + makeCommandExample( '25820 pentagonal' ),
 [ 'pentagonal', 'nth_polygonal', 'nth_centered_pentagonal' ] ],
 
     'nth_polygonal' : [
@@ -11309,7 +11690,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000000 nth_square' ) + '''
+''' + makeCommandExample( '31622 square' ),
 [ 'square', 'nth_polygonal' ] ],
 
     'nth_triangular' : [
@@ -11317,7 +11699,8 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1000000000 nth_triangular' ) + '''
+''' + makeCommandExample( '44720 triangular' ),
 [ 'triangular', 'nth_polygonal' ] ],
 
     'octagonal' : [
@@ -11803,9 +12186,13 @@ There are k - 1 super-roots of n, and this operator returns all of them.
 '''
 Tetration is the process of repeated exponentiation.  n is exponentiated by
 itself k times.
+
+This version of the tetration operator is left-associative, and the equivalent
+operation using exponentiation is shown in the examples.
 ''',
 '''
 ''' + makeCommandExample( '3 3 tetrate' ) + '''
+''' + makeCommandExample( '3 3 ** 3 **' ) + '''
 ''' + makeCommandExample( '10 10 tetrate' ) + '''
 ''' + makeCommandExample( '2 1 6 range tetrate' ),
 [ 'power', 'tetrate_right', 'hyperoperator' ] ],
@@ -11813,9 +12200,18 @@ itself k times.
     'tetrate_right' : [
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
+Tetration is the process of repeated exponentiation.  n is exponentiated by
+itself k times.
+
+This version of the tetration operator is right-associative, and the equivalent
+operation using exponentiation is shown in the examples.  This results in much
+larger numbers, and it's easy to overflow rpn.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 3 tetrate' ) + '''
+''' + makeCommandExample( '3 3 3 ** **' ) + '''
+''' + makeCommandExample( '5 3 tetrate_right' ) + '''
+''' + makeCommandExample( '2 1 5 range tetrate_right' ),
 [ 'tetrate', 'power', 'hyperoperator_right' ] ],
 
 
@@ -13495,6 +13891,9 @@ For example, if rpn were to roll 2, 3, 3, and 6, the total would be 12 because
 the 2 would be dropped.
 ''' + makeCommandExample( '4d6x1 roll_dice', indent=4 ) + '''
 ''' + makeCommandExample( '12d6x9 roll_dice', indent=4 ) + '''
+
+The second option is:
+
 h[q]
 
 'h' means to drop the q highest valued dice, where q defaults to 1 if it is left
@@ -13606,6 +14005,7 @@ see RFC 4122) and the current time.
 ''',
 '''
 ''' + makeCommandExample( 'uuid' ) + '''
+''' + makeCommandExample( 'uuid' ) + '''
 ''' + makeCommandExample( 'uuid' ),
 [ 'uuid_random' ] ],
 
@@ -13615,6 +14015,7 @@ see RFC 4122) and the current time.
 The UUID is generated completely randomly.
 ''',
 '''
+''' + makeCommandExample( 'uuid_random' ) + '''
 ''' + makeCommandExample( 'uuid_random' ) + '''
 ''' + makeCommandExample( 'uuid_random' ),
 [ 'uuid' ] ],
@@ -14072,6 +14473,7 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
+''' + makeCommandExample( '60 degrees tanh' ) + '''
 ''' + makeCommandExample( '3 pi * 4 / radians tanh' ) + '''
 Comparing hyperbolic tangent to hyperbolic sine/hyperbolic cosine and tangent:
 ''' + makeCommandExample( '4 pi * 7 / tanh', indent=4 ) + '''

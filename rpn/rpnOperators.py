@@ -47,6 +47,8 @@ from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperato
                              getSummerSolsticeOperator, getTransitTimeOperator, getVernalEquinoxOperator, \
                              getWinterSolsticeOperator, RPNAstronomicalObject
 
+from rpn.rpnBase import getBaseKDigitsOperator, getNonzeroBaseKDigitsOperator
+
 from rpn.rpnCalendar import convertBahaiDateOperator, convertEthiopianDateOperator, \
                             convertFrenchRepublicanDateOperator, convertHebrewDateOperator, \
                             convertIndianCivilDateOperator, convertIslamicDateOperator, convertJulianDateOperator, \
@@ -149,11 +151,11 @@ from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildS
                                  combineDigitsOperator, containsAnyDigitsOperator, containsDigitsOperator, \
                                  containsOnlyDigitsOperator, countDifferentDigitsOperator, countDigitsOperator, \
                                  duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
-                                 generateSquareDigitChainOperator, getBaseKDigitsOperator, \
-                                 getCyclicPermutationsOperator, getDigitCountOperator, getDigitsOperator, \
-                                 getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
-                                 getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroBaseKDigitsOperator, \
-                                 getNonzeroDigitsOperator, getNthReversalAdditionOperator, getRightDigitsOperator, \
+                                 generateSquareDigitChainOperator, getCyclicPermutationsOperator, \
+                                 getDigitCountOperator, getDigitsOperator, getErdosPersistenceOperator, \
+                                 getPersistenceOperator, getKPersistenceOperator, getLeftDigitsOperator, \
+                                 getLeftTruncationsOperator, getNonzeroDigitsOperator, \
+                                 getNthReversalAdditionOperator, getRightDigitsOperator, \
                                  getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
                                  isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, \
                                  isDecreasingOperator, isDigitalPermutationOperator, \
@@ -204,16 +206,16 @@ from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator
                         getLambertWOperator, getLargerOperator, getLog10Operator, getLog2Operator, getLogOperator, \
                         getLogXYOperator, getMantissaOperator, getMaximumOperator, getMinimumOperator, \
                         getModuloOperator, getNearestIntOperator, getNegativeOperator, getPolyexpOperator, \
-                        getPolylogOperator, getPowerOperator, getRealOperator, getReciprocalOperator, \
-                        getRootOperator, getSignOperator, getSmallerOperator, getSquareRootOperator, \
-                        getSquareSuperRootOperator, getSuperRootOperator, getSuperRootsOperator, getValueOperator, \
-                        incrementOperator, isDivisibleOperator, isEqualOperator, isEvenOperator, isGreaterOperator, \
-                        isIntegerOperator, isKthPowerOperator, isLessOperator, isNotEqualOperator, \
-                        isNotGreaterOperator, isNotLessOperator, isNotZeroOperator, isOddOperator, isPowerOperator, \
-                        isSquareOperator, isZeroOperator, multiplyOperator, roundByDigitsOperator, \
-                        roundByValueOperator, roundOffOperator, secOperator, sechOperator, sinOperator, sinhOperator, \
-                        squareOperator, subtractOperator, tanOperator, tanhOperator, tetrateOperator, \
-                        tetrateRightOperator
+                        getPolylogOperator, getPowerOperator, getPowModOperator, getRealOperator, \
+                        getReciprocalOperator, getRootOperator, getSignOperator, getSmallerOperator, \
+                        getSquareRootOperator, getSquareSuperRootOperator, getSuperRootOperator, \
+                        getSuperRootsOperator, getValueOperator, incrementOperator, isDivisibleOperator, \
+                        isEqualOperator, isEvenOperator, isGreaterOperator, isIntegerOperator, isKthPowerOperator, \
+                        isLessOperator, isNotEqualOperator, isNotGreaterOperator, isNotLessOperator, \
+                        isNotZeroOperator, isOddOperator, isPowerOperator, isSquareOperator, isZeroOperator, \
+                        multiplyOperator, roundByDigitsOperator, roundByValueOperator, roundOffOperator, secOperator, \
+                        sechOperator, sinOperator, sinhOperator, squareOperator, subtractOperator, tanOperator, \
+                        tanhOperator, tetrateOperator, tetrateRightOperator
 
 from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, \
                                convertToPrimitiveUnitsOperator, convertUnitsOperator, estimateOperator, \
@@ -257,18 +259,19 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getNthSubfactorialOperator, getNthSuperfactorialOperator, getNthTetranacciOperator, \
                                 getNthThabitNumberOperator, getNthThabit2NumberOperator, \
                                 getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, \
-                                getPolygammaOperator, getPowModOperator, getPrimePiOperator, getRadicalOperator, \
+                                getPolygammaOperator, getPrimePiOperator, getRadicalOperator, \
                                 getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
                                 getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
                                 isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
                                 isCarmichaelNumberOperator, isDeficientOperator, isFriendlyOperator, \
                                 isHarmonicDivisorNumberOperator, isKHyperperfectOperator, isKPerfectOperator, \
-                                isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, \
-                                isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, \
-                                isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, isSphenicOperator, \
-                                isSquareFreeOperator, isUnusualOperator, makeContinuedFractionOperator, \
-                                makeEulerBrickOperator, makePythagoreanQuadrupleOperator, \
-                                makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator
+                                isKPolydivisibleOperator, isKSemiprimeOperator, isKSphenicOperator, \
+                                isPerfectOperator, isPerniciousOperator, isPolydivisibleOperator, isPowerfulOperator, \
+                                isPronicOperator, isRoughOperator, isRuthAaronNumberOperator, isSemiprimeOperator, \
+                                isSmoothOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
+                                makeContinuedFractionOperator, makeEulerBrickOperator, \
+                                makePythagoreanQuadrupleOperator, makePythagoreanTripleOperator, \
+                                makePythagoreanTriplesOperator, solveFrobeniusOperator
 
 from rpn.rpnPersistence import doesCacheExist, getUserFunctionsFileName, loadConstants, loadResultOperator, \
                                loadUnitConversionMatrix, loadUnitData, openFunctionCache, openPrimeCache
@@ -3027,6 +3030,7 @@ operators = {
     'is_harmonic_divisor_number'        : RPNOperator( isHarmonicDivisorNumberOperator, 1 ),
     'is_k_hyperperfect'                 : RPNOperator( isKHyperperfectOperator, 2 ),
     'is_k_perfect'                      : RPNOperator( isKPerfectOperator, 2 ),
+    'is_k_polydivisible'                : RPNOperator( isKPolydivisibleOperator, 2 ),
     'is_k_semiprime'                    : RPNOperator( isKSemiprimeOperator, 2 ),
     'is_k_sphenic'                      : RPNOperator( isKSphenicOperator, 2 ),
     'is_perfect'                        : RPNOperator( isPerfectOperator, 1 ),

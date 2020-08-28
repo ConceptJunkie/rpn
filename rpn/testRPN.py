@@ -3774,6 +3774,14 @@ def runNumberTheoryOperatorTests( ):
             expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
             expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
 
+    # is_k_polydivisible
+    expectEqual( '0 520 range lambda x 3 is_k_polydivisible filter', '3 generate_polydivisibles' )
+    expectEqual( '0 11000 range lambda x 4 is_k_polydivisible filter', '4 generate_polydivisibles' )
+    expectEqual( '0 10000 range lambda x 5 is_k_polydivisible filter', '5 generate_polydivisibles 10000 filter_max' )
+
+    if slow:
+        expectEqual( '0 10810 range lambda x 4 is_k_polydivisible filter', '4 generate_polydivisibles' )
+
     # is_k_semiprime
     expectEqual( '1 100 range lambda x 2 is_k_semiprime filter', '1 100 range lambda x is_semiprime filter' )
     expectEqual( '1 100 range lambda x 3 is_k_semiprime x is_squarefree and filter',
@@ -4928,7 +4936,7 @@ def runPrimeNumberOperatorTests( ):
     expectEqual( '0 14 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 15 left' )
 
     if slow:
-        expectEqual( '1 21 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 21 left' )
+        expectEqual( '0 21 range lambda 3 x ** 1 + prime 3 x ** prime - eval', '74382 oeis 22 left' )
 
     # prime_pi
     testOperator( '87 prime_pi' )

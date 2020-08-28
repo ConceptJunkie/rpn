@@ -20,10 +20,11 @@ from functools import reduce
 import numpy as np
 
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, cyclotomic, e, fabs, fac, fac2, fadd, fdiv, fib, \
-                   floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log10, loggamma, \
-                   mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, superfac, \
-                   sqrt, unitroots, zeta, zetazero
+                   floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log, log10, \
+                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, \
+                   superfac, sqrt, unitroots, zeta, zetazero
 
+from rpn.rpnBase import getBaseKDigits
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
@@ -1589,43 +1590,6 @@ def getEulerPhiOperator( n ):
 
 #******************************************************************************
 #
-#  getPowModOperator
-#
-#******************************************************************************
-
-def getPowMod( a, b, c ):
-    '''
-    Calculate (a ** y) % z efficiently.
-    '''
-    result = 1
-
-    while b:
-        if fmod( b, 2 ) == 1:
-            result = fmod( fmul( result, a ), c )
-
-        b = floor( fdiv( b, 2 ) )
-        a = fmod( fmul( a, a ), c )
-
-    return result
-
-@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
-def getPowModOperator( a, b, c ):
-    return pow( int( a ), int( b ), int( c ) )
-
-
-#******************************************************************************
-#
-#  getPowModOperatorNew
-#
-#******************************************************************************
-
-@argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
-def getPowModOperatorNew( a, b, c ):
-    return getPowMod( a, b, c )
-
-
-#******************************************************************************
-#
 #  getAbundanceOperator
 #
 #******************************************************************************
@@ -1641,6 +1605,47 @@ def getAbundance( n ):
 @argValidator( [ IntValidator( 0 ) ] )
 def getAbundanceOperator( n ):
     return getAbundance( n )
+
+
+#******************************************************************************
+#
+#  isAbundantOperator
+#
+#******************************************************************************
+
+def isAbundant( n ):
+    if n < 2:
+        return 0
+
+    return 1 if getAbundance( n ) > 0 else 0
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isAbundantOperator( n ):
+    return isAbundant( n )
+
+
+
+#******************************************************************************
+#
+#  isAchillesNumber
+#
+#******************************************************************************
+
+@cachedFunction( 'achilles' )
+def isAchillesNumber( n ):
+    factorList = getFactorList( n )
+
+    if min( [ i[ 1 ] for i in factorList ] ) < 2:
+        return 0
+
+    return 1 if getGCDOfList( [ i[ 1 ] for i in factorList ] ) == 1 else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def isAchillesNumberOperator( n ):
+    return isAchillesNumber( n )
 
 
 #******************************************************************************
@@ -1667,115 +1672,29 @@ def isDeficientOperator( n ):
 
 #******************************************************************************
 #
-#  isAbundantOperator
+#  isKPolydivisible
 #
 #******************************************************************************
 
-def isAbundant( n ):
-    if n < 2:
-        return 0
+@cachedFunction( 'k_polydivisible' )
+def isKPolydivisible( n, k ):
+    testMe = n
 
-    return 1 if getAbundance( n ) > 0 else 0
+    digits = fadd( floor( fdiv( log( n ), log( k ) ) ), 1 )
 
+    while testMe > 0:
+        if not isDivisible( testMe, digits ):
+            return 0
 
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def isAbundantOperator( n ):
-    return isAbundant( n )
+        testMe = floor( fdiv( testMe, k ) )
+        digits -= 1
 
-
-#******************************************************************************
-#
-#  isPerfect
-#
-#******************************************************************************
-
-def isPerfect( n ):
-    if n < 2:
-        return 0
-
-    return 1 if getAbundance( n ) == 0 else 0
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def isPerfectOperator( n ):
-    return isPerfect( n )
-
-
-#******************************************************************************
-#
-#  isSmooth
-#
-#******************************************************************************
-
-@cachedFunction( 'smooth' )
-def isSmooth( n, k ):
-    return 1 if sorted( getFactorList( n ) )[ -1 ][ 0 ] <= k else 0
-
+    return 1
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
-def isSmoothOperator( n, k ):
-    if n <= k:
-        return 1
-
-    return isSmooth( n, k )
-
-
-#******************************************************************************
-#
-#  isPerniciousOperator
-#
-#******************************************************************************
-
-def isPernicious( n ):
-    if n < 1:
-        return 0
-
-    return 1 if isPrime( getBitCount( n ) ) else 0
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def isPerniciousOperator( n ):
-    return isPernicious( n )
-
-
-#******************************************************************************
-#
-#  isRough
-#
-#  https://en.wikipedia.org/wiki/Rough_number
-#
-#  Please note that rough is not the opposite of smooth.
-#
-#******************************************************************************
-
-@cachedFunction( 'rough' )
-def isRough( n, k ):
-    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
-
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
-def isRoughOperator( n, k ):
-    if k < 2:
-        return 1
-
-    if n < 1:
-        return 0
-
-    if n == 1:
-        return 1
-
-    if n < k:
-        return 0
-
-    if n == k:
-        return 1
-
-    return isRough( n, k )
+@argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
+def isKPolydivisibleOperator( n, k ):
+    return isKPolydivisible( n, k )
 
 
 #******************************************************************************
@@ -1837,6 +1756,134 @@ def isKSphenicOperator( n, k ):
 
 #******************************************************************************
 #
+#  isPerfect
+#
+#******************************************************************************
+
+def isPerfect( n ):
+    if n < 2:
+        return 0
+
+    return 1 if getAbundance( n ) == 0 else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPerfectOperator( n ):
+    return isPerfect( n )
+
+
+#******************************************************************************
+#
+#  isPerniciousOperator
+#
+#******************************************************************************
+
+def isPernicious( n ):
+    if n < 1:
+        return 0
+
+    return 1 if isPrime( getBitCount( n ) ) else 0
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPerniciousOperator( n ):
+    return isPernicious( n )
+
+
+#******************************************************************************
+#
+#  isPolydivisible
+#
+#  It seems to be about 10% faster on average to do the division tests in
+#  reverse order.
+#
+#******************************************************************************
+
+@cachedFunction( 'polydivisible' )
+def isPolydivisible( n ):
+    strValue = getMPFIntegerAsString( n )
+
+    # a couple of cheats
+    if ( len( strValue ) > 4 ) and ( strValue[ 4 ] not in [ '5', '0' ] ):
+        return 0
+
+    if ( len( strValue ) > 9 ) and ( strValue[ 9 ] != '0' ):
+        return 0
+
+    for i in range( len( strValue ), 1, -1 ):
+        current = mpmathify( strValue[ : i ] )
+
+        if not isDivisible( current, i ):
+            return 0
+
+    return 1
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPolydivisibleOperator( n ):
+    return isPolydivisible( n )
+
+
+#******************************************************************************
+#
+#  isRough
+#
+#  https://en.wikipedia.org/wiki/Rough_number
+#
+#  Please note that rough is not the opposite of smooth.
+#
+#******************************************************************************
+
+@cachedFunction( 'rough' )
+def isRough( n, k ):
+    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
+
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
+def isRoughOperator( n, k ):
+    if k < 2:
+        return 1
+
+    if n < 1:
+        return 0
+
+    if n == 1:
+        return 1
+
+    if n < k:
+        return 0
+
+    if n == k:
+        return 1
+
+    return isRough( n, k )
+
+
+#******************************************************************************
+#
+#  isSmooth
+#
+#******************************************************************************
+
+@cachedFunction( 'smooth' )
+def isSmooth( n, k ):
+    return 1 if sorted( getFactorList( n ) )[ -1 ][ 0 ] <= k else 0
+
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
+def isSmoothOperator( n, k ):
+    if n <= k:
+        return 1
+
+    return isSmooth( n, k )
+
+
+#******************************************************************************
+#
 #  isSquareFree
 #
 #******************************************************************************
@@ -1883,23 +1930,19 @@ def isPowerfulOperator( n ):
 
 #******************************************************************************
 #
-#  isAchillesNumber
+#  isPronic
 #
 #******************************************************************************
 
-@cachedFunction( 'achilles' )
-def isAchillesNumber( n ):
-    factorList = getFactorList( n )
-
-    if min( [ i[ 1 ] for i in factorList ] ) < 2:
-        return 0
-
-    return 1 if getGCDOfList( [ i[ 1 ] for i in factorList ] ) == 1 else 0
+def isPronic( n ):
+    a = floor( sqrt( n ) )
+    return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ) ] )
-def isAchillesNumberOperator( n ):
-    return isAchillesNumber( n )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPronicOperator( n ):
+    return isPronic( n )
+
 
 #******************************************************************************
 #
@@ -1921,54 +1964,6 @@ def isUnusual( n ):
 def isUnusualOperator( n ):
     return isUnusual( n )
 
-#******************************************************************************
-#
-#  isPronic
-#
-#******************************************************************************
-
-def isPronic( n ):
-    a = floor( sqrt( n ) )
-    return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def isPronicOperator( n ):
-    return isPronic( n )
-
-
-#******************************************************************************
-#
-#  isPolydivisible
-#
-#  It seems to be about 10% faster on average to do the division tests in
-#  reverse order.
-#
-#******************************************************************************
-
-@cachedFunction( 'polydivisible' )
-def isPolydivisible( n ):
-    strValue = getMPFIntegerAsString( n )
-
-    # a couple of cheats
-    if ( len( strValue ) > 4 ) and ( strValue[ 4 ] not in [ '5', '0' ] ):
-        return 0
-
-    if ( len( strValue ) > 9 ) and ( strValue[ 9 ] != '0' ):
-        return 0
-
-    for i in range( len( strValue ), 1, -1 ):
-        current = mpmathify( strValue[ : i ] )
-
-        if not isDivisible( current, i ):
-            return 0
-
-    return 1
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0 ) ] )
-def isPolydivisibleOperator( n ):
-    return isPolydivisible( n )
 
 
 #******************************************************************************
