@@ -2943,7 +2943,7 @@ This operator returns the time of the next last quarter moon after date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today next_last_quarter_moon' ) + '''
-''' + makeCommandExample( '2050-01-01 next_last_quarter_moon' ),
+''' + makeCommandExample( '2030-01-01 next_last_quarter_moon' ),
 [ 'previous_last_quarter_moon', 'next_new_moon', 'next_first_quarter_moon', 'next_new_moon' ] ],
 
     'next_new_moon' : [
