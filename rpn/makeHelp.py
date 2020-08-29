@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2143
+MAX_EXAMPLE_COUNT = 2145
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -9124,9 +9124,8 @@ take advantage of YAFU, please set the following configuration values:
 'yafu_path' needs to be set to the location of the YAFU executable.
 
 e.g.:
-
-rpn yafu_binary 'yafu-x64.core2.exe set_config
-rpn yafu_path 'c:\\app\\yafu set_config
+    rpn yafu_binary 'yafu-x64.core2.exe set_config
+    rpn yafu_path 'c:\\app\\yafu set_config
 ''',
 '''
 ''' + makeCommandExample( '8675309 factor' ) + '''
@@ -9137,10 +9136,14 @@ rpn yafu_path 'c:\\app\\yafu set_config
     'factorial' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
-'factorial' calculates the product of all whole numbers from 1 to n.
+This operator calculates the product of all whole numbers from 1 to n.  It is
+also capable of calculating the analytical generalization of the factorial
+function to non-integer and complex numbers.
 ''',
 '''
-''' + makeCommandExample( '1 10 range factorial' ),
+''' + makeCommandExample( '1 10 range factorial' ) + '''
+''' + makeCommandExample( '4.5 factorial' ) + '''
+''' + makeCommandExample( '3 2j - factorial' ),
 [ 'superfactorial', 'hyperfactorial', 'barnesg', 'gamma', 'double_factorial', 'subfactorial' ] ],
 
     'fibonacci' : [
@@ -11056,6 +11059,23 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_cube' : [
 'figurate_numbers', 'calculates the nth centered cube number',
 '''
+From https://en.wikipedia.org/wiki/Centered_cube_number:
+
+A centered cube number is a centered figurate number that counts the number of
+points in a three-dimensional pattern formed by a point surrounded by concentric
+cubical layers of points, with i^2 points on the square faces of the ith layer.
+Equivalently, it is the number of points in a body-centered cubic pattern within
+a cube that has n + 1 points along each of its edges.
+
+The centered cube number for a pattern with n concentric layers around the
+central point is given by the formula:
+
+n^3 + ( n + 1 )^3 = ( 2n + 1 )( n^2 + n + 1 ).
+
+Because of the factorization ( 2n + 1 )( n^2 + n + 1 ), it is impossible for a
+centered cube number to be a prime number.  The only centered cube number that
+is also a square number is 9, which can be shown by solving 2n + 1 = n^2 + n +
+1.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_cube' ) + '''
@@ -11065,6 +11085,19 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_decagonal' : [
 'figurate_numbers', 'calculates the nth centered decagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_decagonal_number:
+
+A centered decagonal number is a centered figurate number that represents a
+decagon with a dot in the center and all other dots surrounding the center dot
+in successive decagonal layers.  The centered decagonal number for n is given by
+the formula:  5n^2 + 5n + 1.
+
+Like any other centered k-gonal number, the nth centered decagonal number can be
+reckoned by multiplying the (n − 1)th triangular number by k, 10 in this case,
+then adding 1.  As a consequence of performing the calculation in base 10, the
+centered decagonal numbers can be obtained by simply adding a 1 to the right of
+each triangular number.  Therefore, all centered decagonal numbers are odd and
+in base 10 always end in 1.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_decagonal' ) + '''
@@ -11083,6 +11116,21 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_heptagonal' : [
 'figurate_numbers', 'calculates the nth centered heptagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_heptagonal_number:
+
+A centered heptagonal number is a centered figurate number that represents a
+heptagon with a dot in the center and all other dots surrounding the center dot
+in successive heptagonal layers.  The centered heptagonal number for n is given
+by the formula:
+
+7n^2 - 7n + 2
+-------------
+      2
+
+This can also be calculated by multiplying the triangular number for (n – 1) by
+7, then adding 1.
+
+Centered heptagonal numbers alternate parity in the pattern odd-even-even-odd.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_heptagonal' ) + '''
@@ -11092,6 +11140,25 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_hexagonal' : [
 'figurate_numbers', 'calculates the nth centered hexagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_hexagonal_number:
+
+A centered hexagonal number, or hex number,[1] is a centered figurate number
+that represents a hexagon with a dot in the center and all other dots
+surrounding the center dot in a hexagonal lattice.  Centered hexagonal numbers
+have practical applications in materials logistics management.
+
+A centered hexagonal number is a centered figurate number that represents a
+hexagon with a dot in the center and all other dots surrounding the center dot
+in a hexagonal lattice.
+
+The nth centered hexagonal number is given by the formula:
+
+        n( n - 1 )
+1 + 6 ( ---------- )
+            2
+
+This shows that the centered hexagonal number for n is 1 more than 6 times the
+(n − 1)th triangular number.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_hexagonal' ) + '''
@@ -11101,6 +11168,14 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_icosahedral' : [
 'figurate_numbers', 'calculates the nth centered icosahedral number',
 '''
+From https://en.wikipedia.org/wiki/Centered_icosahedral_number:
+
+A centered icosahedral number is a centered figurate number that represents an
+icosahedron.  The centered icosahedral number for a specific n is given by:
+
+( 2n + 1 )( 5n^2 + 5n + 3 )
+---------------------------
+             3
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_icosahedral' ) + '''
@@ -11110,6 +11185,31 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_nonagonal' : [
 'figurate_numbers', 'calculates the nth centered nonagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_nonagonal_number:
+
+A centered nonagonal number (or centered enneagonal number) is a centered
+figurate number that represents a nonagon with a dot in the center and all other
+dots surrounding the center dot in successive nonagonal layers.  The centered
+nonagonal number for n is given by the formula:
+
+( 3n - 2 )( 3n - 1 )
+--------------------
+          2
+
+Multiplying the (n - 1)th triangular number by 9 and then adding 1 yields the
+nth centered nonagonal number, but centered nonagonal numbers have an even
+simpler relation to triangular numbers:  every third triangular number (the 1st,
+4th, 7th, etc.) is also a centered nonagonal number.
+
+The list of centered nonagonal numbers includes the perfect numbers 28 and 496.
+All even perfect numbers are triangular numbers whose index is an odd Mersenne
+prime.  Since every Mersenne prime greater than 3 is congruent to 1 modulo 3, it
+follows that every even perfect number greater than 6 is a centered nonagonal
+number.
+
+In 1850, Sir Frederick Pollock conjectured that every natural number is the sum
+of at most eleven centered nonagonal numbers, which has been neither proven nor
+disproven.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_nonagonal' ) + '''
@@ -11119,6 +11219,16 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_octagonal' : [
 'figurate_numbers', 'calculates the nth centered octagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_octagonal_number:
+
+A centered octagonal number is a centered figurate number that represents an
+octagon with a dot in the center and all other dots surrounding the center dot
+in successive octagonal layers.  The centered octagonal numbers are the same as
+the odd square numbers.  Thus, the nth centered octagonal number is given by the
+formula:  ( 2n - 1 )^2 = 4n^2 - 4n + 1.
+
+Calculating Ramanujan's tau function on a centered octagonal number yields an
+odd number, whereas for any other number the function yields an even number.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_octagonal' ) + '''
@@ -11128,6 +11238,28 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_octahedral' : [
 'figurate_numbers', 'calculates the nth centered octahedral number',
 '''
+From https://en.wikipedia.org/wiki/Centered_octahedral_number:
+
+A centered octahedral number or Haüy octahedral number is a figurate number that
+counts the number of points of a three-dimensional integer lattice that lie
+inside an octahedron centered at the origin.  The same numbers are special cases
+of the Delannoy numbers, which count certain two-dimensional lattice paths.  The
+Hauey octahedral numbers are named after Rene Just Hauey.
+
+The name "Hauey octahedral number" comes from the work of Rene Just Hauey, a
+French mineralogist active in the late 18th and early 19th centuries.  His "
+Hauey construction" approximates an octahedron as a polycube, formed by
+accreting concentric layers of cubes onto a central cube.  The centered
+octahedral numbers count the number of cubes used by this construction.  Hauey
+proposed this construction, and several related constructions of other
+polyhedra, as a model for the structure of crystalline minerals.
+
+The number of three-dimensional lattice points within n steps of the origin is
+given by the formula:
+
+( 2n + 1 )( 2n^2 + 2n + 3 )
+---------------------------
+            3
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_octahedral' ) + '''
@@ -11137,6 +11269,19 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_pentagonal' : [
 'figurate_numbers', 'calculates the nth centered pentagonal number',
 '''
+From https://en.wikipedia.org/wiki/Centered_pentagonal_number:
+
+A centered pentagonal number is a centered figurate number that represents a
+pentagon with a dot in the center and all other dots surrounding the center in
+successive pentagonal layers.  The centered pentagonal number for n is given by
+the formula:
+
+5n^2 - 5n + 2
+-------------
+      2
+
+The parity of centered pentagonal numbers follows the pattern even-even-odd, and
+in base 10 the units follow the pattern 1-6-6-1.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_pentagonal' ) + '''
@@ -11146,6 +11291,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_polygonal' : [
 'figurate_numbers', 'calculates the nth centered k-gonal number',
 '''
+This operator is the generalized function that calculate the nth centered
+k-gonal number for all k greater than 2.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 3 centered_polygonal' ) + '''
@@ -11157,6 +11304,22 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_square' : [
 'figurate_numbers', 'calculates the nth centered square number',
 '''
+From https://en.wikipedia.org/wiki/Centered_square_number:
+
+In elementary number theory, a centered square number is a centered figurate
+number that gives the number of dots in a square with a dot in the center and
+all other dots surrounding the center dot in successive square layers.  That is,
+each centered square number equals the number of dots within a given city block
+distance of the center dot on a regular square lattice.  While centered square
+numbers, like figurate numbers in general, have few if any direct practical
+applications, they are sometimes studied in recreational mathematics for their
+elegant geometric and arithmetic properties.
+
+The formula for the nth centered square is n^2 + (n - 1)^2.
+
+Every centered square number except 1 is the hypotenuse of a Pythagorean triple
+(for example, 3-4-5, 5-12-13, 7-24-25).  This is exactly the sequence of
+Pythagorean triples where the two longest sides differ by 1.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_square' ) + '''
@@ -11166,6 +11329,14 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_tetrahedral' : [
 'figurate_numbers', 'calculates the nth centered tetrahedral number',
 '''
+From https://en.wikipedia.org/wiki/Centered_tetrahedral_number:
+
+A centered tetrahedral number is a centered figurate number that represents a
+tetrahedron.  The centered tetrahedral number for a specific n is given by:
+
+( 2n + 1 )( n^2 + n + 3 )
+-------------------------
+            3
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_tetrahedral' ) + '''
@@ -11175,6 +11346,16 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_triangular' : [
 'figurate_numbers', 'calculates the nth centered triangular number',
 '''
+From https://en.wikipedia.org/wiki/Centered_triangular_number:
+
+A centered (or centred) triangular number is a centered figurate number that
+represents a triangle with a dot in the center and all other dots surrounding
+the center in successive triangular layers.  The centered triangular number for
+n is given by the formula:
+
+3n^2 + 3n + 2
+-------------
+      2
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_triangular' ) + '''
@@ -11184,6 +11365,18 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'decagonal' : [
 'figurate_numbers', 'calculates the nth decagonal number',
 '''
+From https://en.wikipedia.org/wiki/Decagonal_number:
+
+A decagonal number is a figurate number that extends the concept of triangular
+and square numbers to the decagon (a ten-sided polygon).  However, unlike the
+triangular and square numbers, the patterns involved in the construction of
+decagonal numbers are not rotationally symmetrical.  Specifically, the nth
+decagonal numbers counts the number of dots in a pattern of n nested decagons,
+all sharing a common corner, where the ith decagon in the pattern has sides made
+of i dots spaced one unit apart from each other.  The nth decagonal number is
+given by the formula:  4n^2 - 3n.
+
+Decagonal numbers consistently alternate parity.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal' ) + '''
@@ -11193,8 +11386,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'decagonal_centered_square' : [
 'figurate_numbers', 'calculates the nth decagonal centered square number',
 '''
-'decagonal_centered_square' calculates the nth number that is both decagonal and
-centered square.
+This operator calculates the nth number that is both decagonal and centered
+square.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_centered_square' ) + '''
@@ -11204,8 +11397,7 @@ centered square.
     'decagonal_heptagonal' : [
 'figurate_numbers', 'calculates the nth decagonal heptagonal number',
 '''
-'decagonal_heptagonal' calculates the nth number that is both decagonal and
-heptagonal.
+This operator calculates the nth number that is both decagonal and heptagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_heptagonal' ) + '''
@@ -11215,8 +11407,7 @@ heptagonal.
     'decagonal_hexagonal' : [
 'figurate_numbers', 'calculates the nth decagonal hexagonal number',
 '''
-'decagonal_hexagonal' calculates the nth number that is both decagonal and
-hexagonal.
+This operator calculates the nth number that is both decagonal and hexagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_hexagonal' ) + '''
@@ -11226,8 +11417,7 @@ hexagonal.
     'decagonal_nonagonal' : [
 'figurate_numbers', 'calculates the nth decagonal heptagonal number',
 '''
-'decagonal_heptagonal' calculates the nth number that is both decagonal and
-heptagonal.
+This operator calculates the nth number that is both decagonal and heptagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_nonagonal' ) + '''
@@ -11237,8 +11427,7 @@ heptagonal.
     'decagonal_octagonal' : [
 'figurate_numbers', 'calculates the nth decagonal octagonal number',
 '''
-'decagonal_octagonal' calculates the nth number that is both decagonal and
-octagonal.
+This operator calculates the nth number that is both decagonal and octagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_octagonal' ) + '''
@@ -11248,8 +11437,7 @@ octagonal.
     'decagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth decagonal pentagonal number',
 '''
-'decagonal_pentagonal' calculates the nth number that is both decagonal and
-pentgonal.
+This operator calculates the nth number that is both decagonal and pentgonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_pentagonal' ) + '''
@@ -11259,8 +11447,7 @@ pentgonal.
     'decagonal_triangular' : [
 'figurate_numbers', 'calculates the nth decagonal triangular number',
 '''
-'decagonal_triangular' calculates the nth number that is both decagonal and
-triangular.
+This operator calculates the nth number that is both decagonal and triangular.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range decagonal_triangular' ) + '''
@@ -11270,6 +11457,14 @@ triangular.
     'dodecahedral' : [
 'figurate_numbers', 'returns the nth dodecahedral number',
 '''
+From https://en.wikipedia.org/wiki/Dodecahedral_number:
+
+A dodecahedral number is a figurate number that represents a dodecahedron.  The
+nth dodecahedral number is given by the formula:
+
+n( 3n - 1 )( 3n - 2 )
+---------------------
+          2
 ''',
 '''
 ''' + makeCommandExample( '1 10 range dodecahedral' ) + '''
@@ -11315,6 +11510,17 @@ triangular.
     'generalized_pentagonal' : [
 'figurate_numbers', 'calculates the nth generalized pentagonal number',
 '''
+From https://en.wikipedia.org/wiki/Pentagonal_number:
+
+Generalized pentagonal numbers are obtained from the formula (3n^2 - n ) / 2,
+but with n taking values in the sequence 0, 1, −1, 2, −2, 3, −3, 4...
+
+Generalized pentagonal numbers are closely related to centered hexagonal
+numbers.  When the array corresponding to a centered hexagonal number is divided
+between its middle row and an adjacent row, it appears as the sum of two
+generalized pentagonal numbers, with the larger piece being a pentagonal number
+proper.
+
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_pentagonal' ) + '''
@@ -11324,6 +11530,18 @@ triangular.
     'heptagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal number',
 '''
+A heptagonal number is a figurate number that is constructed by combining
+heptagons with ascending size.  The n-th heptagonal number is given by the
+formula:
+
+5n^2 - 3n
+---------
+    2
+
+The parity of heptagonal numbers follows the pattern odd-odd-even-even.  Like
+square numbers, the digital root in base 10 of a heptagonal number can only be
+1, 4, 7 or 9.  Five times a heptagonal number, plus 1 equals a triangular
+number.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range heptagonal' ) + '''
@@ -11333,8 +11551,7 @@ triangular.
     'heptagonal_hexagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
-'heptagonal_hexagonal' calculates the nth number that is both heptagonal and
-hexagonal.
+This operator calculates the nth number that is both heptagonal and hexagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range heptagonal_hexagonal' ) + '''
@@ -11344,8 +11561,7 @@ hexagonal.
     'heptagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
-'heptagonal_pentagonal' calculates the nth number that is both heptagonal and
-pentgonal.
+This operator calculates the nth number that is both heptagonal and pentgonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range heptagonal_pentagonal' ) + '''
@@ -11355,8 +11571,7 @@ pentgonal.
     'heptagonal_square' : [
 'figurate_numbers', 'calculates the nth heptagonal square number',
 '''
-'heptagonal_square' calculates the nth number that is both heptagonal and
-square.
+This operator alculates the nth number that is both heptagonal and square.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range heptagonal_square' ) + '''
@@ -11366,8 +11581,7 @@ square.
     'heptagonal_triangular' : [
 'figurate_numbers', 'calculates the nth heptagonal triangular number',
 '''
-'heptagonal_triangular' calculates the nth number that is both heptagonal and
-triangular.
+This operator calculates the nth number that is both heptagonal and triangular.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range heptagonal_triangular' ) + '''
@@ -11377,6 +11591,20 @@ triangular.
     'hexagonal' : [
 'figurate_numbers', 'calculates the nth hexagonal number',
 '''
+From https://en.wikipedia.org/wiki/Hexagonal_number:
+
+A hexagonal number is a figurate number.  The nth hexagonal number h(n) is the
+number of distinct dots in a pattern of dots consisting of the outlines of
+regular hexagons with sides up to n dots, when the hexagons are overlaid so that
+they share one vertex.
+
+The formula for the nth hexagonal number is:  2n^2 - n.
+
+Every hexagonal number is a triangular number, but only every other triangular
+number (the 1st, 3rd, 5th, 7th, etc.) is a hexagonal number.  Like a triangular
+number, the digital root in base 10 of a hexagonal number can only be 1, 3, 6,
+or 9.  The digital root pattern, repeating every nine terms, is "1 6 6 1 9 3 1
+3 9".
 ''',
 '''
 ''' + makeCommandExample( '1 10 range hexagonal' ) + '''
@@ -11386,8 +11614,7 @@ triangular.
     'hexagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
-'hexagonal_pentagonal' calculates the nth number that is both hexagonal and
-pentagonal.
+This operator calculates the nth number that is both hexagonal and pentagonal.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range hexagonal_pentagonal' ) + '''
@@ -11397,8 +11624,7 @@ pentagonal.
     'hexagonal_square' : [
 'figurate_numbers', 'calculates the nth hexagonal square number',
 '''
-'hexagonal_square' calculates the nth number that is both hexagonal and
-square.
+This operator calculates the nth number that is both hexagonal and square.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range hexagonal_square' ) + '''
@@ -11408,6 +11634,25 @@ square.
     'icosahedral' : [
 'figurate_numbers', 'returns the nth icosahedral number',
 '''
+From https://en.wikipedia.org/wiki/Icosahedral_number:
+
+An icosahedral number is a figurate number that represents an icosahedron.  The
+nth icosahedral number is given by the formula:
+
+    n ( 5n^2 - 5n + 2 )
+    -------------------
+             2
+
+The first study of icosahedral numbers appears to have been by Rene Descartes,
+around 1630, in his "De solidorum elementis".  Prior to Descartes, figurate
+numbers had been studied by the ancient Greeks and by Johann Faulhaber, but only
+for polygonal numbers, pyramidal numbers, and cubes.  Descartes introduced the
+study of figurate numbers based on the Platonic solids and some semiregular
+polyhedra; his work included the icosahedral numbers.  However, "De solidorum
+elementis" was lost, and not rediscovered until 1860.  In the meantime,
+icosahedral numbers had been studied again by other mathematicians, including
+Friedrich Wilhelm Marpurg in 1774, Georg Simon Kluegel in 1808, and Sir
+Frederick Pollock in 1850.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range icosahedral' ) + '''
@@ -11417,6 +11662,22 @@ square.
     'nonagonal' : [
 'figurate_numbers', 'calculates the nth nonagonal number',
 '''
+From https://en.wikipedia.org/wiki/Nonagonal_number:
+
+A nonagonal number (or an enneagonal number) is a figurate number that extends
+the concept of triangular and square numbers to the nonagon (a nine-sided
+polygon).  However, unlike the triangular and square numbers, the patterns
+involved in the construction of nonagonal numbers are not rotationally
+symmetrical.  Specifically, the nth nonagonal number counts the number of dots
+in a pattern of n nested nonagons, all sharing a common corner, where the ith
+nonagon in the pattern has sides made of i dots spaced one unit apart from each
+other.  The nonagonal number for n is given by the formula:
+
+    n ( 7n - 5 )
+    ------------
+         2
+
+The parity of nonagonal numbers follows the pattern odd-odd-even-even.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nonagonal' ) + '''
@@ -11493,12 +11754,12 @@ TODO: fix me
     'nth_centered_decagonal' : [
 'figurate_numbers', 'finds the index of the centered decagonal number of value n',
 '''
-'nth_centered_decagonal' solves for the index of the equation used by
-'centered_decagonal' to get the index i of the ith centered decagonal number
-that corresponds to the value n.
+This operator solves for the index of the equation used by 'centered_decagonal'
+to get the index i of the ith centered decagonal number that corresponds to the
+value n.
 
-If n is not a centered decagonal number, the result will not be a whole
-number.
+If n is not a centered decagonal number, the result will be the index of the
+highest centered decagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '10000000 nth_centered_decagonal' ) + '''
@@ -11512,8 +11773,8 @@ number.
 'centered_heptagonal' to get the index i of the ith centered heptagonal number
 that corresponds to the value n.
 
-If n is not a centered heptagonal number, the result will not be a whole
-number.
+If n is not a centered heptagonal number, the result will be the index of the
+highest centered heptagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_heptagonal' ) + '''
@@ -11527,8 +11788,8 @@ number.
 'centered_hexagonal' to get the index i of the ith centered hexagonal number
 that corresponds to the value n.
 
-If n is not a centered hexagonal number, the result will not be a whole
-number.
+If n is not a centered hexagonal number, the result will be the index of the
+highest centered hexagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_hexagonal' ) + '''
@@ -11542,8 +11803,8 @@ number.
 'centered_nonagonal' to get the index i of the ith centered nonagonal number
 that corresponds to the value n.
 
-If n is not a centered nonagonal number, the result will not be a whole
-number.
+If n is not a centered nonagonal number, the result will be the index of the
+highest centered nonagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_nonagonal' ) + '''
@@ -11626,6 +11887,11 @@ number.
     'nth_decagonal' : [
 'figurate_numbers', 'finds the index of the decagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'decagonal' to get
+the index i of the ith decagonal number that corresponds to the value n.
+
+If n is not a decagonal number, the result will be the index of the highest
+decagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_decagonal' ) + '''
@@ -11635,6 +11901,11 @@ number.
     'nth_hexagonal' : [
 'figurate_numbers', 'finds the index of the hexagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'hexagonal' to get
+the index i of the ith hexagonal number that corresponds to the value n.
+
+If n is not a hexagonal number, the result will be the index of the highest
+hexagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_hexagonal' ) + '''
@@ -11644,6 +11915,11 @@ number.
     'nth_heptagonal' : [
 'figurate_numbers', 'finds the index of the heptagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'heptagonal' to get
+the index i of the ith heptagonal number that corresponds to the value n.
+
+If n is not a heptagonal number, the result will be the index of the highest
+heptagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_heptagonal' ) + '''
@@ -11653,6 +11929,11 @@ number.
     'nth_nonagonal' : [
 'figurate_numbers', 'finds the index of the nonagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'nonagonal' to get
+the index i of the ith nonagonal number that corresponds to the value n.
+
+If n is not a nonagonal number, the result will be the index of the highest
+nonagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_nonagonal' ) + '''
@@ -11662,6 +11943,11 @@ number.
     'nth_octagonal' : [
 'figurate_numbers', 'finds the index of the octagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'octagonal' to get
+the index i of the ith octagonal number that corresponds to the value n.
+
+If n is not a octagonal number, the result will be the index of the highest
+octagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_octagonal' ) + '''
@@ -11671,6 +11957,11 @@ number.
     'nth_pentagonal' : [
 'figurate_numbers', 'finds the index of the pentagonal number of value n',
 '''
+This operator solves for the index of the equation used by 'pentagonal' to get
+the index i of the ith pentagonal number that corresponds to the value n.
+
+If n is not a pentagonal number, the result will be the index of the highest
+pentagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_pentagonal' ) + '''
@@ -11680,6 +11971,11 @@ number.
     'nth_polygonal' : [
 'figurate_numbers', 'finds the index of the polygonal number with k sides of value n',
 '''
+This operator solves for the index of the equation used by 'polygonal' to get
+the index i of the ith k-polygonal number that corresponds to the value n.
+
+If n is not a k-polygonal number, the result will be the index of the highest
+k-polygonal number less than n.
 ''',
 '''
 ''',
@@ -11688,6 +11984,11 @@ number.
     'nth_square' : [
 'figurate_numbers', 'finds the index of the square number of value n',
 '''
+This operator solves for the index of the equation used by 'square' to get
+the index i of the ith square number that corresponds to the value n.
+
+If n is not a square number, the result will be the index of the highest
+square number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_square' ) + '''
@@ -11697,6 +11998,11 @@ number.
     'nth_triangular' : [
 'figurate_numbers', 'finds the index of the triangular number of value n',
 '''
+This operator solves for the index of the equation used by 'triangular' to get
+the index i of the ith triangular number that corresponds to the value n.
+
+If n is not a triangular number, the result will be the index of the highest
+triangular number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_triangular' ) + '''
@@ -11706,6 +12012,13 @@ number.
     'octagonal' : [
 'figurate_numbers', 'calculates the nth octagonal number',
 '''
+From https://en.wikipedia.org/wiki/Octagonal_number:
+
+An octagonal number is a figurate number that represents an octagon.  The
+octagonal number for n is given by the formula 3n^2 - 2n, with n > 0.
+
+Octagonal numbers can be formed by placing triangular numbers on the four sides
+of a square.
 ''',
 '''
 ''' + makeCommandExample( '1 16 range octagonal' ) + '''
@@ -11715,8 +12028,7 @@ number.
     'octagonal_heptagonal' : [
 'figurate_numbers', 'returns the nth octagonal heptagonal number',
 '''
-'octagonal_heptagonal' calculates the nth number that is both octagonal and
-heptagonal.
+This operator calculates the nth number that is both octagonal and heptagonal.
 ''',
 '''
 ''' + makeCommandExample( '-a22 1 5 range octagonal_heptagonal' ) + '''
@@ -11726,8 +12038,7 @@ heptagonal.
     'octagonal_hexagonal' : [
 'figurate_numbers', 'calculates the nth octagonal hexagonal number',
 '''
-'octagonal_hexagonal' calculates the nth number that is both octagonal and
-hexagonal.
+This operator calculates the nth number that is both octagonal and hexagonal.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 5 range octagonal_hexagonal' ) + '''
@@ -11737,8 +12048,7 @@ hexagonal.
     'octagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth octagonal pentagonal number',
 '''
-'octagonal_pentagonal' calculates the nth number that is both octagonal and
-pentagonal.
+This operator calculates the nth number that is both octagonal and pentagonal.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 6 range octagonal_pentagonal' ) + '''
@@ -11748,8 +12058,7 @@ pentagonal.
     'octagonal_square' : [
 'figurate_numbers', 'calculates the nth octagonal square number',
 '''
-'octagonal_square' calculates the nth number that is both octagonal and
-square.
+This operator calculates the nth number that is both octagonal and square.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 7 range octagonal_square' ) + '''
@@ -11759,8 +12068,7 @@ square.
     'octagonal_triangular' : [
 'figurate_numbers', 'calculates the nth octagonal triangular number',
 '''
-'octagonal_triangular' calculates the nth number that is both octagonal and
-triangular.
+This operator calculates the nth number that is both octagonal and triangular.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 8 range octagonal_triangular' ) + '''
@@ -11779,6 +12087,25 @@ triangular.
     'pentagonal' : [
 'figurate_numbers', 'calculates the nth pentagonal number',
 '''
+From https://en.wikipedia.org/wiki/Pentagonal_number:
+
+A pentagonal number is a figurate number that extends the concept of triangular
+and square numbers to the pentagon, but, unlike the first two, the patterns
+involved in the construction of pentagonal numbers are not rotationally
+symmetrical.  The nth pentagonal number p(n) is the number of distinct dots in a
+pattern of dots consisting of the outlines of regular pentagons with sides up to
+n dots, when the pentagons are overlaid so that they share one vertex.  For
+instance, the third one is formed from outlines comprising 1, 5 and 10 dots, but
+the 1, and 3 of the 5, coincide with 3 of the 10 - leaving 12 distinct dots, 10
+in the form of a pentagon, and 2 inside.
+
+p(n) is given by the formula:
+
+3n^2 - n
+--------
+    2
+
+The nth pentagonal number is one third of the (3n − 1)th triangular number.
 ''',
 '''
 ''' + makeCommandExample( '1 16 range pentagonal' ) + '''
@@ -11788,6 +12115,7 @@ triangular.
     'pentagonal_square' : [
 'figurate_numbers', 'calculates the nth pentagonal square number',
 '''
+This operator calculates the nth number that is both pentagonal and square.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 5 range pentagonal_square' ) + '''
@@ -11797,6 +12125,7 @@ triangular.
     'pentagonal_triangular' : [
 'figurate_numbers', 'calculates the nth pentagonal triangular number',
 '''
+This operator calculates the nth number that is both pentagonal and triangular.
 ''',
 '''
 ''' + makeCommandExample( '-a20 1 6 range pentagonal_triangular' ) + '''
@@ -11806,6 +12135,18 @@ triangular.
     'pentatope' : [
 'figurate_numbers', 'calculates the nth pentatope number',
 '''
+From https://en.wikipedia.org/wiki/Pentatope_number:
+
+A pentatope number is a number in the fifth cell of any row of Pascal's triangle
+starting with the 5-term row 1 4 6 4 1 either from left to right or from right
+to left.
+
+The formula for the nth pentatope number is represented by the 4th rising
+factorial of n divided by the factorial of 4:
+
+n ( n + 1 )( n + 2 )( n + 3 )
+-----------------------------
+             24
 ''',
 '''
 ''' + makeCommandExample( '1 15 range pentatope' ) + '''
@@ -11815,6 +12156,7 @@ triangular.
     'polygonal' : [
 'figurate_numbers', 'calculates the nth polygonal number with k sides',
 '''
+This operator calculates the nth polygonal number with k sides.
 ''',
 '''
 ''' + makeCommandExample( '13 triangular' ) + '''
@@ -11867,8 +12209,7 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
     'square_triangular' : [
 'figurate_numbers', 'calculates the nth square triangular number',
 '''
-'square_triangular' calculates the nth number that is both square and
-triangular.
+This operator calculates the nth number that is both square and triangular.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range square_triangular' ) + '''
@@ -11905,6 +12246,25 @@ http://oeis.org/A007588
     'tetrahedral' : [
 'figurate_numbers', 'calculates the nth tetrahedral number',
 '''
+From https://en.wikipedia.org/wiki/Tetrahedral_number:
+
+A tetrahedral number, or triangular pyramidal number, is a figurate number that
+represents a pyramid with a triangular base and three sides, called a
+tetrahedron.  The nth tetrahedral number, Te(n), is the sum of the first n
+triangular numbers.
+
+The formula for the nth tetrahedral number is represented by the 3rd rising
+factorial of n divided by the factorial of 3:
+
+n ( n + 1 )( n + 2 )
+--------------------
+         6
+
+Tetrahedral numbers can be modelled by stacking spheres.  For example, the fifth
+tetrahedral number (Te(5) = 35) can be modelled with 35 billiard balls and the
+standard triangular billiards ball frame that holds 15 balls in place.  Then 10
+more balls are stacked on top of those, then another 6, then another three and
+one ball at the top completes the tetrahedron.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range tetrahedral' ) + '''
