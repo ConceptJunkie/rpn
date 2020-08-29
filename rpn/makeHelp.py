@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2145
+MAX_EXAMPLE_COUNT = 2201
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -752,8 +752,9 @@ There are now some examples of absolute time handling.
 
 5.24.0
 
-A few more bug fixes, plus new calendar-related operators:  easter.
-election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
+A few more bug fixes, plus new calendar-related operators:  'easter'.
+'election_day', 'labor_day', 'memorial_day', 'nthday', 'presidents_day',
+'thanksgiving'.
 
 5.25.0
 
@@ -3589,12 +3590,22 @@ Monday in November.  This definition was established by the U.S. Congress in
     'fathers_day' : [
 'calendars', 'calculates the date of Father\'s Day (US) for the year specified',
 '''
+From https://en.wikipedia.org/wiki/Father%27s_Day:
+
+Father's Day is a day of honoring fatherhood and paternal bonds, as well as the
+influence of fathers in society.  In Catholic countries of Europe, it has been
+celebrated on March 19 as Saint Joseph's Day since the Middle Ages.  In America,
+Father's Day was founded by Sonora Smart Dodd, and celebrated on the third
+Sunday of June for the first time in 1910.  It is held on various days in many
+parts of the world all throughout the year, often in the months of March, May
+and June.
+
 In the U.S., and most other countries, Father's Day occurs on the third Sunday
-in June.
+in June.  This is the definition that rpn uses.
 ''',
 '''
 ''' + makeCommandExample( 'today fathers_day' ) + '''
-''' + makeCommandExample( '1993 fathers_day' ),
+''' + makeCommandExample( '1994 fathers_day' ),
 [ 'mothers_day', 'thanksgiving' ] ],
 
     'from_bahai' : [
@@ -3750,8 +3761,24 @@ armed services.
     'mothers_day' : [
 'calendars', 'calculates the date of Mother\'s Day (US) for the year specified',
 '''
-In the U.S., and most other countries, Mother's Day occurs on the second Sunday
-in May.
+From https://en.wikipedia.org/wiki/Mother%27s_Day:
+
+Mother's Day is a celebration honoring the mother of the family, as well as
+motherhood, maternal bonds, and the influence of mothers in society.  It is
+celebrated on various days in many parts of the world, most commonly in the
+months of March or May.  It complements similar celebrations honoring family
+members, such as Father's Day, Siblings Day, and Grandparents Day.
+
+The modern Mother's Day began in the United States, at the initiative of Anna
+Jarvis in the early 20th century.  It is not directly related to the many
+traditional celebrations of mothers and motherhood that have existed throughout
+the world over thousands of years, such as the Greek cult to Cybele, the mother
+god Rhea, the Roman festival of Hilaria, or the Christian Laetare Sunday
+celebration (associated with the image of Mother Church).  However, in some
+countries, Mother's Day is still synonymous with these older traditions.
+
+In the U.S., which is the definition rpn uses, Mother's Day is celebrated on the
+second Sunday in May.
 ''',
 '''
 ''' + makeCommandExample( 'today mothers_day' ) + '''
@@ -3761,14 +3788,35 @@ in May.
     'new_years_day' : [
 'calendars', 'returns the date of New Year\'s Day (US) for the year specified',
 '''
+From https://en.wikipedia.org/wiki/New_Year%27s_Day:
+
+New Year's Day, also simply called New Year, is observed on 1 January, the first
+day of the year on the modern Gregorian calendar as well as the Julian calendar.
+
+In pre-Christian Rome under the Julian calendar, the day was dedicated to Janus,
+god of gateways and beginnings, for whom January is also named.  As a date in
+the Gregorian calendar of Christendom, New Year's Day liturgically marked the
+Feast of the Naming and Circumcision of Jesus, which is still observed as such
+in the Anglican Church and Lutheran Church.  The Roman Catholic Church
+celebrates on this day the Solemnity of Mary, Mother of God.
+
+In present day, with most countries now using the Gregorian calendar as their de
+facto calendar, New Year's Day is among the most celebrated public holidays in
+the world, often observed with fireworks at the stroke of midnight as the new
+year starts in each time zone.  Other global New Year's Day traditions include
+making New Year's resolutions and calling one's friends and family.
 ''',
 '''
-''' + makeCommandExample( '2020 new_years_day' ),
+''' + makeCommandExample( '2020 new_years_day' ) + '''
+''' + makeCommandExample( '2021 new_years_day' ),
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'nth_weekday' : [
 'calendars', 'finds the nth day (1 = Monday, etc.) of the month',
 '''
+This operator returns the date of the c-th weekday (d) of month b in year a, as
+follows:
+
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
@@ -3781,6 +3829,8 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
     'nth_weekday_of_year' : [
 'calendars', 'finds the nth day (1 = Monday) of the year',
 '''
+This operator returns the date of the b-th weekday (c) in year a, as follows:
+
 a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
@@ -3794,6 +3844,13 @@ Find the last Friday of 2020:
     'pentecost' : [
 'calendars', 'returns the date of Pentecost Sunday for the year specified',
 '''
+From https://en.wikipedia.org/wiki/Pentecost:
+
+The Christian holiday of Pentecost, which is celebrated the 50th day (the
+seventh Sunday) after Easter Sunday, commemorates the descent of the Holy Spirit
+upon the Apostles and other followers of Jesus Christ while they were in
+Jerusalem celebrating the Feast of Weeks, as described in the Acts of the
+Apostles (Acts 2:1–31).
 ''',
 '''
 ''' + makeCommandExample( '2019 pentecost' ) + '''
@@ -3803,15 +3860,44 @@ Find the last Friday of 2020:
     'presidents_day' : [
 'calendars', 'calculates the date of Presidents Day (US) for the year specified',
 '''
+Washington's Birthday is a federal holiday in the United States celebrated on
+the third Monday of February in honor of George Washington, the first President
+of the United States, who was born on February 22, 1732.  The Uniform Monday
+Holiday Act of 1971 moved this holiday to the third Monday, which can fall from
+February 15 to 21, inclusive.
+
+Colloquially, the day is also now widely known as Presidents' Day (though the
+placement of the apostrophe, if any, varies) and is often an occasion to
+remember all the presidents.
+
+The day is a state holiday in most states, with official names including
+Washington's Birthday, Presidents' Day, President's Day, and Washington's and
+Lincoln's Birthday.  The various states use 14 different names.  Depending upon
+the specific law, the state holiday may officially celebrate Washington alone,
+Washington and Lincoln, or some other combination of U.S. presidents (such as
+Washington and Thomas Jefferson, who was born in April).
 ''',
 '''
-''' + makeCommandExample( '2018 presidents_day' ) + '''
-''' + makeCommandExample( '2019 presidents_day' ),
+''' + makeCommandExample( '2022 presidents_day' ) + '''
+''' + makeCommandExample( '2023 presidents_day' ),
 [ 'labor_day', 'memorial_day', 'election_day' ] ],
 
     'thanksgiving' : [
 'calendars', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
+From https://en.wikipedia.org/wiki/Thanksgiving:
+
+Thanksgiving Day is a national holiday celebrated on various dates in the United
+States, Canada, some of the Caribbean islands, and Liberia.  It began as a day
+of giving thanks and sacrifice for the blessing of the harvest and of the
+preceding year.  Similarly named festival holidays occur in Germany and Japan.
+Thanksgiving is celebrated on the second Monday of October in Canada and on the
+fourth Thursday of November in the United States and Brazil, and around the
+same part of the year in other places.  Although Thanksgiving has historical
+roots in religious and cultural traditions, it has long been celebrated as a
+secular holiday as well.
+
+rpn uses the U.S. date for Thanksgiving.
 ''',
 '''
 ''' + makeCommandExample( '2017 thanksgiving' ) + '''
@@ -5829,7 +5915,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'today get_day' ) + '''
+''' + makeCommandExample( '1965-03-31 get_day' ),
 [ 'get_year', 'get_month' ] ],
 
     'get_hour' : [
@@ -5837,7 +5924,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'now get_hour' ) + '''
+''' + makeCommandExample( '"2020-08-29 13:15:36" get_hour' ),
 [ 'get_minute', 'get_second' ] ],
 
     'get_local_time' : [
@@ -5853,7 +5941,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'now get_minute' ) + '''
+''' + makeCommandExample( '"2020-08-29 13:14:53" get_minute' ),
 [ 'get_hour', 'get_second' ] ],
 
     'get_month' : [
@@ -5861,7 +5950,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'today get_month' ) + '''
+''' + makeCommandExample( '1965-03-31 get_month' ),
 [ 'get_year', 'get_day' ] ],
 
     'get_second' : [
@@ -5869,7 +5959,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'now get_second' ) + '''
+''' + makeCommandExample( '"2020-08-29 13:13:18" get_second' ),
 [ 'get_minute', 'get_second' ] ],
 
     'get_utc' : [
@@ -5885,7 +5976,8 @@ To set the timezone for a particular date-time value without converting, use 'se
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'today get_year' ) + '''
+''' + makeCommandExample( '1965-03-31 get_year' ),
 [ 'get_month', 'get_day' ] ],
 
     'make_datetime' : [
@@ -5994,9 +6086,14 @@ in the value n into the one-argument function k and returns the result.
     'eval0' : [
 'functions', 'evaluates the zero-argument function n',
 '''
+Although a user-defined function with no arguments is not likely to have many
+uses, rpn does support it.
 ''',
 '''
-''',
+The Silver ratio:
+
+''' + makeCommandExample( 'lambda 1 2 sqrt + eval0' ) + '''
+''' + makeCommandExample( 'lambda 10 random_int 1 + eval0' ),
 [ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval2' : [
@@ -6007,7 +6104,8 @@ It just plugs in the values a and b into the function c and returns the
 result.
 ''',
 '''
-''',
+''' + makeCommandExample( 'lambda 1 2 sqrt + eval0' ) + '''
+''' + makeCommandExample( 'lambda 10 random_int 1 + eval0' ),
 [ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval3' : [
@@ -6020,9 +6118,10 @@ result.
 '''
 Solving a quadratic equation the hard way, using the quadratic formula:
 
-''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3' ) + '''
 ''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3' ) + '''
+
 Of course, rpn has better ways to do this:
+
 ''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
 ''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
 [ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
@@ -6068,9 +6167,14 @@ Which of the first 80 fibonacci numbers is prime?
     'filter_by_index' : [
 'functions', 'filters a list n using function k applied to the list indexes',
 '''
+The 'filter' operator uses a one-argument user-defined function to filter out
+elements based on whether or not the function returns 0 for each element.
+
+'filter_by_index' works the same way, except the index of the element is passed
+to the user-defined function to determine if the element is to be filtered.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 50 range fib lambda x is_prime filter_by_index' ),
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
     'filter_integers' : [
@@ -6089,7 +6193,7 @@ Which of the first 80 fibonacci numbers is prime?
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
     'filter_lists' : [
-'functions', '',
+'functions', 'filters a list of lists n using function k',
 '''
 ''',
 '''
@@ -6268,14 +6372,22 @@ value.
     'unfilter_by_index' : [
 'functions', 'filters a list n using the inverse of function k applied to the list indexes',
 '''
+The 'unfilter' operator uses a one-argument user-defined function to filter out
+elements based on whether or not the function returns 1 for each element.
+
+'unfilter_by_index' works the same way, except the index of the element is passed
+to the user-defined function to determine if the element is to be filtered.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 40 range fib lambda x is_composite unfilter_by_index' ),
 [ 'filter_by_index', 'unfilter', 'lambda' ] ],
 
     'x' : [
 'functions', 'used as a variable in user-defined functions',
 '''
+This operator is used for the definition of user-defined functions with 1,2  or
+3 arguments.  The 'x' operator represents the first argument of the function.
+
 See the 'user_functions' help topic for more details.
 ''',
 '''
@@ -6287,6 +6399,8 @@ See the 'user_functions' help topic for more details.
     'y' : [
 'functions', 'used as a variable in user-defined functions',
 '''
+This operator is used for the definition of user-defined functions with 2 or 3
+arguments.  The 'y' operator represents the second argument of the function.
 ''',
 '''
 ''' + makeCommandExample( '3 4 lambda x 2 ** y 2 ** + sqrt eval2' ) + '''
@@ -6296,9 +6410,13 @@ See the 'user_functions' help topic for more details.
     'z' : [
 'functions', 'used as a variable in user-defined functions',
 '''
+This operator is used for the definition of user-defined functions with 3
+arguments.  The 'z' operator represents the second argument of the function.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ),
 [ 'lambda', 'x', 'y' ] ],
 
 
@@ -6355,17 +6473,23 @@ as a length in meters.
     'dodecahedron_area' : [
 'geometry', 'calculates the surface area of a regular dodecahedron of edge length n',
 '''
+This operator returns the surface area of a regular dodecahedron of edge length
+n.
+
+The surface area of a dodecahedron is 12 times the area of a regular pentagon
+with edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch dodecahedron_area' ),
 [ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_area', 'sphere_area' ] ],
 
     'dodecahedron_volume' : [
 'geometry', 'calculates the volume of a regular dodecahedron of edge length n',
 '''
+This operator returns the volume of a regular dodecahedron of edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch dodecahedron_volume' ),
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'hypotenuse' : [
@@ -6383,17 +6507,23 @@ calculates what the length of the hypotenuse would be.
     'icosahedron_area' : [
 'geometry', 'calculates the surface area of a regular icosahedron of edge length n',
 '''
+This operator returns the surface area of a regular icosahedron of edge length
+n.
+
+The surface area of an icosahedron is 20 times the area of an equilateral
+triangle with edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch icosahedron_area' ),
 [ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_volume', 'sphere_area' ] ],
 
     'icosahedron_volume' : [
 'geometry', 'calculates the volume of a regular icosahedron of edge length n',
 '''
+This operator returns the volume of a regular icosahedron of edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch icosahedron_volume' ),
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
 
     'k_sphere_area' : [
@@ -6423,17 +6553,22 @@ calculates what the length of the hypotenuse would be.
     'octahedron_area' : [
 'geometry', 'calculates the surface area of a regular octahedron of edge length n',
 '''
+This operator returns the surface area of a regular octahedron of edge length n.
+
+The surface area of an octahedron is 8 times the area of an equilateral
+triangle with edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch octahedron_area' ),
 [ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'octahedron_volume' : [
 'geometry', 'calculates the volume of a regular octahedron of edge length n',
 '''
+This operator returns the volume of a regular octahedron of edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch octahedron_volume' ),
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'polygon_area' : [
@@ -6463,57 +6598,81 @@ calculates what the length of the hypotenuse would be.
     'sphere_area' : [
 'geometry', 'calculates the surface area of a sphere of size n (radius or volume)',
 '''
+This operator returns the surface area of a sphere given either a radius or a
+volume.  If the argument is a length, it will be interpreted as the radius of
+the sphere, and if the argument is a volume, it will be interpreted as the
+volume of the sphere.
 ''',
 '''
-''',
+''' + makeCommandExample( '10 inches sphere_area' ) + '''
+''' + makeCommandExample( '1 liter sphere_area' ),
 [ 'torus_area', 'sphere_volume', 'prism_area', 'k_sphere_area', 'cone_area', 'sphere_radius' ] ],
 
     'sphere_radius' : [
 'geometry', 'calculates the radius of a sphere of size n (surface area or volume)',
 '''
+This operator returns the radius of a sphere given either a volume or a surface
+area.  If the argument is an area, it will be interpreted as the surface area of
+the sphere, and if the argument is a volume, it will be interpreted as the
+volume of the sphere.
 ''',
 '''
-''',
+''' + makeCommandExample( '10 square_inches sphere_radius' ) + '''
+''' + makeCommandExample( '1 liter sphere_radius' ),
 [ 'sphere_volume', 'sphere_radius', 'k_sphere_radius' ] ],
 
     'sphere_volume' : [
 'geometry', 'calculates the volume of a sphere of size n (radius or surface area)',
 '''
+This operator returns the volume of a sphere given either a radius or a surface
+area.  If the argument is a length, it will be interpreted as the radius of the
+sphere, and if the argument is an area, it will be interpreted as the surface
+area of the sphere.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch sphere_volume' ) + '''
+''' + makeCommandExample( '10 square_inches sphere_volume' ),
 [ 'torus_volume', 'sphere_area', 'prism_volume', 'k_sphere_volume', 'cone_volume', 'sphere_radius' ] ],
 
     'tetrahedron_area' : [
 'geometry', 'calculates the surface area of a regular tetrahedron of edge length n',
 '''
+This operator returns the surface area of a regular tetrahedron of edge length
+n.
+
+The surface area of an tetrahedron is 4 times the area of an equilateral
+triangle with edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch octahedron_area' ),
 [ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'tetrahedron_volume' : [
 'geometry', 'calculates the volume of a regular tetrahedron of edge length n',
 '''
+This operator returns the volume of a regular tetrahedron of edge length n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 inch tetrahedron_volume' ),
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'torus_area' : [
 'geometry', 'calculates the surface area of a torus of major radius n and minor radius k',
 '''
+This operator returns the surface area of a torus with major radius n and minor
+radius k.
 ''',
 '''
-''',
+''' + makeCommandExample( '6 inches 1 inch torus_area' ),
 [ 'torus_volume', 'sphere_area', 'prism_area', 'k_sphere_area', 'cone_area' ] ],
 
     'torus_volume' : [
 'geometry', 'calculates the volume of a torus of major radius n and minor radius k',
 '''
+This operator returns the volume of a torus with major radius n and minor radius k.
 ''',
 '''
-''',
+''' + makeCommandExample( '6 inches 1 inch torus_volume' ),
 [ 'torus_area', 'sphere_volume', 'prism_volume', 'k_sphere_volume', 'cone_volume' ] ],
 
     'triangle_area' : [
@@ -6955,14 +7114,14 @@ lambdas would otherwise be used.
 '''
 ''' + makeCommandExample( '1 6 range [ 0 1 0 1 0 1 ] filter_on_flags' ),
 [ 'filter_lists', 'filter', 'filter_integers' ] ],
-
     'find_palindrome' : [
+
 'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',
 '''
 ''',
 '''
 ''' + makeCommandExample( '-a30 10911 55 find_palindrome' ),
-[  ] ],
+[ 'reversal_addition', 'is_kaprekar', 'reverse_digits' ] ],
 
     'get_base_k_digits' : [
 'number_theory', 'interprets n as a list of digits in base k',
@@ -7102,7 +7261,8 @@ number squared ends with the digits of the original number.
 ''',
 '''
 ''' + makeCommandExample( '6 is_automorphic' ) + '''
-''' + makeCommandExample( '90625 is_automorphic' ),
+''' + makeCommandExample( '90625 is_automorphic' ) + '''
+''' + makeCommandExample( '90625 squared' ),
 [ 'is_k_morphic', 'is_trimorphic', 'is_kaprekar' ] ],
 
     'is_base_k_pandigital' : [
@@ -7258,9 +7418,18 @@ numbers are named after D. R. Kaprekar.
     'is_k_morphic' : [
 'lexicography', 'returns whether the digits of n to the k power end with n',
 '''
+The operator returns 1 if the digits of the kth power of n end with the digits
+of n, otherwise it returns 0.
 ''',
 '''
-''',
+''' + makeCommandExample( '9376 4 is_k_morphic' ) + '''
+''' + makeCommandExample( '-a20 9376 4 **' ) + '''
+''' + makeCommandExample( '749 5 is_k_morphic' ) + '''
+''' + makeCommandExample( '-a20 749 5 **' ) + '''
+''' + makeCommandExample( '5001 7 is_k_morphic' ) + '''
+''' + makeCommandExample( '-a30 5001 7 **' ) + '''
+''' + makeCommandExample( '7943 13 is_k_morphic' ) + '''
+''' + makeCommandExample( '-a60 7943 13 **' ),
 [ 'is_automorphic', 'is_trimorphic' ] ],
 
     'is_k_narcissistic' : [
@@ -7380,10 +7549,18 @@ adjacent to '9'.  The definition used for "step" doesn't wrap around.
     'is_sum_product' : [
 'lexicography', 'returns whether an integer n is a sum-product number',
 '''
+From https://en.wikipedia.org/wiki/Sum-product_number:
+
+A sum-product number in a given number base b is a natural number that is equal
+to the product of the sum of its digits and the product of its digits.
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '1 1000 range lambda x 7 is_sum_product filter -r7' ) + '''
+''' + makeCommandExample( '1 1000 range lambda x 10 is_sum_product filter' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 11 is_sum_product filter -r11' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 14 is_sum_product filter -r14' ) + '''
+''' + makeCommandExample( '1 10000 range lambda x 19 is_sum_product filter -r19' ),
+[ 'sum_digits', 'multiply_digits' ] ],
 
     'is_smith_number' : [
 'lexicography', 'returns whether n is a Smith Number',
@@ -7398,9 +7575,12 @@ to the sum of the digits in its prime factorization.
     'is_trimorphic' : [
 'lexicography', 'returns whether the digits of n cubed end with n',
 '''
+This operator returns 1 if the digits of n cubed end with the digits of n,
+otherwise it returns 0.
 ''',
 '''
 ''' + makeCommandExample( '9999 is_trimorphic' ) + '''
+''' + makeCommandExample( '9999 cubed' ) + '''
 ''' + makeCommandExample( '1 500 range lambda x is_trimorphic filter' ),
 [ 'is_automorphic', 'is_trimorphic' ] ],
 
@@ -7522,7 +7702,7 @@ This operator returns the count of the resulting chain of numbers.
 ''',
 '''
 ''' + makeCommandExample( '-a20 89 24 reversal_addition' ),
-[ ] ],
+[ 'find_palindrome', 'is_kaprekar' ] ],
 
     'reverse_digits' : [
 'lexicography', 'returns n with its digits reversed',
@@ -7952,6 +8132,8 @@ And we can access the found item using the 'element' operator:
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
 '''
+This operator takes an arbitrarily nested list and flattens it to a simple list
+of items, which each element of each sublist arranged in order, depth-first.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 [ 3 4 ] [ 5 [ 6 7 ] 8 [ 9 ] ] [ [ 10 ] ] ] flatten' ),
@@ -11001,7 +11183,7 @@ Calculate the lunar tidal force on Earth for a delta of one meter (i.e., how
 much tidal force affects an object one meter in size (assuming it's pointing
 at the Moon).
 ''' + makeCommandExample( 'earth_mass 238900 miles 1 meter tidal_force' ),
-[  ] ],
+[ 'black_hole_surface_tides' ] ],
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
@@ -11978,7 +12160,8 @@ If n is not a k-polygonal number, the result will be the index of the highest
 k-polygonal number less than n.
 ''',
 '''
-''',
+''' + makeCommandExample( '10000 10 nth_polygonal' ) + '''
+''' + makeCommandExample( '50 10 polygonal' ),
 [ 'polygonal', 'nth_centered_polygonal' ] ],
 
     'nth_square' : [
@@ -12156,7 +12339,8 @@ n ( n + 1 )( n + 2 )( n + 3 )
     'polygonal' : [
 'figurate_numbers', 'calculates the nth polygonal number with k sides',
 '''
-This operator calculates the nth polygonal number with k sides.
+This operator calculates the nth polygonal number with k sides for k greater
+than 2.
 ''',
 '''
 ''' + makeCommandExample( '13 triangular' ) + '''
@@ -12190,6 +12374,19 @@ This operator calculates the nth polygonal number with k sides.
     'pyramidal' : [
 'figurate_numbers', 'calculates the nth square pyramidal number',
 '''
+From https://en.wikipedia.org/wiki/Square_pyramidal_number:
+
+In mathematics, a pyramid number, or square pyramidal number, is a figurate
+number that represents the number of stacked spheres in a pyramid with a square
+base.  Square pyramidal numbers also solve the problem of counting the number of
+squares in an n × n grid.
+
+These numbers can be expressed in a formula as:
+
+n ( n + 1 )( 2n + 1 )
+---------------------
+         6
+
 This is the equivalent of 'n 4 polygonal_pyramidal'.
 ''',
 '''
@@ -12219,17 +12416,27 @@ This operator calculates the nth number that is both square and triangular.
     'star' : [
 'figurate_numbers', 'calculates the nth star number',
 '''
-Star numbers are the same as centered dodecagonal numbers, so this is
-equivalent to 'n 12 centered_polygonal'.
+From https://en.wikipedia.org/wiki/Star_number:
+
+A star number is a centered figurate number a centered hexagram (six-pointed
+star), such as the one that Chinese checkers is played on.
+
+The nth star number is given by the formula S(n) = 6n (n − 1) + 1.
+
+Geometrically, the nth star number is made up of a central point and 12 copies
+of the ( n − 1 )th triangular number - making it numerically equal to the nth
+centered dodecagonal number, but differently arranged.
 ''',
 '''
-''' + makeCommandExample( '1 8 range star' ) + '''
+''' + makeCommandExample( '1 15 range star' ) + '''
 ''' + makeCommandExample( '8542 star' ),
 [ 'polygonal', 'pyramidal' ] ],
 
     'stella_octangula' : [
 'figurate_numbers', 'calculates the nth stella octangula number',
 '''
+From https://en.wikipedia.org/wiki/Stella_octangula_number:
+
 A stella octangula number is a figurate number based on the stella octangula,
 of the form n(2n^2 - 1).
 
@@ -12320,9 +12527,37 @@ Pascal's triangle.
     'agm' : [
 'powers_and_roots', 'calculates the arithmetic-geometric mean of two numbers',
 '''
+From https://en.wikipedia.org/wiki/Arithmetic–geometric_mean:
+
+In mathematics, the arithmetic–geometric mean (AGM) of two positive real numbers
+x and y is defined as follows:
+
+Call x and y a_0 and g_0:
+
+a0 = x
+g0 = y
+
+Then define the two interdependent sequences (a_n) and (g_n) as:
+
+         1
+a_n+1 =  - ( a_n + g_n )
+         2
+
+             ____________
+            /
+g_n+1 =    /  a_n g_n
+         \/
+
+These two sequences converge to the same number, the arithmetic–geometric mean
+of x and y; it is denoted by M( x, y ), or sometimes by agm( x, y ).
+
+The arithmetic-geometric mean is used in fast algorithms for exponential and
+trigonometric functions, as well as some mathematical constants, in particular,
+computing pi.
 ''',
 '''
-''',
+''' + makeCommandExample( '24 6 agm' ) + '''
+''' + makeCommandExample( '3 2j - 4 agm' ),
 [ 'mean', 'geometric_mean', 'harmonic_mean' ] ],
 
     'cube' : [

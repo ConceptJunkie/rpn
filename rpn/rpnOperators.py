@@ -1079,11 +1079,13 @@ def filterList( n, k, invert=False ):
 
         raise ValueError( '\'filter\' expects a function argument' )
 
-    for i in n:
-        value = k.evaluate( i )
+    for item in n:
+        value = k.evaluate( item )
 
-        if ( value != 0 ) != invert:
-            yield i
+        if invert and value == 0:
+            yield item
+        elif not invert and value != 0:
+            yield item
 
 def filterListOperator( n, k ):
     return RPNGenerator( filterList( n, k ) )
@@ -1111,7 +1113,9 @@ def filterListByIndex( n, k, invert=False ):
     for index, item in enumerate( n ):
         value = k.evaluate( index )
 
-        if ( value != 0 ) != invert:
+        if invert and value == 0:
+            yield item
+        elif not invert and value != 0:
             yield item
 
 def filterListByIndexOperator( n, k ):
@@ -1952,7 +1956,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 #******************************************************************************
 
 def printHelpMessageOperator( ):
-    from rpnOutput import printHelp
+    from rpn.rpnOutput import printHelp
     printHelp( interactive=True )
     return 0
 
@@ -1964,7 +1968,7 @@ def printHelpMessageOperator( ):
 #******************************************************************************
 
 def printHelpTopic( n ):
-    from rpnOutput import printHelp
+    from rpn.rpnOutput import printHelp
 
     if isinstance( n, str ):
         printHelp( [ n ], interactive=True )
