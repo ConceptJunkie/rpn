@@ -26,7 +26,7 @@ from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          loadAstronomyData
-from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, YearValidator
 
 import rpn.rpnGlobals as g
 
@@ -256,7 +256,7 @@ def getSeasonOperator( n, season ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
+@argValidator( [ YearValidator( 0 ) ] )
 def getVernalEquinoxOperator( n ):
     '''Returns the date of the vernal equinox for year n.'''
     return getSeason( n, 0 )
@@ -269,7 +269,7 @@ def getVernalEquinoxOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
+@argValidator( [ YearValidator( 0 ) ] )
 def getSummerSolsticeOperator( n ):
     '''Returns the date of the summer solstice for year n.'''
     return getSeason( n, 1 )
@@ -282,7 +282,7 @@ def getSummerSolsticeOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
+@argValidator( [ YearValidator( 0 ) ] )
 def getAutumnalEquinoxOperator( n ):
     '''Returns the date of the autumnal equinox for year n.'''
     return getSeason( n, 2 )
@@ -295,7 +295,7 @@ def getAutumnalEquinoxOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( 0 ) ] )
+@argValidator( [ YearValidator( 0 ) ] )
 def getWinterSolsticeOperator( n ):
     '''Returns the date of the winter solstice for year n.'''
     return getSeason( n, 3 )

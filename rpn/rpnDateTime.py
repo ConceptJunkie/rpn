@@ -26,8 +26,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMeasurement import convertUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator, \
-                             ListValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, ListValidator, YearValidator
 
 import rpn.rpnGlobals as g
 
@@ -144,9 +143,7 @@ def convertToYDHMSOperator( n ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def makeJulianTimeOperator( n ):
+def makeJulianTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeJulianTime( list( n ) )
     elif len( n ) == 1:
@@ -168,6 +165,11 @@ def makeJulianTimeOperator( n ):
 
     return result
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def makeJulianTimeOperator( n ):
+    return makeJulianTime( n )
+
 
 #******************************************************************************
 #
@@ -175,9 +177,7 @@ def makeJulianTimeOperator( n ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def makeISOTimeOperator( n ):
+def makeISOTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeISOTime( list( n ) )
     elif len( n ) == 1:
@@ -200,6 +200,10 @@ def makeISOTimeOperator( n ):
 
     return result
 
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def makeISOTimeOperator( n ):
+    return makeISOTime( n )
 
 #******************************************************************************
 #
@@ -207,9 +211,7 @@ def makeISOTimeOperator( n ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def makeDateTimeOperator( n ):
+def makeDateTime( n ):
     if isinstance( n, ( RPNGenerator, int ) ):
         return makeDateTime( list( n ) )
     elif isinstance( n, str ):
@@ -226,6 +228,11 @@ def makeDateTimeOperator( n ):
         n = n[ : 7 ]
 
     return RPNDateTime( *n )
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def makeDateTimeOperator( n ):
+    return makeDateTime( n )
 
 
 #******************************************************************************
@@ -301,7 +308,7 @@ def calculateEaster( year ):
     return RPNDateTime( year, month, day, dateOnly = True )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateEasterOperator( year ):
     return calculateEaster( year )
 
@@ -313,7 +320,7 @@ def calculateEasterOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateAshWednesdayOperator( year ):
     '''46 days before Easter (40 days, not counting Sundays)'''
     ashWednesday = calculateEaster( year ).add( RPNMeasurement( -46, 'day' ) )
@@ -327,7 +334,7 @@ def calculateAshWednesdayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateGoodFridayOperator( year ):
     '''2 days before Easter'''
     goodFriday = calculateEaster( year ).add( RPNMeasurement( -2, 'day' ) )
@@ -430,7 +437,7 @@ def calculateNthWeekdayOfMonthOperator( year, month, nth, weekday ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateThanksgivingOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -447,7 +454,7 @@ def calculateThanksgivingOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateLaborDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -464,7 +471,7 @@ def calculateLaborDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateElectionDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -484,7 +491,7 @@ def calculateElectionDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateMemorialDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -501,7 +508,7 @@ def calculateMemorialDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculatePresidentsDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -518,7 +525,7 @@ def calculatePresidentsDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateMartinLutherKingDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -535,7 +542,7 @@ def calculateMartinLutherKingDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateColumbusDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -552,7 +559,7 @@ def calculateColumbusDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateMothersDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -569,7 +576,7 @@ def calculateMothersDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateFathersDayOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -584,7 +591,7 @@ def calculateFathersDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def getNewYearsDayOperator( year ):
     return RPNDateTime( year, JANUARY, 1, dateOnly = True )
 
@@ -596,7 +603,7 @@ def getNewYearsDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def getVeteransDayOperator( year ):
     return RPNDateTime( year, NOVEMBER, 11, dateOnly = True )
 
@@ -608,7 +615,7 @@ def getVeteransDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def getIndependenceDayOperator( year ):
     return RPNDateTime( year, JULY, 4, dateOnly = True )
 
@@ -623,7 +630,7 @@ def getChristmasDay( year ):
     return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def getChristmasDayOperator( year ):
     return getChristmasDay( year )
 
@@ -636,7 +643,7 @@ def getChristmasDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateAdventOperator( year ):
     firstAdvent = getChristmasDay( year ).add( RPNMeasurement( -3, 'week' ) )
     firstAdvent = firstAdvent.subtract( RPNMeasurement( getWeekday( firstAdvent ), 'day'  ) )
@@ -651,7 +658,7 @@ def calculateAdventOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def getEpiphanyDayOperator( year ):
     return RPNDateTime( year, 1, 6, dateOnly = True )
 
@@ -663,7 +670,7 @@ def getEpiphanyDayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculatePentecostSundayOperator( year ):
     return RPNDateTime( *( calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) ).getYMD( ) ),
                         dateOnly = True )
@@ -676,7 +683,7 @@ def calculatePentecostSundayOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateAscensionThursdayOperator( year ):
     '''
 I don't know why Ascension is 39 days after Easter instead of 40, but that's
@@ -698,7 +705,7 @@ Church being created before the number 0.
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateDSTStartOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -722,7 +729,7 @@ def calculateDSTStartOperator( year ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def calculateDSTEndOperator( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year

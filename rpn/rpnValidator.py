@@ -73,12 +73,14 @@ class RPNValidator( ):
     Generator =             1 << 12     # Generator is a separate type now, but eventually it should be equivalent to List
     Function =              1 << 13
     TimeZone =              1 << 14
+    Year =                  1 << 15
+    Comparable =            1 << 16     # real, or measurement, or date-time
 
     # These will be eliminated
-    NonnegativeReal =       1 << 15
-    PositiveInteger =       1 << 16
-    NonnegativeInteger =    1 << 17
-    PrimeInteger =          1 << 18
+    NonnegativeReal =       1 << 16
+    PositiveInteger =       1 << 17
+    NonnegativeInteger =    1 << 18
+    PrimeInteger =          1 << 19
 
     type = Default
     min = None
@@ -109,19 +111,19 @@ class RPNValidator( ):
         elif self.type == self.Complex + self.Measurement:
             argument = self.validateComplexOrMeasurement( argument )
         elif self.type == self.Real + self.Measurement + self.DateTime:
-            argument = self.validateRealOrMeasurementOrDateTime( argument )
-        elif self.type == self.Complex + self.Measurement + self.DateTime:
+            argument = self.validateComparable( argument )
+        elif self.type == self.Comparable:
             argument = self.validateComplexOrMeasurementOrDateTime( argument )
         elif self.type == self.Length:
             argument = self.validateLength( argument )
-        elif self.type == self.Integer + self.DateTime:
-            argument = self.validateIntOrDateTime( argument )
         elif self.type == self.List:
             argument = self.validateList( argument )
         elif self.type == self.Integer + self.String + self.Measurement:
             argument = self.validateElement( argument )
         elif self.type == self.String + self.Location:
             argument = self.validateStringOrLocation( argument )
+        elif self.type == self.Year:
+            argument = self.validateYear( argument )
 
         for special in self.specials:
             if not special[ 0 ]( argument ):
@@ -211,16 +213,6 @@ class RPNValidator( ):
 
         return argument
 
-    def validateIntOrDateTime( self, argument ):
-        if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            argument = self.validateInt( argument )
-        elif isinstance( argument, RPNDateTime ):
-            self.validateDateTime( argument )
-        else:
-            raise ValueError( f'\'type\' { type( argument ) } found, integer or date-time value expected' )
-
-        return argument
-
     def validateRealOrMeasurement( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateReal( argument )
@@ -241,7 +233,7 @@ class RPNValidator( ):
 
         return argument
 
-    def validateRealOrMeasurementOrDateTime( self, argument ):
+    def validateComparable( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateReal( argument )
         elif isinstance( argument, RPNMeasurement ):
@@ -299,6 +291,18 @@ class RPNValidator( ):
 
         return argument
 
+    def validateYear( self, argument ):
+        if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
+            argument = self.validateInt( argument )
+        elif isinstance( argument, RPNDateTime ):
+            self.validateDateTime( argument )
+
+            argument = argument.year
+        else:
+            raise ValueError( f'\'type\' { type( argument ) } found, integer or date-time value expected' )
+
+        return argument
+
 
 class DefaultValidator( RPNValidator ):
     def __init__( self, specials=None ):
@@ -345,12 +349,12 @@ class ListValidator( RPNValidator ):
         super( ).__init__( RPNValidator.List, specials=specials )
 
 
-# compound validators
-
-class IntOrDateTimeValidator( RPNValidator ):
+class YearValidator( RPNValidator ):
     def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Integer + RPNValidator.DateTime, specials=specials )
+        super( ).__init__( RPNValidator.Year, specials=specials )
 
+
+# compound validators
 
 class IntOrMeasurementValidator( RPNValidator ):
     def __init__( self, specials=None ):
@@ -367,9 +371,9 @@ class ComplexOrMeasurementValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement, specials=specials )
 
 
-class RealOrMeasurementOrDateTimeValidator( RPNValidator ):
+class ComparableValidator( RPNValidator ):
     def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Real + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
+        super( ).__init__( RPNValidator.Comparable, specials=specials )
 
 
 class ComplexOrMeasurementOrDateTimeValidator( RPNValidator ):

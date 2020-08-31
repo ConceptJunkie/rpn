@@ -22,7 +22,7 @@ from mpmath import ceil
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnName import getOrdinalName
 from rpn.rpnUtils import oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, IntOrDateTimeValidator
+from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, YearValidator
 
 #******************************************************************************
 #
@@ -301,7 +301,7 @@ def generateMonthCalendarOperator( datetime ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntOrDateTimeValidator( ) ] )
+@argValidator( [ YearValidator( ) ] )
 def generateYearCalendarOperator( n ):
     cal = calendar.TextCalendar( firstweekday = 6 )
 

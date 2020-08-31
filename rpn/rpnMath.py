@@ -27,10 +27,10 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, ComplexOrMeasurementValidator, ComplexOrMeasurementValidator, \
-                             ComplexOrMeasurementOrDateTimeValidator, DefaultValidator, IntValidator, \
-                             ListValidator, RealValidator, RealOrMeasurementValidator, \
-                             RealOrMeasurementOrDateTimeValidator
+from rpn.rpnValidator import argValidator, ComparableValidator, ComplexOrMeasurementValidator, \
+                             ComplexOrMeasurementValidator, ComplexOrMeasurementOrDateTimeValidator, \
+                             DefaultValidator, IntValidator, ListValidator, RealValidator, \
+                             RealOrMeasurementValidator
 
 
 #******************************************************************************
@@ -662,7 +662,7 @@ def isEqual( n, k ):
             return 1 if n == k else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isEqualOperator( n, k ):
     return isEqual( n, k )
 
@@ -674,7 +674,7 @@ def isEqualOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isNotEqualOperator( n, k ):
     return 0 if isEqual( n, k ) else 1
 
@@ -692,7 +692,7 @@ def isGreater( n, k ):
         return 1 if n > k else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isGreaterOperator( n, k ):
     return isGreater( n, k )
 
@@ -710,7 +710,7 @@ def isLess( n, k ):
         return 1 if n < k else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isLessOperator( n, k ):
     return isLess( n, k )
 
@@ -722,7 +722,7 @@ def isLessOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isNotGreaterOperator( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotLarger( k ) else 0
@@ -737,7 +737,7 @@ def isNotGreaterOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def isNotLessOperator( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotSmaller( k ) else 0
@@ -821,7 +821,7 @@ def roundByDigitsOperator( n, digits ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def getLargerOperator( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n if isGreater( n, k ) else k
@@ -836,7 +836,7 @@ def getLargerOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+@argValidator( [ ComparableValidator( ), ComparableValidator( ) ] )
 def getSmallerOperator( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n if isLess( n, k ) else k

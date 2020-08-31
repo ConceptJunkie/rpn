@@ -24,8 +24,8 @@ from rpn.rpnMath import add, multiply, square, subtract, divide
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import getPowerSet, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
                          listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator, \
-                             ListValidator, RealOrMeasurementOrDateTimeValidator
+from rpn.rpnValidator import argValidator, ComparableValidator, ComplexValidator, DefaultValidator, IntValidator, \
+                             ListValidator
 
 
 #******************************************************************************
@@ -619,9 +619,7 @@ def getReverseOperator( args ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def shuffleListOperator( args ):
+def shuffleList( args ):
     if isinstance( args, RPNGenerator ):
         return shuffleList( list( args ) )
     elif not isinstance( args, list ):
@@ -637,6 +635,11 @@ def shuffleListOperator( args ):
         result = args[ : ]
         random.shuffle( result )
         return result
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def shuffleListOperator( n ):
+    return shuffleList( n )
 
 
 #******************************************************************************
@@ -1047,9 +1050,7 @@ def getNonzeroesOperator( args ):
 #
 #******************************************************************************
 
-@listAndOneArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
-def groupElementsOperator( args, count ):
+def groupElements( args, count ):
     if isinstance( count, list ):
         return [ groupElements( args, i ) for i in count ]
     elif isinstance( args, list ):
@@ -1067,6 +1068,11 @@ def groupElementsOperator( args, count ):
     else:
         return [ args ]
 
+@listAndOneArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ), IntValidator( 1 ) ] )
+def groupElementsOperator( args, count ):
+    return groupElements( args, count )
+
 
 #******************************************************************************
 #
@@ -1074,9 +1080,7 @@ def groupElementsOperator( args, count ):
 #
 #******************************************************************************
 
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def getOccurrencesOperator( args ):
+def getOccurrences( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getOccurrences( arg ) for arg in args ]
@@ -1094,6 +1098,11 @@ def getOccurrencesOperator( args ):
             return sorted( result )
     else:
         return [ [ args, 1 ] ]
+
+@listArgFunctionEvaluator( )
+@argValidator( [ ListValidator( ) ] )
+def getOccurrencesOperator( n ):
+    return getOccurrences( n )
 
 
 #******************************************************************************
@@ -1449,7 +1458,7 @@ def filterMaxGenerator( n, k ):
             yield item
 
 @listAndOneArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ), RealOrMeasurementOrDateTimeValidator( ) ] )
+@argValidator( [ ListValidator( ), ComparableValidator( ) ] )
 def filterMaxOperator( n, k ):
     return RPNGenerator.createGenerator( filterMaxGenerator, [ n, k ] )
 
@@ -1466,7 +1475,7 @@ def filterMinGenerator( n, k ):
             yield item
 
 @listAndOneArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ), RealOrMeasurementOrDateTimeValidator( ) ] )
+@argValidator( [ ListValidator( ), ComparableValidator( ) ] )
 def filterMinOperator( n, k ):
     return RPNGenerator.createGenerator( filterMinGenerator, [ n, k ] )
 

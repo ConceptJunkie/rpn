@@ -19,8 +19,9 @@ from rpn.rpnList import getProduct, getSum
 from rpn.rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, LengthValidator, RealValidator, \
-                             RealOrMeasurementValidator
+from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, LengthValidator, \
+                             MeasurementValidator, RealValidator
+
 
 
 #******************************************************************************
@@ -34,18 +35,10 @@ from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, Lengt
 #******************************************************************************
 
 def getRegularPolygonArea( n, k ):
-    if not isinstance( k, RPNMeasurement ):
-        return getRegularPolygonArea( n, RPNMeasurement( k, 'meter' ) )
-
-    dimensions = k.getDimensions( )
-
-    if dimensions != { 'length' : 1 }:
-        raise ValueError( '\'polygon_area\' argument 2 must be a length' )
-
     return multiply( fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) ), getPower( k, 2 ) ).convert( 'meter^2' )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 3 ), RealOrMeasurementValidator( 0 ) ] )
+@argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
 def getRegularPolygonAreaOperator( n, k ):
     return getRegularPolygonArea( n, k )
 
@@ -93,12 +86,12 @@ def getKSphereRadius( n, k ):
                           str( dimensions ) )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
+@argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereRadiusOperator( n, k ):
     return getKSphereRadius( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
+@argValidator( [ MeasurementValidator( 0 ) ] )
 def getSphereRadiusOperator( n ):
     return getKSphereRadius( n, 3 )
 
@@ -139,12 +132,12 @@ def getKSphereSurfaceArea( n, k ):
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
+@argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereSurfaceAreaOperator( n, k ):
     return getKSphereSurfaceArea( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
+@argValidator( [ MeasurementValidator( 0 ) ] )
 def getSphereAreaOperator( n ):
     return getKSphereSurfaceArea( n, 3 )
 
@@ -186,12 +179,12 @@ def getKSphereVolume( n, k ):
         raise ValueError( 'incompatible measurement type for computing the volume' )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ), IntValidator( 3 ) ] )
+@argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereVolumeOperator( n, k ):
     return getKSphereVolume( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( 0 ) ] )
+@argValidator( [ MeasurementValidator( 0 ) ] )
 def getSphereVolumeOperator( n ):
     return getKSphereVolume( n, 3 )
 
