@@ -17,6 +17,11 @@ import datetime
 
 import arrow
 
+arrowVersion = [ int( i ) for i in arrow.__version__.split( '.' ) ]
+
+if arrowVersion[ 0 ] == 0 and arrowVersion[ 1 ] < 16:
+    raise ValueError( 'Please upgrade the arrow package to version 0.16.0 or later.' )
+
 from dateutil import tz
 from functools import lru_cache
 
