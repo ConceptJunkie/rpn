@@ -30,8 +30,7 @@ from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, RealValidator, StringValidator, \
-                             StringOrLocationValidator
+from rpn.rpnValidator import argValidator, DefaultValidator, LocationValidator, RealValidator, StringValidator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -139,7 +138,7 @@ def getLocation( name ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator( ) ] )
+@argValidator( [ LocationValidator( ) ] )
 def getLocationInfoOperator( location ):
     if isinstance( location, str ):
         location = getLocation( location )
@@ -173,7 +172,7 @@ def getTimeZone( location ):
     return timezoneName
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator( ) ] )
+@argValidator( [ LocationValidator( ) ] )
 def getTimeZoneOperator( location ):
     return getTimeZone( location )
 
@@ -185,7 +184,7 @@ def getTimeZoneOperator( location ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ StringOrLocationValidator( ), StringOrLocationValidator( ) ] )
+@argValidator( [ LocationValidator( ), LocationValidator( ) ] )
 def getGeographicDistanceOperator( location1, location2 ):
     if isinstance( location1, str ):
         location1 = getLocation( location1 )

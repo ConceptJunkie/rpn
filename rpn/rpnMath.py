@@ -27,10 +27,8 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, ComparableValidator, ComplexOrMeasurementValidator, \
-                             ComplexOrMeasurementValidator, ComplexOrMeasurementOrDateTimeValidator, \
-                             DefaultValidator, IntValidator, ListValidator, RealValidator, \
-                             RealOrMeasurementValidator
+from rpn.rpnValidator import argValidator, AdditiveValidator, ComparableValidator, DefaultValidator, IntValidator, \
+                             ListValidator, MultiplicativeValidator, RealValidator, RealOrMeasurementValidator
 
 
 #******************************************************************************
@@ -56,12 +54,13 @@ def add( n, k ):
         return fadd( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementOrDateTimeValidator( ), ComplexOrMeasurementValidator( ) ] )
+# note, a date-time can be added to, but it cannot itself be added
+@argValidator( [ AdditiveValidator( ), MultiplicativeValidator( ) ] )
 def addOperator( n, k ):
     return add( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementOrDateTimeValidator( ) ] )
+@argValidator( [ AdditiveValidator( ) ] )
 def incrementOperator( n ):
     return add( n, 1 )
 
@@ -89,12 +88,12 @@ def subtract( n, k ):
         return fsub( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementOrDateTimeValidator( ), ComplexOrMeasurementOrDateTimeValidator( ) ] )
+@argValidator( [ AdditiveValidator( ), AdditiveValidator( ) ] )
 def subtractOperator( n, k ):
     return subtract( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementOrDateTimeValidator( ) ] )
+@argValidator( [ AdditiveValidator( ) ] )
 def decrementOperator( n ):
     return subtract( n, 1 )
 
@@ -106,7 +105,7 @@ def decrementOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getNegativeOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( fneg( n.value ), n.units )
@@ -121,7 +120,7 @@ def getNegativeOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getSignOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return sign( n.value )
@@ -136,7 +135,7 @@ def getSignOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getValueOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return n.value
@@ -164,7 +163,7 @@ def divide( n, k ):
         return fdiv( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def divideOperator( n, k ):
     return divide( n, k )
 
@@ -188,7 +187,7 @@ def multiply( n, k ):
         return fmul( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def multiplyOperator( n, k ):
     return multiply( n, k )
 
@@ -207,7 +206,7 @@ def getPower( n, k ):
         return power( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getPowerOperator( n, k ):
     return getPower( n, k )
 
@@ -215,12 +214,12 @@ def square( n ):
     return getPower( n, 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def squareOperator( n ):
     return getPower( n, 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cubeOperator( n ):
     return getPower( n, 3 )
 
@@ -241,17 +240,17 @@ def getRoot( n, k ):
         return root( n, k )
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getRootOperator( n, k ):
     return getRoot( n, k )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getSquareRootOperator( n ):
     return getRoot( n, 2 )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getCubeRootOperator( n ):
     return getRoot( n, 3 )
 
@@ -263,7 +262,7 @@ def getCubeRootOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getSquareSuperRootOperator( n ):
     '''Returns the positive, real square super root of n.'''
     return power( e, lambertw( log( n ) ) )
@@ -276,7 +275,7 @@ def getSquareSuperRootOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getCubeSuperRootOperator( n ):
     '''Returns the positive, real cube super root of n.'''
     value = fmul( 2, log( n ) )
@@ -290,7 +289,7 @@ def getCubeSuperRootOperator( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), IntValidator( 1 ) ] )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
 def getSuperRootOperator( n, k ):
     '''Returns the positive, real kth super root of n.'''
     k = fsub( k, 1 )
@@ -305,7 +304,7 @@ def getSuperRootOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), IntValidator( 1 ) ] )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
 def getSuperRootsOperator( n, k ):
     '''Returns all the super-roots of n, not just the nice, positive, real one.'''
     k = fsub( k, 1 )
@@ -325,7 +324,7 @@ def getSuperRootsOperator( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getReciprocalOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return n.invert( invertValue=False )
@@ -343,7 +342,7 @@ def getReciprocalOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getAbsoluteValueOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( fabs( n.value ), n.units )
@@ -361,7 +360,7 @@ def getAbsoluteValueOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getNearestIntOperator( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( nint( n.value ), n.units )
@@ -376,7 +375,7 @@ def getNearestIntOperator( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), IntValidator( 0 ) ] )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
 def tetrateOperator( i, j ):
     '''
     This is the smaller (left-associative) version of the hyper4 operator.
@@ -399,7 +398,7 @@ def tetrateOperator( i, j ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), IntValidator( 0 ) ] )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
 def tetrateRightOperator( i, j ):
     '''
     This is the larger, right-associative version of the hyper4 operator.
@@ -431,7 +430,7 @@ def isDivisible( n, k ):
 
 @twoArgFunctionEvaluator( )
 #TODO: handle measurements
-@argValidator( [ ComplexOrMeasurementValidator( ),  ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ),  MultiplicativeValidator( ) ] )
 def isDivisibleOperator( n, k ):
     return isDivisible( n, k )
 
@@ -456,7 +455,7 @@ def isSquare( n ):
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def isSquareOperator( n ):
     return isSquare( n )
 
@@ -469,7 +468,7 @@ def isSquareOperator( n ):
 
 @twoArgFunctionEvaluator( )
 #TODO: handle measurements
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def isPowerOperator( n, k ):
     #print( 'log( n )', log( n ) )
     #print( 'log( k )', log( k ) )
@@ -506,7 +505,7 @@ def isKthPower( n, k ):
         return 1 if isint( rootN, gaussian=True ) else 0
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), IntValidator( 1 ) ] )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
 def isKthPowerOperator( n, k ):
     return isKthPower( n, k )
 
@@ -526,122 +525,122 @@ def performTrigOperation( i, operation ):
     return operation( value )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acosOperator( n ):
     return performTrigOperation( n, acos )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acoshOperator( n ):
     return performTrigOperation( n, acosh )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acotOperator( n ):
     return performTrigOperation( n, acot )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acothOperator( n ):
     return performTrigOperation( n, acoth )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acscOperator( n ):
     return performTrigOperation( n, acsc )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def acschOperator( n ):
     return performTrigOperation( n, acsch )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def asecOperator( n ):
     return performTrigOperation( n, asec )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def asechOperator( n ):
     return performTrigOperation( n, asech )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def asinOperator( n ):
     return performTrigOperation( n, asin )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def asinhOperator( n ):
     return performTrigOperation( n, asinh )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def atanOperator( n ):
     return performTrigOperation( n, atan )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def atanhOperator( n ):
     return performTrigOperation( n, atanh )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cosOperator( n ):
     return performTrigOperation( n, cos )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def coshOperator( n ):
     return performTrigOperation( n, cosh )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cotOperator( n ):
     return performTrigOperation( n, cot )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cothOperator( n ):
     return performTrigOperation( n, coth )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cscOperator( n ):
     return performTrigOperation( n, csc )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def cschOperator( n ):
     return performTrigOperation( n, csch )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def secOperator( n ):
     return performTrigOperation( n, sec )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def sechOperator( n ):
     return performTrigOperation( n, sech )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def sinOperator( n ):
     return performTrigOperation( n, sin )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def sinhOperator( n ):
     return performTrigOperation( n, sinh )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def tanOperator( n ):
     return performTrigOperation( n, tan )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def tanhOperator( n ):
     return performTrigOperation( n, tanh )
 
@@ -857,7 +856,7 @@ def getFloor( n ):
         return floor( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getFloorOperator( n ):
     return getFloor( n )
 
@@ -875,7 +874,7 @@ def getCeiling( n ):
         return ceil( n )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getCeilingOperator( n ):
     return getCeiling( n )
 
@@ -947,7 +946,7 @@ def isOddOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def isNotZeroOperator( n ):
     return 0 if n == 0 else 1
 
@@ -959,7 +958,7 @@ def isNotZeroOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def isZeroOperator( n ):
     return 1 if n == 0 else 0
 
@@ -1000,7 +999,7 @@ def getModuloOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getAGMOperator( n, k ):
     return agm( n, k )
 
@@ -1012,7 +1011,7 @@ def getAGMOperator( n, k ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getExpOperator( n ):
     return exp( n )
 
@@ -1024,7 +1023,7 @@ def getExpOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getExp10Operator( n ):
     return power( 10, n )
 
@@ -1036,7 +1035,7 @@ def getExp10Operator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getExpPhiOperator( n ):
     return power( phi, n )
 
@@ -1048,7 +1047,7 @@ def getExpPhiOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getArgumentOperator( n ):
     return arg( n )
 
@@ -1060,7 +1059,7 @@ def getArgumentOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getConjugateOperator( n ):
     return conj( n )
 
@@ -1072,7 +1071,7 @@ def getConjugateOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getImaginaryOperator( n ):
     return im( n )
 
@@ -1084,7 +1083,7 @@ def getImaginaryOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getRealOperator( n ):
     return re( n )
 
@@ -1096,7 +1095,7 @@ def getRealOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getLambertWOperator( n ):
     return lambertw( n )
 
@@ -1108,7 +1107,7 @@ def getLambertWOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getLIOperator( n ):
     return li( n )
 
@@ -1120,7 +1119,7 @@ def getLIOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getLogOperator( n ):
     return ln( n )
 
@@ -1132,7 +1131,7 @@ def getLogOperator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getLog10Operator( n ):
     return log10( n )
 
@@ -1144,7 +1143,7 @@ def getLog10Operator( n ):
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ) ] )
 def getLog2Operator( n ):
     return log( n, 2 )
 
@@ -1156,7 +1155,7 @@ def getLog2Operator( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getLogXYOperator( n, k ):
     return log( n, k )
 
@@ -1168,7 +1167,7 @@ def getLogXYOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getPolyexpOperator( n, k ):
     return polyexp( n, k )
 
@@ -1180,7 +1179,7 @@ def getPolyexpOperator( n, k ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ ComplexOrMeasurementValidator( ), ComplexOrMeasurementValidator( ) ] )
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
 def getPolylogOperator( n, k ):
     return polylog( n, k )
 

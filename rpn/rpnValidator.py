@@ -75,6 +75,8 @@ class RPNValidator( ):
     TimeZone =              1 << 14
     Year =                  1 << 15
     Comparable =            1 << 16     # real, or measurement, or date-time
+    Additive =              1 << 17     # a value that can have something added to or subtracted from (complex, measurement, date-time)
+    Multiplicative =        1 << 18     # a value that can be multiplied (complex, measurement)
 
     # These will be eliminated
     NonnegativeReal =       1 << 16
@@ -113,15 +115,15 @@ class RPNValidator( ):
         elif self.type == self.Real + self.Measurement + self.DateTime:
             argument = self.validateComparable( argument )
         elif self.type == self.Comparable:
-            argument = self.validateComplexOrMeasurementOrDateTime( argument )
+            argument = self.validateAdditive( argument )
         elif self.type == self.Length:
             argument = self.validateLength( argument )
         elif self.type == self.List:
             argument = self.validateList( argument )
         elif self.type == self.Integer + self.String + self.Measurement:
             argument = self.validateElement( argument )
-        elif self.type == self.String + self.Location:
-            argument = self.validateStringOrLocation( argument )
+        elif self.type == self.Location:
+            argument = self.validateLocation( argument )
         elif self.type == self.Year:
             argument = self.validateYear( argument )
 
@@ -245,7 +247,7 @@ class RPNValidator( ):
 
         return argument
 
-    def validateComplexOrMeasurementOrDateTime( self, argument ):
+    def validateAdditive( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateComplex( argument )
         elif isinstance( argument, RPNMeasurement ):
@@ -285,7 +287,7 @@ class RPNValidator( ):
 
         return argument
 
-    def validateStringOrLocation( self, argument ):
+    def validateLocation( self, argument ):
         if not isinstance( argument, ( str, RPNLocation ) ):
             raise ValueError( f'\'type\' { type( argument ) } found, string or location object expected' )
 
@@ -354,6 +356,31 @@ class YearValidator( RPNValidator ):
         super( ).__init__( RPNValidator.Year, specials=specials )
 
 
+class LocationValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Location, specials=specials )
+
+
+class ComparableValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Comparable, specials=specials )
+
+
+class AdditiveValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Additive, specials=specials )
+
+
+class MultiplicativeValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Multiplicative, specials=specials )
+
+
+class ElementValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Integer + RPNValidator.String, specials=specials )
+
+
 # compound validators
 
 class IntOrMeasurementValidator( RPNValidator ):
@@ -365,27 +392,3 @@ class RealOrMeasurementValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Real + RPNValidator.Measurement, specials=specials )
 
-
-class ComplexOrMeasurementValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement, specials=specials )
-
-
-class ComparableValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Comparable, specials=specials )
-
-
-class ComplexOrMeasurementOrDateTimeValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Complex + RPNValidator.Measurement + RPNValidator.DateTime, specials=specials )
-
-
-class ElementValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Integer + RPNValidator.String, specials=specials )
-
-
-class StringOrLocationValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.String + RPNValidator.Location, specials=specials )
