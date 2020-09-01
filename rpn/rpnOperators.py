@@ -2368,7 +2368,6 @@ listOperators = {
 
     # conversion
     'convert'                           : RPNOperator( convertUnitsOperator, 2 ),
-    'lat_long_to_nac'                   : RPNOperator( convertLatLongToNACOperator, 1 ),
     'pack'                              : RPNOperator( packIntegerOperator, 2 ),
     'unpack'                            : RPNOperator( unpackIntegerOperator, 2 ),
 

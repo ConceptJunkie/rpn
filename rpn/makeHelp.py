@@ -124,7 +124,7 @@ def makeCommandExample( command, indent=0, slow=False ):
     handleOutput( rpn( shlex.split( command.replace( '\\', '\\\\' ) ) ), indent=indent, file=output )
 
     if slow:
-        print( '\r', ' ' * 55, end='' )
+        print( '\r', ' ' * 60, end='' )
 
     result = output.getvalue( )
     output.close( )
@@ -1287,6 +1287,23 @@ In addition, all non-constant operator function names now end with 'Operator',
 which means I can be sure they are not being called recursively, or being called
 by other operator functions, so that the argument expansion and validation isn't
 being done more than once.
+
+I have continued my focus on completing the online help, which is now more than
+80% complete.
+
+'lat_long_to_nac' was removed (after I fixed it), since the developers of the
+Natural Area Code claim a copyright on the system itself, and do not allow
+outside implementations.  I guess they don't want people adopting their system.
+<shrug>
+
+I removed the 'cyclotomic' operator, since I don't understand it enough to
+explain what it does or why it's useful.  I'm just exposing an mpmath function.
+Some day I'll probably go through an expose all those mpmath functions that I
+haven't already.
+
+Removed a couple of unit types for which I could not find sufficient
+documentation.  In particular the Talk page on Wikipedia claims that a couple of
+the wine bottle sizes they had previously reported could not be verified.
     ''',
     'license' :
     '''
@@ -5662,15 +5679,6 @@ a result into something more intuitive and readable.
 ''' + makeCommandExample( '0.025 hours mile / invert_units' ),
 [ 'reciprocal' ] ],
 
-    'lat_long_to_nac' : [
-'conversion', 'converts a latitude-longitude pair to the NAC format',
-'''
-''',
-'''
-''' + makeCommandExample( '"Leesburg, VA" location_info lat_long_to_nac' ) + '''
-''' + makeCommandExample( '"Moscow, Russia" location_info lat_long_to_nac' ),
-[ 'lat_long', 'location_info' ] ],
-
     'long' : [
 'conversion', 'converts the value to a signed 32-bit integer',
 '''
@@ -9166,14 +9174,6 @@ list (which must be the same size).
 ''' + makeCommandExample( '[ 101 103 107 109 ] [ 21 22 23 25 ] crt' ),
 [ 'digital_root', 'harmonic_residue' ] ],
 
-    'cyclotomic' : [
-'number_theory', 'evaluates the the nth cyclotomic polynomial for k',
-'''
-''',
-'''
-''',
-[ 'nth_mobius', 'unit_roots' ] ],
-
     'digamma' : [
 'number_theory', 'calculates the digamma function for n',
 '''
@@ -10782,13 +10782,12 @@ complex number that yields 1 when raised to some positive integer power n.
 Roots of unity are used in many branches of mathematics, and are especially
 important in number theory, the theory of group characters, and the discrete
 Fourier transform.
-
 ''',
 '''
 ''' + makeCommandExample( '2 unit_roots' ) + '''
 ''' + makeCommandExample( '3 unit_roots' ) + '''
 ''' + makeCommandExample( '4 unit_roots' ),
-[ 'cyclotomic', 'root' ] ],
+[ 'root' ] ],
 
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
@@ -13069,8 +13068,7 @@ This operator returns smallest set of triplet primes greater than n.
 '''
 ''' + makeCommandExample( '100 next_triplet_primes' ) + '''
 ''' + makeCommandExample( '10,000 next_triplet_primes' ) + '''
-''' + makeCommandExample( '1,000,000 next_triplet_primes' ) + '''
-''' + makeCommandExample( '100,000,000 next_triplet_primes' ),
+''' + makeCommandExample( '1,000,000 next_triplet_primes' ),
 [ 'triplet_prime', 'nth_triplet_prime', 'triplet_primes' ] ],
 
     'next_twin_prime' : [
@@ -13133,7 +13131,7 @@ through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '100 nth_quadruplet_prime' ) + '''
-''' + makeCommandExample( '3 quadruplet_primes' ) + '''
+''' + makeCommandExample( '3 quadruplet_prime' ) + '''
 ''' + makeCommandExample( '10000 nth_quadruplet_prime' ) + '''
 ''' + makeCommandExample( '13 quadruplet_primes' ),
 [ 'quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
@@ -13178,10 +13176,10 @@ g.dataDir + '''/ and is distributed with data files calculated
 through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '100,000 nth_quadruplet_prime' ) + '''
-''' + makeCommandExample( '7 quadruplet_primes' ) + '''
-''' + makeCommandExample( '100,000,000,000 nth_quadruplet_prime' ) + '''
-''' + makeCommandExample( '8627 quadruplet_primes' ),
+''' + makeCommandExample( '100,000 nth_sextuplet_prime' ) + '''
+''' + makeCommandExample( '7 sextuplet_primes' ) + '''
+''' + makeCommandExample( '100,000,000,000 nth_sextuplet_prime' ) + '''
+''' + makeCommandExample( '8627 sextuplet_primes' ),
 [ 'sextuplet_prime', 'next_sextuplet_prime', 'sextuplet_primes' ] ],
 
     'nth_triplet_prime' : [
@@ -13285,7 +13283,7 @@ through several billion primes.
 ''' + makeCommandExample( '1 1 10 range polyprime' ) + '''
 ''' + makeCommandExample( '3 6 polyprime' ) + '''
 ''' + makeCommandExample( '5 5 polyprime' ) + '''
-''' + makeCommandExample( '4 12 polyprime -c' ),
+''' + makeCommandExample( '4 11 polyprime -c' ),
 [ 'super_prime', 'prime' ] ],
 
     'previous_prime' : [
@@ -13813,7 +13811,7 @@ through several billion primes.
 ''' + makeCommandExample( '1 10 range twin_primes' ) + '''
 ''' + makeCommandExample( '157 twin_primes' ) + '''
 An _extremely_ crude estimation of Brun's twin prime constant:
-''' + makeCommandExample( '1 100 range twin_primes 1/x sum sum', indent=4 ),
+''' + makeCommandExample( '1 1000 range twin_primes 1/x sum sum', indent=4, slow=True ),
 [ 'twin_prime', 'triplet_primes', 'quadruplet_primes', 'quintuplet_primes' ] ],
 
 

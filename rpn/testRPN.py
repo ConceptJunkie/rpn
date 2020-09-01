@@ -1968,12 +1968,6 @@ def runConversionOperatorTests( ):
     # invert_units
     testOperator( '30 miles gallon / invert_units' )
 
-    # lat_long_to_nac
-    testOperator( '"Detroit, MI" location_info lat_long_to_nac' )
-    testOperator( '"Leesburg, VA" lat_long_to_nac' )
-    testOperator( '[ 30 -120 ] lat_long_to_nac' )
-    testOperator( '[ -45 90 ] lat_long_to_nac' )
-
     # long
     testOperator( '3456789012 long' )
 

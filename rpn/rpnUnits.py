@@ -131,7 +131,7 @@ Ref:  https://en.wikipedia.org/wiki/Metre_per_second_squared
 This is the standard SI unit for measuring the amount of a substance.  By
 definition, one mole of a substance contains a number of molecules, atoms, ions
 or electrons, etc., equal to Avogadro's number, which is now defined to be
-exactly 6.02214076 x 10^23.
+exactly 6.02214076 x 10e23.
 ''' ),
 
     # angle
@@ -286,7 +286,7 @@ Ref:  https://en.wikipedia.org/wiki/Hectare
     'barn' :
         RPNUnitInfo( 'area', 'barns', '', [ 'bethe', 'bethes', 'oppenheimer', 'oppenheimers' ], [ 'science' ],
                      '''
-A barn is a unit of area equal to 10^-28 m2 (or 100 fm^2).  Originally used in
+A barn is a unit of area equal to 10e-28 m^2 (or 100 fm^2).  Originally used in
 nuclear physics for expressing the cross sectional area of nuclei and nuclear
 reactions, today it is also used in all fields of high-energy physics to
 express the cross sections of any scattering process, and is best understood as
@@ -362,7 +362,7 @@ Ref:  https://en.wikipedia.org/wiki/Circular_mil
                      '''
 A circular mil is a unit of area, equal to the area of a circle with a
 diameter of one mil (one thousandth of an inch).  It corresponds to 5.067 x
-10^-4 mm^2.  It is a unit intended for referring to the area of a wire with a
+10e-4 mm^2.  It is a unit intended for referring to the area of a wire with a
 circular cross section.  As the area in circular mils can be calculated without
 reference to pi, the unit makes conversion between cross section and diameter
 of a wire considerably easier.
@@ -447,11 +447,11 @@ scattering or absorption cross-section of very small particles, such as atomic
 nuclei.  It is one of the very few units which are accepted to be used with SI
 units, and one of the most recent units to have been established (cf. the knot
 and the bar, other non-SI units acceptable in limited circumstances).  One barn
-is equal to 1.0 x 10^-28 m^2.  The name derives from the folk expression
+is equal to 1.0 x 10e-28 m^2.  The name derives from the folk expression
 "Couldn't hit the broad side of a barn", used by particle accelerator
 physicists to refer to the difficulty of achieving a collision between
-particles. The outhouse (1.0 x 10^-6 barns, one microbarn) and shed (1.0 x
-10^-24 barns, one yoctobarn) are derived by analogy.
+particles. The outhouse (1.0 x 10e-6 barns, one microbarn) and shed (1.0 x
+10e-24 barns, one yoctobarn) are derived by analogy.
 
 Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_outhouse,_shed
 ''' ),
@@ -481,11 +481,11 @@ scattering or absorption cross-section of very small particles, such as atomic
 nuclei.  It is one of the very few units which are accepted to be used with SI
 units, and one of the most recent units to have been established (cf. the knot
 and the bar, other non-SI units acceptable in limited circumstances).  One barn
-is equal to 1.0 x 10^-28 m^2.  The name derives from the folk expression
+is equal to 1.0 x 10e-28 m^2.  The name derives from the folk expression
 "Couldn't hit the broad side of a barn", used by particle accelerator
 physicists to refer to the difficulty of achieving a collision between
-particles. The outhouse (1.0 x 10^-6 barns, one microbarn) and shed (1.0 x
-10^-24 barns, one yoctobarn) are derived by analogy.
+particles. The outhouse (1.0 x 10e-6 barns, one microbarn) and shed (1.0 x
+10e-24 barns, one yoctobarn) are derived by analogy.
 
 Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_outhouse,_shed
 ''' ),
@@ -493,6 +493,30 @@ Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Barn,_
     'survey_acre' :
         RPNUnitInfo( 'area', 'survey_acres', '', [ ], [ 'U.S.' ],
                      '''
+In the United States both the international acre and the US survey acre are in
+use, but they differ by only two parts per million.  The most common use of the
+acre is to measure tracts of land.
+
+In the international yard and pound agreement of 1959, the United States and
+five countries of the Commonwealth of Nations defined the international yard to
+be exactly 0.9144 metre.  The US authorities decided that, while the refined
+definition would apply nationally in all other respects, the US survey foot (and
+thus the survey acre) would continue 'until such a time as it becomes desirable
+and expedient to readjust [it]'.  By inference, an "international acre" may be
+calculated as exactly 4,046.8564224 square metres but it does not have a basis
+in any international agreement.
+
+Since the difference between the US survey acre and international acre (0.016
+square metres, 160 square centimetres or 24.8 square inches), is only about a
+quarter of the size of an A4 sheet or US letter, it is usually not important
+which one is being discussed.  Areas are seldom measured with sufficient
+accuracy for the different definitions to be detectable.
+
+In October 2019, U.S. National Geodetic Survey and National Institute of
+Standards and Technology announced their joint intent to end the "temporary"
+continuance of the US survey foot, mile and acre units (as permitted by their
+1959 decision, above), with effect from the end of 2022.
+
 Ref:  https://en.wikipedia.org/wiki/Acre
 ''' ),
 
@@ -555,6 +579,11 @@ Ref:  https://en.wikipedia.org/wiki/Farad
     'jar' :
         RPNUnitInfo( 'capacitance', 'jars', '', [ ], [ 'obsolete' ],
                      '''
+A jar was an early unit of capacitance once used by the British Royal Navy.  The
+term originated as the capacitance of a Leyden jar.  Its value is such that one
+farad is 9*10e8 jars and one jar is 1111 picofarads.
+
+Ref:  https://en.wikipedia.org/wiki/Jar_(unit)
 ''' ),
 
     'statfarad' :
@@ -595,9 +624,9 @@ charged to a potential difference of one volt:
 
 Under the 2019 redefinition of the SI base units, which took effect on 20 May
 2019, the elementary charge (the charge of the proton) is exactly 1.602176634 x
-10^-19 coulombs.  Thus the coulomb is exactly the charge of 1 / ( 1.602176634 x
-10^-19) protons, which is approximately 6.2415090744 x 10^18 protons (1.036 x
-10^-5 mol).  The same number of electrons has the same magnitude but opposite
+10e-19 coulombs.  Thus the coulomb is exactly the charge of 1 / ( 1.602176634 x
+10e-19) protons, which is approximately 6.2415090744 x 10e18 protons (1.036 x
+10e-5 mol).  The same number of electrons has the same magnitude but opposite
 sign of charge, that is, a charge of -1 C.
 
 Ref:  https://en.wikipedia.org/wiki/Coulomb
@@ -606,6 +635,18 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb
     'faraday' :
         RPNUnitInfo( 'charge', 'faradays', 'Fd', [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
                      '''
+Related to Faraday's constant is the "faraday", a unit of electrical charge.  It
+is much less common than the coulomb, but sometimes used in electrochemistry.
+One faraday of charge is the magnitude of the charge of one mole of electrons,
+i.e. 96485.33212... C.
+
+Expressed in faradays, the Faraday constant F equals "1 faraday of charge per
+mole".
+
+This faraday unit is not to be confused with the farad, an unrelated unit of
+capacitance (1 farad = 1 coulomb / 1 volt).
+
+Ref:  https://en.wikipedia.org/wiki/Faraday_constant#Faraday_unit_of_charge
 ''' ),
 
     'statcoulomb' :
@@ -1409,11 +1450,27 @@ This is the SI unit representation of dynamic viscosity.
     'poise' :
         RPNUnitInfo( 'dynamic_viscosity', 'poise', '', [ ], [ 'CGS' ],
                      '''
+The poise is the unit of dynamic viscosity (absolute viscosity) in the
+centimetre–gram–second (CGS) system of units.  It is named after Jean Leonard
+Marie Poiseuille (see Hagen–Poiseuille equation).
+
+                kg      g         dyne * s
+1 poise = 0.1 ----- = ------ =  1 --------
+              m * s   cm * s         cm
+
+The poise is often used with the metric prefix centi- because the viscosity of
+water at 20 degrees C (NTP) is almost exactly 1 centipoise.
+
+Ref:  https://en.wikipedia.org/wiki/Poise_(unit)
 ''' ),
 
-    'reynolds' :
-        RPNUnitInfo( 'dynamic_viscosity', 'reynolds', '', [ 'reyn', 'reyns' ], [ 'CGS' ],
+    'reyn' :
+        RPNUnitInfo( 'dynamic_viscosity', 'reyns', '', [ 'reynolds' ], [ 'CGS' ],
                      '''
+In fluid dynamics, the reyn is a British unit of dynamic viscosity, named in
+honour of Osbourne Reynolds, for whom the Reynolds number is also named.
+
+Ref:  https://en.wikipedia.org/wiki/Reyn
 ''' ),
 
     # electrical_conductance
@@ -1613,7 +1670,7 @@ https://en.wikipedia.org/wiki/Statohm
         RPNUnitInfo( 'energy', 'electron-volts', 'eV', [ 'electronvolt', 'electronvolts' ], [ 'science' ],
                      '''
 In physics, the electronvolt (symbol eV, also written electron-volt and
-electron volt) is a unit of energy equal to exactly 1.602176634 x 10^-19 joules
+electron volt) is a unit of energy equal to exactly 1.602176634 x 10e-19 joules
 (symbol J) in SI units.
 
 Historically, the electronvolt was devised as a standard unit of measure
@@ -1633,7 +1690,7 @@ Ref:  https://en.wikipedia.org/wiki/Electronvolt
     'foe' :
         RPNUnitInfo( 'energy', 'foes', '', [ 'bethe', 'bethes' ], [ 'astrophysics' ],
                      '''
-A foe is a unit of energy equal to 10^44 joules or 10^51 ergs, used to measure
+A foe is a unit of energy equal to 10e44 joules or 10e51 ergs, used to measure
 the large amount of energy released by a supernova.  The word is an acronym
 derived from the phrase [ten to the power of] fifty-one ergs.  It was coined
 by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
@@ -1694,7 +1751,7 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Tons_of
     'quad' :
         RPNUnitInfo( 'energy', 'quads', '', [ ], [ 'U.S.' ],
                      '''
-A quad is a unit of energy equal to 10^15 (a short-scale quadrillion) BTU, or
+A quad is a unit of energy equal to 10e15 (a short-scale quadrillion) BTU, or
 1.055e18 joules (1.055 exajoules or EJ) in SI units.  The unit is used by
 the U.S. Department of Energy in discussing world and national energy budgets.
 The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
@@ -1724,7 +1781,7 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
 "Toe" is a symbol for tonne of oil equivalent, a unit of energy used in the
 international energy industry.  One toe represents the energy available from
 burning approximately one tonne (metric ton) of crude oil; this is defined by
-the International Energy Agency to be exactly 10^7 kilocalories, equivalent to
+the International Energy Agency to be exactly 10e7 kilocalories, equivalent to
 approximately 7.4 barrels of oil, 1270 cubic meters of natural gas, or 1.4
 tonnes of coal. 1 toe is also equivalent to 41.868 gigajoules (GJ), 39.683
 million Btu (MM Btu) or dekatherms, or 11.630 megawatt hours (MWh).
@@ -1742,9 +1799,9 @@ http://www.unc.edu/~rowlett/units/dictT.html
                      '''
 The energy of various amounts of the explosive TNT (kiloton, megaton, gigaton)
 is often used as a unit of explosion energy, and sometimes of asteroid impacts
-and violent explosive volcanic eruptions.  One ton of TNT produces 4.184 x 10^9
-joules, or (by arbitrary definition) exactly 10^9 thermochemical calories
-(approximately 3.964 x 10^6 BTU).  This definition is only loosely based on the
+and violent explosive volcanic eruptions.  One ton of TNT produces 4.184 x 10e9
+joules, or (by arbitrary definition) exactly 10e9 thermochemical calories
+(approximately 3.964 x 10e6 BTU).  This definition is only loosely based on the
 actual physical properties of TNT.
 
 Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Tons_of_TNT_equivalent
@@ -2357,8 +2414,8 @@ Ref:  https://en.wikipedia.org/wiki/Light-second
         RPNUnitInfo( 'length', 'light-years', 'ly', [ 'a1' ], [ 'science' ],
                      '''
 The light-year is a unit of length used to express astronomical distances and
-measures about 9.46 trillion kilometres (9.46 x 10^12 km) or 5.88 trillion
-miles (5.88 x 10^12 mi).  As defined by the International Astronomical Union
+measures about 9.46 trillion kilometres (9.46 x 10e12 km) or 5.88 trillion
+miles (5.88 x 10e12 mi).  As defined by the International Astronomical Union
 (IAU), a light-year is the distance that light travels in vacuum in one Julian
 year (365.25 days).
 
@@ -2392,11 +2449,6 @@ Ref:  https://en.wikipedia.org/wiki/Link_(unit)
 
     'long_cubit' :
         RPNUnitInfo( 'length', 'long_cubits', '', [ ], [ 'obsolete' ],
-                     '''
-''' ),
-
-    'long_reed' :
-        RPNUnitInfo( 'length', 'long_reeds', '', [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
@@ -2438,8 +2490,8 @@ Ref:  https://en.wikipedia.org/wiki/Metre
                      '''
 The micrometre (International spelling as used by the International Bureau of
 Weights and Measures) or micrometer (American spelling), also commonly known by
-the previous name micron, is an SI derived unit of length equalling 10^-6 metre
-(SI standard prefix "micro-" = 10^-6); that is, one millionth of a metre (or
+the previous name micron, is an SI derived unit of length equalling 10e-6 metre
+(SI standard prefix "micro-" = 10e-6); that is, one millionth of a metre (or
 one thousandth of a millimetre, 0.001 mm, or about 0.000039 inch).
 
 https://en.wikipedia.org/wiki/Micrometre
@@ -2511,15 +2563,15 @@ The parsec (symbol: pc) is a unit of length used to measure large distances to
 astronomical objects outside the Solar System.  A parsec is defined as the
 distance at which one astronomical unit subtends an angle of one arcsecond,
 which corresponds to 648000/pi astronomical units.  One parsec is equal to
-about 3.26 light-years or 31 trillion kilometres (31 x 10^12 km) or 19 trillion
-miles (19 x 10^12 mi).  The nearest star, Proxima Centauri, is about 1.3
+about 3.26 light-years or 31 trillion kilometres (31 x 10e12 km) or 19 trillion
+miles (19 x 10e12 mi).  The nearest star, Proxima Centauri, is about 1.3
 parsecs (4.2 light-years) from the Sun.
 
 In August 2015, the International Astronomical Union (IAU) passed Resolution
 B2, which, as part of the definition of a standardized absolute and apparent
 bolometric magnitude scale, mentioned an existing explicit definition of the
 parsec as exactly 648000/pi astronomical units, or approximately
-3.08567758149137 x 10^16 metres (based on the IAU 2012 exact SI definition of the
+3.08567758149137 x 10e16 metres (based on the IAU 2012 exact SI definition of the
 astronomical unit).
 
 Ref:  https://en.wikipedia.org/wiki/Parsec
@@ -2557,11 +2609,6 @@ equipment is expressed as multiples of rack units.
 https://en.wikipedia.org/wiki/Rack_unit
 ''' ),
 
-    'reed' :
-        RPNUnitInfo( 'length', 'reeds', '', [ ], [ 'obsolete' ],
-                     '''
-''' ),
-
     'rod' :
         RPNUnitInfo( 'length', 'rods', '', [ 'pole', 'poles', 'perch', 'perches' ], [ 'U.S.' ],
                      '''
@@ -2579,6 +2626,10 @@ Ref:  https://en.wikipedia.org/wiki/Rod_(unit)
     'rope' :
         RPNUnitInfo( 'length', 'ropes', '', [ ], [ 'obsolete' ],
                      '''
+The Somerset rope was a former English unit used in drainage and hedging.  It
+was 20 feet (now precisely 6.096 m).
+
+Ref:  https://en.wikipedia.org/wiki/Rope_(unit)
 ''' ),
 
     'potrzebie' :
@@ -2698,17 +2749,39 @@ The apostilb is an obsolete unit of luminance.  The SI unit of luminance is the
 candela per square metre (cd/m^2).  In 1942 Parry Moon proposed to rename the
 apostilb the blondel, after the French physicist Andre Blondel.
 
+One apostilb is equal to one candela per square centimeter.
+
 Ref:  https://en.wikipedia.org/wiki/Apostilb
 ''' ),
 
     'bril' :
         RPNUnitInfo( 'luminance', 'brils', '', [ ], [ 'obsolete' ],
                      '''
+The bril is an old, non-SI, unit of luminance.  The SI unit of luminance is the
+candela per square meter.
+
+One bril is equal to 1/(10e7 * pi) candela per square meter, 10e-4 skots, 10e-11
+lamberts, and 10e-7 apotilbs.
+
+Ref:  https://en.wikipedia.org/wiki/Bril_(unit)
 ''' ),
 
     'candela/meter^2' :
-        RPNUnitInfo( 'luminance', 'candela/meter^2', '', [ ], [ 'SI' ],
+        RPNUnitInfo( 'luminance', 'candela/meter^2', '', [ 'nit', 'nits' ], [ 'SI' ],
                      '''
+The candela per square metre (symbol: cd/m^2) is the derived SI unit of
+luminance.  The unit is based on the candela, the SI unit of luminous intensity,
+and the square metre, the SI unit of area.  The nit (symbol: nt) is a non-SI
+name also used for this unit (1 nt = 1 cd/m2).  The term nit is believed to come
+from the Latin word nitere, 'to shine.'
+
+As a measure of light emitted per unit area, this unit is frequently used to
+specify the brightness of a display device.  The sRGB spec for monitors targets
+80 cd/m^2.  Typically, calibrated monitors should have a brightness of 120
+cd/m^2.  Most consumer desktop liquid crystal displays have luminances of 200 to
+300 cd/m^2.  HDR televisions range from 450 to about 1500 cd/m^2.
+
+Ref:  https://en.wikipedia.org/wiki/Candela_per_square_metre
 ''' ),
 
     'footlambert' :
@@ -2721,20 +2794,32 @@ Ref:  https://en.wikipedia.org/wiki/Apostilb
                      '''
 ''' ),
 
-    'nit' :
-        RPNUnitInfo( 'luminance', 'nits', 'nt',
-                     [ 'meterlambert', 'meter*lambert', 'meterlamberts', 'meter*lamberts' ], [ 'obsolete' ],
-                     '''
-''' ),
-
     'skot' :
         RPNUnitInfo( 'luminance', 'skots', '', [ ], [ 'obsolete' ],
                      '''
+Skot (symbol: sk) is an old and deprecated measurement unit of luminance, used
+for self-luminous objects (dark luminance).  One skot is equal to 10e-7
+lamberts, 1-^-3 apostilbs, and 10e4 brils.
+
+Ref:  https://en.wikipedia.org/wiki/Skot_(unit)
 ''' ),
 
     'stilb' :
         RPNUnitInfo( 'luminance', 'stilbs', 'sb', [ ], [ 'CGS' ],
                      '''
+The stilb (sb) is the CGS unit of luminance for objects that are not
+self-luminous.  It is equal to one candela per square centimeter or 104 nits
+(candelas per square meter).  The name was coined by the French physicist Andre
+Blondel around 1920.  It comes from the Greek word stilbein, meaning 'to
+glitter'.
+
+It was in common use in Europe up to World War I.  In North America
+self-explanatory terms such as candle per square inch and candle per square
+meter were more common.  The unit has since largely been replaced by the SI
+unit: candela per square meter.  The current national standard for SI in the
+United States discourages the use of the stilb.
+
+Ref:  https://en.wikipedia.org/wiki/Stilb_(unit)
 ''' ),
 
     # luminous_flux
@@ -2756,8 +2841,7 @@ Ref:  https://en.wikipedia.org/wiki/Lumen_(unit)
         RPNUnitInfo( 'luminous_flux', 'candela*radian^2', '', [ ], [ 'SI' ],
                      '''
 This is the SI unit representation of luminous flux, which is equivalent to
-candela x radian^2 (or steradian) / meter^2.
-
+candela * radian^2 / meter^2.
 ''' ),
 
     # luminous_intensity
@@ -2784,17 +2868,45 @@ Ref:  https://en.wikipedia.org/wiki/Candela
     'hefnerkerze' :
         RPNUnitInfo( 'luminous_intensity', 'hefnerkerze', 'HK', [ ], [ 'obsolete', 'Germany' ],
                      '''
+The Hefner lamp, or in German Hefnerkerze, is a flame lamp used in photometry
+that burns amyl acetate.
+
+The lamp was invented by Friedrich von Hefner-Alteneck in 1884 and he proposed
+its use as a standard flame for photometric purposes with a luminous intensity
+unit of the Hefnerkerze (HK).  The lamp was specified as having a 40 mm flame
+height and an 8 mm diameter wick.
+
+The Hefner lamp provided the German, Austrian, and Scandinavian standard for
+luminosity during the late nineteenth and early twentieth centuries.  The unit
+of light intensity was defined as that produced by the lamp burning amyl acetate
+with a 40 mm flame height.  The light unit was adopted by the German gas
+industry in 1890 and known as the Hefnereinheit.  In 1897 it was also adopted by
+the Association of German Electrical Engineers under the name Hefnerkerze (HK).
+
+Germany moved to using the New Candle (NK) from 1 July 1942 and the candela (cd)
+from 1948.  The HK unit is still used as a measure of the intensity of kerosene
+pressure lamps in Germany.
+
+1 Hefnerkerze is about 0.920 candela.
+
+Ref:  https://en.wikipedia.org/wiki/Hefner_lamp
 ''' ),
 
     # magnetic_field_strength
     'ampere/meter' :
         RPNUnitInfo( 'magnetic_field_strength', 'ampere/meter', '', [ ], [ 'SI' ],
                      '''
+Ampere/meter is the SI unit used for measuring meagnetic field strength.
 ''' ),
 
     'oersted' :
         RPNUnitInfo( 'magnetic_field_strength', 'oersted', 'Oe', [ ], [ 'CGS' ],
                      '''
+The oersted (symbol Oe) is the unit of the auxiliary magnetic field H in the
+centimetre–gram–second system of units (CGS).  It is equivalent to 1 dyne per
+maxwell.
+
+Ref:  https://en.wikipedia.org/wiki/Oersted
 ''' ),
 
     # magnetic_flux
@@ -2808,11 +2920,26 @@ representation of magnetic flux.
     'maxwell' :
         RPNUnitInfo( 'magnetic_flux', 'maxwells', 'Mx', [ 'line', 'lines' ], [ 'CGS' ],
                      '''
+The unit name honours James Clerk Maxwell, who presented a unified theory of
+electromagnetism.  The maxwell was recommended as a CGS unit at the
+International Electrical Congress held in 1900 at Paris.  This practical unit
+was previously called a line, reflecting Faraday's conception of the magnetic
+field as curved lines of magnetic force, which he designated as line of magnetic
+induction.  Kiloline (10e3 line) and megaline (10e6 line) were sometimes used
+because 1 line was very small relative to the phenomena that it was used to
+measure.
+
+Ref:  https://en.wikipedia.org/wiki/Maxwell_%28unit%29
 ''' ),
 
     'unit_pole' :
         RPNUnitInfo( 'magnetic_flux', 'unit_poles', '', [ 'unitpole', 'unitpoles' ], [ 'CGS' ],
                      '''
+The unit of magnetic pole strength equal to the strength of a magnetic pole that
+repels a similar pole with a force of one dyne, the two poles being placed in a
+vacuum and separated by a distance of one centimeter.
+
+Ref:  https://www.dictionary.com/browse/unit-magnetic-pole
 ''' ),
 
     'weber' :
@@ -2874,6 +3001,12 @@ https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
 A blintz is a unit of mass in the Potrzebie system of measurements that is
 equal to the mass of one ngogn of halavah, which works out to approximately
 36.4 grams.
+
+The Potrzebie system is included in rpn as a tribute to both Donald Knuth and
+Mad Magazine.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
+
 ''' ),
 
     'carat' :
@@ -2887,7 +3020,7 @@ equal to the mass of one ngogn of halavah, which works out to approximately
                      '''
 The Chandrasekhar limit is the maximum mass of a stable white dwarf star.  The
 currently accepted value of the Chandrasekhar limit is about 1.4 times the mass
-of Earth (2.765 x 10^30 kg).
+of Earth (2.765 x 10e30 kg).
 
 White dwarfs resist gravitational collapse primarily through electron
 degeneracy pressure (compare main sequence stars, which resist collapse through
@@ -2920,7 +3053,7 @@ The definition of unified atomic mass unit was not affected by the 2019
 redefinition of SI base units, that is, 1 Da in the SI is still 1/12 of the
 mass of a carbon-12 atom, a quantity that must be determined experimentally in
 terms of SI units.  However, the definition of a mole was changed to be the
-amount of substance consisting of exactly 6.02214076 x 10^23 entities, and the
+amount of substance consisting of exactly 6.02214076 x 10e23 entities, and the
 definition of the kilogram was changed too.  As a consequence, the molar mass
 constant is no longer exactly 1 g/mol, meaning that the number of grams in the
 mass of one mole of any substance is no longer exactly equal to the number of
@@ -3006,7 +3139,7 @@ Originally defined as "the absolute weight of a volume of pure water equal to
 the cube of the hundredth part of a metre [1 cm^3], and at the temperature of
 melting ice" (later at 4 degrees C, the temperature of maximum density of
 water).  However, in a reversal of reference and defined units, a gram is now
-defined as one thousandth of the SI base unit, the kilogram, or 1 x 10^-3 kg.
+defined as one thousandth of the SI base unit, the kilogram, or 1 x 10e-3 kg.
 
 Ref:  https://en.wikipedia.org/wiki/Gram
 ''' ),
@@ -3096,24 +3229,48 @@ Ref:  https://en.wikipedia.org/wiki/Pound_(mass)
 ''' ),
 
     'quintal' :
-        RPNUnitInfo( 'mass', 'quintals', 'q', [ 'cantar', 'cantars' ], [ ],
+        RPNUnitInfo( 'mass', 'quintals', 'q', [ 'centner', 'centners' ], [ ],
                      '''
-''' ),
+The quintal or centner is a historical unit of mass in many countries which is
+usually defined as 100 base units, such as pounds or kilograms.  It is a
+traditional unit of weight in France, Portugal, and Spain and their former
+colonies.  It is commonly used for grain prices in wholesale markets in India,
+where 1 quintal = 100 kg.
 
-    'sheet' :
-        RPNUnitInfo( 'mass', 'sheets', '', [ ], [ 'obsolete' ],
-                     '''
+In British English, it referred to the hundredweight; in American English, it
+formerly referred to an uncommon measure of 100 kilograms.
+
+Ref:  https://en.wikipedia.org/wiki/Quintal
 ''' ),
 
     'slinch' :
         RPNUnitInfo( 'mass', 'slinches', '', [ 'mug', 'mugs', 'snail', 'snails' ], [ 'NASA' ],
                      '''
+The blob is the inch version of the slug (1 blob is equal to 1 lbf * s^2 / in,
+or 12 slugs) or equivalent to 386.0886 pounds (175.1268 kg).  This unit is also
+called slinch (a portmanteau of the words slug and inch).  Similar terms include
+slugette and snail.
+
+Ref:  https://en.wikipedia.org/wiki/Slug_(unit)
 ''' ),
 
     'slug' :
         RPNUnitInfo( 'mass', 'slugs', '',
                      [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
                      '''
+The slug is a derived unit of mass in a weight-based system of measures, most
+notably within the British Imperial measurement system and in the United States
+customary measures system.  Systems of measure either define mass and derive a
+force unit or define a base force and derive a mass unit (cf. poundal, a derived
+unit of force in a force-based system).  A slug is defined as the mass that is
+accelerated by 1 ft/s2 when a force of one pound (lbf) is exerted on it.
+
+One slug has a mass of 32.1740 lb (14.59390 kg) based on standard gravity, the
+international foot, and the avoirdupois pound.  At the Earth's surface, an
+object with a mass of 1 slug exerts a force downward of approximately 32.2 lbf
+or 143 N.
+
+Ref:  https://en.wikipedia.org/wiki/Slug_(unit)
 ''' ),
 
     'stone' :
@@ -3573,6 +3730,20 @@ A century is a period of 100 years.
     'clarke' :
         RPNUnitInfo( 'time', 'clarkes', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+In the Potrzebie system, the clarke is a measurement of time, equal to one day.
+The other time measurements are  power-of-10 ratios of the clarke.
+
+1 clarke is equal to one day
+10 woods equal one clarke
+10 martins equal one wood
+100 kovacs equal one martin
+1000 wolvertons equal one kovac
+
+10 clarkes make a mingo
+10 mingos make a cowznofski
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
+
 ''' ),
 
     'cowznofski' :
@@ -3586,7 +3757,7 @@ A century is a period of 100 years.
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the cowznofski is equal to 100 days.
@@ -3596,8 +3767,26 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
 ''' ),
 
     'day' :
-        RPNUnitInfo( 'time', 'days', '', [ 'ephemeris_day' ], [ 'traditional' ],
+        RPNUnitInfo( 'time', 'days', 'd', [ 'ephemeris_day' ], [ 'traditional' ],
                      '''
+A day is approximately the period of time during which the Earth completes one
+rotation around its axis.  A solar day is the length of time which elapses
+between the Sun reaching its highest point in the sky two consecutive times.
+
+In 1960, the second was redefined in terms of the orbital motion of the Earth in
+the year 1900, and was designated the SI base unit of time.  The unit of
+measurement "day", was redefined as 86,400 SI seconds and symbolized d.  In
+1967, the second and so the day were redefined by atomic electron transition.  A
+civil day is usually 24 hours, plus or minus a possible leap second in
+Coordinated Universal Time (UTC), and occasionally plus or minus an hour in
+those locations that change from or to daylight saving time.
+
+Day can be defined as each of the twenty-four-hour periods, reckoned from one
+midnight to the next, into which a week, month, or year is divided, and
+corresponding to a rotation of the earth on its axis.  This is the definition
+that rpn uses for the 'day' unit.
+
+https://en.wikipedia.org/wiki/Day
 ''' ),
 
     'decade' :
@@ -3645,7 +3834,7 @@ Ref:  https://en.wikipedia.org/wiki/Hour
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the kovac is equal to 1/100000th of a day, or 0.864 seconds.
@@ -3683,7 +3872,7 @@ Ref:  https://en.wikipedia.org/wiki/Jiffy_(time)
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the martin is equal to 1/1000th of a day, or 86.4 seconds.
@@ -3725,7 +3914,7 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Microfo
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the mingo is equal to 10 days.
@@ -3792,7 +3981,7 @@ Ref:  https://en.wikipedia.org/wiki/Second
     'shake' :
         RPNUnitInfo( 'time', 'shakes', '', [ ], [ 'science' ],
                      '''
-A shake is an informal unit of time equal to 10 nanoseconds, or 10^-8 seconds.
+A shake is an informal unit of time equal to 10 nanoseconds, or 10e-8 seconds.
 It has applications in nuclear physics, helping to conveniently express the
 timing of various events in a nuclear reaction, especially neutron reactions.
 The typical time required for one step in the chain reaction (i.e. the typical
@@ -3844,7 +4033,7 @@ A Svedberg unit (symbol S, sometimes Sv) is a non-metric unit for sedimentation
 coefficient.  The Svedberg unit offers a measure of a particle's size based on
 its sedimentation rate, i.e. how fast a particle of given size and shape
 'settles' to the bottom of a solution.  The Svedberg is a measure of time,
-defined as exactly 10^-13 seconds (100 femtoseconds).
+defined as exactly 10e-13 seconds (100 femtoseconds).
 
 Ref:  https://en.wikipedia.org/wiki/Svedberg
 ''' ),
@@ -3883,7 +4072,7 @@ Ref:  https://en.wikipedia.org/wiki/Week
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the wolverton is equal to 1/100,000,000 of a day, or 0.864
@@ -3909,7 +4098,7 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
 100 kovacs equal one martin
 1000 wolvertons equal one kovac
 
-10 clarks make a mingo
+10 clarkes make a mingo
 10 mingos make a cowznofski
 
 Therefore, the wood is equal to 2.4 hours, or 8640 seconds.
@@ -4019,6 +4208,9 @@ Ref:  https://en.wikipedia.org/wiki/Mach_number
     'balthazar' :
         RPNUnitInfo( 'volume', 'balthazars', '', [ 'belshazzar', 'belshazzars' ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+12 liters in size, or 16 times the size of a standard 750 mL wine bottle.
+
 https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
@@ -4067,18 +4259,29 @@ Ref:  https://en.wikipedia.org/wiki/United_States_customary_units,
     'chopine' :
         RPNUnitInfo( 'volume', 'chopines', '', [ ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+0.25 liters in size, or one-third times the size of a standard 750 mL wine
+bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'clavelin' :
         RPNUnitInfo( 'volume', 'clavelins', '', [ ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+0.62 liters in size, or 0.83 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'coffeespoon' :
         RPNUnitInfo( 'volume', 'coffeespoons', '', [ ], [ 'traditional', 'cooking' ],
                      '''
+This is standardized, but informal unit of measurement in the U.S. used for
+cooking and is equivalent to 1/2 of a teaspoon, or 2 scruples.
+
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'cord' :
@@ -4104,6 +4307,10 @@ Ref:  https://en.wikipedia.org/wiki/Cup_(unit)
     'dash' :
         RPNUnitInfo( 'volume', 'dashes', '', [ ], [ 'cooking' ],
                      '''
+This is standardized, but informal unit of measurement in the U.S. used for
+cooking and is equivalent to 1/8 of a teaspoon, or 2 pinches.
+
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'demi' :
@@ -4134,6 +4341,25 @@ fluid ounce.
                      [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ],
                      [ 'traditional' ],
                      '''
+The dram (alternative British spelling drachm) is a unit of mass in the
+avoirdupois system, and both a unit of mass and a unit of volume in the
+apothecaries' system.  It was originally both a coin and a weight in ancient
+Greece.  The unit of volume is more correctly called a fluid dram, fluid drachm,
+fluidram or fluidrachm.
+
+The British Weights and Measures Act of 1878 introduced verification and
+consequent stamping of apothecary weights, making them officially recognized
+units of measurement.  By 1900, Britain had enforced the distinction between the
+avoirdupois and apothecaries' versions by making the spelling different:
+
+    - dram now meant only avoirdupois drams, which were ​1⁄16 of an avoirdupois
+    ounce of 437.5 grains, thus equal to 27.34 grains
+
+    - drachm now meant only apothecaries' drachms, which were ​1⁄8 of an
+      apothecaries' ounce of 480 grains, thus equal to 60 grains
+
+https://en.wikipedia.org/wiki/Dram_(unit)#Dram_(volume)
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'dry_barrel' :
@@ -4156,9 +4382,9 @@ Ref:  https://en.wikipedia.org/wiki/Barrel_(unit)#Dry_goods_in_the_US
     'dry_gallon' :
         RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
-THe dry gallon is defined to be 1/2 peck, or 4 dry quarts.  The U.S. customary
-dry volume measurements correspond with each other the same way the liquid
-measurements do.
+THe dry gallon is defined to be one-half of a peck, or 4 dry quarts.  The U.S.
+customary dry volume measurements correspond with each other the same way the
+liquid measurements do.
 
 https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 ''' ),
@@ -4166,9 +4392,9 @@ https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
     'dry_pint' :
         RPNUnitInfo( 'volume', 'dry_pints', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
-THe dry pint is defined to be 1/2 dry quart.  The U.S. customary dry volume
-measurements correspond with each other the same way the liquid measurements
-do.
+THe dry pint is defined to be one-half of a dry quart.  The U.S. customary dry
+volume measurements correspond with each other the same way the liquid
+measurements do.
 
 https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
 ''' ),
@@ -4215,6 +4441,9 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
     'firkin' :
         RPNUnitInfo( 'volume', 'firkins', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+The firkin is a standard unit of measurement for beer and has a size of 9
+imperial gallons.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
@@ -4287,6 +4516,9 @@ Ref:  https://en.wikipedia.org/wiki/Gallon
     'goliath' :
         RPNUnitInfo( 'volume', 'goliaths', '', [ 'primat' ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+27 liters in size, or 36 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
@@ -4306,6 +4538,9 @@ Ref:  https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#The_Gra
     'growler' :
         RPNUnitInfo( 'volume', 'growlers', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+The growler is a standard unit of measurement for beer and has a size of 64
+fluid ounces or one-half of a U.S. gallon.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
@@ -4339,19 +4574,36 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
     'imperial_barrel' :
         RPNUnitInfo( 'volume', 'imperial_barrels', '', [ ], [ 'imperial', 'wine' ],
                      '''
+The Imperial barrel is defined to be 26.25 imperial gallons or one-half of an
+Imperial hogshead.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'imperial_bushel' :
         RPNUnitInfo( 'volume', 'imperial_bushels', '', [ ], [ 'imperial', 'dry_measure' ],
                      '''
+The imperial bushel established by the (British) Weights and Measures Act of
+1824 described the bushel as the volume of 80 avoirdupois pounds of distilled
+water in air at 62 degrees F (17 degrees C) or 8 imperial gallons.  This is the
+bushel in some use in the United Kingdom.  Thus, there is no distinction between
+liquid and dry measure in the imperial system.
+
+Ref:  https://en.wikipedia.org/wiki/Bushel#Imperial_bushel
 ''' ),
 
     'imperial_butt' :
         RPNUnitInfo( 'volume', 'imperial_butts', '',
                      [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial', 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
+A butt approximately equated to 108 imperial gallons (130 US gallons; 491
+litres) for ale or 126 imperial gallons (151 US gallons; 573 litres) for wine
+(also known as a pipe), although the Oxford English Dictionary notes that "these
+standards were not always precisely adhered to".
+
+The butt is one in a series of English wine cask units, being half of a tun.
+
+Ref:  https://en.wikipedia.org/wiki/Butt_(unit)
 ''' ),
 
     'imperial_cup' :
@@ -4372,6 +4624,9 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
     'imperial_hogshead' :
         RPNUnitInfo( 'volume', 'imperial_hogsheads', '', [ ], [ 'imperial', 'wine' ],
                      '''
+The imperial hogshead is a unit of wine measurement and is defined to be 52.5
+imperial gallons, or two imperial barrels.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -4395,6 +4650,9 @@ Ref:  https://en.wikipedia.org/wiki/Peck
         RPNUnitInfo( 'volume', 'imperial_puncheons', '',
                      [ 'imperial_tertian', 'imperial_tertians' ], [ 'imperial', 'wine' ],
                      '''
+The imperial puncheon, a unit of wine measurement, is defined to be 70 imperial
+gallons, or two imperial tierces.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -4406,6 +4664,19 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
     'imperial_tun' :
         RPNUnitInfo( 'volume', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ],
                      '''
+Originally, the tun was defined as 256 wine gallons; this is the basis for the
+name of the quarter of 64 corn gallons.  At some time before the 15th century,
+it was reduced to 252 gallons, so as to be evenly divisible by other small
+integers, including seven.
+
+With the adoption of the Queen Anne wine gallon of 231 cubic inches the tun
+approximated the volume of a cylinder with both diameter and height of 42
+inches.  These were adopted as the standard US liquid gallon and tun.
+
+When the imperial system was introduced the tun was redefined in the UK and
+colonies as 210 imperial gallons.  The imperial tun remained evenly divisible by
+small integers.  There was also little change in the actual value of the tun.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -4414,20 +4685,21 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
                      '''
 ''' ),
 
-    'jennie' :
-        RPNUnitInfo( 'volume', 'jennies', '', [ ], [ 'wine' ],
-                     '''
-''' ),
-
     'jeroboam' :
         RPNUnitInfo( 'volume', 'jeroboams', '', [ 'double_magnum', 'double_magnums' ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+4.5 liters in size, or 6 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'jigger' :
         RPNUnitInfo( 'volume', 'jiggers', '', [ 'short_shot', 'short_shots' ], [ 'U.S.', 'liquor' ],
                      '''
+This is a traditional unit of liquor measurement in the U.S., used for mixing
+drinks.  It is the equivalent of 1.5 U.S. fluid ounces.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_measurements
 ''' ),
 
@@ -4439,6 +4711,9 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_measurements
     'kilderkin' :
         RPNUnitInfo( 'volume', 'kilderkins', '', [ ], [ 'imperial', 'beer' ],
                      '''
+The kilderkin is a standard unit of measurement for beer and has a size of 18
+imperial gallons, or two firkins.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
@@ -4455,6 +4730,9 @@ Ref:  https://en.wikipedia.org/wiki/Litre
     'magnum' :
         RPNUnitInfo( 'volume', 'magnums', '', [ ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+2 liters in size, or 2 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
@@ -4462,18 +4740,27 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
         RPNUnitInfo( 'volume', 'marie_jeannes', '',
                      [ 'dame_jeanne', 'dame_jeannes' ], [ 'France', 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
+This is a traditional unit of wine measurement, which refers to a bottle that is
+3 liters in size, or 4 times the size of a standard 750 mL wine bottle.
+
+Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'melchior' :
         RPNUnitInfo( 'volume', 'melchiors', '', [ ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+18 liters in size, or 24 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'melchizedek' :
         RPNUnitInfo( 'volume', 'melchizedeks', '', [ 'midas', 'midases' ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+30 liters in size, or 40 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
@@ -4487,33 +4774,63 @@ multiplication of three length units to volume units.
     'methuselah' :
         RPNUnitInfo( 'volume', 'methuselahs', '', [ 'mathusalem', 'mathusalems' ], [ 'France', 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_bottles
+This is a traditional unit of wine measurement, which refers to a bottle that is
+6 liters in size, or 8 times the size of a standard 750 mL wine bottle.
+
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'minim' :
         RPNUnitInfo( 'volume', 'minims', 'gtt', [ 'drop' ], [ 'traditional' ],
                      '''
-''' ),
+The minim is a unit of volume in both the imperial and US customary systems of
+measurement.  Specifically it is ​1⁄60 of a fluid drachm or ​1⁄480 of a fluid
+ounce.  In the Pharmacopoeia, it is also noted that the minim was originally
+created by Mr. Timothy Lane, F.R.S., as 61440 parts per wine gallon.
 
-    'mordechai' :
-        RPNUnitInfo( 'volume', 'mordechais', '', [ ], [ 'wine' ],
-                     '''
+The use of the minim, along with other such measures, has been reduced by the
+adoption of the metric system, and even in the least metricated countries,
+pharmacy is largely metricated and the apothecaries' system is deprecated.  The
+unit may rarely persist in some countries in the measurement of dosages of
+medicine.
+
+Ref:  https://en.wikipedia.org/wiki/Minim_(unit)
 ''' ),
 
     'nebuchadnezzar' :
         RPNUnitInfo( 'volume', 'nebuchadnezzars', '', [ 'nabuchodonosor', 'nabuchodonosors' ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+15 liters in size, or 20 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'ngogn' :
         RPNUnitInfo( 'volume', 'ngogns', '', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
+In issue 33, Mad Magazine published a partial table of the "Potrzebie System of
+Weights and Measures", developed by 19-year-old Donald E. Knuth, later a famed
+computer scientist.  According to Knuth, the basis of this new revolutionary
+system is the potrzebie, which equals the thickness of Mad issue 26, or
+2.2633484517438173216473 mm.
+
+In the Potrzebie system, volume is measured in ngogn (equal to 1000 cubic
+potrzebies).  There are approximately 86.25 ngogns in a liter.
+
+The Potrzebie system is included in rpn as a tribute to both Donald Knuth and
+Mad Magazine.
+
+Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
 ''' ),
 
     'oil_barrel' :
         RPNUnitInfo( 'volume', 'oil_barrels', 'bbl', [ ], [ 'U.S.' ],
                      '''
+In the worldwide oil industry, an oil barrel is defined as 42 US gallons, which
+is about 159 litres,[10] or 35 imperial gallons.
+
+Ref:  https://en.wikipedia.org/wiki/Barrel_(unit)#Oil_barrel
 ''' ),
 
     'peck' :
@@ -4531,7 +4848,7 @@ Ref:  https://en.wikipedia.org/wiki/Peck
         RPNUnitInfo( 'volume', 'piccolos', '', [ 'pony', 'snipe', 'split' ], [ 'wine' ],
                      '''
 "Piccolo" is the name of a quarter bottle of wine.  It is also known as a pony,
-snipe or split. They are commonly served in packs of 4 bottles.  rpnChilada uses
+snipe or split. They are commonly served in packs of 4 bottles.
 
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
@@ -4548,9 +4865,11 @@ Some manufacturers of measuring spoons and some U.S. cookbooks give more
 precise equivalents, typically ​1⁄8, ​1⁄16, or even ​1⁄24 teaspoon, but there
 is no generally accepted standard.
 
-rpnChilada uses the value of 16 pinches per teaspoon.
+rpnChilada uses the value of 16 pinches per teaspoon, or the equivalent of 2
+smidgens.
 
 Ref:  https://en.wikipedia.org/wiki/Pinch_(unit)
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'pin' :
@@ -4577,22 +4896,39 @@ Ref:  https://en.wikipedia.org/wiki/Pint
     'pony_keg' :
         RPNUnitInfo( 'volume', 'pony_kegs', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+The pony keg is a U.S. unit of measurement for beer and is equal to 7.75
+imperial gallons, or one-fourth of a beer barrel.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measures
 ''' ),
 
     'portuguese_almude' :
         RPNUnitInfo( 'volume', 'portuguese_almudes', '', [ ], [ 'Portugal' ],
                      '''
+The almude or cântaro is an obsolete Portuguese unit of measurement of volume
+used in Portugal, Brazil and other parts of the Portuguese Empire.  An almude
+was equivalent to 6 potes or 12 canadas.  In Spain, the unit was called almud
+and it was much smaller.
+
+The Portuguese almude, according to the modern standard, is 16.7 liters.
+
+Ref:  https://en.wikipedia.org/wiki/Almude
 ''' ),
 
     'pottle' :
         RPNUnitInfo( 'volume', 'pottles', '', [ ], [ 'imperial' ],
                      '''
+The pottle is an archaic English unit of measurement equal to 2 imperial quarts.
+
+Ref:  https://en.wikipedia.org/wiki/English_units#General
 ''' ),
 
     'puncheon' :
         RPNUnitInfo( 'volume', 'puncheons', '', [ ], [ 'U.S.', 'wine', 'beer' ],
                      '''
+The puncheon is a U.S. measurement of wine, and is defined to be 84 U.S.
+gallons, or 2 U.S. tierces.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -4615,42 +4951,57 @@ Ref:  https://en.wikipedia.org/wiki/Quart
     'rehoboam' :
         RPNUnitInfo( 'volume', 'rehoboams', '', [ ], [ 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+4.5 liters in size, or 6 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'rundlet' :
         RPNUnitInfo( 'volume', 'rundlets', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+The rundlet is a U.S. unit of measurement for wine, and is defined to be 18 U.S.
+gallons or 1/7 of a U.S. butt.
+
 https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'salmanazar' :
         RPNUnitInfo( 'volume', 'salmanazars', '', [ ], [ 'wine' ],
                      '''
-Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
-''' ),
+This is a traditional unit of wine measurement, which refers to a bottle that is
+9 liters in size, or 12 times the size of a standard 750 mL wine bottle.
 
-    'saltspoon' :
-        RPNUnitInfo( 'volume', 'saltspoons', '', [ ], [ 'traditional', 'cooking' ],
-                     '''
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
 ''' ),
 
     'scruple' :
         RPNUnitInfo( 'volume', 'scruples', '',
-                     [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ],
+                     [ 'fluid_scruple', 'fluid_scruples', 'saltspoon', 'saltspoons' ], [ 'traditional' ],
                      '''
+This is standardized, but informal unit of measurement in the U.S. used for
+cooking and is equivalent to 1/4 of a teaspoon, or 2 dashes.
+
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'smidgen' :
         RPNUnitInfo( 'volume', 'smidgens', '',
                      [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ],
                      '''
+This is standardized, but informal unit of measurement in the U.S. used for
+cooking and is equivalent to 1/32 of a teaspoon.
+
+Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_measures
 ''' ),
 
     'snit' :
         RPNUnitInfo( 'volume', 'snits', '', [ ], [ 'U.S.', 'liquor' ],
                      '''
-http://www.unc.edu/~rowlett/units/dictS.html
+This is a traditional unit of liquor measurement in the U.S., used for mixing
+drinks.  It is the equivalent of 3 U.S. fluid ounces.
+
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_measurements
 ''' ),
 
     'spanish_almude' :
@@ -4661,12 +5012,18 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'solomon' :
         RPNUnitInfo( 'volume', 'solomons', '', [ ], [ 'France', 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+20 liters in size, or 26-2/3 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
     'sovereign' :
         RPNUnitInfo( 'volume', 'sovereigns', '', [ ], [ 'France', 'wine' ],
                      '''
+This is a traditional unit of wine measurement, which refers to a bottle that is
+26.25 liters in size, or 35 times the size of a standard 750 mL wine bottle.
+
 Ref:  https://en.wikipedia.org/wiki/Wine_bottle
 ''' ),
 
@@ -4674,7 +5031,7 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
         RPNUnitInfo( 'volume', 'steins', '', [ ], [ 'Germany' ],
                      '''
 A stein is a German beer mug.  Steins come in various sizes, but the most
-common size seems to be 1/2 liter (1.057 U.S pint or 0.880 British Imperial
+common size seems to be one-half liter (1.057 U.S pint or 0.880 British Imperial
 pint).
 
 http://www.unc.edu/~rowlett/units/dictS.html
@@ -4721,18 +5078,27 @@ Ref:  https://en.wikipedia.org/wiki/Teaspoon
     'tierce' :
         RPNUnitInfo( 'volume', 'tierces', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+The U.S. wine tierce is defined to be 42 gallons, or one-half of a U.S.
+puncheon.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'tun' :
-        RPNUnitInfo( 'volume', 'tuns', '', [ ], [ 'U.S.', 'wine', 'beer' ],
+        RPNUnitInfo( 'volume', 'tuns', 'tu', [ ], [ 'U.S.', 'wine', 'beer' ],
                      '''
+In the US customary system, the tun (symbol: US tu) is defined as 252 US fluid
+gallons (about 954 litres).
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
     'wine_barrel' :
         RPNUnitInfo( 'volume', 'wine_barrels', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+The U.S. wine barrel is defined to be 31.5 gallons, or one-half of a U.S.
+hogshead.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -4751,6 +5117,9 @@ Ref:  https://en.wikipedia.org/wiki/Wine_bottle
     'wine_hogshead' :
         RPNUnitInfo( 'volume', 'hogsheads', '', [ ], [ 'U.S.', 'wine' ],
                      '''
+The U.S. wine hogshead is defined to be 63 gallons or twice the size of a U.S.
+barrel.
+
 Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
 ''' ),
 
@@ -5144,8 +5513,8 @@ unitConversionMatrix = {
 
     # dynamic_viscosity
 
-    ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '10' ),
-    ( 'reynolds',                   'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
+    ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '0.1' ),
+    ( 'reyn',                       'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
 
     # electrical_conductance
 
@@ -5286,7 +5655,6 @@ unitConversionMatrix = {
     ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),    # seconds per Julian year (365.25 days)
     ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
     ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
-    ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
     ( 'meter',                      'french' )                              : mpmathify( '3000' ),
@@ -5305,7 +5673,6 @@ unitConversionMatrix = {
     ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
     ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
-    ( 'reed',                       'foot' )                                : mpmathify( '9' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
@@ -5323,11 +5690,9 @@ unitConversionMatrix = {
 
     ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ), # rpn -a54 meter foot convert sqr value pi /
     ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
-    ( 'nit',                        'apostilb' )                            : pi,
-    ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
-    ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
-    ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
-    ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
+    ( 'candela/meter^2',            'apostilb' )                            : pi,
+    ( 'candela/meter^2',            'lambert' )                             : fdiv( pi, 10000 ),
+    ( 'candela/meter^2',            'lambert' )                             : fdiv( pi, 10000 ),
     ( 'skot',                       'bril' )                                : mpmathify( '1.0e4' ),
     ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
     ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
@@ -5379,7 +5744,6 @@ unitConversionMatrix = {
     ( 'pood',                       'dolya' )                               : mpmathify( '368640' ),
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
-    ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
     ( 'quintal',                    'gram' )                                : mpmathify( '100000' ),
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
     ( 'slug',                       'slinch' )                              : mpmathify( '12' ),
@@ -5522,13 +5886,12 @@ unitConversionMatrix = {
     ( 'balthazar',                  'wine_bottle' )                         : mpmathify( '16' ),
     ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
     ( 'goliath',                    'wine_bottle' )                         : mpmathify( '36' ),
-    ( 'jeroboam',                   'wine_bottle' )                         : mpmathify( '4' ),  # some French regions use 6
+    ( 'jeroboam',                   'wine_bottle' )                         : mpmathify( '4.5' ),  # some French regions use 6
     ( 'magnum',                     'wine_bottle' )                         : mpmathify( '2' ),
     ( 'marie_jeanne',               'wine_bottle' )                         : mpmathify( '3' ),
     ( 'melchior',                   'wine_bottle' )                         : mpmathify( '24' ),
     ( 'melchizedek',                'wine_bottle' )                         : mpmathify( '40' ),
     ( 'methuselah',                 'wine_bottle' )                         : mpmathify( '8' ),
-    ( 'mordechai',                  'wine_bottle' )                         : mpmathify( '12' ),
     ( 'nebuchadnezzar',             'wine_bottle' )                         : mpmathify( '20' ),
     ( 'rehoboam',                   'wine_bottle' )                         : mpmathify( '6' ),
     ( 'salmanazar',                 'wine_bottle' )                         : mpmathify( '12' ),
@@ -5536,7 +5899,6 @@ unitConversionMatrix = {
     ( 'sovereign',                  'wine_bottle' )                         : mpmathify( '35' ),
     ( 'wine_bottle',                'chopine' )                             : mpmathify( '3' ),
     ( 'wine_bottle',                'demi' )                                : mpmathify( '2' ),
-    ( 'wine_bottle',                'jennie' )                              : mpmathify( '1.5' ),
     ( 'wine_bottle',                'liter' )                               : mpmathify( '0.75' ),
     ( 'wine_bottle',                'piccolo' )                             : mpmathify( '4' ),
 

@@ -92,7 +92,7 @@ class RPNAstronomicalObject( ):
 
         if matchUSNO:
             location.pressure = 0
-            horizon -= 34/60        # 34 arcminutes
+            horizon -= 34 / 60        # 34 arcminutes
 
         oldHorizon = location.observer.horizon
 
