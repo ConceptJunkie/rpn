@@ -1640,7 +1640,7 @@ def runCombinatoricsOperatorTests( ):
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )
 
-    # get_partitions
+    # partitions
     expectEqual( '1 10 range lambda x get_partitions count eval', '1 10 range partitions' )
     expectEqual( '5 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 5 element' )
     expectEqual( '10 get_partitions lambda x is_prime and_all for_each_list nonzero count', '607 oeis 10 element' )

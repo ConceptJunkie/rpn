@@ -7956,7 +7956,7 @@ a return value of 1 if the list elements are all non-zero, otherwise it returns
 0.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 1000 range lambda [ x is_antiharmonic x is_pernicious x is_semiprime ] and_all filter' ),
 [ 'or_all', 'nand_all', 'nor_all' ] ],
 
     'append' : [

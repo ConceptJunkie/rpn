@@ -428,6 +428,8 @@ def loadUserVariablesFile( ):
         items = config.items( 'User Variables' )
     except configparser.NoSectionError:
         return
+    except configparser.KeyError:
+        return
 
     for item in items:
         g.userVariables[ item[ 0 ] ] = item[ 1 ]
@@ -568,6 +570,8 @@ def loadUserConfigurationFile( ):
     try:
         items = config.items( 'User Configuration' )
     except configparser.NoSectionError:
+        return
+    except configparser.KeyError:
         return
 
     for item in items:
