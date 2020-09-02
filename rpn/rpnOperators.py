@@ -930,9 +930,11 @@ def loadUserFunctionsFile( ):
 
     try:
         items = config.items( 'User Functions' )
-    except ValueError:
+    except configparser.NoSectionError:
         return
-
+    except configparser.KeyError:
+        return
+        
     for item in items:
         func = RPNFunction( )
         func.setCode( item[ 1 ] )
