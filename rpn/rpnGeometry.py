@@ -19,9 +19,7 @@ from rpn.rpnList import getProduct, getSum
 from rpn.rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, LengthValidator, \
-                             MeasurementValidator, RealValidator
-
+from rpn.rpnValidator import argValidator, IntValidator, LengthValidator, MeasurementValidator
 
 
 #******************************************************************************
@@ -36,6 +34,7 @@ from rpn.rpnValidator import argValidator, DefaultValidator, IntValidator, Lengt
 
 def getRegularPolygonArea( n, k ):
     return multiply( fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) ), getPower( k, 2 ) ).convert( 'meter^2' )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 3 ), LengthValidator( ) ] )
@@ -66,14 +65,16 @@ def getKSphereRadius( n, k ):
 
     if dimensions == { 'length' : 1 }:
         return n
-    elif dimensions == { 'length' : int( k - 1 ) }:
+
+    if dimensions == { 'length' : int( k - 1 ) }:
         area = n.convertValue( RPNMeasurement( 1, [ { 'meter' : int( k - 1 ) } ] ) )
 
         result = root( fdiv( fmul( area, gamma( fdiv( k, 2 ) ) ),
                              fmul( 2, power( pi, fdiv( k, 2 ) ) ) ), fsub( k, 1 ) )
 
         return RPNMeasurement( result, [ { 'meter' : 1 } ] )
-    elif dimensions == { 'length' : int( k ) }:
+
+    if dimensions == { 'length' : int( k ) }:
         volume = n.convertValue( RPNMeasurement( 1, [ { 'meter' : int( k ) } ] ) )
 
         result = root( fmul( fdiv( gamma( fadd( fdiv( k, 2 ), 1 ) ),
@@ -81,14 +82,15 @@ def getKSphereRadius( n, k ):
                              volume ), k )
 
         return RPNMeasurement( result, [ { 'meter' : 1 } ] )
-    else:
-        raise ValueError( 'incompatible measurement type for computing the radius: ' +
-                          str( dimensions ) )
+
+    raise ValueError( 'incompatible measurement type for computing the radius: ' + str( dimensions ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereRadiusOperator( n, k ):
     return getKSphereRadius( n, k )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ) ] )
@@ -123,18 +125,22 @@ def getKSphereSurfaceArea( n, k ):
         result = fmul( fdiv( fmul( power( pi, fdiv( k, 2 ) ), 2 ), gamma( fdiv( k, 2 ) ) ), power( m, fsub( k, 1 ) ) )
 
         return RPNMeasurement( result, [ { 'meter' : int( k - 1 ) } ] )
-    elif dimensions == { 'length' : int( k - 1 ) }:
+
+    if dimensions == { 'length' : int( k - 1 ) }:
         return n
-    elif dimensions == { 'length' : int( k ) }:
+
+    if dimensions == { 'length' : int( k ) }:
         radius = getKSphereRadius( n, k )
         return getKSphereSurfaceArea( radius, k )
-    else:
-        raise ValueError( 'incompatible measurement type for computing the surface area' )
+
+    raise ValueError( 'incompatible measurement type for computing the surface area' )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereSurfaceAreaOperator( n, k ):
     return getKSphereSurfaceArea( n, k )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ) ] )
@@ -170,18 +176,22 @@ def getKSphereVolume( n, k ):
         result = fmul( fdiv( power( pi, fdiv( k, 2 ) ), gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
 
         return RPNMeasurement( result, [ { 'meter' : k } ] )
-    elif dimensions == { 'length' : int( k - 1 ) }:
+
+    if dimensions == { 'length' : int( k - 1 ) }:
         radius = getKSphereRadius( n, k )
         return getKSphereVolume( radius, k )
-    elif dimensions == { 'length' : int( k ) }:
+
+    if dimensions == { 'length' : int( k ) }:
         return n
-    else:
-        raise ValueError( 'incompatible measurement type for computing the volume' )
+
+    raise ValueError( 'incompatible measurement type for computing the volume' )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ), IntValidator( 3 ) ] )
 def getKSphereVolumeOperator( n, k ):
     return getKSphereVolume( n, k )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( 0 ) ] )
@@ -452,4 +462,3 @@ def getPrismSurfaceAreaOperator( n, k, h ):
 @argValidator( [ IntValidator( 3 ), LengthValidator( ), LengthValidator( ) ] )
 def getPrismVolumeOperator( n, k, h ):
     return getProduct( [ fdiv( n, 4 ), h, getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ).convert( 'meter^3' )
-

@@ -17,7 +17,6 @@ from mpmath import fdiv, fmul, nstr, mpmathify
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
@@ -58,21 +57,24 @@ def convertUnits( unit1, unit2 ):
 
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
-    elif isinstance( unit2, ( str, RPNUnits ) ):
+
+    if isinstance( unit2, ( str, RPNUnits ) ):
         measurement = RPNMeasurement( 1, unit2 )
         return RPNMeasurement( unit1.convertValue( measurement ), unit2 )
-    elif not isinstance( unit2, ( list, str, RPNUnits, RPNMeasurement ) ):
+
+    if not isinstance( unit2, ( list, str, RPNUnits, RPNMeasurement ) ):
         raise ValueError( 'cannot convert non-measurements' )
-    else:
-        debugPrint( 'convertUnits' )
-        debugPrint( 'unit1:', unit1.getUnitTypes( ) )
-        debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 
-        newValue = unit1.convertValue( unit2 )
+    debugPrint( 'convertUnits' )
+    debugPrint( 'unit1:', unit1.getUnitTypes( ) )
+    debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 
-        debugPrint( '*** value:', newValue )
+    newValue = unit1.convertValue( unit2 )
 
-        return RPNMeasurement( newValue, unit2.units )
+    debugPrint( '*** value:', newValue )
+
+    return RPNMeasurement( newValue, unit2.units )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
@@ -234,4 +236,3 @@ def invertUnitsOperator( measurement ):
         raise ValueError( 'cannot invert non-measurements' )
 
     return measurement.getInverted( )
-

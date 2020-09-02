@@ -43,4 +43,3 @@ class DelayedKeyboardInterrupt( ):
 
         if self.signalReceived:
             self.oldHandler( *self.signalReceived )
-

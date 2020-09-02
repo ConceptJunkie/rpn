@@ -159,39 +159,39 @@ def getNumberGroupName( n ):
 
     if n < len( groupNames ):
         return groupNames[ n ]
-    else:
-        n -= 1
 
-        hundreds = n // 100
-        tens = ( n // 10 ) % 10
-        ones = n % 10
+    n -= 1
 
-        name = ''
-        hasTens = False
+    hundreds = n // 100
+    tens = ( n // 10 ) % 10
+    ones = n % 10
 
-        if ones > 0:
-            name += onesNames[ ones ]
+    name = ''
+    hasTens = False
 
-        if tens > 0:
-            hasTens = True
+    if ones > 0:
+        name += onesNames[ ones ]
 
-            if name != '':
-                name = getModifiedOnesName( name, tensNames[ tens ][ 1 ] )
+    if tens > 0:
+        hasTens = True
 
-            name += tensNames[ tens ][ 0 ]
+        if name != '':
+            name = getModifiedOnesName( name, tensNames[ tens ][ 1 ] )
 
-        if hundreds > 0:
-            if not hasTens:
-                name = getModifiedOnesName( name, hundredsNames[ hundreds ][ 1 ] )
+        name += tensNames[ tens ][ 0 ]
 
-            name += hundredsNames[ hundreds ][ 0 ]
+    if hundreds > 0:
+        if not hasTens:
+            name = getModifiedOnesName( name, hundredsNames[ hundreds ][ 1 ] )
 
-        if name[ -1 ] in 'ai':
-            name = name[ : -1 ]
+        name += hundredsNames[ hundreds ][ 0 ]
 
-        name += 'illion'
+    if name[ -1 ] in 'ai':
+        name = name[ : -1 ]
 
-        return name
+    name += 'illion'
+
+    return name
 
 
 #******************************************************************************
@@ -203,9 +203,11 @@ def getNumberGroupName( n ):
 def getShortOrdinalName( n ):
     if n == 11:
         return '11th'
-    elif n == 12:
+
+    if n == 12:
         return '12th'
-    elif n == 13:
+
+    if n == 13:
         return '13th'
 
     modulo = int( fmod( n, 10 ) )
@@ -238,6 +240,7 @@ def getShortOrdinalName( n ):
 
 def getOrdinalName( n ):
     return getNumberName( n, ordinal = True )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -322,4 +325,3 @@ def getNumberName( n, ordinal = False ):
 @argValidator( [ IntOrMeasurementValidator( ) ] )
 def getNameOperator( n ):
     return getNumberName( n )
-

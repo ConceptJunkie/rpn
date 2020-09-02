@@ -15,21 +15,21 @@
 import calendar
 import datetime
 
-import arrow
-
-arrowVersion = [ int( i ) for i in arrow.__version__.split( '.' ) ]
-
-if arrowVersion[ 0 ] == 0 and arrowVersion[ 1 ] < 16:
-    raise ValueError( 'Please upgrade the arrow package to version 0.16.0 or later.' )
-
 from dateutil import tz
 from functools import lru_cache
+
+import arrow
 
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
 from rpn.rpnMeasurementClass import RPNMeasurement
 
 import rpn.rpnGlobals as g
+
+arrowVersion = [ int( i ) for i in arrow.__version__.split( '.' ) ]
+
+if arrowVersion[ 0 ] == 0 and arrowVersion[ 1 ] < 16:
+    raise ValueError( 'Please upgrade the arrow package to version 0.16.0 or later.' )
 
 
 #******************************************************************************
@@ -132,34 +132,46 @@ class RPNDateTime( arrow.Arrow ):
     def compare( self, value ):
         if self.year > value.year:
             return 1
-        elif self.year < value.year:
+        if self.year < value.year:
             return -1
-        elif self.month > value.month:
+
+        if self.month > value.month:
             return 1
-        elif self.month < value.month:
+
+        if self.month < value.month:
             return -1
-        elif self.day > value.day:
+
+        if self.day > value.day:
             return 1
-        elif self.day < value.day:
+
+        if self.day < value.day:
             return -1
-        elif self.hour > value.hour:
+
+        if self.hour > value.hour:
             return 1
-        elif self.hour < value.hour:
+
+        if self.hour < value.hour:
             return -1
-        elif self.minute > value.minute:
+
+        if self.minute > value.minute:
             return 1
-        elif self.minute < value.minute:
+
+        if self.minute < value.minute:
             return -1
-        elif self.second > value.second:
+
+        if self.second > value.second:
             return 1
-        elif self.second < value.second:
+
+        if self.second < value.second:
             return -1
-        elif self.microsecond > value.microsecond:
+
+        if self.microsecond > value.microsecond:
             return 1
-        elif self.microsecond < value.microsecond:
+
+        if self.microsecond < value.microsecond:
             return -1
-        else:
-            return 0
+
+        return 0
 
     def incrementMonths( self, months ):
         newDay = self.day

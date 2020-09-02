@@ -232,3 +232,7 @@ rpn/rpndata/deltat.old1.data
 rpn/rpndata/Leap_Second.old1.dat
 
 rpn/rpndata/rpnChilada_user_functions.cfg
+
+# VS Code and linters
+.mypy_cache
+.vscode

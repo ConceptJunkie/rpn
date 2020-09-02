@@ -45,8 +45,8 @@ class RPNGenerator( ):
     def __getitem__( self, index ):
         if isinstance( index, slice ):
             return next( itertools.islice( self.generator, index.start, index.end, 1 ) )
-        else:
-            return next( itertools.islice( self.generator, index, index + 1 ) )
+
+        return next( itertools.islice( self.generator, index, index + 1 ) )
 
     def clone( self ):
         self.generator, newGenerator = itertools.tee( self.generator )
@@ -56,7 +56,8 @@ class RPNGenerator( ):
     def create( value ):
         if isinstance( value, RPNGenerator ):
             return value
-        elif isinstance( value, list ):
+
+        if isinstance( value, list ):
             count = len( value )
         else:
             count = 1
@@ -112,8 +113,8 @@ class RPNGenerator( ):
     def createGenerator( func, value ):
         if isinstance( value, list ):
             return RPNGenerator( func( *value ) )
-        else:
-            return RPNGenerator( func( value ) )
+
+        return RPNGenerator( func( value ) )
 
 
 #******************************************************************************
@@ -190,8 +191,8 @@ def exponentialRangeGenerator( value, step, count ):
 def evaluateNestedArgs( func, i ):
     if isinstance( i, ( list, RPNGenerator ) ):
         return [ evaluateNestedArgs( func, j ) for j in i ]
-    else:
-        return func( i )
+
+    return func( i )
 
 
 #******************************************************************************
@@ -248,4 +249,3 @@ def stringProductGenerator( value ):
 def productGenerator( value ):
     for item in itertools.product( *value ):
         yield [ mpmathify( i ) for i in item ]
-

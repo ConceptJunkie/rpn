@@ -12,8 +12,13 @@
 #
 #******************************************************************************
 
+import sqlite3
+
+from collections import MutableMapping
+from typing import Dict, List
 # pylint: disable=invalid-name
 
+from mpmath import mpf
 
 # general globals
 dataDir = 'rpndata'
@@ -54,18 +59,16 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 # state variables
 astroDataLoaded = False         # Whether or not we've tried to load the astronomy data
 astroDataAvailable = False      # If the astronomy data is available (i.e., It's there, _and_ we loaded it.)
-checkForSingleResults = False   # This is set true for making help and unit tests, because those should always
-                                # return single results
+checkForSingleResults = False   # This is set true for making help and unit tests, because those should always eturn single results
 creatingFunction = False        # Whether we're in the process of creating a user-defined function
 duplicateOperations = 0
-echoArguments = [ ]
+echoArguments: List[ str ] = [ ]
 helpLoaded = False
 interactive = False
 lastOperand = 0
 nestedListLevel = 0
 operandsToRemove = 0
-operatorList = False            # whether we are in the process of creating an operator list
-                                # (between '(' and ')' operators)
+operatorList = False            # whether we are in the process of creating an operator list (between '(' and ')' operators)
 operatorsInList = 0
 startTime = 0
 testFilter = ''
@@ -109,24 +112,24 @@ zhangConjecturesAllowed = False
 unitConversionPrecision = 50
 
 # unit data
-basicUnitTypes = { }
-constantOperators = { }
-constantOperatorNames = [ ]
-aliases = { }
-unitConversionMatrix = { }
-unitOperators = { }
-unitOperatorNames = [ ]
+basicUnitTypes: Dict[ str, list ] = { }
+constantOperators: Dict[ str, list ] = { }
+constantOperatorNames: List[ str ] = [ ]
+aliases: Dict[ str, str ] = { }
+unitConversionMatrix: Dict[ tuple, mpf ] = { }
+unitOperators: Dict[ str, list ] = { }
+unitOperatorNames: List[ str ] = [ ]
 
 # help data
-helpTopics = { }
+helpTopics: Dict[ str, list ] = { }
 helpVersion = '0.0.0'
-operatorCategories = [ ]
-operatorHelp = { }
-unitTypeDict = { }
+operatorCategories: List[ str ] = [ ]
+operatorHelp: Dict[ str, list ] = { }
+unitTypeDict: Dict[ str, list ] = { }
 
 # interactive mode
-results = [ ]
-variables = { }
+results = None
+variables: Dict[ str, str ] = { }
 promptCount = 0
 
 # factor cache
@@ -137,17 +140,17 @@ factorCache = None
 locationCache = None
 
 # user-defined constants
-constants = { }
+constants: Dict[ str, list ] = { }
 
 # all keywords
-keywords = [ ]
+keywords: List[ str ] = [ ]
 
 # operator caches
-functionCaches = { }
+functionCaches: Dict[ str, MutableMapping ] = { }
 
 # prime number data
-databases = { }
-cursors = { }
+databases: Dict[ str, sqlite3.Connection ] = { }
+cursors: Dict[ str, sqlite3.Cursor ] = { }
 primeDataAvailable = False
 
 # chemistry tables
@@ -155,11 +158,11 @@ elements = None
 atomic_numbers = None
 
 # config
-userVariables = { }
+userVariables: Dict[ str, str ] = { }
 userVariablesAreDirty = False
-userFunctions = { }
+userFunctions: Dict[ str, str ] = { }
 userFunctionsAreDirty = False
-userConfiguration = { }
+userConfiguration: Dict[ str, str ] = { }
 userConfigurationIsDirty = False
 
 # astronomy data

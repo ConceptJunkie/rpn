@@ -45,30 +45,36 @@ def convertToSignedInt( n, k ):
 
     return value
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def convertToSignedIntOperator( n, k ):
     return convertToSignedInt( n, k )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToCharOperator( n ):
     return convertToSignedInt( n, 8 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToShortOperator( n ):
     return convertToSignedInt( n, 16 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToLongOperator( n ):
     return convertToSignedInt( n, 32 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToLongLongOperator( n ):
     return convertToSignedInt( n, 64 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -107,6 +113,7 @@ def getInvertedBits( n ):
         multiplier = fmul( multiplier, placeValue )
 
     return result
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -163,40 +170,48 @@ def performBitwiseOperation( i, j, operation ):
 
     return result
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseAndOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x & y )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseNandOperator( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseNorOperator( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseOrOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x | y )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseXorOperator( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x ^ y )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def getBitwiseXnorOperator( n, k ):
-    return getInvertedBit( performBitwiseOperation( n, k, lambda x, y: x ^ y ) )
+    return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x ^ y ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def shiftLeftOperator( n, k ):
     return fmul( n, 1 << int( k ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
@@ -229,10 +244,12 @@ def getBitCount( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def getBitCountOperator( n ):
     return getBitCount( n )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -246,17 +263,17 @@ def getParityOperator( n ):
 #
 #******************************************************************************
 
-#@oneArgAndListFunctionEvaluator( )
-@argValidator( [ IntValidator( ), ListValidator( ) ] )
-def unpackIntegerOperator( n, fields ):
+def unpackInteger( n, fields ):
     if isinstance( n, RPNGenerator ):
         return unpackInteger( list( n ), fields )
-    elif isinstance( n, list ):
+
+    if isinstance( n, list ):
         return [ unpackInteger( i, fields ) for i in n ]
 
     if isinstance( fields, RPNGenerator ):
         return unpackInteger( n, list( fields ) )
-    elif not isinstance( fields, list ):
+
+    if not isinstance( fields, list ):
         return unpackInteger( n, [ fields ] )
 
     value = int( n )
@@ -270,22 +287,29 @@ def unpackIntegerOperator( n, fields ):
     return result
 
 
+#oneArgAndListFunctionEvaluator( )
+@argValidator( [ IntValidator( ), ListValidator( ) ] )
+def unpackIntegerOperator( n, fields ):
+    return unpackInteger( n, fields )
+
+
 #******************************************************************************
 #
 #  packInteger
 #
 #******************************************************************************
 
-@argValidator( [ ListValidator( ), ListValidator( ) ] )
-def packIntegerOperator( values, fields ):
+def packInteger( values, fields ):
     if isinstance( values, RPNGenerator ):
         return packInteger( list( values ), fields )
-    elif not isinstance( values, list ):
+
+    if not isinstance( values, list ):
         return unpackInteger( [ values ], fields )
 
     if isinstance( fields, RPNGenerator ):
         return packInteger( values, list( fields ) )
-    elif not isinstance( fields, list ):
+
+    if not isinstance( fields, list ):
         return unpackInteger( values, [ fields ] )
 
     if isinstance( values[ 0 ], list ):
@@ -306,6 +330,11 @@ def packIntegerOperator( values, fields ):
     return result
 
 
+@argValidator( [ ListValidator( ), ListValidator( ) ] )
+def packIntegerOperator( values, fields ):
+    return packInteger( values, fields )
+
+
 #******************************************************************************
 #
 #  interpretAsFloat
@@ -315,6 +344,7 @@ def packIntegerOperator( values, fields ):
 def interpretAsFloat( n ):
     intValue = struct.pack( 'I', int( n ) )
     return mpf( struct.unpack( 'f', intValue )[ 0 ] )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0, 2 ** 32 - 1 ) ] )
@@ -334,6 +364,7 @@ def interpretAsDouble( n ):
     intValue = struct.pack( 'Q', int( n ) )
     return mpf( struct.unpack( 'd', intValue )[ 0 ] )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0, 2 ** 64 - 1 ) ] )
 def interpretAsDoubleOperator( n ):
@@ -352,70 +383,84 @@ def interpretAsDoubleOperator( n ):
 def convertToDoubleOperator( n ):
     return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ) ] )
 def convertToFloatOperator( n ):
     return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
 def convertToUnsignedIntOperator( n, k ):
     return fmod( n, power( 2, k ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToUnsignedCharOperator( n ):
     return fmod( n, power( 2, 8 ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToUnsignedShortOperator( n ):
     return fmod( n, power( 2, 16 ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToUnsignedLongOperator( n ):
     return fmod( n, power( 2, 32 ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToUnsignedLongLongOperator( n ):
     return fmod( n, power( 2, 64 ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def convertToUnsignedQuadLongOperator( n ):
     return fmod( n, power( 2, 128 ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def andOperator( n, k ):
     return 1 if ( n != 0 and k != 0 ) else 0
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def notOperator( n ):
     return 1 if n == 0 else 0
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def nandOperator( n, k ):
     return 0 if ( n != 0 and k != 0 ) else 1
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def norOperator( n, k ):
     return 0 if ( n != 0 or k != 0 ) else 1
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def orOperator( n, k ):
     return 1 if ( n != 0 or k != 0 ) else 0
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )
 def xnorOperator( n, k ):
     return 1 if ( n != 0 ) == ( k != 0 ) else 0
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( ) ] )

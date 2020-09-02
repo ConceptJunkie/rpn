@@ -19,12 +19,11 @@ from functools import reduce
 
 import numpy as np
 
-from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, cyclotomic, e, fabs, fac, fac2, fadd, fdiv, fib, \
+from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac, fac2, fadd, fdiv, fib, \
                    floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log, log10, \
                    loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, \
                    superfac, sqrt, unitroots, zeta, zetazero
 
-from rpn.rpnBase import getBaseKDigits
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
@@ -59,6 +58,7 @@ def getNthAlternatingFactorial( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthAlternatingFactorialOperator( n ):
@@ -74,6 +74,7 @@ def getNthAlternatingFactorialOperator( n ):
 def getNthPascalLineGenerator( n ):
     for i in arange( 0, n ):
         yield binomial( n - 1, i )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
@@ -93,6 +94,7 @@ def getDivisorCount( n ):
         return 1
 
     return fprod( [ i[ 1 ] + 1 for i in getFactorList( n ) ] )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -138,6 +140,7 @@ def getDivisors( n ):
 
     return sorted( createDivisorList( [ ], getFactorList( n ) ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def getDivisorsOperator( n ):
@@ -163,6 +166,7 @@ def getNthLucasNumber( n ):
 
         return floor( fadd( power( phi, n ), 0.5 ) )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthLucasNumberOperator( n ):
@@ -182,6 +186,7 @@ def getNthLucasNumberOperator( n ):
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], n )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthJacobsthalNumberOperator( n ):
@@ -197,13 +202,14 @@ def getNthJacobsthalNumberOperator( n ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 2 ) ] )
 def getNthBaseKRepunit( n, k ):
-    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ],
-                                   [ 1, fadd( k, 1 ) ], fsub( n, 1 ) )
+    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], fsub( n, 1 ) )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 2 ) ] )
 def getNthBaseKRepunitOperator( n, k ):
     return getNthBaseKRepunit( n, k )
+
 
 #******************************************************************************
 #
@@ -267,6 +273,7 @@ def getNthFibonacciPolynomial( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )  # might need to be 2
 def getNthFibonacciPolynomialOperator( n ):
@@ -312,35 +319,42 @@ def getNthKFibonacciNumber( n, k ):
 
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 def getNthKFibonacciNumberOperator( n, k ):
     return getNthKFibonacciNumber( n, k )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthTribonacciOperator( n ):
     return getNthKFibonacciNumber( n, 3 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthTetranacciOperator( n ):
     return getNthKFibonacciNumber( n, 4 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthPentanacciOperator( n ):
     return getNthKFibonacciNumber( n, 5 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthHexanacciOperator( n ):
     return getNthKFibonacciNumber( n, 6 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthHeptanacciOperator( n ):
     return getNthKFibonacciNumber( n, 7 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -403,6 +417,7 @@ def getNthPadovanNumber( arg ):
     return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -635,6 +650,7 @@ def getLinearRecurrence( recurrence, seeds, count ):
 
             del result[ 0 ]
 
+
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ) ] )
 def getLinearRecurrenceOperator( recurrence, seeds, count ):
     return RPNGenerator( getLinearRecurrence( recurrence, seeds, count ) )
@@ -684,6 +700,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         del result[ 0 ]
 
     return result[ -1 ]
+
 
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ) ] )
 def getNthLinearRecurrenceOperator( recurrence, seeds, n ):
@@ -735,6 +752,7 @@ def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
 
             del result[ 0 ]
 
+
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ), IntValidator( 2 ) ] )
 def getLinearRecurrenceWithModuloOperator( recurrence, seeds, count, modulo ):
     return RPNGenerator( getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ) )
@@ -781,6 +799,7 @@ def getNthLinearRecurrenceWithModulo( recurrence, seeds, n, modulo ):
             del result[ 0 ]
 
     return result[ -1 ]
+
 
 @argValidator( [ ListValidator( ), ListValidator( ), IntValidator( 1 ), IntValidator( 2 ) ] )
 def getNthLinearRecurrenceWithModuloOperator( recurrence, seeds, n, modulo ):
@@ -838,6 +857,7 @@ def getGeometricRecurrence( recurrence, powers, seeds, count ):
             yield newValue
 
             del result[ 0 ]
+
 
 @argValidator( [ ListValidator( ), ListValidator( ), ListValidator( ), IntValidator( 2 ) ] )
 def getGeometricRecurrenceOperator( recurrence, powers, seeds, count ):
@@ -968,7 +988,7 @@ def makePythagoreanQuadrupleOperator( a, b ):
         if fmod( sumsqr, 2 ) == 1:
             raise ValueError( "'make_pyth_4' oops, can't make one!" )
 
-        div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] \
+        div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ]
               if fmod( sumsqr, fmul( i, 2 ) ) == 0 and fmod( i, 2 ) == 0 ]
         p = random.choice( div )
 
@@ -1025,6 +1045,7 @@ def getNthFibonorial( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthFibonorialOperator( n ):
@@ -1079,10 +1100,12 @@ def getLCMOfList( args ):
 
     return result
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getLCMOperator( n, k ):
     return getLCMOfList( [ n, k ] )
+
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( )] )
@@ -2344,11 +2367,6 @@ def getBarnesGOperator( n ):
 @argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
 def getBetaOperator( n, k ):
     return beta( n, k )
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ ComplexValidator( ), ComplexValidator( ) ] )
-def getCyclotomicOperator( n, k ):
-    return cyclotomic( n, k )
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )

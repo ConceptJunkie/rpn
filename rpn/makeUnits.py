@@ -35,7 +35,7 @@ from rpn.rpnMeasurementClass import specialUnitConversionMatrix
 
 from rpn.rpnUnits import binaryPrefixes, compoundTimeUnits, dataPrefixes, dataUnits, integralMetricUnits, \
                          metricPrefixes, metricUnits, RPNUnitInfo, unitConversionMatrix, timeUnits, \
-						 unitOperators
+                         unitOperators
 
 from rpn.rpnUtils import getUserDataPath
 from rpn.rpnUnitTypes import basicUnitTypes
@@ -45,7 +45,6 @@ if not hasattr( time, 'time_ns' ):
     from rpn.rpnNanoseconds import time_ns
 else:
     from time import time_ns
-
 
 
 #******************************************************************************
@@ -83,12 +82,14 @@ def makeMetricUnit( prefix, unit ):
     # special case because the standard is inconsistent
     if ( unit == 'ohm' ) and ( prefix == 'giga' ):
         return 'gigaohm'   # not gigohm
-    elif ( unit[ 0 ] == 'o' ) and ( prefix[ -1 ] in 'oa' ):
+
+    if ( unit[ 0 ] == 'o' ) and ( prefix[ -1 ] in 'oa' ):
         return prefix[ : -1 ] + unit
-    elif unit[ 0 ] == 'a' and ( ( prefix[ -1 ] == 'a' ) or ( prefix[ -3 : ] == 'cto' ) ):
+
+    if unit[ 0 ] == 'a' and ( ( prefix[ -1 ] == 'a' ) or ( prefix[ -3 : ] == 'cto' ) ):
         return prefix[ : -1 ] + unit
-    else:
-        return prefix + unit
+
+    return prefix + unit
 
 
 #******************************************************************************
@@ -425,7 +426,7 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 #******************************************************************************
 
 def testAllCombinations( unitTypeTable, unitConversionMatrix ):
-    for unitType, unitList in unitTypeTable.items( ):
+    for _, unitList in unitTypeTable.items( ):
         for unit1, unit2 in itertools.combinations( unitList, 2 ):
             if ( unit1, unit2 ) not in unitConversionMatrix and \
                ( unit1, unit2 ) not in specialUnitConversionMatrix:
@@ -453,7 +454,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
 
     validated = 0
 
-    for unitType, unitList in unitTypeTable.items( ):
+    for _, unitList in unitTypeTable.items( ):
         for unit1, unit2, unit3 in itertools.permutations( unitList, 3 ):
             try:
                 factor1 = unitConversionMatrix[ unit1, unit2 ]
@@ -476,7 +477,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
             if validated % 1000 == 0:
                 print( '\r' + '{:,} conversion permutations validated...'.format( validated ), end='' )
 
-    print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.'. \
+    print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.',
                                                                         format( validated, VALIDATION_PRECISION ) )
     print( 'No consistency problems detected.' )
 
@@ -529,8 +530,8 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
                 if ( op1, op2 ) in unitConversionMatrix:
                     # print( )
                     # print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
-                    newConversions.update( \
-                        extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, \
+                    newConversions.update(
+                        extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType,
                                                           unitConversionMatrix ) )
 
             if not newConversions:
@@ -584,7 +585,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
 
     unitTypeDict = { }
 
-    for unitType in basicUnitTypes.keys( ):
+    for unitType in basicUnitTypes:
         unitTypeDict[ unitType ] = list( )
 
     for unit, unitInfo in unitOperators.items( ):
@@ -650,8 +651,8 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
-    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME + ' - ' +
-                                      PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE,
+    parser = argparse.ArgumentParser( prog = PROGRAM_NAME,
+                                      description = PROGRAM_NAME + ' - ' + PROGRAM_DESCRIPTION + COPYRIGHT_MESSAGE,
                                       add_help = False,
                                       formatter_class = argparse.RawTextHelpFormatter,
                                       prefix_chars = '-' )
@@ -678,4 +679,3 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
-

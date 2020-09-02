@@ -41,8 +41,8 @@ def preparePrimeData( baseName ):
     deleteCache( baseName )
     db, cursor = createPrimeCache( baseName )
 
-    with open( inputFileName, 'r' ) as input:
-        for line in input:
+    with open( inputFileName, 'r' ) as inputFile:
+        for line in inputFile:
             try:
                 key, value = line.split( )
                 saveToCache( db, cursor, key, value, commit=False )
@@ -93,7 +93,6 @@ def main( ):
     print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
-
 #******************************************************************************
 #
 #  __main__
@@ -102,4 +101,3 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
-

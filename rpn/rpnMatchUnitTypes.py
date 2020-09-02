@@ -111,4 +111,3 @@ def matchUnitTypes( args, validUnitTypes ):
             return result
 
     return None
-

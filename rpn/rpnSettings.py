@@ -12,7 +12,7 @@
 #
 #******************************************************************************
 
-from mpmath import mp
+from mpmath import fadd, mp
 
 import rpn.rpnGlobals as g
 
@@ -59,6 +59,7 @@ def setPrecision( n ):
 
     return mp.dps
 
+
 @argValidator( [ IntValidator( 0 ) ] )
 def setPrecisionOperator( n ):
     setPrecision( n )
@@ -77,6 +78,7 @@ def setComma( n ):
         g.comma = False
 
     return 1 if g.comma else 0
+
 
 @argValidator( [ IntValidator( 0, 1 ) ] )
 def setCommaOperator( n ):
@@ -97,6 +99,7 @@ def setTimer( n ):
 
     return 1 if g.timer else 0
 
+
 @argValidator( [ IntValidator( 0, 1 ) ] )
 def setTimerOperator( n ):
     setTimer( n )
@@ -115,6 +118,7 @@ def setIntegerGrouping( n ):
         g.integerGrouping = int( n )
 
     return g.integerGrouping
+
 
 @argValidator( [ IntValidator( -1 ) ] )
 def setIntegerGroupingOperator( n ):
@@ -135,6 +139,7 @@ def setDecimalGrouping( n ):
 
     return g.decimalGrouping
 
+
 @argValidator( [ IntValidator( -1 ) ] )
 def setDecimalGroupingOperator( n ):
     setDecimalGrouping( n )
@@ -154,6 +159,7 @@ def setInputRadix( n ):
 
     return g.inputRadix
 
+
 @argValidator( [ IntValidator( -1 ) ] )
 def setInputRadixOperator( n ):
     setInputRadix( n )
@@ -172,6 +178,7 @@ def setOutputRadix( n ):
         g.outputRadix = int( n )
 
     return g.outputRadix
+
 
 @argValidator( [ IntValidator( -1 ) ] )
 def setOutputRadixOperator( n ):
@@ -194,6 +201,7 @@ def setLeadingZero( n ):
 
     return result
 
+
 @argValidator( [ IntValidator( 0, 1 ) ] )
 def setLeadingZeroOperator( n ):
     setLeadingZero( n )
@@ -214,6 +222,7 @@ def setIdentify( n ):
         g.identify = True
 
     return result
+
 
 @argValidator( [ IntValidator( 0, 1 ) ] )
 def setIdentifyOperator( n ):
@@ -284,4 +293,3 @@ def setLeadingZeroModeOperator( ):
 def setIdentifyModeOperator( ):
     g.tempIdentifyMode = True
     return 0
-

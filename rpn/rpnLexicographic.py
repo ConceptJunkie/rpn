@@ -15,8 +15,8 @@
 import itertools
 import string
 
-from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, \
-                   fsum, log10, mp, mpf, mpmathify, nint, power
+from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, fsum, log10, \
+                   mp, mpf, mpmathify, nint, power
 
 from rpn.rpnBase import convertToBaseN, getBaseKDigits
 from rpn.rpnFactor import getFactors
@@ -64,10 +64,12 @@ def getDigitList( n, dropZeroes=False ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def getDigitsOperator( n ):
     return getDigitList( n )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -113,7 +115,7 @@ def isBaseKPandigitalOperator( n, base ):
     for i in arange( min( int( base ), len( digits ) ) ):
         try:
             digits.index( i )
-        except:
+        except ValueError:
             return 0
 
     return 1
@@ -132,6 +134,7 @@ def sumDigits( n ):
         result = fadd( result, int( c ) )
 
     return result
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -154,26 +157,32 @@ def multiplyDigitList( n, exponent = 1, dropZeroes = False ):
 
     return fprod( [ power( i, exponent ) for i in getDigitList( n, dropZeroes ) ] )
 
+
 def multiplyDigits( n ):
     return multiplyDigitList( n )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def multiplyDigitsOperator( n ):
     return multiplyDigitList( n )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
 def multiplyDigitPowersOperator( n, k ):
     return multiplyDigitList( n, k )
 
+
 def multiplyNonzeroDigits( n ):
     return multiplyDigitList( n, dropZeroes = True )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def multiplyNonzeroDigitsOperator( n ):
     return multiplyDigitList( n, dropZeroes = True )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
@@ -190,8 +199,8 @@ def multiplyNonzeroDigitPowersOperator( n, k ):
 def appendDigits( n, digits, digitCount ):
     if ( n ) < 0:
         return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
-    else:
-        return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+
+    return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
 
 
 #******************************************************************************
@@ -209,6 +218,7 @@ def addDigits( n, k ):
         digitCount = int( fadd( floor( log10( k ) ), 1 ) )
 
     return appendDigits( n, digits, digitCount )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 0 ) ] )
@@ -244,6 +254,7 @@ def combineDigits( n ):
 
     return result
 
+
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def combineDigitsOperator( n ):
@@ -260,13 +271,13 @@ def combineDigitsOperator( n ):
 def replaceDigitsOperator( n, source, replace ):
     n = getMPFIntegerAsString( n )
 
-    if  source < 0:
+    if source < 0:
         raise ValueError( 'source value must be a positive integer' )
 
     if replace < 0:
         raise ValueError( 'replace value must be a positive integer' )
 
-    return mpmathify( n.replace( str( int ( source ) ), str( int( replace ) ) ) )
+    return mpmathify( n.replace( str( int( source ) ), str( int( replace ) ) ) )
 
 
 #******************************************************************************
@@ -305,6 +316,7 @@ def duplicateNumberOperator( n, k ):
 def reverseDigits( n ):
     return mpmathify( getMPFIntegerAsString( n )[ : : -1 ] )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def reverseDigitsOperator( n ):
@@ -327,6 +339,7 @@ def isPalindrome( n ):
             return 0
 
     return 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -355,6 +368,7 @@ def isPandigital( n ):
             return 0
 
     return 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -478,16 +492,17 @@ def countDifferentDigitsOperator( n ):
 #******************************************************************************
 
 def getNthReversalAdditionGenerator( n, k ):
-    next = int( n  )
-    yield next
+    nextOne = int( n  )
+    yield nextOne
 
     for _ in arange( k ):
-        next = fadd( reverseDigits( next ), next )
+        nextOne = fadd( reverseDigits( nextOne ), nextOne )
 
-        yield next
+        yield nextOne
 
-        if isPalindrome( next ):
+        if isPalindrome( nextOne ):
             break
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
@@ -504,13 +519,13 @@ def getNthReversalAdditionOperator( n, k ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def findPalindromeOperator( n, k ):
-    next = int( n )
+    nextOne = int( n )
 
     for i in range( int( k ) + 1 ):
-        next = reverseDigits( next ) + next
+        nextOne = reverseDigits( nextOne ) + nextOne
 
-        if isPalindrome( next ):
-            return [ i + 1, next ]
+        if isPalindrome( nextOne ):
+            return [ i + 1, nextOne ]
 
     return [ k, 0 ]
 
@@ -525,15 +540,16 @@ def isNarcissistic( n ):
     digits = getDigitList( n )
     count = len( digits )
 
-    sum = 0
+    total = 0
 
     for digit in digits:
-        sum = fadd( sum, power( digit, count ) )
+        total = fadd( total, power( digit, count ) )
 
-        if sum > n:
+        if total > n:
             return 0
 
-    return 1 if sum == n else 0
+    return 1 if total == n else 0
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -552,25 +568,27 @@ def isPerfectDigitalInvariant( n ):
 
     exponent = 1
 
-    oldsum = 0
+    oldTotal = 0
 
     while True:
-        sum = 0
+        total = 0
 
         for digit in digits:
-            sum = fadd( sum, power( digit, exponent ) )
+            total = fadd( total, power( digit, exponent ) )
 
-            if sum > n:
+            if total > n:
                 return 0
-            elif sum == n:
+
+            if total == n:
                 return 1
 
-        if sum == oldsum:
+        if total == oldTotal:
             return 0
 
-        oldsum = sum
+        oldTotal = total
 
         exponent += 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -591,15 +609,15 @@ def isBaseKNarcissisticOperator( n, k ):
 
     count = len( digits )
 
-    sum = 0
+    total = 0
 
     for digit in digits:
-        sum = fadd( sum, power( digit, count ) )
+        total = fadd( total, power( digit, count ) )
 
-        if sum > n:
+        if total > n:
             return 0
 
-    return 1 if sum == n else 0
+    return 1 if total == n else 0
 
 
 #******************************************************************************
@@ -619,6 +637,7 @@ def isGeneralizedDudeneyNumber( base, exponent ):
     n = power( base, exponent )
     return 1 if sumDigits( n ) == base else 0
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def isGeneralizedDudeneyNumberOperator( base, exponent ):
@@ -635,18 +654,19 @@ def isPerfectDigitToDigitInvariant( n, k ):
     '''https://en.wikipedia.org/wiki/Perfect_digit-to-digit_invariant'''
     digits = getBaseKDigits( n, k )
 
-    sum = 0
+    total = 0
 
     for digit in digits:
         digit = int( digit )
 
         if digit != 0:
-            sum = fadd( sum, power( digit, digit ) )
+            total = fadd( total, power( digit, digit ) )
 
-        if sum > n:
+        if total > n:
             return 0
 
-    return 1 if sum == n else 0
+    return 1 if total == n else 0
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
@@ -665,8 +685,8 @@ def isPerfectDigitToDigitInvariantOperator( n, k ):
 def isSumProductNumberOperator( n, k ):
     '''https://en.wikipedia.org/wiki/Sum-product_number'''
     digits = getBaseKDigits( n, k )
-    sum = fmul( fsum( digits ), fprod( digits ) )
-    return 1 if sum == n else 0
+    total = fmul( fsum( digits ), fprod( digits ) )
+    return 1 if total == n else 0
 
 
 #******************************************************************************
@@ -679,6 +699,7 @@ def isHarshadNumber( n, k ):
     '''https://en.wikipedia.org/wiki/Harshad_number'''
     digits = getBaseKDigits( n, k )
     return 1 if isDivisible( n, fsum( digits ) ) else 0
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
@@ -695,12 +716,14 @@ def isHarshadNumberOperator( n, k ):
 def isKaprekarNumber( n ):
     if n == 1:
         return 1
-    elif n < 9:
+
+    if n < 9:
         return 0
 
     a, b = splitNumberByDigits( power( n, 2 ) )
 
     return 1 if ( fadd( a, b ) == n ) else 0
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -731,8 +754,8 @@ def buildNumbersOperator( expression ):
 
     if len( digitLists ) == 1:
         return RPNGenerator.createGenerator( convertStringsToNumbers, digitLists )
-    else:
-        return RPNGenerator.createStringProduct( digitLists )
+
+    return RPNGenerator.createStringProduct( digitLists )
 
 
 #******************************************************************************
@@ -745,7 +768,7 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
     if minLength < 1:
         raise ValueError( 'minimum length must be greater than 0' )
 
-    if  maxLength < minLength:
+    if maxLength < minLength:
         raise ValueError( 'maximum length must be greater than or equal to minimum length' )
 
     for i in range( minLength, maxLength + 1 ):
@@ -907,10 +930,11 @@ def hasUniqueDigits( n ):
     for digit in digits:
         if digit in existing:
             return 0
-        else:
-            existing.add( digit )
+
+        existing.add( digit )
 
     return 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -950,21 +974,26 @@ def isKMorphic( n, k ):
 
     return 1 if ( n == powmod ) else 0
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def isKMorphicOperator( n, k ):
     return isKMorphic( n, k )
 
+
 def isAutomorphic( n ):
     return isKMorphic( n, 2 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isAutomorphicOperator( n ):
     return isKMorphic( n, 2 )
 
+
 def isTrimorphic( n ):
     return isKMorphic( n, 3 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -984,6 +1013,7 @@ def getLeftTruncationsGenerator( n ):
     for i, _ in enumerate( n ):
         yield mpmathify( n[ i : ] )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getLeftTruncationsOperator( n ):
@@ -1001,6 +1031,7 @@ def getRightTruncationsGenerator( n ):
 
     for i in range( len( result ), 0, -1 ):
         yield mpmathify( result[ 0 : i ] )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -1020,31 +1051,35 @@ def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persisten
 
     if n <= 1:
         return persistence
-    else:
-        return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ),
-                                             exponent, dropZeroes, persistence + 1 )
+
+    return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ),
+                                            exponent, dropZeroes, persistence + 1 )
+
 
 def getPersistence( n ):
     return getMultiplicativePersistence( n )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getPersistenceOperator( n ):
     return getMultiplicativePersistence( n )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
 def getKPersistenceOperator( n, k ):
     return getMultiplicativePersistence( n, k )
 
+
 def getErdosPersistence( n ):
     return getMultiplicativePersistence( n, 1, True )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getErdosPersistenceOperator( n ):
     return getMultiplicativePersistence( n, 1, True )
-
 
 
 #******************************************************************************
@@ -1065,10 +1100,12 @@ def showMultiplicativePersistenceGenerator( n, exponent = 1, dropZeroes = False 
             n = multiplyDigitList( n, exponent, dropZeroes )
             yield n
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def showPersistenceOperator( n ):
     return RPNGenerator.createGenerator( showMultiplicativePersistenceGenerator, [ n ] )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
@@ -1088,6 +1125,7 @@ def showErdosPersistenceGenerator( n ):
     while n >= 10:
         n = multiplyDigitList( n, 1, True )
         yield n
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -1122,6 +1160,7 @@ def isIncreasing( n ):
 
     return 1
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isIncreasingOperator( n ):
@@ -1143,6 +1182,7 @@ def isDecreasing( n ):
 
     return 1
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isDecreasingOperator( n ):
@@ -1158,13 +1198,15 @@ def isDecreasingOperator( n ):
 def isBouncy( n ):
     if isIncreasing( n ) == 0 and isDecreasing( n ) == 0:
         return 1
-    else:
-        return 0
+
+    return 0
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isBouncyOperator( n ):
     return isBouncy( n )
+
 
 #******************************************************************************
 #
@@ -1185,6 +1227,7 @@ def rotateDigitsLeft( n, k ):
 
     n = n[ rotate : ] + n[ : rotate ]
     return mpmathify( n )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( ) ] )
@@ -1211,6 +1254,7 @@ def rotateDigitsRight( n, k ):
 
     n = n[ -rotate : ] + n[ : -rotate ]
     return mpmathify( n )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( ) ] )
@@ -1295,6 +1339,7 @@ def generateSquareDigitChainGenerator( n ):
 
             yield n
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def generateSquareDigitChainOperator( n ):
@@ -1318,6 +1363,7 @@ def isStepNumber( n ):
             return 0
 
     return 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -1376,6 +1422,7 @@ def buildStepNumbersGenerator( maxLength ):
         for j in stepNumbers:
             yield combineDigits( j )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def buildStepNumbersOperator( n ):
@@ -1397,6 +1444,7 @@ def isSmithNumber( n ):
     sum2 = fsum( [ sumDigits( i ) for i in getFactors( n ) ] )
 
     return 1 if sum1 == sum2 else 0
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -1426,6 +1474,7 @@ def isBaseKSmithNumber( n, k ):
 
     return 1 if sum1 == sum2 else 0
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 2 ) ] )
 def isBaseKSmithNumberOperator( n, k ):
@@ -1450,10 +1499,11 @@ def isOrderKSmithNumber( n, k ):
         return 0
 
     sum1 = fsum( [ power( i, k ) for i in getDigitList( n ) ] )
-    sum2 = fsum( [ power( j, k ) for j in [ item for sublist in \
-                        [ getDigitList( m ) for m in getFactors( n ) ] for item in sublist ] ] )
+    sum2 = fsum( [ power( j, k ) for j in [ item for sublist in
+                                            [ getDigitList( m ) for m in getFactors( n ) ] for item in sublist ] ] )
 
     return 1 if sum1 == sum2 else 0
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )

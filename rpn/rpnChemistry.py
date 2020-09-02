@@ -380,10 +380,12 @@ def getAtomicWeight( n ):
     return fdiv( fadd( mpmathify( getElementAttribute( n, 9 ) ),
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getAtomicWeightOperator( n ):
     return getAtomicWeight( convertAtomicNumber( n ) )
+
 
 #******************************************************************************
 #
@@ -441,40 +443,48 @@ def calculateMolarMass( n ):
 def getAtomicSymbolOperator( n ):
     return getElementAttribute( n, 1 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementBlockOperator( n ):
     return getElementAttribute( n, 4 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementDescriptionOperator( n ):
     return getElementAttribute( n, 7 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementGroupOperator( n ):
     return getElementAttribute( n, 2 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementNameOperator( n ):
     return getElementAttribute( n, 0 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementOccurrenceOperator( n ):
     return getElementAttribute( n, 6 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementPeriodOperator( n ):
     return getElementAttribute( n, 3 )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )
 def getElementStateOperator( n ):
     return getElementAttribute( n, 5 )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ElementValidator( ) ] )

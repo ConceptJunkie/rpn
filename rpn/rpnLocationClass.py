@@ -14,7 +14,7 @@
 
 import ephem
 
-from mpmath import fadd, fdiv, fmul, mpmathify, pi
+from mpmath import fdiv, fmul, mpmathify, pi
 
 
 #******************************************************************************
@@ -31,8 +31,8 @@ class RPNLocation( ):
     name = None
 
     '''This class represents a location on the surface of the Earth.'''
-    def __init__( self, *args, **kwargs ):
-        name = kwargs.get( 'name', None )
+    def __init__( self, *_, **kwargs ):
+        self.name = kwargs.get( 'name', None )
         observer = kwargs.get( 'observer', None )
         lat = kwargs.get( 'lat', None )
         long = kwargs.get( 'long', None )
@@ -49,6 +49,7 @@ class RPNLocation( ):
             self.setLong( long )
 
     def setObserver( self, observer ):
+        self.name = ''
         self.observer.lat = observer.lat
         self.observer.long = observer.long
         self.observer.epoch = observer.epoch

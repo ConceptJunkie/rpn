@@ -154,8 +154,8 @@ def parseInputValue( term, inputRadix = 10 ):
 
             if imaginary:
                 return mpc( imag = term )
-            else:
-                return mpmathify( term )
+
+            return mpmathify( term )
 
         decimal = term.find( '.' )
     else:
@@ -188,7 +188,8 @@ def parseInputValue( term, inputRadix = 10 ):
                     setAccuracy( newPrecision )
 
                 return mpmathify( int( integer[ 2 : ], 16 ) )
-            elif integer[ -1 ] in 'bB':
+
+            if integer[ -1 ] in 'bB':
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
 
@@ -197,10 +198,10 @@ def parseInputValue( term, inputRadix = 10 ):
 
                 integer = integer[ : -1 ]
                 return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
-            else:
-                integer = integer[ 1 : ]
 
-                return mpmathify( int( integer, 8 ) )
+            integer = integer[ 1 : ]
+
+            return mpmathify( int( integer, 8 ) )
         if integer[ 0 ] == '1' and integer[ -1 ] in 'bB':
             # set the precision big enough to handle this value
             newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
@@ -210,7 +211,8 @@ def parseInputValue( term, inputRadix = 10 ):
 
             integer = integer[ : -1 ]
             return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
-        elif inputRadix == 10:
+
+        if inputRadix == 10:
             newPrecision = len( integer ) + 1
 
             if mp.dps < newPrecision:
@@ -220,8 +222,8 @@ def parseInputValue( term, inputRadix = 10 ):
 
             if imaginary:
                 return mpc( real = '0.0', imag = result )
-            else:
-                return result
+
+            return result
 
     # finally, we have a non-radix 10 number with a mantissa to parse
     result = convertToBase10( integer, mantissa, inputRadix )
@@ -229,8 +231,8 @@ def parseInputValue( term, inputRadix = 10 ):
 
     if imaginary:
         return mpc( real = '0.0', imag = result )
-    else:
-        return result
+
+    return result
 
 
 #******************************************************************************
@@ -240,19 +242,18 @@ def parseInputValue( term, inputRadix = 10 ):
 #******************************************************************************
 
 def readListFromFileGenerator( filename ):
-
     with open( filename ) as file:
         for i in file:
             if i == '\n':
                 continue
 
-            try:
-                yield parseInputValue( i )
-            except:
-                pass
+            #try:
+            yield parseInputValue( i )
+            #except:
+            #    pass
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ StringValidator( ) ] )
 def readListFromFileOperator( filename ):
     return RPNGenerator( readListFromFileGenerator( filename ) )
-

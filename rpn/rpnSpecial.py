@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  rpnSpecial.py
 #
@@ -10,12 +10,14 @@
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
 #
-# ******************************************************************************
+#*******************************************************************************
 
 import re as regex
 import sys
 import urllib.request as urllib2
 import uuid
+
+from urllib.error import URLError
 
 from random import randrange
 
@@ -64,11 +66,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  getRandomNumber
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def getRandomNumber( ):
     return rand( )
@@ -78,11 +80,11 @@ def getRandomNumberOperator( ):
     return getRandomNumber( )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  getRandomInteger
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def getRandomInteger( n ):
     return randrange( n )
@@ -94,11 +96,11 @@ def getRandomIntegerOperator( n ):
     return getRandomInteger( n )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  getMultipleRandoms
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def getMultipleRandoms( n ):
     '''
@@ -114,11 +116,11 @@ def getMultipleRandomsOperator( n ):
     return RPNGenerator.createGenerator( getMultipleRandoms, n )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  getRandomIntegers
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def getRandomIntegers( n, k ):
     '''
@@ -134,11 +136,11 @@ def getRandomIntegersOperator( n, k ):
     return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  removeUnderscores
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def removeUnderscores( source ):
     '''
@@ -156,11 +158,11 @@ def removeUnderscores( source ):
     return result
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  downloadOEISSequenceOperator
 #
-# ******************************************************************************
+#*******************************************************************************
 
 @cachedOEISFunction( 'oeis', overrideIgnore=True )
 def downloadOEISSequence( aNumber ):
@@ -189,9 +191,10 @@ def downloadOEISSequence( aNumber ):
         offset = int( downloadOEISText( aNumber, 'O' ).split( ',' )[ 0 ] )
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
-    else:
-        # return [ mpmathify( i ) for i in result.split( ',' ) ]
-        return [ int( i ) for i in result.split( ',' ) ]
+
+    # return [ mpmathify( i ) for i in result.split( ',' ) ]
+    return [ int( i ) for i in result.split( ',' ) ]
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
@@ -199,17 +202,19 @@ def downloadOEISSequenceOperator( aNumber ):
     return downloadOEISSequence( aNumber )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  downloadOEISText
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def downloadOEISText( aNumber, char, addCR = False ):
-    '''Downloads, formats and caches text data from oeis.org.'''
+    '''
+    Downloads, formats and caches text data from oeis.org.
+    '''
     try:
         data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( int( aNumber ) ) + '&fmt=text' ).read( )
-    except:
+    except URLError:
         print( 'rpn:  HTTP access to oeis.org failed' )
         return ''
 
@@ -252,16 +257,16 @@ def downloadOEISOffsetOperator( n ):
     return int( downloadOEISText( n, 'O' ).split( ',' )[ 0 ] )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  downloadOEISTable
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def downloadOEISTable( aNumber ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
-    except:
+    except URLError:
         print( 'HTTP access to oeis.org failed', file=sys.stderr )
         return [ ], False
 
@@ -287,17 +292,18 @@ def downloadOEISTable( aNumber ):
 
     return result, True
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
 def downloadOEISTableOperator( aNumber ):
     downloadOEISTable( aNumber )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  handleIdentify
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def handleIdentify( result, file=sys.stdout ):
     '''Calls the mpmath identify function to try to identify a constant.'''
@@ -313,11 +319,11 @@ def handleIdentify( result, file=sys.stdout ):
         print( '    = ' + formula, file=file )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  findPolynomial
 #
-# ******************************************************************************
+#*******************************************************************************
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ), IntValidator( 1 ) ] )
@@ -340,11 +346,11 @@ def findPolynomialOperator( n, k ):
         return poly
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  generateUUIDOperator
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def generateUUIDOperator( ):
     '''
@@ -354,24 +360,25 @@ def generateUUIDOperator( ):
     return str( uuid.uuid1( ) )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  generateRandomUUIDOperator
 #
-# ******************************************************************************
+#*******************************************************************************
 
 def generateRandomUUIDOperator( ):
     '''Generates a completely random UUID.'''
     return str( uuid.uuid4( ) )
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  findInput
 #
-# ******************************************************************************
+#*******************************************************************************
 
 largestNumberToFactor = power( 10, 40 )
+
 
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
@@ -410,9 +417,11 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
         return True, guess2
 
     if over:
-        def comparator(a, b): return a > b
+        def comparator( a, b ):
+            return a > b
     else:
-        def comparator(a, b): return a < b
+        def comparator( a, b ):
+            return a < b
 
     while comparator( result, value ):
         delta *= 2
@@ -464,11 +473,11 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
     return False, 0
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  describeInteger
 #
-# ******************************************************************************
+#*******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
@@ -1020,13 +1029,12 @@ def describeIntegerOperator( n ):
     return n
 
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  ifOperator
 #
-# ******************************************************************************
+#*******************************************************************************
 
 @argValidator( [ DefaultValidator( ), DefaultValidator( ), ComplexValidator( ) ] )
 def ifOperator( a, b, c ):
     return a if c else b
-

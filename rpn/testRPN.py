@@ -3526,8 +3526,6 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a1700 1 300 range 1 300 primes crt', '53664 oeis 299 element' )
     expectEqual( '-a2000 1 350 range 1 350 primes crt', '53664 oeis 349 element' )
 
-    # cyclotomic
-
     # digamma
     expectEqual( '-a110 1 8 / digamma negative 10 107 ** * floor get_digits 105 left', '250129 oeis 105 left' )
 

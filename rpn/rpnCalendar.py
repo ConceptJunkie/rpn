@@ -688,4 +688,3 @@ def getFrenchRepublicanCalendarDateNameOperator( n ):
     #       ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
     return frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
-

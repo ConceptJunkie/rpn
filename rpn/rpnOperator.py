@@ -14,12 +14,9 @@
 
 import random
 
-from enum import Enum
-
-from mpmath import exp, fadd, fmul, floor, im, nan, nstr
+from mpmath import exp, fadd, fmul, nan, nstr
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnSpecial import getRandomInteger, getRandomNumber
 from rpn.rpnUtils import abortArgsNeeded
@@ -46,16 +43,16 @@ def generateDefaultArgument( ):
 #
 #******************************************************************************
 
-def generateRealArgument( range = None, allowNegative = True ):
-    if range is None:
-        range = [ 0, 10 ]
+def generateRealArgument( validRange=None, allowNegative=True ):
+    if validRange is None:
+        validRange = [ 0, 10 ]
 
     factor = 1
 
     if allowNegative and getRandomInteger( 2 ) == 1:
         factor = -1
 
-    return nstr( fmul( exp( fmul( getRandomNumber( ), random.uniform( *range ) ) ), factor ) )
+    return nstr( fmul( exp( fmul( getRandomNumber( ), random.uniform( *validRange ) ) ), factor ) )
 
 
 #******************************************************************************
@@ -64,32 +61,32 @@ def generateRealArgument( range = None, allowNegative = True ):
 #
 #******************************************************************************
 
-def generateNonnegativeRealArgument( range ):
-    return generateRealArgument( range, allowNegative=False )
+def generateNonnegativeRealArgument( validRange ):
+    return generateRealArgument( validRange, allowNegative=False )
 
 
-def generateIntegerArgument( range = None, allowNegative=True ):
-    if range is None:
-        range = [ 0, 1_000_000_000 ]
+def generateIntegerArgument( validRange = None, allowNegative=True ):
+    if validRange is None:
+        validRange = [ 0, 1_000_000_000 ]
 
     factor = 1
 
     if allowNegative and getRandomInteger( 2 ) == 1:
         factor = -1
 
-    return str( fmul( fadd( getRandomInteger( range[ 1 ] ), range[ 0 ] ), factor ) )
+    return str( fmul( fadd( getRandomInteger( validRange[ 1 ] ), validRange[ 0 ] ), factor ) )
 
 
-def generatePositiveIntegerArgument( range=None ):
-    if range is None:
-        range = [ 1, 1_000_000_000 ]
+def generatePositiveIntegerArgument( validRange=None ):
+    if validRange is None:
+        validRange = [ 1, 1_000_000_000 ]
 
     return generateIntegerArgument( range, allowNegative=False )
 
 
-def generateNonnegativeIntegerArgument( range=None ):
-    if range is None:
-        range = [ 0, 1_000_000_000 ]
+def generateNonnegativeIntegerArgument( validRange=None ):
+    if validRange is None:
+        validRange = [ 0, 1_000_000_000 ]
 
     return generateIntegerArgument( range, allowNegative=False )
 
@@ -290,8 +287,8 @@ class RPNOperator( ):
         if args:
             print( args )
             return ' '.join( args ) + ' ' + operatorName
-        else:
-            return operatorName
+
+        return operatorName
 
 
 #******************************************************************************
@@ -353,4 +350,3 @@ sideEffectOperators = [
     'octal_mode',
     'timer_mode',
 ]
-

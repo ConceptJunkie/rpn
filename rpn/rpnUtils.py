@@ -21,7 +21,7 @@ import sys
 from collections.abc import Iterable
 
 from functools import lru_cache, reduce
-from mpmath import floor, im, log10, mag, mp, nint, nstr
+from mpmath import floor, log10, mag, mp, nint, nstr
 
 from rpn.rpnGenerator import RPNGenerator
 
@@ -261,8 +261,8 @@ def getMPFIntegerAsString( n ):
     operators.'''
     if n == 0:
         return '0'
-    else:
-        return nstr( nint( n ), int( floor( log10( n ) + 10  ) ) )[ : -2 ]
+
+    return nstr( nint( n ), int( floor( log10( n ) + 10  ) ) )[ : -2 ]
 
 
 #******************************************************************************
@@ -333,7 +333,6 @@ def parseNumerals( argument ):
 def oneArgFunctionEvaluator( ):
     def oneArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateOneArg( arg ):
             if isinstance( arg, list ):
                 result = [ evaluateOneArg( i ) for i in arg ]
@@ -358,7 +357,6 @@ def oneArgFunctionEvaluator( ):
 def listArgFunctionEvaluator( ):
     def listArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateList( arg ):
             if isinstance( arg, ( list, RPNGenerator ) ):
                 result = func( arg )
@@ -406,7 +404,6 @@ def listArgFunctionEvaluator( ):
 def twoArgFunctionEvaluator( ):
     def twoArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateTwoArgs( _arg1, _arg2 ):
             if isinstance( _arg1, list ):
                 len1 = len( _arg1 )
@@ -455,7 +452,7 @@ def twoArgFunctionEvaluator( ):
                             next2 = iter2.__next__( )
 
                             result.append( func( next1, next2 ) )
-                        except:
+                        except StopIteration:
                             break
                 else:
                     result = [ evaluateTwoArgs( i, arg2 ) for i in arg1.getGenerator( ) ]
@@ -463,7 +460,7 @@ def twoArgFunctionEvaluator( ):
                 result = [ evaluateTwoArgs( arg1, i ) for i in arg2.getGenerator( ) ]
             elif list1:
                 if list2:
-                    result = [ evaluateTwoArgs( arg1[ index ], arg2[ index ] ) \
+                    result = [ evaluateTwoArgs( arg1[ index ], arg2[ index ] )
                                for index in range( 0, min( len1, len2 ) ) ]
                 else:
                     result = [ evaluateTwoArgs( i, arg2 ) for i in arg1 ]
@@ -490,7 +487,6 @@ def twoArgFunctionEvaluator( ):
 def NEWtwoArgFunctionEvaluator( ):
     def twoArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateTwoArgs( _arg1, _arg2 ):
             if isinstance( _arg1, Iterable ):
                 if isinstance( _arg2, Iterable ):
@@ -503,7 +499,7 @@ def NEWtwoArgFunctionEvaluator( ):
                         try:
                             next1 = iter1.__next__( )
                             next2 = iter2.__next__( )
-                        except:
+                        except StopIteration:
                             break
 
                         print( 'fred1' )
@@ -516,7 +512,7 @@ def NEWtwoArgFunctionEvaluator( ):
                     while True:
                         try:
                             next1 = iter1.__next__( )
-                        except:
+                        except StopIteration:
                             break
 
                         print( 'fred2' )
@@ -529,7 +525,7 @@ def NEWtwoArgFunctionEvaluator( ):
                 while True:
                     try:
                         next2 = iter2.__next__( )
-                    except:
+                    except StopIteration:
                         break
 
                     print( 'fred3' )
@@ -556,13 +552,12 @@ def NEWtwoArgFunctionEvaluator( ):
 def listAndOneArgFunctionEvaluator( ):
     def listAndOneArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateListAndOneArg( _arg1, _arg2 ):
             if isinstance( _arg1, list ):
                 if isinstance( _arg1[ 0 ], list ):
                     return [ evaluateListAndOneArg( i, _arg2 ) for i in _arg1 ]
-                else:
-                    arg1 = _arg1
+
+                arg1 = _arg1
             else:
                 arg1 = [ _arg1 ]
 
@@ -592,7 +587,7 @@ def listAndOneArgFunctionEvaluator( ):
                     try:
                         next1 = iter1.__next__( )
                         result.append( func( arg1, next1 ) )
-                    except:
+                    except StopIteration:
                         break
                 else:
                     result = [ evaluateListAndOneArg( arg1, i ) for i in arg2.getGenerator( ) ]
@@ -608,7 +603,6 @@ def listAndOneArgFunctionEvaluator( ):
     return listAndOneArgFunction
 
 
-
 #******************************************************************************
 #
 #  listAndTwoArgFunctionEvaluator
@@ -618,13 +612,12 @@ def listAndOneArgFunctionEvaluator( ):
 def listAndTwoArgFunctionEvaluator( ):
     def listAndTwoArgFunction( func ):
         @functools.wraps( func )
-
         def evaluateListAndTwoArgs( _arg1, _arg2, _arg3 ):
             if isinstance( _arg1, list ):
                 if isinstance( _arg1[ 0 ], list ):
                     return [ evaluateListAndTwoArgs( i, _arg2, _arg3 ) for i in _arg1 ]
-                else:
-                    arg1 = _arg1
+
+                arg1 = _arg1
             else:
                 arg1 = [ _arg1 ]
 
@@ -675,7 +668,7 @@ def listAndTwoArgFunctionEvaluator( ):
                             next2 = iter2.__next__( )
 
                             result.append( func( arg1, next1, next2 ) )
-                        except:
+                        except StopIteration:
                             break
                 else:
                     result = [ evaluateListAndTwoArgs( arg1, i, arg3 ) for i in arg2.getGenerator( ) ]
@@ -683,7 +676,7 @@ def listAndTwoArgFunctionEvaluator( ):
                 result = [ evaluateListAndTwoArgs( arg1, arg2, i ) for i in arg3.getGenerator( ) ]
             elif list1:
                 if list2:
-                    result = [ evaluateListAndTwoArgs( arg1, arg2[ index ], arg3[ index ] ) \
+                    result = [ evaluateListAndTwoArgs( arg1, arg2[ index ], arg3[ index ] )
                                for index in range( 0, min( len1, len2 ) ) ]
                 else:
                     result = [ evaluateListAndTwoArgs( arg1, i, arg3 ) for i in arg2 ]
@@ -707,13 +700,14 @@ def listAndTwoArgFunctionEvaluator( ):
 #
 #******************************************************************************
 
-class TimeoutError( Exception ):
+class RPNTimeoutError( Exception ):
     pass
+
 
 def timeout( seconds, errorMessage = 'Function call timed out' ):
     def decorated( func ):
         def _handle_timeout( signum, frame ):
-            raise TimeoutError( errorMessage )
+            raise RPNTimeoutError( errorMessage )
 
         def wrapper( *args, **kwargs ):
             signal.signal( signal.SIGALRM, _handle_timeout )
@@ -743,12 +737,8 @@ def loadAstronomyData( ):
     try:
         from skyfield.api import Loader
         load = Loader( getUserDataPath( ) )
-
-        #from skyfield.api import load_file
-        #from skyfield import api
-
         g.timescale = load.timescale( )
-    except:
+    except OSError:
         print( 'Downloading the astronomy data failed.  Some astronomical functions will not be available.',
                file=sys.stderr )
         g.astroDataLoaded = True
@@ -758,7 +748,7 @@ def loadAstronomyData( ):
     try:
         g.planets = load( 'de405.bsp' )
         g.ephemeris = load( 'de421.bsp' )
-    except:
+    except OSError:
         print( 'Downloading the astronomy data failed.  Some astronomical functions will not be available.',
                file=sys.stderr )
         g.astroDataLoaded = True
@@ -789,7 +779,7 @@ def matchArgumentTypes( args, validArgTypes ):
             raise ValueError( 'argument count mismatch in matchArgTypes( )' )
 
         for arg in args:
-            unitType = getWhichArgType( arg, unitTypes )
+            unitType = matchArgumentTypes( arg, unitTypes )
             #print( 'found unit type', unitType )
 
             if unitType:
@@ -817,7 +807,7 @@ def matchArgumentTypes( args, validArgTypes ):
 
 def getPowerSet( args ):
     # standard python powerset recipe, minus the empty subset, which is not useful to us
-    return itertools.chain.from_iterable( itertools.combinations( args, n ) \
+    return itertools.chain.from_iterable( itertools.combinations( args, n )
                                                     for n in range( 1, len( args ) + 1 ) )
 
 
@@ -843,4 +833,3 @@ def setAccuracyForN( n ):
 
     if mp.prec < magnitude:
         mp.prec = magnitude
-

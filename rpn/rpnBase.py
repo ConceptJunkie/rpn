@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# ******************************************************************************
+#*******************************************************************************
 #
 #  rpnBase.py
 #
@@ -10,12 +10,11 @@
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
 #
-# ******************************************************************************
+#*******************************************************************************
 
 import gmpy2
 
-from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
-                   log, mp, mpmathify, nint, phi, power
+from mpmath import fdiv, floor, fmod, fmul, fneg, fsub, mpmathify, power
 
 from rpn.rpnUtils import twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator
@@ -160,13 +159,16 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
 
     return result
 
+
 def getBaseKDigits( n, k ):
     return getBaseKDigitList( n, k )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
 def getBaseKDigitsOperator( n, k ):
     return getBaseKDigitList( n, k )
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 2 ) ] )

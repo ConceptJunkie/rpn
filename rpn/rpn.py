@@ -232,7 +232,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                     #print( 're', re( result ), type( re( result ) ) )
 
                     if im( result ) > 0:
-                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), \
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), 
                                                            g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
                                        ' + ' + formatOutput( nstr( mpmathify( im( result ) ), \
                                                              g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'

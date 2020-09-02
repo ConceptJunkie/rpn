@@ -12,7 +12,9 @@
 #
 #******************************************************************************
 
-from mpmath import mpmathify
+from mpmath import mpf, mpmathify
+from typing import Dict
+
 # pylint: disable=line-too-long
 
 
@@ -265,7 +267,7 @@ chargeTable = {
 #
 #******************************************************************************
 
-constantTable = {
+constantTable: Dict[ mpf, str ] = {
 }
 
 
@@ -1046,7 +1048,7 @@ informationEntropyTable = {
 #
 #******************************************************************************
 
-jerkTable = {
+jerkTable: Dict[ mpf, str ] = {
 }
 
 
@@ -1058,7 +1060,7 @@ jerkTable = {
 #
 #******************************************************************************
 
-jounceTable = {
+jounceTable: Dict[ mpf, str ] = {
 }
 
 
@@ -1304,7 +1306,7 @@ luminousIntensityTable = {
 #
 #******************************************************************************
 
-magneticFieldStrengthTable = {
+magneticFieldStrengthTable: Dict[ mpf, str ] = {
 }
 
 
@@ -1316,7 +1318,7 @@ magneticFieldStrengthTable = {
 #
 #******************************************************************************
 
-magneticFluxTable = {
+magneticFluxTable: Dict[ mpf, str ] = {
 }
 
 
@@ -2118,7 +2120,7 @@ temperatureTable = {
 #
 #******************************************************************************
 
-tidalForceTable = {
+tidalForceTable: Dict[ mpf, str ] = {
 }
 
 
@@ -2219,4 +2221,3 @@ volumeTable = {
     mpmathify( '3.3e64' )       : 'the volume of the Milky Way',
     mpmathify( '3.4e83' )       : 'the approxmimate volume of the observable universe',
 }
-

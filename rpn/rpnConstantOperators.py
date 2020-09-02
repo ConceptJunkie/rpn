@@ -319,7 +319,7 @@ Ref:  https://en.wikipedia.org/wiki/Deuterium#Deuteron_mass_and_radius
 
     'electron_mass' :
         RPNConstantInfo( '9.10938356e-31', 'kilogram', [ 'electron_rest_mass' ], True,
-                        'the mass of the electron',
+                         'the mass of the electron',
                          '''
 The electron rest mass is the mass of a stationary electron, also known as the
 invariant mass of the electron.  It is one of the fundamental constants of
@@ -560,7 +560,7 @@ This is the estimated equitorial radius of the planet Earth.
 ''' ),
 
     'earth_volume' :
-        RPNConstantInfo( '1.083207324897e21', 'meter^3', [ ], True, # based on earth_radius
+        RPNConstantInfo( '1.083207324897e21', 'meter^3', [ ], True,  # based on earth_radius
                          'the estimated volume of the planet Earth',
                          '''
 This is the estimated volume of the planet Earth.
@@ -849,7 +849,7 @@ This is defined for convenience for use with date operators and has a value of
 ''' ),
 
     'thursday' :
-        RPNConstantInfo( 4, '', [ 'thu', 'thur','thurs' ], False,
+        RPNConstantInfo( 4, '', [ 'thu', 'thur', 'thurs' ], False,
                          'a constant for the day Thursday (4)',
                          '''
 This is defined for convenience for use with date operators and has a value of
@@ -890,7 +890,7 @@ This is defined for convenience for use with date operators and has a value of
 ''' ),
 
     'february' :
-        RPNConstantInfo( 2, '', [ 'feb' ],  False,
+        RPNConstantInfo( 2, '', [ 'feb' ], False,
                          'a constant for the month of February (2)',
                          '''
 This is defined for convenience for use with date operators and has a value of
@@ -1184,4 +1184,3 @@ interactive mode.
 ''' ),
 
 }
-

@@ -5385,7 +5385,7 @@ unitConversionMatrix = {
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
     ( 'circular_inch',              'circular_mil' )                        : mpmathify( '1.0e6' ),
-    ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ), # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
+    ( 'circular_mil',               'meter^2' )                             : mpmathify( '5.06707479097497751431639751289151020192161452425209293e-10' ),  # rpn -a54 1 2000 / inch meter convert 2 ^ pi *
     ( 'hide',                       'acre' )                                : mpmathify( '120' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
@@ -5580,7 +5580,7 @@ unitConversionMatrix = {
 
     ( 'candela*radian^2/meter^2',   'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'flame',                      'lux' )                                 : mpmathify( '43.0556416668' ),
-    ( 'footcandle',                 'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ), # rpn -a54 meter foot convert sqr value
+    ( 'footcandle',                 'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ),  # rpn -a54 meter foot convert sqr value
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '10.7639104167' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
     ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
@@ -5688,10 +5688,9 @@ unitConversionMatrix = {
 
     # luminance
 
-    ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ), # rpn -a54 meter foot convert sqr value pi /
+    ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ),  # rpn -a54 meter foot convert sqr value pi /
     ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
     ( 'candela/meter^2',            'apostilb' )                            : pi,
-    ( 'candela/meter^2',            'lambert' )                             : fdiv( pi, 10000 ),
     ( 'candela/meter^2',            'lambert' )                             : fdiv( pi, 10000 ),
     ( 'skot',                       'bril' )                                : mpmathify( '1.0e4' ),
     ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
@@ -5957,7 +5956,7 @@ unitConversionMatrix = {
     # volume - dry measure
 
     ( 'bushel',                     'dry_gallon' )                          : mpmathify( '8' ),
-    ( 'bushel',                     'liter' )                               : mpmathify( '35.23907016688' ), # exact!
+    ( 'bushel',                     'liter' )                               : mpmathify( '35.23907016688' ),  # exact!
     ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
     ( 'dry_barrel',                 'inch^3' )                              : mpmathify( '7056' ),
     ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
@@ -5972,7 +5971,7 @@ unitConversionMatrix = {
     ( 'grand_canyon',               'meter^3' )                             : mpmathify( '4.17e12' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
     ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.802706436' ),
-    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667214885902504380103540026269320546806739574396' ), # This is needed for 'cord'
+    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667214885902504380103540026269320546806739574396' ),  # This is needed for 'cord'
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'portuguese_almude',          'liter' )                               : mpmathify( '16.7' ),
     ( 'spanish_almude',             'liter' )                               : mpmathify( '4.625' ),

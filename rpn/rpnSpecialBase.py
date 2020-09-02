@@ -12,10 +12,7 @@
 #
 #******************************************************************************
 
-import gmpy2
-
-from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
-                   log, mp, mpmathify, nint, phi, power
+from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmul, fsub, log, mp, nint, phi, power
 
 from rpn.rpnNumberTheory import getNthLucasNumber
 from rpn.rpnPolytope import getNthPolygonalNumber
@@ -186,8 +183,8 @@ def convertToNonintegerBase( num, base ):
 
     if integer == '':
         return output, ''
-    else:
-        return integer, output
+
+    return integer, output
 
 
 #******************************************************************************
@@ -237,8 +234,8 @@ def convertToPhiBase( num ):
 
     if integer == '':
         return output, ''
-    else:
-        return integer, output
+
+    return integer, output
 
 
 #******************************************************************************

@@ -65,8 +65,8 @@ def getConstant( name ):
 
     if unit == '':
         return mpmathify( value )
-    else:
-        return RPNMeasurement( value, unit )
+
+    return RPNMeasurement( value, unit )
 
 
 #******************************************************************************
@@ -313,7 +313,7 @@ def getMinFloat( ):
 #
 #******************************************************************************
 
-lru_cache( 1 )
+@lru_cache( 1 )
 def getFineStructureConstant( ):
     return getPower( getConstant( 'electron_charge' ), 2 ).divide(
                 getProduct( [ g.h_bar, g.c, 4, pi, getConstant( 'electric_constant' ) ] ) )
@@ -543,8 +543,9 @@ def getPlanckImpedance( ):
 
 @lru_cache( 1 )
 def getPlanckMagneticInductance( ):
-    return getRoot( getPower( g.c, 5 ).divide( getProduct( [ g.h_bar, \
-                                              getPower( g.G, 2 ), 4, pi, g.e0 ] ) ), 2 ).convert( 'tesla' )
+    return getRoot( getPower( g.c, 5 ).divide( getProduct( [ g.h_bar,
+                                               getPower( g.G, 2 ), 4, pi, g.e0 ] ) ), 2 ).convert( 'tesla' )
+
 
 #******************************************************************************
 #
@@ -554,8 +555,8 @@ def getPlanckMagneticInductance( ):
 
 @lru_cache( 1 )
 def getPlanckElectricalInductance( ):
-    return getRoot( g.G.multiply( g.h_bar ).divide( getPower( g.c, 7 ). \
-                                     multiply( getPower( getProduct( [ 4, pi, g.e0 ] ), 2 ) ) ), 2 ).convert( 'henry' )
+    return getRoot( g.G.multiply( g.h_bar ).divide( getPower( g.c, 7 ).
+                                                        multiply( getPower( getProduct( [ 4, pi, g.e0 ] ), 2 ) ) ), 2 ).convert( 'henry' )
 
 
 #******************************************************************************

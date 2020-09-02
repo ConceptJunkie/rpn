@@ -21,7 +21,7 @@ from rpn.rpnEstimates import accelerationTable, amountOfSubstanceTable, angleTab
                               jerkTable, jounceTable, lengthTable, luminanceTable, luminousFluxTable, \
                               luminousIntensityTable, magneticFieldStrengthTable, magneticFluxTable, \
                               magneticFluxDensityTable, massTable, powerTable, pressureTable, \
-                              radiationDoseTable, radiationExposureTable, radioactivityTable, \
+                              radiationDoseTable, radiationExposureTable, \
                               radiosityTable, solidAngleTable, temperatureTable, tidalForceTable, \
                               timeTable, velocityTable, volumeTable
 
@@ -438,4 +438,3 @@ basicUnitTypes = {
         volumeTable,
     ),
 }
-

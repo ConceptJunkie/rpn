@@ -147,4 +147,3 @@ def unlistOperator( valueList ):
 
 def getPreviousOperator( valueList ):
     valueList.append( valueList[ -1 ] )
-

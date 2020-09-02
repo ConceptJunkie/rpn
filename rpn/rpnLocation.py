@@ -19,12 +19,12 @@ import pickle
 
 import ephem
 
-from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+from geopy.exc import GeocoderUnavailable
+from geopy.geocoders import Nominatim
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 from timezonefinder import TimezoneFinder
 
-from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
@@ -112,7 +112,7 @@ def getLocation( name ):
         try:
             location = geolocator.geocode( name )
             break
-        except:
+        except GeocoderUnavailable:
             if attempts == 2:
                 raise ValueError( 'location lookup connection failure, check network connectivity' )
 
@@ -170,6 +170,7 @@ def getTimeZone( location ):
                                                      lng = location.getLong( ) )
 
     return timezoneName
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LocationValidator( ) ] )
@@ -241,4 +242,3 @@ def convertLatLongToNACOperator( n ):
     long = fdiv( fadd( long, 180 ), 360 ) * 729000000   # 30 ** 6
 
     return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
-

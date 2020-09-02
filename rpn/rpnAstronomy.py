@@ -20,7 +20,7 @@ from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from skyfield import almanac
 
 from rpn.rpnDateTime import RPNDateTime
-from rpn.rpnLocation import getLocation, getTimeZone, RPNLocation
+from rpn.rpnLocation import getLocation, getTimeZone
 from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
@@ -243,6 +243,7 @@ def getSeason( n, season ):
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0, 3 ) ] )
 def getSeasonOperator( n, season ):
@@ -262,7 +263,7 @@ def getVernalEquinoxOperator( n ):
     return getSeason( n, 0 )
 
 
-#*****************************************************************************
+#******************************************************************************
 #
 #  getSummerSolstice
 #
@@ -288,7 +289,7 @@ def getAutumnalEquinoxOperator( n ):
     return getSeason( n, 2 )
 
 
-#*****************************************************************************
+#******************************************************************************
 #
 #  getWinterSolstice
 #
@@ -320,40 +321,50 @@ def getEphemTime( n, func ):
     result.tzinfo = tz.UTC
     return result.getLocalTime( tzinfo )
 
+
 @oneArgFunctionEvaluator( )
+
+
 @argValidator( [ DateTimeValidator( ) ] )
 def getNextFirstQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.next_first_quarter_moon )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getNextFullMoonOperator( n ):
     return getEphemTime( n, ephem.next_full_moon )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getNextLastQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.next_last_quarter_moon )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getNextNewMoonOperator( n ):
     return getEphemTime( n, ephem.next_new_moon )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getPreviousFirstQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.previous_first_quarter_moon )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getPreviousFullMoonOperator( n ):
     return getEphemTime( n, ephem.previous_full_moon )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getPreviousLastQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.previous_last_quarter_moon )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
@@ -378,6 +389,7 @@ def getMoonPhase( n ):
     current = n - previous
 
     return current.total_seconds( ) / cycle.total_seconds( )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
@@ -456,16 +468,20 @@ def getNextRising( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getNextRising( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getNextSunriseOperator( n, k ):
     return getNextRising( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
 
 @twoArgFunctionEvaluator( )
 def getNextMoonRiseOperator( n, k ):
     return getNextRising( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
+
 def getNextRisingOperator( arg1, arg2, arg3 ):
     return getNextRising( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
@@ -484,13 +500,16 @@ def getNextSetting( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getNextSunsetOperator( n, k ):
     return getNextSetting( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
+
 @twoArgFunctionEvaluator( )
 def getNextMoonSetOperator( n, k ):
     return getNextSetting( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+
 
 def getNextSettingOperator( arg1, arg2, arg3 ):
     return getNextSetting( arg1, arg2, arg3 )
@@ -512,16 +531,20 @@ def getNextTransit( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getNextTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getSolarNoonOperator( n, k ):
     return getNextTransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
 
 @twoArgFunctionEvaluator( )
 def getNextMoonTransitOperator( n, k ):
     return getNextTransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
 
+
 def getNextTransitOperator( arg1, arg2, arg3 ):
     return getNextTransit( arg1, arg2, arg3 )
+
 
 #******************************************************************************
 #
@@ -539,13 +562,16 @@ def getNextAntitransit( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getNextAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getNextSunAntitransitOperator( n, k ):
     return getNextAntitransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
 
+
 @twoArgFunctionEvaluator( )
 def getNextMoonAntitransitOperator( n, k ):
     return getNextAntitransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+
 
 def getNextAntitransitOperator( arg1, arg2, arg3 ):
     return getNextTransit( arg1, arg2, arg3 )
@@ -566,9 +592,11 @@ def getTransitTime( arg1, arg2, arg3 ):
 
     return arguments[ 'body' ].getTransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
+
 @twoArgFunctionEvaluator( )
 def getDayTimeOperator( n, k ):
     return getTransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
 
 def getTransitTimeOperator( arg1, arg2, arg3 ):
     return getTransitTime( arg1, arg2, arg3 )
@@ -589,9 +617,11 @@ def getAntitransitTime( arg1, arg2, arg3 ):
 
     return arguments[ 'body' ].getAntitransitTime( arguments[ 'location' ], arguments[ 'datetime' ] )
 
+
 @twoArgFunctionEvaluator( )
 def getNightTimeOperator( n, k ):
     return getAntitransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+
 
 def getAntitransitTimeOperator( arg1, arg2, arg3 ):
     return getAntitransitTime( arg1, arg2, arg3 )
@@ -614,6 +644,7 @@ def getPreviousRising( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 def getPreviousRisingOperator( arg1, arg2, arg3 ):
     return getPreviousRising( arg1, arg2, arg3 )
 
@@ -635,6 +666,7 @@ def getPreviousSetting( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 def getPreviousSettingOperator( arg1, arg2, arg3 ):
     return getPreviousSetting( arg1, arg2, arg3 )
 
@@ -655,6 +687,7 @@ def getPreviousTransit( arg1, arg2, arg3 ):
     result = arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 def getPreviousTransitOperator( arg1, arg2, arg3 ):
     return getPreviousTransit( arg1, arg2, arg3 )
 
@@ -674,6 +707,7 @@ def getPreviousAntitransit( arg1, arg2, arg3 ):
 
     result = arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
+
 
 def getPreviousAntitransitOperator( arg1, arg2, arg3 ):
     return getPreviousAntitransit( arg1, arg2, arg3 )
@@ -700,13 +734,16 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
                                                                   arguments[ 'datetime' ], horizon=horizon )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getNextCivilDawnOperator( n, k ):
     return getNextDawn( n, k, -6 )
 
+
 @twoArgFunctionEvaluator( )
 def getNextNauticalDawnOperator( n, k ):
     return getNextDawn( n, k, -12 )
+
 
 @twoArgFunctionEvaluator( )
 def getNextAstronomicalDawnOperator( n, k ):
@@ -734,13 +771,16 @@ def getNextDusk( arg1, arg2, horizon = -6 ):
                                                                    arguments[ 'datetime' ], horizon=horizon )
     return result.getLocalTime( tz.gettz( getTimeZone( arguments[ 'location' ] ) ) )
 
+
 @twoArgFunctionEvaluator( )
 def getNextCivilDuskOperator( n, k ):
     return getNextDusk( n, k, -6 )
 
+
 @twoArgFunctionEvaluator( )
 def getNextNauticalDuskOperator( n, k ):
     return getNextDusk( n, k, -12 )
+
 
 @twoArgFunctionEvaluator( )
 def getNextAstronomicalDuskOperator( n, k ):
@@ -833,7 +873,6 @@ def getEclipseTotalityOperator( body1, body2, arg1, arg2 ):
         return 1
     else:
         return result
-
 
 #function [Az El] = RaDec2AzEl(Ra,Dec,lat,lon,time)
 #% Programed by Darin C. Koblick 01/23/2010

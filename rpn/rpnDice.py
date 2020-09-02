@@ -73,7 +73,7 @@ from rpn.rpnValidator import argValidator, IntValidator, StringValidator
 # ]
 #
 # Make a new data type (dict) and then write an operator for summing multiple dicts.  Piece o' cake.
-#
+# Or use Counter...
 #
 
 
@@ -105,6 +105,7 @@ def rollMultipleDice( expression, times ):
         values, modifier = evaluateDiceExpression( dice )
         yield sum( values ) + modifier
 
+
 def rollMultipleDiceOperator( n, k ):
     return RPNGenerator( rollMultipleDice( n, k ) )
 
@@ -117,6 +118,7 @@ def rollMultipleDiceOperator( n, k ):
 
 def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ StringValidator( ) ] )
@@ -135,6 +137,7 @@ def enumerateMultipleDice( expression, count ):
 
     for _ in arange( 0, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
+
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ StringValidator( ), IntValidator( 0 ) ] )
@@ -206,6 +209,7 @@ def permuteDice( expression ):
                 yield total
         else:
             yield sum( values ) + modifierTotal
+
 
 @oneArgFunctionEvaluator( )
 def permuteDiceOperator( n ):

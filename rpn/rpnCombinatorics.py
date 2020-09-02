@@ -52,6 +52,7 @@ def getNthAperyNumber( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthAperyNumberOperator( n ):
@@ -80,6 +81,7 @@ def getNthDelannoyNumber( n ):
         result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
 
     return result
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -113,6 +115,7 @@ def getNthSchroederNumber( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthSchroederNumberOperator( n ):
@@ -144,6 +147,7 @@ def getNthMotzkinNumber( n ):
                                         binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
 
     return fdiv( result, fadd( n, 1 ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -178,6 +182,7 @@ def getNthSchroederHipparchusNumber( n ):
 
     return result
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthSchroederHipparchusNumberOperator( n ):
@@ -201,6 +206,7 @@ def getNthPellNumber( n ):
         mp.dps = precision
 
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -259,15 +265,17 @@ def getArrangementsOperator( n ):
 def getNthSylvesterNumber( n ):
     if n == 1:
         return 2
-    elif n == 2:
-        return 3
-    else:
-        sylvesters = [ 2, 3 ]
 
-        for _ in arange( 2, n ):
-            sylvesters.append( fprod( sylvesters ) + 1 )
+    if n == 2:
+        return 3
+
+    sylvesters = [ 2, 3 ]
+
+    for _ in arange( 2, n ):
+        sylvesters.append( fprod( sylvesters ) + 1 )
 
     return sylvesters[ -1 ]
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ) ] )
@@ -306,6 +314,7 @@ def createDeBruijnSequence( n, k ):
 
         v[ l - 1 ] += 1
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def getDeBruijnSequenceOperator( n, k ):
@@ -335,6 +344,7 @@ def getCompositionsGenerator( n, k ):
             for comp in getCompositionsGenerator( n - i, count - 1 ):
                 yield [ nint( i ) ] + comp
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getCompositionsOperator( n, k ):
@@ -360,7 +370,7 @@ def oldGetPartitionNumber2( n ):
     k = getNthGeneralizedPolygonalNumber( i, 5 )
 
     while n - k >= 0:
-        total += sign * oldgetPartitionNumber( fsub( n, k ) )
+        total += sign * oldGetPartitionNumber2( fsub( n, k ) )
 
         i += 1
 
@@ -532,10 +542,12 @@ def getPartitionNumber( n ):
 
     return total
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getPartitionNumberOperator( n ):
     return getPartitionNumber( n )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -552,7 +564,7 @@ def oldGetPartitionNumber( n ):
         #n2 = n - k * ( 3 * k + 1 ) / 2
         sub2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
 
-        result = fadd( result, fmul( power( -1, fadd( k, 1 ) ), \
+        result = fadd( result, fmul( power( -1, fadd( k, 1 ) ),
                        fadd( getPartitionNumber( sub1 ), getPartitionNumber( sub2 ) ) ) )
 
         if sub1 <= 0:
@@ -711,6 +723,7 @@ def getLahNumberOperator( n, k ):
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
+
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getNarayanaNumberOperator( n, k ):
@@ -741,13 +754,16 @@ def getNthMenageNumber( n ):
     '''https://oeis.org/A000179'''
     if n == 1:
         return -1
-    elif n == 2:
+
+    if n == 2:
         return 0
-    elif n in [ 0, 3 ]:
+
+    if n in [ 0, 3 ]:
         return 1
-    else:
-        return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
-                                              fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
+
+    return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
+                                          fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -888,5 +904,3 @@ def getStirling2NumberOperator( n, k ):
 #        paths += blockpart(i, m - 1, k)
 #
 #    return paths
-
-

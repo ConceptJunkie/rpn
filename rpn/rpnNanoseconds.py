@@ -28,15 +28,18 @@ import ctypes
 
 CLOCK_REALTIME = 0
 
+
 class TimeSpec( ctypes.Structure ):
     _fields_ = [
-        ( 'tv_sec', ctypes.c_int64 ), # seconds, https://stackoverflow.com/q/471248/1672565
-        ( 'tv_nsec', ctypes.c_int64 ), # nanoseconds
+        ( 'tv_sec', ctypes.c_int64 ),   # seconds, https://stackoverflow.com/q/471248/1672565
+        ( 'tv_nsec', ctypes.c_int64 ),   # nanoseconds
     ]
+
 
 clock_gettime = ctypes.cdll.LoadLibrary( 'libc.so.6' ).clock_gettime
 clock_gettime.argtypes = [ ctypes.c_int64, ctypes.POINTER( TimeSpec ) ]
 clock_gettime.restype = ctypes.c_int64
+
 
 def time_ns( ):
     timespec = TimeSpec( )
@@ -46,4 +49,3 @@ def time_ns( ):
         raise OSError( )
 
     return timespec.tv_sec * 1_000_000_000 + timespec.tv_nsec
-

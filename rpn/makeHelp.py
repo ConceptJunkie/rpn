@@ -20,18 +20,18 @@ import argparse
 import bz2
 import contextlib
 import io
-from pathlib import Path
 import pickle
 import os
 import sys
 import time
 
+from pathlib import Path
+
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnOutput import printParagraph
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnUtils import getUserDataPath
-from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, \
-                           PROGRAM_NAME, RPN_PROGRAM_NAME
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
 
@@ -105,7 +105,7 @@ def makeCommandExample( command, indent=0, slow=False ):
 
     # This total count needs to be manually updated when the help examples are modified.
     global MAX_EXAMPLE_COUNT
-    #print( command )
+    # print( command )
     print( '\rGenerating example: ', EXAMPLE_COUNT, 'of', MAX_EXAMPLE_COUNT, end='' )
     #print( )
 
@@ -146,9 +146,7 @@ def makeCommandExample( command, indent=0, slow=False ):
 helpTopics = {
     # pylint: disable=bad-continuation
     'options' :
-    'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' +
-    COPYRIGHT_MESSAGE + '\n\n' +
-    '''
+    'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' + '''
 command-line options:
 
     -a[n], --output_accuracy [n]
@@ -258,7 +256,7 @@ the other, then only that many elements will have the operator applied and the
 resulting list will only be as long as the shorter list.  The rest of the
 items in the longer list are ignored.
 ''' + makeCommandExample( '[ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **', indent=4 ) + '''
-''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) +   '''
+''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) + '''
 Some operators take lists as operands 'natively'.  This means the operator
 requires a list, because the operation does not make sense for a single
 value.  For example, 'mean' averages the values of a list.  If the
@@ -3510,7 +3508,7 @@ Su Mo Tu We Th Fr Sa
 18 19 20 21 22 23 24
 25 26 27 28 29 30
 ''',
-[ 'year_calendar', 'weekday','weekday_name' ] ],
+[ 'year_calendar', 'weekday', 'weekday_name' ] ],
 
     'christmas' : [
 'calendars', 'returns the date of Christmas for the year specified',
@@ -3705,7 +3703,7 @@ in June.  This is the definition that rpn uses.
 '''
 ''' + makeCommandExample( '1399 4 31 from_persian' ) + '''
 ''' + makeCommandExample( '1399 1 1 from_persian' ),
-[ 'to_persian','to_persian_name' ] ],
+[ 'to_persian', 'to_persian_name' ] ],
 
     'good_friday' : [
 'calendars', 'calculates the date of Good Friday for the year specified',
@@ -4530,7 +4528,7 @@ From https://mathworld.wolfram.com/AperyNumber.html:
 Apery's numbers are defined by
         n
        ---     2        2
-A_n =  \    |n|  |n + k|
+A_n =  \\    |n|  |n + k|
        /    |k|  |  k  |
        ---
        k=0
@@ -4955,7 +4953,7 @@ approaches infinity, an expression that arises in the study of compound
 interest.  It can also be calculated as the sum of the infinite series:
      oo
     ---   1
-    \     --
+    \\     --
     /     n!
     ---
     n=0
@@ -5466,7 +5464,7 @@ at random within a unit cube.
 ''',
 '''
 ''' + makeCommandExample( 'robbins_constant' ),
-[ 'prevost_constant','plastic_constant', 'mills_constant' ] ],
+[ 'prevost_constant', 'plastic_constant', 'mills_constant' ] ],
 
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )',
@@ -5713,7 +5711,7 @@ list when given the same field specification.
 
 Here's an example with the different fields separated from each other:
 
-c:\> rpn [ 2 9 4 ] [ 3 4 5 ] pack -r2
+c:\\> rpn [ 2 9 4 ] [ 3 4 5 ] pack -r2
 10 1001 00100
 
 Please note that if there were leading zeroes in the result, they would not be
@@ -8696,8 +8694,8 @@ Evaluates the polyexponential function, defined for arbitrary complex n, k by
 the series:
                       inf
                     ------
-                     \      x^n
-    E_sub_n( k ) =    \     --- k^x
+                     \\      x^n
+    E_sub_n( k ) =    \\     --- k^x
                      /       x!
                     ------
                      x = 1
@@ -8721,8 +8719,8 @@ Computes the polylogarithm, defined by the sum
 
                        inf
                      ------
-                      \       k^x
-    Li_sub_n( k ) =    \      ---
+                      \\       k^x
+    Li_sub_n( k ) =    \\      ---
                       /       x^n
                      ------
                       x = 1
@@ -10341,8 +10339,8 @@ From https://en.wikipedia.org/wiki/Mertens_function:
 In number theory, the Mertens function is defined for all positive integers n as
            n
          -----
-          \
-M( n ) =   \     mu( k )
+          \\
+M( n ) =   \\     mu( k )
           /
          -----
          k = 1
@@ -11652,7 +11650,7 @@ n( 3n - 1 )( 3n - 2 )
 ''' + makeCommandExample( '507 dodecahedral' ),
 [ 'centered_dodecahedral', 'rhombic_dodecahedral' ] ],
 
-   'generalized_decagonal' : [
+    'generalized_decagonal' : [
 'figurate_numbers', 'calculates the nth generalized decagonal number',
 '''
 ''',
@@ -11679,7 +11677,7 @@ n( 3n - 1 )( 3n - 2 )
 ''' + makeCommandExample( '692 generalized_nonagonal' ),
 [ 'nonagonal', 'polygonal' ] ],
 
-   'generalized_octagonal' : [
+    'generalized_octagonal' : [
 'figurate_numbers', 'calculates the nth generalized octagonal number',
 '''
 ''',
@@ -12545,7 +12543,7 @@ a_n+1 =  - ( a_n + g_n )
              ____________
             /
 g_n+1 =    /  a_n g_n
-         \/
+         \\/
 
 These two sequences converge to the same number, the arithmetic–geometric mean
 of x and y; it is denoted by M( x, y ), or sometimes by agm( x, y ).
@@ -15118,7 +15116,7 @@ def main( ):
 
         helpText += '\n'
 
-        operatorHelp[ constant ] = [ \
+        operatorHelp[ constant ] = [
             'constants', constantOperators[ constant ].description,
             helpText + constantOperators[ constant ].helpText, '', [ 'constants' ]
         ]
@@ -15140,29 +15138,29 @@ def main( ):
     badCrossReferences = set( )
 
     if not QUIET_MODE:
-        for topic, help in operatorHelp.items( ):
-            if len( help ) != 5:
+        for topic, helpInfo in operatorHelp.items( ):
+            if len( helpInfo ) != 5:
                 print( 'error: malformed help data for topic \'' + topic + '\'' )
                 continue
 
-            if not help[ 0 ]:
+            if not helpInfo[ 0 ]:
                 noCategory.append( topic )
 
-            if not help[ 1 ]:
+            if not helpInfo[ 1 ]:
                 noDescription.append( topic )
 
-            if ( not help[ 2 ] or help[ 2 ] == '\n' ) and \
+            if ( not helpInfo[ 2 ] or helpInfo[ 2 ] == '\n' ) and \
                topic not in g.unitOperators:
                 noHelpText.append( topic )
 
-            if ( not help[ 3 ] or help[ 3 ] == '\n' ) and \
+            if ( not helpInfo[ 3 ] or helpInfo[ 3 ] == '\n' ) and \
                ( topic not in g.unitOperators and topic not in constantOperators ):
                 noExamples.append( topic )
 
-            if len( help[ 4 ] )== 0:
+            if len( helpInfo[ 4 ] ) == 0:
                 noCrossReferences.append( topic )
             else:
-                for crossReference in help[ 4 ]:
+                for crossReference in helpInfo[ 4 ]:
                     if crossReference not in g.unitOperators and crossReference not in constantOperators and \
                        crossReference not in operatorHelp and crossReference not in ( 'constants', 'unit_types' ):
                         badCrossReferences.add( crossReference )
@@ -15215,4 +15213,3 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
-

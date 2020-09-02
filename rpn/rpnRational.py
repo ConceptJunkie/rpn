@@ -28,11 +28,10 @@ class RPNRational( Fraction ):
     fractions.Fraction, but has support for dealing with mpf, etc..'''
 
     def __init__( self, value ):
-        self = value
+        self.value = value
 
     def __eq__( self, other ):
         return Fraction.__eq__( other )
 
     def __ne__( self, other ):
-        return __ne__( self, other )
-
+        return Fraction.__ne__( self, other )

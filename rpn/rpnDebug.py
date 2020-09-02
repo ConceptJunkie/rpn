@@ -41,4 +41,3 @@ def debugPrintNoNewLine( *args, **kwargs ):
         builtins.print( *args, **kwargs, end='\r' )
     else:
         return
-

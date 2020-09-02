@@ -17,18 +17,12 @@ import datetime
 
 import arrow
 
-from dateutil import tz
-
-from mpmath import floor, fmod, fmul, fneg, fsub, nan
-
 from rpn.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMeasurement import convertUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, DateTimeValidator, IntValidator, ListValidator, YearValidator
-
-import rpn.rpnGlobals as g
 
 
 #******************************************************************************
@@ -146,7 +140,8 @@ def convertToYDHMSOperator( n ):
 def makeJulianTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeJulianTime( list( n ) )
-    elif len( n ) == 1:
+
+    if len( n ) == 1:
         return RPNDateTime( n[ 0 ], 1, 1 )
 
     result = RPNDateTime( n[ 0 ], 1, 1 ).add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
@@ -165,6 +160,7 @@ def makeJulianTime( n ):
 
     return result
 
+
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def makeJulianTimeOperator( n ):
@@ -180,7 +176,8 @@ def makeJulianTimeOperator( n ):
 def makeISOTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeISOTime( list( n ) )
-    elif len( n ) == 1:
+
+    if len( n ) == 1:
         year = n[ 0 ]
         week = 1
         day = 1
@@ -200,10 +197,12 @@ def makeISOTime( n ):
 
     return result
 
+
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def makeISOTimeOperator( n ):
     return makeISOTime( n )
+
 
 #******************************************************************************
 #
@@ -214,9 +213,11 @@ def makeISOTimeOperator( n ):
 def makeDateTime( n ):
     if isinstance( n, ( RPNGenerator, int ) ):
         return makeDateTime( list( n ) )
-    elif isinstance( n, str ):
+
+    if isinstance( n, str ):
         return RPNDateTime.get( n )
-    elif isinstance( n[ 0 ], list ):
+
+    if isinstance( n[ 0 ], list ):
         return [ makeDateTime( i ) for i in n ]
 
     if len( n ) == 1:
@@ -228,6 +229,7 @@ def makeDateTime( n ):
         n = n[ : 7 ]
 
     return RPNDateTime( *n )
+
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
@@ -243,6 +245,7 @@ def makeDateTimeOperator( n ):
 
 def getNow( ):
     return RPNDateTime.now( tzinfo=getLocalTimeZone( ) )
+
 
 def getNowOperator( ):
     return getNow( )
@@ -306,6 +309,7 @@ def calculateEaster( year ):
     day = f % 31 + 1
 
     return RPNDateTime( year, month, day, dateOnly = True )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ YearValidator( ) ] )
@@ -375,7 +379,8 @@ def calculateNthWeekdayOfYearOperator( year, nth, weekday ):
         result.setDateOnly( )
 
         return result
-    elif nth < 0:
+
+    if nth < 0:
         lastDay = RPNDateTime( year, 12, 31 )
 
         lastWeekDay = weekday - lastDay.isoweekday( )
@@ -422,6 +427,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
             day -= 7
 
     return RPNDateTime( year, month, day, dateOnly = True )
+
 
 @argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( -5, 5 ), IntValidator( MONDAY, SUNDAY ) ] )
 def calculateNthWeekdayOfMonthOperator( year, month, nth, weekday ):
@@ -629,10 +635,12 @@ def getIndependenceDayOperator( year ):
 def getChristmasDay( year ):
     return RPNDateTime( year, DECEMBER, 25, dateOnly = True )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ YearValidator( ) ] )
 def getChristmasDayOperator( year ):
     return getChristmasDay( year )
+
 
 #******************************************************************************
 #
@@ -712,12 +720,14 @@ def calculateDSTStartOperator( year ):
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, MARCH, 2, SUNDAY )
-    elif year == 1974:
+
+    if year == 1974:
         return RPNDateTime( 1974, JANUARY, 7, dateOnly = True )
-    elif year >= 1967:
+
+    if year >= 1967:
         return calculateNthWeekdayOfMonth( year, APRIL, 1, SUNDAY )
-    else:
-        raise ValueError( 'DST was not standardized before 1967' )
+
+    raise ValueError( 'DST was not standardized before 1967' )
 
 
 #******************************************************************************
@@ -736,12 +746,14 @@ def calculateDSTEndOperator( year ):
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, NOVEMBER, 1, SUNDAY )
-    elif year == 1974:
+
+    if year == 1974:
         return RPNDateTime( 1974, DECEMBER, 31, dateOnly = True )  # technically DST never ended in 1974
-    elif year >= 1967:
+
+    if year >= 1967:
         return calculateNthWeekdayOfMonth( year, OCTOBER, -1, SUNDAY )
-    else:
-        raise ValueError( 'DST was not standardized before 1967' )
+
+    raise ValueError( 'DST was not standardized before 1967' )
 
 
 #******************************************************************************
@@ -764,6 +776,7 @@ def getISODayOperator( n ):
 
 def getWeekday( n ):
     return n.weekday( ) + 1
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )

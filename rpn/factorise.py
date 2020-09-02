@@ -7,19 +7,18 @@ import sys
 from builtins import ValueError
 
 
-"""This script factorises a natural number given as a command line
-parameter into its prime factors. It first attempts to use trial
-division to find very small factors, then uses Brent's version of the
-Pollard rho algorithm [1] to find slightly larger factors. If any large
-factors remain, it uses the Self-Initializing Quadratic Sieve (SIQS) [2]
-to factorise those.
-
-[1] Brent, Richard P. 'An improved Monte Carlo factorization algorithm.'
-    BIT Numerical Mathematics 20.2 (1980): 176-184.
-
-[2] Contini, Scott Patrick. 'Factoring integers with the self-
-    initializing quadratic sieve.' (1997).
-"""
+# This script factorises a natural number given as a command line
+# parameter into its prime factors. It first attempts to use trial
+# division to find very small factors, then uses Brent's version of the
+# Pollard rho algorithm [1] to find slightly larger factors. If any large
+# factors remain, it uses the Self-Initializing Quadratic Sieve (SIQS) [2]
+# to factorise those.
+#
+# [1] Brent, Richard P. 'An improved Monte Carlo factorization algorithm.'
+#     BIT Numerical Mathematics 20.2 (1980): 176-184.
+#
+# [2] Contini, Scott Patrick. 'Factoring integers with the self-
+#     initializing quadratic sieve.' (1997).
 
 # Some tuning parameters
 MAX_DIGITS_POLLARD = 30
@@ -34,6 +33,7 @@ SIQS_MAX_PRIME_POLYNOMIAL = 4000
 MILLER_RABIN_ITERATIONS = 50
 
 verbose = False
+
 
 class Polynomial:
     """A polynomial used for the Self-Initializing Quadratic Sieve."""
@@ -294,7 +294,7 @@ def siqs_find_first_poly(n, m, factor_base):
     if (2 * b > a):
         b = a - b
 
-    assert 0 < b
+    assert b > 0
     assert 2 * b <= a
     assert ((b * b - n) % a == 0)
 
@@ -535,11 +535,12 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
     prime_factors = set()
     for square_indices in perfect_squares:
         fact = siqs_factor_from_square(n, square_indices, smooth_relations)
+
         if fact != 1 and fact != rem:
             if is_probable_prime(fact):
                 if fact not in prime_factors:
                     if verbose:
-                        print ("SIQS: Prime factor found: %d" % fact)
+                        print( "SIQS: Prime factor found: %d" % fact )
                     prime_factors.add(fact)
 
                 while rem % fact == 0:
@@ -848,7 +849,7 @@ def check_perfect_power(n):
     global small_primes has already been initialised and that n does
     not have any prime factors from small_primes.
     """
-    largest_checked_prime = small_primes[-1]
+    largest_checked_prime = small_primes[ -1 ]
     for b in small_primes:
         bth_root = kth_root_int(n, b)
         if bth_root < largest_checked_prime:
@@ -935,7 +936,7 @@ def product(factors):
 def factorise(n):
     """Factorise the given integer n >= 1 into its prime factors."""
 
-    if type(n) != int or n < 1:
+    if not isinstance(n, int ) or n < 1:
         raise ValueError("Number needs to be an integer >= 1")
 
     if verbose:

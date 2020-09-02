@@ -14,18 +14,13 @@
 
 import functools
 
-from enum import Enum
-
 from mpmath import floor, im, mpf
-
 from mpmath.ctx_mp_python import mpc
 
 from rpn.rpnDateTimeClass import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
-
-import rpn.rpnGlobals as g
 
 
 #******************************************************************************
@@ -37,8 +32,7 @@ import rpn.rpnGlobals as g
 def argValidator( validators ):
     def argValidatorFunction( func ):
         @functools.wraps( func )
-
-        def validateArgs( *args, **kwargs ):
+        def validateArgs( *args ):
             newArgs = [ ]
             for index, validator in enumerate( validators ):
                 newArgs.append( validator.validate( args[ index ] ) )
@@ -87,7 +81,7 @@ class RPNValidator( ):
     type = Default
     min = None
     max = None
-    specials = [ ]
+    specials = None
 
     def __init__( self, type=Default, min=None, max=None, specials=None ):
         self.type = type
@@ -127,14 +121,18 @@ class RPNValidator( ):
         elif self.type == self.Year:
             argument = self.validateYear( argument )
 
-        for special in self.specials:
-            if not special[ 0 ]( argument ):
-                raise ValueError( special[ 1 ] )
+        if self.specials:
+            for special in self.specials:
+                if not special[ 0 ]( argument ):
+                    raise ValueError( special[ 1 ] )
 
         return argument
 
     def addSpecial( self, func, formatString ):
-        self.specials.append( ( func, formatString ) )
+        if self.specials:
+            self.specials.append( ( func, formatString ) )
+        else:
+            self.specials = [ ( func, formatString ) ]
 
     def validateInt( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):

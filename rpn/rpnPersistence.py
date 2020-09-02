@@ -27,7 +27,7 @@ from shutil import copyfile
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
-from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator
+from rpn.rpnUtils import getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -172,8 +172,9 @@ def saveResult( result ):
         with DelayedKeyboardInterrupt( ):
             with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
                 pickle.dump( result, pickleFile )
-    except:
-        pass #print( 'error:  failed to save result' )
+    except TypeError:
+        #print( 'error:  failed to save result' )
+        pass
 
 
 #******************************************************************************
@@ -289,7 +290,7 @@ def openPrimeCache( name ):
         try:
             g.databases[ name ] = sqlite3.connect( getPrimeCacheFileName( name ) )
             g.cursors[ name ] = g.databases[ name ].cursor( )
-        except:
+        except sqlite3.OperationalError:
             raise ValueError( 'prime number table ' + name +
                               ' cannot be found.  Run "preparePrimeData" to create the prime data.' )
 
@@ -327,7 +328,7 @@ class PersistentDict( MutableMapping ):
     def getConnection( self ):
         return sqlite3.connect( self.dbpath )
 
-    def  __getitem__( self, key ):
+    def __getitem__( self, key ):
         key = self.encode( key )
 
         with self.getConnection( ) as connection:
@@ -425,7 +426,7 @@ def loadUserVariablesFile( ):
 
     try:
         items = config.items( 'User Variables' )
-    except:
+    except configparser.NoSectionError:
         return
 
     for item in items:
@@ -462,10 +463,10 @@ def saveUserVariablesFile( ):
 def openFunctionCache( name ):
     if name in g.functionCaches:
         return g.functionCaches[ name ]
-    else:
-        debugPrint( 'opening', name, 'function cache database' )
-        g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
-        return g.functionCaches[ name ]
+
+    debugPrint( 'opening', name, 'function cache database' )
+    g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
+    return g.functionCaches[ name ]
 
 
 #******************************************************************************
@@ -497,7 +498,6 @@ def openFunctionCache( name ):
 def cachedFunction( name, overrideIgnore=False ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
-
         def cacheResults( *args, **kwargs ):
             cache = openFunctionCache( name )
 
@@ -533,7 +533,6 @@ def cachedFunction( name, overrideIgnore=False ):
 def cachedOEISFunction( name, overrideIgnore=False ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
-
         def cacheResults( *args, **kwargs ):
             cache = openFunctionCache( name )
 
@@ -568,7 +567,7 @@ def loadUserConfigurationFile( ):
 
     try:
         items = config.items( 'User Configuration' )
-    except:
+    except configparser.NoSectionError:
         return
 
     for item in items:
@@ -594,5 +593,4 @@ def saveUserConfigurationFile( ):
 
     with open( getUserConfigurationFileName( ), 'w' ) as userConfigurationFile:
         config.write( userConfigurationFile )
-
 

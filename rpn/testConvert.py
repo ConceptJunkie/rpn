@@ -26,6 +26,7 @@ import rpn.rpnGlobals as g
 #******************************************************************************
 
 def runConvertTests( ):
+    # pylint:disable=too-many-statements
     # unit types... make sure every unit can be converted to every other unit
     if not g.unitOperators:
         loadUnitData( )
@@ -367,4 +368,3 @@ def runConvertTests( ):
 
 if __name__ == '__main__':
     runConvertTests( )
-

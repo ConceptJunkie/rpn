@@ -53,44 +53,52 @@ def calculateBlackHoleMass( measurement ):
 
     if 'mass' in arguments:
         return arguments[ 'mass' ].convert( 'kilogram' )
-    elif 'length' in arguments:
+
+    if 'length' in arguments:
         radius = arguments[ 'length' ]
 
         return divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 2 ), radius ] ),
                        getProduct( [ 2, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
-    elif 'acceleration' in arguments:
+
+    if 'acceleration' in arguments:
         gravity = arguments[ 'acceleration' ]
 
         return divide( getPower( getConstant( 'speed_of_light' ), 4 ),
                        getProduct( [ 4, getConstant( 'newton_constant' ), gravity ] ) ).convert( 'kilogram' )
-    elif 'area' in arguments:
+
+    if 'area' in arguments:
         area = arguments[ 'area' ].convert( 'meters^2' )
 
         return getRoot( divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 4 ), area ] ),
                                 getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
-    elif 'temperature' in arguments:
+
+    if 'temperature' in arguments:
         temperature = arguments[ 'temperature' ]
 
         return divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
                        getProduct( [ temperature, 8, getConstant( 'boltzmann_constant' ), pi, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
-    elif 'power' in arguments:
+
+    if 'power' in arguments:
         luminosity = arguments[ 'power' ]
 
         return getRoot( divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
                                 getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
                                               getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
-    elif 'tidal_force' in arguments:
+
+    if 'tidal_force' in arguments:
         tidalForce = arguments[ 'tidal_force' ]
 
         return getRoot( divide( getPower( getConstant( 'speed_of_light' ), 6 ),
                                 getProduct( [ 4, tidalForce, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
-    elif 'time' in arguments:
+
+    if 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
         return getRoot( divide( getProduct( [ lifetime, getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ),
                                 getProduct( [ 5120, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 3 ).convert( 'kilogram' )
 
     raise ValueError( 'invalid arguments to black hole operator' )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( ) ] )
@@ -730,6 +738,7 @@ def calculateDistance( measurement1, measurement2 ):
         distance = multiply( arguments[ 'velocity' ], time )
 
     return distance.convert( 'meter' )
+
 
 @twoArgFunctionEvaluator( )
 def calculateDistanceOperator( measurement1, measurement2 ):

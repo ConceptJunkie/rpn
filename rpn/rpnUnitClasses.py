@@ -75,11 +75,11 @@ def getUnitType( unit ):
 
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].unitType
-    else:
-        if unit == '1':
-            return '_null_type'
-        else:
-            raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+    if unit == '1':
+        return '_null_type'
+
+    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 #******************************************************************************
@@ -344,34 +344,34 @@ class RPNUnits( collections.Counter ):
             result.subtract( RPNUnits.parseUnitString( pieces[ 1 ] ) )
 
             return result.normalizeUnits( )
-        else:
-            units = expression.split( '*' )
 
-            for unit in units:
-                if unit == '1':
-                    continue
+        units = expression.split( '*' )
 
-                if unit == '':
-                    raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
+        for unit in units:
+            if unit == '1':
+                continue
 
-                operands = unit.split( '^' )
+            if unit == '':
+                raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
 
-                plainUnit = operands[ 0 ]
+            operands = unit.split( '^' )
 
-                if plainUnit not in g.unitOperators and plainUnit in g.aliases:
-                    plainUnit = g.aliases[ plainUnit ]
+            plainUnit = operands[ 0 ]
 
-                operandCount = len( operands )
+            if plainUnit not in g.unitOperators and plainUnit in g.aliases:
+                plainUnit = g.aliases[ plainUnit ]
 
-                exponent = 1
+            operandCount = len( operands )
 
-                if operandCount > 1:
-                    for i in range( 1, operandCount ):
-                        exponent *= int( operands[ i ] )
+            exponent = 1
 
-                result[ plainUnit ] += exponent
+            if operandCount > 1:
+                for i in range( 1, operandCount ):
+                    exponent *= int( operands[ i ] )
 
-            return result.normalizeUnits( )
+            result[ plainUnit ] += exponent
+
+        return result.normalizeUnits( )
 
     def normalizeUnits( self ):
         newUnits = RPNUnits( )
@@ -397,4 +397,3 @@ class RPNUnits( collections.Counter ):
                 denominator[ unit ] = self[ unit ] * -1
 
         return numerator, denominator
-

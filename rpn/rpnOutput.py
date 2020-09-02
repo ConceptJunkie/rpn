@@ -178,7 +178,7 @@ def formatOutput( output ):
         result = '-' + result
 
     if imaginary != 0:
-        strImaginary, negativeImaginary = formatNumber( imaginary, outputRadix, leadingZero )
+        strImaginary, negativeImaginary = formatNumber( imaginary, outputRadix, leadingZero, integerGrouping )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
 
     #print( 'formatOutput 2:', output )
@@ -381,11 +381,11 @@ def formatDateTime( datetime ):
 
     if datetime.getDateOnly( ):
         return datetime.formatDate( )
-    else:
-        # if datetime.microsecond:
-        #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
-        # else:
-        return datetime.format( )
+
+    # if datetime.microsecond:
+    #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
+    # else:
+    return datetime.format( )
 
 
 #******************************************************************************
@@ -557,7 +557,7 @@ def printHelp( terms = None, interactive = False ):
     elif term in g.operatorCategories:
         printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), \
+        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ),
                         indent=4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
@@ -725,4 +725,3 @@ def printTitleScreen( programName, programDescription, showHelp=True ):
     if showHelp:
         print( )
         print( 'Type "help" for more information, and "exit" to exit.' )
-

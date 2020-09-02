@@ -40,11 +40,14 @@ def getFactors( target ):
         result = [ -1 ]
         result.extend( getFactors( fneg( target ) ) )
         return result
-    elif target == -1:
+
+    if target == -1:
         return [ -1 ]
-    elif target == 0:
+
+    if target == 0:
         return [ 0 ]
-    elif target == 1:
+
+    if target == 1:
         return [ 1 ]
 
     n = int( floor( target ) )
@@ -84,6 +87,7 @@ def getFactors( target ):
             g.factorCache[ n ] = result
 
     return result
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -187,4 +191,3 @@ def runYAFU( n ):
         result.extend( runYAFU( n ) )
 
     return sorted( result )
-

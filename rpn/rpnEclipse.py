@@ -25,8 +25,9 @@
 #
 #******************************************************************************
 
-import ephem
+#import ephem
 
+"""
 //
 // Observer constants -
 // (0) North Latitude (radians)
@@ -693,3 +694,4 @@ function recalculate() {
   eval(currenttimeperiod+"()");
 }
 
+ """

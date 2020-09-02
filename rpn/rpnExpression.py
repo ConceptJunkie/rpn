@@ -12,21 +12,16 @@
 #
 #******************************************************************************
 
-from mpmath import mpmathify
-
-from rpn.rpnDebug import debugPrint
-
-import rpn.rpnGlobals as g
-
-
 #******************************************************************************
 #
 #  class RPNExpression
 #
 #******************************************************************************
 
-class RPNExpression( object ):
-    '''This class defines an expression used for parsing rpnChilada.'''
+class RPNExpression( ):
+    '''
+    This class defines an expression used for parsing rpnChilada.
+    '''
     def __init__( self, operators, arguments ):
         self.operators = [ ]
         self.argumemts = [ ]

@@ -192,8 +192,8 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         makeIntersectionOperator, makeUnionOperator, permuteListsOperator, reduceListOperator, \
                         shuffleListOperator, sortAscendingOperator, sortDescendingOperator
 
-from rpn.rpnLocation import convertLatLongToNACOperator, getGeographicDistanceOperator, getLocationInfoOperator, \
-                            getTimeZoneOperator, makeLocationOperator
+from rpn.rpnLocation import getGeographicDistanceOperator, getLocationInfoOperator, getTimeZoneOperator, \
+                            makeLocationOperator
 
 from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, \
                         addOperator, asecOperator, asechOperator, asinOperator, asinhOperator, atanOperator, \
@@ -201,8 +201,8 @@ from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator
                         calculateNthRightHyperoperatorOperator, cosOperator, coshOperator, cotOperator, cothOperator, \
                         cscOperator, cschOperator, cubeOperator, decrementOperator, divideOperator, getAGMOperator, \
                         getAbsoluteValueOperator, getArgumentOperator, getCeilingOperator, getConjugateOperator, \
-                        getCubeRootOperator, getCubeSuperRootOperator, getExpOperator, getExp10Operator, \
-                        getExpOperator, getExpPhiOperator, getFloorOperator, getImaginaryOperator, getLIOperator, \
+                        getCubeRootOperator, getCubeSuperRootOperator, getExp10Operator, getExpOperator, \
+                        getExpPhiOperator, getFloorOperator, getImaginaryOperator, getLIOperator, \
                         getLambertWOperator, getLargerOperator, getLog10Operator, getLog2Operator, getLogOperator, \
                         getLogXYOperator, getMantissaOperator, getMaximumOperator, getMinimumOperator, \
                         getModuloOperator, getNearestIntOperator, getNegativeOperator, getPolyexpOperator, \
@@ -236,7 +236,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 generatePolydivisiblesOperator, getAbundanceOperator, getAbundanceRatioOperator, \
                                 getAliquotSequenceOperator, getAlternatingHarmonicFractionOperator, \
                                 getAltZetaOperator, getBarnesGOperator, getBetaOperator, getCollatzSequenceOperator, \
-                                getCyclotomicOperator, getDigammaOperator, getDigitalRootOperator, \
+                                getDigammaOperator, getDigitalRootOperator, \
                                 getDivisorCountOperator, getDivisorsOperator, getEulerPhiOperator, \
                                 getFrobeniusNumberOperator, getGammaOperator, getGeometricRecurrenceOperator, \
                                 getHarmonicFractionOperator, getHarmonicResidueOperator, getHurwitzZetaOperator, \
@@ -316,10 +316,9 @@ from rpn.rpnPolytope import findCenteredDecagonalNumberOperator, findCenteredHep
                             getNthDecagonalNumberOperator, getNthDecagonalOctagonalNumberOperator, \
                             getNthDecagonalPentagonalNumberOperator, getNthDecagonalTriangularNumberOperator, \
                             getNthDodecahedralNumberOperator, getNthGeneralizedDecagonalNumberOperator, \
-                            getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedHexagonalNumberOperator, \
-                            getNthGeneralizedNonagonalNumberOperator, getNthGeneralizedOctagonalNumberOperator, \
-                            getNthGeneralizedPentagonalNumberOperator, getNthGeneralizedSquareNumberOperator, \
-                            getNthGeneralizedTriangularNumberOperator, getNthHeptagonalHexagonalNumberOperator, \
+                            getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedNonagonalNumberOperator, \
+                            getNthGeneralizedOctagonalNumberOperator, getNthGeneralizedPentagonalNumberOperator, \
+                            getNthHeptagonalHexagonalNumberOperator, \
                             getNthHeptagonalNumberOperator, getNthHeptagonalPentagonalNumberOperator, \
                             getNthHeptagonalSquareNumberOperator, getNthHeptagonalTriangularNumberOperator, \
                             getNthHexagonalNumberOperator, getNthHexagonalPentagonalNumberOperator, \
@@ -383,7 +382,7 @@ from rpn.rpnUnitClasses import RPNUnits
 from rpn.rpnUtils import addEchoArgumentOperator, abortArgsNeeded, listAndOneArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateArguments
 
-from rpn.rpnValidator import argValidator, RPNValidator, StringValidator
+from rpn.rpnValidator import argValidator, StringValidator
 
 import rpn.rpnGlobals as g
 
@@ -763,7 +762,7 @@ class RPNFunction( ):
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperator'
                     function = function[ function.find( className ) + len( className ) :
-                                         function.find( '\n' ) -1 ] + ' )'
+                                         function.find( '\n' ) - 1 ] + ' )'
 
                 function += '( '
 
@@ -931,7 +930,7 @@ def loadUserFunctionsFile( ):
 
     try:
         items = config.items( 'User Functions' )
-    except:
+    except ValueError:
         return
 
     for item in items:
@@ -1087,8 +1086,10 @@ def filterList( n, k, invert=False ):
         elif not invert and value != 0:
             yield item
 
+
 def filterListOperator( n, k ):
     return RPNGenerator( filterList( n, k ) )
+
 
 def unfilterListOperator( n, k ):
     return RPNGenerator( filterList( n, k, invert=True ) )
@@ -1118,8 +1119,10 @@ def filterListByIndex( n, k, invert=False ):
         elif not invert and value != 0:
             yield item
 
+
 def filterListByIndexOperator( n, k ):
     return RPNGenerator( filterListByIndex( n, k ) )
+
 
 def unfilterListByIndexOperator( n, k ):
     return RPNGenerator( filterListByIndex( n, k, invert=True ) )
@@ -1174,8 +1177,9 @@ def forEach( listArg, func ):
         else:
             yield func.evaluate( i )
 
+
 def forEachOperator( listArg, func ):
-    return RPNGenerator( forEach( listArg,func ) )
+    return RPNGenerator( forEach( listArg, func ) )
 
 
 #******************************************************************************
@@ -1191,8 +1195,9 @@ def forEachList( listArg, func ):
     for i in listArg:
         yield func.evaluate( i )
 
+
 def forEachListOperator( listArg, func ):
-    return RPNGenerator( forEachList( listArg,func ) )
+    return RPNGenerator( forEachList( listArg, func ) )
 
 
 #******************************************************************************
@@ -1255,7 +1260,7 @@ def preprocessTerms( terms ):
             result.append( term )
         # translate compound units in the equivalent operators
         elif ( '*' in term or '^' in term or '/' in term ) and \
-            any( c in term for c in string.ascii_letters ):
+             any( c in term for c in string.ascii_letters ):
             result.append( RPNUnits.parseUnitString( term ) )
         else:
             result.append( term )
@@ -1494,6 +1499,7 @@ def dumpOperators( totalsOnly=False ):
 
     return total
 
+
 def dumpOperatorsOperator( ):
     return dumpOperators( )
 
@@ -1510,7 +1516,7 @@ def dumpConstantsOperator( ):
         loadConstants( )
 
     for constant in sorted( g.constantOperators ):
-        print( constant + ':  ' + str( g.constantOperators[ constant ].value ) + ' ' + \
+        print( constant + ':  ' + str( g.constantOperators[ constant ].value ) + ' ' +
                g.constantOperators[ constant ].unit )
 
     print( )
@@ -1575,7 +1581,6 @@ def dumpFunctionCacheOperator( name ):
         print( key, cache[ key ] )
 
     return len( cache )
-
 
 
 #******************************************************************************
@@ -1722,7 +1727,7 @@ def preparseForUnits( term ):
 
             try:
                 _ = int( splits[ 1 ] )
-            except:
+            except ValueError:
                 return term
         else:
             if piece in g.aliases:
@@ -1780,7 +1785,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 # look for unit without a value (in which case we give it a value of 1)
                 if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
                     isinstance( currentValueList[ -1 ], RPNDateTime ) or \
-                    ( isinstance( currentValueList[ -1 ], list ) and \
+                    ( isinstance( currentValueList[ -1 ], list ) and
                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
                 # if the unit comes after a generator, convert it to a list and apply the unit to each
@@ -1929,7 +1934,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
         return False
 
-    except ZeroDivisionError as error:
+    except ZeroDivisionError:
         print( 'rpn:  division by zero' )
 
         if g.debugMode:
@@ -1937,7 +1942,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
         return False
 
-    except IndexError as error:
+    except IndexError:
         print( 'rpn:  index error for list operator at arg ' + format( index ) +
                '.  Are your arguments in the right order?' )
 
@@ -2094,12 +2099,15 @@ def createUserFunctionOperator( key, func ):
 def evaluateFunction0Operator( func ):
     return func.evaluate( )
 
+
 @twoArgFunctionEvaluator( )
 def evaluateFunctionOperator( n, func ):
     return func.evaluate( n )
 
+
 def evaluateFunction2Operator( n, k, func ):
     return func.evaluate( n, k )
+
 
 def evaluateFunction3Operator( a, b, c, func ):
     return func.evaluate( a, b, c )
@@ -2115,8 +2123,10 @@ def evaluateFunction3Operator( a, b, c, func ):
 def evaluateListFunctionOperator( n, func ):
     return func.evaluate( n )
 
+
 def evaluateListFunction2Operator( n, k, func ):
     return func.evaluate( n, k )
+
 
 def evaluateListFunction3Operator( a, b, c, func ):
     return func.evaluate( a, b, c )
@@ -2141,8 +2151,10 @@ def filterListOfLists( n, func, invert=False ):
         if ( value != 0 ) != invert:
             yield i
 
+
 def filterListOfListsOperator( n, func ):
     return RPNGenerator( filterListOfLists( n, func ) )
+
 
 def unfilterListOfListsOperator( n, func ):
     return RPNGenerator( filterListOfLists( n, func, invert=True ) )
@@ -2622,7 +2634,7 @@ operators = {
     'from_french_republican'            : RPNOperator( convertFrenchRepublicanDateOperator, 3 ),
     'from_hebrew'                       : RPNOperator( convertHebrewDateOperator, 3 ),
     'from_indian_civil'                 : RPNOperator( convertIndianCivilDateOperator, 3 ),
-    'from_islamic'                      : RPNOperator( convertIslamicDateOperator,3 ),
+    'from_islamic'                      : RPNOperator( convertIslamicDateOperator, 3 ),
     'from_julian'                       : RPNOperator( convertJulianDateOperator, 3 ),
     'from_mayan'                        : RPNOperator( convertMayanDateOperator, 5 ),
     'from_persian'                      : RPNOperator( convertPersianDateOperator, 3 ),
@@ -3000,7 +3012,6 @@ operators = {
     'calkin_wilf'                       : RPNOperator( getNthCalkinWilfOperator, 1 ),
     'collatz'                           : RPNOperator( getCollatzSequenceOperator, 2 ),
     'count_divisors'                    : RPNOperator( getDivisorCountOperator, 1 ),
-    'cyclotomic'                        : RPNOperator( getCyclotomicOperator, 2 ),
     'digamma'                           : RPNOperator( getDigammaOperator, 1 ),
     'digital_root'                      : RPNOperator( getDigitalRootOperator, 1 ),
     'divisors'                          : RPNOperator( getDivisorsOperator, 1 ),
