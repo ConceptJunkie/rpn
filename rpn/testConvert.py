@@ -100,8 +100,8 @@ def runConvertTests( ):
     testOperator( 'watt-second second watt * convert' )
     testOperator( 'watt-second watt second * convert' )
     testOperator( 'weber tesla meter sqr * convert' )
-    testOperator( 'lumen candela*steradian' )
-    testOperator( 'candela*steradian lumen' )
+    testOperator( 'lumen candela*steradian convert' )
+    testOperator( 'candela*steradian lumen convert' )
 
     # additional test cases
     testOperator( '16800 mA hours * 5 volts * joule convert' )
@@ -225,8 +225,8 @@ def runConvertTests( ):
     testOperator( 'gray joule/kilogram convert' )
     testOperator( 'meter^2/second^2 gray convert' )
     testOperator( 'gray meter^2/second^2 convert' )
-    testOperator( 'kilogram/second^3 watt/meter^2' )
-    testOperator( 'watt/meter^2 kilogram/second^3' )
+    testOperator( 'kilogram/second^3 watt/meter^2 convert' )
+    testOperator( 'watt/meter^2 kilogram/second^3 convert' )
     testOperator( 'tesla kilogram/coulomb*second convert' )
     testOperator( 'tesla joule/ampere*meter^2 convert' )
     testOperator( 'tesla ampere*henry/meter^2 convert' )
@@ -289,6 +289,8 @@ def runConvertTests( ):
     expectEqual( 'gallon cubic_inches convert', '231 cubic_inches' )
 
     expectEqual( 'newton meter *', 'joule' )
+    expectEqual( 'newton*meter', 'joule' )
+    expectEqual( 'meter*newton', 'joule' )
     expectEqual( 'coulomb^2 ampere^2*second^2 convert', 'ampere^2*second^2' )
     expectEqual( 'ampere^2*second^2 coulomb^2 convert', 'coulomb^2' )
     expectEqual( 'volt ampere /', 'ohm' )

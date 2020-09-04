@@ -41,7 +41,7 @@ else:
     from time import time_ns
 
 
-g.testForSingleResults = True
+g.checkForSingleResults = True
 
 PROGRAM_NAME = 'testRPN'
 PROGRAM_DESCRIPTION = 'rpnChilada test suite'
@@ -1052,12 +1052,12 @@ def runBitwiseOperatorTests( ):
     # TODO
 
     # count_bits
-    expectEqual ( '1 200 range lambda x count_bits x factors count_bits sum equals x is_composite and filter',
-                  '278909 oeis 200 filter_max' )
+    expectEqual( '1 200 range lambda x count_bits x factors count_bits sum equals x is_composite and filter',
+                 '278909 oeis 200 filter_max' )
 
     if slow:
-        expectEqual ( '1 158692 range lambda x count_bits x factors count_bits sum equals x is_composite and filter',
-                      '278909 oeis 158692 filter_max' )
+        expectEqual( '1 158692 range lambda x count_bits x factors count_bits sum equals x is_composite and filter',
+                     '278909 oeis 158692 filter_max' )
 
     # parity
     expectEqual( '1 1000 range parity', '1 1000 range count_bits is_odd' )
@@ -1776,7 +1776,6 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '3 2 stirling2_number' )
 
 
-
 #******************************************************************************
 #
 #  runComplexMathOperatorTests
@@ -1907,7 +1906,6 @@ def runConstantOperatorTests( ):
     testOperator( 'planck_temperature' )
 
     testOperator( 'planck_acceleration' )
-    testOperator( 'planck_angular_frequency' )
     testOperator( 'planck_area' )
     testOperator( 'planck_current' )
     testOperator( 'planck_density' )
@@ -1920,7 +1918,6 @@ def runConstantOperatorTests( ):
     testOperator( 'planck_magnetic_inductance' )
     testOperator( 'planck_momentum' )
     testOperator( 'planck_power' )
-    testOperator( 'planck_pressure' )
     testOperator( 'planck_viscosity' )
     testOperator( 'planck_voltage' )
     testOperator( 'planck_volumetric_flow_rate' )
@@ -2135,14 +2132,14 @@ def runFigurateNumberOperatorTests( ):
         expectEqual( '1 1001 range centered_pentagonal', '5891 oeis 1001 left' )
 
     # centered_polygonal
-    testOperator( '1 100 3 centered_polygonal', '1 100 centered_triangular' )
-    testOperator( '1 100 4 centered_polygonal', '1 100 centered_square' )
-    testOperator( '1 100 5 centered_polygonal', '1 100 centered_pentagonal' )
-    testOperator( '1 100 6 centered_polygonal', '1 100 centered_hexagonal' )
-    testOperator( '1 100 7 centered_polygonal', '1 100 centered_heptagonal' )
-    testOperator( '1 100 8 centered_polygonal', '1 100 centered_octagonal' )
-    testOperator( '1 100 9 centered_polygonal', '1 100 centered_nonagonal' )
-    testOperator( '1 100 10 centered_polygonal', '1 100 centered_decagonal' )
+    expectEqual( '1 1000 range 3 centered_polygonal', '1 1000 range centered_triangular' )
+    expectEqual( '1 1000 range 4 centered_polygonal', '1 1000 range centered_square' )
+    expectEqual( '1 1000 range 5 centered_polygonal', '1 1000 range centered_pentagonal' )
+    expectEqual( '1 1000 range 6 centered_polygonal', '1 1000 range centered_hexagonal' )
+    expectEqual( '1 1000 range 7 centered_polygonal', '1 1000 range centered_heptagonal' )
+    expectEqual( '1 1000 range 8 centered_polygonal', '1 1000 range centered_octagonal' )
+    expectEqual( '1 1000 range 9 centered_polygonal', '1 1000 range centered_nonagonal' )
+    expectEqual( '1 1000 range 10 centered_polygonal', '1 1000 range centered_decagonal' )
 
     # centered_square
     expectEqual( '1 100 range centered_square', '1844 oeis 100 left' )
@@ -2725,7 +2722,6 @@ def runGeometryOperatorTests( ):
     if slow:
         expectEqual( '[ 70080 oeis 70081 oeis 70082 oeis ] collate lambda x 0 element x 1 element x 2 element triangle_area for_each_list value round 75 left',
                      '70086 oeis 75 left' )
-
 
 
 #******************************************************************************
@@ -4739,7 +4735,6 @@ def runPowersAndRootsOperatorTests( ):
     if slow:
         expectEqual( '-a100 2 2 sqrt 1 300 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
                      '280918 oeis 300 left' )
-
 
 
 #******************************************************************************
