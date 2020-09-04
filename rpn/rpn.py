@@ -23,15 +23,11 @@
 
 import argparse
 import os
+import readline
 import sys
 import time
 
 from pathlib import Path
-
-try:
-    import readline
-except ImportError:
-    import pyreadline as readline
 
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
@@ -232,14 +228,14 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                     #print( 're', re( result ), type( re( result ) ) )
 
                     if im( result ) > 0:
-                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), 
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
                                                            g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
-                                       ' + ' + formatOutput( nstr( mpmathify( im( result ) ), \
+                                       ' + ' + formatOutput( nstr( mpmathify( im( result ) ),
                                                              g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
                     elif im( result ) < 0:
-                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ), \
+                        outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
                                                                  g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
-                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ), \
+                                       ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ),
                                                              g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
                     else:
                         outputString = formatOutput( nstr( re( result ), g.outputAccuracy,
@@ -257,7 +253,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1000000000 ), file=file )
+        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1_000_000_000 ), file=file )
 
     return file
 
@@ -532,6 +528,7 @@ def rpn( cmdArgs ):
 
     # handle -I
     g.ignoreCache = args.ignore_cache
+    g.refreshOEISCache = args.ignore_cache
 
     # handle -l
     g.lineLength = args.line_length

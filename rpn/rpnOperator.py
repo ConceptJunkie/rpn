@@ -55,16 +55,6 @@ def generateRealArgument( validRange=None, allowNegative=True ):
     return nstr( fmul( exp( fmul( getRandomNumber( ), random.uniform( *validRange ) ) ), factor ) )
 
 
-#******************************************************************************
-#
-#  generateNonnegativeRealArgument
-#
-#******************************************************************************
-
-def generateNonnegativeRealArgument( validRange ):
-    return generateRealArgument( validRange, allowNegative=False )
-
-
 def generateIntegerArgument( validRange = None, allowNegative=True ):
     if validRange is None:
         validRange = [ 0, 1_000_000_000 ]
@@ -75,24 +65,6 @@ def generateIntegerArgument( validRange = None, allowNegative=True ):
         factor = -1
 
     return str( fmul( fadd( getRandomInteger( validRange[ 1 ] ), validRange[ 0 ] ), factor ) )
-
-
-def generatePositiveIntegerArgument( validRange=None ):
-    if validRange is None:
-        validRange = [ 1, 1_000_000_000 ]
-
-    return generateIntegerArgument( range, allowNegative=False )
-
-
-def generateNonnegativeIntegerArgument( validRange=None ):
-    if validRange is None:
-        validRange = [ 0, 1_000_000_000 ]
-
-    return generateIntegerArgument( range, allowNegative=False )
-
-
-def generatePrimeArgument( ):
-    return 'argument'
 
 
 def generateStringArgument( ):
@@ -140,11 +112,7 @@ def generateFunctionArgument( ):
 argumentGenerators = {
     RPNValidator.Default             : generateDefaultArgument,
     RPNValidator.Real                : generateRealArgument,
-    RPNValidator.NonnegativeReal     : generateNonnegativeRealArgument,
     RPNValidator.Integer             : generateIntegerArgument,
-    RPNValidator.PositiveInteger     : generatePositiveIntegerArgument,
-    RPNValidator.NonnegativeInteger  : generateNonnegativeIntegerArgument,
-    RPNValidator.PrimeInteger        : generatePrimeArgument,
     RPNValidator.String              : generateStringArgument,
     RPNValidator.DateTime            : generateDateTimeArgument,
     RPNValidator.Location            : generateLocationArgument,

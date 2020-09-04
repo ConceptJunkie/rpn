@@ -464,8 +464,7 @@ def getPlanckDensity( ):
 
 @lru_cache( 1 )
 def getPlanckEnergyDensity( ):
-    result = getPower( g.c, 7 ).divide( g.h_bar.multiply( getPower( g.G, 2 ) ) )
-    return result.convert( 'joule/meter^3' )
+    return getPower( g.c, 7 ).divide( g.h_bar.multiply( getPower( g.G, 2 ) ) ).convert( 'pascal' )
 
 
 #******************************************************************************
@@ -477,18 +476,6 @@ def getPlanckEnergyDensity( ):
 @lru_cache( 1 )
 def getPlanckIntensity( ):
     return getPower( g.c, 8 ).divide( g.h_bar. multiply( getPower( g.G, 2 ) ) ).convert( 'watt/meter^2' )
-
-
-#******************************************************************************
-#
-#  getPlanckAngularFrequency
-#
-#******************************************************************************
-
-@lru_cache( 1 )
-def getPlanckAngularFrequency( ):
-    return RPNMeasurement( getRoot( getPower( g.c, 5 ).divide( g.h_bar. multiply( g.G ) ), 2 ).value,
-                           'radian/second' )
 
 
 #******************************************************************************

@@ -532,13 +532,13 @@ def cachedFunction( name, overrideIgnore=False ):
 #
 #******************************************************************************
 
-def cachedOEISFunction( name, overrideIgnore=False ):
+def cachedOEISFunction( name ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
         def cacheResults( *args, **kwargs ):
             cache = openFunctionCache( name )
 
-            if not g.ignoreCache or overrideIgnore:
+            if not g.refreshOEISCache:
                 if ( args, kwargs ) in cache:
                     result = cache[ ( args, kwargs ) ]
 
@@ -547,7 +547,7 @@ def cachedOEISFunction( name, overrideIgnore=False ):
 
             result = func( *args, **kwargs )
 
-            if not g.ignoreCache or overrideIgnore:
+            if not g.refreshOEISCache:
                 cache[ ( args, kwargs ) ] = result
 
             return result

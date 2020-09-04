@@ -33,7 +33,6 @@ Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 
 I don't think this is correct yet.
 
 #sudo apt install python3-dev python3-pip libgmp-dev libmpfr-dev libmpc-dev python3-setuptools python3-gmpy2
-
 #pip3 install rpnChilada
 
 ## Running RPN using the source:
@@ -46,8 +45,9 @@ Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 
 
 ## Using rpnChilada
 
-rpnChilada is very easy to use.  It's just like any RPN calculator: Operands go first, then the operators. All examples assume `rpn` is an alias for `python /<path-to-rpn>/rpn.py`.  In interactive mode, you leave off the `rpn`.
-I always create an alias for "python rpn.py" called "rpn".  If you are using the package installed with pip, there are commands in the scripts directories called "rpn" and "rpnChilada" to launch rpnChilada.
+rpnChilada is very easy to use.  It's just like any RPN calculator:  Operands go first, then the operators, just like your Dad's old HP calculator.
+
+If you are using the package installed with pip, there are commands in the scripts directories called "rpn" and "rpnChilada" to launch rpnChilada.  If you are running from the source, then `rpn` is an alias for `python /<path-to-rpn>/rpn.py`.  In interactive mode, you leave off the `rpn`.
 
 Unit tests can be run with the testRPN command (when installed from the wheel) or by running testRPN.py from the rpn/ directory.
 
@@ -89,6 +89,8 @@ Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com).  This was orig
 p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+8.5.0
 
 8.4.0
 

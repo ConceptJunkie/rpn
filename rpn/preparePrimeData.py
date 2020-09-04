@@ -15,6 +15,7 @@
 #******************************************************************************
 
 import os
+import sqlite3
 import time
 
 from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
@@ -46,7 +47,7 @@ def preparePrimeData( baseName ):
             try:
                 key, value = line.split( )
                 saveToCache( db, cursor, key, value, commit=False )
-            except:
+            except sqlite3.OperationalError:
                 print( 'key', key )
                 print( 'value', value )
                 print( 'parsing error in file ' + inputFileName + ': \'' + line + '\'' )

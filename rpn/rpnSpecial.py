@@ -65,6 +65,8 @@ from rpn.rpnPrimeUtils import getPrimes, isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator
 
+LARGEST_NUMBER_TO_FACTOR = power( 10, 40 )
+
 
 #*******************************************************************************
 #
@@ -164,7 +166,7 @@ def removeUnderscores( source ):
 #
 #*******************************************************************************
 
-@cachedOEISFunction( 'oeis', overrideIgnore=True )
+@cachedOEISFunction( 'oeis' )
 def downloadOEISSequence( aNumber ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( aNumber, 'K' ).split( ',' )
@@ -376,8 +378,6 @@ def generateRandomUUIDOperator( ):
 #  findInput
 #
 #*******************************************************************************
-
-largestNumberToFactor = power( 10, 40 )
 
 
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
@@ -707,7 +707,7 @@ def describeIntegerOperator( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne exponent' )
 
-    if not isPrimeFlag and n != 1 and n <= largestNumberToFactor:
+    if not isPrimeFlag and n != 1 and n <= LARGEST_NUMBER_TO_FACTOR:
         # deficient
         if isDeficient( n ):
             print( indent + 'deficient' )
@@ -989,7 +989,7 @@ def describeIntegerOperator( n ):
     if digitProduct == 0:
         print( indent + 'a non-zero digit product of ' + str( int( multiplyNonzeroDigits( n ) ) ) )
 
-    if not isPrimeFlag and n != 1 and n <= largestNumberToFactor:
+    if not isPrimeFlag and n != 1 and n <= LARGEST_NUMBER_TO_FACTOR:
         # factors
         factors = getFactors( n )
         factorCount = len( factors )
@@ -1000,7 +1000,7 @@ def describeIntegerOperator( n ):
         divisorCount = int( getDivisorCount( n ) )
         print( indent + str( divisorCount ) + ' divisor' + ( 's' if divisorCount > 1 else '' ) )
 
-    if n <= largestNumberToFactor:
+    if n <= LARGEST_NUMBER_TO_FACTOR:
         print( indent + 'a divisor sum of ' + str( int( getSigma( n ) ) ) )
         print( indent + 'a Stern value of ' + str( int( getNthSternNumber( n ) ) ) )
         calkinWilf = getNthCalkinWilf( n )

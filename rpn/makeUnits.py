@@ -460,7 +460,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
                 factor1 = unitConversionMatrix[ unit1, unit2 ]
                 factor2 = unitConversionMatrix[ unit2, unit3 ]
                 factor3 = unitConversionMatrix[ unit1, unit3 ]
-            except:
+            except ValueError:
                 continue
 
             epsilon = power( 10, fneg( VALIDATION_PRECISION ) )

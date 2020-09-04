@@ -72,12 +72,6 @@ class RPNValidator( ):
     Additive =              1 << 17     # a value that can have something added to or subtracted from (complex, measurement, date-time)
     Multiplicative =        1 << 18     # a value that can be multiplied (complex, measurement)
 
-    # These will be eliminated
-    NonnegativeReal =       1 << 16
-    PositiveInteger =       1 << 17
-    NonnegativeInteger =    1 << 18
-    PrimeInteger =          1 << 19
-
     type = Default
     min = None
     max = None

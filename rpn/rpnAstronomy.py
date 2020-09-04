@@ -323,8 +323,6 @@ def getEphemTime( n, func ):
 
 
 @oneArgFunctionEvaluator( )
-
-
 @argValidator( [ DateTimeValidator( ) ] )
 def getNextFirstQuarterMoonOperator( n ):
     return getEphemTime( n, ephem.next_first_quarter_moon )

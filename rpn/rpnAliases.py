@@ -951,5 +951,4 @@ operatorAliases = {
     '|'                             : 'is_divisible',
     '}'                             : ')',
     '~'                             : 'bitwise_not',
-
 }

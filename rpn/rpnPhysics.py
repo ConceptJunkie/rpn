@@ -953,7 +953,9 @@ def calculateSurfaceGravityOperator( measurement1, measurement2 ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
 def calculateWindChillOperator( measurement1, measurement2 ):
-    '''https://www.ibiblio.org/units/dictW.html'''
+    '''
+    https://www.ibiblio.org/units/dictW.html
+    '''
 
     validUnitTypes = [
         [ 'velocity', 'temperature' ],
@@ -992,7 +994,9 @@ def calculateWindChillOperator( measurement1, measurement2 ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
 def calculateHeatIndexOperator( measurement1, measurement2 ):
-    '''https://en.wikipedia.org/wiki/Heat_index#Formula'''
+    '''
+    https://en.wikipedia.org/wiki/Heat_index#Formula
+    '''
     # pylint: disable=invalid-name
     validUnitTypes = [
         [ 'temperature', 'constant' ],

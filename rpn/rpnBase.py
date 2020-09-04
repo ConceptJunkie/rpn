@@ -14,7 +14,7 @@
 
 import gmpy2
 
-from mpmath import fdiv, floor, fmod, fmul, fneg, fsub, mpmathify, power
+from mpmath import fdiv, floor, fmod, fmul, fneg, fsub, mpmathify
 
 from rpn.rpnUtils import twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator
