@@ -98,9 +98,9 @@ from rpn.rpnComputer import andOperator, convertToCharOperator, convertToDoubleO
 
 from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
-                                 getPlanckAngularFrequency, getPlanckArea, getPlanckCharge, getPlanckCurrent, \
-                                 getPlanckDensity, getPlanckEnergy, getPlanckElectricalInductance, \
-                                 getPlanckEnergyDensity, getPlanckForce, getPlanckImpedance, getPlanckIntensity, \
+                                 getPlanckArea, getPlanckCharge, getPlanckCurrent, getPlanckDensity, \
+                                 getPlanckEnergy, getPlanckElectricalInductance, getPlanckEnergyDensity, \
+                                 getPlanckForce, getPlanckImpedance, getPlanckIntensity, \
                                  getPlanckLength, getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, \
                                  getPlanckPower, getPlanckPressure, getPlanckTemperature, getPlanckTime, \
                                  getPlanckViscosity, getPlanckVoltage, getPlanckVolume, getPlanckVolumetricFlowRate, \
@@ -442,7 +442,6 @@ constants = {
     'planck_temperature'            : RPNOperator( getPlanckTemperature, 0 ),
 
     'planck_acceleration'           : RPNOperator( getPlanckAcceleration, 0 ),
-    'planck_angular_frequency'      : RPNOperator( getPlanckAngularFrequency, 0 ),
     'planck_area'                   : RPNOperator( getPlanckArea, 0 ),
     'planck_current'                : RPNOperator( getPlanckCurrent, 0 ),
     'planck_density'                : RPNOperator( getPlanckDensity, 0 ),
@@ -455,7 +454,6 @@ constants = {
     'planck_magnetic_inductance'    : RPNOperator( getPlanckMagneticInductance, 0 ),
     'planck_momentum'               : RPNOperator( getPlanckMomentum, 0 ),
     'planck_power'                  : RPNOperator( getPlanckPower, 0 ),
-    'planck_pressure'               : RPNOperator( getPlanckPressure, 0 ),
     'planck_viscosity'              : RPNOperator( getPlanckViscosity, 0 ),
     'planck_voltage'                : RPNOperator( getPlanckVoltage, 0 ),
     'planck_volumetric_flow_rate'   : RPNOperator( getPlanckVolumetricFlowRate, 0 ),
@@ -934,7 +932,7 @@ def loadUserFunctionsFile( ):
         return
     except configparser.KeyError:
         return
-        
+
     for item in items:
         func = RPNFunction( )
         func.setCode( item[ 1 ] )
