@@ -17,9 +17,8 @@ from mpmath import fdiv, fmul, nstr, mpmathify
 from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnUnitClasses import getUnitType, RPNUnits
-from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnUnitClasses import RPNUnits
+from rpn.rpnUtils import oneArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, MeasurementValidator, MultiplicativeValidator
 
 import rpn.rpnGlobals as g
@@ -76,7 +75,7 @@ def convertUnits( unit1, unit2 ):
     return RPNMeasurement( newValue, unit2.units )
 
 
-@twoArgFunctionEvaluator( )
+#@twoArgFunctionEvaluator( )  # This breaks the multiple unit conversion!
 @argValidator( [ MeasurementValidator( ), MeasurementValidator( ) ] )
 def convertUnitsOperator( unit1, unit2 ):
     return convertUnits( unit1, unit2 )
