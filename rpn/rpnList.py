@@ -1529,6 +1529,7 @@ def filterMaxOperator( n, k ):
 
 def filterMinGenerator( n, k ):
     for item in n:
+        print( 'filterMin item', item )
         if item >= k:
             yield item
 

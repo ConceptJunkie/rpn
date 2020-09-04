@@ -309,6 +309,14 @@ def downloadOEISTableOperator( aNumber ):
 
 def handleIdentify( result, file=sys.stdout ):
     '''Calls the mpmath identify function to try to identify a constant.'''
+    if isinstance( result, ( list, RPNGenerator ) ):
+        print( 'foo!', result )
+        for i in list( result ):
+            print( 'i', i )
+            handleIdentify( i )
+
+        return
+
     formula = identify( result )
 
     if formula is None:

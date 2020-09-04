@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2203
+MAX_EXAMPLE_COUNT = 2202
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -535,12 +535,18 @@ Perhaps the worst bug is the some operations that use generators still manage
 to rack up astronomical memory usage.  I haven't been able to figure out how
 this happens, but it's probably something stupid on my part.
 
+"rpn 1 200 range fib lambda x factor 100 filter_min 999 filter_max eval -a50"
+crashes!  The same operation without the lambda works fine.  It has something to
+do with nested generators inside lambdas.
+
 '$varname' syntax doesn't work in interactive mode!
 
 "rpn 4 lambda 1 x range powerset geometric_mean eval" loses the first item in
 the powerset.  Trying it without 'geometric_mean' shows the powerset correctly.
 But adding the 'geometric_mean' operator gives results that clearly don't
-include the first result of the powerset '[ 1 ]'.
+include the first result of the powerset '[ 1 ]'.  This might be related to the
+'filter_min'/'filter_max' problem above.  I bet it has something to do with
+generators.
 
 -i doesn't work for lists.
 
@@ -559,16 +565,15 @@ Converting negative numbers to different bases gives weird answers.
 
 'result' doesn't work with measurements.
 
-Date comparisons before the epoch (1970-01-01) don't work.  It seems to be a
-limitation of the Arrow class.
-
 User-defined functions can't include measurements.
 
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
-arguments.
+arguments.  I need a @threeArgFunctionEvaluator, except that would be insane to
+write, so I really need a generic function evaluator, and I think I might know
+how I can do that.
 
-'reversal_addition' doesn't work with generators.
+'reversal_addition' doesn't work with generators.  I see a theme here.
 
 See 'rpn help TODO'.
     ''',
@@ -1228,8 +1233,9 @@ Finally, after many years complex numbers are also formatted according to the
 same rules for formatting regular real numbers.
 
 rpnChilada also finally recognizes the Python syntax for imaginary numbers of
-"99.99999j", i.e., any regular number appended with a 'j'.   The 'i' operator
-remains, but can be considered deprecated, as it is no longer needed.
+"99.99999j", or "99.9999i" i.e., any regular number appended with an 'i' or 'j'.
+The 'i' operator remains, but can be considered deprecated, as it is no longer
+needed.
 
 Added more unit tests and the usual bug fixes.
 
@@ -1312,6 +1318,9 @@ I removed the 'planck_pressure' operator since it was identical to the
 Removed a couple of unit types for which I could not find sufficient
 documentation.  In particular the Talk page on Wikipedia claims that a couple of
 the wine bottle sizes they had previously reported could not be verified.
+
+Removed the 'filter_lists' operator because it isn't needed.  'filter' works
+fine on a list of lists.
     ''',
     'license' :
     '''
@@ -6304,14 +6313,6 @@ Which of the first 80 fibonacci numbers is prime?
 ''' + makeCommandExample( '-a20 80 lambda x fib is_prime filter_integers' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
-    'filter_lists' : [
-'functions', 'filters a list of lists n using function k',
-'''
-''',
-'''
-''',
-[ 'filter' ] ],
-
     'for_each' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments',
 '''
@@ -7225,7 +7226,7 @@ lambdas would otherwise be used.
 ''',
 '''
 ''' + makeCommandExample( '1 6 range [ 0 1 0 1 0 1 ] filter_on_flags' ),
-[ 'filter_lists', 'filter', 'filter_integers' ] ],
+[ 'filter', 'filter_integers' ] ],
     'find_palindrome' : [
 
 'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',

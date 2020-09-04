@@ -2138,26 +2138,26 @@ def evaluateListFunction3Operator( a, b, c, func ):
 #
 #******************************************************************************
 
-def filterListOfLists( n, func, invert=False ):
-    if not isinstance( func, RPNFunction ):
-        if invert:
-            raise ValueError( '\'unfilter_lists\' expects a function argument' )
-
-        raise ValueError( '\'filter_lists\' expects a function argument' )
-
-    for i in n:
-        value = func.evaluate( i )
-
-        if ( value != 0 ) != invert:
-            yield i
-
-
-def filterListOfListsOperator( n, func ):
-    return RPNGenerator( filterListOfLists( n, func ) )
-
-
-def unfilterListOfListsOperator( n, func ):
-    return RPNGenerator( filterListOfLists( n, func, invert=True ) )
+#def filterListOfLists( n, func, invert=False ):
+#    if not isinstance( func, RPNFunction ):
+#        if invert:
+#            raise ValueError( '\'unfilter_lists\' expects a function argument' )
+#
+#        raise ValueError( '\'filter_lists\' expects a function argument' )
+#
+#    for i in n:
+#        value = func.evaluate( i )
+#
+#        if ( value != 0 ) != invert:
+#            yield i
+#
+#
+#def filterListOfListsOperator( n, func ):
+#    return RPNGenerator( filterListOfLists( n, func ) )
+#
+#
+#def unfilterListOfListsOperator( n, func ):
+#    return RPNGenerator( filterListOfLists( n, func, invert=True ) )
 
 
 #******************************************************************************
@@ -2390,7 +2390,6 @@ listOperators = {
 
     # function
     'filter'                            : RPNOperator( filterListOperator, 2 ),
-    'filter_lists'                      : RPNOperator( filterListOfListsOperator, 2 ),
     'filter_by_index'                   : RPNOperator( filterListByIndexOperator, 2 ),
     'for_each'                          : RPNOperator( forEachOperator, 2 ),
     'for_each_list'                     : RPNOperator( forEachListOperator, 2 ),

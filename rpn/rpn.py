@@ -246,9 +246,9 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
             print( indentString + outputString, file=file )
 
-            # handle --identify
-            if g.identify:
-                handleIdentify( result, file )
+        # handle --identify
+        if g.identify:
+            handleIdentify( result, file )
 
         saveResult( result )
 

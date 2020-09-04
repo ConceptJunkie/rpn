@@ -346,7 +346,6 @@ operatorAliases = {
     'fall'                          : 'autumnal_equinox',
     'fermi'                         : 'femtometer',
     'fib'                           : 'fibonacci',
-    'filter_list'                   : 'filter_lists',
     'find_poly'                     : 'find_polynomial',
     'find_polydivisible'            : 'generate_polydivisibles',
     'fine_structure'                : 'fine_structure_constant',

@@ -2497,8 +2497,6 @@ def runFunctionOperatorTests( ):
     # filter_integers
     expectEqual( '10000 lambda x is_prime filter_integers', '1 1229 primes' )
 
-    # filter_list
-
     # filter_max
     expectEqual( '1 10 range 5 filter_max', '[ 1 2 3 4 5 ]' )
 
