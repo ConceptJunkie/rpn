@@ -21,7 +21,7 @@ from rpn.rpnEstimates import accelerationTable, amountOfSubstanceTable, angleTab
                               jerkTable, jounceTable, lengthTable, luminanceTable, luminousFluxTable, \
                               luminousIntensityTable, magneticFieldStrengthTable, magneticFluxTable, \
                               magneticFluxDensityTable, massTable, powerTable, pressureTable, \
-                              radiationDoseTable, radiationExposureTable, \
+                              radiationDoseTable, radiationExposureTable, radioactivityTable, \
                               radiosityTable, solidAngleTable, temperatureTable, tidalForceTable, \
                               timeTable, velocityTable, volumeTable
 
@@ -92,6 +92,7 @@ expandedUnitTypes = {
     'power'                             : ( 'length^2*mass/time^3' ),
     'pressure'                          : ( 'mass/length*time^2' ),
     'radiance'                          : ( 'mass/angle^2*time^3' ),
+    'radioactivity'                     : ( '1/time' ),
     'reaction_rate'                     : ( 'amount_of_substance/length^3*time' ),
     'reluctance'                        : ( 'current*time^2/length^2*mass' ),
     'solid_angle'                       : ( 'angle^2' ),
@@ -387,6 +388,13 @@ basicUnitTypes = {
         'coulomb/kilogram',
         'ampere*second/kilogram',
         radiationExposureTable,
+    ),
+
+    'radioactivity' : RPNUnitTypeInfo(
+        '1/time',
+        'becquerel',
+        '1/second',
+        radioactivityTable,
     ),
 
     'radiosity' : RPNUnitTypeInfo(

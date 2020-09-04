@@ -1194,7 +1194,7 @@ Ref:  https://en.wikipedia.org/wiki/Ampere
         RPNUnitInfo( 'current', 'statamperes', 'statA',
                      [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
                      '''
-The unit of current in the CGS-ESU system of measurements.  It is equal to
+The unit of current in the CGS-ESU system of measurement.  It is equal to
 1/299,792,458 ampere.
 
 All electromagnetic units in ESU CGS system that do not have proper names are
@@ -1870,20 +1870,6 @@ existence of electromagnetic waves.
 Ref:  https://en.wikipedia.org/wiki/Hertz
 ''' ),
 
-    'becquerel' :
-        RPNUnitInfo( 'frequency', 'becquerels', 'Bq', [ ], [ 'SI' ],
-                     '''
-''' ),
-
-    'curie' :
-        RPNUnitInfo( 'frequency', 'curies', 'Ci', [ ], [ 'obsolete' ],
-                     '''
-''' ),
-
-    'rutherford' :
-        RPNUnitInfo( 'frequency', 'rutherfords', 'rd', [ ], [ 'obsolete' ],
-                     '''
-''' ),
 
     # illuminance
     'candela*radian^2/meter^2' :
@@ -1896,11 +1882,20 @@ representation of luminous flux.
     'flame' :
         RPNUnitInfo( 'illuminance', 'flames', '', [ ], [ ],
                      '''
+The flame is an obsolete unit of illuminance that is equal to 4 foot-candles.
 ''' ),
 
-    'footcandle' :
-        RPNUnitInfo( 'illuminance', 'footcandles', 'fc', [ ], [ 'FPS' ],
+    'foot-candle' :
+        RPNUnitInfo( 'illuminance', 'foot-candles', 'fc', [ 'footcandle' 'footcandles' ], [ 'FPS' ],
                      '''
+From https://en.wikipedia.org/wiki/Foot-candle:
+
+A foot-candle (sometimes foot candle; abbreviated fc, lm/ft^2, or sometimes
+ft-c) is a non-SI unit of illuminance or light intensity.  The foot-candle is
+defined as one lumen per square foot.  This unit is commonly used in lighting
+layouts in parts of the world where United States customary units are used,
+mainly the United States.  Most of the world uses the corresponding SI derived
+unit lux, defined as one lumen per square meter.
 ''' ),
 
     'lux' :
@@ -1927,11 +1922,31 @@ This copnversion unit relates lumens to lux.
     'nox' :
         RPNUnitInfo( 'illuminance', 'nox', 'nx', [ ], [ 'obsolete' ],
                      '''
+From Ref:  https://en.wikipedia.org/wiki/Lux#Non-SI_units_of_illuminance:
+
+The corresponding unit [of illuminance] in English and American traditional
+units is the foot-candle.  One foot candle is about 10.764 lux.  Since one
+foot-candle is the illuminance cast on a surface by a one-candela source one
+foot away, a lux could be thought of as a "metre-candle", although this term is
+discouraged because it does not conform to SI standards for unit names.
+
+One phot (ph) equals 10 kilolux (10 klx).
+
+One nox (nx) equals 1 millilux (1 mlx).
 ''' ),
 
     'phot' :
         RPNUnitInfo( 'illuminance', 'phots', 'ph', [ ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Phot:
+
+A phot (ph) is a photometric unit of illuminance, or luminous flux through an
+area.  It is not an SI unit, but rather is associated with the older
+centimetre–gram–second system of units.  The name was coined by Andre Blondel in
+1921.
+            lumen              lumens
+1 phot = 1 -------- = 10,000 ---------- = 10,000 lux = 10 kilolux
+             cm^2              meter^2
 ''' ),
 
     # inductance
@@ -2208,9 +2223,13 @@ Ref:  https://en.wikipedia.org/wiki/Chain_(unit)
                      '''
 ''' ),
 
-    'diuym' :
-        RPNUnitInfo( 'length', 'diuyms', '', [ ], [ 'Russia', 'obsolete' ],
+    'dyuym' :
+        RPNUnitInfo( 'length', 'dyuyms', '', [ 'diuym', 'diuyms' ], [ 'Russia', 'obsolete' ],
                      '''
+The dyuym, or inch, is 1/28 of the arshin, or yard, in the traditional
+pre-metric Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'ell' :
@@ -2325,6 +2344,10 @@ Ref:  https://en.wiktionary.org/wiki/furshlugginer
     'fut' :
         RPNUnitInfo( 'length', 'futs', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The fut, or foot is 3/7 of the arshin, or yard, in the traditional pre-metric
+Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'greek_cubit' :
@@ -2374,14 +2397,22 @@ Ref:  https://en.wikipedia.org/wiki/Inch
                      '''
 ''' ),
 
-    'kosaya_sazhen' :
-        RPNUnitInfo( 'length', 'kosaya_sazhens', '', [ ], [ 'Russia', 'obsolete' ],
-                     '''
-''' ),
-
     'kyu' :
         RPNUnitInfo( 'length', 'kyus', '', [ 'Q' ], [ 'typography', 'computing' ],
                      '''
+From https://en.wikipedia.org/wiki/Typographic_unit#Metric_units:
+
+The traditional typographic units are based either on non-metric units, or on
+odd multiples (such as 35⁄83) of a metric unit.  There are no specifically
+metric units for this particular purpose, although there is a DIN standard
+sometimes used in German publishing, which measures type sizes in multiples of
+0.25 mm, and proponents of the metrication of typography generally recommend the
+use of the millimetre for typographical measurements, rather than the
+development of new specifically typographical metric units.  The Japanese
+already do this for their own characters (using the kyu, which is q in
+romanized Japanese and is also 0.25 mm), and have metric-sized type for European
+languages as well.  One advantage of the q is that it reintroduces the
+proportional integer division of 3 mm (12 q) by 6 & 4.
 ''' ),
 
     'league' :
@@ -2423,8 +2454,12 @@ Ref:  https://en.wikipedia.org/wiki/Light-year
 ''' ),
 
     'liniya' :
-        RPNUnitInfo( 'length', 'liniya', '', [ ], [ 'informal' ],
+        RPNUnitInfo( 'length', 'liniya', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The liniya is 1/10 of a dyuym, or inch, and 1/280 of the arshin, or yard, in the
+traditional pre-metric Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'link' :
@@ -2438,7 +2473,7 @@ The unit is based on Gunter's chain, a metal chain 66 feet long with 100 links,
 that was formerly used in land surveying.  Even after the original tool was
 replaced by later instruments of higher precision, the unit itself was commonly
 used in this application throughout the English-speaking world  (e.g. in the
-United States customary system of measurements and the Imperial system).  The
+United States customary system of measurement and the Imperial system).  The
 length of the foot, and hence the link, varied slightly from place to place and
 time to time, but in modern times the difference between, say, the US survey
 foot and the international foot is two parts per million.  The link fell out of
@@ -2455,11 +2490,12 @@ Ref:  https://en.wikipedia.org/wiki/Link_(unit)
     'marathon' :
         RPNUnitInfo( 'length', 'marathons', '', [ ], [ 'informal' ],
                      '''
-''' ),
+From https://en.wikipedia.org/wiki/Marathon:
 
-    'mezhevaya_versta' :
-        RPNUnitInfo( 'length', 'mezhevaya_verstas', '', [ ], [ 'Russia', 'obsolete' ],
-                     '''
+The marathon is a long-distance race with an official distance of 42.195
+kilometres (26 miles 385 yards), usually run as a road race.
+
+The term can also be used as a unit of distance.
 ''' ),
 
     'meter' :
@@ -2483,6 +2519,20 @@ Ref:  https://en.wikipedia.org/wiki/Metre
     'metric_foot' :
         RPNUnitInfo( 'length', 'metric_feet', '', [ ], [ 'UK', 'unofficial' ],
                      '''
+From https://en.wikipedia.org/wiki/ISO_2848#Metric_foot:
+
+A metric foot is a nickname for the preferred number length of 3 basic modules
+(3 M), or 300 millimetres (11.811 in).  The 300 mm metric rule is of a similar
+length to the traditional imperial one-foot rule.  A metric foot is 4.8
+millimetres (0.189 in) shorter than an imperial foot.
+
+Although the term "metric foot" is still occasionally used in the United
+Kingdom, in particular in the timber trade, dimensions are most likely to be
+quoted exclusively in metric units today.
+
+The sizes of the studios at BBC Television Centre in London, which opened in
+1960, are specified and measured in metric feet, in contrast to film stages
+where imperial feet and inches prevail.
 ''' ),
 
     'micron' :
@@ -2522,27 +2572,42 @@ agreement in 1959.
 Ref:  https://en.wikipedia.org/wiki/Mile
 ''' ),
 
+    'milya' :
+        RPNUnitInfo( 'length', 'milyas', '', [ ], [ 'Russia', 'obsolete' ],
+                     '''
+The milya, or mile, is equivalent to 10500 times the length of the arshin, or
+yard, in the traditional pre-metric Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
+''' ),
+
     'nail' :
         RPNUnitInfo( 'length', 'nails', '', [ ], [ 'imperial' ],
                      '''
+from https://en.wikipedia.org/wiki/Nail_(unit):
+
+A nail, as a unit of cloth measurement, is generally a sixteenth of a yard or
+2​1⁄4 inches (5.715 cm).
 ''' ),
 
     'nautical_mile' :
         RPNUnitInfo( 'length', 'nautical_miles', '', [ ], [ 'nautical' ],
                      '''
+From https://en.wikipedia.org/wiki/Nautical_mile:
+
 A nautical mile is a unit of measurement used in both air and marine navigation,
 and for the definition of territorial waters.  Historically, it was defined as
 one minute (1/60 of a degree) of latitude along any line of longitude.  Today
 the international nautical mile is defined as exactly 1852 metres.  This
 converts to about 1.15 imperial/US miles.  The derived unit of speed is the
 knot, one nautical mile per hour.
-
-Ref:  https://en.wikipedia.org/wiki/Nautical_mile
 ''' ),
 
     'palm' :
         RPNUnitInfo( 'length', 'palms', '', [ 'handbreadth', 'handbreadths', 'handsbreadth' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Palm_(unit)
+
 The palm is an obsolete anthropic unit of length, originally based on the width
 of the human palm and then variously standardized.  The same name is also used
 for a second, rather larger unit based on the length of the human hand.
@@ -2552,13 +2617,13 @@ about 75 mm or 3 inches.  The unit is attested as early as the reign of Djer,
 third pharaoh of the First Dynasty, and appears on many surviving cubit-rods.
 
 rpnChilada uses the definition of 3 inches for a palm.
-
-Ref:  https://en.wikipedia.org/wiki/Palm_(unit)
 ''' ),
 
     'parsec' :
         RPNUnitInfo( 'length', 'parsecs', 'pc', [ ], [ 'science' ],
                      '''
+From https://en.wikipedia.org/wiki/Parsec:
+
 The parsec (symbol: pc) is a unit of length used to measure large distances to
 astronomical objects outside the Solar System.  A parsec is defined as the
 distance at which one astronomical unit subtends an angle of one arcsecond,
@@ -2573,8 +2638,6 @@ bolometric magnitude scale, mentioned an existing explicit definition of the
 parsec as exactly 648000/pi astronomical units, or approximately
 3.08567758149137 x 10e16 metres (based on the IAU 2012 exact SI definition of the
 astronomical unit).
-
-Ref:  https://en.wikipedia.org/wiki/Parsec
 ''' ),
 
     'pica' :
@@ -2595,23 +2658,30 @@ Ref:  https://en.wikipedia.org/wiki/Parsec
     'pyad' :
         RPNUnitInfo( 'length', 'pyads', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The pyad, or quarter, is equivalent to 1/4 the length of the arshin, or yard, in
+the traditional pre-metric Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
+
 ''' ),
 
     'rack_unit' :
         RPNUnitInfo( 'length', 'rack_units', '', [ ], [ 'computers' ],
                      '''
+From https://en.wikipedia.org/wiki/Rack_unit:
+
 A rack unit (abbreviated U or RU) is a unit of measure defined as 44.50
 millimeters (1.752 in).  It is most frequently used as a measurement of the
 overall height of 19-inch and 23-inch rack frames, as well as the height of
 equipment that mounts in these frames, whereby the height of the frame or
 equipment is expressed as multiples of rack units.
-
-https://en.wikipedia.org/wiki/Rack_unit
 ''' ),
 
     'rod' :
         RPNUnitInfo( 'length', 'rods', '', [ 'pole', 'poles', 'perch', 'perches' ], [ 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Rod_(unit):
+
 The rod or perch or pole is a surveyor's tool and unit of length exactly equal
 to 5 1/2 yards, 16 1/2 feet, 1/320 of a statute mile, or one-fourth of a
 surveyor's chain (approximately 5.0292 meters).  The rod is useful as a unit of
@@ -2619,17 +2689,15 @@ length because whole number multiples of it can form one acre of square measure.
 The 'perfect acre' is a rectangular area of 43,560 square feet, bounded by sides
 of length 660 feet and 66 feet (220 yards and 22 yards) or, equivalently, 40
 rods and 4 rods.  An acre is therefore 160 square rods.
-
-Ref:  https://en.wikipedia.org/wiki/Rod_(unit)
 ''' ),
 
     'rope' :
         RPNUnitInfo( 'length', 'ropes', '', [ ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Rope_(unit):
+
 The Somerset rope was a former English unit used in drainage and hedging.  It
 was 20 feet (now precisely 6.096 m).
-
-Ref:  https://en.wikipedia.org/wiki/Rope_(unit)
 ''' ),
 
     'potrzebie' :
@@ -2655,17 +2723,21 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
     'sazhen' :
         RPNUnitInfo( 'length', 'sazhens', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The sahzen, or fathom is equivalent to 3 times the size of the arshin, or yard,
+in the traditional pre-metric Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'siriometer' :
         RPNUnitInfo( 'length', 'siriometers', '', [ ], [ 'science' ],  # proposed in 1911 by Cark V. L. Charlier
                      '''
+From https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siriometer:
+
 The siriometer is a rarely used astronomical measure equal to one million
 astronomical units, i.e., one million times the average distance between the
 Sun and Earth.  This distance is equal to about 15.8 light-years, 149.6 Pm or
 4.8 parsecs, and is about twice the distance from Earth to the star Sirius.
-
-https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siriometer
 ''' ),
 
     'skein' :
@@ -2676,6 +2748,8 @@ https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Siriometer
     'smoot' :
         RPNUnitInfo( 'length', 'smoots', '', [ ], [ 'humorous' ],
                      '''
+From https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Smoot:
+
 The Smoot is a unit of length, defined as the height in 1958 of Oliver R.
 Smoot, who later became the Chairman of the American National Standards
 Institute (ANSI), and then the president of the International Organization for
@@ -2684,8 +2758,6 @@ Bridge.  Canonically, and originally, in 1958 when Smoot was a Lambda Chi Alpha
 pledge at MIT (class of 1962), the bridge was measured to be 364.4 Smoots, plus
 or minus one ear, using Mr. Smoot himself as a ruler.  At the time, Smoot was 5
 feet, 7 inches, or 170 cm, tall.
-
-https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Smoot
 ''' ),
 
     'span' :
@@ -2721,54 +2793,65 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
     'vershok' :
         RPNUnitInfo( 'length', 'vershoks', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The liniya is 1/16 of the arshin, or yard, in the traditional pre-metric
+Russian system of measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'versta' :
         RPNUnitInfo( 'length', 'verstas', '', [ 'verst', 'versts' ], [ 'Russia', 'obsolete' ],
                      '''
+The versta, or turn (as in "turn of a plow", is equivalent to 1500 times the
+length of the arshin, or yard, in the traditional pre-metric Russian system of
+measurement.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'yard' :
         RPNUnitInfo( 'length', 'yards', 'yd', [ ], [ 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Yard:
+
 The yard (abbreviation: yd) is an English unit of length, in both the British
 imperial and US customary systems of measurement, that comprises 3 feet or 36
 inches.
 
 Since 1959 it is by international agreement standardized as exactly 0.9144
 meters.
-
-Ref:  https://en.wikipedia.org/wiki/Yard
 ''' ),
 
     # luminance
     'apostilb' :
         RPNUnitInfo( 'luminance', 'apostilbs', 'asb', [ 'blondel', 'blondels' ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Apostilb:
+
 The apostilb is an obsolete unit of luminance.  The SI unit of luminance is the
 candela per square metre (cd/m^2).  In 1942 Parry Moon proposed to rename the
 apostilb the blondel, after the French physicist Andre Blondel.
 
 One apostilb is equal to one candela per square centimeter.
-
-Ref:  https://en.wikipedia.org/wiki/Apostilb
 ''' ),
 
     'bril' :
         RPNUnitInfo( 'luminance', 'brils', '', [ ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Candela_per_square_metre:
+
 The bril is an old, non-SI, unit of luminance.  The SI unit of luminance is the
 candela per square meter.
 
 One bril is equal to 1/(10e7 * pi) candela per square meter, 10e-4 skots, 10e-11
 lamberts, and 10e-7 apotilbs.
-
-Ref:  https://en.wikipedia.org/wiki/Bril_(unit)
 ''' ),
 
     'candela/meter^2' :
         RPNUnitInfo( 'luminance', 'candela/meter^2', '', [ 'nit', 'nits' ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Candela_per_square_metre:
+
 The candela per square metre (symbol: cd/m^2) is the derived SI unit of
 luminance.  The unit is based on the candela, the SI unit of luminous intensity,
 and the square metre, the SI unit of area.  The nit (symbol: nt) is a non-SI
@@ -2780,8 +2863,6 @@ specify the brightness of a display device.  The sRGB spec for monitors targets
 80 cd/m^2.  Typically, calibrated monitors should have a brightness of 120
 cd/m^2.  Most consumer desktop liquid crystal displays have luminances of 200 to
 300 cd/m^2.  HDR televisions range from 450 to about 1500 cd/m^2.
-
-Ref:  https://en.wikipedia.org/wiki/Candela_per_square_metre
 ''' ),
 
     'footlambert' :
@@ -2795,18 +2876,20 @@ Ref:  https://en.wikipedia.org/wiki/Candela_per_square_metre
 ''' ),
 
     'skot' :
-        RPNUnitInfo( 'luminance', 'skots', '', [ ], [ 'obsolete' ],
+        RPNUnitInfo( 'luminance', 'skots', 'sk', [ ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Skot_(unit):
+
 Skot (symbol: sk) is an old and deprecated measurement unit of luminance, used
 for self-luminous objects (dark luminance).  One skot is equal to 10e-7
 lamberts, 1-^-3 apostilbs, and 10e4 brils.
-
-Ref:  https://en.wikipedia.org/wiki/Skot_(unit)
 ''' ),
 
     'stilb' :
         RPNUnitInfo( 'luminance', 'stilbs', 'sb', [ ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Stilb_(unit):
+
 The stilb (sb) is the CGS unit of luminance for objects that are not
 self-luminous.  It is equal to one candela per square centimeter or 104 nits
 (candelas per square meter).  The name was coined by the French physicist Andre
@@ -2818,14 +2901,14 @@ self-explanatory terms such as candle per square inch and candle per square
 meter were more common.  The unit has since largely been replaced by the SI
 unit: candela per square meter.  The current national standard for SI in the
 United States discourages the use of the stilb.
-
-Ref:  https://en.wikipedia.org/wiki/Stilb_(unit)
 ''' ),
 
     # luminous_flux
     'lumen' :
         RPNUnitInfo( 'luminous_flux', 'lumens', 'lm', [ ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Lumen_(unit):
+
 The lumen (symbol: lm) is the SI derived unit of luminous flux, a measure of
 the total quantity of visible light emitted by a source per unit of time.
 Luminous flux differs from power (radiant flux) in that radiant flux includes
@@ -2833,8 +2916,6 @@ all electromagnetic waves emitted, while luminous flux is weighted according
 to a model (a "luminosity function") of the human eye's sensitivity to various
 wavelengths.  Lumens are related to lux in that one lux is one lumen per square
 meter.
-
-Ref:  https://en.wikipedia.org/wiki/Lumen_(unit)
 ''' ),
 
     'candela*radian^2' :
@@ -2849,6 +2930,8 @@ candela * radian^2 / meter^2.
         RPNUnitInfo( 'luminous_intensity', 'candelas', 'cd',
                      [ 'candle', 'candles', 'bougie', 'bougies' ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Candela:
+
 The candela (symbol: cd) is the base unit of luminous intensity in the
 International System of Units (SI); that is, luminous power per unit solid
 angle emitted by a point light source in a particular direction.  Luminous
@@ -2861,13 +2944,13 @@ roughly one candela.
 
 The word candela is Latin for candle.  The old name "candle" is still sometimes
 used, as in foot-candle and the modern definition of candlepower.
-
-Ref:  https://en.wikipedia.org/wiki/Candela
 ''' ),
 
     'hefnerkerze' :
         RPNUnitInfo( 'luminous_intensity', 'hefnerkerze', 'HK', [ ], [ 'obsolete', 'Germany' ],
                      '''
+From https://en.wikipedia.org/wiki/Hefner_lamp:
+
 The Hefner lamp, or in German Hefnerkerze, is a flame lamp used in photometry
 that burns amyl acetate.
 
@@ -2888,8 +2971,6 @@ from 1948.  The HK unit is still used as a measure of the intensity of kerosene
 pressure lamps in Germany.
 
 1 Hefnerkerze is about 0.920 candela.
-
-Ref:  https://en.wikipedia.org/wiki/Hefner_lamp
 ''' ),
 
     # magnetic_field_strength
@@ -2902,11 +2983,11 @@ Ampere/meter is the SI unit used for measuring meagnetic field strength.
     'oersted' :
         RPNUnitInfo( 'magnetic_field_strength', 'oersted', 'Oe', [ ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Oersted:
+
 The oersted (symbol Oe) is the unit of the auxiliary magnetic field H in the
 centimetre–gram–second system of units (CGS).  It is equivalent to 1 dyne per
 maxwell.
-
-Ref:  https://en.wikipedia.org/wiki/Oersted
 ''' ),
 
     # magnetic_flux
@@ -2920,6 +3001,8 @@ representation of magnetic flux.
     'maxwell' :
         RPNUnitInfo( 'magnetic_flux', 'maxwells', 'Mx', [ 'line', 'lines' ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Maxwell_%28unit%29:
+
 The unit name honours James Clerk Maxwell, who presented a unified theory of
 electromagnetism.  The maxwell was recommended as a CGS unit at the
 International Electrical Congress held in 1900 at Paris.  This practical unit
@@ -2928,8 +3011,6 @@ field as curved lines of magnetic force, which he designated as line of magnetic
 induction.  Kiloline (10e3 line) and megaline (10e6 line) were sometimes used
 because 1 line was very small relative to the phenomena that it was used to
 measure.
-
-Ref:  https://en.wikipedia.org/wiki/Maxwell_%28unit%29
 ''' ),
 
     'unit_pole' :
@@ -2945,6 +3026,8 @@ Ref:  https://www.dictionary.com/browse/unit-magnetic-pole
     'weber' :
         RPNUnitInfo( 'magnetic_flux', 'webers', 'Wb', [ 'promaxwell', 'promaxwells' ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Weber_(unit):
+
 In physics, the weber (symbol: Wb) is the SI derived unit of magnetic flux.  A
 flux density of one Wb/m2 (one weber per square metre) is one tesla.
 
@@ -2955,8 +3038,6 @@ magnetic flux through a loop to the electric field around the loop.  A change
 in flux of one weber per second will induce an electromotive force of one volt
 (produce an electric potential difference of one volt across two open-circuited
 terminals).
-
-Ref:  https://en.wikipedia.org/wiki/Weber_(unit)
 ''' ),
 
     # magnetic_flux_density
@@ -2975,6 +3056,8 @@ representation of magnetic flux density.
     'tesla' :
         RPNUnitInfo( 'magnetic_flux_density', 'teslas', 'T', [ ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Tesla_(unit):
+
 The tesla (symbol: T) is a derived unit of the magnetic induction (also,
 magnetic flux density) in the International System of Units.
 
@@ -2982,8 +3065,6 @@ One tesla is equal to one weber per square metre.  The unit was announced
 during the General Conference on Weights and Measures in 1960 and is named in
 honour of Nikola Tesla, upon the proposal of the Slovenian electrical engineer
 France Avcin.
-
-Ref:  https://en.wikipedia.org/wiki/Tesla_(unit)
 ''' ),
 
     # mass
@@ -2998,12 +3079,12 @@ https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
     'blintz' :
         RPNUnitInfo( 'mass', 'blintzes', 'bl', [ ], [ 'Potrzebie', 'humorous' ],
                      '''
-A blintz is a unit of mass in the Potrzebie system of measurements that is
+A blintz is a unit of mass in the Potrzebie system of measurement that is
 equal to the mass of one ngogn of halavah, which works out to approximately
 36.4 grams.
 
-The Potrzebie system is included in rpn as a tribute to both Donald Knuth and
-Mad Magazine.
+The Potrzebie system is included in rpnChilada as a tribute to both Donald Knuth
+and Mad Magazine.
 
 Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
 
@@ -3018,6 +3099,8 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
         RPNUnitInfo( 'mass', 'x chandrasekhar_limit', '',
                      [ 'chandrasekhar', 'chandrasekhars' ], [ 'science' ],
                      '''
+From https://en.wikipedia.org/wiki/Atomic_mass_unit:
+
 The Chandrasekhar limit is the maximum mass of a stable white dwarf star.  The
 currently accepted value of the Chandrasekhar limit is about 1.4 times the mass
 of Earth (2.765 x 10e30 kg).
@@ -3036,13 +3119,13 @@ who improved upon the accuracy of the calculation in 1930, at the age of 20, in
 India by calculating the limit for a polytrope model of a star in hydrostatic
 equilibrium, and comparing his limit to the earlier limit found by E. C. Stoner
 for a uniform density star.
-
-https://en.wikipedia.org/wiki/Chandrasekhar_limit
 ''' ),
 
     'dalton' :
         RPNUnitInfo( 'mass', 'daltons', '', [ 'amu', 'atomic_mass_unit' ], [ 'science' ],
                      '''
+From https://en.wikipedia.org/wiki/Atomic_mass_unit:
+
 The dalton or unified atomic mass unit (SI symbols: Da or u) is a unit of mass
 widely used in physics and chemistry.  It is defined precisely as 1/12 of the
 mass of an unbound neutral atom of carbon-12 in its nuclear and electronic
@@ -3058,23 +3141,47 @@ definition of the kilogram was changed too.  As a consequence, the molar mass
 constant is no longer exactly 1 g/mol, meaning that the number of grams in the
 mass of one mole of any substance is no longer exactly equal to the number of
 daltons in its molecular mass.
-
-Ref:  https://en.wikipedia.org/wiki/Atomic_mass_unit
 ''' ),
 
     'dolya' :
         RPNUnitInfo( 'mass', 'dolyas', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Weight/mass:
+
+The dolya is a traditional Russian unit of weight and is equal to 1/9216th of
+the funt (the Russian version of the pound).
+
+This is 1/96th of 1/96th of the funt.
 ''' ),
 
     'doppelzentner' :
         RPNUnitInfo( 'mass', 'doppelzentners', '', [ ], [ 'Germany' ],
                      '''
+From https://en.wikipedia.org/wiki/Zentner:
+
+The zentner (German Zentner, from Latin centenarius, derived from centum meaning
+"hundred") is an obsolete name for a unit of mass which was used predominantly
+in Germany, Austria, and Switzerland,
+
+Like the notion of hundredweight, the zentner is the weight of 100 units, where
+the value of the unit depends on the time and location.  Traditionally the unit
+was one hundred pounds (German Pfund) with the precise value being
+context-dependent, making one zentner equal to about 50 kilograms.
+
+In later times, with the adoption of the metric system, the value came to denote
+exactly 50 kg, at least in Germany; in Austria and Switzerland the term is now
+in use for a measure of 100 kg, as it is in Russia (tsentner).  In Germany a
+measure of 100 kg is named a Doppelzentner.
 ''' ),
 
     'esterling' :
         RPNUnitInfo( 'mass', 'esterlings', '', [ ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Esterling:
+
+The esterling is an obsolete Belgian unit of mass.
+
+rpnChilada defines it in terms of the modern ounce.
 ''' ),
 
     'farshimmelt_blintz' :
@@ -3127,11 +3234,22 @@ Ref:  https://en.wiktionary.org/wiki/furshlugginer
     'grain' :
         RPNUnitInfo( 'mass', 'grains', 'gr', [ ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Grain_(unit):
+
+A grain is a unit of measurement of mass, and in the troy weight, avoirdupois,
+and Apothecaries' system, equal to exactly 64.79891 milligrams.  It is nominally
+based upon the mass of a single virtual ideal seed of a cereal.
+
+The grain was the legal foundation of traditional English weight systems, and is
+the only unit that is equal throughout the troy, avoirdupois, and apothecaries'
+systems of mass.
 ''' ),
 
     'gram' :
         RPNUnitInfo( 'mass', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Gram:
+
 The gram (alternative spelling: gramme; SI unit symbol: g; Latin: gramma, from
 Greek gramma) is a metric system unit of mass.
 
@@ -3140,8 +3258,6 @@ the cube of the hundredth part of a metre [1 cm^3], and at the temperature of
 melting ice" (later at 4 degrees C, the temperature of maximum density of
 water).  However, in a reversal of reference and defined units, a gram is now
 defined as one thousandth of the SI base unit, the kilogram, or 1 x 10e-3 kg.
-
-Ref:  https://en.wikipedia.org/wiki/Gram
 ''' ),
 
     # hyl, metric_slug, technical_mass_unit, technische_masseseinheit, 9.80665 kg
@@ -3160,21 +3276,25 @@ This conversion is required to do mass-energy equivalence calculations.
     'lot' :
         RPNUnitInfo( 'mass', 'lots', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Lot_(unit):
+
 A lot is an old unit of weight used in many European countries since the
 Middle Ages until the beginning of the 20th century.  Most often it was
 defined as either ​1⁄30 or ​1⁄32 of a pound (or more precisely of whatever
 mass value one local pound had at the time). Recorded values range from
 10 to 50 grams.
 
-rpnChilada sets the value of the lot to be 1/32 of the funt.
+rpnChilada sets the value of the lot to be 1/32 of the funt, which the
+traditional Russian definition of the lot.
 
-https://en.wikipedia.org/wiki/Lot_(unit)
-https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement
 ''' ),
 
     'ounce' :
         RPNUnitInfo( 'mass', 'ounces', 'oz', [ ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Ounce:
+
 The ounce (abbreviated oz) is a unit of mass, weight, or volume used in most
 British derived customary systems of measurement.  The common avoirdupois ounce
 (approximately 28.3 g) is 1/16 of a common avoirdupois pound; this is the
@@ -3182,38 +3302,45 @@ United States customary and British imperial ounce.  It is primarily used in
 the United States to measure packaged foods and food portions, postal items,
 areal density of fabric and paper, boxing gloves, and so on; but sometimes also
 elsewhere in the Anglosphere.
-
-Ref:  https://en.wikipedia.org/wiki/Ounce
 ''' ),
 
     'pennyweight' :
         RPNUnitInfo( 'mass', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ],
                      '''
+From https://en.wikipedia.org/wiki/Pennyweight:
+
 A pennyweight (abbreviated dwt, d being the symbol of an old British penny) is a
 unit of mass that is equal to 24 grains, 1/20 of a troy ounce, 1/240 of a troy
 pound, approximately 0.054857 avoirdupois ounce and exactly 1.55517384 grams.
-
-Ref:  https://en.wikipedia.org/wiki/Pennyweight
 ''' ),
 
     'pfund' :
         RPNUnitInfo( 'mass', 'pfunds', '', [ ], [ 'Germany' ],
                      '''
+From https://en.wikipedia.org/wiki/Pound_(mass)#German_and_Austrian_Pfund:
+
+Originally derived from the Roman libra, the definition varied throughout
+Germany in the Middle Ages and onward.
+
+Nowadays, the term Pfund is sometimes still in use and universally refers to a
+pound of 500 grams.
 ''' ),
 
     'pood' :
         RPNUnitInfo( 'mass', 'pudi', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
-Pood is a unit of mass equal to 40 funt.  Plural: pudi or pudy.  Since 1899 it
+From https://en.wikipedia.org/wiki/Pood:
+
+Pood is a unit of mass equal to 40 funts.  Plural: pudi or pudy.  Since 1899 it
 is approximately set to 16.38 kilograms (36.11 pounds).  It was used in
 Russia, Belarus, and Ukraine.
-
-https://en.wikipedia.org/wiki/Pood
 ''' ),
 
     'pound' :
         RPNUnitInfo( 'mass', 'pounds', 'lb', [ ], [ 'U.S.', 'traditional', 'FPS' ],
                      '''
+From https://en.wikipedia.org/wiki/Pound_(mass):
+
 The pound or pound-mass is a unit of mass used in the imperial, United States
 customary and other systems of measurement.  Various definitions have been
 used; the most common today is the international avoirdupois pound, which is
@@ -3224,13 +3351,13 @@ pound is lb;[2] an alternative symbol is lbm (for most pound definitions).
 Usage of the unqualified term pound reflects the historical conflation of mass
 and weight.  This accounts for the modern distinguishing terms pound-mass and
 pound-force.
-
-Ref:  https://en.wikipedia.org/wiki/Pound_(mass)
 ''' ),
 
     'quintal' :
         RPNUnitInfo( 'mass', 'quintals', 'q', [ 'centner', 'centners' ], [ ],
                      '''
+From https://en.wikipedia.org/wiki/Quintal:
+
 The quintal or centner is a historical unit of mass in many countries which is
 usually defined as 100 base units, such as pounds or kilograms.  It is a
 traditional unit of weight in France, Portugal, and Spain and their former
@@ -3239,25 +3366,25 @@ where 1 quintal = 100 kg.
 
 In British English, it referred to the hundredweight; in American English, it
 formerly referred to an uncommon measure of 100 kilograms.
-
-Ref:  https://en.wikipedia.org/wiki/Quintal
 ''' ),
 
     'slinch' :
         RPNUnitInfo( 'mass', 'slinches', '', [ 'mug', 'mugs', 'snail', 'snails' ], [ 'NASA' ],
                      '''
+From https://en.wikipedia.org/wiki/Slug_(unit):
+
 The blob is the inch version of the slug (1 blob is equal to 1 lbf * s^2 / in,
 or 12 slugs) or equivalent to 386.0886 pounds (175.1268 kg).  This unit is also
 called slinch (a portmanteau of the words slug and inch).  Similar terms include
 slugette and snail.
-
-Ref:  https://en.wikipedia.org/wiki/Slug_(unit)
 ''' ),
 
     'slug' :
         RPNUnitInfo( 'mass', 'slugs', '',
                      [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
                      '''
+From  https://en.wikipedia.org/wiki/Slug_(unit):
+
 The slug is a derived unit of mass in a weight-based system of measures, most
 notably within the British Imperial measurement system and in the United States
 customary measures system.  Systems of measure either define mass and derive a
@@ -3269,28 +3396,30 @@ One slug has a mass of 32.1740 lb (14.59390 kg) based on standard gravity, the
 international foot, and the avoirdupois pound.  At the Earth's surface, an
 object with a mass of 1 slug exerts a force downward of approximately 32.2 lbf
 or 143 N.
-
-Ref:  https://en.wikipedia.org/wiki/Slug_(unit)
 ''' ),
 
     'stone' :
         RPNUnitInfo( 'mass', 'stones', '', [ ], [ 'traditional', 'England' ],
                      '''
+From https://en.wikipedia.org/wiki/Stone_(unit):
+
 The stone or stone weight is an English and imperial unit of weight now equal
 to 14 pounds.
-
-Ref:  https://en.wikipedia.org/wiki/Stone_(unit)
 ''' ),
 
     'stone_us' :
         RPNUnitInfo( 'mass', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Stone_(unit):
+
 The U.S. version of the stone or stone weight is equivalent to 12.5 pounds.
 ''' ),
 
     'ton' :
         RPNUnitInfo( 'mass', 'tons', '', [ ], [ 'traditional', 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Ton:
+
 The ton is a unit of measure.  It has a long history and has acquired a number
 of meanings and uses over the years.  It is used principally as a unit of mass.
 Its original use as a measurement of volume has continued in the capacity of
@@ -3298,31 +3427,48 @@ cargo ships and in terms such as the freight ton.  It can also be used as a
 measure of energy, for truck classification, or as a colloquial term.
 
 In the United States and Canada a ton is defined to be 2,000 pounds (907 kg).
-
-Ref:  https://en.wikipedia.org/wiki/Ton
 ''' ),
 
     'tonne' :
         RPNUnitInfo( 'mass', 'tonnes', 't', [ 'metric_ton', 'metric_tons' ], [ 'MTS' ],
                      '''
+From https://en.wikipedia.org/wiki/Tonne:
+
 The tonne (non-SI unit, symbol: t), commonly referred to as the metric ton in
 the United States and Canada, is a non-SI metric unit of mass equal to 1,000
 kilograms or one megagram (symbol: Mg).  It is equivalent to approximately
 2,204.6 pounds, 1.102 short tons (US) or 0.984 long tons (UK).  Although not
 part of the SI, the tonne is accepted for use with SI units and prefixes by
 the International Committee for Weights and Measures.
-
-Ref:  https://en.wikipedia.org/wiki/Tonne
 ''' ),
 
     'troy_ounce' :
-        RPNUnitInfo( 'mass', 'troy_ounces', 'toz', [ ], [ 'traditional' ],
+        RPNUnitInfo( 'mass', 'troy_ounces', 'ozt', [ ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Troy_weight:
+
+Troy weight is a system of units of mass that originated in 15th-century
+England, and is primarily used in the precious metals industry.  The Troy
+weights are the grain, the pennyweight (24 grains), the troy ounce (20
+pennyweights), and the troy pound (12 troy ounces).
+
+Because of the International yard and pound agreement, one troy ounce (oz t)
+equals exactly 31.103 476 8 grams.  It also equals 1.09714286 avoirdupois
+ounces, or exactly ​192⁄175, about 10% larger.
 ''' ),
 
     'troy_pound' :
         RPNUnitInfo( 'mass', 'troy_pounds', '', [ ], [ 'traditional'  ],
                      '''
+From https://en.wikipedia.org/wiki/Troy_weight:
+
+Troy weight is a system of units of mass that originated in 15th-century
+England, and is primarily used in the precious metals industry.  The Troy
+weights are the grain, the pennyweight (24 grains), the troy ounce (20
+pennyweights), and the troy pound (12 troy ounces).
+
+The troy pound is 5760 grains (approx. 373.24 g, 12 oz t), while an avoirdupois
+pound is approximately 21.53% heavier at 7000 grains (approx. 453.59 g).
 ''' ),
 
     'wey' :
@@ -3333,6 +3479,8 @@ Ref:  https://en.wikipedia.org/wiki/Tonne
     'zentner' :
         RPNUnitInfo( 'mass', 'zentners', '', [ ], [ 'Germany' ],
                      '''
+From https://en.wikipedia.org/wiki/Zentner:
+
 The zentner (German Zentner, from Latin centenarius, derived from centum
 meaning "hundred") is an obsolete name for a unit of mass which was used
 predominantly in Germany, Austria, and Switzerland, although it was also
@@ -3345,13 +3493,13 @@ on the time and location.  Traditionally the unit was one hundred pounds
 context-dependent – making one zentner equal to about 50 kilograms.
 
 rpnChilada uses a value of 50 kilograms as the value for a zentner.
-
-https://en.wikipedia.org/wiki/Zentner
 ''' ),
 
     'zolotnik' :
         RPNUnitInfo( 'mass', 'zolotniks', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Zolotnik:
+
 A zolotnik (abbr.: zol.) was a small Russian unit of weight, equal to 0.1505
 avoirdupois ounces, or 4.2658 grams (about 65.83 grains).  Used from the 10th
 to 20th centuries, its name is derived from the Russian word zoloto, meaning
@@ -3361,8 +3509,6 @@ as the troy ounce is currently used for gold and other precious metals.
 This unit was originally based on a coin of the same name.  The zolotnik
 circulated in the Kievan Rus until the 11th century; it was equal in weight to
 the Byzantine Empire's solidus.
-
-https://en.wikipedia.org/wiki/Zolotnik
 ''' ),
 
     # power
@@ -3474,6 +3620,46 @@ representation of pressure.
     'torr' :
         RPNUnitInfo( 'pressure', 'torr', '', [ ], [ ],
                      '''
+''' ),
+
+    # radioactivity
+    'becquerel' :
+        RPNUnitInfo( 'radioactivity', 'becquerels', 'Bq', [ ], [ 'SI' ],
+                     '''
+From https://en.wikipedia.org/wiki/Becquerel:
+
+The becquerel (symbol: Bq) is the SI derived unit of radioactivity.  One
+becquerel is defined as the activity of a quantity of radioactive material in
+which one nucleus decays per second.  For applications relating to human health
+this is a small quantity, and SI multiples of the unit are commonly used.
+''' ),
+
+    'curie' :
+        RPNUnitInfo( 'frequeradioactivityncy', 'curies', 'Ci', [ ], [ 'obsolete' ],
+                     '''
+From https://en.wikipedia.org/wiki/Curie_(unit):
+
+The curie (symbol Ci) is a non-SI unit of radioactivity originally defined in
+1910.  According to a notice in Nature at the time, it was named in honour of
+Pierre Curie, but was considered at least by some to be in honour of Marie Curie
+as well.
+
+It was originally defined as "the quantity or mass of radium emanation in
+equilibrium with one gram of radium (element)", but is currently defined as
+1 Ci = 3.7× * 10^10 decays per second after more accurate measurements of the
+activity of 226Ra (which has a specific activity of 3.66 * 10^10 Bq/g).
+''' ),
+
+    'rutherford' :
+        RPNUnitInfo( 'radioactivity', 'rutherfords', 'rd', [ ], [ 'obsolete' ],
+                     '''
+From https://en.wikipedia.org/wiki/Rutherford_(unit):
+
+The rutherford (symbol Rd) is a non-SI unit of radioactive decay.  It is defined
+as the activity of a quantity of radioactive material in which one million
+nuclei decay per second.  It is therefore equivalent to one megabecquerel, and
+one becquerel equals one microrutherford.  One rutherford is equivalent to
+2.703 * 10^−5 curie.
 ''' ),
 
     # radiation_dose
@@ -3743,7 +3929,6 @@ The other time measurements are  power-of-10 ratios of the clarke.
 10 mingos make a cowznofski
 
 Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
-
 ''' ),
 
     'cowznofski' :
@@ -3784,7 +3969,7 @@ those locations that change from or to daylight saving time.
 Day can be defined as each of the twenty-four-hour periods, reckoned from one
 midnight to the next, into which a week, month, or year is divided, and
 corresponding to a rotation of the earth on its axis.  This is the definition
-that rpn uses for the 'day' unit.
+that rpnChilada uses for the 'day' unit.
 
 https://en.wikipedia.org/wiki/Day
 ''' ),
@@ -3812,6 +3997,15 @@ Ref:  https://en.wikipedia.org/wiki/Fortnight
     'gregorian_year' :
         RPNUnitInfo( 'time', 'gregorian_years', '', [ ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Year#Gregorian_calendar:
+
+The Gregorian calendar attempts to cause the northward equinox to fall on or
+shortly before March 21 and hence it follows the northward equinox year, or
+tropical year.  Because 97 out of 400 years are leap years, the mean length of
+the Gregorian calendar year is 365.2425 days; with a relative error below one
+ppm ( 8 * 10^−7) relative to the current length of the mean tropical year
+(365.24219 days) and even closer to the current March equinox year of 365.242374
+days that it aims to match.
 ''' ),
 
     'hour' :
@@ -3859,6 +4053,15 @@ Ref:  https://en.wikipedia.org/wiki/Jiffy_(time)
     'lustrum' :
         RPNUnitInfo( 'time', 'lustra', '', [ ], [ 'obsolete', 'years' ],
                      '''
+From https://en.wikipedia.org/wiki/Lustrum:
+
+The lustration was originally a sacrifice for expiation and purification offered
+by one of the censors in the name of the Roman people at the close of the taking
+of the census.  The sacrifice was often in the form of an animal sacrifice,
+known as a suovetaurilia.
+
+These censuses were taken at five-year intervals, thus a lustrum came to refer
+to the five-year inter-census period.
 ''' ),
 
     'martin' :
@@ -3926,9 +4129,9 @@ Ref:  https://en.wikipedia.org/wiki/Potrzebie,
     'minute' :
         RPNUnitInfo( 'time', 'minutes', '', [ ], [ 'traditional' ],  # 'min' is already an operator
                      '''
-The minute is a unit of time or angle (the minute angle unit in rpn is the
-'arcminute').  As a unit of time, the minute is most of times equal to 1/60 of
-an hour, or 60 seconds.
+The minute is a unit of time or angle (the minute angle unit in rpnChilada is
+the 'arcminute').  As a unit of time, the minute is most of times equal to 1/60
+of an hour, or 60 seconds.
 
 Ref:  https://en.wikipedia.org/wiki/Minute
 ''' ),
@@ -4783,6 +4986,8 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
     'minim' :
         RPNUnitInfo( 'volume', 'minims', 'gtt', [ 'drop' ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Minim_(unit):
+
 The minim is a unit of volume in both the imperial and US customary systems of
 measurement.  Specifically it is ​1⁄60 of a fluid drachm or ​1⁄480 of a fluid
 ounce.  In the Pharmacopoeia, it is also noted that the minim was originally
@@ -4793,8 +4998,6 @@ adoption of the metric system, and even in the least metricated countries,
 pharmacy is largely metricated and the apothecaries' system is deprecated.  The
 unit may rarely persist in some countries in the measurement of dosages of
 medicine.
-
-Ref:  https://en.wikipedia.org/wiki/Minim_(unit)
 ''' ),
 
     'nebuchadnezzar' :
@@ -4818,8 +5021,8 @@ system is the potrzebie, which equals the thickness of Mad issue 26, or
 In the Potrzebie system, volume is measured in ngogn (equal to 1000 cubic
 potrzebies).  There are approximately 86.25 ngogns in a liter.
 
-The Potrzebie system is included in rpn as a tribute to both Donald Knuth and
-Mad Magazine.
+The Potrzebie system is included in rpnChilada as a tribute to both Donald Knuth
+and Mad Magazine.
 
 Ref:  https://en.wikipedia.org/wiki/Potrzebie#System_of_measurement
 ''' ),
@@ -4935,6 +5138,8 @@ Ref:  https://en.wikipedia.org/wiki/Tun_(unit)
     'quart' :
         RPNUnitInfo( 'volume', 'quarts', 'qt', [ ], [ 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Teaspoon:
+
 The quart (abbreviation qt.) is an English unit of volume equal to a quarter
 gallon.  It is divided into two pints or four cups.  Historically, the exact
 size of the quart has varied with the different values of gallons over time and
@@ -4944,8 +5149,6 @@ imperial quart of the British imperial system. All are roughly equal to one
 metric liter.
 
 In the U.S., the quart is defined to be 32 fluid ounces.
-
-Ref:  https://en.wikipedia.org/wiki/Quart
 ''' ),
 
     'rehoboam' :
@@ -5005,8 +5208,21 @@ Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Liquor_measurements
 ''' ),
 
     'spanish_almude' :
-        RPNUnitInfo( 'volume', 'spanish_almudes', '', [ ], [ 'Spain' ],
+        RPNUnitInfo( 'volume', 'spanish_almudes', '', [ 'almud', 'almuds' ], [ 'Spain' ],
                      '''
+From https://en.wikipedia.org/wiki/Almud:
+
+The almud is an obsolete unit of measurement of volume used in France, Spain and
+in parts of the Americas that were colonized by each country.  The word comes
+from the Latin "modius", "the (main) measure".  The exact value of the almud was
+different from region to region, and also varied according to the nature of the
+measured good.  In Portugal the name almude was used and their values were much
+larger than the Spanish ones.
+
+It was also used to name a given surface of land, said surface corresponding to
+how much could be seeded with the quantity of grain contained in an almud.
+
+rpnChilada uses the Iberian Spainsh definition of 4.625 liters.
 ''' ),
 
     'solomon' :
@@ -5040,6 +5256,13 @@ http://www.unc.edu/~rowlett/units/dictS.html
     'stere' :
         RPNUnitInfo( 'volume', 'steres', 'st', [ ], [ 'metric', 'obsolete' ],  # ... but not SI
                      '''
+From https://en.wikipedia.org/wiki/Stere:
+
+The stere (st) is a unit of volume in the original metric system equal to one
+cubic metre.  The name was coined from the Greek stereos, "solid", in 1793
+France as a metric analogue to the cord.  The stere is typically used for
+measuring large quantities of firewood or other cut wood, while the cubic meter
+is used for uncut wood.  It is not part of the modern metric system (SI).
 ''' ),
 
     'sydharb' :
@@ -5054,25 +5277,25 @@ https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Sydney_Harbou
     'tablespoon' :
         RPNUnitInfo( 'volume', 'tablespoons', 'tbsp', [ ], [ 'traditional', 'cooking' ],
                      '''
+From https://en.wikipedia.org/wiki/Teaspoon:
+
 A tablespoon is a large spoon used for serving or eating.
 
 By extension, the term is also used as a cooking measure of volume.  In this
 capacity, it is most commonly abbreviated tbsp, and occasionally referred to
 as a tablespoonful to distinguish it from the utensil.  A United States
 tablespoon is approximately 14.8 ml (0.50 U.S. fl oz).
-
-Ref:  https://en.wikipedia.org/wiki/Tablespoon
 ''' ),
 
     'teaspoon' :
         RPNUnitInfo( 'volume', 'teaspoons', 'tsp', [ ], [ 'traditional', 'cooking' ],
                      '''
+From https://en.wikipedia.org/wiki/Teaspoon:
+
 A teaspoon is an item of cutlery, a small spoon.
 
 By extension the term 'teaspoon' (usually abbreviated tsp.) is used as a
 cooking measure of volume, of approximately 5 ml.
-
-Ref:  https://en.wikipedia.org/wiki/Teaspoon
 ''' ),
 
     'tierce' :
@@ -5353,7 +5576,6 @@ unitConversionMatrix = {
     # pylint: disable=line-too-long
 
     # acceleration
-
     ( 'celo',                       'meter/second^2' )                      : mpmathify( '0.3048' ),
     ( 'galileo',                    'meter/second^2' )                      : mpmathify( '0.01' ),
     ( 'leo',                        'meter/second^2' )                      : mpmathify( '10' ),
@@ -5361,7 +5583,6 @@ unitConversionMatrix = {
     # amount_of_substance
 
     # angle
-
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'circle',                     'degree' )                              : mpmathify( '360' ),
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
@@ -5377,7 +5598,6 @@ unitConversionMatrix = {
     ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
 
     # area
-
     ( 'acre',                       'meter^2' )                             : mpmathify( '4046.8564224' ),  # exact!
     ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
     ( 'acre',                       'rood' )                                : mpmathify( '4' ),
@@ -5397,26 +5617,22 @@ unitConversionMatrix = {
     ( 'virgate',                    'bovate' )                              : mpmathify( '2' ),
 
     # capacitance
-
     ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
     ( 'farad',                      'ampere^2*second^4/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
     ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
 
     # catalysis
-
     ( 'katal',                      'enzyme_unit' )                         : mpmathify( '6.0e7' ),
     ( 'katal',                      'mole/second' )                         : mpmathify( '1' ),
 
     # charge
-
     ( 'abcoulomb',                  'coulomb' )                             : mpmathify( '10' ),
     ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
     ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
     ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
 
     # constant
-
     ( 'billion',                    'unity' )                               : mpmathify( '1.0e9' ),
     ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
     ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
@@ -5488,12 +5704,10 @@ unitConversionMatrix = {
     ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
 
     # current
-
     ( 'abampere',                   'ampere' )                              : mpmathify( '10' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
 
     # data_rate
-
     ( 'byte/second',                'bit/second' )                          : mpmathify( '8' ),
     ( 'oc1',                        'bit/second' )                          : mpmathify( '5.184e7' ),
     ( 'oc12',                       'oc1' )                                 : mpmathify( '12' ),
@@ -5512,19 +5726,16 @@ unitConversionMatrix = {
     # density
 
     # dynamic_viscosity
-
     ( 'poise',                      'kilogram/meter*second' )               : mpmathify( '0.1' ),
     ( 'reyn',                       'kilogram/meter*second' )               : mpmathify( '6894.75729' ),
 
     # electrical_conductance
-
     ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
     ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'statmho' )                             : mpmathify( '89875522.4015' ),
 
     # electrical_resistance
-
     ( 'ohm',                        '1/siemens' )                           : mpmathify( '1' ),
     ( 'ohm',                        'abohm' )                               : mpmathify( '1e9' ),
     ( 'ohm',                        'german_mile' )                         : mpmathify( '57.44' ),
@@ -5535,13 +5746,11 @@ unitConversionMatrix = {
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
 
     # electric_potential
-
     ( 'statvolt',                   'volt' )                                : fdiv( 299792458, 1000000 ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
     ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
 
     # energy
-
     ( 'btu',                        'joule' )                               : mpmathify( '1054.5' ),
     ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
     ( 'electron-volt',              'joule' )                               : mpmathify( '1.602176634e-19' ),
@@ -5560,7 +5769,6 @@ unitConversionMatrix = {
     ( 'ton_of_tnt',                 'pound_of_tnt' )                        : mpmathify( '2000' ),
 
     # force
-
     ( 'gram_force',                 'newton' )                              : mpmathify( '0.00980665' ),
     ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
     ( 'newton',                     'kilogram*meter/second^2' )             : mpmathify( '1' ),
@@ -5570,29 +5778,22 @@ unitConversionMatrix = {
     ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
 
     # frequency
-
-    ( 'curie',                      'becquerel' )                           : mpmathify( '3.7e10' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
-    ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
-    ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
 
     # illuminance
-
     ( 'candela*radian^2/meter^2',   'lumen/meter^2' )                       : mpmathify( '1' ),
-    ( 'flame',                      'lux' )                                 : mpmathify( '43.0556416668' ),
-    ( 'footcandle',                 'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ),  # rpn -a54 meter foot convert sqr value
+    ( 'flame',                      'foot-candle' )                         : mpmathify( '4' ),
+    ( 'foot-candle',                'lux' )                                 : mpmathify( '10.7639104167097223083335055559000006888902666694223868' ),  # rpn -a54 meter foot convert sqr value
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '10.7639104167' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
     ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
 
     # inductance
-
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                      'kilogram*meter^2/ampere^2*second^2' )  : mpmathify( '1' ),
     ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
 
     # information_entropy
-
     ( 'bit',                        'kilogram*meter^2/kelvin*second^2' )    : fmul( mpmathify( '1.38064852e-23' ), log( 2 ) ),
     ( 'bit',                        'nat' )                                 : log( 2 ),
     ( 'btupf',                      'joule/kelvin' )                        : mpmathify( '1899.100534716' ),
@@ -5611,13 +5812,11 @@ unitConversionMatrix = {
     ( 'word',                       'bit' )                                 : mpmathify( '16' ),
 
     # jerk
-
     ( 'stapp',                      'meter/second^3' )                      : mpmathify( '9.80665' ),
 
     # jounce
 
     # length
-
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
@@ -5626,8 +5825,9 @@ unitConversionMatrix = {
     ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
     ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
-    ( 'diuym',                      'inch' )                                : mpmathify( '1' ),
-    ( 'diuym',                      'liniya' )                              : mpmathify( '10' ),
+    ( 'arshin',                     'dyuym' )                               : mpmathify( '28' ),
+    ( 'dyuym',                      'liniya' )                              : mpmathify( '10' ),
+    ( 'dyuym',                      'inch' )                                : mpmathify( '1' ),
     ( 'ell',                        'inch' )                                : mpmathify( '45' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
     ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
@@ -5649,7 +5849,6 @@ unitConversionMatrix = {
     ( 'inch',                       'point' )                               : mpmathify( '72' ),
     ( 'inch',                       'twip' )                                : mpmathify( '1440' ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
-    ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
     ( 'league',                     'mile' )                                : mpmathify( '3' ),
     ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
     ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),    # seconds per Julian year (365.25 days)
@@ -5661,8 +5860,8 @@ unitConversionMatrix = {
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
     ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
-    ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
     ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
+    ( 'milya',                      'arshin' )                              : mpmathify( '10500' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'palm',                       'inch' )                                : mpmathify( '3' ),
@@ -5671,7 +5870,7 @@ unitConversionMatrix = {
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
     ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
     ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
-    ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
+    ( 'arshin',                     'vershok' )                             : mpmathify( '16' ),
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
@@ -5683,11 +5882,10 @@ unitConversionMatrix = {
     ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
     ( 'survey_acre',                'meter^2' )                             : fadd( 4046, fdiv( 13525426, 15499969 ) ),   # exact!
     ( 'survey_foot',                'meter' )                               : fdiv( 1200, 3937 ),
-    ( 'versta',                     'meter' )                               : mpmathify( '1066.8' ),
+    ( 'versta',                     'arshin' )                              : mpmathify( '1500' ),
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
 
     # luminance
-
     ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ),  # rpn -a54 meter foot convert sqr value pi /
     ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
     ( 'candela/meter^2',            'apostilb' )                            : pi,
@@ -5697,30 +5895,24 @@ unitConversionMatrix = {
     ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
 
     # luminous_flux
-
     ( 'lumen',                      'candela*radian^2' )                    : mpmathify( '1' ),
 
     # luminous_intensity
-
     ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
 
     # magnetic_field_strength
-
     ( 'oersted',                    'ampere/meter' )                        : mpmathify( '79.5774715' ),
 
     # 'magnetic_flux
-
     ( 'weber',                      'kilogram*meter^2/ampere*second^2' )    : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),
 
     # magnetic_flux_density
-
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
     ( 'tesla',                      'kilogram/ampere*second^2' )            : mpmathify( '1' ),
 
     # mass
-
     ( 'berkovets',                  'dolya' )                               : mpmathify( '3686400' ),
     ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
     ( 'blintz',                     'furshlugginer_blintz' )                : mpmathify( '1.0e-6' ),
@@ -5744,6 +5936,7 @@ unitConversionMatrix = {
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
     ( 'quintal',                    'gram' )                                : mpmathify( '100000' ),
+    ( 'sahzen',                     'arshin' )                              : mpmathify( '3' ),
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
     ( 'slug',                       'slinch' )                              : mpmathify( '12' ),
     ( 'stone',                      'pound' )                               : mpmathify( '14' ),
@@ -5759,7 +5952,6 @@ unitConversionMatrix = {
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
 
     # power
-
     ( 'decibel-watt',               'decibel-milliwatt' )                   : mpmathify( '30' ),
     ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
     ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
@@ -5768,7 +5960,6 @@ unitConversionMatrix = {
     ( 'watt',                       'kilogram*meter^2/second^3' )           : mpmathify( '1' ),
 
     # pressure
-
     ( 'atmosphere',                 'pascal' )                              : mpmathify( '101325' ),
     ( 'bar',                        'pascal' )                              : mpmathify( '1.0e5' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
@@ -5778,8 +5969,11 @@ unitConversionMatrix = {
     ( 'psi',                        'pascal' )                              : mpmathify( '6894.75728' ),      # approx.
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
 
-    # radiation_dose
+    # radioactivity
+    ( 'curie',                      'becquerel' )                           : mpmathify( '3.7e10' ),
+    ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
 
+    # radiation_dose
     ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
     ( 'gray',                       'meter^2/second^2' )                    : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
@@ -5787,14 +5981,12 @@ unitConversionMatrix = {
     ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
 
     # radiation_exposure
-
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
     ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
 
     # radiosity
 
     # solid_angle
-
     ( 'arcminute^2',                'arcsecond^2' )                         : mpmathify( '3600' ),
     ( 'degree^2',                   'arcminute^2' )                         : mpmathify( '3600' ),
     ( 'octant^2',                   'degree^2' )                            : mpmathify( '2025' ),
@@ -5808,14 +6000,12 @@ unitConversionMatrix = {
     ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
 
     # temperature
-
     ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
     ( 'celsius',                    'reaumur' )                             : fdiv( 4, 5 ),
     ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'reaumur',                    'degree_newton' )                       : fdiv( 33, 80 ),
 
     # time
-
     ( 'beat',                       'blink' )                               : mpmathify( '100' ),
     ( 'century',                    'microcentury' )                        : mpmathify( '1.0e6' ),
     ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
@@ -5856,7 +6046,6 @@ unitConversionMatrix = {
     # volume
 
     # volume - U.S. measures
-
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
     ( 'cup',                        'gill' )                                : mpmathify( '2' ),
@@ -5881,7 +6070,6 @@ unitConversionMatrix = {
     ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
 
     # volume - wine bottles
-
     ( 'balthazar',                  'wine_bottle' )                         : mpmathify( '16' ),
     ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
     ( 'goliath',                    'wine_bottle' )                         : mpmathify( '36' ),
@@ -5902,7 +6090,6 @@ unitConversionMatrix = {
     ( 'wine_bottle',                'piccolo' )                             : mpmathify( '4' ),
 
     # volume - wine
-
     ( 'tun',                        'butt' )                                : mpmathify( '2' ),
     ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
     ( 'tun',                        'puncheon' )                            : mpmathify( '3' ),
@@ -5912,7 +6099,6 @@ unitConversionMatrix = {
     ( 'tun',                        'wine_hogshead' )                       : mpmathify( '4' ),
 
     # volume - beer
-
     ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
     ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
     ( 'beer_keg',                   'pony_keg' )                            : mpmathify( '2' ),
@@ -5923,7 +6109,6 @@ unitConversionMatrix = {
     ( 'liter',                      'stein' )                               : mpmathify( '2' ),
 
     # volume - imperial
-
     ( 'bucket',                     'imperial_gallon' )                     : mpmathify( '4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
@@ -5943,18 +6128,15 @@ unitConversionMatrix = {
     ( 'pottle',                     'imperial_quart' )                      : mpmathify( '2' ),
 
     # volume - liquor
-
     ( 'jigger',                     'fluid_ounce' )                         : mpmathify( '1.5' ),
     ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
 
     # volume - Potrzebie
-
     ( 'liter',                      'ngogn' )                               : mpmathify( '86.2473382128925178993463552296954874904688556293757985' ),
     ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
     ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
 
     # volume - dry measure
-
     ( 'bushel',                     'dry_gallon' )                          : mpmathify( '8' ),
     ( 'bushel',                     'liter' )                               : mpmathify( '35.23907016688' ),  # exact!
     ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
@@ -5966,7 +6148,6 @@ unitConversionMatrix = {
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
 
     # volume - other
-
     ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
     ( 'grand_canyon',               'meter^3' )                             : mpmathify( '4.17e12' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
