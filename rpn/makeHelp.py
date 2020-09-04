@@ -53,7 +53,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2201
+MAX_EXAMPLE_COUNT = 2203
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -140,6 +140,9 @@ def makeCommandExample( command, indent=0, slow=False ):
 
 #    -e, --profile
 #        gather performance statistics
+#
+#    -o, --refresh_oeis_cache
+#        redownload content from the OEIS, since existing sequences are very occasionally updated
 #
 
 
@@ -1298,6 +1301,13 @@ I removed the 'cyclotomic' operator, since I don't understand it enough to
 explain what it does or why it's useful.  I'm just exposing an mpmath function.
 Some day I'll probably go through an expose all those mpmath functions that I
 haven't already.
+
+I removed 'planck_angular_frequency' since there is some confusion as to how it
+should be defined.   Plus, it isn't very interesting.
+(see https://chemphys.ca/pbunker/PlanckWiki.pdf)
+
+I removed the 'planck_pressure' operator since it was identical to the
+'planck_energy_density' operator.
 
 Removed a couple of unit types for which I could not find sufficient
 documentation.  In particular the Talk page on Wikipedia claims that a couple of
@@ -2535,8 +2545,8 @@ unlike the variance, it is expressed in the same units as the data.
 Ref:  https://en.wikipedia.org/wiki/Standard_deviation
 ''',
 '''
-''' + makeCommandExample( '10 50 random_integers stddev' ) + '''
-''' + makeCommandExample( '1 50 range count_div stddev' ),
+''' + makeCommandExample( '10 10000 random_integers stddev' ) + '''
+''' + makeCommandExample( '1 100 range count_divisors stddev' ),
 [ 'mean', 'agm', 'geometric_mean', 'root_mean_square' ] ],
 
     'subtract' : [
@@ -4849,6 +4859,10 @@ imaginary part with the same magnitude but opposite sign.
     'imaginary' : [
 'complex_math', 'returns the imaginary part of n',
 '''
+Complex numbers have a real component and an imaginary component.  Of course,
+either one of these components might be zero.
+
+This operator returns the imaginary component of a complex number.
 ''',
 '''
 ''' + makeCommandExample( '7 imaginary' ) + '''
@@ -4859,6 +4873,10 @@ imaginary part with the same magnitude but opposite sign.
     'real' : [
 'complex_math', 'returns the real part of n',
 '''
+Complex numbers have a real component and an imaginary component.  Of course,
+either one of these components might be zero.
+
+This operator returns the real component of a complex number.
 ''',
 '''
 ''' + makeCommandExample( '7 real' ) + '''
@@ -4981,8 +4999,8 @@ conjecture and did not accept his argument.
 In the late 1930s, the best experimental value of the fine-structure constant,
 a, was approximately 1/136.  Eddington then argued, from aesthetic and
 numerological considerations, that a should be exactly 1/136.  He devised a
-"proof" that NEdd = 136 x 2^256, or about 1.57 x 10e79.  Some estimates of NEdd
-point to a value of about 10e80.  These estimates assume that all matter can be
+"proof" that NEdd = 136 x 2^256, or about 1.57 x 1.0e79.  Some estimates of NEdd
+point to a value of about 1.0e80.  These estimates assume that all matter can be
 taken to be hydrogen and require assumed values for the number and size of
 galaxies and stars in the universe.
 
@@ -5235,10 +5253,8 @@ challenge of squaring the circle with a compass and straightedge.
     'planck_acceleration' : [
 'constants', 'returns the Planck acceleration',
 '''
-This is a derived constant calculated from the CODATA values for the Planck
-force and Planck mass.
-
-Ref:  https://www.physics.nist.gov/cgi-bin/cuu/Value?plkm
+This is a derived constant calculated by dividing the speed of light by the
+Planck length.
 ''',
 '''
 ''' + makeCommandExample( 'planck_acceleration' ),
@@ -5247,24 +5263,32 @@ Ref:  https://www.physics.nist.gov/cgi-bin/cuu/Value?plkm
     'planck_area' : [
 'constants', 'returns the Planck area',
 '''
-This is a derived constant calculated from the CODATA value for the Planck
-length.
+This is a derived constant calculated from squaring the Planck length to get an
+area.
 ''',
 '''
 ''' + makeCommandExample( 'planck_area' ),
 [ 'planck_length', 'planck_volume' ] ],
 
-    'planck_angular_frequency' : [
-'constants', 'returns the Planck angular frequency',
-'''
-''',
-'''
-''' + makeCommandExample( 'planck_angular_frequency' ),
-[ 'planck_time', 'planck_length' ] ],
-
     'planck_charge' : [
 'constants', 'returns the Planck charge',
 '''
+From https://en.wikipedia.org/wiki/Planck_charge:
+
+In physics, the Planck charge, denoted by qP, is one of the base units in the
+system of natural units called Planck units.  It is a quantity of electric
+charge defined in terms of fundamental physical constants.
+
+The Planck charge is the only base Planck unit that does not depend on the
+gravitational constant and is defined as:
+
+          ___________________________
+         /
+qP =    /  4 * pi * e_0 * h_bar * c
+      \\/
+
+where c is the speed of light in a vacuum, ħ_bar is the reduced Planck constant,
+and e_0 is the permittivity of free space.
 ''',
 '''
 ''' + makeCommandExample( 'planck_charge' ),
@@ -5273,6 +5297,8 @@ length.
     'planck_current' : [
 'constants', 'returns the Planck current',
 '''
+This is a derived constant calculated by dividing the Planck charge by the
+Planck time.
 ''',
 '''
 ''' + makeCommandExample( 'planck_current' ),
@@ -5281,10 +5307,8 @@ length.
     'planck_density' : [
 'constants', 'returns the Planck density',
 '''
-This is a derived constant calculated from the CODATA values for the Planck
-mass and Planck length.
-
-Ref:  CODATA 2014
+This is a derived constant calculated from the dividing the Planck mass by the
+Planck volume.
 ''',
 '''
 ''' + makeCommandExample( 'planck_density' ),
@@ -5293,8 +5317,8 @@ Ref:  CODATA 2014
     'planck_energy' : [
 'constants', 'returns the Planck energy',
 '''
-
-Ref:  CODATA 2014
+This is a derived constant calculated from the multiplying the Planck mass by
+the speed of light squared.
 ''',
 '''
 ''' + makeCommandExample( 'planck_energy' ),
@@ -5303,6 +5327,8 @@ Ref:  CODATA 2014
     'planck_energy_density' : [
 'constants', 'returns the Planck energy density',
 '''
+This is a derived constant calculated from the dividing the Planck energy by
+the Planck volume.
 ''',
 '''
 ''' + makeCommandExample( 'planck_energy_density' ),
@@ -5311,10 +5337,8 @@ Ref:  CODATA 2014
     'planck_force' : [
 'constants', 'returns the Planck force',
 '''
-This is a derived constant calculated from the CODATA values for the Planck
-mass, Planck length and Planck time.
-
-Ref:  CODATA 2014
+This is a derived constant calculated from the dividing the Planck energy by
+the Planck length.
 ''',
 '''
 ''' + makeCommandExample( 'planck_force' ),
@@ -5323,6 +5347,12 @@ Ref:  CODATA 2014
     'planck_impedance' : [
 'constants', 'returns the Planck impedance',
 '''
+From http://dictionary.sensagent.com/Planck%20impedance/en-en/:
+
+The Planck impedance is the unit of electrical resistance, denoted by ZP, in the
+system of natural units known as Planck units.  The Planck impedance is directly
+coupled to the impedance of free space, Z0, and differs in value from Z0 only by
+a factor of 4 pi.
 ''',
 '''
 ''' + makeCommandExample( 'planck_impedance' ),
@@ -5339,6 +5369,27 @@ Ref:  CODATA 2014
     'planck_length' : [
 'constants', 'returns the Planck length',
 '''
+From https://en.wikipedia.org/wiki/Planck_length:
+
+In physics, the Planck length, denoted lP, is a unit of length that is the
+distance light in a perfect vacuum travels in one unit of Planck time.  It is
+also the reduced Compton wavelength of a particle with Planck mass.  It is a
+base unit in the system of Planck units, developed by physicist Max Planck.  The
+Planck length can be defined from three fundamental physical constants:  the
+speed of light in a vacuum, the Planck constant, and the gravitational constant.
+It is the smallest distance about which current experimentally corroborated
+models of physics can make meaningful statements.  At such small distances, the
+conventional laws of macro-physics no longer apply, and even relativistic
+physics requires special treatment.
+
+It is defined as:
+          _______________
+         /   h_bar * G
+mP =    /    ---------
+      \\/        c^3
+
+where c is the speed of light in a vacuum, G is the gravitational constant, and
+ħ_bar is the reduced Planck constant.
 ''',
 '''
 ''' + makeCommandExample( 'planck_length' ),
@@ -5347,14 +5398,38 @@ Ref:  CODATA 2014
     'planck_mass' : [
 'constants', 'returns the Planck mass',
 '''
+From https://en.wikipedia.org/wiki/Planck_mass:
+
+In physics, the Planck mass, denoted by mP, is the unit of mass in the system of
+natural units known as Planck units.  It is approximately 21 micrograms, or
+roughly the mass of a flea egg.
+
+Unlike some other Planck units, such as Planck length, Planck mass is not a
+fundamental lower or upper bound; instead, Planck mass is a unit of mass defined
+using only what Max Planck considered fundamental and universal units.  For
+comparison, this value is of the order of 10^15 (a quadrillion) times larger
+than the highest energy available to particle accelerators as of 2015.
+
+It is defined as:
+          _______________
+         /   h_bar * c
+mP =    /    ---------
+      \\/         G
+
+where c is the speed of light in a vacuum, G is the gravitational constant, and
+ħ_bar is the reduced Planck constant.
 ''',
 '''
-''' + makeCommandExample( 'planck_mass' ),
+''' + makeCommandExample( 'planck_mass' ) + '''
+''' + makeCommandExample( 'planck_mass energy_equivalence GeV convert' ) + '''
+''' + makeCommandExample( 'planck_mass daltons convert' ),
 [ 'planck_force', 'planck_acceleration' ] ],
 
     'planck_momentum' : [
 'constants', 'returns the Planck momentum',
 '''
+This is a derived constant calculated from the multiplying the Planck mass by
+the speed of light.
 ''',
 '''
 ''' + makeCommandExample( 'planck_momentum' ),
@@ -5363,22 +5438,34 @@ Ref:  CODATA 2014
     'planck_power' : [
 'constants', 'returns the Planck power',
 '''
+This is a derived constant calculated from the dividing the Planck energy by
+the Planck time.
 ''',
 '''
 ''' + makeCommandExample( 'planck_power' ),
 [ 'planck_force', 'planck_energy' ] ],
 
-    'planck_pressure' : [
-'constants', 'returns the Planck pressure',
-'''
-''',
-'''
-''' + makeCommandExample( 'planck_pressure' ),
-[ 'planck_force', 'planck_volume' ] ],
-
     'planck_temperature' : [
 'constants', 'returns the Planck temperature',
 '''
+From https://en.wikipedia.org/wiki/Planck_units#Planck_temperature:
+
+The Planck temperature of 1 (unity), equal to 1.416785(16) * 1.0e32 K, is
+considered a fundamental limit of temperature.  An object with the temperature
+of 1.42 * 1.0e32 kelvin (TP) would emit a black body radiation with a peak
+wavelength of 1.616 * 1.0e−35 m (Planck length), where each photon and each
+individual collision would have the energy to create a Planck particle.  There
+are no known physical models able to describe temperatures greater than or equal
+to TP.
+
+It is defined as:
+          _______________
+         /  h_bar * c^5
+mP =    /   -----------
+      \\/   G * k_sub_b^2
+
+where c is the speed of light in a vacuum, G is the gravitational constant, and
+ħ_bar is the reduced Planck constant, and k_sub_b is Boltzmann's constant.
 ''',
 '''
 ''' + makeCommandExample( 'planck_temperature' ),
@@ -5387,6 +5474,25 @@ Ref:  CODATA 2014
     'planck_time' : [
 'constants', 'returns Planck time',
 '''
+From https://en.wikipedia.org/wiki/Planck_units#Planck_time:
+
+A Planck time unit is the time required for light to travel a distance of 1
+Planck length in a vacuum, which is a time interval of approximately 5.39 *
+1.0e−44 s.  All scientific experiments and human experiences occur over time
+scales that are many orders of magnitude longer than the Planck time, making any
+events happening at the Planck scale undetectable with current scientific
+technology.  As of November 2016, the smallest time interval uncertainty in
+direct measurements was on the order of 850 zeptoseconds (8.50 × 1.0e−19
+seconds).
+
+It is defined as:
+          _______________
+         /   h_bar * G
+tP =    /    ---------
+      \\/        c^5
+
+where c is the speed of light in a vacuum, G is the gravitational constant, and
+ħ_bar is the reduced Planck constant.
 ''',
 '''
 ''' + makeCommandExample( 'planck_time' ),
@@ -5395,6 +5501,8 @@ Ref:  CODATA 2014
     'planck_voltage' : [
 'constants', 'returns the Planck voltage',
 '''
+This is a derived constant calculated from the dividing the Planck mass by
+the Planck charge.
 ''',
 '''
 ''' + makeCommandExample( 'planck_voltage' ),
@@ -5403,10 +5511,8 @@ Ref:  CODATA 2014
     'planck_volume' : [
 'constants', 'returns the Planck volume',
 '''
-This is a derived constant calculated from the CODATA value for the Planck
-length.
-
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
+This is a derived constant calculated from cubing the Planck length to get a
+volume.
 ''',
 '''
 ''' + makeCommandExample( 'planck_volume' ),
@@ -7975,24 +8081,30 @@ then the second operand list.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '6 10 range 1 enumerate' ) + '''
+''' + makeCommandExample( '6 10 range 1 enumerate collate' ),
 [ 'flatten', 'group_elements', 'interleave' ] ],
 
     'compare_lists' : [
 'list_operators', 'compares lists n and k',
 '''
+This operator compares lists n and k, and returns 1 if they are the same, and 0
+if they are not.
+
 'is_equal' is not a list operator, so it will only compare elements of two
-lists up to the length of the shorter of the two lists.
+lists up to the length of the shorter of the two lists.  'compare_lists' will
+compare them fully.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] 1 4 range compare_lists' ) + '''
+''' + makeCommandExample( '1 3 range 1 4 range is_equal' ) + '''
 ''' + makeCommandExample( '1 3 range 1 4 range compare_lists' ),
 [ 'append' ] ],
 
     'count' : [
 'list_operators', 'counts the elements of list n',
 '''
-This simply counts the number of elements in the list.
+This operator simply counts the number of elements in the list.
 ''',
 '''
 ''' + makeCommandExample( '1 100 range count' ),
@@ -9003,7 +9115,7 @@ continuing until k numbers are generated, or a repeat occurs.
 [ 'aliquot_limit', 'collatz' ] ],
 
     'aliquot_limit' : [
-'number_theory', 'returns the members of the aliquot sequence of n until a value in the sequence exceeds 10^k',
+'number_theory', 'returns the members of the aliquot sequence of n until 10^k is exceeded',
 '''
 The sum of the proper divisors of an integer is called the aliquot sum.  An
 aliquot sequence is created by taking successive aliquot sums, starting from
@@ -14239,7 +14351,7 @@ same processing as numerical values on the rpn command line.
 '''
 This operator returns the English name for any integer n.
 
-The upper limit of integers rpn can name is 10^3004 - 1.
+The upper limit of integers rpn can name is 10^3003 - 1.
 
 If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
@@ -14322,7 +14434,7 @@ the -I option, when downloading an entry.
 '''
 The ordinal names for numbers start with 'first', 'second', etc.
 
-The upper limit of integers rpn can name is 10^3004 - 1.
+The upper limit of integers rpn can name is 10^3003 - 1.
 
 If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
