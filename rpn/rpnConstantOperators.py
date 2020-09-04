@@ -62,7 +62,7 @@ distance between the nucleus and the electron in a hydrogen atom in its ground
 state (non-relativistic and with an infinitely heavy proton).  It is named
 after Niels Bohr, due to its role in the Bohr model of an atom.
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
     'classical_electron_radius' :
@@ -141,7 +141,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 ''' ),
 
     'magnetic_flux_quantum' :
-        RPNConstantInfo( '2.067833831e-15', 'weber',
+        RPNConstantInfo( '2.067833848e-15', 'weber',
                          [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
                          'the magnetic flux quantum',
                          '''
@@ -152,11 +152,11 @@ The (superconducting) magnetic flux quantum F0 = h/2e =~
 the Planck constant h and the electron charge e.  Its value is, therefore, the
 same for any superconductor.
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 ''' ),
 
     'molar_gas_constant' :
-        RPNConstantInfo( '8.3144598', 'joule/mole*kelvin',
+        RPNConstantInfo( '8.314462618', 'joule/mole*kelvin',
                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
                          'molar gas constant',
                          '''
@@ -172,23 +172,23 @@ constant that is featured in many fundamental equations in the physical
 sciences, such as the ideal gas law, the Arrhenius equation, and the Nernst
 equation.
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
 ''' ),
 
     'newton_constant' :
-        RPNConstantInfo( '6.67408e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], False,
+        RPNConstantInfo( '6.67430e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], False,
                          'Newton\'s constant of gravitation',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
 ''' ),
 
     'nuclear_magneton' :
-        RPNConstantInfo( '5.050783699e-27', 'joule/tesla', [ ], False,
+        RPNConstantInfo( '5.0507837461e-27', 'joule/tesla', [ ], False,
                          'the nuclear magneton, a physical constant of magnetic moment',
                          '''
 From https://en.wikipedia.org/wiki/Nuclear_magneton:
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 
 ''' ),
 
@@ -229,13 +229,13 @@ and physics and many formulas use a reduced Planck constant (pronounced h-bar).
 ''' ),
 
     'rydberg_constant' :
-        RPNConstantInfo( '10973731.568508', 'meter^-1', [ ], False,
+        RPNConstantInfo( '10973731.568160', 'meter^-1', [ ], False,
                          'the Rydberg constant, a physical constant relating to the electromagnetic spectra of an atom',
                          '''
 From https://en.wikipedia.org/wiki/Rydberg_constant:
 
 
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
     'speed_of_light' :
@@ -243,7 +243,7 @@ Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
                          [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity', 'light' ], False,
                          'the speed of light in a vacuum',
                          '''
-Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
+Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 ''' ),
 
     # physical quantities
@@ -308,11 +308,6 @@ protons and two neutrons.
                          '''
 The nucleus of deuterium is called a deuteron.  It has a mass of
 2.013553212745(40) u (equal to 1875.612928(12) MeV).
-
-The charge radius of the deuteron is 2.1413(25) fm.[21] Like the proton radius,
-measurements using muonic deuterium produce a significantly smaller result:
-2.12562(78) fm.[22] This is 6s less than the accepted CODATA 2014 value,
-measured using electrons, and confirms the unresolved proton charge radius anomaly.
 
 Ref:  https://en.wikipedia.org/wiki/Deuterium#Deuteron_mass_and_radius
 ''' ),
