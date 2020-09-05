@@ -303,6 +303,7 @@ def convertMeasurementToAtomicSymbol( n ):
         'farad'           : 'F',
         'megagram'        : 'Mg',
         'siemens'         : 'S',
+        'clausius'        : 'Cl',
         'kelvin'          : 'K',
         'volt'            : 'V',
         'gigare'          : 'Ga',

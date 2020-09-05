@@ -602,7 +602,7 @@ https://en.wikipedia.org/wiki/Farad#CGS_units
         RPNUnitInfo( 'charge', 'abcoulombs', 'abC', [ ], [ 'CGS' ],
                      '''
 The abcoulomb (abC or aC) or electromagnetic unit of charge (emu of charge) is
-the derived physical unit of electric charge in the cgs-emu system of units.
+the derived physical unit of electric charge in the EMU-CGS system of units.
 One abcoulomb is equal to ten coulombs.
 
 https://en.wikipedia.org/wiki/Abcoulomb
@@ -653,7 +653,7 @@ Ref:  https://en.wikipedia.org/wiki/Faraday_constant#Faraday_unit_of_charge
         RPNUnitInfo( 'charge', 'statcoulombs', 'statC', [ 'esu_charge', 'franklin' ], [ 'CGS' ],
                      '''
 The statcoulomb (statC) or franklin (Fr) or electrostatic unit of charge (esu)
-is the physical unit for electrical charge used in the esu-cgs
+is the physical unit for electrical charge used in the EMU-CGS
 (centimetre–gram–second system of units) and Gaussian units.
 
 https://en.wikipedia.org/wiki/Statcoulomb
@@ -1161,8 +1161,8 @@ One centillion:  10e303
                      [ 'abamp', 'abamps', 'biot', 'biots', 'Bi' ], [ 'CGS' ],
                      '''
 The abampere (abA), also called the biot (Bi) after Jean-Baptiste Biot, is the
-derived electromagnetic unit of electric current in the emu-cgs system of
-units (electromagnetic cgs).  One abampere is equal to ten amperes in the SI
+derived electromagnetic unit of electric current in the EMU-CGS system of
+units (electromagnetic CGS).  One abampere is equal to ten amperes in the SI
 system of units.  An abampere of current in a circular path of one centimeter
 radius produces a magnetic field of 2 pi oersteds at the center of the circle.
 
@@ -1194,7 +1194,7 @@ Ref:  https://en.wikipedia.org/wiki/Ampere
         RPNUnitInfo( 'current', 'statamperes', 'statA',
                      [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
                      '''
-The unit of current in the CGS-ESU system of measurement.  It is equal to
+The unit of current in the EMU-CGS system of measurement.  It is equal to
 1/299,792,458 ampere.
 
 All electromagnetic units in ESU CGS system that do not have proper names are
@@ -1478,7 +1478,7 @@ Ref:  https://en.wikipedia.org/wiki/Reyn
         RPNUnitInfo( 'electrical_conductance', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ],
                      '''
 Abmho or absiemens is a unit of electrical conductance in the centimetre gram
-second (emu-cgs) system of units.  It's equal to gigasiemens (inverse of
+second (EMU-CGS) system of units.  It's equal to gigasiemens (inverse of
 nano-ohm).
 
 https://en.wikipedia.org/wiki/Abmho
@@ -1542,6 +1542,16 @@ https://en.wikipedia.org/wiki/Abvolt
     'decibel-volt' :
         RPNUnitInfo( 'electric_potential', 'decibel-volts', 'dBV', [ ], [ 'engineering' ],
                      '''
+From https://en.wikipedia.org/wiki/Decibel#Voltage:
+
+Since the decibel is defined with respect to power, not amplitude, conversions
+of voltage ratios to decibels must square the amplitude, or use the factor of 20
+instead of 10, as discussed above.
+
+dB(V_sub_RMS) – voltage relative to 1 volt, regardless of impedance.  This is
+used to measure microphone sensitivity, and also to specify the consumer
+line-level of −10 dBV, in order to reduce manufacturing costs relative to
+equipment using a +4 dBu line-level signal.
 ''' ),
 
     'kilogram*meter^2/ampere*second^3' :
@@ -1590,22 +1600,30 @@ to each other.
     'abohm' :
         RPNUnitInfo( 'electrical_resistance', 'abohms', 'o', [ ], [ 'CGS' ],
                      '''
-The abohm is the derived unit of electrical resistance in the emu-cgs
-(centimeter-gram-second) system of units (emu stands for "electromagnetic
-units").  One abohm is equal to 10e−9 ohms in the SI system of units; one
-abohm is a nanoohm.
+From https://en.wikipedia.org/wiki/Abohm:
 
-https://en.wikipedia.org/wiki/Abohm
+The abohm is the derived unit of electrical resistance in the EMU-CGS
+(centimeter-gram-second) system of units (emu stands for "electromagnetic
+units").  One abohm is equal to 10^−9 ohms in the SI system of units; one abohm
+is a nanoohm.
 ''' ),
 
     'german_mile' :
         RPNUnitInfo( 'electrical_resistance', 'german_miles', '', [ ], [ 'obsolete' ],
                      '''
+A German mile is the resistence of a German mile (8,238 yard) of iron wire 1/6th
+inch diameter.
+
+Ref:  https://en.wikipedia.org/wiki/Ohm
 ''' ),
 
     'jacobi' :
         RPNUnitInfo( 'electrical_resistance', 'jacobis', '', [ ], [ 'obsolete' ],
                      '''
+The jacobi is the resistence of a specified copper wire 25 feet long weighing
+345 grains.
+
+Ref:  https://en.wikipedia.org/wiki/Ohm
 ''' ),
 
     'kilogram*meter^2/ampere^2*second^3' :
@@ -1618,9 +1636,10 @@ representation of electrical resistance.
 
     'matthiessen' :
         RPNUnitInfo( 'electrical_resistance', 'matthiessens', '',
-                     [ ], [ 'obsolete' ],   # based on one mile of 1/16 inch diameter pure
-                                            # annealed copper wire at 15.5 degrees C
+                     [ ], [ 'obsolete' ],
                      '''
+The matthiessen is a unit of resistance equivalent to the resistence of one mile
+of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C.
 ''' ),
 
     'ohm' :
@@ -1650,25 +1669,50 @@ https://en.wikipedia.org/wiki/Statohm
 
     'varley' :
         RPNUnitInfo( 'electrical_resistance', 'varleys', '',
-                     [ ], [ 'obsolete' ],  # based on one mile of 1/16 inch diameter pure
-                                           # annealed copper wire at 15.5 degrees C
+                     [ ], [ 'obsolete' ],
                      '''
+The varley is a unit of resistance equivalent to the resistence of one mile of
+special 1/16 inch diameter copper wire at 15.5 degrees C.
 ''' ),
 
     # energy
     'btu' :
         RPNUnitInfo( 'energy', 'BTUs', '', [ 'btus' ], [ 'England', 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/British_thermal_unit:
+
+The British thermal unit (BTU or Btu) is a unit of heat; it is defined as the
+amount of heat required to raise the temperature of one pound of water by one
+degree Fahrenheit.  It is also part of the United States customary units.  Its
+counterpart in the metric system is the calorie, which is defined as the amount
+of heat required to raise the temperature of one gram of water by one degree
+Celsius.  Heat is now known to be equivalent to energy, for which the SI unit is
+the joule; one BTU is about 1055 joules.  While units of heat are often
+supplanted by energy units in scientific work, they are still used in some
+fields.  For example, in the United States the price of natural gas is quoted in
+dollars per million BTUs.
 ''' ),
 
     'calorie' :
-        RPNUnitInfo( 'energy', 'calories', '', [ ], [ 'CGS' ],
+        RPNUnitInfo( 'energy', 'calories', 'cal', [ ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Calorie:
+
+The calorie is a unit of energy widely used in nutrition.
+
+For historical reasons, two main definitions of calorie are in wide use.  The
+small calorie or gram calorie (usually denoted cal) is the amount of heat energy
+needed to raise the temperature of one gram of water by one degree Celsius (or
+one kelvin).  The large calorie, food calorie, or kilocalorie (Cal, calorie or
+kcal) is the amount of heat needed to cause the same increase in one kilogram of
+water.
 ''' ),
 
     'electron-volt' :
         RPNUnitInfo( 'energy', 'electron-volts', 'eV', [ 'electronvolt', 'electronvolts' ], [ 'science' ],
                      '''
+From https://en.wikipedia.org/wiki/Electronvolt:
+
 In physics, the electronvolt (symbol eV, also written electron-volt and
 electron volt) is a unit of energy equal to exactly 1.602176634 x 10e-19 joules
 (symbol J) in SI units.
@@ -1678,13 +1722,25 @@ through its usefulness in electrostatic particle accelerator sciences, because
 a particle with electric charge q has an energy E = qV after passing through
 the potential V; if q is quoted in integer units of the elementary charge and
 the potential in volts, one gets an energy in eV.
-
-Ref:  https://en.wikipedia.org/wiki/Electronvolt
 ''' ),
 
     'erg' :
         RPNUnitInfo( 'energy', 'ergs', '', [ ], [ 'CGS' ],
                      '''
+From https://en.wikipedia.org/wiki/Erg:
+
+The erg is a unit of energy equal to 10^−7 joules (100 nJ).  It originated in
+the centimetre–gram–second (CGS) system of units.  It has the symbol erg.  The
+erg is not an SI unit.  Its name is derived from ergon, a Greek word meaning
+'work' or 'task'.
+
+An erg is the amount of work done by a force of one dyne exerted for a distance
+of one centimetre.  In the CGS base units, it is equal to one gram
+centimetre-squared per second-squared (g*cm^2/s^2).  It is thus equal to 10^−7
+joules or 100 nanojoules (nJ) in SI units.  An erg is approximately the amount
+of work done (or energy consumed) by one common house fly performing one "push
+up", the leg-bending dip that brings its mouth to the surface on which it stands
+and back up.
 ''' ),
 
     'foe' :
@@ -1852,9 +1908,9 @@ representation of force.
 From https://en.wikipedia.org/wiki/Sth%C3%A8ne:
 
 The sthene is an obsolete unit of force or thrust in the metre–tonne–second
-system of units (mts) introduced in France in 1919.  When proposed by the
+system of units (MTS) introduced in France in 1919.  When proposed by the
 British Association in 1876, it was called the funal, but the name was changed
-by 1914.  The mts system was abandoned in favour of the mks system and has now
+by 1914.  The MTS system was abandoned in favour of the mks system and has now
 been superseded by the Systeme International.
 
 The sthene is equivalent to 1 kilonewton.
@@ -2017,8 +2073,13 @@ and on different platforms, but is now commonly defined to be 8 bits in size.
 ''' ),
 
     'clausius' :
-        RPNUnitInfo( 'information_entropy', 'clausius', '', [ ], [ 'CGS' ],
+        RPNUnitInfo( 'information_entropy', 'clausius', 'Cl', [ ], [ 'CGS' ],
                      '''
+In 1865, [Rudolf] Clausius gave the first mathematical version of the concept of
+entropy, and also gave it its name.  Clausius chose the word because the meaning
+(from Greek en "in" and trope "transformation") is "content transformative" or
+"transformation content" ("Verwandlungsinhalt").  He used the now abandoned unit
+'Clausius' (symbol: Cl) for entropy.
 ''' ),
 
     'dword' :
@@ -2077,6 +2138,17 @@ Ref:  https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement#Nibble
         RPNUnitInfo( 'information_entropy', 'nats', '',
                      [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ],
                      '''
+From https://en.wikipedia.org/wiki/Nat_(unit):
+
+The natural unit of information (symbol: nat), sometimes also nit or nepit, is a
+unit of information or entropy, based on natural logarithms and powers of e,
+rather than the powers of 2 and base 2 logarithms, which define the bit.  This
+unit is also known by its unit symbol, the nat.  The nat is the coherent unit
+for information entropy. The International System of Units, by assigning the
+same units (joule per kelvin) both to heat capacity and to thermodynamic entropy
+implicitly treats information entropy as a quantity of dimension one, with 1
+nat = 1.  Physical systems of natural units that normalize the Boltzmann
+constant to 1 are effectively measuring thermodynamic entropy in nats.
 ''' ),
 
     'nyp' :
@@ -2167,16 +2239,52 @@ Ref:  https://en.wikipedia.org/wiki/Swedish_units_of_measurement#Length
     'angstrom' :
         RPNUnitInfo( 'length', 'angstroms', '', [ 'angstroem', 'angstroems' ], [ 'science' ],
                      '''
+From https://en.wikipedia.org/wiki/Angstrom:
+
+The angstrom is a metric unit of length equal to 10^−10 m; that is, one
+ten-billionth of a metre, 0.1 nanometre, or 100 picometres.
+
+The angström is not a part of the SI system of units, but it can be considered
+part of the metric system in general.  Although deprecated by both the
+International Bureau of Weights and Measures (BIPM) and the US National
+Institute of Standards and Technology (NIST), the unit is still often used in
+the natural sciences and technology to express sizes of atoms, molecules,
+microscopic biological structures, and lengths of chemical bonds, arrangement of
+atoms in crystals, wavelengths of electromagnetic radiation, and dimensions of
+integrated circuit parts.  The atomic (covalent) radii of phosphorus, sulfur,
+and chlorine are about 1 angstrom, while that of hydrogen is about 0.5
+angstroms.  Visible light has wavelengths in the range of 4000–7000 angstroms.
 ''' ),
 
     'arpent' :
         RPNUnitInfo( 'length', 'arpents', '', [ ], [ 'obsolete', 'France' ],
                      '''
+From https://en.wikipedia.org/wiki/Arpent:
+
+An arpent is a unit of length and a unit of area.  It is a pre-metric French
+unit based on the Roman actus.  It is used in Quebec, some areas of the United
+States that were part of French Louisiana, and in Mauritius and the Seychelles.
+
+There were various standard arpents. The most common were the arpent used in
+North America, which was defined as 180 French feet (pied, of approximately
+32.48 centimetres or 12.79 inches), and the arpent used in Paris, which was
+defined as 220 French feet.
+
+In North America, 1 arpent = 180 French feet = about 192 English feet = about
+58.47 metres
+
+In Paris, 1 arpent = 220 French feet = about 234 English feet = about
+71.46 metres
+
+rpn Chilada uses the North American definition.
 ''' ),
 
     'arshin' :
         RPNUnitInfo( 'length', 'arshins', '', [ ], [ 'Russia', 'obsolete' ],
                      '''
+The arshin was the Russian version of the yard and is equivalent to 28 inches.
+
+Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 ''' ),
 
     'astronomical_unit' :
@@ -2198,16 +2306,27 @@ Ref:  https://en.wikipedia.org/wiki/Astronomical_unit
     'barleycorn' :
         RPNUnitInfo( 'length', 'barleycorns', '', [ ], [ 'imperial' ],
                      '''
-''' ),
+The barleycorn is a tradional English measurement of length that is equivalent
+to 1/3 of an inch.
 
-    'bolt' :
-        RPNUnitInfo( 'length', 'bolts', '', [ ], [ 'obsolete' ],
-                     '''
+Ref:  https://en.wikipedia.org/wiki/English_units
 ''' ),
 
     'caliber' :
         RPNUnitInfo( 'length', 'caliber', '', [ 'calibre' ], [ 'U.S.' ],
                      '''
+From https://en.wikipedia.org/wiki/Caliber:
+
+In guns, particularly firearms, caliber (or calibre in British English) is the
+specified nominal internal diameter of the gun barrel bore regardless of how or
+where the bore is measured and whether or not the finished bore matches that
+specification.  It is measured in inches or in millimeters.  For example, a ".45
+caliber" firearm has a barrel diameter of roughly 0.45 inches (11 mm).  Barrel
+diameters can also be expressed using metric dimensions.  For example, a "9 mm
+pistol" has a barrel diameter of about 9 millimeters.  Due to the fact that
+metric and US customary units do not convert evenly at this scale, metric
+conversions of caliber measured in decimal inches are typically approximations
+of the precise specifications in US customary units, and vice versa.
 ''' ),
 
     'chain' :
@@ -2225,11 +2344,32 @@ Ref:  https://en.wikipedia.org/wiki/Chain_(unit)
     'cicero' :
         RPNUnitInfo( 'length', 'ciceros', '', [ ], [ 'typography', 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Cicero_(typography):
+
+A cicero is a unit of measure used in typography in Italy, France and other
+continental European countries, first used by Pannartz and Sweynheim in 1468 for
+the edition of Cicero's Epistulae ad Familiares.  The font size thus acquired
+the name cicero.
+
+It is ​1⁄6 of the historical French inch, and is divided into 12 points, known in
+English as French points or Didot points.  The unit of the cicero is similar to
+an English pica, although the French inch was slightly larger than the English
+inch. There are about 1.066 picas to a cicero; a pica is 4.23333333 mm and a
+cicero is 4.51165812456 mm.
 ''' ),
 
     'cubit' :
         RPNUnitInfo( 'length', 'cubits', '', [ ], [ 'imperial' ],
                      '''
+From https://en.wikipedia.org/wiki/Cubit:
+
+The cubit is an ancient unit of length that had several definitions according to
+each of the various cultures that used the unit.  These definitions typically
+ranged between 444 and 529.2 mm (17.48 and 20.83 in), with an ancient Roman
+cubit being as long as 120 cm (47 in).  The shorter unit – common cubit – was
+based on the forearm length from the tip of the middle finger to the bottom of
+the elbow and was divided as 6 palms * 4 fingers = 24 digits.  Royal cubits
+added a palm for 7 palms * 4 fingers = 28 digits.
 ''' ),
 
     'dyuym' :
@@ -2244,11 +2384,30 @@ Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
     'ell' :
         RPNUnitInfo( 'length', 'ells', '', [ ], [ 'imperial' ],
                      '''
+From https://en.wikipedia.org/wiki/Ell:
+
+An ell (from Proto-Germanic alino, cognate with Latin ulna) is a northwestern
+European unit of measurement, originally understood as a cubit (the combined
+length of the forearm and extended hand).  The word literally means "arm", and
+survives in form of the modern English word "elbow" (arm-bend).  Later usage
+through the 19th century refers to several longer units, some of which are
+thought to derive from a "double ell".
+
+In England, the ell was usually 45 in (1.143 m), or a yard and a quarter.  It
+was mainly used in the tailoring business but is now obsolete.  Although the
+exact length was never defined in English law, standards were kept; the brass
+ell examined at the Exchequer by Graham in the 1740s had been in use "since the
+time of Queen Elizabeth".
 ''' ),
 
     'famn' :
         RPNUnitInfo( 'length', 'famns', '', [ ], [ 'obsolete' ],
                      '''
+The famn is an obsolete Swedish unit of measurement equivalent to 3 alnar.  The
+aln is the Swedish version of the ell.   The famn is just under 6 feet in
+length.
+
+Ref:  https://en.wikipedia.org/wiki/Swedish_units_of_measurement
 ''' ),
 
     'farshimmelt_potrzebie' :
@@ -2280,11 +2439,23 @@ Ref:  https://en.wikipedia.org/wiki/Fathom
     'finger' :
         RPNUnitInfo( 'length', 'fingers', '', [ ], [ 'imperial' ],
                      '''
+The finger is a tradional length used in cloth measurement, and is equivalent to
+1/8 of a yard, or 4.5 inches.
+
+Ref:  https://en.wikipedia.org/wiki/Finger_(unit)
 ''' ),
 
     'fingerbreadth' :
         RPNUnitInfo( 'length', 'fingerbreadths', '', [ 'fingersbreadth' ], [ 'obsolete' ],
                      '''
+https://en.wikipedia.org/wiki/Finger_(unit)
+
+A finger (sometimes fingerbreadth or finger's breadth) is any of several units
+of measurement that are approximately the width of an adult human finger,
+including:
+
+The digit, also known as digitus or digitus transversus (Latin), dactyl (Greek)
+or dactylus, or finger's breadth — ​3⁄4 of an inch or ​1⁄16 of a foot.
 ''' ),
 
     'foot' :
@@ -2361,11 +2532,6 @@ Ref:  https://en.wikipedia.org/wiki/Obsolete_Russian_units_of_measurement#Length
 
     'greek_cubit' :
         RPNUnitInfo( 'length', 'greek_cubits', '', [ ], [ 'obsolete', 'Greece' ],
-                     '''
-''' ),
-
-    'gutenberg' :
-        RPNUnitInfo( 'length', 'gutenbergs', '', [ ], [ 'typography' ],
                      '''
 ''' ),
 
@@ -2652,6 +2818,25 @@ astronomical unit).
     'pica' :
         RPNUnitInfo( 'length', 'picas', '', [ ], [ 'typography' ],
                      '''
+From https://en.wikipedia.org/wiki/Pica_(typography):
+
+The pica is a typographic unit of measure corresponding to approximately ​1⁄6 of
+an inch, or from ​1⁄68 to ​1⁄73 of a foot.  One pica is further divided into 12
+points.
+
+To date, in printing three pica measures are used:
+
+The French pica of 12 Didot points (also called cicero) generally is: 12 *
+0.376 = 4.512 mm (0.1776 in).
+
+The American pica of 0.16604 inches (4.217 mm).  It was established by the
+United States Type Founders' Association in 1886.  In TeX one pica is ​12⁄72.27
+of an inch.
+
+The contemporary computer PostScript pica is exactly ​1⁄6 of an inch or ​1⁄72 of a
+foot, i.e. 4.233 mm or 0.166 inches.
+
+The contemporary version of the pica is the one rpnChilada uses.
 ''' ),
 
     'point' :
@@ -2662,6 +2847,10 @@ astronomical unit).
     'poppyseed' :
         RPNUnitInfo( 'length', 'poppyseeds', '', [ ], [ 'imperial' ],
                      '''
+The poppyseed is a tradional English measurement of length that is equivalent to
+1/4 of a barleycorn, which in turn is 1/3 of an inch.
+
+Ref:  https://en.wikipedia.org/wiki/English_units
 ''' ),
 
     'pyad' :
@@ -2752,6 +2941,12 @@ Sun and Earth.  This distance is equal to about 15.8 light-years, 149.6 Pm or
     'skein' :
         RPNUnitInfo( 'length', 'skeins', '', [ ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Skein_(unit):
+
+A skein is a unit of length which has been used in the UK.  As a measuring unit
+of cotton yarn or of silk, a skein equates to a "rap" or a "lea".
+
+THe skein is defined to be 360 feet.
 ''' ),
 
     'smoot' :
@@ -2772,6 +2967,15 @@ feet, 7 inches, or 170 cm, tall.
     'span' :
         RPNUnitInfo( 'length', 'spans', '', [ 'breadth' ], [ 'imperial' ],
                      '''
+From https://en.wikipedia.org/wiki/Span_(unit):
+
+A span is the distance measured by a human hand, from the tip of the thumb to
+the tip of the little finger.  In ancient times, a span was considered to be
+half a cubit.  Sometimes the distinction is made between the great span (thumb
+to little finger) and little span (thumb to index finger, or index finger to
+little finger).
+
+rpnChilada adopts the English usage, which is equivalent to 9 inches.
 ''' ),
 
     'stadium' :
@@ -2795,7 +2999,7 @@ https://en.wikipedia.org/wiki/Imperial_and_US_customary_measurement_systems#Unit
 ''' ),
 
     'twip' :
-        RPNUnitInfo( 'length', 'twips', 'twp', [ ], [ 'computing' ],
+        RPNUnitInfo( 'length', 'twips', 'twp', [ 'gutenberg', 'gutenbergs' ], [ 'computing' ],
                      '''
 From https://en.wikipedia.org/wiki/Twip:
 
@@ -3681,7 +3885,7 @@ The unit of measurement called standard atmosphere (atm) is defined as
 From https://en.wikipedia.org/wiki/Pi%C3%A8ze:
 
 The pieze (French: [pjɛz]) is the unit of pressure in the metre–tonne–second
-system of units (mts system), used, e.g., in the former Soviet Union 1933–1955.
+system of units (MTS system), used, e.g., in the former Soviet Union 1933–1955.
 It is defined as one sthene per square metre.
 ''' ),
 
@@ -3827,6 +4031,8 @@ This is the SI unit representation of radiosity.
                        'spherical_minutes' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+arcminute squared.
 ''' ),
 
     'arcsecond^2' :
@@ -3836,6 +4042,8 @@ This is the SI unit representation of radiosity.
                        'spherical_seconds' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+arcsecond squared.
 ''' ),
 
     'degree^2' :
@@ -3844,13 +4052,13 @@ This is the SI unit representation of radiosity.
                        'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ],
                      [ 'mathematics' ],
                      '''
+From https://en.wikipedia.org/wiki/Square_degree:
+
 A square degree (deg^2) is a non-SI-compliant unit measure of solid angle.
 Just as degrees are used to measure parts of a circle, square degrees are used
-to measure parts of a sphere. Analogous to one degree being equal to pi/180
+to measure parts of a sphere.  Analogous to one degree being equal to pi/180
 radians, a square degree is equal to (pi/180)^2 squared radians (i.e.
 steradians or sr), or about 1/3283 sr = 3.0462 x 10e-4 sr (0.30462 msr).
-
-Ref:  https://en.wikipedia.org/wiki/Square_degree
 ''' ),
 
     'gradian^2' :
@@ -3860,18 +4068,22 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
                        'spherical_grads', 'spherical_gradian', 'spherical_gradians' ],
                      [ 'mathematics' ],
                      '''
-
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+gradian squared.
 ''' ),
 
     'hemisphere' :
         RPNUnitInfo( 'solid_angle', 'hemispheres', '',
                      [ 'half_sphere', 'half_spheres', 'halfsphere', 'halfspheres' ], [ 'mathematics' ],
                      '''
+This is a solid angle that consists of one-half of the entire sphere.
 ''' ),
 
     'radian^2' :
         RPNUnitInfo( 'solid_angle', 'radian^2', '', [ ], [ 'SI', 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+radian squared.
 ''' ),
 
     'octant^2' :
@@ -3880,6 +4092,8 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
                        'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+octant (1/8th of the full circle) squared.
 ''' ),
 
     'quadrant^2' :
@@ -3888,6 +4102,8 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
                        'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+quadrant (1/4th of the full circle) squared.
 ''' ),
 
     'quintant^2' :
@@ -3896,6 +4112,8 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
                        'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+quintant (1/5th of the full circle) squared.
 ''' ),
 
     'sextant^2' :
@@ -3904,11 +4122,14 @@ Ref:  https://en.wikipedia.org/wiki/Square_degree
                        'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ],
                      [ 'mathematics' ],
                      '''
+This unit is a non-SI-compliant unit measure of solid angle that consists of an
+sextant (1/6th of the full circle) squared.
 ''' ),
 
     'sphere' :
         RPNUnitInfo( 'solid_angle', 'spheres', '', [ 'spat', 'spats' ], [ 'mathematics' ],
                      '''
+This is a solid angle that consists of the entire sphere.
 ''' ),
 
     'steradian' :
@@ -3934,18 +4155,53 @@ Ref:  https://en.wikipedia.org/wiki/Steradian
                        'degrees_centigrade', 'degrees_C' ],
                      [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Celsius:
+
+The degree Celsius is a unit of temperature on the Celsius scale, a temperature
+scale originally known as the centigrade scale.  The degree Celsius (symbol:
+degree C) can refer to a specific temperature on the Celsius scale or a unit to
+indicate a difference between two temperatures or an uncertainty.  It is named
+after the Swedish astronomer Anders Celsius (1701–1744), who developed a similar
+temperature scale.  Before being renamed to honor Anders Celsius in 1948, the
+unit was called centigrade, from the Latin centum, which means 100, and gradus,
+which means steps.
 ''' ),
 
     'degree_newton' :
         RPNUnitInfo( 'temperature', 'degrees_newton', '',
                      [ 'degN', 'degreeN', 'degreesN', 'degrees_N' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Newton_scale:
+
+The Newton scale is a temperature scale devised by Isaac Newton in 1701.   He
+called his device a "thermometer", but he did not use the term "temperature",
+speaking of "degrees of heat" (gradus caloris) instead.  Newton's publication
+represents the first attempt to introduce an objective way of measuring (what
+would come to be called) temperature (alongside the Romer scale published at
+nearly the same time).  Newton likely developed his scale for practical use
+rather than for a theoretical interest in thermodynamics; he had been appointed
+Warden of the Mint in 1695, and Master of the Mint in 1699, and his interest in
+the melting points of metals are likely inspired by his duties in connection
+with the Royal Mint.
 ''' ),
 
     'delisle' :
         RPNUnitInfo( 'temperature', 'degrees_delisle', 'De',
                      [ 'degD', 'degreeD', 'degreesD', 'degree_delisle', 'degrees_D' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Delisle_scale:
+
+The Delisle scale (degrees D) is a temperature scale invented in 1732 by the
+French astronomer Joseph-Nicolas Delisle (1688–1768).  Delisle was the author of
+Memoires pour servir a l'histoire et aux progres de l'Astronomie, de la
+Geographie et de la Physique (1738).
+
+In 1732, Delisle built a thermometer that used mercury as a working fluid.
+Delisle chose his scale using the temperature of boiling water as the fixed zero
+point and measured the contraction of the mercury (with lower temperatures) in
+hundred-thousandths.  Delisle thermometers usually had 2400 or 2700 gradations,
+appropriate to the winter in St. Petersburg, as he had been invited by Peter the
+Great to St. Petersburg to found an observatory in 1725.
 ''' ),
 
     'fahrenheit' :
@@ -3953,54 +4209,92 @@ Ref:  https://en.wikipedia.org/wiki/Steradian
                      [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit', 'degrees_F' ],
                      [ 'U.S.', 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Fahrenheit:
+
+The Fahrenheit scale is a temperature scale based on one proposed in 1724 by the
+physicist Daniel Gabriel Fahrenheit (1686–1736).  It uses the degree Fahrenheit
+(symbol: degrees F) as the unit.  Several accounts of how he originally defined
+his scale exist, but the original paper suggests the lower defining point, 0
+degrees F, was established as the freezing temperature of a solution of brine
+made from a mixture of water, ice, and ammonium chloride (a salt).  The other
+limit established was his best estimate of the average human body temperature
+(set at 96 degrees F; about 2.6 degrees F less than the modern value due to a
+later redefinition of the scale).  However, he noted a middle point of 32
+degrees F, to be set to the temperature of ice water.
 ''' ),
 
     'kelvin' :
         RPNUnitInfo( 'temperature', 'kelvins', 'K',
                      [ 'degK', 'degreeK', 'degreesK', 'degree_kelvin', 'degrees_kelvin', 'degrees_K' ], [ 'SI' ],
                      '''
+From https://en.wikipedia.org/wiki/Kelvin:
+
 The Kelvin scale is an absolute thermodynamic temperature scale using as its
 null point absolute zero, the temperature at which all thermal motion ceases
 in the classical description of thermodynamics. The kelvin (symbol: K) is the
 base unit of temperature in the International System of Units (SI).
-
-Ref:  https://en.wikipedia.org/wiki/Kelvin
 ''' ),
 
     'rankine' :
         RPNUnitInfo( 'temperature', 'degrees_rankine', 'R',
                      [ 'degR', 'degreeR', 'degreesR', 'degree_rankine', 'degrees_R' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Rankine_scale:
+
 The Rankine scale is an absolute scale of thermodynamic temperature named after
 the Glasgow University engineer and physicist William John Macquorn Rankine,
 who proposed it in 1859. (The Kelvin scale was first proposed in 1848.)  It may
 be used in engineering systems where heat computations are done using degrees
 Fahrenheit.
-
-Ref:  https://en.wikipedia.org/wiki/Rankine_scale
 ''' ),
 
     'reaumur' :
         RPNUnitInfo( 'temperature', 'degrees_reaumur', 'Re',
                      [ 'degRe', 'degreeRe', 'degreesRe', 'degree_reaumur', 'degrees_Re' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/R%C3%A9aumur_scale:
+
+The Reaumur scale (symbol: ​degrees Re), also known as the "octogesimal
+division", is a temperature scale for which the freezing and boiling points of
+water are defined as 0 and 80 degrees respectively.  The scale is named for
+Rene Antoine Ferchault de Reaumur, who first proposed a similar scale in 1730.
 ''' ),
 
     'romer' :
         RPNUnitInfo( 'temperature', 'degrees_romer', 'Ro',
                      [ 'degRo', 'degreeRo', 'degreesRo', 'degree_romer', 'degrees_Ro' ], [ 'obsolete' ],
                      '''
+From https://en.wikipedia.org/wiki/Rømer_scale:
+
+The Romer scale (notated as degrees Ro), also known as Romer or Roemer, is a
+temperature scale named after the Danish astronomer Ole Christensen Rømer, who
+proposed it in 1701.  It is based on the freezing point of pure water being 7.5
+degrees and the boiling point of water as 60 degrees.
 ''' ),
 
     # time
     'beat' :
         RPNUnitInfo( 'time', 'beats', '', [ ], [ ],
                      '''
+From https://en.wikipedia.org/wiki/Swatch_Internet_Time:
+
+Swatch Internet Time (or .beat time) is a decimal time concept introduced in
+1998 by the Swatch corporation as part of their marketing campaign for their
+line of "Beat" watches.
+
+Instead of hours and minutes, the mean solar day is divided into 1000 parts
+called ".beats".  Each .beat is equal to one decimal minute in the French
+Revolutionary decimal time system and lasts 1 minute and 26.4 seconds (86.4
+seconds) in standard time.  Times are notated as a 3-digit number out of 1000
+after midnight.  So, for example @248 would indicate a time 248 .beats after
+midnight representing ​248⁄1000 of a day, just over 5 hours and 57 minutes.
 ''' ),
 
     'blink' :
         RPNUnitInfo( 'time', 'blinks', '', [ 'metric_second', 'metric_seconds' ], [ ],
                      '''
+The blink is another unit of decimal time, equal to 1/100000th of day, which
+works out to 0.864 seconds.
 ''' ),
 
     'century' :
@@ -4446,6 +4740,8 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     'kine' :
         RPNUnitInfo( 'velocity', 'kine', '', [ ], [ 'CGS' ],
                      '''
+The kine was a proposed unit of velocity for the  centimetre–gram–second (CGS)
+system which is equal to one centimeter per second.
 ''' ),
 
     'meter/second' :
@@ -4516,12 +4812,18 @@ https://en.wikipedia.org/wiki/Alcohol_measurements#Wine_measurements
     'beer_barrel' :
         RPNUnitInfo( 'volume', 'beer_barrel', '', [ ], [ 'U.S.', 'beer' ],
                      '''
-Ref:: https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
+From https://en.wikipedia.org/wiki/Barrel_(unit):
+
+In the US most fluid barrels (apart from oil) are 31.5 US gallons (26 imp gal;
+119 L) (half a hogshead), but a beer barrel is 31 US gallons (26 imp gal; 117
+L).
 ''' ),
 
     'beer_keg' :
         RPNUnitInfo( 'volume', 'beer_kegs', '', [ ], [ 'U.S.', 'beer' ],
                      '''
+A beer keg is half of a beer barrel, and is equivalent to 15.5 gallons.
+
 Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements#Beer_measurements
 ''' ),
 
@@ -4553,6 +4855,9 @@ Ref:  https://en.wikipedia.org/wiki/United_States_customary_units,
     'butt' :
         RPNUnitInfo( 'volume', 'butts', '', [ 'pipe', 'pipes' ], [ 'U.S.', 'wine' ],
                      '''
+A butt is twice the size of a hogshead, which is equivalent to 108 gallons.
+
+Ref:  https://en.wikipedia.org/wiki/Alcohol_measurements
 ''' ),
 
     'chopine' :
@@ -4586,6 +4891,18 @@ Ref: https://en.wikipedia.org/wiki/Cooking_weights_and_measures#United_States_me
     'cord' :
         RPNUnitInfo( 'volume', 'cords', '', [ ], [ 'traditional' ],
                      '''
+From https://en.wikipedia.org/wiki/Cord_(unit):
+
+The cord is a unit of measure of dry volume used to measure firewood and
+pulpwood in the United States and Canada.
+
+A cord is the amount of wood that, when "racked and well stowed" (arranged so
+pieces are aligned, parallel, touching and compact), occupies a volume of 128
+cubic feet (3.62 m^3).  This corresponds to a well-stacked woodpile 4 feet
+(122 cm) high, 8 feet (244 cm) wide, and 4 feet (122 cm) deep; or any other
+arrangement of linear measurements that yields the same volume.
+
+The name cord probably comes from the use of a cord or string to measure it.
 ''' ),
 
     'cup' :
@@ -4673,11 +4990,6 @@ possible 7,056 cubic inches; and the thickness of staves not greater than
 Ref:  https://en.wikipedia.org/wiki/Barrel_(unit)#Dry_goods_in_the_US
 ''' ),
 
-    'dry_hogshead' :
-        RPNUnitInfo( 'volume', 'dry_hogsheads', '', [ ], [ 'U.S.', 'dry_measure' ],
-                     '''
-''' ),
-
     'dry_gallon' :
         RPNUnitInfo( 'volume', 'dry_gallons', '', [ ], [ 'U.S.', 'dry_measure' ],
                      '''
@@ -4706,11 +5018,6 @@ customary dry volume measurements correspond with each other the same way the
 liquid measurements do.
 
 https://en.wikipedia.org/wiki/United_States_customary_units#Dry_volume
-''' ),
-
-    'dry_tun' :
-        RPNUnitInfo( 'volume', 'dry_tuns', '', [ ], [ 'U.S.', 'dry_measure' ],
-                     '''
 ''' ),
 
     'farshimmelt_ngogn' :
@@ -4908,16 +5215,33 @@ Ref:  https://en.wikipedia.org/wiki/Butt_(unit)
     'imperial_cup' :
         RPNUnitInfo( 'volume', 'imperial_cups', '', [ ], [ 'imperial' ],
                      '''
+From https://en.wikipedia.org/wiki/Cup_(unit)#United_Kingdom:
+
+In the United Kingdom the standard cup was set at 10 imperial fluid ounces, or
+half an imperial pint.  The cup was rarely used in practice, as historically
+most kitchens tended to be equipped with scales and ingredients were measured by
+weight, rather than volume.
 ''' ),
 
     'imperial_gallon' :
         RPNUnitInfo( 'volume', 'imperial_gallons', '', [ 'congius', 'congii' ], [ 'imperial' ],
                      '''
+From https://en.wikipedia.org/wiki/Gallon#Imperial_gallon:
+
+The British imperial gallon is now defined as exactly 4.54609 litres (277.4194
+cubic inches).  It is used in some Commonwealth countries.  Until 1976 it was
+based on the volume of 10 pounds (4.5359 kg) of water at 62 degrees F (17
+degrees C).  There are four quarts in a gallon, the imperial pint is defined as
+0.56826125 litres (i.e. 1/8 gallon) and there are 20 imperial fluid ounces in
+an imperial pint.
 ''' ),
 
     'imperial_gill' :
         RPNUnitInfo( 'volume', 'imperial_gills', '', [ ], [ 'imperial' ],
                      '''
+The imperial gill is 5 imperial fluid ounces, or 1/32 of an imperial gallon.
+
+Ref:  https://en.wikipedia.org/wiki/Gill_(unit)
 ''' ),
 
     'imperial_hogshead' :
@@ -4943,6 +5267,9 @@ Ref:  https://en.wikipedia.org/wiki/Peck
     'imperial_pint' :
         RPNUnitInfo( 'volume', 'imperial_pints', '', [ 'octarius', 'octarii' ], [ 'imperial' ],
                      '''
+The Imperial pint is 1/8 of an imperial gallon.
+
+Ref:  https://en.wikipedia.org/wiki/Pint#Imperial_pint
 ''' ),
 
     'imperial_puncheon' :
@@ -5919,7 +6246,6 @@ unitConversionMatrix = {
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
     ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870700' ),
     ( 'barleycorn',                 'poppyseed' )                           : mpmathify( '4' ),
-    ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
     ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
     ( 'arshin',                     'dyuym' )                               : mpmathify( '28' ),
@@ -5983,7 +6309,7 @@ unitConversionMatrix = {
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
 
     # luminance
-    ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ),  # rpn -a54 meter foot convert sqr value pi /
+    ( 'foot-lambert',               'candela/meter^2' )                     : mpmathify( '3.42625909963539052691674596165021859423458362052434022' ),  # rpn -a54 meter foot convert sqr value pi /
     ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
     ( 'candela/meter^2',            'apostilb' )                            : pi,
     ( 'candela/meter^2',            'lambert' )                             : fdiv( pi, 10000 ),
@@ -6239,9 +6565,7 @@ unitConversionMatrix = {
     ( 'bushel',                     'peck' )                                : mpmathify( '4' ),
     ( 'dry_barrel',                 'inch^3' )                              : mpmathify( '7056' ),
     ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
-    ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
     ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
-    ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
 
     # volume - other

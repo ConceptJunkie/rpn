@@ -193,7 +193,6 @@ operatorAliases = {
     'c_tri'                         : 'centered_triangular',
     'c_tri?'                        : 'nth_centered_triangular',
     'c_triangular'                  : 'centered_triangular',
-    'cal'                           : 'calendar',
     'carol'                         : 'nth_carol',
     'catalan'                       : 'catalan_constant',
     'cbrt'                          : 'cube_root',
