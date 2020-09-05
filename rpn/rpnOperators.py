@@ -100,13 +100,12 @@ from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConsta
                                  getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
                                  getPlanckArea, getPlanckCharge, getPlanckCurrent, getPlanckDensity, \
                                  getPlanckEnergy, getPlanckElectricalInductance, getPlanckEnergyDensity, \
-                                 getPlanckForce, getPlanckImpedance, getPlanckIntensity, \
-                                 getPlanckLength, getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, \
-                                 getPlanckPower, getPlanckPressure, getPlanckTemperature, getPlanckTime, \
-                                 getPlanckViscosity, getPlanckVoltage, getPlanckVolume, getPlanckVolumetricFlowRate, \
-                                 getPlasticConstant, getRadiationConstant, getRobbinsConstant, \
-                                 getStefanBoltzmannConstant, getThueMorseConstant, getVacuumImpedance, \
-                                 getvonKlitzingConstant
+                                 getPlanckForce, getPlanckImpedance, getPlanckIntensity, getPlanckLength, \
+                                 getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, getPlanckPower, \
+                                 getPlanckTemperature, getPlanckTime, getPlanckViscosity, getPlanckVoltage, \
+                                 getPlanckVolume, getPlanckVolumetricFlowRate, getPlasticConstant, \
+                                 getRadiationConstant, getRobbinsConstant, getStefanBoltzmannConstant, \
+                                 getThueMorseConstant, getVacuumImpedance, getvonKlitzingConstant
 
 from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayOperator, \
                             calculateAshWednesdayOperator, calculateColumbusDayOperator, \
@@ -318,26 +317,26 @@ from rpn.rpnPolytope import findCenteredDecagonalNumberOperator, findCenteredHep
                             getNthDodecahedralNumberOperator, getNthGeneralizedDecagonalNumberOperator, \
                             getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedNonagonalNumberOperator, \
                             getNthGeneralizedOctagonalNumberOperator, getNthGeneralizedPentagonalNumberOperator, \
-                            getNthHeptagonalHexagonalNumberOperator, \
-                            getNthHeptagonalNumberOperator, getNthHeptagonalPentagonalNumberOperator, \
-                            getNthHeptagonalSquareNumberOperator, getNthHeptagonalTriangularNumberOperator, \
-                            getNthHexagonalNumberOperator, getNthHexagonalPentagonalNumberOperator, \
-                            getNthHexagonalSquareNumberOperator, getNthIcosahedralNumberOperator, \
-                            getNthNonagonalHeptagonalNumberOperator, getNthNonagonalHexagonalNumberOperator, \
-                            getNthNonagonalNumberOperator, getNthNonagonalOctagonalNumberOperator, \
-                            getNthNonagonalPentagonalNumberOperator, getNthNonagonalSquareNumberOperator, \
-                            getNthNonagonalTriangularNumberOperator, getNthOctagonalHeptagonalNumberOperator, \
-                            getNthOctagonalHexagonalNumberOperator, getNthOctagonalNumberOperator, \
-                            getNthOctagonalPentagonalNumberOperator, getNthOctagonalSquareNumberOperator, \
-                            getNthOctagonalTriangularNumberOperator, getNthTruncatedOctahedralNumberOperator, \
-                            getNthOctahedralNumberOperator, getNthPentagonalNumberOperator, \
-                            getNthPentagonalSquareNumberOperator, getNthPentagonalTriangularNumberOperator, \
-                            getNthPentatopeNumberOperator, getNthPolygonalNumberOperator, \
-                            getNthPolygonalPyramidalNumberOperator, getNthPolytopeNumberOperator, \
-                            getNthPyramidalNumberOperator, getNthRhombicDodecahedralNumberOperator, \
-                            getNthSquareTriangularNumberOperator, getNthStarNumberOperator, \
-                            getNthStellaOctangulaNumberOperator, getNthTetrahedralNumberOperator, \
-                            getNthTruncatedTetrahedralNumberOperator, getNthTriangularNumberOperator
+                            getNthHeptagonalHexagonalNumberOperator, getNthHeptagonalNumberOperator, \
+                            getNthHeptagonalPentagonalNumberOperator, getNthHeptagonalSquareNumberOperator, \
+                            getNthHeptagonalTriangularNumberOperator, getNthHexagonalNumberOperator, \
+                            getNthHexagonalPentagonalNumberOperator, getNthHexagonalSquareNumberOperator, \
+                            getNthIcosahedralNumberOperator, getNthNonagonalHeptagonalNumberOperator, \
+                            getNthNonagonalHexagonalNumberOperator, getNthNonagonalNumberOperator, \
+                            getNthNonagonalOctagonalNumberOperator, getNthNonagonalPentagonalNumberOperator, \
+                            getNthNonagonalSquareNumberOperator, getNthNonagonalTriangularNumberOperator, \
+                            getNthOctagonalHeptagonalNumberOperator, getNthOctagonalHexagonalNumberOperator, \
+                            getNthOctagonalNumberOperator, getNthOctagonalPentagonalNumberOperator, \
+                            getNthOctagonalSquareNumberOperator, getNthOctagonalTriangularNumberOperator, \
+                            getNthTruncatedOctahedralNumberOperator, getNthOctahedralNumberOperator, \
+                            getNthPentagonalNumberOperator, getNthPentagonalSquareNumberOperator, \
+                            getNthPentagonalTriangularNumberOperator, getNthPentatopeNumberOperator, \
+                            getNthPolygonalNumberOperator, getNthPolygonalPyramidalNumberOperator, \
+                            getNthPolytopeNumberOperator, getNthPyramidalNumberOperator, \
+                            getNthRhombicDodecahedralNumberOperator, getNthSquareTriangularNumberOperator, \
+                            getNthStarNumberOperator, getNthStellaOctangulaNumberOperator, \
+                            getNthTetrahedralNumberOperator, getNthTruncatedTetrahedralNumberOperator, \
+                            getNthTriangularNumberOperator
 
 from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
                               findQuintupletPrimeOperator, findSextupletPrimeOperator, findTripletPrimeOperator, \
