@@ -12,7 +12,7 @@
 #
 #******************************************************************************
 
-from rpn.rpnTestUtils import expectEqual, testOperator
+from rpn.rpnTestUtils import expectEqual, expectException, testOperator
 from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitType
 
@@ -50,7 +50,6 @@ def runConvertTests( ):
 
     # compound units
     testOperator( 'ampere coulomb/second convert' )
-    testOperator( 'btupf joule/kelvin convert' )
     testOperator( 'candela meter sqr / lambert convert' )
     testOperator( 'clausius joule/kelvin convert' )
     testOperator( 'coulomb/farad volt convert' )
@@ -360,6 +359,11 @@ def runConvertTests( ):
 
     # lists of units
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
+
+    # let's try to break it
+    expectException( 'cup foot convert' )
+    expectException( 'foot-lambert candela square_meter / convert' )
+    expectException( '75 kg G * 1 m/s * watt convert' )
 
 
 #******************************************************************************

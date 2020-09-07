@@ -497,7 +497,7 @@ class RPNMeasurement( ):
                 continue
 
             if unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+                raise ValueError( '1 undefined unit type \'{}\''.format( unit ) )
 
             unitType = getUnitType( unit )
 
@@ -872,11 +872,11 @@ class RPNMeasurement( ):
         except ValueError:
             inverted = self.getInverted( )
 
-            try:
+            if inverted.isCompatible( other ):
                 return inverted.convert( other )
-            except ValueError:
+            else:
                 raise ValueError( 'incompatible units cannot be converted: ' +
-                                  self.getUnitName( ) + ' and ' + otherUnit )
+                                    self.getUnitName( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
             # debugPrint( '----->', self.getUnitName( ), baseUnit1, baseUnit2, otherUnit )

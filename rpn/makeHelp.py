@@ -28,6 +28,7 @@ import time
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
+from rpn.rpnNumberTheory import mersennePrimeExponents
 from rpn.rpnOutput import printParagraph
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnUtils import getUserDataPath
@@ -543,7 +544,7 @@ do with nested generators inside lambdas.
 
 "rpn 4 lambda 1 x range powerset geometric_mean eval" loses the first item in
 the powerset.  Trying it without 'geometric_mean' shows the powerset correctly.
-But adding the 'geometric_mean' operator gives results that clearly don't
+But adding the 'geometric_mean' operator gives results that clearly don'tlambert
 include the first result of the powerset '[ 1 ]'.  This might be related to the
 'filter_min'/'filter_max' problem above.  I bet it has something to do with
 generators.
@@ -9467,8 +9468,10 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 [ 'fibonacci', 'factorial' ] ],
 
     'find_sum_of_cubes' : [
-'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
+'number_theory', 'calculates the largest x for which the sum of the first x cubes is less than or equal to n',
 '''
+This operator calculates the largest value x, for which the sum of the first x
+cubes is less than or equal to n.
 ''',
 '''
 ''' + makeCommandExample( '3025 find_sum_of_cubes' ) + '''
@@ -9476,8 +9479,10 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 [ 'find_sum_of_squares' ] ],
 
     'find_sum_of_squares' : [
-'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
+'number_theory', 'calculates the largest x for which the sum of the first x squares is less than n',
 '''
+This operator calculates the largest value x, for which the sum of the first x
+squares is less than or equal to n.
 ''',
 '''
 ''' + makeCommandExample( '55 find_sum_of_squares' ) + '''
@@ -10417,31 +10422,31 @@ L( n ) = 2F( n + 1 ) - 1
     'nth_mersenne_exponent' : [
 'number_theory', 'returns the exponent in the nth Mersenne prime',
 '''
-These values are stored in a look-up table.  They are not calculated. ;-)
+These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently 51 known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_exponent' ) + '''
-''' + makeCommandExample( '51 nth_mersenne_exponent' ),
+''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_mersenne_exponent' ),
 [ 'nth_mersenne_prime', 'nth_perfect_number' ] ],
 
     'nth_mersenne_prime' : [
 'number_theory', 'returns the nth known Mersenne prime',
 '''
-These values are stored in a look-up table.  They are not calculated. ;-)
+These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently 49 known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_prime' ) + '''
-''' + makeCommandExample( '49 nth_mersenne_prime' ),
+''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_mersenne_prime' ),
 [ 'nth_mersenne_exponent', 'nth_perfect_number' ] ],
 
     'nth_merten' : [
@@ -10450,12 +10455,13 @@ https://primes.utm.edu/mersenne/index.html
 From https://en.wikipedia.org/wiki/Mertens_function:
 
 In number theory, the Mertens function is defined for all positive integers n as
+
            n
-         -----
+         ------
           \\
 M( n ) =   \\     mu( k )
           /
-         -----
+         ------
          k = 1
 
 where mu( k ) is the Moebius function.  The function is named in honour of Franz
@@ -10520,15 +10526,15 @@ formula.
     'nth_perfect_number' : [
 'number_theory', 'returns the nth known perfect number',
 '''
-These values are stored in a look-up table.  They are not calculated. ;-)
+These values are stored in a look-up table.  They are not calculated.  :-)
 
 The nth known perfect number is computed from the nth known Mersenne prime.
-There are currently 51 known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_perfect_number' ) + '''
-''' + makeCommandExample( '49 nth_perfect_number' ),
+''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_perfect_number' ),
 [ 'is_perfect', 'nth_mersenne_exponent' ] ],
 
     'nth_stern' : [
@@ -10758,6 +10764,8 @@ The radical function is defined as the largest squarefree factor.
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n',
 '''
+THis operator returns the sum of the proper divisors of n.   The proper divisors
+include 1 and n, as well as all other divisors of n.
 ''',
 '''
 ''' + makeCommandExample( '10 sigma' ) + '''
@@ -10769,6 +10777,8 @@ Here's a list of deficient numbers from 1 to 100:
     'sigma_k' : [
 'number_theory', 'returns the sum of the proper divisors of n each to the kth power',
 '''
+This operator is a generalization of the 'sigma' operator where the divisors are
+raised to the power of k before being summed.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sigma' ) + '''
@@ -10781,9 +10791,18 @@ Here's a list of deficient numbers from 1 to 100:
     'solve_frobenius' : [
 'number_theory', 'produces a list of coefficients of solutions to Frobenius equation n equal to k',
 '''
+This operator is explicit version of 'count_frobenius' in that it actually
+enumerates the different ways items described by the coefficients of n can be
+combined to create a total of k.
+
+'count_frobenius' returns how many different ways the items can be combined.
+'solve_frobenius' actually shows all the solutions.
 ''',
 '''
-''',
+The Chicken McNugget problem appears again.  List the ways to make an order of 42 McNuggets:
+''' + makeCommandExample( '[ 6 9 20 ] 42 solve_frobenius -s1' ) + '''
+List the ways to make 17 cents with pennies, nickels and dimes:
+''' + makeCommandExample( '[ 1 5 10 ] 17 solve_frobenius' ),
 [ 'frobenius', 'count_frobenius' ] ],
 
     'subfactorial' : [

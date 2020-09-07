@@ -16,13 +16,14 @@ import collections
 import os
 import subprocess
 
-from mpmath import fdiv, floor, fmod, fneg, fprod, log10, mpmathify
+from mpmath import fadd, fdiv, floor, fmod, fneg, fprod, log10, mpmathify
 
 from rpn.factorise import factorise
 from rpn.rpnDebug import debugPrint
 from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
 from rpn.rpnPrimeUtils import isPrime
+from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator
 
@@ -51,6 +52,8 @@ def getFactors( target ):
         return [ 1 ]
 
     n = int( floor( target ) )
+
+    setAccuracy( floor( fadd( log10( n ), 2 ) ) )
 
     if g.factorCache is None:
         loadFactorCache( )

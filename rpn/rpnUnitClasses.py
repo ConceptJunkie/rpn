@@ -79,7 +79,7 @@ def getUnitType( unit ):
     if unit == '1':
         return '_null_type'
 
-    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+    raise ValueError( '2 undefined unit type \'{}\''.format( unit ) )
 
 
 #******************************************************************************
@@ -230,7 +230,7 @@ class RPNUnits( collections.Counter ):
                 unitType = unit
             else:
                 if unit not in g.unitOperators:
-                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+                    raise ValueError( '3 undefined unit type \'{}\''.format( unit ) )
 
                 unitType = g.unitOperators[ unit ].unitType
 

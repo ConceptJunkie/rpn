@@ -26,6 +26,10 @@ from rpn.rpnValidator import argValidator, IntValidator
 #******************************************************************************
 
 def setAccuracy( n ):
+    '''
+    This function make sure that the accuracy is at least as high as n.  If it's
+    already higher, it doesn't lower it.
+    '''
     if n == -1:
         g.outputAccuracy = g.defaultOutputAccuracy
     else:
