@@ -94,7 +94,7 @@ def parseInputValue( term, inputRadix = 10 ):
 
     if not g.interactive:
         if term[ 0 ] == '$' and term[ 1 : ] in g.userVariables:
-            term = g.userVariables[ term[ 1 : ] ]
+            term = parseInputValue( g.userVariables[ term[ 1 : ] ] )
             return term
 
         if term[ 0 ] == '@' and term[ 1 : ] in g.userFunctions:

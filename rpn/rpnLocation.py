@@ -13,11 +13,13 @@
 #******************************************************************************
 
 import bz2
+import datetime
 import contextlib
 import os
 import pickle
 
 import ephem
+import pytz
 
 from geopy.distance import geodesic
 from geopy.exc import GeocoderUnavailable
@@ -180,6 +182,32 @@ def getTimeZoneOperator( location ):
 
 #******************************************************************************
 #
+#  getTimeZoneOffsetOperator
+#
+#******************************************************************************
+
+def getTimeZoneOffset( location ):
+    timezoneName = getTimeZone( location )
+    # compute the timezone's offset
+    today = datetime.datetime.now( )
+    tz_target = pytz.timezone( timezoneName )
+
+    if tz_target:
+        today_target = tz_target.localize( today )
+        today_utc = pytz.utc.localize( today )
+        return ( today_utc - today_target ).total_seconds( ) / 60
+
+    return 0
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ LocationValidator( ) ] )
+def getTimeZoneOffsetOperator( location ):
+    return getTimeZoneOffset( location )
+
+
+#******************************************************************************
+#
 #  getGeographicDistanceOperator
 #
 #******************************************************************************
@@ -192,11 +220,6 @@ def getGeographicDistanceOperator( location1, location2 ):
 
     if isinstance( location2, str ):
         location2 = getLocation( location2 )
-
-    print( 'location1', location1 )
-    print( 'location2', location2 )
-    print( 'location1.observer', location1.observer )
-    print( 'location2.observer', location2.observer )
 
     if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
         raise ValueError( 'two location arguments expected' )

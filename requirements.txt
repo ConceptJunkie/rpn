@@ -9,6 +9,7 @@ importlib_resources>=3.0.0
 mpmath>=1.1.0
 numpy>=1.19.1
 pyreadline>=2.1
+pytz>=2020.1
 rpnChiladaData>=1.0.0
 setuptools>=49.4.0
 skyfield>=1.26

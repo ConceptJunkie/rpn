@@ -1173,10 +1173,12 @@ https://en.wikipedia.org/wiki/Abampere
         RPNUnitInfo( 'current', 'amperes', 'A',
                      [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ],
                      '''
-The ampere (symbol: A), often shortened to "amp", is the base unit of electric
-current in the International System of Units (SI).  It is named after
-Andre-Marie Ampere (1775-1836), French mathematician and physicist, considered
-the father of electrodynamics.
+The ampere, symbol A, is the SI unit of electric current.  It is defined by
+taking the fixed numerical value of the elementary charge e to be 1.602176634 *
+10^−19 when expressed in the unit C (for coulomb).
+
+It is named after Andre-Marie Ampere (1775-1836), French mathematician and
+physicist, considered the father of electrodynamics.
 
 The International System of Units defines the ampere in terms of other base
 units by measuring the electromagnetic force between electrical conductors
@@ -4478,6 +4480,10 @@ The Kelvin scale is an absolute thermodynamic temperature scale using as its
 null point absolute zero, the temperature at which all thermal motion ceases
 in the classical description of thermodynamics. The kelvin (symbol: K) is the
 base unit of temperature in the International System of Units (SI).
+
+The kelvin, symbol K, is the SI unit of thermodynamic temperature.  It is
+defined by taking the fixed numerical value of the Boltzmann constant k to be
+1.380649 * 10^−23 when expressed in the unit J/K.
 ''' ),
 
     'rankine' :
@@ -5047,7 +5053,7 @@ From https://en.wikipedia.org/wiki/Speed_of_sound:
 The speed of sound is the distance travelled per unit time by a sound wave as it
 propagates through an elastic medium.  At 20 degrees C (68 degrees F), the speed
 of sound in air is about 343 metres per second (1,235 km/h; 1,125 ft/s; 767 mph;
-667 kn), or a kilometre in 2.9 s or a mile in 4.7 s.  
+667 kn), or a kilometre in 2.9 s or a mile in 4.7 s.
 ''' ),
 
     # volume

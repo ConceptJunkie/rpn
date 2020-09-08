@@ -192,7 +192,7 @@ from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendL
                         shuffleListOperator, sortAscendingOperator, sortDescendingOperator
 
 from rpn.rpnLocation import getGeographicDistanceOperator, getLocationInfoOperator, getTimeZoneOperator, \
-                            makeLocationOperator
+                            getTimeZoneOffsetOperator, makeLocationOperator
 
 from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, \
                         addOperator, asecOperator, asechOperator, asinOperator, asinhOperator, atanOperator, \
@@ -1998,7 +1998,7 @@ def getUserVariableOperator( key ):
         raise ValueError( 'variable names must be strings' )
 
     if key in g.userVariables:
-        return g.userVariables[ key ]
+        return parseInputValue( g.userVariables[ key ] )
     else:
         return ''
 
@@ -2078,6 +2078,21 @@ def dumpUserConfigurationOperator( ):
     print( )
 
     return len( g.userConfiguration )
+
+
+#******************************************************************************
+#
+#  dumpUserConfigurationOperator
+#
+#******************************************************************************
+
+def dumpVariablesOperator( ):
+    for i in g.userVariables:
+        print( i + ':', '"' + g.userVariables[ i ] + '"' )
+
+    print( )
+
+    return len( g.userVariables )
 
 
 #******************************************************************************
@@ -2297,7 +2312,6 @@ functionOperators = [
     'plot2',
     'plot_complex',
     'recurrence',
-    'repeat',
     'sequence',
     'unfilter',
     'unfilter_by_index',
@@ -2873,12 +2887,12 @@ operators = {
     'plot2'                             : RPNOperator( plot2DFunctionOperator, 5 ),
     'plot_complex'                      : RPNOperator( plotComplexFunctionOperator, 5 ),
     'recurrence'                        : RPNOperator( evaluateRecurrenceOperator, 3 ),
-    'repeat'                            : RPNOperator( repeatOperator, 2 ),
     'sequence'                          : RPNOperator( getSequenceOperator, 3 ),
 
     # geography
     'geographic_distance'               : RPNOperator( getGeographicDistanceOperator, 2 ),
     'get_timezone'                      : RPNOperator( getTimeZoneOperator, 1 ),
+    'get_timezone_offset'               : RPNOperator( getTimeZoneOffsetOperator, 1 ),
     'lat_long'                          : RPNOperator( makeLocationOperator, 2 ),
     'location_info'                     : RPNOperator( getLocationInfoOperator, 1 ),
 
@@ -3240,6 +3254,7 @@ operators = {
     'describe'                          : RPNOperator( describeIntegerOperator, 1 ),
     'dimensions'                        : RPNOperator( getDimensionsOperator, 1 ),
     'dump_config'                       : RPNOperator( dumpUserConfigurationOperator, 0 ),
+    'dump_variables'                    : RPNOperator( dumpVariablesOperator, 0 ),
     'enumerate_dice'                    : RPNOperator( enumerateDiceOperator, 1 ),
     'enumerate_dice_'                   : RPNOperator( enumerateMultipleDiceOperator, 2 ),
     'estimate'                          : RPNOperator( estimateOperator, 1 ),

@@ -15,7 +15,7 @@
 import itertools
 import string
 
-from mpmath import arange, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, fsum, log10, \
+from mpmath import arange, fabs, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, fsum, log10, \
                    mp, mpf, mpmathify, nint, power
 
 from rpn.rpnBase import convertToBaseN, getBaseKDigits
@@ -468,7 +468,10 @@ def countDigitsOperator( n, k ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
 def getDigitCountOperator( n ):
-    return len( getMPFIntegerAsString( n ) )
+    if n == 0:
+        return 1
+
+    return floor( fadd( log10( fabs( n ) ), 1 ) )
 
 
 #******************************************************************************
@@ -1221,7 +1224,7 @@ def rotateDigitsLeft( n, k ):
     n = getMPFIntegerAsString( n )
 
     if k > len( n ):
-        raise ValueError( 'cannot rotate more digits than the number has' )
+        fmod( k, len( n ) )
 
     rotate = int( k )
 
@@ -1248,7 +1251,7 @@ def rotateDigitsRight( n, k ):
     n = getMPFIntegerAsString( n )
 
     if k > len( n ):
-        raise ValueError( 'cannot rotate more digits than the number has' )
+        fmod( k, len( n ) )
 
     rotate = int( k )
 

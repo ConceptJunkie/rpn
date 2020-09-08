@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2202
+MAX_EXAMPLE_COUNT = 2286
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -587,9 +587,6 @@ gets smaller.
 
 *  'name' should handle fractions smaller than 1 gracefully (right now it
    prints nothing)
-
-*  support date comparisons, etc. before the epoch (Arrow doesn't work before
-   the epoch apparently!)
 
 *  create an output handler for RPNLocation
 
@@ -1322,6 +1319,9 @@ the wine bottle sizes they had previously reported could not be verified.
 
 Removed the 'filter_lists' operator because it isn't needed.  'filter' works
 fine on a list of lists.
+
+I got rid of the 'repeat' operator because I literally couldn't think of a use
+for it.
     ''',
     'license' :
     '''
@@ -2995,6 +2995,8 @@ This operator returns the time of the next new moon after date-time n.
     'next_rising' : [
 'astronomy', 'returns the date of the next rising of body a, when viewed from location b, at date c',
 '''
+This operator returns the next rising of astronomical body a, when viewed from
+location b, starting at date-time c.
 ''',
 '''
 ''' + makeCommandExample( 'jupiter "London, UK" now next_rising' ) + '''
@@ -3004,6 +3006,8 @@ This operator returns the time of the next new moon after date-time n.
     'next_setting' : [
 'astronomy', 'returns the date of the next setting of body a, when viewed from location b, at date c',
 '''
+This operator returns the next setting of astronomical body a, when viewed from
+location b, starting at date-time c.
 ''',
 '''
 ''' + makeCommandExample( 'neptune "Paris, France" now next_setting' ) + '''
@@ -3022,6 +3026,9 @@ This operator returns the time of the next new moon after date-time n.
     'night_time' : [
 'astronomy', 'calculates the duration of the next night (i.e., antitransit_time for the sun)',
 '''
+Thie operator calculates the calculates the duration of the next night (i.e.,
+'antitransit_time' for the sun).
+
 This is also the amount of time between sunset and sunrise.
 ''',
 '''
@@ -3041,8 +3048,8 @@ This is also the amount of time between sunset and sunrise.
     'previous_first_quarter_moon' : [
 'astronomy', 'returns the date of the previous first quarter moon before date-time n',
 '''
-This operator returns the time of the previous first quarter moon before
-date-time n.
+This operator returns the time of the most recent previous first quarter moon
+before date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
@@ -3052,8 +3059,8 @@ date-time n.
     'previous_full_moon' : [
 'astronomy', 'returns the date of the previous full moon before date-time n',
 '''
-This operator returns the time of the previous full
-moon before date-time n.
+This operator returns the time of the most recent previous full moon before
+date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_full_moon' ) + '''
@@ -3064,9 +3071,8 @@ moon before date-time n.
     'previous_last_quarter_moon' : [
 'astronomy', 'returns the date of the previous last quarter moon before date-time n',
 '''
-This operator returns the time of the previous last quarter
-moon before
- date-time n.
+This operator returns the time of the most recent previous last quarter moon
+before date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_last_quarter_moon' ) + '''
@@ -3076,8 +3082,8 @@ moon before
     'previous_new_moon' : [
 'astronomy', 'returns the date of the previous new moon before date-time n',
 '''
-This operator returns the time of the previous new
-moon before date-time n.
+This operator returns the time of the most recent previous new moon before
+date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_new_moon' ) + '''
@@ -3087,6 +3093,8 @@ moon before date-time n.
     'previous_rising' : [
 'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
 '''
+This operator returns the most recent previous rising of astronomical body a,
+when viewed from location b, starting at date-time c.
 ''',
 '''
 ''' + makeCommandExample( 'saturn "New York City, NY" 2012-12-11 previous_rising' ) + '''
@@ -3096,6 +3104,8 @@ moon before date-time n.
     'previous_setting' : [
 'astronomy', 'returns the date of the previous setting of body a, when viewed from location b, at date c',
 '''
+This operator returns the most recent previous setting of astronomical body a,
+when viewed from location b, starting at date-time c.
 ''',
 '''
 ''' + makeCommandExample( 'neptune "Paris, France" now previous_setting' ) + '''
@@ -3205,7 +3215,10 @@ illuminates the sky.
     'sun_antitransit' : [
 'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
 '''
-Think of it sort of like "anti-noon".
+This operatro calculates the next sun antitransit time at location n for
+date-time k.
+
+Think of it sort of like "anti-solar-noon".
 ''',
 '''
 ''' + makeCommandExample( '"Bridgeford, CT" today sun_antitransit' ),
@@ -3214,7 +3227,9 @@ Think of it sort of like "anti-noon".
     'transit_time' : [
 'astronomy', 'calculates the duration of time from the next rising until the subseqent setting of a body',
 '''
-a is an astronomical object, b is a location and c is a date-time value
+This operator calculates the duration of time from the next rising until the
+subseqent setting of astronomical body a, when viewed from location b, starting
+at date-time c.
 ''',
 '''
 ''' + makeCommandExample( 'moon "Washington, DC" today transit_time hms' ),
@@ -3283,7 +3298,7 @@ rpn uses the Northern hemisphere-centric definition of the term.
     'bitwise_and' : [
 'bitwise', 'calculates the bitwise \'and\' of n and k',
 '''
-'and' is the logical operation which returns true if and only if the two
+'bitwise_and' is the logical operation which returns true if and only if the two
 operands are true.
 
 The operands are converted to strings of bits large enough to represent the
@@ -3302,8 +3317,8 @@ is the numerical representation of the string of 'and'ed bits.
     'bitwise_nand' : [
 'bitwise', 'calculates the bitwise \'nand\' of n and k',
 '''
-'nand' is the logical operation, 'not and' which returns true if zero or one
-of the operands is true.
+'bitwise_nand' is the logical operation, 'not and' which returns true if zero or
+one of the operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
@@ -3321,8 +3336,8 @@ is the numerical representation of the string of 'and'ed bits.
     'bitwise_nor' : [
 'bitwise', 'calculates the bitwise \'nor\' of n and k',
 '''
-'nor' is the logical operation 'not or', which returns true if and only if
-neither of the two operands is true.
+'bitwise_nor' is the logical operation 'not or', which returns true if and only
+if neither of the two operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
@@ -3340,7 +3355,8 @@ is the numerical representation of the string of 'nor'ed bits.
     'bitwise_not' : [
 'bitwise', 'calculates the bitwise negation of n',
 '''
-'not' is the logical operation, which returns the opposite of the operand.
+'bitwise_not' is the logical operation, which returns the opposite of the
+operand.
 
 The operand is converted to a string of bits large enough to represent the
 value, rounded up to the next highest multiple of the bitwise group size,
@@ -3358,8 +3374,8 @@ representation of the string of 'not'ed bits.
     'bitwise_or' : [
 'bitwise', 'calculates the bitwise \'or\' of n and k',
 '''
-'or' is the logical operation which returns true if at least one of the two
-operands is true.
+'bitwise_or' is the logical operation which returns true if at least one of the
+two operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
@@ -3377,8 +3393,8 @@ is the numerical representation of the string of 'or'ed bits.
     'bitwise_xnor' : [
 'bitwise', 'calculates the bitwise \'xnor\' of n and k',
 '''
-'xnor' is the 'exclusive or' logical operation, which returns true if and only
-if the two operands are the same.
+'bitwise_xnor' is the 'exclusive nor' logical operation, which returns true if
+and only if the two operands are the same.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
@@ -3396,8 +3412,8 @@ is the numerical representation of the string of 'xnor'ed bits.
     'bitwise_xor' : [
 'bitwise', 'calculates the bitwise \'xor\' of n and k',
 '''
-'xor' is the 'exclusive or' logical operation, which returns true if and only
-if the two operands are different.
+'bitwise_xor' is the 'exclusive or' logical operation, which returns true if and
+only if the two operands are different.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
@@ -5371,6 +5387,8 @@ a factor of 4 pi.
     'planck_intensity' : [
 'constants', 'returns the Planck intensity',
 '''
+This constant is calculated by dividing the Planck power by the Planck area, to
+get a radiosity result.
 ''',
 '''
 ''' + makeCommandExample( 'planck_intensity' ),
@@ -5567,6 +5585,15 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
     'radiation_constant' : [
 'constants', 'returns the Radiation Constant',
 '''
+The radiation constant, or radiation density constant is by:
+
+4 sigma
+-------
+   c
+
+where sigma is the Stefan-Boltzmann constant and c is the speed of light.
+
+Ref:  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
 ''',
 '''
 ''' + makeCommandExample( 'radiation_constant' ),
@@ -5641,7 +5668,13 @@ Ref:  https://en.wikipedia.org/wiki/Prouhet%E2%80%93Thue%E2%80%93Morse_constant
     'vacuum_impedance' : [
 'constants', 'returns the Vacuum Impedance constant',
 '''
-Ref:  https://en.wikipedia.org/wiki/Impedance_of_free_space
+From https://en.wikipedia.org/wiki/Impedance_of_free_space:
+
+The impedance of free space, z_0, is a physical constant relating the magnitudes
+of the electric and magnetic fields of electromagnetic radiation travelling
+through free  space. That is, z_0 = |E|/|H|, where |E| is the electric field
+strength and |H| is the magnetic field strength.  Its presently accepted value
+is z_0 = 376.730313668(57) ohms.
 ''',
 '''
 ''' + makeCommandExample( 'vacuum_impedance' ),
@@ -5653,7 +5686,6 @@ Ref:  https://en.wikipedia.org/wiki/Impedance_of_free_space
 The value is derived from h/e^2, where h is Planck's constant and e is the
 charge of the electron.
 
-Ref:  CODATA 2014
 Ref:  https://www.easycalculation.com/constant/von-klitzing-constant.html
 Ref:  https://en.wikipedia.org/wiki/Quantum_Hall_effect#The_Bohr_atom_interpretation_of_the_von_Klitzing_constant
 ''',
@@ -6035,6 +6067,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_day' : [
 'date_time', 'returns the day value of a date-time',
 '''
+This operator returns the value of the day of the month from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today get_day' ) + '''
@@ -6044,6 +6077,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_hour' : [
 'date_time', 'returns the hour value of a date-time',
 '''
+This operator returns the value of the hour from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'now get_hour' ) + '''
@@ -6061,6 +6095,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_minute' : [
 'date_time', 'returns the minute value of a date-time',
 '''
+This operator returns the value of the minute from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'now get_minute' ) + '''
@@ -6070,6 +6105,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_month' : [
 'date_time', 'returns the month value of a date-time',
 '''
+This operator returns the value of the month from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today get_month' ) + '''
@@ -6079,6 +6115,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_second' : [
 'date_time', 'returns the second value of a date-time',
 '''
+This operator returns the value of the second from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'now get_second' ) + '''
@@ -6088,14 +6125,16 @@ To set the timezone for a particular date-time value without converting, use 'se
     'get_utc' : [
 'date_time', 'returns the datetime converted to UTC time',
 '''
+This operator returns date-time n converted to the UTC timezone.
 ''',
 '''
-''',
+''' + makeCommandExample( '"2020-08-29 13:13:18" get_utc' ),
 [ 'get_local_time', 'set_time_zone' ] ],
 
     'get_year' : [
 'date_time', 'returns the year value of a date-time',
 '''
+This operator returns the value of the year from date-time n.
 ''',
 '''
 ''' + makeCommandExample( 'today get_year' ) + '''
@@ -6129,6 +6168,7 @@ To set the timezone for a particular date-time value without converting, use 'se
     'now' : [
 'date_time', 'returns the current date-time',
 '''
+This operator simply returns the current time value for the current timezone.
 ''',
 '''
 ''' + makeCommandExample( 'today' ) + '''
@@ -6151,6 +6191,8 @@ To convert a date-time value to a different time zone, use 'convert_time_zone'.
     'today' : [
 'date_time', 'returns the current date',
 '''
+This operator is a short-cut that returns the current date, with a time value of
+00:00:00 (midnight).
 ''',
 '''
 ''' + makeCommandExample( 'yesterday' ) + '''
@@ -6161,6 +6203,8 @@ To convert a date-time value to a different time zone, use 'convert_time_zone'.
     'tomorrow' : [
 'date_time', 'returns the next date',
 '''
+This operator is a short-cut that returns the current date plus one day, with a
+time value of 00:00:00 (midnight).
 ''',
 '''
 ''' + makeCommandExample( 'yesterday' ) + '''
@@ -6171,6 +6215,8 @@ To convert a date-time value to a different time zone, use 'convert_time_zone'.
     'yesterday' : [
 'date_time', 'returns the previous date',
 '''
+This operator is a short-cut that returns the current date minus one day, with
+a time value of 00:00:00 (midnight).
 ''',
 '''
 ''' + makeCommandExample( 'yesterday' ) + '''
@@ -6317,10 +6363,14 @@ Which of the first 80 fibonacci numbers is prime?
     'for_each' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments',
 '''
+This operator evaluates function n on elements of list n, each of which are
+lists themselves, treating each element as a list of arguments passed to
+function n.   Therefore, the sublists themselves should each have the same
+number of elements as the number of arguments expected by function n.
 ''',
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 9 ] [ 4 3 ] ] lambda x y power for_each' ),
-[ 'for_each_list', 'repeat', 'sequence' ] ],
+[ 'for_each_list', 'sequence' ] ],
 
     'for_each_list' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list argument',
@@ -6329,7 +6379,7 @@ Which of the first 80 fibonacci numbers is prime?
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 6 7 ] [ 8 9 ] ] lambda x -1 element for_each_list' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 ] [ 3 4 ] [ 5 6 ] [ 7 8 ] ] lambda x sum for_each_list' ),
-[ 'for_each', 'repeat', 'sequence' ] ],
+[ 'for_each', 'sequence' ] ],
 
     'function': [
 'functions', 'creates a user-defined function k named n',
@@ -6451,23 +6501,19 @@ This feature only works with one-argument functions."
 ''',
 [ 'eval', 'filter', 'lambda' ] ],
 
-    'repeat' : [
-'functions', 'evaluates a 0-arg function n, k times',
-'''
-''',
-'''
-''',
-[ 'eval0', 'eval', 'filter', 'lambda', 'sequence' ] ],
-
     'sequence' : [
 'functions', 'evaluates a 1-arg function c with initial argument a, b times',
 '''
+This operator evaluates a 1-arg function c with initial argument a, b times.
+
+This is similar to 'eval' when passed a list, except each subsequent call to the
+function c is given the results of the previous call of function c.
 ''',
 '''
 ''' + makeCommandExample( '1 10 lambda x 2 * 3 + sequence' ) + '''
 The Collatz sequence for 19:
 ''' + makeCommandExample( '19 21 lambda 3 x * 1 + x 2 / x is_odd if sequence' ),
-[ 'eval', 'filter', 'lambda', 'repeat' ] ],
+[ 'eval', 'filter', 'lambda' ] ],
 
     'unfilter' : [
 'functions', 'filters a list n using the inverse of function k',
@@ -6525,7 +6571,7 @@ arguments.  The 'y' operator represents the second argument of the function.
 'functions', 'used as a variable in user-defined functions',
 '''
 This operator is used for the definition of user-defined functions with 3
-arguments.  The 'z' operator represents the second argument of the function.
+arguments.  The 'z' operator represents the third argument of the function.
 ''',
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
@@ -6543,6 +6589,14 @@ arguments.  The 'z' operator represents the second argument of the function.
     'antiprism_area' : [
 'geometry', 'calculates the surface area of an n-sided antiprism of edge length k',
 '''
+This operator calculates the surface area of an n-sided antiprism of edge length
+k.
+
+The antiprism is defined to be a regular n-gon on each end with edge length k,
+and rotated with respect to each other at an angle of 360/2n degrees.  Both
+sides are connected on their vertices by a series of equilateral triangles to
+form a solid shape.
+
 If no unit is specified for the edge length, rpn interprets it as a length in
 meters.
 ''',
@@ -6554,6 +6608,13 @@ meters.
     'antiprism_volume' : [
 'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
 '''
+This operator calculates the volume of an n-sided antiprism of edge length k.
+
+The antiprism is defined to be a regular n-gon on each end with edge length k,
+and rotated with respect to each other at an angle of 360/2n degrees.  Both
+sides are connected on their vertices by a series of equilateral triangles to
+form a solid shape.
+
 If no unit is specified for the edge length, rpn interprets it as a length in
 meters.
 ''',
@@ -6565,6 +6626,8 @@ meters.
     'cone_area' : [
 'geometry', 'calculates the surface area of a cone of radius n and height k',
 '''
+The operator calculates the surface area of a cone of radius n and height k.
+
 If no unit is specified for either or both of the lengths, rpn interprets them
 as a length in meters.
 ''',
@@ -6576,6 +6639,8 @@ as a length in meters.
     'cone_volume' : [
 'geometry', 'calculates the volume of a cone of radius n and height k',
 '''
+The operator calculates the volume of a cone of radius n and height k.
+
 If no unit is specified for either or both of the lengths, rpn interprets them
 as a length in meters.
 ''',
@@ -6641,27 +6706,50 @@ This operator returns the volume of a regular icosahedron of edge length n.
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
 
     'k_sphere_area' : [
-'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
+'geometry', 'calculates the surface area of a k-sphere of size n (radius or volume)',
 '''
+This operator calculates the surface area of an k-dimensional sphere of size n
+(radius or volume).
+
+The surface area of a k-dimensional sphere will be a (k - 1)-dimensional result.
+
+Furthermore, volume is taken to mean k-dimensional volume.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 feet^5 5 k_sphere_area' ) + '''
+''' + makeCommandExample( '19 inches 7 k_sphere_area' ),
 [ 'torus_area', 'sphere_volume', 'prism_area', 'k_sphere_area', 'cone_area', 'k_sphere_radius' ] ],
 
     'k_sphere_radius' : [
 'geometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
+This operator calculates the radius of an k-dimensional sphere of size n
+(surface area or volume).
+
+The surface area of a k-dimensional sphere is a (k - 1)-dimensional value.
+
+Furthermore, volume is taken to mean k-dimensional volume.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 feet^5 5 k_sphere_radius' ) + '''
+''' + makeCommandExample( '3 feet 5 k_sphere_radius' ) + '''
+''' + makeCommandExample( '4 3 / pi * meters^3 3 k_sphere_radius' ),
 [ 'k_sphere_volume', 'sphere_radius', 'k_sphere_area' ] ],
 
     'k_sphere_volume' : [
 'geometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
+This operator calculates the radius of an k-dimensional sphere of size n
+(radius or surface area).
+
+The surface area of a k-dimensional sphere is a (k - 1)-dimensional value.
+
+Furthermore, volume is taken to mean k-dimensional volume.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 feet^4 5 k_sphere_volume' ) + '''
+''' + makeCommandExample( '6 meters 5 k_sphere_volume' ) + '''
+''' + makeCommandExample( '3 4 / meter 3 k_sphere_volume' ),
 [ 'torus_volume', 'sphere_volume', 'prism_volume', 'k_sphere_area', 'cone_volume', 'k_sphere_radius' ] ],
 
     'octahedron_area' : [
@@ -6688,25 +6776,49 @@ This operator returns the volume of a regular octahedron of edge length n.
     'polygon_area' : [
 'geometry', 'calculates the area of an regular n-sided polygon with sides of length k',
 '''
+This operator calculates the area of an regular n-sided polygon with sides of
+length k
 ''',
 '''
-''',
+''' + makeCommandExample( '5 3 feet polygon_area' ) + '''
+''' + makeCommandExample( '16 1 inch polygon_area' ) + '''
+''' + makeCommandExample( '7 1 mile polygon_area' ),
 [ 'triangle_area' ] ],
 
     'prism_area' : [
 'geometry', 'calculates the surface area of an a-sided prism of edge length b, and height c',
 '''
+This operator calculates the surface area of an a-sided prism of edge length b
+and height c.
+
+The prism is defined to be a regular n-gon (a sides) on each end with side
+length b, with the two ends set apart at a distance of c.  Both end are
+connected on their vertices by a series of rectangles to form a solid shape.
+
+If no unit is specified for the edge length or height, rpn interprets it as a
+length in meters.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 4 inches 1 inch prism_area' ) + '''
+''' + makeCommandExample( '7 3 meters 1 meter prism_area' ),
 [ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'prism_volume' : [
 'geometry', 'calculates the volume of an a-sided prism of edge length b, and height c',
 '''
+This operator calculates the volume of an a-sided prism of edge length b and
+height c.
+
+The prism is defined to be a regular n-gon (a sides) on each end with side
+length b, with the two ends set apart at a distance of c.  Both end are
+connected on their vertices by a series of rectangles to form a solid shape.
+
+If no unit is specified for the edge length or height, rpn interprets it as a
+length in meters.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 4 inches 1 inch prism_volume' ) + '''
+''' + makeCommandExample( '7 3 meters 1 meter prism_volume' ),
 [ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'sphere_area' : [
@@ -6814,27 +6926,54 @@ This operator can also handle length measurements.
     #******************************************************************************
 
     'geographic_distance' : [
-'geography', 'calculates the distance, along the Earth\'s surface, of two locations',
+'geography', 'calculates the distance, along the Earth\'s surface, between two locations',
 '''
+This operator calculates the distance, along the Earth\'s surface, between two
+locations.
+
+The two locations are specified using either a string that represents a
+geographic location to look up, or a lat-long specification using the 'lat_long'
+operator.
 ''',
 '''
-''',
+''' + makeCommandExample( '"New York City, NY" "Los Angeles, CA" geographic_distance' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" "Johannesburg, South Africa" geographic_distance' ),
 [ 'lat_long' ] ],
 
     'get_timezone' : [
 'geography', 'returns the timezone for location n',
 '''
+This operator returns the name of the timezone that contains location n.
 ''',
 '''
+''' + makeCommandExample( '"New York City, NY" get_timezone' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_timezone' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone' ),
+[ 'location_info', 'get_timezone_offset' ] ],
+
+    'get_timezone_offset' : [
+'geography', 'returns the timezone offset in minutes for location n',
+'''
+This operator returns the offset in minutes from UTC for the timezone that
+contains location n.
 ''',
-[ 'location_info' ] ],
+'''
+''' + makeCommandExample( '"New York City, NY" get_timezone_offset' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_timezone_offset' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone_offset' ),
+[ 'location_info', 'get_timezone' ] ],
 
     'lat_long' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
 '''
+This operator returns an RPNLocation object, which can be passed to any operator
+that requires a location argument.  The argument to this operator is the
+latitude and longitude.  It is used to specify a location by latitude and
+longitude.
 ''',
 '''
-''',
+''' + makeCommandExample( '45.63 125.54 lat_long get_timezone' ) + '''
+''' + makeCommandExample( '45.63 125.54 lat_long 45.67 125.43 lat_long geographic_distance' ),
 [ 'location_info', 'geographic_distance' ] ],
 
     'location_info' : [
@@ -7161,6 +7300,8 @@ All of the circular primes up to a million:
     'digits' : [
 'lexicography', 'counts the number of digits in an integer',
 '''
+This operator counts the number of digits in an integer.  The functionality is
+very similar log10( n ) + 1, except for 0.
 ''',
 '''
 ''' + makeCommandExample( '1222333456 digits' ) + '''
@@ -7170,17 +7311,26 @@ All of the circular primes up to a million:
     'duplicate_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
 '''
+This operator returns a new number consisting of the digits of n, followed by
+the last k digits of n.
+
+This is a weird operator that I probably made to solve a Project Euler problem.
+<shrug>
 ''',
 '''
-''',
+''' + makeCommandExample( '2345 3 duplicate_digits' ) + '''
+''' + makeCommandExample( '12345 5 duplicate_digits' ),
 [ 'add_digits', 'combine_digits', 'duplicate_number' ] ],
 
     'duplicate_number' : [
 'lexicography', 'return a number with the digits of n duplicated k times',
 '''
+This operator takes the digits of n and appends them k times to create a larger
+number.
 ''',
 '''
-''',
+''' + makeCommandExample( '2345 3 duplicate_number' ) + '''
+''' + makeCommandExample( '12345 5 duplicate_number' ),
 [ 'add_digits', 'combine_digits', 'duplicate_digits' ] ],
 
     'erdos_persistence' : [
@@ -7197,7 +7347,9 @@ on until a one-digit number is obtained.
 Erdos' variation works the same except that zeroes are ignored.
 ''',
 '''
-''',
+''' + makeCommandExample( '6788 erdos_persistence' ) + '''
+''' + makeCommandExample( '68889 erdos_persistence' ) + '''
+''' + makeCommandExample( '55555555555555557777777777777 erdos_persistence' ),
 [ 'persistence', 'show_erdos_persistence', 'k_persistence' ] ],
 
     'filter_max' : [
@@ -7228,13 +7380,28 @@ lambdas would otherwise be used.
 '''
 ''' + makeCommandExample( '1 6 range [ 0 1 0 1 0 1 ] filter_on_flags' ),
 [ 'filter', 'filter_integers' ] ],
-    'find_palindrome' : [
 
+    'find_palindrome' : [
 'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',
 '''
+This operator adds the reversed-digits version of n to itself, and repeating the
+process with the subsequent results up to k successive times to find a
+palindrome (i.e., a number whose digits are the same forwards and backwards).
+
+If a palindrome number is found, the operator returns two values, the number of
+steps it took to get to the palindrome, and the palindrome itself.   If no
+palindrome is found, the operator returns k and 0.
+
+The numbers can get quite large, so it's best to set a high accuracy when using
+this operator.
 ''',
 '''
-''' + makeCommandExample( '-a30 10911 55 find_palindrome' ),
+Find the longest palindrome chain in the numbers between 10000 and 11000.  Of
+course, it necessary by trial-and-error to discover how long the chains can
+become and how big the numbers get.
+''' + makeCommandExample( '-a30 10000 11000 range 100 find_palindrome lambda 0 x 0 element x 1 element 0 equal if for_each_list max_index 10000 +' ) + '''
+''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) + '''
+''' + makeCommandExample( '-a20 89 25 find_palindrome' ),
 [ 'reversal_addition', 'is_kaprekar', 'reverse_digits' ] ],
 
     'get_base_k_digits' : [
@@ -7803,6 +7970,8 @@ This operator returns the count of the resulting chain of numbers.
     'replace_digits' : [
 'lexicography', 'return value a with every instance of digit b replaced with digit c',
 '''
+This operator returns a value based on argument a with every instance of digit b
+replaced with digit c.
 ''',
 '''
 ''' + makeCommandExample( '123 1 4 replace_digits' ) + '''
@@ -7811,8 +7980,15 @@ This operator returns the count of the resulting chain of numbers.
 [ 'combine_digits', 'permute_digits' ] ],
 
     'reversal_addition' : [
-'lexicography', 'TODO: describe me',
+'lexicography', 'returns a list by successively reversing the digits and adding that value to the previous element',
 '''
+This operator returns a list based on n, where each successive element of the
+list is produced by reversing the digits of the last element and adding that new
+value to the last element.
+
+This process is continued for k steps, unless a number with palindrome digits
+(i.e., the number reads the same forwards and backwards ) occurs, in which case
+the resulting list is terminated at that point.
 ''',
 '''
 ''' + makeCommandExample( '-a20 89 24 reversal_addition' ),
@@ -7832,17 +8008,29 @@ new number.
     'rotate_digits_left' : [
 'lexicography', 'rotates the digits of n to the left by k digits',
 '''
+This operator takes the input value n, and shifts its digits left by k places.
+This means that the leftmost k digits are rotated around to the end of the
+number, as if the digits were on a ring.
 ''',
 '''
-''',
+''' + makeCommandExample( '123456 1 rotate_digits_left' ) + '''
+''' + makeCommandExample( '123456 4 rotate_digits_left' ) + '''
+''' + makeCommandExample( '123456 6 rotate_digits_left' ) + '''
+''' + makeCommandExample( '123456 7 rotate_digits_left' ),
 [ 'rotate_digits_right' ] ],
 
     'rotate_digits_right' : [
 'lexicography', 'rotates the digits of n to the right by k digits',
 '''
+This operator takes the input value n, and shifts its digits right by k places.
+This means that the rightmost k digits are rotated around to the start of the
+number, as if the digits were on a ring
 ''',
 '''
-''',
+''' + makeCommandExample( '123456 1 rotate_digits_right' ) + '''
+''' + makeCommandExample( '123456 4 rotate_digits_right' ) + '''
+''' + makeCommandExample( '123456 6 rotate_digits_right' ) + '''
+''' + makeCommandExample( '123456 7 rotate_digits_right' ),
 [ 'rotate_digits_left' ] ],
 
     'show_erdos_persistence' : [
@@ -7861,7 +8049,8 @@ Erdos' variation works the same except that zeroes are ignored.
 This operator outputs the list of numbers produced.
 ''',
 '''
-''',
+''' + makeCommandExample( '6788 show_erdos_persistence' ) + '''
+''' + makeCommandExample( '68889 show_erdos_persistence' ),
 [ 'persistence', 'show_persistence', 'show_k_persistence' ] ],
 
     'show_k_persistence' : [
@@ -7879,7 +8068,8 @@ This version works the same with the addition that every digit is first taken
 to the kth power, and outputs the list of numbers produced.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 3 show_k_persistence' ) + '''
+''' + makeCommandExample( '2 4 show_k_persistence' ),
 [ 'k_persistence', 'show_persistence', 'show_erdos_persistence' ] ],
 
     'show_persistence' : [
@@ -7896,7 +8086,8 @@ on until a one-digit number is obtained.
 This operator outputs the list of numbers produced.
 ''',
 '''
-''',
+''' + makeCommandExample( '6788 show_persistence' ) + '''
+''' + makeCommandExample( '68889 show_persistence' ),
 [ 'persistence', 'show_k_persistence', 'show_erdos_persistence' ] ],
 
     'square_digit_chain' : [
@@ -7914,9 +8105,12 @@ This chain terminates when the next result is one that has already appeared.
     'sum_digits' : [
 'lexicography', 'calculates the sum of the digits of integer n',
 '''
+This operator calculates the sum of the digits of integer n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1234 sum_digits' ) + '''
+''' + makeCommandExample( '6788 sum_digits' ) + '''
+''' + makeCommandExample( '-a40 3 50 ** sum_digits' ),
 [ 'multiply_digits', 'get_digits' ] ],
 
 
@@ -7929,6 +8123,11 @@ This chain terminates when the next result is one that has already appeared.
     'and' : [
 'logical', 'returns 1 if n and k are both nonzero',
 '''
+'and' is the logical operation which returns true if and only if the two
+operands are true.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 and' ) + '''
@@ -7940,6 +8139,11 @@ This chain terminates when the next result is one that has already appeared.
     'nand' : [
 'logical', 'returns 1 if n and k are both zero',
 '''
+'nand' is the logical operation which returns true if at least one of the two
+operands is false.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 nand' ) + '''
@@ -7951,6 +8155,11 @@ This chain terminates when the next result is one that has already appeared.
     'nor' : [
 'logical', 'returns 1 if n and k are both 0',
 '''
+'nor' is the logical operation which returns true if and only if the two
+operands are false.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 nor' ) + '''
@@ -7962,6 +8171,12 @@ This chain terminates when the next result is one that has already appeared.
     'not' : [
 'logical', 'negates the operand',
 '''
+'not' is the logical operation which negates its single operand.  If the operand
+is true, then it returns false (0).  If the operand is false, then it returns
+true (1).
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 not' ) + '''
@@ -7971,6 +8186,11 @@ This chain terminates when the next result is one that has already appeared.
     'or' : [
 'logical', 'return 1 if either n or k, or both, are zero',
 '''
+'or' is the logical operation which returns true if one or both of the operands
+is true.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 or' ) + '''
@@ -7982,6 +8202,11 @@ This chain terminates when the next result is one that has already appeared.
     'xnor' : [
 'logical', 'returns 1 if n and k are both 0 or both 1',
 '''
+'xnor' is the logical operation which returns true if both of the operands
+are true, or both of the operands are false.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 xnor' ) + '''
@@ -7993,6 +8218,11 @@ This chain terminates when the next result is one that has already appeared.
     'xor' : [
 'logical', 'return 1 if n and k are not both 0 and not both 1',
 '''
+'xor' is the logical operation which returns true if one operand is true, and
+the other operand is false.
+
+True and false in this context are defined to be non-zero and zero for operands
+and 1 and 0 for return values.
 ''',
 '''
 ''' + makeCommandExample( '0 0 xor' ) + '''
@@ -8208,7 +8438,7 @@ equal to the partial amount of the original sublist of repeated elements.
     'element' : [
 'list_operators', 'returns a single element from a list',
 '''
-The index is zero-based.
+This operator returns the kth item from list n.  The index is zero-based.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 5 element' ) + '''
@@ -8241,7 +8471,8 @@ the bth power.  The list is expanded to contain c items.
     'find' : [
 'list_operators', 'returns the first index of k that equals n',
 '''
-This used to have the arguments swapped, but that seemed wrong.
+This operator returns the first index of list k that equals n.  If the value n
+is not found in the list, the operator returns -1.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 4 5 6 9 ] 6 find' ) + '''
@@ -8262,6 +8493,8 @@ of items, which each element of each sublist arranged in order, depth-first.
     'geometric_range' : [
 'list_operators', 'generates a list of geometric progression of numbers',
 '''
+This operator generates a list of geometric progressions of numbers.
+
 The list starts at a, and each successive value is multiplied by b, until the
 list contains c items.
 ''',
@@ -8274,6 +8507,8 @@ The intervals of the chromatic scale:
     'get_combinations' : [
 'list_operators', 'generates all combinations of k members of list n',
 '''
+This operator returns a list of lists, where each list has k members.  Every
+combination of k elements from list n are generated.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] 2 get_combinations -s1' ),
@@ -8330,6 +8565,11 @@ Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
     'get_permutations' : [
 'list_operators', 'generates all permutations of k members of list n',
 '''
+This operator returns a list of lists, where each list has k members.  Every
+permutation of k elements from list n are generated.
+
+This is different from 'get_combinations' in that order matters, so [ 1, 2 ] and
+[ 2, 1 ] are considered distinct.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] 2 get_permutations -s1' ),
@@ -8338,6 +8578,9 @@ Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
     'get_repeat_combinations' : [
 'list_operators', 'generates all combinations of k members of list n, with repeats allowed',
 '''
+This operator returns a list of lists, where each list has k members.  Every
+combination of k elements from list n are generated, including repeats of each
+element.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] 2 get_repeat_combinations -s1' ),
@@ -8346,6 +8589,9 @@ Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
     'get_repeat_permutations' : [
 'list_operators', 'generates all permutations of k members of list n, with repeats allowed',
 '''
+This operator returns a list of lists, where each list has k members.  Every
+permutations of k elements from list n are generated, including repeats of each
+element.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] 2 get_repeat_permutations -s1' ),
@@ -8379,6 +8625,7 @@ then the extra list elements from the longer list are ignored.
     'intersection' : [
 'list_operators', 'returns a list of unique elements that exist in both lists',
 '''
+This operator returns a list of unique elements that exist in both lists.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 4 ] [ 3 4 5 ] intersection' ) + '''
@@ -8406,14 +8653,19 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
     'is_palindrome_list' : [
 'list_operators', 'returns 1 if list n is a palindrome',
 '''
+This operator returns true (1) if the list n is a palindrome, meaning that the
+values of the elements are the same in both directions.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] is_palindrome_list' ) + '''
+''' + makeCommandExample( '[ 1 2 3 2 1 ] is_palindrome_list' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] is_palindrome_list' ),
 [ 'is_digital_palindrome' ] ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
 '''
+This operator returns a list consisting of the leftmost k items of list n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 6 left' ) + '''
@@ -8424,25 +8676,39 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
     'max_index' : [
 'list_operators', 'returns the index of largest value in list n',
 '''
+This operator returns the index of the item in the list with the largest value.
+If there are more than one item in the list with this largest value, then the
+operator returns the index of the first occurrence of that value.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 8 10 9 3 4 2 5 1 7 6 ] max_index' ) + '''
+''' + makeCommandExample( '[ 1 2 3 3 2 3 1 ] max_index' ) + '''
+''' + makeCommandExample( '[ 1 ] max_index' ),
 [ 'min_index', 'element' ] ],
 
     'min_index' : [
 'list_operators', 'returns the index of smallest value in list n',
 '''
+This operator returns the index of the item in the list with the smallest value.
+If there are more than one item in the list with this smallest value, then the
+operator returns the index of the first occurrence of that value.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 8 10 9 3 4 2 5 1 7 6 ] min_index' ) + '''
+''' + makeCommandExample( '[ 1 2 3 1 2 3 1 ] min_index' ) + '''
+''' + makeCommandExample( '[ 1 ] min_index' ),
 [ 'max_index', 'element' ] ],
 
     'nand_all' : [
 'list_operators', 'returns true if every member of the list is zero',
 '''
+This operator returns true (1) if every member of the list is zero, otherwise it
+returns false (0).
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 0 1 0 ] nand_all' ) + '''
+''' + makeCommandExample( '[ 1 1 1 1 ] nand_all' ) + '''
+''' + makeCommandExample( '[ 0 0 0 0 ] nand_all' ),
 [ 'nor_all', 'and_all', 'or_all' ] ],
 
     'nonzero' : [
@@ -8462,9 +8728,13 @@ List the prime Fibonacci numbers:
     'nor_all' : [
 'list_operators', 'returns true if any member of the list is zero',
 '''
+This operator returns true (1) if any member of the list is zero, otherwise it
+returns false (0).
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 0 1 0 ] nor_all' ) + '''
+''' + makeCommandExample( '[ 1 1 1 1 ] nor_all' ) + '''
+''' + makeCommandExample( '[ 0 0 0 0 ] nor_all' ),
 [ 'and_all', 'or_all', 'nand_all' ] ],
 
     'occurrence_cumulative' : [
@@ -8485,7 +8755,7 @@ The result is a list of lists, where each sublist contains a value and a
 ratio (out of 1.0).  The result will be sorted by values.
 ''',
 '''
-''',
+''' + makeCommandExample( '2d4 permute_dice occurrence_ratios -s1' ),
 [ 'occurrence_cumulative', 'occurrences' ] ],
 
     'occurrences' : [
@@ -8508,7 +8778,9 @@ a return value of 1 if any of the list elements is non-zero, otherwise it
 returns 0.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 0 1 0 ] or_all' ) + '''
+''' + makeCommandExample( '[ 1 1 1 1 ] or_all' ) + '''
+''' + makeCommandExample( '[ 0 0 0 0 ] or_all' ),
 [ 'and_all', 'nor_all', 'nand_all' ] ],
 
     'permute_lists' : [
@@ -8530,16 +8802,20 @@ will be output.
     'powerset' : [
 'list_operators', 'generates the powerset of list n',
 '''
-I'm going to be honest.  I don't think including an empty list in the output
-would ever be useful, so the operator leaves it out.
+This operator returns the powerset of list n.  The powerset of a list includes
+every subset of that list, including the empty set, but 'powerset' leaves out
+the empty set.
+
+I don't think including an empty list in the output would ever be useful.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 3 range powerset' ),
 [ 'permute_lists', 'sublist' ] ],
 
     'random_element' : [
 'list_operators', 'returns a random element from list n',
 '''
+This operator returns a single, randomly-chosen element from list n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range random_element' ) + '''
@@ -8550,18 +8826,26 @@ would ever be useful, so the operator leaves it out.
     'range' : [
 'list_operators', 'generates a list of successive integers from n to k',
 '''
+This operator generates a list of successive integers starting from n and
+continuing to k.  If k is greater than n, then the list consists of successive
+numbers in numerical reverse order.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range' ) + '''
+''' + makeCommandExample( '10 1 range' ),
 [ 'exponential_range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
     'ratios' : [
 'list_operators', 'returns a list with the ratios between successive elements of list n',
 '''
+This operator returns a list of the ratios between successive elements of list
+n.  If the list has length x, then the result will be of length x - 1.
+
 This operator is analogous to the 'diffs' operator.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range ratios' ) + '''
+''' + makeCommandExample( '-p4 1 10 range fib ratios' ),
 [ 'cumulative_ratios', 'diffs', 'cumulative_diffs' ] ],
 
     'reduce' : [
@@ -8571,20 +8855,25 @@ In other words, each element of the list is divided by the greatest common
 denominator of the whole list.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 3 12 27 15 ] reduce' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 ] reduce' ) + '''
+''' + makeCommandExample( '[ 10 20 40 50 30 ] reduce' ),
 [ 'gcd', 'gcd2' ] ],
 
     'reverse' : [
 'list_operators', 'returns list n with its elements reversed',
 '''
+This operator returns a list with all of the elements in list n, but reversed in
+order.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range reverse' ),
 [ 'shuffle', 'random_element' ] ],
 
     'right' : [
 'list_operators', 'returns the right k items from list n',
 '''
+This operator returns a list consisting of the leftmost k items of list n.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 6 right' ) + '''
@@ -8595,6 +8884,7 @@ denominator of the whole list.
     'shuffle' : [
 'list_operators', 'randomly shuffles the elements in a list',
 '''
+This operator returns a list of all the elements of n reordered randomly.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range shuffle' ),
@@ -8670,6 +8960,7 @@ operands as needed.
     'union' : [
 'list_operators', 'returns the union of unique elements from two lists',
 '''
+This operator returns a list of unique items that occur in either list.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] union' ) + '''
@@ -8681,6 +8972,7 @@ operands as needed.
     'unique' : [
 'list_operators', 'returns a list of its unique elements',
 '''
+This operator returns a list of the unique elements in list n.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range 2 9 range append 3 10 range append unique' ),
@@ -10641,6 +10933,12 @@ The first 20 members of the Thue Morse sequence:
     'octanacci' : [
 'number_theory', 'calculates the nth Octanacci number',
 '''
+The Fibonacci sequence can be generalized by adding more than two terms to
+create the next successive term.  Under this generalization, the starting values
+of a k-fibonacci sequence are made up of k-1 zeroes and a one, and each
+successive value is calculated by summing the k previous values.
+
+The octanacci sequence is the name given to the 8-fibonacci sequence.
 ''',
 '''
 The first several octanacci numbers:
@@ -10732,6 +11030,9 @@ a common factor.
     'relatively_prime' : [
 'number_theory', 'calculates whether n and k are relatively prime',
 '''
+THis operator calculates whether or not n and k are relatively prime, returning
+1 if they are, and 0 if they are not.
+
 Numbers are relatively prime if their great common denominator is 1.
 ''',
 '''
@@ -10831,8 +11132,13 @@ floor( ( n!/e ) + 1/2 )
 [ 'sums_of_k_nonzero_powers' ] ],
 
     'sums_of_k_nonzero_powers' : [
-'number_theory', 'calculates every combination of b nonzero cth powers that sum to n',
+'number_theory', 'calculates every combination of b nonzero cth powers that sum to a',
 '''
+THis operator calculates every combination of b nonzero cth powers of positive
+integers that sum to a.
+
+The name of the operator adheres to the rpnChilada standard that two-argument
+operators have arguments named n and k.
 ''',
 '''
 ''' + makeCommandExample( '1072 3 3 sums_of_k_nonzero_powers' ),
@@ -11126,9 +11432,12 @@ order), from one of the following combinations of units:
     'energy_equivalence' : [
 'physics', 'calculates the energy equivalence of mass n',
 '''
+The operator uses Einstein's energy-matter equivalence equation, E = mc^2, to
+calculate the energy equivalence of mass n.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 gram energy_equivalence' ) + '''
+''' + makeCommandExample( '1 pound energy_equivalence' ),
 [ 'mass_equivalence' ] ],
 
     'escape_velocity' : [
@@ -11831,7 +12140,6 @@ numbers.  When the array corresponding to a centered hexagonal number is divided
 between its middle row and an adjacent row, it appears as the sum of two
 generalized pentagonal numbers, with the larger piece being a pentagonal number
 proper.
-
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_pentagonal' ) + '''
@@ -12054,8 +12362,6 @@ pentgonal.
 '''
 'nonagonal_triangular' calculates the nth number that is both nonagonal and
 triangular.
-
-TODO: fix me
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nonagonal_triangular' ) + '''
@@ -14185,12 +14491,27 @@ yafu_path: "c:\\app\\yafu"
 ''',
 [ 'delete_config', 'get_config', 'set_config' ] ],
 
+    'dump_variables' : [
+'special', 'dumps all user-defined variables',
+'''
+Tis operator dumps the user-defined variables.
+''',
+'''
+c:\\>rpn dump_variables
+fred: "3.1415926535897932385"
+barney: "31.0"
+foo: "2020-09-07T11:52:37.008158-04:00"
+
+3
+''',
+[ 'set_variable', 'get_variable', 'dump_variables' ] ],
+
     'describe' : [
 'special', 'outputs a list of properties of integer n',
 '''
 This is a special operator whose output is simply printed to the console.  The
 actual return value of the operator is the integer argument, so from RPN's
-point of view, it doesn't actually do anything.
+point of view, it doesn't actually do anything interesting.
 ''',
 '''
 c:\\>rpn 55 describe
