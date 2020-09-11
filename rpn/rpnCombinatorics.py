@@ -778,7 +778,7 @@ def getNthMenageNumberOperator( n ):
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( ), IntValidator( ) ] )
+@argValidator( [ IntValidator( 0 ), ComplexValidator( ) ] )
 def getNthBellPolynomialOperator( n, k ):
     return bell( n, k )
 

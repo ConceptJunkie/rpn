@@ -172,7 +172,7 @@ from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildS
 from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendListsOperator, \
                         calculateAntiharmonicMeanOperator, calculateArithmeticMeanOperator, \
                         calculateGeometricMeanOperator, calculateHarmonicMeanOperator, calculatePowerTowerOperator, \
-                        calculatePowerTower2Operator, calculateRootMeanSquareOperator, collateOperator, \
+                        calculatePowerTowerRightOperator, calculateRootMeanSquareOperator, collateOperator, \
                         compareListsOperator, countElementsOperator, doesListRepeatOperator, enumerateListOperator, \
                         equalsOneOfOperator, filterMaxOperator, filterMinOperator, filterOnFlagsOperator, \
                         findInListOperator, flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, \
@@ -262,12 +262,12 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
                                 getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
                                 isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
-                                isCarmichaelNumberOperator, isDeficientOperator, isFriendlyOperator, \
-                                isHarmonicDivisorNumberOperator, isKHyperperfectOperator, isKPerfectOperator, \
-                                isKPolydivisibleOperator, isKSemiprimeOperator, isKSphenicOperator, \
-                                isPerfectOperator, isPerniciousOperator, isPolydivisibleOperator, isPowerfulOperator, \
-                                isPronicOperator, isRoughOperator, isRuthAaronNumberOperator, isSemiprimeOperator, \
-                                isSmoothOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
+                                isCarmichaelNumberOperator, isDeficientOperator, isHarmonicDivisorNumberOperator, \
+                                isKHyperperfectOperator, isKPerfectOperator, isKPolydivisibleOperator, \
+                                isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, \
+                                isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, \
+                                isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, \
+                                isSociableListOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
                                 makeContinuedFractionOperator, makeEulerBrickOperator, \
                                 makePythagoreanQuadrupleOperator, makePythagoreanTripleOperator, \
                                 makePythagoreanTriplesOperator, solveFrobeniusOperator
@@ -2198,21 +2198,21 @@ def evaluateReverseLimitOperator( n, func ):
 
 #******************************************************************************
 #
-#  evaluateProductOperator
+#  evaluateRangedProductOperator
 #
 #******************************************************************************
 
-def evaluateProductOperator( start, end, func ):
+def evaluateRangedProductOperator( start, end, func ):
     return nprod( func.evaluate, [ start, end ] )
 
 
 #******************************************************************************
 #
-#  evaluateSumOperator
+#  evaluateRangedSumOperator
 #
 #******************************************************************************
 
-def evaluateSumOperator( start, end, func ):
+def evaluateRangedSumOperator( start, end, func ):
     return nsum( func.evaluate, [ start, end ] )
 
 
@@ -2306,11 +2306,11 @@ functionOperators = [
     'function',
     'limit',
     'limitn',
-    'nprod',
-    'nsum',
     'plot',
     'plot2',
     'plot_complex',
+    'ranged_product',
+    'ranged_sum',
     'recurrence',
     'sequence',
     'unfilter',
@@ -2477,7 +2477,7 @@ listOperators = {
     'crt'                               : RPNOperator( calculateChineseRemainderTheoremOperator, 2 ),
     'frobenius'                         : RPNOperator( getFrobeniusNumberOperator, 1 ),
     'geometric_recurrence'              : RPNOperator( getGeometricRecurrenceOperator, 4 ),
-    'is_friendly'                       : RPNOperator( isFriendlyOperator, 1 ),
+    'is_sociable_list'                  : RPNOperator( isSociableListOperator, 1 ),
     'linear_recurrence'                 : RPNOperator( getLinearRecurrenceOperator, 3 ),
     'linear_recurrence_with_modulo'     : RPNOperator( getLinearRecurrenceWithModuloOperator, 4 ),
     'nth_linear_recurrence'             : RPNOperator( getNthLinearRecurrenceOperator, 3 ),
@@ -2486,7 +2486,7 @@ listOperators = {
 
     # powers_and_roots
     'power_tower'                       : RPNOperator( calculatePowerTowerOperator, 1 ),
-    'power_tower2'                      : RPNOperator( calculatePowerTower2Operator, 1 ),
+    'power_tower_right'                 : RPNOperator( calculatePowerTowerRightOperator, 1 ),
 
     # special
     'echo'                              : RPNOperator( addEchoArgumentOperator, 1 ),
@@ -2652,7 +2652,6 @@ operators = {
     'from_persian'                      : RPNOperator( convertPersianDateOperator, 3 ),
     'good_friday'                       : RPNOperator( calculateGoodFridayOperator, 1 ),
     'independence_day'                  : RPNOperator( getIndependenceDayOperator, 1 ),
-    'iso_date'                          : RPNOperator( getISODateOperator, 1 ),
     'labor_day'                         : RPNOperator( calculateLaborDayOperator, 1 ),
     'martin_luther_king_day'            : RPNOperator( calculateMartinLutherKingDayOperator, 1 ),
     'memorial_day'                      : RPNOperator( calculateMemorialDayOperator, 1 ),
@@ -2765,20 +2764,20 @@ operators = {
     'ydhms'                             : RPNOperator( convertToYDHMSOperator, 1 ),
 
     # date_time
-    'convert_time_zone'                 : RPNOperator( convertTimeZoneOperator, 2 ),
     'get_year'                          : RPNOperator( getYearOperator, 1 ),
     'get_month'                         : RPNOperator( getMonthOperator, 1 ),
     'get_day'                           : RPNOperator( getDayOperator, 1 ),
     'get_hour'                          : RPNOperator( getHourOperator, 1 ),
-    'get_local_time'                    : RPNOperator( getLocalTimeOperator, 1 ),
     'get_minute'                        : RPNOperator( getMinuteOperator, 1 ),
     'get_second'                        : RPNOperator( getSecondOperator, 1 ),
-    'get_utc'                           : RPNOperator( getUTCOperator, 1 ),
     'iso_day'                           : RPNOperator( getISODayOperator, 1 ),
     'now'                               : RPNOperator( getNowOperator, 0 ),
     'set_time_zone'                     : RPNOperator( setTimeZoneOperator, 2 ),
     'today'                             : RPNOperator( getTodayOperator, 0 ),
     'tomorrow'                          : RPNOperator( getTomorrowOperator, 0 ),
+    'to_local_time'                     : RPNOperator( getLocalTimeOperator, 1 ),
+    'to_time_zone'                      : RPNOperator( convertTimeZoneOperator, 2 ),
+    'to_utc'                            : RPNOperator( getUTCOperator, 1 ),
     'yesterday'                         : RPNOperator( getYesterdayOperator, 0 ),
 
     # figurate
@@ -2881,11 +2880,11 @@ operators = {
     'function'                          : RPNOperator( createUserFunctionOperator, 2 ),
     'limit'                             : RPNOperator( evaluateLimitOperator, 2 ),
     'limitn'                            : RPNOperator( evaluateReverseLimitOperator, 2 ),
-    'nprod'                             : RPNOperator( evaluateProductOperator, 3 ),
-    'nsum'                              : RPNOperator( evaluateSumOperator, 3 ),
     'plot'                              : RPNOperator( plotFunctionOperator, 3 ),
     'plot2'                             : RPNOperator( plot2DFunctionOperator, 5 ),
     'plot_complex'                      : RPNOperator( plotComplexFunctionOperator, 5 ),
+    'ranged_product'                    : RPNOperator( evaluateRangedProductOperator, 3 ),
+    'ranged_sum'                        : RPNOperator( evaluateRangedSumOperator, 3 ),
     'recurrence'                        : RPNOperator( evaluateRecurrenceOperator, 3 ),
     'sequence'                          : RPNOperator( getSequenceOperator, 3 ),
 

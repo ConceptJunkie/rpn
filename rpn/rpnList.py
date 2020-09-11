@@ -749,16 +749,16 @@ def calculatePowerTowerOperator( n ):
 
 #******************************************************************************
 #
-#  calculatePowerTower2Operator
+#  calculatePowerTowerRightOperator
 #
 #******************************************************************************
 
-def calculatePowerTower2( args ):
+def calculatePowerTowerRight( args ):
     if isinstance( args, RPNGenerator ):
-        return calculatePowerTower2( list( args ) )
+        return calculatePowerTowerRight( list( args ) )
 
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-        return [ calculatePowerTower2( arg ) for arg in args ]
+        return [ calculatePowerTowerRight( arg ) for arg in args ]
 
     result = args[ -1 ]
 
@@ -770,8 +770,8 @@ def calculatePowerTower2( args ):
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def calculatePowerTower2Operator( n ):
-    return calculatePowerTower2( n )
+def calculatePowerTowerRightOperator( n ):
+    return calculatePowerTowerRight( n )
 
 
 #******************************************************************************

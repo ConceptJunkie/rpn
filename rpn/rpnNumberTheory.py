@@ -27,7 +27,7 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac,
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTower2, reduceList
+from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
@@ -1164,7 +1164,7 @@ def getFrobeniusNumber( args ):
 
             if getGCDOfList( args ) > 1:
                 raise ValueError( 'the \'frobenius\' operator is only valid for lists '
-                                  'of values that have a great common denominator of 1' )
+                                  'of values that have a greatest common denominator of 1' )
 
             for i in sorted( args ):
                 a.append( int( i ) )
@@ -1245,7 +1245,7 @@ def solveFrobenius( n, k, translate, prefix=None ):
 def solveFrobeniusOperator( n, k ):
     if len( n ) > 1 and getGCDOfList( n ) > 1:
         raise ValueError( 'the \'solve_frobenius\' operator is only valid for lists '
-                          'of values that have a great common denominator of 1' )
+                          'of values that have a greatest common denominator of 1' )
 
     sortedArgs = sorted( n, reverse=True )
 
@@ -2151,15 +2151,15 @@ def getNthCalkinWilfOperator( n ):
 
 #******************************************************************************
 #
-#  isFriendly
+#  isSociableListOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def isFriendlyOperator( n ):
+def isSociableListOperator( n ):
     if len( n ) < 2:
-        raise ValueError( '\'is_friendly\' requires a list with more than one element' )
+        raise ValueError( '\'is_sociable_list\' requires a list with more than one element' )
 
     first = True
 
@@ -2758,7 +2758,7 @@ def calculateAckermannFunction( n, k ):
         return fsub( power( 2, fadd( k, 3 ) ), 3 )
 
     if n == 4:
-        return fsub( calculatePowerTower2( [ 2 ] * ( int( k ) + 3 ) ), 3 )
+        return fsub( calculatePowerTowerRight( [ 2 ] * ( int( k ) + 3 ) ), 3 )
 
     # Here's the real algorithm...
     if n == 0:

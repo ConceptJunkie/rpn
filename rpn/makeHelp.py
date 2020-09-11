@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2286
+MAX_EXAMPLE_COUNT = 2350
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -355,21 +355,21 @@ How long was the summer in 2015?
 ''' + makeCommandExample( '2015 autumnal_equinox 2015 summer_solstice - dhms', indent=4 ),
     'user_functions' :
     '''
-This feature allows the user to define a function for use with the eval, nsum,
-nprod, limit and limitn operators, etc.  'lambda' starts an expression that
-becomes a function.
+This feature allows the user to define a function for use with the 'eval',
+'ranged_sum', 'ranged_product', 'limit' and 'limitn' operators, etc.  'lambda'
+starts an expression that becomes a function.
 
 rpn user fuctions can use up to 3 variables, x, y, and z.  rpn provides a
 number of operators that can be used with user functions.  See, 'rpn help
 functions' for information about these operators.
 
-User functions cannot currently contain lists or measurements.
+User functions cannot currently contain list literals or measurements.
 
 Some examples:
 ''' + makeCommandExample( '3 lambda x 2 * eval', indent=4 ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval', indent=4 ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit', indent=4 ) + '''
-''' + makeCommandExample( '1 inf lambda 2 x ** 1/x nsum', indent=4 ) + '''
+''' + makeCommandExample( '1 inf lambda 2 x ** 1/x ranged_sum', indent=4 ) + '''
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 ''' + makeCommandExample( '-t [d:5] build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter',
@@ -1412,13 +1412,13 @@ Calculations with lists:
 ''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 15 linear_recurrence', indent=8 ) + '''
 
     What percentage of numbers have a factor less than or equal to 5?
-''' + makeCommandExample( '1 1 5 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+''' + makeCommandExample( '1 1 5 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 100?
-''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 100?
-''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 1000?
-''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
 
 Calculations with absolute time:
     operators:
@@ -1492,52 +1492,52 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '-p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / '
                           'gamma 11 24 / gamma ] prod 1/x * -', indent=8, slow=True ) + '''
     Schwartzchild Constant (Conic Constant)
-''' + makeCommandExample( '0 inf lambda 2 x ** x ! / nsum', indent=8 ) + '''
+''' + makeCommandExample( '0 inf lambda 2 x ** x ! / ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( 'e 2 **', indent=8 ) + '''
     Somos\' Quadratic Recurrence Constant
-''' + makeCommandExample( '-a20 1 inf lambda x 1 2 x ** / power nprod', indent=8 ) + '''
+''' + makeCommandExample( '-a20 1 inf lambda x 1 2 x ** / power ranged_product', indent=8 ) + '''
     Prevost Constant
-''' + makeCommandExample( '-a20 1 inf lambda x fib 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 1 inf lambda x fib 1/x ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 prevost_constant', indent=8 ) + '''
     Euler's number
-''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 e', indent=8 ) + '''
     Gelfond Constant
-''' + makeCommandExample( '-a20 0 inf lambda pi x power x ! / nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda pi x power x ! / ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 e pi power', indent=8 ) + '''
     Bloch-Landau Constant
 ''' + makeCommandExample( '-a20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /', indent=8 ) + '''
     Hausdorff Dimension
-''' + makeCommandExample( '-a20 0 inf lambda 2 x 2 * 1 + power x 2 * 1 + * 1/x nsum 0 inf '
-                          'lambda 3 x 2 * 1 + power x 2 * 1 + * 1/x nsum /', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda 2 x 2 * 1 + power x 2 * 1 + * 1/x ranged_sum 0 inf '
+                          'lambda 3 x 2 * 1 + power x 2 * 1 + * 1/x ranged_sum /', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 3 log 2 log /', indent=8 ) + '''
     Beta( 3 )
-''' + makeCommandExample( '-a20 0 inf lambda x 2 * 1 + 3 power 1/x -1 x ** * nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda x 2 * 1 + 3 power 1/x -1 x ** * ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 pi 3 power 32 /', indent=8 ) + '''
     Lemniscate Constant
 ''' + makeCommandExample( '-a20 4 2 pi / sqrt * 0.25 ! sqr *', indent=8 ) + '''
     sqrt( e )
-''' + makeCommandExample( '-a20 0 inf lambda 2 x power x ! * 1/x nsum', indent=8 ) + '''
-''' + makeCommandExample( '-a20 0 inf lambda x 2 * !! 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda 2 x power x ! * 1/x ranged_sum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda x 2 * !! 1/x ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 e sqrt', indent=8 ) + '''
     1/e
-''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x -1 x ** * nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x -1 x ** * ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 e 1/x', indent=8 ) + '''
     An approximation of Zeta( 6 )
 ''' + makeCommandExample( '-a20 -p30 1 1 1000 primes -6 power - 1/x prod', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 pi 6 power 945 /', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 6 zeta', indent=8 ) + '''
     Ramanujan-Forsythe Constant
-''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr nsum', indent=8 ) + '''
+''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr ranged_sum', indent=8 ) + '''
     Apery's Constant
-''' + makeCommandExample( '-a20 1 inf lambda x 3 power 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 1 inf lambda x 3 power 1/x ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 3 zeta', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 apery', indent=8 ) + '''
     An approximation of the Omega Constant
-''' + makeCommandExample( '-a20 [ e 1/x 100 dup ] power_tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 [ e 1/x 100 dup ] power_tower_right', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 omega', indent=8 ) + '''
     Liouville Number
-''' + makeCommandExample( '-a120 1 inf lambda 10 x ! power 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a120 1 inf lambda 10 x ! power 1/x ranged_sum', indent=8 ) + '''
     Gieseking Constant
         = rpn -a10 -p20 3 3 sqrt * 4 / 1
                 0 100000 range 3 * 2 + sqr 1/x sum -
@@ -1547,29 +1547,29 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '-a7 1 1 100000 primes sqr 1/x - prod', indent=8, slow=True ) + '''
 ''' + makeCommandExample( '2 zeta 1/x', indent=8 ) + '''
     An approximation of the infinite tetration of i
-''' + makeCommandExample( '-a20 [ 1j 1000 dup ] power_tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 [ 1j 1000 dup ] power_tower_right', indent=8 ) + '''
     Cahen's Constant
-''' + makeCommandExample( '1 inf lambda x nth_sylvester 1 - 1/x -1 x 1 + ** * nsum', indent=8 ) + '''
+''' + makeCommandExample( '1 inf lambda x nth_sylvester 1 - 1/x -1 x 1 + ** * ranged_sum', indent=8 ) + '''
     Erdos-Borwein Constant
-''' + makeCommandExample( '1 inf lambda 2 x ** 1 - 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '1 inf lambda 2 x ** 1 - 1/x ranged_sum', indent=8 ) + '''
     An approximation of the Heath-Brown-Moroz constant
 ''' + makeCommandExample( '-a6 1 60000 primes lambda 1 x 1/x - 7 ** 1 7 x * 1 + x sqr / + * eval prod',
                           indent=8, slow=True ) + '''
     Kepler-Bouwkamp constant
-''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
+''' + makeCommandExample( '3 inf lambda pi x / cos ranged_product', indent=8 ) + '''
     Ramanujan-Forsyth series
-''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr nsum', indent=8 ) + '''
+''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr ranged_sum', indent=8 ) + '''
     Machin-Gregory series
-''' + makeCommandExample( '0 inf lambda -1 x ** 1 2 / 2 x * 1 + ** * 2 x * 1 + / nsum', indent=8 ) + '''
+''' + makeCommandExample( '0 inf lambda -1 x ** 1 2 / 2 x * 1 + ** * 2 x * 1 + / ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( '1 2 / arctan', indent=8 ) + '''
     Somos quadratic recurrence constant
-''' + makeCommandExample( '1 inf lambda x 1 + x / 2 x ** root nprod', indent=8 ) + '''
+''' + makeCommandExample( '1 inf lambda x 1 + x / 2 x ** root ranged_product', indent=8 ) + '''
     Niven's constant
-''' + makeCommandExample( '1 2 inf lambda 1 x zeta 1/x - nsum +', indent=8 ) + '''
+''' + makeCommandExample( '1 2 inf lambda 1 x zeta 1/x - ranged_sum +', indent=8 ) + '''
     Kepler-Bouwkamp constant
-''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
+''' + makeCommandExample( '3 inf lambda pi x / cos ranged_product', indent=8 ) + '''
     Exponential Factorial Constant
-''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / ranged_sum', indent=8 ) + '''
     Conway's Constant
 ''' + makeCommandExample( '-a80 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, '
                           '1, 9, -3, -7, -8, -8, 10, 6, 8, -5, -12, 7, -7, 7, 1, -3, 10, 1, -6, -2, -10, -3, 2, 9, '
@@ -1680,8 +1680,10 @@ operatorHelp = {
     #******************************************************************************
 
     'add_polynomials' : [
-'algebra', 'interprets two lists as polynomials and adds them',
+'algebra', 'adds two polynomials',
 '''
+This operator interprets two lists as polynomials and adds them.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
@@ -1698,6 +1700,9 @@ coefficient.
     'discriminant' : [
 'algebra', 'calculates the discriminant of polynomial n',
 '''
+This operator calculates the discriminant of polynomial n (n is a list of
+coefficients of the powers of x in decreasing order).
+
 In algebra, the discriminant of a polynomial is a polynomial function of its
 coefficients, which allows deducing some properties of the roots without
 computing them. For example, the discriminant of the quadratic polynomial is
@@ -1816,7 +1821,7 @@ representing the coefficient of x^0 (i.e., the constant).
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
-This function solves for the roots of a polynomial, using mpmath's numerical
+This operator solves for the roots of a polynomial, using mpmath's numerical
 solver.
 
 For functions that take polynomial arguments, rpn interprets the list as
@@ -1832,6 +1837,9 @@ representing the coefficient of x^0 (i.e., the constant).
     'solve_cubic' : [
 'algebra', 'solves a cubic equation',
 '''
+This operator solves a cubic equation described by the 4 arguments.  It returns
+the two roots of the equation.
+
 a is the cubic coefficient (x^3), b is the quadratic coefficient (x^2), c is
 the linear coefficient (x), and d is the constant coefficient.
 
@@ -1845,6 +1853,9 @@ operator uses mpmath's numerical solver to do the same thing.
     'solve_quadratic' : [
 'algebra', 'solves a quadratic equation',
 '''
+This operator solves a quadratic equation described by the 3 arguments.  It
+returns the two roots of the equation.
+
 a is the quadratic coefficient (x^2), b is the linear coefficient (x), and c
 is the constant coefficient.
 
@@ -1858,6 +1869,9 @@ This operator uses the quadratic formula to solve quadratic equations.  The
     'solve_quartic' : [
 'algebra', 'solves a quartic equation',
 '''
+This operator solves a quartic equation described by the 5 arguments.  It
+returns the four roots of the equation.
+
 a is the quartic coefficient (x^4), b is the cubic coefficient (x^3), c is the
 quadratic coefficient (x^2), d is the linear coefficient (x), and e is the
 constant coefficient.
@@ -1879,6 +1893,8 @@ operator uses mpmath's numerical solver to do the same thing.
     'abs' : [
 'arithmetic', 'calculates the absolute value of n',
 '''
+This operator calculates the absolute value of n.
+
 The absolute value of a number represents its magnitude, regardless of sign.
 
 The absolute value of 0 or a postive number is the number itself.  The
@@ -1921,6 +1937,8 @@ Addition is supported for measurements.
     'antiharmonic_mean' : [
 'arithmetic', 'calculates the antiharmonic mean of a a list of numbers n',
 '''
+This operator calculates the antiharmonic mean of a a list of numbers n.
+
 The antiharmonic mean of a set of positive numbers is defined as the arithmetic
 mean of the squares of the numbers divided by the arithmetic mean of the
 numbers.
@@ -1951,7 +1969,8 @@ increased to the next integral multiple of i.
     'decrement' : [
 'arithmetic', 'returns n - 1',
 '''
-This operator is the equivalent of 'n 1 subtract'.
+This operator is the equivalent of 'n 1 subtract' and is provided as a
+convenience.
 ''',
 '''
 ''' + makeCommandExample( '1 decrement', indent=4 ) + '''
@@ -2015,6 +2034,8 @@ decreased to the next lower integral multiple of i.
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
+This operator calculates the greatest common denominator of elements in list n.
+
 The greatest common denominator is the largest number which is a common divisor
 of every element in list n.  If numbers are relatively prime, then their
 greatest common divisor is 1.
@@ -2028,6 +2049,8 @@ greatest common divisor is 1.
     'gcd2' : [
 'arithmetic', 'calculates the greatest common denominator of n and k',
 '''
+This operatro calculates the greatest common denominator of n and k.
+
 'n k gcd2' is equivalent to '[ n k ] gcd'
 ''',
 '''
@@ -2038,6 +2061,8 @@ greatest common divisor is 1.
     'geometric_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
 '''
+This operator calculates the geometric mean of a a list of numbers n.
+
 The geometric mean is calculated by taking the kth root of the product of k
 values.
 ''',
@@ -2051,6 +2076,8 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'harmonic_mean' : [
 'arithmetic', 'calculates the harmonic mean of a a list of numbers n',
 '''
+This operator calculates the harmonic mean of a a list of numbers n.
+
 The harmonic mean (sometimes called the subcontrary mean) is one of
 several kinds of average, and in particular one of the Pythagorean
 means.  Typically, it is appropriate for situations when the average of
@@ -2071,7 +2098,7 @@ Calculate the harmonic mean of the first n numbers from 1 to 7:
     'increment' : [
 'arithmetic', 'returns n + 1',
 '''
-This operator is the equivalent of 'n 1 add'.
+This operator is the equivalent of 'n 1 add', and is provided as a convenience.
 ''',
 '''
 ''' + makeCommandExample( '1 increment' ) + '''
@@ -2133,6 +2160,7 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_integer' : [
 'arithmetic', 'returns 1 if n is an integer, otherwise returns 0',
 '''
+This operator returns true (1) is n is an integer, and false (0) if it is not.
 'is_integer' requires a real argument.
 ''',
 '''
@@ -2144,6 +2172,9 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_kth_power' : [
 'arithmetic', 'returns 1 if n is a perfect kth power, otherwise returns 0',
 '''
+This operator returns true (1) if n is a perfect kth power, otherwise it returns
+false (0).
+
 'is_kth_power' also works with complex numbers.
 ''',
 '''
@@ -2155,6 +2186,9 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
+This operator returns true (1) is n is less than k, otherwise it returns false
+(0).
+
 'is_less' requires a real argument.
 ''',
 '''
@@ -2167,6 +2201,8 @@ otherwise it returns 0.  It is most useful in lambdas.
     'is_not_equal' : [
 'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
 '''
+This operator returns true (1) is n does not equal k, otherwise it returns false
+(0).
 This is the equivalent of 'is_equal not'.
 ''',
 '''
@@ -2178,7 +2214,8 @@ This is the equivalent of 'is_equal not'.
     'is_not_greater' : [
 'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
 '''
-'is_not_greater' is the equivalent of less than or equal.
+This operator returns true (1) if n is not greater than k, otherwise it returns
+false (0).  'is_not_greater' is the equivalent of less than or equal.
 
 'is_not_greater' requires a real argument.
 ''',
@@ -2192,7 +2229,8 @@ This is the equivalent of 'is_equal not'.
     'is_not_less' : [
 'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
 '''
-'is_not_less' is the equivalent of greater than or equal.
+This operator returns true (1) if n is not less than k, otherwise it returns
+false (0).  'is_not_less' is the equivalent of greater than or equal.
 
 'is_not_less' requires a real argument.
 ''',
@@ -2206,6 +2244,7 @@ This is the equivalent of 'is_equal not'.
     'is_not_zero' : [
 'arithmetic', 'returns 1 if n is not zero, otherwise returns 0',
 '''
+This operator returns true (1) if n is not zero, otherwise it returns false (0).
 This is simply a check for a non-zero value.
 
 The operator is primarily useful in lambdas.  It is actually identical to
@@ -2219,8 +2258,8 @@ The operator is primarily useful in lambdas.  It is actually identical to
     'is_odd' : [
 'arithmetic', 'returns whether n is an odd number',
 '''
-This operator returns 1 if the argument is an odd integer (i.e., an
-integer n such that n % 2 == 1), otherwise it returns 0.
+This operator returns 1 if the argument is an odd integer (i.e., an integer n
+such that n % 2 == 1), otherwise it returns 0.
 
 'is_odd' expects a real argument.
 ''',
@@ -2233,8 +2272,8 @@ integer n such that n % 2 == 1), otherwise it returns 0.
     'is_power_of_k' : [
 'arithmetic', 'returns whether n is a perfect power of k',
 '''
-Returns 1 if n is an integral power of k, otherwise it returns 0.  It accepts
-complex arguments.
+This operator returns true (1) if n is an integral power of k, otherwise it
+returns false (0).  It accepts complex arguments.
 ''',
 '''
 ''' + makeCommandExample( '16 4 is_power_of_k' ) + '''
@@ -2244,6 +2283,9 @@ complex arguments.
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
 '''
+This operator returns true (1) if n is a perfect square, otherwise it returns
+false (0).
+
 This operator is also the equivalent of 'n 2 is_kth_power'.  It accepts complex
 arguments.
 ''',
@@ -2259,7 +2301,10 @@ This works with complex numbers:
     'is_zero' : [
 'arithmetic', 'returns 1 if n is zero else 0',
 '''
-The operator is primarily useful in lambdas.  It is actually idential to the
+This operator returns true (1) if n is zero, otherwise it returns false (0).
+This is simply a check for a zero value.
+
+The operator is primarily useful in lambdas.  It is actually identical to the
 'not' operator.
 ''',
 '''
@@ -2296,6 +2341,8 @@ of every element in the list n.
     'lcm2' : [
 'arithmetic', 'calculates the least common multiple of n and k',
 '''
+This operator calculates the least common multiple (LCM) of n and k.
+
 The least common multiple is the smallest number that is an integral multiple
 of n and k.
 
@@ -2309,6 +2356,9 @@ of n and k.
     'mantissa' : [
 'arithmetic', 'returns the decimal part of n',
 '''
+This operator returns the decimal part of n.  It is the equivalent of
+'n n floor -'.
+
 'mantissa' expects a real argument.
 ''',
 '''
@@ -2331,6 +2381,8 @@ This operator returns the largest value in the input list of values n.
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
 '''
+This operator calculates the mean of values in list n.
+
 This is the classic definition of 'mean', often called 'average':  the sum of
 all items divided by the number of items.
 
@@ -2356,6 +2408,8 @@ This operator returns the smallest value in the input list of values n.
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
 '''
+This operator calculates n modulo k.
+
 'modulo' expects real arguments, but it doesn't require integer arguments.
 ''',
 '''
@@ -2387,6 +2441,8 @@ Multiplication is supported for measurements.
     'negative' : [
 'arithmetic', 'calculates the negative of n',
 '''
+This operator calculates the negative of n.
+
 This is the equalivent of 'n -1 *'.
 ''',
 '''
@@ -2400,6 +2456,8 @@ This is the equalivent of 'n -1 *'.
     'nearest_int' : [
 'arithmetic', 'returns the nearest integer to n',
 '''
+This operator returns the nearest integer to n.
+
 On a tie, 'nearest_int' returns the nearest even number.  This makes it slightly
 different than 'round'.
 ''',
@@ -2415,6 +2473,8 @@ different than 'round'.
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
 '''
+This operator calculates the product of the values in list n.
+
 When multiplying more than two values, 'product' can be little more accurate
 than successive uses of 'multiply'.
 ''',
@@ -2432,6 +2492,8 @@ Calculating the magnetic constant:
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
+This operator returns the reciprocal of n.
+
 This is the equivalent of '1 n /', which is valid for any real or complex
 number, except 0.
 ''',
@@ -2445,6 +2507,8 @@ number, except 0.
     'root_mean_square' : [
 'arithmetic', 'calculates the root mean square of values in list n',
 '''
+This operator calculates the root mean square of the values in list n.
+
 The root mean square is defined as the square root of the mean square (the
 arithmetic mean of the squares of a set of numbers).  The root mean square is
 also known as the quadratic mean and is a particular case of the generalized
@@ -2469,6 +2533,8 @@ Ref:  https://en.wikipedia.org/wiki/Root_mean_square
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
+The operator rounds n to the nearest integer.
+
 'round' requires a real argument.   If the value is exactly halfway between
 integers, 'round' will round up to the next highest integer.
 ''',
@@ -2482,6 +2548,8 @@ integers, 'round' will round up to the next highest integer.
     'round_by_digits' : [
 'arithmetic', 'rounds n to the nearest kth power of 10',
 '''
+This operator rounds n to the nearest kth power of 10.
+
 Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
 
 'round_by_digits' requires a real argument.  If the value is exactly halfway
@@ -2498,6 +2566,8 @@ between the least significant digit, 'round_by_digits' will round up.
     'round_by_value' : [
 'arithmetic', 'rounds n to the nearest multiple of k',
 '''
+This operator rounds n to the nearest multiple of k.
+
 Note that 'n round' is the equivalent of 'n 1 round_by_value'.  If the value
 is exactly halfway between multiples of k, 'round_by_value' will round up.
 ''',
@@ -2511,8 +2581,10 @@ is exactly halfway between multiples of k, 'round_by_value' will round up.
 [ 'round_by_digits', 'round', 'nearest_int' ] ],
 
     'sign' : [
-'arithmetic', 'returns the sign of a value',
+'arithmetic', 'returns the sign of n',
 '''
+This operator retuens the sign of n.
+
 For real numbers, 'sign' returns 1 for positive, -1 for negative and 0 for
 zero.
 
@@ -2540,6 +2612,8 @@ unit circle.
     'stddev' : [
 'arithmetic', 'calculates the standard deviation of values in list n',
 '''
+This operator calculates the standard deviation of the values in list n.
+
 The standard deviation is a measure that is used to quantify the amount of
 variation or dispersion of a set of data values.  A low standard deviation
 indicates that the data points tend to be close to the mean (also called the
@@ -2586,6 +2660,8 @@ Subtraction is supported for measurements.
     'sum' : [
 'arithmetic', 'calculates the sum of values in list n',
 '''
+This operator calculates the sum of the values in list n.
+
 In addition to numbers, 'sum' can also add up a list of measurements.
 
 When adding more than two values, 'sum' can be a little more accurate
@@ -2945,6 +3021,14 @@ the horizon after the sun sets.
     'next_antitransit' : [
 'astronomy', 'returns the time of the next antitransit of body a, when viewed from location b, at date-time c',
 '''
+This operator returns the date of the next antitransit of body a, when viewed
+from location b, at date c.  The antitransit is defined as the point where the
+body crosses the anti-meridian.
+
+The meridian is defined as the line running overhead from the celestial North
+pole to the South pole, and the anti-meridian as the other half of the same
+great circle; so the transit and anti-transit operators always succeed, whether
+the body crosses the horizon or not.
 ''',
 '''
 ''' + makeCommandExample( 'mars "Yakima, Washington" 2019-04-07 next_antitransit' ) + '''
@@ -3017,6 +3101,14 @@ location b, starting at date-time c.
     'next_transit' : [
 'astronomy', 'returns the date of the next transit of body a, when viewed from location b, at date c',
 '''
+This operator returns the date of the next transit of body a, when viewed from
+location b, at date c.  The transit is defined as the point where the body
+crosses the meridian.  In the case of the Sun, this is considered "solar noon".
+
+The meridian is defined as the line running overhead from the celestial North
+pole to the South pole, and the anti-meridian as the other half of the same
+great circle; so the transit and anti-transit operators always succeed, whether
+the body crosses the horizon or not.
 ''',
 '''
 ''' + makeCommandExample( 'moon "Albuquerque, NM" 2019-05-03 next_transit' ) + '''
@@ -3039,6 +3131,14 @@ This is also the amount of time between sunset and sunrise.
     'previous_antitransit' : [
 'astronomy', 'returns the date of the previous antitransit of body a, when viewed from location b, at date c',
 '''
+This operator returns the date of the previous antitransit of body a, when
+viewed from location b, at date c.  The antitransit is defined as the point
+where the body crosses the anti-meridian.
+
+The meridian is defined as the line running overhead from the celestial North
+pole to the South pole, and the anti-meridian as the other half of the same
+great circle; so the transit and anti-transit operators always succeed, whether
+the body crosses the horizon or not.
 ''',
 '''
 ''' + makeCommandExample( 'mercury "Tulsa, OK" 2019-06-03 previous_antitransit' ) + '''
@@ -3115,6 +3215,14 @@ when viewed from location b, starting at date-time c.
     'previous_transit' : [
 'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
 '''
+This operator returns the date of the previous transit of body a, when viewed
+from location b, at date c.  The transit is defined as the point where the body
+crosses the meridian.  In the case of the Sun, this is considered "solar noon".
+
+The meridian is defined as the line running overhead from the celestial North
+pole to the South pole, and the anti-meridian as the other half of the same
+great circle; so the transit and anti-transit operators always succeed, whether
+the body crosses the horizon or not.
 ''',
 '''
 ''' + makeCommandExample( 'neptune "Paris, France" now previous_transit' ) + '''
@@ -3129,7 +3237,8 @@ altitude in degrees.  Azimuth corresponds to compass direction, and altitude ran
 from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ) + '''
+''' + makeCommandExample( 'moon "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ),
 [ 'distance_from_earth', 'angular_size' ] ],
 
     'solar_noon' : [
@@ -3486,8 +3595,11 @@ dropping the remainder.
     #******************************************************************************
 
     'advent' : [
-'calendars', 'returns the date of the first Sunday of Advent for the year specified',
+'calendars', 'returns the date of the first Sunday of Advent for the year n',
 '''
+This operator eturns the date of the first Sunday of Advent for the year
+specified.
+
 Advent is a season observed in many Christian churches as a time of expectant
 waiting and preparation for both the celebration of the Nativity of Jesus at
 Christmas and the return of Jesus at the Second Coming.
@@ -3502,8 +3614,10 @@ Ref:  https://en.wikipedia.org/wiki/Advent
 ''' + makeCommandExample( '1943 advent' ),
 [ 'thanksgiving', 'easter', 'epiphany', 'christmas' ] ],
     'ascension' : [
-'calendars', 'returns the date of Ascension Thursday for the year specified',
+'calendars', 'returns the date of Ascension Thursday for the year n',
 '''
+This operator returns the date of Ascension Thursday for the year specified.
+
 Ascension Thursday is the 40th day of the Easter season in the Christian
 calendar, which starts with Easter.  It commemorates the day Christ ascended
 into Heaven, on the 40th day after His Resurrection, and marks the end of the
@@ -3515,8 +3629,10 @@ Easter season.
 [ 'easter', 'christmas' ] ],
 
     'ash_wednesday' : [
-'calendars', 'calculates the date of Ash Wednesday for the year specified',
+'calendars', 'calculates the date of Ash Wednesday for the year n',
 '''
+This operator calculates the date of Ash Wednesday for the year specified.
+
 Ash Wednesday marks the beginning of Lent, the 40-day penitential season
 leading up to Easter in the Christian calendar.  Note that the season of Lent
 does not technically include Sundays, so the difference between Easter and Ash
@@ -3530,6 +3646,8 @@ Wednesday is actually 46 days.
     'calendar' : [
 'calendars', 'prints a month calendar for date-time n',
 '''
+This operator prints a month calendar for date-time n.
+
 The 'calendar' operator is special in that what it prints out is a side-effect.
 The operator itself doesn't actually do anything.
 ''',
@@ -3547,8 +3665,10 @@ Su Mo Tu We Th Fr Sa
 [ 'year_calendar', 'weekday', 'weekday_name' ] ],
 
     'christmas' : [
-'calendars', 'returns the date of Christmas for the year specified',
+'calendars', 'returns the date of Christmas for the year n',
 '''
+This operator returns the date of Christmas for the year specified.
+
 Christmas commemorates the birth of Christ in the Christian calendar, although
 it does not reflect the actual birth day of Jesus, which is unrecorded, and
 is considered likely to have happened in the springtime, some time between
@@ -3566,6 +3686,8 @@ days until Christmas and used the 'christmas' operator instinctively.
     'columbus_day' : [
 'calendars', 'returns the date of Columbus Day (US) for the year n',
 '''
+This operator returns the date of Columbus Day (US) for the year specified.
+
 Columbus Day is a national holiday in many countries of the Americas and
 elsewhere which officially celebrates the anniversary of Christopher Columbus'
 arrival in the Americas on October 12, 1492 (Julian Calendar).
@@ -3584,6 +3706,9 @@ Ref:  https://en.wikipedia.org/wiki/Columbus_Day
     'dst_end' : [
 'calendars', 'calculates the ending date for Daylight Saving Time (US) for the year n',
 '''
+This operator calculates the ending date for Daylight Saving Time (US) for the
+year specified.
+
 This function is specific to the United States.  The history of Daylight Saving
 Time is rather complicated, and this function attempts to return correct
 historical values for every year since DST was adopted.
@@ -3596,6 +3721,9 @@ historical values for every year since DST was adopted.
     'dst_start' : [
 'calendars', 'calculates the starting date for Daylight Saving Time (US) for the year n',
 '''
+This operator calculates the starting date for Daylight Saving Time (US) for the
+year specified.
+
 This function is specific to the United States.  The history of Daylight Saving
 Time is rather complicated, and this function attempts to return correct
 historical values for every year since DST was adopted.
@@ -3608,6 +3736,8 @@ historical values for every year since DST was adopted.
     'easter' : [
 'calendars', 'calculates the date of Easter for the year n',
 '''
+This operator calculates the date of Easter for the year specified.
+
 In the Christian calendar, Easter commemorates the Resurrection of Christ.  The
 'easter' operator calculates Easter based on the Roman Catholic calendar, which
 is the traditional date through most of Western Christendom.
@@ -3620,6 +3750,8 @@ is the traditional date through most of Western Christendom.
     'election_day' : [
 'calendars', 'calculates the date of Election Day (US) for the year n',
 '''
+This operator calculates the date of Election Day (US) for the year specified.
+
 In the U.S., Election Day is defined to be the first Tuesday after the first
 Monday in November.  This definition was established by the U.S. Congress in
 1845.
@@ -3632,6 +3764,20 @@ Monday in November.  This definition was established by the U.S. Congress in
     'epiphany' : [
 'calendars', 'returns the date of Epiphany for the year n',
 '''
+This operator eturns the date of Epiphany for the year n.
+
+From https://en.wikipedia.org/wiki/Epiphany_(holiday):
+
+Epiphany is a Christian feast day that celebrates the revelation (theophany) of
+God incarnate as Jesus Christ.
+
+In Western Christianity, the feast commemorates principally (but not solely) the
+visit of the Magi to the Christ Child, and thus Jesus' physical manifestation to
+the Gentiles.  It is sometimes called Three Kings' Day, and in some traditions
+celebrated as Little Christmas.  Moreover, the feast of the Epiphany, in some
+denominations, also initiates the liturgical season of Epiphanytide.
+
+The traditional date for the feast is January 6.
 ''',
 '''
 ''' + makeCommandExample( '2011 epiphany' ) + '''
@@ -3639,8 +3785,10 @@ Monday in November.  This definition was established by the U.S. Congress in
 [ 'christmas', 'easter' ] ],
 
     'fathers_day' : [
-'calendars', 'calculates the date of Father\'s Day (US) for the year specified',
+'calendars', 'calculates the date of Father\'s Day (US) for the year n',
 '''
+This operator calculates the date of Father\'s Day (US) for the year specified.
+
 From https://en.wikipedia.org/wiki/Father%27s_Day:
 
 Father's Day is a day of honoring fatherhood and paternal bonds, as well as the
@@ -3662,6 +3810,8 @@ in June.  This is the definition that rpn uses.
     'from_bahai' : [
 'calendars', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Baha'i calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '177 7 10 from_bahai' ) + '''
@@ -3671,6 +3821,8 @@ in June.  This is the definition that rpn uses.
     'from_ethiopian' : [
 'calendars', 'converts a date in the Ethiopian calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Ethiopiam calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '2012 3 9 from_ethiopian' ) + '''
@@ -3680,6 +3832,8 @@ in June.  This is the definition that rpn uses.
     'from_french_republican' : [
 'calendars', 'converts a date in the French Republican calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the French Republican calendar to the
+equivalent Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '228 04 15 from_french_republican' ) + '''
@@ -3689,6 +3843,8 @@ in June.  This is the definition that rpn uses.
     'from_hebrew' : [
 'calendars', 'converts a date in the Hebrew calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Hebrew calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '5780 7 15 from_hebrew' ) + '''
@@ -3698,6 +3854,8 @@ in June.  This is the definition that rpn uses.
     'from_indian_civil' : [
 'calendars', 'converts a date in the Indian civil calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Indian Civil calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '1942 4 30 from_indian_civil' ) + '''
@@ -3707,6 +3865,8 @@ in June.  This is the definition that rpn uses.
     'from_islamic' : [
 'calendars', 'converts a date in the Islamic calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Islamic calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '1439 2 7 from_islamic' ) + '''
@@ -3716,6 +3876,8 @@ in June.  This is the definition that rpn uses.
     'from_julian' : [
 'calendars', 'converts a date to the equivalent date in the Julian calendar',
 '''
+This operator converts a date in the Julian calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '2020 1 1 from_julian' ) + '''
@@ -3725,6 +3887,25 @@ in June.  This is the definition that rpn uses.
     'from_mayan' : [
 'calendars', 'converts a date in the Mayan long count calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Mayan long count calendar to the equivalent
+Gregorian date.
+
+From https://en.wikipedia.org/wiki/Mesoamerican_Long_Count_calendar:
+
+The Mesoamerican Long Count calendar is a non-repeating, vigesimal (base 20) and
+octodecimal (base 18) calendar used by several pre-Columbian Mesoamerican
+cultures, most notably the Maya.  For this reason, it is often known as the Maya
+(or Mayan) Long Count calendar.  Using a modified vigesimal tally, the Long
+Count calendar identifies a day by counting the number of days passed since a
+mythical creation date that corresponds to August 11, 3114 BCE in the Proleptic
+Gregorian calendar.  The Long Count calendar was widely used on monuments.
+
+Rather than using a base 10 scheme, the Long Count days were tallied in a
+modified base-20 scheme.  In a pure base 20 scheme, 0.0.0.1.5 is equal to 25 and
+0.0.0.2.0 is equal to 40.  The Long Count is not pure base-20, however, since
+the second digit from the right (and only that digit) rolls over to zero when it
+reaches 18.  Thus 0.0.1.0.0 does not represent 400 days, but rather only 360
+days and 0.0.0.17.19 represents 359 days.
 ''',
 '''
 ''' + makeCommandExample( '12 19 17 19 19 from_mayan' ) + '''
@@ -3735,6 +3916,8 @@ in June.  This is the definition that rpn uses.
     'from_persian' : [
 'calendars', 'converts a date in the Persian calendar to the equivalent Gregorian date',
 '''
+This operator converts a date in the Persian calendar to the equivalent
+Gregorian date.  The 3 arguments required are year, month, and day.
 ''',
 '''
 ''' + makeCommandExample( '1399 4 31 from_persian' ) + '''
@@ -3742,8 +3925,10 @@ in June.  This is the definition that rpn uses.
 [ 'to_persian', 'to_persian_name' ] ],
 
     'good_friday' : [
-'calendars', 'calculates the date of Good Friday for the year specified',
+'calendars', 'calculates the date of Good Friday for the year n',
 '''
+This operator calculates the date of Good Friday for the year specified.
+
 Good Friday is celebrated by Christians as the day which Jesus was crucified
 and died.  This day is two days before the celebration of Jesus' Resurrection
 on Easter Sunday, as determined by the Roman Catholic calendar and celebrated
@@ -3757,6 +3942,8 @@ by msot of Western Christendom.
     'independence_day' : [
 'calendars', 'returns the date of Independence Day (US) for the year n',
 '''
+This operator returns the date of Independence Day (US) for the year specified.
+
 Independence Day celebrates the signing of the Declaration of Independence on
 July 4, 1776, which signified the intention of the British colonies to separate
 from England and become their own country.
@@ -3765,17 +3952,11 @@ from England and become their own country.
 ''' + makeCommandExample( '2017 independence_day' ),
 [ 'veterans_day', 'memorial_day', 'columbus_day' ] ],
 
-    'iso_date' : [
-'calendars', 'returns the date in the ISO format',
-'''
-''',
-'''
-''',
-[ 'to_iso', 'make_iso_time', 'iso_day', 'to_iso_name' ] ],
-
     'labor_day' : [
 'calendars', 'calculates the date of Labor Day (US) for the year n',
 '''
+This operator calculates the date of Labor Day (US) for the year specified.
+
 In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
@@ -3786,6 +3967,9 @@ In the U.S., Labor Day falls on the first Monday of September.
     'martin_luther_king_day' : [
 'calendars', 'returns the date of Martin Luther King Day (US) for the year n',
 '''
+This operator returns the date of Martin Luther King Day (US) for the year
+specified.
+
 Martin Luther King Day is a Federal holiday in the United States, celebrating
 the accomplishments of Dr. Martin Luther King, Jr. who was an American Baptist
 minister and influential civil rights spokesperson and activist.
@@ -3800,6 +3984,8 @@ King's birthday on January 15, 1929.
     'memorial_day' : [
 'calendars', 'calculates the date of Memorial Day (US) for the year specified',
 '''
+This operator calculates the date of Memorial Day (US) for the year specified.
+
 In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
 is dedicated to the memorial of the men and women who gave their lives in the
 armed services.
@@ -3812,6 +3998,8 @@ armed services.
     'mothers_day' : [
 'calendars', 'calculates the date of Mother\'s Day (US) for the year specified',
 '''
+This operator calculates the date of Mother\'s Day (US) for the year specified.
+
 From https://en.wikipedia.org/wiki/Mother%27s_Day:
 
 Mother's Day is a celebration honoring the mother of the family, as well as
@@ -3839,6 +4027,8 @@ second Sunday in May.
     'new_years_day' : [
 'calendars', 'returns the date of New Year\'s Day (US) for the year specified',
 '''
+This operator returns the date of New Year\'s Day (US) for the year specified.
+
 From https://en.wikipedia.org/wiki/New_Year%27s_Day:
 
 New Year's Day, also simply called New Year, is observed on 1 January, the first
@@ -3895,6 +4085,8 @@ Find the last Friday of 2020:
     'pentecost' : [
 'calendars', 'returns the date of Pentecost Sunday for the year specified',
 '''
+This operator returns the date of Pentecost Sunday for the year specified.
+
 From https://en.wikipedia.org/wiki/Pentecost:
 
 The Christian holiday of Pentecost, which is celebrated the 50th day (the
@@ -3911,6 +4103,10 @@ Apostles (Acts 2:1–31).
     'presidents_day' : [
 'calendars', 'calculates the date of Presidents Day (US) for the year specified',
 '''
+This operator calculates the date of Presidents Day (US) for the year specified.
+
+From https://en.wikipedia.org/wiki/Washington%27s_Birthday:
+
 Washington's Birthday is a federal holiday in the United States celebrated on
 the third Monday of February in honor of George Washington, the first President
 of the United States, who was born on February 22, 1732.  The Uniform Monday
@@ -3936,6 +4132,8 @@ Washington and Thomas Jefferson, who was born in April).
     'thanksgiving' : [
 'calendars', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
+This operator calculates the date of Thanksgiving (US) for the year specified.
+
 From https://en.wikipedia.org/wiki/Thanksgiving:
 
 Thanksgiving Day is a national holiday celebrated on various dates in the United
@@ -3947,8 +4145,6 @@ fourth Thursday of November in the United States and Brazil, and around the
 same part of the year in other places.  Although Thanksgiving has historical
 roots in religious and cultural traditions, it has long been celebrated as a
 secular holiday as well.
-
-rpn uses the U.S. date for Thanksgiving.
 ''',
 '''
 ''' + makeCommandExample( '2017 thanksgiving' ) + '''
@@ -3967,6 +4163,9 @@ rpn uses the U.S. date for Thanksgiving.
     'to_bahai_name' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
 '''
+This operator converts a date to the equivalent date in the Baha\'i calendar
+with the weekday and month names.
+
 Since rpnChilada is limited to ASCII text, ASCII versions of the Baha'i
 names are used.
 ''',
@@ -3978,6 +4177,7 @@ names are used.
     'to_ethiopian' : [
 'calendars', 'converts a date to the equivalent date in the Ethiopian calendar',
 '''
+This operator converts a date to the equivalent date in the Ethiopian calendar.
 ''',
 '''
 ''' + makeCommandExample( '2018-12-21 to_ethiopian' ) + '''
@@ -3987,9 +4187,9 @@ names are used.
     'to_ethiopian_name' : [
 'calendars', 'converts a date to the equivalent date in the Ethiopian calendar with the day and month names',
 '''
-The Ethiopian calendar names every day in the month after a saint.  This
-function returns the month and date names for the current date in the
-Ethiopian calendar.
+This operator converts a date to the equivalent date in the Ethiopian calendar
+with the day and month names.  The Ethiopian calendar names every day of the
+month after a saint.
 
 Since rpnChilada is limited to ASCII text, ASCII versions of the Ethiopian
 names are used.
@@ -4000,8 +4200,10 @@ names are used.
 [ 'from_ethiopian', 'to_ethiopian' ] ],
 
     'to_french_republican' : [
-'calendars', 'converts a date to the equivalent date in the Baha\'i',
+'calendars', 'converts a date to the equivalent date in the French Republican calendar',
 '''
+This operator converts a date to the equivalent date in the French Republican
+calendar.
 ''',
 '''
 ''' + makeCommandExample( '1799-07-14 to_french_republican' ) + '''
@@ -4011,6 +4213,9 @@ names are used.
     'to_french_republican_name' : [
 'calendars', 'converts a date to the equivalent date in the French Republican calendar with the weekday and month names',
 '''
+This operator converts a date to the equivalent date in the French Republican
+calendar with day and month names.
+
 Since rpnChilada is limited to ASCII text, ASCII versions of the French
 Republican names are used.
 ''',
@@ -4022,6 +4227,14 @@ Republican names are used.
     'to_hebrew' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar',
 '''
+This operator converts a date to the equivalent date in the Hebrew calendar.
+
+Since rpnChilada is limited to ASCII text, ASCII versions of the Hebrew
+names are used.
+
+Technically, days in the Hebrew calendar start at sundown, not midnight.
+rpnChilada does not that into consideration, because it would require a
+geographic location as input.
 ''',
 '''
 ''' + makeCommandExample( '2018-04-30 to_hebrew' ) + '''
@@ -4031,8 +4244,15 @@ Republican names are used.
     'to_hebrew_name' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
 '''
+This operator converts a date to the equivalent date in the Hebrew calendar with
+day and month names.
+
 Since rpnChilada is limited to ASCII text, ASCII versions of the Hebrew
 names are used.
+
+Technically, days in the Hebrew calendar start at sundown, not midnight.
+rpnChilada does not that into consideration, because it would require a
+geographic location as input.
 ''',
 '''
 ''' + makeCommandExample( '2018-04-30 to_hebrew_name' ) + '''
@@ -4042,6 +4262,8 @@ names are used.
     'to_indian_civil' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar',
 '''
+This operator converts a date to the equivalent date in the Indian Civil
+calendar.
 ''',
 '''
 ''' + makeCommandExample( '2019-02-28 to_indian_civil' ) + '''
@@ -4051,7 +4273,10 @@ names are used.
     'to_indian_civil_name' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
 '''
-Since rpnChilada is limited to ASCII text, ASCII versions of the Indian
+This operator converts a date to the equivalent date in the Indian Civil
+calendar with day and month names.
+
+Since rpnChilada is limited to ASCII text, ASCII versions of the Islamic
 names are used.
 ''',
 '''
@@ -4062,6 +4287,7 @@ names are used.
     'to_islamic' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar',
 '''
+This operator converts a date to the equivalent date in the Islamic calendar.
 ''',
 '''
 ''' + makeCommandExample( '2019-01-11 to_islamic' ) + '''
@@ -4071,6 +4297,9 @@ names are used.
     'to_islamic_name' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
 '''
+This operator converts a date to the equivalent date in the Islamic calendar
+with day and month names.
+
 Since rpnChilada is limited to ASCII text, ASCII versions of the Islamic
 names are used.
 ''',
@@ -4082,20 +4311,28 @@ names are used.
     'to_iso' : [
 'calendars', 'converts a date to the equivalent ISO date',
 '''
+The ISO day format is represented here by a three-valued list which contains the
+year, the number of the week, and the weekday (from 1-7, 1 = Monday).
 ''',
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso' ),
-[ 'iso_date', 'to_iso_name', 'iso_day', 'make_iso_time' ] ],
+[ 'to_iso', 'to_iso_name', 'iso_day', 'make_iso_time' ] ],
 
     'to_iso_name' : [
 'calendars', 'converts a date to the formatted version of the equivalent ISO date',
 '''
+THis operator converts a date to the formatted version of the equivalent ISO
+date.  The format consists of a "yyyy-Www-d", where "yyyy" is the year, "ww" is
+the one- or two-digit date number, and d is the weekday. (from 1-7, 1 = Monday).
+
+TODO:  This oeprator returns a string value that rpnChilada cannot cuurently
+parse.
 ''',
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso_name' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso_name' ),
-[ 'iso_date', 'to_iso', 'iso_day', 'make_iso_time' ] ],
+[ 'to_iso', 'iso_day', 'make_iso_time' ] ],
 
     'to_julian' : [
 'calendars', 'converts a date to the equivalent date in the Julian calendar',
@@ -4127,6 +4364,8 @@ names are used.
     'to_mayan' : [
 'calendars', 'converts a date to the equivalent date in the Mayan long count calendar',
 '''
+This operator converts a date to the equivalent date in the Mayan long count
+calendar.
 ''',
 '''
 ''' + makeCommandExample( '2012-12-20 to_mayan' ) + '''
@@ -4145,6 +4384,7 @@ names are used.
     'to_persian' : [
 'calendars', 'converts a date to the equivalent date in the Persian calendar',
 '''
+This operator converts a date to the equivalent date in the Persian calendar.
 ''',
 '''
 ''' + makeCommandExample( '2019-03-15 to_persian' ) + '''
@@ -4154,6 +4394,9 @@ names are used.
     'to_persian_name' : [
 'calendars', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
+This operator converts a date to the equivalent date in the Persian calendar
+with the weekday and month names.
+
 Since rpnChilada is limited to ASCII text, ASCII versions of the Persian
 names are used.
 ''',
@@ -4165,14 +4408,25 @@ names are used.
     'veterans_day' : [
 'calendars', 'returns the date of Veterans Day as celebrated in the U.S. for the year specified',
 '''
+This operator returns the date of Veterans Day as celebrated in the U.S. for the
+year specified.
+
+From https://en.wikipedia.org/wiki/Veterans_Day:
+
+Veterans Day (originally known as Armistice Day) is a federal holiday in the
+United States observed annually on November 11, for honoring military veterans,
+that is, persons who have served in the United States Armed Forces (and were
+discharged under conditions other than dishonorable).
 ''',
 '''
 ''' + makeCommandExample( '2017 veterans_day' ),
 [ 'independence_day', 'memorial_day', 'columbus_day' ] ],
 
     'weekday' : [
-'calendars', 'calculates the day of the week of an absolute time',
+'calendars', 'calculates the day of the week of date-time n',
 '''
+This operator calculates the day of the week of a specified date-time.
+
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.  It returns a number representing the weekday,
 where 0 == Monday, 1 == Tuesday, 2 == Wednesday, 3 == Thursday,
@@ -4186,8 +4440,11 @@ where 0 == Monday, 1 == Tuesday, 2 == Wednesday, 3 == Thursday,
 [ 'calendar', 'nth_weekday', 'nth_weekday_of_year', 'weekday_name' ] ],
 
     'weekday_name' : [
-'calendars', 'calculates the day of the week of an absolute time',
+'calendars', 'calculates the name of the day of the week of date-time n',
 '''
+This operator calculates the name of the day of the week of a specified
+date-time.
+
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.  Unlike the 'weekday' operator, 'weekday_name' will
 print out the actual name of the weekday.
@@ -4201,8 +4458,10 @@ print out the actual name of the weekday.
 [ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
 
     'year_calendar' : [
-'calendars', 'prints a month calendar for the date value',
+'calendars', 'prints a month calendar for date n',
 '''
+This operator prints a month calendar for the date value.
+
 The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns an empty string.
 ''',
@@ -4257,6 +4516,8 @@ Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
     'atomic_number' : [
 'chemistry', 'returns the atomic number of element n',
 '''
+This operator returns the atomic number of element n.
+
 Elements can be referred to by atomic symbol or name.
 ''',
 '''
@@ -4267,6 +4528,8 @@ Elements can be referred to by atomic symbol or name.
     'atomic_symbol' : [
 'chemistry', 'returns the atomic symbol of element n',
 '''
+This operator returns the atomic symbol of element n.
+
 Elements can be referred to by atomic number or name.
 ''',
 '''
@@ -4276,6 +4539,8 @@ Elements can be referred to by atomic number or name.
     'atomic_weight' : [
 'chemistry', 'returns the atomic weight of element n',
 '''
+This operator returns the atomic weight of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4285,6 +4550,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_block' : [
 'chemistry', 'returns the block of element n',
 '''
+This operator returns the block designation of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4294,6 +4561,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_boiling_point' : [
 'chemistry', 'returns the boiling point of element n',
 '''
+This operator returns the boiling point of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4303,6 +4572,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_density' : [
 'chemistry', 'returns the density of element n for STP',
 '''
+This operator returns the density of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 
 Density is reported in grams per cubic centimeter under standard temperature
@@ -4315,6 +4586,8 @@ and pressure conditions.
     'element_description' : [
 'chemistry', 'returns the description of element n',
 '''
+This operator returns the description of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4324,6 +4597,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_group' : [
 'chemistry', 'returns the group of element n',
 '''
+This operator returns the group designation of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4333,6 +4608,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_melting_point' : [
 'chemistry', 'returns the melting point of element n',
 '''
+This operator returns the melting point of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4342,6 +4619,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_name' : [
 'chemistry', 'returns the name of element n',
 '''
+This operator returns the full name of element n.
+
 Elements can be referred to by atomic symbol or atomic number.
 ''',
 '''
@@ -4351,6 +4630,8 @@ Elements can be referred to by atomic symbol or atomic number.
     'element_occurrence' : [
 'chemistry', 'returns the occurrence of element n',
 '''
+This operator returns the occurrence of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4360,6 +4641,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_period' : [
 'chemistry', 'returns the period of element n',
 '''
+This operator returns the period designation of element n.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4369,6 +4652,9 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'element_state' : [
 'chemistry', 'returns the state (at STP) of element n',
 '''
+This element returns the state of matter of element n.  This state of matter
+reported for under standard temperature and pressure conditions.
+
 Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
@@ -4378,6 +4664,8 @@ Elements can be referred to by atomic symbol, atomic number or name.
     'molar_mass' : [
 'chemistry', 'returns the molar mass of molecule n',
 '''
+This operator computes the molar mass of molecule n.
+
 Currently, the parser for molecules is very simple.  Molecule expressions
 consist solely of:
 
@@ -4400,6 +4688,8 @@ Where E is the atomic symbol of an element, and N is the count of atoms.
     'arrangements' : [
 'combinatorics', 'calculates the number of arrangements of n or fewer objects out of n objects',
 '''
+This operator calculates the number of arrangements of n or fewer objects out of
+n objects.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range arrangements' ) + '''
@@ -4431,6 +4721,7 @@ Generating Pascal's triangle:
     'combinations' : [
 'combinatorics', 'calculates the number of combinations of k out of n objects',
 '''
+This operatro calculates the number of combinations of k out of n objects.
 ''',
 '''
 ''' + makeCommandExample( '6 3 combinations' ) + '''
@@ -4441,8 +4732,10 @@ Generating Pascal's triangle:
     'compositions' : [
 'combinatorics', 'returns a list containing all distinct ordered k-tuples of positive integers whose elements sum to n',
 '''
-This is referred to as the compositions of n.  Non-integer arguments are
-truncated to integers.
+This operator returns a list containing all distinct ordered k-tuples of
+positive integers whose elements sum to n.
+
+This is referred to as the compositions of n.
 ''',
 '''
 ''' + makeCommandExample( '5 2 compositions' ) + '''
@@ -4453,6 +4746,8 @@ truncated to integers.
     'debruijn_sequence' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
 '''
+This operator generates a deBruijn sequence of n symbols and word-size k.
+
 A deBruijn sequence is a sequence of minimal length that contains all
 permutations of the n symbols (represented by the integers 1 to n) with a
 word size of k.
@@ -4471,6 +4766,9 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
     'count_frobenius' : [
 'combinatorics', 'calculates the number of combinations of items on n that add up to k',
 '''
+This operator calculates the number of combinations of items on n that add up to
+.
+
 While 'frobenius' returns the lowest number that is not a linear combination of
 the values in n, the 'count_frobenius' operators returns the number of
 different ways that linear combinations of the values in n add up to k.
@@ -4481,8 +4779,10 @@ different ways that linear combinations of the values in n add up to k.
 [ 'frobenius', 'solve_frobenius' ] ],
 
     'lah_number' : [
-'combinatorics', 'calculate the Lah number for n and k',
+'combinatorics', 'calculates the Lah number for n and k',
 '''
+This operatro calculates the Lah number for n and k.
+
 from https://en.wikipedia.org/wiki/Lah_number:
 
 In mathematics, the Lah numbers, discovered by Ivo Lah in 1955, are
@@ -4509,6 +4809,8 @@ The Lah numbers are only defined for n >= k.
     'multifactorial' : [
 'combinatorics', 'calculates the nth k-factorial',
 '''
+This operator calculates the nth k-factorial.
+
 The multifactorial operation is defined to be the product of every k-th
 integer from n down to 1.  Therefore, the 1-multifactorial function is the
 same as the 'factorial' operator and the 2-multifactorial function is the
@@ -4531,6 +4833,8 @@ same as the 'doublefac' operator.
     'narayana_number' : [
 'combinatorics', 'calculates the Narayana number for n and k',
 '''
+This operator calculates the Narayana number for n and k.
+
 From https://en.wikipedia.org/wiki/Narayana_number:
 
 In combinatorics, the Narayana numbers N(n, k), n = 1, 2, 3 ..., 1 <= k <= n,
@@ -4559,18 +4863,19 @@ The 10th row of the 'Narayana triangle':
     'nth_apery' : [
 'combinatorics', 'calculates the nth Apery number',
 '''
+This operator calculates the nth Apery number.
+
 From https://mathworld.wolfram.com/AperyNumber.html:
 
 Apery's numbers are defined by
         n
-       ---     2        2
-A_n =  \\    |n|  |n + k|
-       /    |k|  |  k  |
+       ---
+A_n =  \\
+       /     bin( n, k ) ^ 2 * bin( n + k, k ) ^ 2
        ---
        k=0
 
-where |n| is a binomial coefficient.
-      |k|
+where bin( n, k ) is the binomial coefficient.
 
 https://oeis.org/A005259
 ''',
@@ -4614,14 +4919,43 @@ https://oeis.org/A000110
     'nth_bell_polynomial' : [
 'combinatorics', 'evaluates the nth Bell polynomial with k',
 '''
+This operator evaluates the nth Bell polynomial for k.
+
+From https://en.wikipedia.org/wiki/Bell_polynomials:
+
+In combinatorial mathematics, the Bell polynomials, named in honor of Eric
+Temple Bell, are used in the study of set partitions.  They are related to
+Stirling and Bell numbers.  They also occur in many applications, such as in the
+Faa di Bruno's formula.
+
+From mpmath's documentation:
+
+For n, a nonnegative integer, bell(n,x) evaluates the Bell polynomial Bn( x ),
+the first few of which are:
+
+B0( x ) = 1
+B1( x ) = x
+B2( x ) = x^2 + x
+B3( x ) = x^3 + 3x^2 + x
+
+or bell() is called with only one argument, it gives the n-th Bell number Bn,
+which is the number of partitions of a set with n  elements.  [ Note:
+rpnChilada exposes this functionality with the 'nth_bell' operator. ]
+
+By setting the precision to at least log10( Bn ) digits, bell( ) provides fast
+calculation of exact Bell numbers.
 ''',
 '''
-''',
+''' + makeCommandExample( '0 2.5 nth_bell_polynomial' ) + '''
+''' + makeCommandExample( '1 2.5 nth_bell_polynomial' ) + '''
+''' + makeCommandExample( '2 2.5 nth_bell_polynomial' ),
 [ 'nth_bell' ] ],
 
     'nth_bernoulli' : [
 'combinatorics', 'calculates the nth Bernoulli number',
 '''
+This operator calculates the nth Bernoulli number.
+
 From https://en.wikipedia.org/wiki/Bernoulli_number:
 
 In mathematics, the Bernoulli numbers Bn are a sequence of rational numbers
@@ -4647,8 +4981,10 @@ published complex computer program.
 [ 'zeta', 'tan', 'tanh' ] ],
 
     'nth_catalan' : [
-'combinatorics', 'calculates nth Catalan number',
+'combinatorics', 'calculates the nth Catalan number',
 '''
+This operator calculates the nth Catalan number.
+
 From https://en.wikipedia.org/wiki/Catalan_number:
 
 In combinatorial mathematics, the Catalan numbers form a sequence of natural
@@ -4664,6 +5000,8 @@ Eugene Charles Catalan (1814-1894).
     'nth_delannoy' : [
 'combinatorics', 'calculates the nth Central Delannoy number',
 '''
+This operator calculates the nth Central Delannoy number.
+
 From https://en.wikipedia.org/wiki/Delannoy_number:
 
 In mathematics, a central Delannoy number D describes the number of paths from
@@ -4679,7 +5017,10 @@ Delannoy.
     'nth_menage' : [
 'combinatorics', 'calculate the nth Menage number for n and k',
 '''
-https://en.wikipedia.org/wiki/M%C3%A9nage_problem
+This operator calculates the nth Menage number for n and k.
+
+From https://en.wikipedia.org/wiki/M%C3%A9nage_problem:
+
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_menage' ),
@@ -4688,6 +5029,8 @@ https://en.wikipedia.org/wiki/M%C3%A9nage_problem
     'nth_motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
+This operator calculates the nth Motzkin number.
+
 From https://en.wikipedia.org/wiki/Motzkin_number:
 
 In mathematics, a Motzkin number for a given number n is the number of
@@ -4703,6 +5046,8 @@ combinatorics and number theory.
     'nth_pell' : [
 'combinatorics', 'calculates the nth Pell number',
 '''
+This operator calculates the nth Pell number.
+
 In mathematics, the Pell numbers are an infinite sequence of integers, known
 since ancient times, that comprise the denominators of the closest rational
 approximations to the square root of 2. This sequence of approximations begins
@@ -4718,6 +5063,8 @@ Ref:  https://en.wikipedia.org/wiki/Pell_number:
     'nth_schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
 '''
+This operator calculates the nth Schroeder number.
+
 In mathematics, a Schroeder number describes the number of paths from the
 southwest corner (0, 0) of an n x n grid to the northeast corner (n, n), using
 only single steps north, northeast, or east, that do not rise above the SW-NE
@@ -4732,6 +5079,8 @@ They were named after the German mathematician Ernst Schroeder.
     'nth_schroeder_hipparchus' : [
 'combinatorics', 'calculates the nth Schroeder-Hipparchus number',
 '''
+This operator calculates the nth Schroeder-Hipparchus number.
+
 In number theory, the Schroeder-Hipparchus numbers form an integer sequence
 that can be used to count the number of plane trees with a given set of leaves,
 the number of ways of inserting parentheses into a sequence, and the number of
@@ -4753,6 +5102,8 @@ Ref:  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number:
     'nth_sylvester' : [
 'combinatorics', 'calculates the nth Sylvester number',
 '''
+This operator calculates the nth Sylvester number.
+
 In number theory, Sylvester's sequence is an integer sequence in which each member
 of the sequence is the product of the previous members, plus one.
 
@@ -4768,6 +5119,8 @@ rapidly than any other series of unit fractions with the same number of terms.
     'partitions' : [
 'combinatorics', 'returns the partition number for n',
 '''
+This operator returns the partition number for n.
+
 A partition of a positive integer n, also called an integer partition, is a way
 of writing n as a sum of positive integers.  Two sums that differ only in the
 order of their summands are considered the same partition.
@@ -4779,7 +5132,7 @@ For example, 4 can be partitioned in five distinct ways:
     2 + 1 + 1
     1 + 1 + 1 + 1
 
-Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
+Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29
 ''',
 '''
 ''' + makeCommandExample( '4 partitions' ),
@@ -4788,6 +5141,8 @@ Ref:  https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
     'permutations' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
 '''
+This operator calculates the number of permutations of k out of n objects.
+
 When calculating the number of permutations of k objects, order matters.
 ''',
 '''
@@ -4799,6 +5154,8 @@ When calculating the number of permutations of k objects, order matters.
     'stirling1_number' : [
 'combinatorics', 'calculates the Stirling number of the first kind for n and k',
 '''
+This operator calculates the Stirling number of the first kind for n and k.
+
 Stirling numbers of the first kind arise in the study of permutations.  In
 particular, the Stirling numbers of the first kind count permutations according
 to their number of cycles (counting fixed points as cycles of length one).
@@ -4815,8 +5172,10 @@ Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_first_kind
 [ 'stirling2_number', 'permutations', 'lah_number' ] ],
 
     'stirling2_number' : [
-'combinatorics', 'calculates the Sitrling number of the second kind for n and k',
+'combinatorics', 'calculates the Stirling number of the second kind for n and k',
 '''
+This operator calculates the Stirling number of the second kind for n and k.
+
 A Stirling number of the second kind (or Stirling partition number) is the
 number of ways to partition a set of n objects into k non-empty subsets.
 Stirling numbers of the second kind occur in the field of mathematics called
@@ -4844,6 +5203,8 @@ Ref:  https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
 '''
+This operator calculates complex argument (phase) of n.
+
 The complex argument, or phase, of a complex number is defined as the
 signed angle between the positive real axis and n in the complex plane.
 ''',
@@ -4855,6 +5216,8 @@ signed angle between the positive real axis and n in the complex plane.
     'conjugate' : [
 'complex_math', 'calculates complex conjugate of n',
 '''
+This operator calculates complex conjugate of n.
+
 The complex conjugate is simply the nunmber with the same real part and an
 imaginary part with the same magnitude but opposite sign.
 ''',
@@ -4862,33 +5225,13 @@ imaginary part with the same magnitude but opposite sign.
 ''' + makeCommandExample( '3 3j + conj' ),
 [ 'argument', 'real', 'imaginary', 'i' ] ],
 
-#    'i' : [
-#'complex_math', 'the constant i, the square root of -1',
-#'''
-#This operator is a constant that represents i, the square root of -1, which is
-#classified as an imaginary number.
-#
-#rpn now recognizes the Python syntax of using 'j' to represent i.  The 'i'
-#operator remains, but is no longer needed.
-#''',
-#'''
-#''' + makeCommandExample( '2 i *' ) + '''
-#''' + makeCommandExample( '2j' ) + '''
-#''' + makeCommandExample( 'e pi i * **' ) + '''
-#
-#There's a rounding error here, but this demonstrates Euler's famous equation:
-#
-#e ^ ( pi * i ) = -1
-#''',
-#[ 'argument', 'conjugate', 'real', 'imaginary' ] ],
-
     'imaginary' : [
 'complex_math', 'returns the imaginary part of n',
 '''
+This operator returns the imaginary part of complex number n.
+
 Complex numbers have a real component and an imaginary component.  Of course,
 either one of these components might be zero.
-
-This operator returns the imaginary component of a complex number.
 ''',
 '''
 ''' + makeCommandExample( '7 imaginary' ) + '''
@@ -4899,10 +5242,10 @@ This operator returns the imaginary component of a complex number.
     'real' : [
 'complex_math', 'returns the real part of n',
 '''
+This operator returns the real component of a complex number n.
+
 Complex numbers have a real component and an imaginary component.  Of course,
 either one of these components might be zero.
-
-This operator returns the real component of a complex number.
 ''',
 '''
 ''' + makeCommandExample( '7 real' ) + '''
@@ -4937,10 +5280,9 @@ In mathematics, Catalan's constant G, which appears in combinatorics, is
 defined by the alternating sum of the reciprocals of the square of the odd
 numbers:
 
-       1    1    1    1    1
-b(2) = __ - __ + __ - __ + __ -  ...
-        2    2    2    2    2
-       1    3    5    7    9
+        1     1     1     1     1
+b(2) = --- - --- + --- - --- + --- -  ...
+       1^2   3^2   5^2   7^2   9^2
 
 where b is the Direchlet beta function.
 
@@ -5115,14 +5457,14 @@ Kinkelin.
 [ 'zeta', 'gamma' ] ],
 
     'infinity' : [
-'constants', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
+'constants', 'evaluates to infinity, used to describe ranges for ranged_sum, etc.',
 '''
-This operator represents infinity, and is meant to be used with 'nsum',
-'nprod', and 'limit' when describing infinite ranges.
+This operator represents infinity, and is meant to be used with 'ranged_sum',
+'ranged_product', and 'limit' when describing infinite ranges.
 ''',
 '''
-''' + makeCommandExample( '1 inf lambda x fib 1/x nsum' ) + '''
-''' + makeCommandExample( '1 inf lambda x lucas 1/x nsum' ) + '''
+''' + makeCommandExample( '1 inf lambda x fib 1/x ranged_sum' ) + '''
+''' + makeCommandExample( '1 inf lambda x lucas 1/x ranged_sum' ) + '''
 ''' + makeCommandExample( 'phi' ) + '''
 ''' + makeCommandExample( 'infinity lambda x 1 + fib x fib / limit' ),
 [ 'negative_infinity' ] ],
@@ -5130,6 +5472,11 @@ This operator represents infinity, and is meant to be used with 'nsum',
     'itoi' : [
 'constants', 'returns i to the i power',
 '''
+This is a constant that returns i to the i power, which is equivalent to e to
+the pi/2 * i power.
+
+Thanks to the funkiness of complex math, this value ends up being equal to
+approximately 0.2079.
 ''',
 '''
 ''' + makeCommandExample( 'i i **' ) + '''
@@ -5187,13 +5534,13 @@ decimal places.
 [ 'prime' ] ],
 
     'negative_infinity' : [
-'constants', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
+'constants', 'evaluates to negative infinity, used to describe ranges for ranged_sum, etc.',
 '''
 This operator represents negative infinity, and is meant to be used with
-'nsum', 'nprod', and 'limit' when describing infinite ranges.
+'ranged_sum', 'ranged_product', and 'limit' when describing infinite ranges.
 ''',
 '''
-''',
+''' + makeCommandExample( 'negative_infinity lambda e x ** limitn' ),
 [ 'infinity' ] ],
 
     'omega_constant' : [
@@ -5580,7 +5927,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
 '''
 ''' + makeCommandExample( 'prevost_constant' ),
-[ 'fibonacci', 'nsum' ] ],
+[ 'fibonacci', 'ranged_sum' ] ],
 
     'radiation_constant' : [
 'constants', 'returns the Radiation Constant',
@@ -5610,8 +5957,21 @@ at random within a unit cube.
 [ 'prevost_constant', 'plastic_constant', 'mills_constant' ] ],
 
     'silver_ratio' : [
-'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )',
+'constants', 'returns the silver ratio, defined to be 1 + sqrt( 2 )',
 '''
+This operator returns the silver ratio, which is defined to be 1 + sqrt( 2 ).
+
+From https://en.wikipedia.org/wiki/Silver_ratio:
+
+In mathematics, two quantities are in the silver ratio (or silver mean) if the
+ratio of the smaller of those two quantities to the larger quantity is the same
+as the ratio of the larger quantity to the sum of the smaller quantity and twice
+the larger quantity.  This defines the silver ratio as an irrational
+mathematical constant, whose value of one plus the square root of 2 is
+approximately 2.4142135623.  Its name is an allusion to the golden ratio;
+analogously to the way the golden ratio is the limiting ratio of consecutive
+Fibonacci numbers, the silver ratio is the limiting ratio of consecutive Pell
+numbers.
 ''',
 '''
 ''' + makeCommandExample( 'silver_ratio' ),
@@ -6044,24 +6404,13 @@ and seconds.
     #
     #******************************************************************************
 
-    'convert_time_zone' : [
-'date_time', 'converts the date-time n to the timezone k',
-'''
-This operator converts the date-time value of n to the timezone of k.
-
-To set the timezone for a particular date-time value without converting, use 'set_time_zone".
-''',
-'''
-''',
-[ 'set_time_zone', 'get_local_time' ] ],
-
     'iso_day' : [
 'date_time', 'returns the ISO day and week for a date-time value',
 '''
 ''',
 '''
 ''',
-[ 'iso_date', 'to_iso', 'iso_day', 'to_iso_name' ] ],
+[ 'to_iso', 'iso_day', 'to_iso_name' ] ],
 
 
     'get_day' : [
@@ -6084,13 +6433,18 @@ This operator returns the value of the hour from date-time n.
 ''' + makeCommandExample( '"2020-08-29 13:15:36" get_hour' ),
 [ 'get_minute', 'get_second' ] ],
 
-    'get_local_time' : [
-'date_time', 'convert a datetime to the local timezone',
+    'to_local_time' : [
+'date_time', 'converts a datetime to the local timezone',
 '''
+This operator converts a datetime to the local timezone.
+
+TODO:  rpnChilada does not currently include the timezone in a date-time value
+when it's changed to something other than local, although it keeps track of it
+internally.
 ''',
 '''
 ''',
-[ 'set_time_zone', 'get_utc' ] ],
+[ 'set_time_zone', 'to_utc' ] ],
 
     'get_minute' : [
 'date_time', 'returns the minute value of a date-time',
@@ -6121,15 +6475,6 @@ This operator returns the value of the second from date-time n.
 ''' + makeCommandExample( 'now get_second' ) + '''
 ''' + makeCommandExample( '"2020-08-29 13:13:18" get_second' ),
 [ 'get_minute', 'get_second' ] ],
-
-    'get_utc' : [
-'date_time', 'returns the datetime converted to UTC time',
-'''
-This operator returns date-time n converted to the UTC timezone.
-''',
-'''
-''' + makeCommandExample( '"2020-08-29 13:13:18" get_utc' ),
-[ 'get_local_time', 'set_time_zone' ] ],
 
     'get_year' : [
 'date_time', 'returns the year value of a date-time',
@@ -6182,11 +6527,11 @@ This operator sets the timezone value of n to timezone k.  It does not convert
 the date-time value to a different time zone.  It is used to specift a time in a
 different timezone.
 
-To convert a date-time value to a different time zone, use 'convert_time_zone'.
+To convert a date-time value to a different time zone, use 'to_time_zone'.
 ''',
 '''
 ''',
-[ 'convert_time_zone', 'get_local_time' ] ],
+[ 'to_time_zone', 'to_local_time' ] ],
 
     'today' : [
 'date_time', 'returns the current date',
@@ -6211,6 +6556,27 @@ time value of 00:00:00 (midnight).
 ''' + makeCommandExample( 'today' ) + '''
 ''' + makeCommandExample( 'tomorrow' ),
 [ 'yesterday', 'today' ] ],
+
+    'to_time_zone' : [
+'date_time', 'converts the date-time n to the timezone k',
+'''
+This operator converts the date-time value of n to the timezone of k.
+
+To set the timezone for a particular date-time value without converting, use
+'set_time_zone".
+''',
+'''
+''',
+[ 'set_time_zone', 'to_local_time' ] ],
+
+    'to_utc' : [
+'date_time', 'returns the datetime converted to UTC time',
+'''
+This operator returns date-time n converted to the UTC timezone.
+''',
+'''
+''' + makeCommandExample( '"2020-08-29 13:13:18" to_utc' ),
+[ 'to_local_time', 'set_time_zone' ] ],
 
     'yesterday' : [
 'date_time', 'returns the previous date',
@@ -6375,6 +6741,9 @@ number of elements as the number of arguments expected by function n.
     'for_each_list' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list argument',
 '''
+This operator evaluates function k on elements of list n, treating each element
+as a list argument.  This is necessary when using lambdas that contain an
+operator that expects a list argument.
 ''',
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 6 7 ] [ 8 9 ] ] lambda x -1 element for_each_list' ) + '''
@@ -6384,19 +6753,24 @@ number of elements as the number of arguments expected by function n.
     'function': [
 'functions', 'creates a user-defined function k named n',
 '''
-Functions are invoked by name, prefixed with '@'.
+This operator creates a user-defined function k named n.  User functions can be
+invoked just like any other operator.  Functions are invoked by name, prefixed
+with '@'.
 ''',
 '''
 ''' + makeCommandExample( 'test_function lambda x 4 ** function' ) + '''
-''' + makeCommandExample( '1 10 range @test_function' ),
+''' + makeCommandExample( '1 10 range @test_function' ) + '''
+A two-argument function is created and invoked the same way:
+''' + makeCommandExample( 'test_function_2 lambda x 2 ** y 2 ** + function' ) + '''
+''' + makeCommandExample( '3 4 @test_function_2' ),
 [ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
 
     'lambda' : [
 'functions', 'begins a function definition',
 '''
-Allows the user to define a function for use with the eval, nsum, nprod,
-and limit operators, etc.  Basically 'lambda' starts an expression that
-becomes a function.
+Allows the user to define a function for use with the 'eval', 'ranged_sum',
+'ranged_product', and 'limit' operators, etc.  Basically 'lambda' starts an
+expression that becomes a function.
 
 See the 'user_functions' help topic for more details.
 ''',
@@ -6404,7 +6778,7 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
-[ 'eval', 'function', 'limit', 'nsum', 'nprod' ] ],
+[ 'eval', 'function', 'limit', 'ranged_sum', 'ranged_product' ] ],
 
     'limit' : [
 'functions', 'calculates the limit of function k( x ) as x approaches n',
@@ -6421,22 +6795,6 @@ See the 'user_functions' help topic for more details.
 '''
 ''',
 [ 'limit', 'lambda' ] ],
-
-    'nprod' : [
-'functions', 'calculates the product of function c over the range of a through b',
-'''
-''',
-'''
-''',
-[ 'nsum', 'lambda' ] ],
-
-    'nsum' : [
-'functions', 'calculates the sum of function c over the range of a through b',
-'''
-''',
-'''
-''',
-[ 'nprod', 'lambda' ] ],
 
     'plot' : [
 'functions', 'plot function c for values of x between a and b',
@@ -6491,6 +6849,22 @@ rpn-10 10 -10 10 zeta plot_complex
 
 ''',
 [ 'plot', 'plot2', 'lambda' ] ],
+
+    'ranged_product' : [
+'functions', 'calculates the product of function c over the range of a through b',
+'''
+''',
+'''
+''',
+[ 'ranged_sum', 'lambda' ] ],
+
+    'ranged_sum' : [
+'functions', 'calculates the sum of function c over the range of a through b',
+'''
+''',
+'''
+''',
+[ 'ranged_product', 'lambda' ] ],
 
     'recurrence' : [
 'functions', 'evaluates the function c, b times, starting with a and using the result of each previous function call as an argument for the next',
@@ -6553,7 +6927,7 @@ See the 'user_functions' help topic for more details.
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
-''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ),
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / ranged_sum' ),
 [ 'lambda', 'y', 'z' ] ],
 
     'y' : [
@@ -6576,7 +6950,7 @@ arguments.  The 'z' operator represents the third argument of the function.
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
-''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ),
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / ranged_sum' ),
 [ 'lambda', 'x', 'y' ] ],
 
 
@@ -7215,6 +7589,11 @@ Digit expressions include:
 
     'o':              odd digits, the equivalent of "[13579]"
 
+    's':              step digits:  This will replaced with a step digit, based
+                      on the previous digit, i.e., one greater than or one less
+                      than.  Step digits cannot wrap, so for 0, the only step
+                      digit is 1, and for 9, the only step digit is 8.
+
     [I[I]...]:        a set of possible values for digits where I is a
                       literal digit or a range, which is specified by
                       two separate digits with a '-' in between
@@ -7251,7 +7630,8 @@ I have to admit, this operator was only created in a failed attempt to solve
 the Euler Project Problem #178.
 ''',
 '''
-''',
+''' + makeCommandExample( '2 build_step_numbers' ) + '''
+''' + makeCommandExample( '3 build_step_numbers' ),
 [ 'is_step_number' ] ],
 
     'combine_digits' : [
@@ -7273,6 +7653,8 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
     'count_digits' : [
 'lexicography', 'counts the occurrences in n of all digits in k',
 '''
+This operator counts the number of occurrences in the digits of n of all the
+unique digits in k.
 ''',
 '''
 ''' + makeCommandExample( '1222333456 1 count_digits' ) + '''
@@ -7282,6 +7664,8 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
     'count_different_digits' : [
 'lexicography', 'counts the number of different digits in n',
 '''
+This operator simply counts the number of different digits in integer n.  The
+result can be anything from 1 to 10 (for a pandigital number).
 ''',
 '''
 ''' + makeCommandExample( '1222333456 count_different_digits' ) + '''
@@ -7289,10 +7673,13 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 [ 'count_digits', 'has_digits', 'has_only_digits' ] ],
 
     'cyclic_permutations' : [
-'lexicography', 'returns a list of all cyclic permutations of n',
+'lexicography', 'returns a list of all cyclic permutations of integer n',
 '''
+This operator returns a list containing all the cyclic permutations of integer
+n.
 ''',
 '''
+''' + makeCommandExample( '12345 cyclic_permutations' ) + '''
 All of the circular primes up to a million:
 ''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime and_all filter [ 2 5 ] append sort' ),
 [ 'rotate_digits_left', 'rotate_digits_right' ] ],
@@ -8311,6 +8698,8 @@ then the second operand list.
     'collate' : [
 'list_operators', 'returns a list of n-element lists of corresponding elements from each sublist of n',
 '''
+This operator returns a list of n-element lists of corresponding elements from
+each sublist of n.
 ''',
 '''
 ''' + makeCommandExample( '6 10 range 1 enumerate' ) + '''
@@ -8401,6 +8790,8 @@ The xth item of the resulting list is the sum of the first x items in n.
     'difference' : [
 'list_operators', 'returns a list of unique elements in list k that are not found in list n',
 '''
+This operator eturns a list of unique elements in list k that are not found in
+list n.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 4 ] [ 3 4 5 ] difference' ) + '''
@@ -8745,7 +9136,7 @@ ratio (out of 1.0), where each value is the cumulative ratio of that item and th
 ones preceding it.  The result will be sorted by values.
 ''',
 '''
-''',
+''' + makeCommandExample( '2d4 permute_dice occurrence_cumulative -s1' ),
 [ 'occurrence_ratios', 'occurrences' ] ],
 
     'occurrence_ratios' : [
@@ -9113,7 +9504,7 @@ k.
 ''',
 '''
 ''' + makeCommandExample( '0.5 1 polyexp' ) + '''
-''' + makeCommandExample( '1 inf lambda x 0.5 ** x ! / nsum' ) + '''
+''' + makeCommandExample( '1 inf lambda x 0.5 ** x ! / ranged_sum' ) + '''
 ''' + makeCommandExample( '-3 4j - 2.5 2j + polyexp' ) + '''
 ''' + makeCommandExample( '4 -100 polyexp' ),
 [ 'polylog', 'exp' ] ],
@@ -9469,14 +9860,27 @@ The Barnes G-function is the generalization of the superfactorial to real and
 complex numbers.
 ''',
 '''
-''',
+''' + makeCommandExample( '7 barnesg' ) + '''
+''' + makeCommandExample( '15.6 barnesg' ) + '''
+''' + makeCommandExample( '4 3j + barnesg' ),
 [ 'superfactorial', 'gamma' ] ],
 
     'base' : [
-'number_theory', 'interprets list elements as base k digits',
+'number_theory', 'interprets list elements from n as base k digits',
 '''
+This operator is used to convert numbers from an arbitrary base to base 10.
+Instead of having to come up with additional digits to represent every base-k,
+the list n is interpreted as a list of base-k digits, which are themselves
+repesented in base 10.
 ''',
 '''
+''' + makeCommandExample( '-x [ 76 81 43 17 ] 97 base' ) + '''
+Convert an IP address to a 32-bit value and back (by pretending it's a base-256
+number):
+    We'll use '-x' to convert the result to hexadecimal:
+''' + makeCommandExample( '-x [ 192 168 0 1 ] 256 base' ) + '''
+    We can convert it back by using base 256:
+''' + makeCommandExample( '0xc0a80001 256 get_base_k_digits' ) + '''
 ''',
 [ 'get_base_k_digits' ] ],
 
@@ -9527,9 +9931,26 @@ Ref:  https://en.wikipedia.org/wiki/Calkin%E2%80%93Wilf_tree
     'continued_fraction' : [
 'number_theory', 'interprets list n as a continued fraction',
 '''
+This operator interprets list n as terms in a continued fraction.  Note that
+setting a sufficient level of accuracy (using -a) is very important to getting
+a correct result with longer lists.
+
+From https://en.wikipedia.org/wiki/Continued_fraction:
+
+In mathematics, a continued fraction is an expression obtained through an
+iterative process of representing a number as the sum of its integer part and
+the reciprocal of another number, then writing this other number as the sum of
+its integer part and another reciprocal, and so on.  In a finite continued
+fraction (or terminated continued fraction), the iteration/recursion is
+terminated after finitely many steps by using an integer in lieu of another
+continued fraction. In  contrast, an infinite continued fraction is an infinite
+expression.  In either case, all integers in the sequence, other than the first,
+must be positive.  The integers are called the coefficients or terms of the
+continued fraction.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 3 7 15 1 292 1 1 1 2 1 ] continued_fraction' ) + '''
+''' + makeCommandExample( '[ 1 2 2 2 2 2 2 2 2 2 2 2 ] continued_fraction' ),
 [ 'make_continued_fraction', 'fraction' ] ],
 
     'collatz' : [
@@ -9631,6 +10052,42 @@ So it could sort of be thought of as a "half factorial".
     'egyptian_fractions' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''
+This operator calculates the Egyption fractions for n/k using the greedy
+algorithm.
+
+From https://en.wikipedia.org/wiki/Egyptian_fraction:
+
+An Egyptian fraction is a finite sum of distinct unit fractions, such as:
+
+1   1    1
+- + - + --
+2   3   16
+
+That is, each fraction in the expression has a numerator equal to 1 and a
+denominator that is a positive integer, and all the denominators differ from
+each other.  The value of an expression of this type is a positive rational
+number a/b; for instance the Egyptian fraction above sums to 43/48.  Every
+positive rational number can be represented by an Egyptian fraction.  Sums of
+this type, and similar sums also including 2/3 and 3/4 as summands, were used as
+a serious notation for rational numbers by the ancient Egyptians, and continued
+to be used by other civilizations into medieval times.  In modern mathematical
+notation, Egyptian fractions have been superseded by vulgar fractions and
+decimal notation.  However, Egyptian fractions continue to be an object of study
+in modern number theory and recreational mathematics, as well as in modern
+historical studies of ancient mathematics.
+
+From https://en.wikipedia.org/wiki/Greedy_algorithm_for_Egyptian_fractions:
+
+In mathematics, the greedy algorithm for Egyptian fractions is a greedy
+algorithm, first described by Fibonacci, for transforming rational numbers into
+ Egyptian fractions.  An Egyptian fraction is a representation of an irreducible
+ fraction as a sum of distinct unit fractions, as e.g. 5/6 = 1/2 + 1/3.  As the
+ name indicates, these representations have been used as long ago as ancient
+ Egypt, but the first published systematic method for constructing such
+ expansions is described in the Liber Abaci (1202) of Leonardo of Pisa
+ (Fibonacci).  It is called a greedy algorithm because at each step the
+ algorithm chooses greedily the largest possible unit fraction that can be used
+ in any representation of the remaining fraction.
 ''',
 '''
 ''' + makeCommandExample( '45 67 egyptian_fractions' ) + '''
@@ -9640,7 +10097,22 @@ So it could sort of be thought of as a "half factorial".
     'eta' : [
 'number_theory', 'calculates the Dirichlet eta function for n',
 '''
-The eta function is also known as the "alternating zeta function".
+This operator calculates the Dirichlet eta function for n.
+
+From https://en.wikipedia.org/wiki/Dirichlet_eta_function:
+
+n mathematics, in the area of analytic number theory, the Dirichlet eta function
+is defined by the following Dirichlet series, which converges for any complex
+number having real part > 0:
+
+                          1     1     1     1
+         eta( n ) =  1 + --- - --- + --- - --- ...
+                         2^n   3^n   4^n   5^n
+
+This Dirichlet series is the alternating sum corresponding to the Dirichlet
+series expansion of the Riemann zeta function, zeta( s ) — and for this reason
+the Dirichlet eta function is also known as the alternating zeta function, also
+denoted zeta*( s ).
 ''',
 '''
 ''',
@@ -9784,27 +10256,38 @@ squares is less than or equal to n.
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
+This operator calculates a rational approximation of n using k terms of the
+continued fraction representation of n.   It returns a list of two values,
+signifying the numerator and denominator of the approximation.
+
+It is necessary to make sure the accuracy (-a) is set high enough for a correct
+result.
+
+TODO: auto-precision?
 ''',
 '''
-''',
+''' + makeCommandExample( '2 sqrt 10 fraction' ) + '''
+''' + makeCommandExample( '-a20 2 sqrt 20 fraction' ) + '''
+''' + makeCommandExample( 'pi 4 fraction' ) + '''
+''' + makeCommandExample( '-a30 pi 20 fraction' ),
 [ 'make_continued_fraction', 'continued_fraction' ] ],
 
     'frobenius' : [
 'number_theory', 'calculates the frobenius number of a list of values with gcd > 1',
 '''
-The Frobenius number is the smallest number that is not a linear combination of
+The Frobenius number is the largest number that is not a linear combination of
 a list of operands.  The list of operands must have a greatest common
 denominator of 1.
 
 It is commonly associated with Chicken McNuggets from McDonalds, which are
 sold in packages of 6, 9 and 20.   The Frobenius number for Chicken McNuggets
-is 43, meaning that 43 is the smallest number of McNuggets
-
- also called the Chicken McNuggets number, as the
-problem it relates
+is 43, meaning that 43 is the largest number of McNuggets that cannot be
+ordered with combinations of 6, 9 or 20 pieces.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 6 9 20 ] frobenius' ) + '''
+''' + makeCommandExample( '[ 9 20 ] frobenius' ) + '''
+''' + makeCommandExample( '[ 5 12 ] frobenius' ),
 [ 'solve_frobenius', 'count_frobenius' ] ],
 
     'gamma' : [
@@ -9828,6 +10311,18 @@ Gamma( n ) = ( n - 1 )!
     'generate_polydivisibles' : [
 'number_theory', 'generates all the polydivisible numbers for base n',
 '''
+This operator generates all the polydivisible numbers for base n.
+
+From https://en.wikipedia.org/wiki/Polydivisible_number:
+
+In mathematics a polydivisible number (or magic number) is a number in a given
+number base with digits abcde... that has the following properties:
+
+Its first digit a is not 0.
+The number formed by its first two digits ab is a multiple of 2.
+The number formed by its first three digits abc is a multiple of 3.
+The number formed by its first four digits abcd is a multiple of 4.
+etc.
 ''',
 '''
 ''' + makeCommandExample( '2 generate_polydivisibles' ) + '''
@@ -9835,25 +10330,21 @@ Gamma( n ) = ( n - 1 )!
 [ 'is_polydivisible' ] ],
 
     'geometric_recurrence' : [
-'number_theory', 'calculates the dth value of a linear recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
+'number_theory', 'calculates the dth value of a geometric recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
 '''
+This operator calculates the dth value of a geometric recurrence specified by a
+list of factors (a), powers (b) and of seeds (c).
+
 The factors (a) indicate the multiple of each preceding value to add to create
 the next value in the recurrence list, listed from right to left (meaning the
-last factor corresponds to the n - 1'th value in the sequence.  For the
-Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
-plus the one before that.  The tribonacci sequence would have a factor list of
-[ 1 1 1 ].
+last factor corresponds to the (n - 1)th value in the sequence.
 
 The seeds (c), simply specify a list of initial values.  The number of seeds
 cannot exceed the number of factors, but there may be fewer seeds.
-
-The is some disagreement about whether the zeroes count as part of these linear
-recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
-etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
-count the zeroes.
 ''',
 '''
-''',
+''' + makeCommandExample( '2 generate_polydivisibles' ) + '''
+''' + makeCommandExample( '3 generate_polydivisibles' ),
 [ 'linear_recurrence', 'nth_linear_recurrence' ] ],
 
     'harmonic_fraction' : [
@@ -9914,11 +10405,31 @@ The Hexanacci constant:
 [ 'fibonacci' ] ],
 
     'hurwitz_zeta' : [
-'number_theory', 'calculates Hurwitz\'s zeta function for n and k',
+'number_theory', 'calculates the Hurwitz zeta function for n and k',
 '''
+This operator calculates the Hurwitz zeta function for n and k.
+
+From https://en.wikipedia.org/wiki/Hurwitz_zeta_function:
+
+In mathematics, the Hurwitz zeta function, named after Adolf Hurwitz, is one of
+the many zeta functions.  It is formally defined for complex arguments s with
+Re(s) > 1 and q with Re(q) > 0 by
+
+                inf
+                ---         1
+zeta( n, k ) =  \\      -----------
+                /      ( x + k )^n
+                ---
+               x = 0
+
+This series is absolutely convergent for the given values of n and k and can be
+extended to a meromorphic function defined for all s != 1.  The Riemann zeta
+function is zeta( n, 1 ).=
 ''',
 '''
-''',
+''' + makeCommandExample( '2 3 hurwitz_zeta' ) + '''
+''' + makeCommandExample( '3 3 hurwitz_zeta' ) + '''
+''' + makeCommandExample( '3 3 4j - hurwitz_zeta' ),
 [ 'zeta' ] ],
 
     'hyperfactorial' : [
@@ -10019,8 +10530,8 @@ The first several deficient numbers:
 ''' + makeCommandExample( '1 25 range lambda x is_deficient filter' ),
 [ 'is_abundant', 'is_perfect' ] ],
 
-    'is_friendly' : [
-'number_theory', 'returns whether list n is a list of mutually friendly numbers',
+    'is_sociable_list' : [
+'number_theory', 'returns whether list n is a list of sociable numbers',
 '''
 ''',
 '''
@@ -10050,11 +10561,23 @@ The first few harmonic divisor numbers:
 [ 'is_k_perfect', 'is_perfect' ] ],
 
     'is_k_perfect' : [
-'number_theory', 'returns whether an integer n is k perfect',
+'number_theory', 'returns whether an integer n is k-perfect',
 '''
+This operator returns whether an integer n is k-perfect.
+
+A k-perfect number is a number where the sum of its proper divisors divided by
+the number itself is k.
+
+"2-perfect" is the definition associated with a "perfect number":  the proper
+divisors sum up to twice the original number.
 ''',
 '''
-''',
+''' + makeCommandExample( '6 2 is_k_perfect' ) + '''
+''' + makeCommandExample( '8128 2 is_k_perfect' ) + '''
+''' + makeCommandExample( '672 3 is_k_perfect' ) + '''
+''' + makeCommandExample( '14182439040 5 is_k_perfect' ) + '''
+''' + makeCommandExample( '154345556085770649600 6 is_k_perfect' ) + '''
+''' + makeCommandExample( '141310897947438348259849402738485523264343544818565120000 7 is_k_perfect' ),
 [ 'is_k_hyperperfect', 'is_perfect' ] ],
 
     'is_k_polydivisible' : [
@@ -10950,6 +11473,26 @@ The Octanacci constant:
     'pascal_triangle' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
+The operator calculates the nth line of Pascal\'s triangle and returns a list of
+the values.
+
+From https://en.wikipedia.org/wiki/Pascal%27s_triangle:
+
+In mathematics, Pascal's triangle is a triangular array of the binomial
+coefficients.  In much of the Western world, it is named after the French
+mathematician Blaise Pascal, although other mathematicians studied it centuries
+before him in India, Persia (Iran), China, Germany, and Italy.
+
+The rows of Pascal's triangle are conventionally enumerated starting with row
+n = 0 at the top (the 0th row).  The entries in each row are numbered from the
+left beginning with k = 0 and are usually staggered relative to the numbers in
+the adjacent rows.  The triangle may be constructed in the following manner:
+In row 0 (the topmost row), there is a unique nonzero entry 1.  Each entry of
+each subsequent row is constructed by adding the number above and to the left
+with the number above and to the right, treating blank entries as 0.  For
+example, the initial number in the first (or any other) row is 1 (the sum of 0
+and 1), whereas the numbers 1 and 3 in the third row are added to produce the
+number 4 in the fourth row.
 ''',
 '''
 The first 10 lines of Pascal's triangle:
@@ -11033,7 +11576,7 @@ a common factor.
 THis operator calculates whether or not n and k are relatively prime, returning
 1 if they are, and 0 if they are not.
 
-Numbers are relatively prime if their great common denominator is 1.
+Numbers are relatively prime if their greatest common denominator is 1.
 ''',
 '''
 ''' + makeCommandExample( '5 8 relatively_prime' ) + '''
@@ -11660,8 +12203,11 @@ order), from one of the following combinations of units:
 [ 'acceleration', 'distance' ] ],
 
     'wind_chill' : [
-'physics', 'calculates the wind chill given the temperature and the wind',
+'physics', 'calculates the wind chill given the temperature and the wind speed',
 '''
+This operator calculates the wind chill given the temperature and the wind
+speed.
+
 Ref:  https://en.wikipedia.org/wiki/Wind_chill
 ''',
 '''
@@ -11679,6 +12225,8 @@ Ref:  https://en.wikipedia.org/wiki/Wind_chill
     'centered_cube' : [
 'figurate_numbers', 'calculates the nth centered cube number',
 '''
+This operator calculates the nth centered cube number.
+
 From https://en.wikipedia.org/wiki/Centered_cube_number:
 
 A centered cube number is a centered figurate number that counts the number of
@@ -11705,6 +12253,8 @@ is also a square number is 9, which can be shown by solving 2n + 1 = n^2 + n +
     'centered_decagonal' : [
 'figurate_numbers', 'calculates the nth centered decagonal number',
 '''
+This operator calculates the nth centered decagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_decagonal_number:
 
 A centered decagonal number is a centered figurate number that represents a
@@ -11727,6 +12277,13 @@ in base 10 always end in 1.
     'centered_dodecahedral' : [
 'figurate_numbers', 'calculates the nth centered dodecahedral number',
 '''
+This operator calculates the nth centered dodecahedral number.
+
+https://en.wikipedia.org/wiki/Centered_dodecahedral_number
+
+A centered dodecahedral number is a centered figurate number that represents a
+dodecahedron.  The centered dodecahedral number for a specific n is given by
+( 2n + 1 )( 5n^2 + 5n + 1 ).
 ''',
 '''
 ''' + makeCommandExample( '1 10 range centered_dodecahedral' ) + '''
@@ -11736,6 +12293,8 @@ in base 10 always end in 1.
     'centered_heptagonal' : [
 'figurate_numbers', 'calculates the nth centered heptagonal number',
 '''
+This operator calculates the nth centered heptagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_heptagonal_number:
 
 A centered heptagonal number is a centered figurate number that represents a
@@ -11760,6 +12319,8 @@ Centered heptagonal numbers alternate parity in the pattern odd-even-even-odd.
     'centered_hexagonal' : [
 'figurate_numbers', 'calculates the nth centered hexagonal number',
 '''
+This operator calculates the nth centered hexagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_hexagonal_number:
 
 A centered hexagonal number, or hex number,[1] is a centered figurate number
@@ -11805,6 +12366,8 @@ icosahedron.  The centered icosahedral number for a specific n is given by:
     'centered_nonagonal' : [
 'figurate_numbers', 'calculates the nth centered nonagonal number',
 '''
+This operator calculates the nth centered nonagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_nonagonal_number:
 
 A centered nonagonal number (or centered enneagonal number) is a centered
@@ -11839,6 +12402,8 @@ disproven.
     'centered_octagonal' : [
 'figurate_numbers', 'calculates the nth centered octagonal number',
 '''
+This operator calculates the nth centered octagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_octagonal_number:
 
 A centered octagonal number is a centered figurate number that represents an
@@ -11858,6 +12423,8 @@ odd number, whereas for any other number the function yields an even number.
     'centered_octahedral' : [
 'figurate_numbers', 'calculates the nth centered octahedral number',
 '''
+This operator calculates the nth centered octahedral number.
+
 From https://en.wikipedia.org/wiki/Centered_octahedral_number:
 
 A centered octahedral number or Haüy octahedral number is a figurate number that
@@ -11889,6 +12456,8 @@ given by the formula:
     'centered_pentagonal' : [
 'figurate_numbers', 'calculates the nth centered pentagonal number',
 '''
+This operator calculates the nth centered pentagonal number.
+
 From https://en.wikipedia.org/wiki/Centered_pentagonal_number:
 
 A centered pentagonal number is a centered figurate number that represents a
@@ -11949,6 +12518,8 @@ Pythagorean triples where the two longest sides differ by 1.
     'centered_tetrahedral' : [
 'figurate_numbers', 'calculates the nth centered tetrahedral number',
 '''
+This operator calculates the nth centered tetrahedral number.
+
 From https://en.wikipedia.org/wiki/Centered_tetrahedral_number:
 
 A centered tetrahedral number is a centered figurate number that represents a
@@ -11966,6 +12537,8 @@ tetrahedron.  The centered tetrahedral number for a specific n is given by:
     'centered_triangular' : [
 'figurate_numbers', 'calculates the nth centered triangular number',
 '''
+This operator calculates the nth centered triangular number.
+
 From https://en.wikipedia.org/wiki/Centered_triangular_number:
 
 A centered (or centred) triangular number is a centered figurate number that
@@ -11985,6 +12558,8 @@ n is given by the formula:
     'decagonal' : [
 'figurate_numbers', 'calculates the nth decagonal number',
 '''
+This operator calculates the nth decagonal number.
+
 From https://en.wikipedia.org/wiki/Decagonal_number:
 
 A decagonal number is a figurate number that extends the concept of triangular
@@ -12082,8 +12657,8 @@ From https://en.wikipedia.org/wiki/Dodecahedral_number:
 A dodecahedral number is a figurate number that represents a dodecahedron.  The
 nth dodecahedral number is given by the formula:
 
-n( 3n - 1 )( 3n - 2 )
----------------------
+n ( 3n - 1 )( 3n - 2 )
+----------------------
           2
 ''',
 '''
@@ -12094,6 +12669,11 @@ n( 3n - 1 )( 3n - 2 )
     'generalized_decagonal' : [
 'figurate_numbers', 'calculates the nth generalized decagonal number',
 '''
+This operator calculates the nth generalized decagonal number.
+
+Generalized decagonal numbers are obtained from the formula for decaagonal
+numbers (4n^2 - 3n), but with n taking values in the sequence 0, 1, −1, 2,
+−2, 3, −3, 4...
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_decagonal' ) + '''
@@ -12103,6 +12683,11 @@ n( 3n - 1 )( 3n - 2 )
     'generalized_heptagonal' : [
 'figurate_numbers', 'calculates the nth generalized heptagonal number',
 '''
+This operator calculates the nth generalized heptagonal number.
+
+Generalized heptagonal numbers are obtained from the formula for heptagonal
+numbers ( ( 5n^2 - 3n ) / 2 ), but with n taking values in the sequence 0, 1, −1, 2,
+−2, 3, −3, 4...
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_heptagonal' ) + '''
@@ -12112,6 +12697,11 @@ n( 3n - 1 )( 3n - 2 )
     'generalized_nonagonal' : [
 'figurate_numbers', 'calculates the nth generalized nonagonal number',
 '''
+This operator calculates the nth generalized nonagonal number.
+
+Generalized nonagonal numbers are obtained from the formula for nonagonal
+numbers ( ( 7n^2 - 5n ) / 2 ), but with n taking values in the sequence 0, 1, −1, 2,
+−2, 3, −3, 4...
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_nonagonal' ) + '''
@@ -12121,6 +12711,11 @@ n( 3n - 1 )( 3n - 2 )
     'generalized_octagonal' : [
 'figurate_numbers', 'calculates the nth generalized octagonal number',
 '''
+Thhis operator calculates the nth generalized octagonal number.
+
+Generalized octagonal numbers are obtained from the formula for octagonal
+numbers ( 3n^2 - 2n ), but with n taking values in the sequence 0, 1, −1, 2, −2,
+3, −3, 4...
 ''',
 '''
 ''' + makeCommandExample( '1 10 range generalized_octagonal' ) + '''
@@ -12130,10 +12725,13 @@ n( 3n - 1 )( 3n - 2 )
     'generalized_pentagonal' : [
 'figurate_numbers', 'calculates the nth generalized pentagonal number',
 '''
+This operator calculates the nth generalized pentagonal number.
+
 From https://en.wikipedia.org/wiki/Pentagonal_number:
 
-Generalized pentagonal numbers are obtained from the formula (3n^2 - n ) / 2,
-but with n taking values in the sequence 0, 1, −1, 2, −2, 3, −3, 4...
+Generalized pentagonal numbers are obtained from the formula for pentagonal
+numbers ( ( 3n^2 - n ) / 2 ), but with n taking values in the sequence 0, 1,
+−1, 2, −2, 3, −3, 4...
 
 Generalized pentagonal numbers are closely related to centered hexagonal
 numbers.  When the array corresponding to a centered hexagonal number is divided
@@ -12149,6 +12747,8 @@ proper.
     'heptagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal number',
 '''
+This operator calculates the nth heptagonal number.
+
 A heptagonal number is a figurate number that is constructed by combining
 heptagons with ascending size.  The n-th heptagonal number is given by the
 formula:
@@ -12210,6 +12810,8 @@ This operator calculates the nth number that is both heptagonal and triangular.
     'hexagonal' : [
 'figurate_numbers', 'calculates the nth hexagonal number',
 '''
+This operator calculates the nth hexagonal number.
+
 From https://en.wikipedia.org/wiki/Hexagonal_number:
 
 A hexagonal number is a figurate number.  The nth hexagonal number h(n) is the
@@ -12251,8 +12853,10 @@ This operator calculates the nth number that is both hexagonal and square.
 [ 'hexagonal', 'square', 'polygonal' ] ],
 
     'icosahedral' : [
-'figurate_numbers', 'returns the nth icosahedral number',
+'figurate_numbers', 'calculates the nth icosahedral number',
 '''
+This operator calculates the nth icosahedral number.
+
 From https://en.wikipedia.org/wiki/Icosahedral_number:
 
 An icosahedral number is a figurate number that represents an icosahedron.  The
@@ -12281,6 +12885,8 @@ Frederick Pollock in 1850.
     'nonagonal' : [
 'figurate_numbers', 'calculates the nth nonagonal number',
 '''
+This operator calculates the nth nonagonal number.
+
 From https://en.wikipedia.org/wiki/Nonagonal_number:
 
 A nonagonal number (or an enneagonal number) is a figurate number that extends
@@ -12380,7 +12986,7 @@ highest centered decagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '10000000 nth_centered_decagonal' ) + '''
-''' + makeCommandExample( '1415 centered_decagonal' ),
+''' + makeCommandExample( 'result centered_decagonal' ),
 [ 'centered_decagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_heptagonal' : [
@@ -12395,7 +13001,7 @@ highest centered heptagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_heptagonal' ) + '''
-''' + makeCommandExample( '535 centered_heptagonal' ),
+''' + makeCommandExample( 'result centered_heptagonal' ),
 [ 'centered_heptagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_hexagonal' : [
@@ -12410,7 +13016,7 @@ highest centered hexagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_hexagonal' ) + '''
-''' + makeCommandExample( '578 centered_hexagonal' ),
+''' + makeCommandExample( 'result centered_hexagonal' ),
 [ 'centered_hexagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_nonagonal' : [
@@ -12425,7 +13031,7 @@ highest centered nonagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000 nth_centered_nonagonal' ) + '''
-''' + makeCommandExample( '472 centered_nonagonal' ),
+''' + makeCommandExample( 'result centered_nonagonal' ),
 [ 'centered_nonagonal', 'nth_centered_polygonal' ] ],
 
     'nth_centered_octagonal' : [
@@ -12440,7 +13046,7 @@ highest centered octagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000 nth_centered_octagonal' ) + '''
-''' + makeCommandExample( '16 centered_octagonal' ),
+''' + makeCommandExample( 'result centered_octagonal' ),
 [ 'nth_centered_polygonal', 'centered_octagonal' ] ],
 
     'nth_centered_pentagonal' : [
@@ -12469,7 +13075,10 @@ If n is not a centered k-sided polygonal number, the result will not be a whole
 number.
 ''',
 '''
-''',
+''' + makeCommandExample( '1000 nth_centered_pentagonal' ) + '''
+''' + makeCommandExample( '1000 5 nth_centered_polygonal' ) + '''
+''' + makeCommandExample( '25456 16 nth_centered_polygonal' ) + '''
+''' + makeCommandExample( 'result 16 centered_polygonal' ),
 [ 'centered_polygonal', 'polygonal' ] ],
 
     'nth_centered_square' : [
@@ -12483,7 +13092,7 @@ If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
 ''' + makeCommandExample( '10000000 nth_centered_square' ) + '''
-''' + makeCommandExample( '2237 centered_square' ),
+''' + makeCommandExample( 'result centered_square' ),
 [ 'centered_square', 'nth_centered_polygonal' ] ],
 
     'nth_centered_triangular' : [
@@ -12498,7 +13107,7 @@ number.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_centered_triangular' ) + '''
-''' + makeCommandExample( '8165 centered_triangular' ),
+''' + makeCommandExample( 'result centered_triangular' ),
 [ 'centered_triangular', 'nth_centered_polygonal' ] ],
 
     'nth_decagonal' : [
@@ -12512,7 +13121,7 @@ decagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_decagonal' ) + '''
-''' + makeCommandExample( '5000 decagonal' ),
+''' + makeCommandExample( 'result decagonal' ),
 [ 'decagonal', 'nth_polygonal', 'nth_centered_decagonal' ] ],
 
     'nth_hexagonal' : [
@@ -12526,7 +13135,7 @@ hexagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_hexagonal' ) + '''
-''' + makeCommandExample( '7071 hexagonal' ),
+''' + makeCommandExample( 'result hexagonal' ),
 [ 'hexagonal', 'nth_polygonal', 'nth_centered_hexagonal' ] ],
 
     'nth_heptagonal' : [
@@ -12540,7 +13149,7 @@ heptagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_heptagonal' ) + '''
-''' + makeCommandExample( '6324 heptagonal' ),
+''' + makeCommandExample( 'result heptagonal' ),
 [ 'heptagonal', 'nth_polygonal', 'nth_centered_heptagonal' ] ],
 
     'nth_nonagonal' : [
@@ -12554,7 +13163,7 @@ nonagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_nonagonal' ) + '''
-''' + makeCommandExample( '5345 nonagonal' ),
+''' + makeCommandExample( 'result nonagonal' ),
 [ 'nonagonal', 'nth_polygonal', 'nth_centered_nonagonal' ] ],
 
     'nth_octagonal' : [
@@ -12568,7 +13177,7 @@ octagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '100000000 nth_octagonal' ) + '''
-''' + makeCommandExample( '5773 octagonal' ),
+''' + makeCommandExample( 'result octagonal' ),
 [ 'octagonal', 'nth_polygonal', 'nth_centered_octagonal' ] ],
 
     'nth_pentagonal' : [
@@ -12582,7 +13191,7 @@ pentagonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_pentagonal' ) + '''
-''' + makeCommandExample( '25820 pentagonal' ),
+''' + makeCommandExample( 'result pentagonal' ),
 [ 'pentagonal', 'nth_polygonal', 'nth_centered_pentagonal' ] ],
 
     'nth_polygonal' : [
@@ -12596,7 +13205,7 @@ k-polygonal number less than n.
 ''',
 '''
 ''' + makeCommandExample( '10000 10 nth_polygonal' ) + '''
-''' + makeCommandExample( '50 10 polygonal' ),
+''' + makeCommandExample( 'result 10 polygonal' ),
 [ 'polygonal', 'nth_centered_polygonal' ] ],
 
     'nth_square' : [
@@ -12610,7 +13219,7 @@ square number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_square' ) + '''
-''' + makeCommandExample( '31622 square' ),
+''' + makeCommandExample( 'result square' ),
 [ 'square', 'nth_polygonal' ] ],
 
     'nth_triangular' : [
@@ -12624,12 +13233,14 @@ triangular number less than n.
 ''',
 '''
 ''' + makeCommandExample( '1000000000 nth_triangular' ) + '''
-''' + makeCommandExample( '44720 triangular' ),
+''' + makeCommandExample( 'result triangular' ),
 [ 'triangular', 'nth_polygonal' ] ],
 
     'octagonal' : [
 'figurate_numbers', 'calculates the nth octagonal number',
 '''
+This operator calculates the nth octagonal number.
+
 From https://en.wikipedia.org/wiki/Octagonal_number:
 
 An octagonal number is a figurate number that represents an octagon.  The
@@ -12644,7 +13255,7 @@ of a square.
 [ 'centered_octagonal', 'polygonal' ] ],
 
     'octagonal_heptagonal' : [
-'figurate_numbers', 'returns the nth octagonal heptagonal number',
+'figurate_numbers', 'calculates the nth octagonal heptagonal number',
 '''
 This operator calculates the nth number that is both octagonal and heptagonal.
 ''',
@@ -12696,6 +13307,12 @@ This operator calculates the nth number that is both octagonal and triangular.
     'octahedral' : [
 'figurate_numbers', 'calculates the nth octahedral number',
 '''
+This operator calculates the nth octahedral number.
+
+From "The Book of Numbers", by John Conway and Richard Guy:
+
+The easiest way to view the octahedral numbers is as double square pyramids, the
+sum of two consecutive square pyramids.
 ''',
 '''
 ''' + makeCommandExample( '1 15 range octahedral' ) + '''
@@ -12705,6 +13322,8 @@ This operator calculates the nth number that is both octagonal and triangular.
     'pentagonal' : [
 'figurate_numbers', 'calculates the nth pentagonal number',
 '''
+This operator calculates the nth pentagonal number.
+
 From https://en.wikipedia.org/wiki/Pentagonal_number:
 
 A pentagonal number is a figurate number that extends the concept of triangular
@@ -12753,6 +13372,8 @@ This operator calculates the nth number that is both pentagonal and triangular.
     'pentatope' : [
 'figurate_numbers', 'calculates the nth pentatope number',
 '''
+This operate calculates the nth pentatope number.
+
 From https://en.wikipedia.org/wiki/Pentatope_number:
 
 A pentatope number is a number in the fifth cell of any row of Pascal's triangle
@@ -12787,6 +13408,17 @@ than 2.
     'polygonal_pyramidal' : [
 'figurate_numbers', 'calculates the nth pyramidal number with k sides',
 '''
+This operator calculates the nth pyramidal number with k sides.
+
+From https://en.wikipedia.org/wiki/Pyramidal_number:
+
+A pyramidal number is a figurate number that represents a pyramid with a
+polygonal base and a given number of triangular sides.  A pyramidal number is
+the number of points in a pyramid where each layer of the pyramid is a k-sided
+polygon of points.  The term usually refers to square pyramidal numbers, which
+have a square base with four sides, but it can also refer to pyramids with three
+or more sides.  It is possible to extend the pyramidal numbers to higher
+dimensions.
 ''',
 '''
 ''' + makeCommandExample( '23 pyramidal' ) + '''
@@ -12795,8 +13427,24 @@ than 2.
 [ 'polygonal', 'pyramidal' ] ],
 
     'polytope' : [
-'figurate_numbers', 'calculates nth polytope number of dimension k',
+'figurate_numbers', 'calculates the nth polytope number of dimension k',
 '''
+This operator  the nth polytope number of dimension k.  The polytope number is
+defined to be a generalization of figurate numbers in k dimensions, starting
+with triangular, tetrahedral, pentatope, etc.
+
+The formula for the nth k-dimensional polytope number is:
+
+              n - 1
+      1       -----
+ ---------- * |   |  ( x + n )
+ ( d - 1 )!   |   |
+              x = 0
+
+That's meant to he a big pi to represent the ranged product from 0 to n - 1.
+ASCII art rules!
+
+Ref:  "The Book of Numbers", John H. Conway and Richard K. Guy
 ''',
 '''
 ''' + makeCommandExample( '1 10 range triangular' ) + '''
@@ -12832,6 +13480,12 @@ This is the equivalent of 'n 4 polygonal_pyramidal'.
     'rhombic_dodecahedral' : [
 'figurate_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
+This operator calculates the nth rhombic dodecahedral number.
+
+From "The Book of Numbers", by John Conway and Richard Guy:
+
+One way to visualize the rhombic dodecahedral number is by appending a square
+pyramid to each of the six faces of a centered cube.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range rhombic_dodecahedral' ) + '''
@@ -12851,6 +13505,8 @@ This operator calculates the nth number that is both square and triangular.
     'star' : [
 'figurate_numbers', 'calculates the nth star number',
 '''
+This operator calculates the nth star number.
+
 From https://en.wikipedia.org/wiki/Star_number:
 
 A star number is a centered figurate number a centered hexagram (six-pointed
@@ -12870,6 +13526,8 @@ centered dodecagonal number, but differently arranged.
     'stella_octangula' : [
 'figurate_numbers', 'calculates the nth stella octangula number',
 '''
+This operator calculates the nth stella octangula number.
+
 From https://en.wikipedia.org/wiki/Stella_octangula_number:
 
 A stella octangula number is a figurate number based on the stella octangula,
@@ -12888,6 +13546,8 @@ http://oeis.org/A007588
     'tetrahedral' : [
 'figurate_numbers', 'calculates the nth tetrahedral number',
 '''
+This operator calculates the nth tetrahedral number.
+
 From https://en.wikipedia.org/wiki/Tetrahedral_number:
 
 A tetrahedral number, or triangular pyramidal number, is a figurate number that
@@ -12916,6 +13576,8 @@ one ball at the top completes the tetrahedron.
     'triangular' : [
 'figurate_numbers', 'calculates the nth triangular number',
 '''
+This operator calculates the nth triangular number.
+
 Triangular numbers are the figurate numbers created by arranging items in the
 shape of a triangle.   The first few triangular numbers can be easily
 illustrated as such:
@@ -12936,14 +13598,27 @@ Pascal's triangle.
     'truncated_octahedral' : [
 'figurate_numbers', 'calculates the nth truncated octahedral number',
 '''
+This operator calculates the nth truncated octahedral number.
+
+From "The Book of Numbers", by John Conway and Richard Guy:
+
+Start with the (3n - 2)th octahedral number, and cut off the (n - 1)th square
+pyramid from each of its six vertices.
 ''',
 '''
-''' + makeCommandExample( '1 8 range truncated_octahedral' ),
+''' + makeCommandExample( '1 10 range truncated_octahedral' ),
 [ 'octahedral', 'stella_octangula' ] ],
 
     'truncated_tetrahedral' : [
 'figurate_numbers', 'calculates the nth truncated tetrahedral number',
 '''
+This operator calculates the nth truncated tetrahedral number.
+
+From "The Book of Numbers", by John Conway and Richard Guy:
+
+Start with the (3n - 2)th tetrahedral number, and cut off the (n - 1)th
+tetrahedral pyramid from each corner, we are left with the nth truncated
+tetrahedral number.
 ''',
 '''
 ''' + makeCommandExample( '1 8 range truncated_tetrahedral' ) + '''
@@ -12960,8 +13635,10 @@ Pascal's triangle.
     #******************************************************************************
 
     'agm' : [
-'powers_and_roots', 'calculates the arithmetic-geometric mean of two numbers',
+'powers_and_roots', 'calculates the arithmetic-geometric mean of n and k',
 '''
+This operator calculates the arithmetic-geometric mean of n and k.
+
 From https://en.wikipedia.org/wiki/Arithmetic–geometric_mean:
 
 In mathematics, the arithmetic–geometric mean (AGM) of two positive real numbers
@@ -13022,7 +13699,8 @@ It is the equivalent of 'n 3 root'.
     'cube_super_root' : [
 'powers_and_roots', 'calculates the cube super-root of n',
 '''
-The operator return x such that (x^x)^x = n.
+THe operator calculates the cube super-root of n.  It returns x such that
+( x ^ x ) ^ x = n.
 ''',
 '''
 ''' + makeCommandExample( '8 cube_super_root' ) + '''
@@ -13034,7 +13712,7 @@ The operator return x such that (x^x)^x = n.
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
 '''
-This operator returns e to the power of n.  it is the inverse of the 'log'
+This operator calculates e to the power of n.  it is the inverse of the 'log'
 operator and is the equivalent of the following:
 
 'e n power'
@@ -13050,7 +13728,7 @@ n can be any real or complex value.
     'exp10' : [
 'powers_and_roots', 'calculates nth power of 10',
 '''
-This operator returns 10 to the power of n.  it is the inverse of the 'log10'
+This operator calculates 10 to the power of n.  it is the inverse of the 'log10'
 operator and is the equivalent of the following:
 
 '10 n power'
@@ -13066,7 +13744,7 @@ n can be any real or complex value.
     'expphi' : [
 'powers_and_roots', 'calculates the nth power of phi',
 '''
-expphi simply takes phi (the Golden Ratio) to the power of the argument n.
+This operator simply takes phi (the Golden Ratio) to the power of the argument n.
 
 It was originally added to make testing the base phi output easier.
 ''',
@@ -13078,17 +13756,88 @@ It was originally added to make testing the base phi output easier.
     'hyperoperator' : [
 'powers_and_roots', 'calculates the ath hyperoperator with operands b and c',
 '''
+The operator calculates the ath hyperoperator with operands b and c.
+
+from https://en.wikipedia.org/wiki/Hyperoperation:
+
+In mathematics, the hyperoperation sequence is an infinite sequence of
+arithmetic operations (called hyperoperations in this context) that starts with
+a unary operation (the successor function with a = 0).  The sequence continues
+with the binary operations of addition (a = 1), multiplication (a = 2), and
+exponentiation (a = 3).
+
+rpnChilada does support real operands for b, but c must be a non-negative
+integer.
+
+rpnChilada extrapolates operations beyond multiplication using
+left-associativity.  It appears that right-associativity is the conventional
+interpretation, and for that, rpnChilada provides 'hyperoperator_right'.  Even
+with left associativity, hyperoperators beyond 3 quickly overflow.
+
+rpnChilada does support real operands for b, but c must be a non-negative
+integer.  For a > 4, only integer operands are allowed.
 ''',
 '''
-''',
+The succssor function:
+''' + makeCommandExample( '0 1 1 hyperoperator' ) + '''
+Addition:
+''' + makeCommandExample( '1 3 3 hyperoperator' ) + '''
+Multiplication:
+''' + makeCommandExample( '2 36 45 hyperoperator' ) + '''
+Exponentiation:
+''' + makeCommandExample( '3 9 9 hyperoperator' ) + '''
+''' + makeCommandExample( '3 pi 3 hyperoperator' ) + '''
+Tetration:
+''' + makeCommandExample( '-a20 4 2.8 10 hyperoperator' ) + '''
+Pentation:
+''' + makeCommandExample( '-a20 5 3 2 hyperoperator' ) + '''
+2 and 2 always make 4:
+''' + makeCommandExample( '1 10 range lambda x 2 2 hyperoperator eval' ),
 [ 'tetrate_right', 'tetrate', 'power', 'hyperoperator_right' ] ],
 
     'hyperoperator_right' : [
 'powers_and_roots', 'calculates the ath right-associative hyperoperator with operands b and c',
 '''
+The operator calculates the ath hyperoperator with operands b and c using
+right-associativity.
+
+from https://en.wikipedia.org/wiki/Hyperoperation:
+
+In mathematics, the hyperoperation sequence is an infinite sequence of
+arithmetic operations (called hyperoperations in this context) that starts with
+a unary operation (the successor function with n = 0).  The sequence continues
+with the binary operations of addition (n = 1), multiplication (n = 2), and
+exponentiation (n = 3).
+
+After that, the sequence proceeds with further binary operations extending
+beyond exponentiation, using right-associativity.  For the operations beyond
+exponentiation, the nth member of this sequence is named by Reuben Goodstein
+after the Greek prefix of n suffixed with -ation (such as tetration (n = 4),
+pentation (n = 5), hexation (n = 6), etc.) and can be written as using n − 2
+arrows in Knuth's up-arrow notation.
+
+rpnChilada does support real operands for b, but c must be a non-negative
+integer.  For a > 4, only integer operands are allowed.
+
+Since the zeroth operation is a unary operation, rpnChilada ignores the c
+operand when a = 0.
 ''',
 '''
-''',
+The succssor function:
+''' + makeCommandExample( '0 1 1 hyperoperator_right' ) + '''
+Addition:
+''' + makeCommandExample( '1 3 3 hyperoperator_right' ) + '''
+Multiplication:
+''' + makeCommandExample( '2 36 45 hyperoperator_right' ) + '''
+Exponentiation:
+''' + makeCommandExample( '3 9 9 hyperoperator_right' ) + '''
+''' + makeCommandExample( '3 pi 3 hyperoperator' ) + '''
+Tetration:
+''' + makeCommandExample( '-a20 4 1.8 6 hyperoperator_right' ) + '''
+Pentation:
+''' + makeCommandExample( '-a20 5 4 2 hyperoperator_right' ) + '''
+2 and 2 always make 4:
+''' + makeCommandExample( '1 10 range lambda x 2 2 hyperoperator_right eval' ),
 [ 'tetrate_right', 'tetrate', 'power' ] ],
 
     'power' : [
@@ -13103,26 +13852,41 @@ This operator raises the n to the power of k.
 [ 'root', 'square', 'cube', 'tetrate' ] ],
 
     'power_tower' : [
-'powers_and_roots', 'calculates list n as a power tower',
+'powers_and_roots', 'calculates the result of list n as a power tower',
 '''
-''',
-'''
-''',
-[ 'power_tower2', 'power' ] ],
+This operator calculates the result of interpreting list n as a left-associative
+"power tower", meaning a succession of exponentiations:
 
-    'power_tower2' : [
+( ( ( n1 ^ n2  ) ^ n3 ) ^ n4 ) ...
+''',
+'''
+''' + makeCommandExample( '-a20 [ 2 3 4 5 ] power_tower' ) + '''
+''' + makeCommandExample( '[ 5 -6 7 -8 ] power_tower' ) + '''
+''' + makeCommandExample( '[ i i i i i i i ] power_tower' ),
+[ 'power_tower_right', 'power' ] ],
+
+    'power_tower_right' : [
 'powers_and_roots', 'calculates list n as a right-associative power tower',
 '''
+This operator calculates the result of interpreting list n as a
+right-associative "power tower", meaning a succession of exponentiations:
+
+( n1 ^ ( n2 ^ ( n3 ^ n4 ) ) ) ...
 ''',
 '''
-''',
+Right-associative exponentiation makes for huge results:
+''' + makeCommandExample( '[ 2 3 4 5 ] power_tower_right' ) + '''
+''' + makeCommandExample( '[ 4.1 7.6 2.5 3.8 ] power_tower_right' ) + '''
+An approximation of the infinite tetration of i
+''' + makeCommandExample( '-a20 [ 1j 1000 dup ] power_tower_right' ),
 [ 'power_tower', 'power' ] ],
-
 
     'powmod' : [
 'powers_and_roots', 'calculates a to the bth power modulo c',
 '''
-a, b and c are assumed to be integers
+This operator calculates a to the bth power modulo c.
+
+a, b and c must be integers.
 ''',
 '''
 ''',
@@ -13131,7 +13895,7 @@ a, b and c are assumed to be integers
     'root' : [
 'powers_and_roots', 'calculates the kth root of n',
 '''
-This operator returns the kth root of n.
+This operator calculates the kth root of n.
 ''',
 '''
 ''' + makeCommandExample( '2 12 //' ) + '''
@@ -13216,6 +13980,9 @@ There are k - 1 super-roots of n, and this operator returns all of them.
 '''
 Tetration is the process of repeated exponentiation.  n is exponentiated by
 itself k times.
+
+rpnChilada does support real operands for n, but k must be a non-negative
+integer.
 
 This version of the tetration operator is left-associative, and the equivalent
 operation using exponentiation is shown in the examples.
@@ -14444,14 +15211,14 @@ though.
 ''' + makeCommandExample( '300 kilonewtons base_units' ),
 [ 'dimensions', 'primitive_units' ] ],
 
-    'constant' : [
-'special', 'creates a user-defined constant',
-'''
-This operator is not implemented yet!
-''',
-'''
-''',
-[ 'set_variable' ] ],
+#    'constant' : [
+#'special', 'creates a user-defined constant',
+#'''
+#This operator is not implemented yet!
+#''',
+#'''
+#''',
+#[ 'set_variable' ] ],
 
     'delete_config' : [
 'special', 'delete configuration setting n',
@@ -15024,6 +15791,11 @@ can be more conveniently accessed with the '$' prefix.
     'topics' : [
 'special', 'prints a list of help topics in help mode',
 '''
+The operator prints a list of help topics, but only in interactive help mode.
+The equivalent information can be printed out from the command-line simply with
+"rpn help".
+
+TODO:  Just made the stupid thing do the same in non-interactive mode.
 ''',
 '''
 rpn (1)> help

@@ -2536,17 +2536,17 @@ def runFunctionOperatorTests( ):
     expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
     expectEqual( '1 100 range nth_thue_morse', '1 100 range nth_thue_morse not not' )
 
-    # nprod
-    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
-
-    # nsum
-    expectEqual( '1 infinity lambda x 3 ** 1/x nsum', '3 zeta' )
-    expectEqual( '0 infinity lambda 1 x ! / nsum', 'e' )
-
     # These operators use the plotting GUI, so aren't included in the automated tests.
     # plot
     # plot2
     # plotc
+
+    # ranged_product
+    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos ranged_product' )
+
+    # ranged_sum
+    expectEqual( '1 infinity lambda x 3 ** 1/x ranged_sum', '3 zeta' )
+    expectEqual( '0 infinity lambda 1 x ! / ranged_sum', 'e' )
 
     # recurrence
     expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
@@ -3643,7 +3643,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-a30 7 12 range lambda x generate_polydivisibles count eval', '271374 oeis 11 left 6 right' )
 
     # geometric_recurrence
-    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '283 oeis 15 left' )
     expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 18 geometric_recurrence', '280 oeis 18 left' )
     expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 25 geometric_recurrence', '278 oeis 25 left' )
     expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 11 geometric_recurrence', '284 oeis 11 left' )
@@ -3727,9 +3727,6 @@ def runNumberTheoryOperatorTests( ):
 
     # is_deficient
     expectEqual( '1 86 range lambda x is_deficient filter', '5100 oeis 66 left' )
-
-    # is_friendly
-    testOperator( '[ 220 264 ] is_friendly' )
 
     # is_harmonic_divisor_number
     expectEqual( '1 100 range lambda x is_harmonic_divisor_number filter', '1599 oeis 100 filter_max' )
@@ -3880,6 +3877,9 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 500 range lambda x 17 is_smooth filter', '80681 oeis 500 filter_max' )
 
     expectException( '1 20 range 12 is_smooth' )
+
+    # is_sociable_list
+    testOperator( '[ 220 264 ] is_sociable_list' )
 
     # is_sphenic
     expectResult( '[ 2 3 5 ] prod is_sphenic', 1 )
@@ -4626,13 +4626,13 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '[ 2 3 range 2 4 range ] power_tower' )
     testOperator( '[ i i i i i i ] power_tower' )
 
-    # power_tower2
-    testOperator( '-a160 -c [ 4 4 4 ] power_tower2' )
-    testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower2' )
-    testOperator( '[ 2 3 range 2 4 range ] power_tower2' )
-    testOperator( '[ i i i i i i ] power_tower2' )
+    # power_tower_right
+    testOperator( '-a160 -c [ 4 4 4 ] power_tower_right' )
+    testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower_right' )
+    testOperator( '[ 2 3 range 2 4 range ] power_tower_right' )
+    testOperator( '[ i i i i i i ] power_tower_right' )
 
-    expectEqual( '-a50 [ 0.25 1000 dup ] power_tower2', '0.5' )
+    expectEqual( '-a50 [ 0.25 1000 dup ] power_tower_right', '0.5' )
 
     # powmod
     expectEqual( '0 1000 range lambda 2 x x sqr 1 + powmod x sqr equals filter', '247220 oeis 1000 filter_max' )

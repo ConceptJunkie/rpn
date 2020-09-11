@@ -1276,7 +1276,7 @@ class HyperopLeft( hyperop ):
         return reduce( self.lower, self._repeat( a, b ) )
 
 
-@argValidator( [ IntValidator( 0 ), IntValidator( 0 ), IntValidator( 0 ) ] )
+@argValidator( [ IntValidator( 0 ), RealValidator( 0 ), IntValidator( 0 ) ] )
 def calculateNthHyperoperatorOperator( a, b, c ):
     if a == 0:
         return c + 1
@@ -1302,6 +1302,12 @@ def calculateNthHyperoperatorOperator( a, b, c ):
 
         return 4
 
+    if a > 4 and c > 2:
+        raise ValueError( 'overflow' )
+
+    if a > 4 and b > 4:
+        raise ValueError( 'overflow' )
+
     return HyperopLeft( a )( b, c )
 
 
@@ -1311,7 +1317,7 @@ def calculateNthHyperoperatorOperator( a, b, c ):
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( 0 ), IntValidator( 0 ), IntValidator( 0 ) ] )
+@argValidator( [ IntValidator( 0 ), RealValidator( 0 ), IntValidator( 0 ) ] )
 def calculateNthRightHyperoperatorOperator( a, b, c ):
     if a == 0:
         return c + 1
@@ -1336,6 +1342,12 @@ def calculateNthRightHyperoperatorOperator( a, b, c ):
             return 3
 
         return 4
+
+    if a > 4 and c > 2:
+        raise ValueError( 'overflow' )
+
+    if a > 4 and b > 5:
+        raise ValueError( 'overflow' )
 
     return hyperop( a )( b, c )
 

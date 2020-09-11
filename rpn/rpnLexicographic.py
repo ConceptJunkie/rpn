@@ -449,7 +449,7 @@ def countDigitsOperator( n, k ):
     n = getMPFIntegerAsString( n )
 
     if isinstance( k, ( mpf, int, float ) ):
-        k = getMPFIntegerAsString( k )
+        k = set( [ char for char in getMPFIntegerAsString( k ) ] )
 
     result = 0
 
@@ -794,6 +794,9 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
 #      - "[I[I]...:m]" - permutations of any digits I, m digits long
 #      - "[I[I]...:n:m]" - permutations of any digits I, from a minimum of n,
 #                          up to a maximum of m digits long
+#      - "s" - the designation for a "step digit", which can be one greater
+#              or one less than the previous digit.  For the purposes of step
+#
 #
 #  A digit expression (I) can be a single digit or a range.  A single digit is
 #  anything from "0" through "9".  A digit range looks like: "a-b" where a

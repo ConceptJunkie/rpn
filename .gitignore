@@ -220,6 +220,11 @@ pip-log.txt
 
 rpn/*.txt
 
+# rpn user functions variables
+rpn/rpndata/rpnChilada_user_functions.cfg
+rpn/rpndata/rpnChilada_user_functions.cfg.backup
+rpn/rpndata/rpnChilada_user_functions.cfg
+
 # Skyfield data files
 
 rpn/rpndata/de405.bsp
@@ -230,8 +235,6 @@ rpn/rpndata/Leap_Second.dat
 
 rpn/rpndata/deltat.old1.data
 rpn/rpndata/Leap_Second.old1.dat
-
-rpn/rpndata/rpnChilada_user_functions.cfg
 
 # VS Code and linters
 .mypy_cache
