@@ -116,10 +116,10 @@ from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayO
                             calculateNthWeekdayOfMonthOperator, calculateNthWeekdayOfYearOperator, \
                             calculatePentecostSundayOperator, calculatePresidentsDayOperator, \
                             calculateThanksgivingOperator, convertFromUnixTimeOperator, \
-                            convertTimeZoneOperator, convertToDHMSOperator, convertToHMSOperator, convertToYDHMSOperator, \
-                            convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, \
-                            getEpiphanyDayOperator, getHourOperator, getIndependenceDayOperator, getISODayOperator, \
-                            getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator,\
+                            convertTimeZoneOperator, convertToDHMSOperator, convertToHMSOperator, \
+                            convertToYDHMSOperator, convertToUnixTimeOperator, getChristmasDayOperator, \
+                            getDayOperator, getEpiphanyDayOperator, getHourOperator, getIndependenceDayOperator, \
+                            getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
                             getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, \
                             getVeteransDayOperator, getWeekdayOperator, getWeekdayNameOperator, getYearOperator, \
                             getYesterdayOperator, makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, \
@@ -2182,7 +2182,7 @@ def evaluateListFunction3Operator( a, b, c, func ):
 
 @twoArgFunctionEvaluator( )
 def evaluateLimitOperator( n, func ):
-    return limit( func.evaluate, n )
+    return limit( func.evaluate, n, exp=True )
 
 
 #******************************************************************************
@@ -2193,7 +2193,7 @@ def evaluateLimitOperator( n, func ):
 
 @twoArgFunctionEvaluator( )
 def evaluateReverseLimitOperator( n, func ):
-    return limit( func.evaluate, n, direction = -1 )
+    return limit( func.evaluate, n, direction=-1, exp=True )
 
 
 #******************************************************************************
@@ -2291,6 +2291,7 @@ specialFormatOperators = {
 
 functionOperators = [
     #'break_on',
+    'decreasing_limit',
     'eval0',
     'eval',
     'eval2',
@@ -2305,13 +2306,11 @@ functionOperators = [
     'for_each_list',
     'function',
     'limit',
-    'limitn',
     'plot',
     'plot2',
     'plot_complex',
     'ranged_product',
     'ranged_sum',
-    'recurrence',
     'sequence',
     'unfilter',
     'unfilter_by_index',
@@ -2770,7 +2769,6 @@ operators = {
     'get_hour'                          : RPNOperator( getHourOperator, 1 ),
     'get_minute'                        : RPNOperator( getMinuteOperator, 1 ),
     'get_second'                        : RPNOperator( getSecondOperator, 1 ),
-    'iso_day'                           : RPNOperator( getISODayOperator, 1 ),
     'now'                               : RPNOperator( getNowOperator, 0 ),
     'set_time_zone'                     : RPNOperator( setTimeZoneOperator, 2 ),
     'today'                             : RPNOperator( getTodayOperator, 0 ),
@@ -2869,6 +2867,7 @@ operators = {
 
     # function
     #'break_on'                         : RPNOperator( breakOnCondition, 3 ),
+    'decreasing_limit'                  : RPNOperator( evaluateReverseLimitOperator, 2 ),
     'eval0'                             : RPNOperator( evaluateFunction0Operator, 1 ),
     'eval'                              : RPNOperator( evaluateFunctionOperator, 2 ),
     'eval2'                             : RPNOperator( evaluateFunction2Operator, 3 ),
@@ -2879,13 +2878,11 @@ operators = {
     'filter_integers'                   : RPNOperator( filterIntegersOperator, 2 ),
     'function'                          : RPNOperator( createUserFunctionOperator, 2 ),
     'limit'                             : RPNOperator( evaluateLimitOperator, 2 ),
-    'limitn'                            : RPNOperator( evaluateReverseLimitOperator, 2 ),
     'plot'                              : RPNOperator( plotFunctionOperator, 3 ),
     'plot2'                             : RPNOperator( plot2DFunctionOperator, 5 ),
     'plot_complex'                      : RPNOperator( plotComplexFunctionOperator, 5 ),
     'ranged_product'                    : RPNOperator( evaluateRangedProductOperator, 3 ),
     'ranged_sum'                        : RPNOperator( evaluateRangedSumOperator, 3 ),
-    'recurrence'                        : RPNOperator( evaluateRecurrenceOperator, 3 ),
     'sequence'                          : RPNOperator( getSequenceOperator, 3 ),
 
     # geography

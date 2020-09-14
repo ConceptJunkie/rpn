@@ -2039,9 +2039,6 @@ def runDateTimeOperatorTests( ):
     # get_year
     testOperator( 'now get_year' )
 
-    # iso_day
-    testOperator( 'today iso_day' )
-
     # make_datetime
     testOperator( '[ 1965 03 31 ] make_datetime' )
 
@@ -2530,7 +2527,7 @@ def runFunctionOperatorTests( ):
     expectEqual( 'inf lambda 7 x / 1 + 3 x * ** limit', 'e 7 3 * **' )
 
     # limitn
-    expectEqual( '0 lambda x x sin / limitn', '1' )
+    expectEqual( '0 lambda x x sin / decreasing_limit', '1' )
 
     # not
     expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
@@ -2542,21 +2539,20 @@ def runFunctionOperatorTests( ):
     # plotc
 
     # ranged_product
-    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos ranged_product' )
+    testOperator( '-a20 -d5 3 inf lambda x pi / 1/x cos ranged_product' )
 
     # ranged_sum
     expectEqual( '1 infinity lambda x 3 ** 1/x ranged_sum', '3 zeta' )
     expectEqual( '0 infinity lambda 1 x ! / ranged_sum', 'e' )
 
-    # recurrence
-    expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
-    expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
-    expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
-    expectEqual( '-a100 1 1000 lambda x tan recurrence floor', '319 oeis 1001 left' )
-    expectEqual( '1 310 range lambda 2 x ** get_digits 1 left 2 equals filter', '67469 oeis 56 left' )
+    # sequence
+    expectEqual( '2 100 lambda x get_digits sqr sum sequence', '216 oeis 100 left' )
+    expectEqual( '3 100 lambda x get_digits sqr sum sequence', '218 oeis 100 left' )
+    expectEqual( '5 100 lambda x get_digits sqr sum sequence', '221 oeis 100 left' )
+    expectEqual( '-a100 1 1001 lambda x tan sequence floor', '319 oeis 1001 left' )
 
     if slow:
-        expectEqual( '-a1000 1 10000 lambda x tan recurrence floor', '319 oeis 10001 left' )
+        expectEqual( '-a1000 1 10001 lambda x tan sequence floor', '319 oeis 10001 left' )
 
     # unfilter
     expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
@@ -2821,6 +2817,8 @@ def runLexicographyOperatorTests( ):
     expectException( '-9999 8 get_base_k_digits' )   # doesn't support negative numbers
 
     # get_digits
+    expectEqual( '1 310 range lambda 2 x ** get_digits 1 left 2 equals filter', '67469 oeis 56 left' )
+
     expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
 
     if slow:
@@ -3318,7 +3316,7 @@ def runLogarithmsOperatorTests( ):
     testOperator( '12 li' )
 
     # log
-    expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
+    expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / decreasing_limit', '5 13 /' )
     expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
     expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
     expectEqual( '-a5005 phi log 10 5002 ** * floor get_digits 5000 left', '2390 oeis 5000 left' )
@@ -3737,26 +3735,31 @@ def runNumberTheoryOperatorTests( ):
     # is_k_hyperperfect
     expectEqual( '1 700 range lambda x 12 is_k_hyperperfect filter', '[ 697 ]' )
 
+    expectEqual( '28501 oeis 18 is_k_hyperperfect and_all', '1' )
+    expectEqual( '28502 oeis 2772 is_k_hyperperfect and_all', '1' )
+    expectEqual( '34916 oeis 31752 is_k_hyperperfect and_all', '1' )
+
     if slow:
         expectEqual( '701 2100 range lambda x 12 is_k_hyperperfect filter', '[ 2041 ]' )
 
     # is_k_perfect
-    if yafu:
-        expectEqual( '154345556085770649600 6 is_k_perfect', '1' )
-        expectEqual( '8268099687077761372899241948635962893501943883292455548843932421413884476391773708366277840568053624227289196057256213348352000000000 8 is_k_perfect', '1' )
-
     expectEqual( '1 700 range lambda x 3 is_k_perfect filter', '5820 oeis 1000 filter_max' )
     expectEqual( '5820 oeis 3 is_k_perfect and_all', '1' )
 
-    if yafu:
-        expectEqual( '27687 oeis 10 left 4 is_k_perfect and_all', '1' )
-        expectEqual( '46060 oeis 10 left 5 is_k_perfect and_all', '1' )
-        expectEqual( '46061 oeis 20 left 6 is_k_perfect and_all', '1' )
+    expectEqual( '1 1 is_k_perfect', '1' )
+    expectEqual( '6 2 is_k_perfect', '1' )
+    expectEqual( '120 3 is_k_perfect', '1' )
+    expectEqual( '30240 4 is_k_perfect', '1' )
+    expectEqual( '14182439040 5 is_k_perfect', '1' )
+    expectEqual( '154345556085770649600 6 is_k_perfect', '1' )
+    expectEqual( '141310897947438348259849402738485523264343544818565120000 7 is_k_perfect', '1' )
+    expectEqual( '8268099687077761372899241948635962893501943883292455548843932421413884476391773708366277840568053624227289196057256213348352000000000 8 is_k_perfect', '1' )
 
-        if slow:
-            expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
-            expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
-            expectEqual( '46061 oeis 6 is_k_perfect and_all', '1' )
+    if slow:
+        expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
+        expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
+        # TODO:  Why are OEIS entries over a certain size require the -a option?!
+        expectEqual( '-a200 46061 oeis 6 is_k_perfect and_all', '1' )
 
     # is_k_polydivisible
     expectEqual( '0 520 range lambda x 3 is_k_polydivisible filter', '3 generate_polydivisibles' )
@@ -4726,8 +4729,9 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '3 2 tetrate' )
 
     # tetrate_right
-    expectEqual( '-a40 inf lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * floor get_digits',
-                 '277435 oeis 21 left' )
+    # TODO: 
+    #expectEqual( '-a40 infinity lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * floor get_digits',
+    #             '277435 oeis 21 left' )
     expectEqual( '-a100 2 2 sqrt 1 100 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
                  '280918 oeis 100 left' )
 
@@ -5394,7 +5398,7 @@ def runTrigonometryOperatorTests( ):
 
     # cos
     expectEqual( '45 degrees cos', '2 sqrt 1/x' )
-    expectEqual( '0 lambda 1 x cos - x sqr / limitn', '0.5' )
+    expectEqual( '0 lambda 1 x cos - x sqr / decreasing_limit', '0.5' )
 
     expectEqual( '-a105 1 cos 10 100 ** * floor get_digits 98 left', '49470 oeis 98 left' )
 
@@ -5428,7 +5432,7 @@ def runTrigonometryOperatorTests( ):
 
     # sin
     expectEqual( 'pi 4 / sin', '2 sqrt 1/x' )
-    expectEqual( '0 lambda 2 x * sin 3 x * sin / limitn', '2 3 /' )
+    expectEqual( '0 lambda 2 x * sin 3 x * sin / decreasing_limit', '2 3 /' )
 
     expectEqual( '-a105 1 sin 10 100 ** * floor get_digits 98 left', '49469 oeis 98 left' )
 

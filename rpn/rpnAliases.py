@@ -496,6 +496,7 @@ operatorAliases = {
     'leyland'                       : 'leyland_number',
     'lgamma'                        : 'log_gamma',
     'lilian_day'                    : 'to_lilian_day',
+    'limitn'                        : 'decreasing_limit',
     'linear'                        : 'linear_recurrence',
     'linear_recur'                  : 'linear_recurrence',
     'linearrecur'                   : 'linear_recurrence',

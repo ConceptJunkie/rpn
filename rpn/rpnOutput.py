@@ -41,7 +41,7 @@ import rpn.rpnGlobals as g
 #
 #******************************************************************************
 
-def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
+def formatNumber( number, outputRadix, leadingZero, integerGrouping, integerDelimiter, decimalDelimiter ):
     negative = ( number < 0 )
 
     if outputRadix == g.fibBase:
@@ -96,7 +96,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
 
         for i in range( firstDelimiter, len( strInteger ), integerGrouping ):
             if integerResult != '':
-                integerResult += g.integerDelimiter
+                integerResult += integerDelimiter
 
             integerResult += strInteger[ i : i + integerGrouping ]
     else:
@@ -107,7 +107,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
 
         for i in range( 0, len( strMantissa ), g.decimalGrouping ):
             if mantissaResult != '':
-                mantissaResult += g.decimalDelimiter
+                mantissaResult += decimalDelimiter
 
             mantissaResult += strMantissa[ i : i + g.decimalGrouping ]
     else:
@@ -140,19 +140,17 @@ def formatOutput( output ):
         if c in string.whitespace or c in string.punctuation:
             return output
 
-    #print( )
-    #print( 'formatOutput 1:', output )
-
-    # override settings with temporary settings if needed
-    # if g.tempCommaMode:
-    #     comma = True
-    # else:
-    #     comma = g.comma
-
     # output settings, which may be overrided by temp settings
     outputRadix = g.outputRadix
     integerGrouping = g.integerGrouping
     leadingZero = g.leadingZero
+    integerDelimiter = g.integerDelimiter
+
+    # override settings with temporary settings if needed
+    if g.tempCommaMode:
+        integerGrouping = 3     # override whatever was set on the command-line
+        leadingZero = False     # this one, too
+        integerDelimiter = ','
 
     if g.tempHexMode:
         integerGrouping = 4
@@ -172,13 +170,15 @@ def formatOutput( output ):
     imaginary = im( mpOutput )
     real = re( mpOutput )
 
-    result, negative = formatNumber( real, outputRadix, leadingZero, integerGrouping )
+    result, negative = formatNumber( real, outputRadix, leadingZero, integerGrouping,
+                                     integerDelimiter, g.decimalDelimiter )
 
     if negative:
         result = '-' + result
 
     if imaginary != 0:
-        strImaginary, negativeImaginary = formatNumber( imaginary, outputRadix, leadingZero, integerGrouping )
+        strImaginary, negativeImaginary = \
+            formatNumber( imaginary, outputRadix, leadingZero, integerGrouping, integerDelimiter, g.DecimalDelimiter )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
 
     #print( 'formatOutput 2:', output )

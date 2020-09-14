@@ -129,7 +129,7 @@ operatorHelp: Dict[ str, list ] = { }
 unitTypeDict: Dict[ str, list ] = { }
 
 # interactive mode
-results = None
+results: List[ mpf ] = [ ]
 variables: Dict[ str, str ] = { }
 promptCount = 0
 

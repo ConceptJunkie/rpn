@@ -1,5 +1,5 @@
 arrow>=0.16.0
-convertdate>=2.2.1
+convertdate>=2.2.2
 ephem>=3.7.7.1
 ethiopian-date-converter>=0.1.5
 geopy>=2.0.0

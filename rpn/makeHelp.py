@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2350
+MAX_EXAMPLE_COUNT = 2381
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -356,8 +356,8 @@ How long was the summer in 2015?
     'user_functions' :
     '''
 This feature allows the user to define a function for use with the 'eval',
-'ranged_sum', 'ranged_product', 'limit' and 'limitn' operators, etc.  'lambda'
-starts an expression that becomes a function.
+'ranged_sum', 'ranged_product', 'limit' and 'decreasing_limit' operators, etc.
+'lambda' starts an expression that becomes a function.
 
 rpn user fuctions can use up to 3 variables, x, y, and z.  rpn provides a
 number of operators that can be used with user functions.  See, 'rpn help
@@ -1294,7 +1294,9 @@ by other operator functions, so that the argument expansion and validation isn't
 being done more than once.
 
 I have continued my focus on completing the online help, which is now more than
-80% complete.
+95% complete.
+
+The help for units is now complete.  Every unit has help text.
 
 'lat_long_to_nac' was removed (after I fixed it), since the developers of the
 Natural Area Code claim a copyright on the system itself, and do not allow
@@ -1313,6 +1315,17 @@ should be defined.   Plus, it isn't very interesting.
 I removed the 'planck_pressure' operator since it was identical to the
 'planck_energy_density' operator.
 
+I removed 'iso_date' and 'iso_day' which _both_ duplicated 'to_iso'.
+
+I renamed the following operators to be more consistent:
+'get_utc' --> 'to_utc'
+'get_local_time' --> 'to_local_time'
+'num' --> 'ranged_sum'
+'nprod' --> 'ranged_product'
+'power_tower2' --> 'power_tower_right'
+'is_friendly' --> 'is_sociable_list'
+'limitn' --> 'decreasing_limit'
+
 Removed a couple of unit types for which I could not find sufficient
 documentation.  In particular the Talk page on Wikipedia claims that a couple of
 the wine bottle sizes they had previously reported could not be verified.
@@ -1322,6 +1335,9 @@ fine on a list of lists.
 
 I got rid of the 'repeat' operator because I literally couldn't think of a use
 for it.
+
+The 'recurrence' operator was removed, because it was a duplicate of the
+'sequence' operator.
     ''',
     'license' :
     '''
@@ -1415,8 +1431,6 @@ Calculations with lists:
 ''' + makeCommandExample( '1 1 5 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 100?
 ''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
-    What percentage of numbers have a factor less than 100?
-''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 1000?
 ''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', indent=8 ) + '''
 
@@ -1490,7 +1504,7 @@ Calculation (or approximation) of various mathematical constants:
 
     Polya Random Walk Constant
 ''' + makeCommandExample( '-p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / '
-                          'gamma 11 24 / gamma ] prod 1/x * -', indent=8, slow=True ) + '''
+                          'gamma 11 24 / gamma ] prod 1/x * -', indent=8 ) + '''
     Schwartzchild Constant (Conic Constant)
 ''' + makeCommandExample( '0 inf lambda 2 x ** x ! / ranged_sum', indent=8 ) + '''
 ''' + makeCommandExample( 'e 2 **', indent=8 ) + '''
@@ -2049,7 +2063,7 @@ greatest common divisor is 1.
     'gcd2' : [
 'arithmetic', 'calculates the greatest common denominator of n and k',
 '''
-This operatro calculates the greatest common denominator of n and k.
+This operator calculates the greatest common denominator of n and k.
 
 'n k gcd2' is equivalent to '[ n k ] gcd'
 ''',
@@ -3324,7 +3338,7 @@ illuminates the sky.
     'sun_antitransit' : [
 'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
 '''
-This operatro calculates the next sun antitransit time at location n for
+This operator calculates the next sun antitransit time at location n for
 date-time k.
 
 Think of it sort of like "anti-solar-noon".
@@ -4152,8 +4166,9 @@ secular holiday as well.
 [ 'christmas', 'easter', 'mothers_day', 'fathers_day' ] ],
 
     'to_bahai' : [
-'calendars', 'converts a date to the equivalent date in the Baha\'i',
+'calendars', 'converts a date to the equivalent date in the Baha\'i calendar',
 '''
+This operator converts a date to the equivalent date in the Baha\'i calendar.
 ''',
 '''
 ''' + makeCommandExample( '2017-01-11 to_bahai' ) + '''
@@ -4317,7 +4332,7 @@ year, the number of the week, and the weekday (from 1-7, 1 = Monday).
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso' ),
-[ 'to_iso', 'to_iso_name', 'iso_day', 'make_iso_time' ] ],
+[ 'to_iso', 'to_iso_name', 'make_iso_time' ] ],
 
     'to_iso_name' : [
 'calendars', 'converts a date to the formatted version of the equivalent ISO date',
@@ -4326,17 +4341,18 @@ THis operator converts a date to the formatted version of the equivalent ISO
 date.  The format consists of a "yyyy-Www-d", where "yyyy" is the year, "ww" is
 the one- or two-digit date number, and d is the weekday. (from 1-7, 1 = Monday).
 
-TODO:  This oeprator returns a string value that rpnChilada cannot cuurently
+TODO:  This operator returns a string value that rpnChilada cannot currently
 parse.
 ''',
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso_name' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso_name' ),
-[ 'to_iso', 'iso_day', 'make_iso_time' ] ],
+[ 'to_iso', 'make_iso_time' ] ],
 
     'to_julian' : [
-'calendars', 'converts a date to the equivalent date in the Julian calendar',
+'calendars', 'converts a date to the equivalent Julian date',
 '''
+
 ''',
 '''
 ''' + makeCommandExample( '1987-06-13 to_julian' ) + '''
@@ -4344,12 +4360,32 @@ parse.
 [ 'from_julian', 'to_julian_day' ] ],
 
     'to_julian_day' : [
-'calendars', 'returns the Julian day for a time value',
+'calendars', 'returns the Julian Day Number for a time value',
 '''
+This operator converts a date to the equivalent Julian Day Number.
+
+From https://en.wikipedia.org/wiki/Julian_day:
+
+Julian day is the continuous count of days since the beginning of the Julian
+Period and is used primarily by astronomers, and in software for easily
+calculating elapsed days between two events (e.g. food production date and sell
+by date).
+
+The Julian Day Number (JDN) is the integer assigned to a whole solar day in the
+Julian day count starting from noon Universal time, with Julian day number 0
+assigned to the day starting at noon on Monday, January 1, 4713 BC, proleptic
+Julian calendar (November 24, 4714 BC, in the proleptic Gregorian calendar).
+For example, the Julian day number for the day starting at 12:00 UT (noon) on
+January 1, 2000, was 2451545.
+
+The Julian date (JD) of any instant is the Julian day number plus the fraction
+of a day since the preceding noon in Universal Time.  Julian dates are expressed
+as a Julian day number with a decimal fraction added.  For example, the Julian
+Date for 00:30:00.0 UT January 1, 2013, is 2456293.520833.
 ''',
 '''
-''' + makeCommandExample( '1987-06-13 to_julian_day' ) + '''
-''' + makeCommandExample( '1991-10-30 to_julian_day' ),
+''' + makeCommandExample( '"1987-06-13 11:13:00" to_julian_day' ) + '''
+''' + makeCommandExample( '"1991-10-30 19:30:00" to_julian_day' ),
 [ 'from_julian', 'to_julian' ] ],
 
     'to_lilian_day' : [
@@ -4721,7 +4757,7 @@ Generating Pascal's triangle:
     'combinations' : [
 'combinatorics', 'calculates the number of combinations of k out of n objects',
 '''
-This operatro calculates the number of combinations of k out of n objects.
+This operator calculates the number of combinations of k out of n objects.
 ''',
 '''
 ''' + makeCommandExample( '6 3 combinations' ) + '''
@@ -4781,7 +4817,7 @@ different ways that linear combinations of the values in n add up to k.
     'lah_number' : [
 'combinatorics', 'calculates the Lah number for n and k',
 '''
-This operatro calculates the Lah number for n and k.
+This operator calculates the Lah number for n and k.
 
 from https://en.wikipedia.org/wiki/Lah_number:
 
@@ -4825,9 +4861,33 @@ same as the 'doublefac' operator.
     'multinomial' : [
 'combinatorics', 'calculates the multinomial coefficient of list n',
 '''
+This operator calculates the multinomial coefficient of list n.
+
+From https://en.wikipedia.org/wiki/Multinomial_theorem:
+
+For any positive integer m and any nonnegative integer n, the multinomial
+formula tells us how a sum with m terms expands when raised to an arbitrary
+power n:
+
+        n!
+-------------------
+k1! k2! k3! ... km!
+
+is a multinomial coefficient.  The sum is taken over all combinations of
+nonnegative integer indices k1 through km such that the sum of all ki is n.
+That is, for each term in the expansion, the exponents of the xi must add up to
+n.  Also, as with the binomial theorem, quantities of the form x^0 that appear
+are taken to equal 1 (even when x equals zero).
+
+In the case m = 2, this statement reduces to that of the binomial theorem.
+
+The multinomial coefficients have a direct combinatorial interpretation, as the
+number of ways of depositing n distinct objects into m distinct bins, with k1
+objects in the first bin, k2 objects in the second bin, and so on.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 2 3 ] multinomial' ) + '''
+''' + makeCommandExample( '[ 6 8 11 ] multinomial' ),
 [ 'binomial' ] ],
 
     'narayana_number' : [
@@ -5540,7 +5600,7 @@ This operator represents negative infinity, and is meant to be used with
 'ranged_sum', 'ranged_product', and 'limit' when describing infinite ranges.
 ''',
 '''
-''' + makeCommandExample( 'negative_infinity lambda e x ** limitn' ),
+''' + makeCommandExample( 'negative_infinity lambda e x ** decreasing_limit' ),
 [ 'infinity' ] ],
 
     'omega_constant' : [
@@ -5553,7 +5613,7 @@ that satisfies the equation
 
     Omega e^Omega = 1
 
-It is the value of W(1), where W is Lambert's W function.  The name is derived
+It is the value of W( 1 ), where W is Lambert's W function.  The name is derived
 from the alternate name for Lambert's W function, the omega function.
 ''',
 '''
@@ -6404,15 +6464,6 @@ and seconds.
     #
     #******************************************************************************
 
-    'iso_day' : [
-'date_time', 'returns the ISO day and week for a date-time value',
-'''
-''',
-'''
-''',
-[ 'to_iso', 'iso_day', 'to_iso_name' ] ],
-
-
     'get_day' : [
 'date_time', 'returns the day value of a date-time',
 '''
@@ -6605,6 +6656,21 @@ a time value of 00:00:00 (midnight).
     #''',
     #[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
+    'decreasing_limit' : [
+'functions', 'calculates the limit of function k( x ) as x approaches n from above',
+'''
+This operator calculates the limit of function k( x ) as x approaches n from
+above.
+
+Underneath this operator uses the mpmath limit( ) function, which has all kinds
+of smarts to estimate the limits accurately, even for infinite ranges.  However,
+rpnChilada does not do a great job of exposing the full functionality of
+limit( ).  If the result of a limit is infinite, it returns some weird answers.
+''',
+'''
+''',
+[ 'limit', 'lambda' ] ],
+
     'eval' : [
 'functions', 'evaluates the function n for the given argument k',
 '''
@@ -6615,7 +6681,7 @@ in the value n into the one-argument function k and returns the result.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
-[ 'eval0', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+[ 'eval0', 'eval2', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval0' : [
 'functions', 'evaluates the zero-argument function n',
@@ -6628,7 +6694,7 @@ The Silver ratio:
 
 ''' + makeCommandExample( 'lambda 1 2 sqrt + eval0' ) + '''
 ''' + makeCommandExample( 'lambda 10 random_int 1 + eval0' ),
-[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval2' : [
 'functions', 'evaluates the function c for the given arguments a and b',
@@ -6640,7 +6706,7 @@ result.
 '''
 ''' + makeCommandExample( 'lambda 1 2 sqrt + eval0' ) + '''
 ''' + makeCommandExample( 'lambda 10 random_int 1 + eval0' ),
-[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval3' : [
 'functions', 'evaluates the function d for the given arguments a, b, and c',
@@ -6658,7 +6724,7 @@ Of course, rpn has better ways to do this:
 
 ''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
 ''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
-[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval_list' : [
 'functions', 'evaluates the function n for the given list argument[s] k',
@@ -6763,7 +6829,7 @@ with '@'.
 A two-argument function is created and invoked the same way:
 ''' + makeCommandExample( 'test_function_2 lambda x 2 ** y 2 ** + function' ) + '''
 ''' + makeCommandExample( '3 4 @test_function_2' ),
-[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
+[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'sequence' ] ],
 
     'lambda' : [
 'functions', 'begins a function definition',
@@ -6783,18 +6849,18 @@ See the 'user_functions' help topic for more details.
     'limit' : [
 'functions', 'calculates the limit of function k( x ) as x approaches n',
 '''
-''',
-'''
-''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
-[ 'limitn', 'lambda' ] ],
+This operator calculates the limit of function k( x ) as x approaches n.
 
-    'limitn' : [
-'functions', 'calculates the limit of function k( x ) as x approaches n from above',
-'''
+Underneath this operator uses the mpmath limit( ) function, which has all kinds
+of smarts to estimate the limits accurately, even for infinite ranges.
+However, rpnChilada does not do a great job of exposing the full functionality
+of limit( ).  If the result of a limit is infinite, it returns some weird
+answers.
 ''',
 '''
-''',
-[ 'limit', 'lambda' ] ],
+''' + makeCommandExample( 'infinity lambda x 1 + fib x fib / limit' ) + '''
+''' + makeCommandExample( 'infinity lambda 2 x 4 * 1 + ** x ! 4 ** * 2 x 1 + * / 2 x * ! 2 ** / limit' ),
+[ 'decreasing_limit', 'lambda' ] ],
 
     'plot' : [
 'functions', 'plot function c for values of x between a and b',
@@ -6853,27 +6919,34 @@ rpn-10 10 -10 10 zeta plot_complex
     'ranged_product' : [
 'functions', 'calculates the product of function c over the range of a through b',
 '''
+This operator calculates the product of function c over the range of integers a
+through b.
+
+This operator allows for infinite arguments, using 'infinity' and
+'negative_infinity'.
 ''',
 '''
-''',
+Somos\' Quadratic Recurrence Constant
+''' + makeCommandExample( '-a20 1 inf lambda x 1 2 x ** / power ranged_product' ) + '''
+What percentage of numbers have a factor less than 1000?
+''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *' ),
 [ 'ranged_sum', 'lambda' ] ],
 
     'ranged_sum' : [
-'functions', 'calculates the sum of function c over the range of a through b',
+'functions', 'calculates the sum of function c over the range of integers a through b',
 '''
-''',
-'''
-''',
-[ 'ranged_product', 'lambda' ] ],
+This operator calculates the sum of function c over the range of integers a
+through b.
 
-    'recurrence' : [
-'functions', 'evaluates the function c, b times, starting with a and using the result of each previous function call as an argument for the next',
-'''
-This feature only works with one-argument functions."
+This operator allows for infinite arguments, using 'infinity' and
+'negative_infinity'.
 ''',
 '''
-''',
-[ 'eval', 'filter', 'lambda' ] ],
+Prevost Constant
+''' + makeCommandExample( '-a20 1 inf lambda x fib 1/x ranged_sum' ) + '''
+1/e
+''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x -1 x ** * ranged_sum' ),
+[ 'ranged_product', 'lambda' ] ],
 
     'sequence' : [
 'functions', 'evaluates a 1-arg function c with initial argument a, b times',
@@ -7944,15 +8017,21 @@ This boolean operator returns whether n is a pandigital number in base k.
 [ 'is_pandigital' ] ],
 
     'is_base_k_smith_number' : [
-'lexicography', 'returns whether n is a Smith Number in base k',
+'lexicography', 'returns whether n is a Smith number in base k',
 '''
-A Smith number is a composite number for which the sum of its digits is equal
-to the sum of the digits in its prime factorization.
+Returns true (1) if n is a Smith number in base k.
 
-https://en.wikipedia.org/wiki/Smith_number
+From https://en.wikipedia.org/wiki/Smith_number:
+
+In number theory, a Smith number is a composite number for which, in a given
+number base, the sum of its digits is equal to the sum of the digits in its
+prime factorization in the given number base.  In the case of numbers that are
+not square-free, the factorization is written without exponents, writing the
+repeated factor as many times as needed.
 ''',
 '''
-''',
+''' + makeCommandExample( '164736913905 10 is_base_k_smith_number' ) + '''
+''' + makeCommandExample( '1 400 range lambda x 10 is_base_k_smith_number filter' ),
 [ 'is_smith_number', 'is_order_k_smith_number' ] ],
 
     'is_bouncy' : [
@@ -9437,13 +9516,17 @@ defined as the number of prime numbers less than or equal to a given value x.
     'log' : [
 'logarithms', 'calculates the natural logarithm of n',
 '''
+This operator calculates the natural logarithm of n.
+
+From https://en.wikipedia.org/wiki/Natural_logarithm:
 ''',
 '''
 ''' + makeCommandExample( '2 log' ) + '''
 ''' + makeCommandExample( 'e log' ) + '''
 ''' + makeCommandExample( 'e 2 ** log' ) + '''
 ''' + makeCommandExample( '10 log' ) + '''
-''' + makeCommandExample( 'e e sqrt * log' ),
+''' + makeCommandExample( 'e -1 * log' ) + '''
+''' + makeCommandExample( '3 5j + log' ),
 [ 'log10', 'exp', 'polylog', 'log2', 'exp10', 'logxy' ] ],
 
     'log10' : [
@@ -10115,7 +10198,8 @@ the Dirichlet eta function is also known as the alternating zeta function, also
 denoted zeta*( s ).
 ''',
 '''
-''',
+''' + makeCommandExample( '3 eta' ) + '''
+''' + makeCommandExample( '2 6i + eta' ),
 [ 'zeta' ] ],
 
     'euler_brick' : [
@@ -10555,9 +10639,21 @@ The first few harmonic divisor numbers:
     'is_k_hyperperfect' : [
 'number_theory', 'returns whether an integer n is k hyperperfect',
 '''
+This operator returns true (1) whether an integer n is k hyperperfect, otherwise
+false (0).
+
+From https://en.wikipedia.org/wiki/Hyperperfect_number:
+
+In mathematics, a k-hyperperfect number is a natural number n for which the
+equality n = 1 + k( sigma( n ) − n − 1 ) holds, where sigma( n ) is the divisor
+function (i.e., the sum of all positive divisors of n).  A hyperperfect number
+is a k-hyperperfect number for some integer k.  Hyperperfect numbers generalize
+perfect numbers, which are 1-hyperperfect.
 ''',
 '''
-''',
+''' + makeCommandExample( '7056410014866537089009269921 12 is_k_hyperperfect' ) + '''
+''' + makeCommandExample( '42052982615431201 18 is_k_hyperperfect' ) + '''
+''' + makeCommandExample( '47268697363953913 2772 is_k_hyperperfect' ),
 [ 'is_k_perfect', 'is_perfect' ] ],
 
     'is_k_perfect' : [
@@ -10565,11 +10661,16 @@ The first few harmonic divisor numbers:
 '''
 This operator returns whether an integer n is k-perfect.
 
-A k-perfect number is a number where the sum of its proper divisors divided by
-the number itself is k.
+From https://en.wikipedia.org/wiki/Multiply_perfect_number:
 
-"2-perfect" is the definition associated with a "perfect number":  the proper
-divisors sum up to twice the original number.
+In mathematics, a multiply perfect number (also called multiperfect number or
+pluperfect number) is a generalization of a perfect number.
+
+For a given natural number k, a number n is called k-perfect (or k-fold perfect)
+if and only if the sum of all positive divisors of n (the divisor function,
+sigma( n ) is equal to kn; a number is thus perfect if and only if it is
+2-perfect.  A number that is k-perfect for a certain k is called a multiply
+perfect number.  As of 2014, k-perfect numbers are known for each value of k up to 11.[1]
 ''',
 '''
 ''' + makeCommandExample( '6 2 is_k_perfect' ) + '''
@@ -11015,26 +11116,74 @@ sequence.
     'make_continued_fraction' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
+This operator calculates k terms of the continued fraction representation of n.
+
+It is necessary to make sure the accuracy (-a) is set high enough for a correct
+answer.   TODO:  Do this automatically?
+
+From https://en.wikipedia.org/wiki/Continued_fraction:
+
+In mathematics, a continued fraction is an expression obtained through an
+iterative process of representing a number as the sum of its integer part and
+the reciprocal of another number, then writing this other number as the sum of
+its integer part and another reciprocal, and so on.  In a finite continued
+fraction (or terminated continued fraction), the iteration/recursion is
+terminated after finitely many steps by using an integer in lieu of another
+continued fraction.  In contrast, an infinite continued fraction is an infinite
+expression.  In either case, all integers in the sequence, other than the first,
+must be positive.  The integers are called the coefficients or terms of the
+continued fraction.
 ''',
 '''
-''',
+''' + makeCommandExample( '-a20 2 sqrt 10 make_continued_fraction' ) + '''
+''' + makeCommandExample( '-a20 pi 10 make_continued_fraction' ),
 [ 'continued_fraction' ] ],
 
     'make_pyth_3' : [
 'number_theory', 'makes a pythagorean triple given two integers, n and k, as seeds',
 '''
+This operator makes a pythagorean triple given two integers, n and k, as seeds.
+
+From https://en.wikipedia.org/wiki/Pythagorean_triple:
+
+A Pythagorean triple consists of three positive integers a, b, and c, such that
+a^2 + b^2 = c^2.  Such a triple is commonly written (a, b, c), and a well-known
+example is (3, 4, 5).  If (a, b, c) is a Pythagorean triple, then so is
+(ka, kb, kc) for any positive integer k.  A primitive Pythagorean triple is one
+in which a, b and c are coprime (that is, they have no common divisor larger
+than 1).  A triangle whose sides form a Pythagorean triple is called a
+Pythagorean triangle, and is necessarily a right triangle.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 2 make_pyth_3' ) + '''
+''' + makeCommandExample( '1 4 make_pyth_3' ) + '''
+''' + makeCommandExample( '25 67 make_pyth_3' ),
 [ 'make_pyth_4', 'hypotenuse', 'pythagorean_triples' ] ],
 
     'make_pyth_4' : [
 'number_theory', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
 '''
-n and k cannot both be odd.
+This makes a pythagorean quadruple given two integers, n and k, as seeds.  n and
+k cannot both be odd.
+
+https://en.wikipedia.org/wiki/Pythagorean_quadruple:
+
+A Pythagorean quadruple is a tuple of integers a, b, c and d, such that a^2 +
+b^2 + c^2 = d^2.  They are solutions of a Diophantine equation and often only
+positive integer values are considered.  However, to provide a more complete
+geometric interpretation, the integer values can be allowed to be negative and
+zero (thus allowing Pythagorean triples to be included) with the only condition
+being that d > 0.  In this setting, a Pythagorean quadruple (a, b, c, d) defines
+a cuboid with integer side lengths |a|, |b|, and |c|, whose space diagonal has
+integer length d; with this interpretation, Pythagorean quadruples are thus also
+called Pythagorean boxes.
+
+rpnChilada will only generate Pythagorean quadruple with all positive integers.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 2 make_pyth_4' ) + '''
+''' + makeCommandExample( '1 4 make_pyth_4' ) + '''
+''' + makeCommandExample( '24 67 make_pyth_4' ),
 [ 'make_pyth_3', 'hypotenuse' ] ],
 
     'nth_carol' : [
@@ -11667,8 +11816,12 @@ floor( ( n!/e ) + 1/2 )
 [ 'factorial', 'double_factorial', 'superfactorial' ] ],
 
     'sums_of_k_powers' : [
-'number_theory', 'calculates every combination of b cth powers that sum to n',
+'number_theory', 'calculates every combination of b cth powers that sum to a',
 '''
+This operator calculates every combination of b cth powers that sum to a.
+
+This version of the operator allows the results to be zero, so that if there are
+fewer than b cth powers can add up to a, they will be included as well.
 ''',
 '''
 ''' + makeCommandExample( '5104 3 3 sums_of_k_powers' ),
@@ -11815,8 +11968,8 @@ function have a real part equal to 1/2.
     'acceleration' : [
 'physics', 'calculates acceleration given different measurement types',
 '''
-Calculates constant acceleration from a stationary start, given measurements
-in two different units (in either order), from one of the following
+This operator calculates constant acceleration from a stationary start, given
+measurements in two different units (in either order), from one of the following
 combinations of units:
 
     velocity, length
@@ -11832,7 +11985,19 @@ combinations of units:
     'black_hole_entropy' : [
 'physics', 'calculates the entropy of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the entropy of a black hole given one of several
+different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_entropy' ) + '''
@@ -11846,7 +12011,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_lifetime' : [
 'physics', 'calculates the lifetime of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the lifetime of a black hole given one of several
+different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_lifetime' ) + '''
@@ -11860,7 +12037,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_luminosity' : [
 'physics', 'calculates the luminosity of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the luminosity of a black hole given one of several
+different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_luminosity' ) + '''
@@ -11873,7 +12062,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_mass' : [
 'physics', 'calculates the mass of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the mass of a black hole given one of several different
+measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
@@ -11886,7 +12087,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_radius' : [
 'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the Schwarzchild radius of a black hole of mass n given
+one of several different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( 'earth_mass black_hole_radius' ) + '''
@@ -11901,7 +12114,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_surface_area' : [
 'physics', 'calculates the surface area of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the surface area of a black hole given one of several
+different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1000 miles^2 black_hole_surface_area' ) + '''
@@ -11914,7 +12139,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_surface_gravity' : [
 'physics', 'calculates the surface gravity of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the surface gravity of a black hole given one of
+several different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '1 acre black_hole_surface_gravity' ) + '''
@@ -11927,11 +12164,23 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_surface_tides' : [
 'physics', 'calculates the tidal force at the event horizon of a black hole given one of several different measurements',
 '''
+This operator calculates the tidal force at the event horizon of a black hole
+given one of several different measurements.
+
 Tidal force is meters/second^2/meter, which means the meters cancel out and
 it ends up being 1/second^2, which I found confusing, but it makes sense if you
 think about it.
 
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Temperature
 ''',
 '''
 ''' + makeCommandExample( '100 square_inch black_hole_surface_tides' ) + '''
@@ -11944,7 +12193,19 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'black_hole_temperature' : [
 'physics', 'calculates the temperature of a black hole given one of several different measurements',
 '''
-https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+This operator calculates the temperature of a black hole given one of several
+different measurements.
+
+The measurements supported include the following measurements of the black hole:
+
+Entropy
+Surface area
+Lifetime (until evaporation via Hawking Radiation)
+Luminosity
+Surface gravity (at the event horizon)
+Schwarzchild radius (i.e., radius of the event horizon)
+Mass
+Tidal force (at the event horizon)
 ''',
 '''
 ''' + makeCommandExample( '1 square_inch black_hole_temperature' ) + '''
@@ -11957,8 +12218,8 @@ https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
     'distance' : [
 'physics', 'calculates distance given different measurement types',
 '''
-Calculates distance given measurements in two different units (in either
-order), from one of the following combinations of units:
+This operator calculates distance given measurements in two different units (in
+either order), from one of the following combinations of units:
 
     length, time          (trivial case)
     velocity, time
@@ -11975,8 +12236,9 @@ order), from one of the following combinations of units:
     'energy_equivalence' : [
 'physics', 'calculates the energy equivalence of mass n',
 '''
-The operator uses Einstein's energy-matter equivalence equation, E = mc^2, to
-calculate the energy equivalence of mass n.
+Thjis operator calculates the energy equivalence of mass n.  It uses Einstein's
+energy-matter equivalence equation, E = mc^2, to calculate the energy
+equivalence of mass n.
 ''',
 '''
 ''' + makeCommandExample( '1 gram energy_equivalence' ) + '''
@@ -11986,6 +12248,9 @@ calculate the energy equivalence of mass n.
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
 '''
+This operator calculates the escape velocity of an object of mass n and radius
+k.
+
 From https://en.wikipedia.org/wiki/Escape_velocity:
 
 In physics (specifically, celestial mechanics), escape velocity is the minimum
@@ -12008,6 +12273,9 @@ the accelerating force on the object to escape.
     'heat_index' : [
 'physics', 'calculates the heat index given the temperature and the relative humidity',
 '''
+This operator calculates the heat index given the temperature and the relative
+humidity.
+
 From https://en.wikipedia.org/wiki/Heat_index:
 
 The heat index (HI) is an index that combines air temperature and relative
@@ -12046,6 +12314,8 @@ radius k, assuming the body is a perfect sphere.
     'kinetic_energy' : [
 'physics', 'calculates kinetic energy from velocity and mass',
 '''
+This operatro calculates kinetic energy from velocity and mass.
+
 The kinetic energy is equal to 1/2 mass times velocity squared.  This is a
 non-relativistic calculation.
 ''',
@@ -12058,6 +12328,8 @@ non-relativistic calculation.
     'mass_equivalence' : [
 'physics', 'calculates the mass equivalence of energy n',
 '''
+The operator calculates the mass equivalence of energy n.
+
 This is calculated simply using Einstein's energy/mass equivalence formula
 E = mc^2, which solved for m gives, m = E/c^2
 ''',
@@ -12069,6 +12341,9 @@ E = mc^2, which solved for m gives, m = E/c^2
     'orbital_mass' : [
 'physics', 'calculates the mass of the object being orbited',
 '''
+This operator calculates the mass of the object being orbited, assuming the
+object it's orbiting is spherical and the orbit is perfectly round.
+
 Any two of the following three measurements can be used (in any order) as
 arguments:
 
@@ -12089,6 +12364,9 @@ object being orbited.
     'orbital_period' : [
 'physics', 'calculates the orbital period of an object',
 '''
+This operator calculates the orbital period of an object, assuming the objects
+are spherical and the orbit is perfectly round.
+
 Any two of the following three measurements can be used (in any order) as
 arguments:
 
@@ -12097,12 +12375,16 @@ arguments:
     orbital velocity
 ''',
 '''
-''',
+''' + makeCommandExample( '66 miles second / 1 au orbital_period' ) + '''
+''' + makeCommandExample( '20000 mph earth_mass orbital_period' ),
 [ 'orbital_mass', 'orbital_radius', 'orbital_velocity' ] ],
 
     'orbital_radius' : [
 'physics', 'calculates the radius of an orbit',
 '''
+The operator calculates the radius of an orbit, assuming the bodies in question
+are spherical and the orbit is perfectly round.
+
 Any two of the following three measurements can be used (in any order) as
 arguments:
 
@@ -12111,12 +12393,19 @@ arguments:
     orbital velocity
 ''',
 '''
-''',
+The orbital radius of a geosynchronous satellite:
+''' + makeCommandExample( '24 hours earth_mass orbital_radius' ) + '''
+''' + makeCommandExample( '66 miles second / 1 au orbital_mass' ) + '''
+''' + makeCommandExample( 'earth_mass' ) + '''
+''' + makeCommandExample( '20000 mph 24 hours orbital_mass' ),
 [ 'orbital_mass', 'orbital_period', 'orbital_velocity' ] ],
 
     'orbital_velocity' : [
-'physics', 'calculates the circular orbital velocity of an object for values n and k',
+'physics', 'calculates the circular orbital velocity of an object',
 '''
+The operator calculates the orbital velocity for an object orbiting a spherical
+body and the orbit is perfectly round.
+
 Any two of the following three measurements can be used (in any order) as
 arguments:
 
@@ -12133,6 +12422,8 @@ arguments:
     'surface_gravity' : [
 'physics', 'calculates the surface gravity of a spherical object',
 '''
+This operator calculates the surface gravity of a spherical object.
+
 Any two of the following three measurements can be used (in any order) as
 arguments, except the two arguments cannot be radius and volume, because
 the mass and density cnanot be calculated from only the radius and volume:
@@ -13889,7 +14180,8 @@ This operator calculates a to the bth power modulo c.
 a, b and c must be integers.
 ''',
 '''
-''',
+''' + makeCommandExample( '2 100 1024 powmod' ) + '''
+''' + makeCommandExample( '34765 894574 100000 powmod' ),
 [ 'power', 'modulo' ] ],
 
     'root' : [
@@ -13898,17 +14190,16 @@ a, b and c must be integers.
 This operator calculates the kth root of n.
 ''',
 '''
-''' + makeCommandExample( '2 12 //' ) + '''
+''' + makeCommandExample( '2 12 root' ) + '''
 ''' + makeCommandExample( '1 10 range 2 //' ) + '''
-''' + makeCommandExample( '4 foot^2 2 //' ),
+''' + makeCommandExample( '4 foot^2 2 //' ) + '''
+''' + makeCommandExample( 'e i //' ),
 [ 'power', 'square_root', 'cube_root', 'square_super_root' ] ],
 
     'square' : [
 'powers_and_roots', 'calculates the square of n',
 '''
-This operator is the equivalent of 'n 2 power'.
-
-It returns the square of n.
+This operator calculates the square of n.  It is the equivalent of 'n 2 power'.
 ''',
 '''
 ''' + makeCommandExample( 'pi square' ) + '''
@@ -13920,7 +14211,8 @@ It returns the square of n.
     'square_root' : [
 'powers_and_roots', 'calculates the square root of n',
 '''
-This operator is the equivalent of 'n 2 root'.
+This operator calculates the square root of n.  It is the equivalent of
+'n 2 root'.
 ''',
 '''
 ''' + makeCommandExample( '2 square_root' ) + '''
@@ -13931,7 +14223,8 @@ This operator is the equivalent of 'n 2 root'.
     'square_super_root' : [
 'powers_and_roots', 'calculates the square super-root of n',
 '''
-The operator return x such that x^x = n.
+The operator calculates the square super-root of n. It returns x such that
+x^x = n.
 ''',
 '''
 ''' + makeCommandExample( '4 square_super_root' ) + '''
@@ -13943,6 +14236,8 @@ The operator return x such that x^x = n.
     'super_root' : [
 'powers_and_roots', 'calculates the principal, real, kth super-root of n',
 '''
+This operator calculates the principal, real, kth super-root of n.
+
 The square super-root of n is x, where x^x = n.  The cube super-root of n is
 x where x^x^x = n.  These correspond to 'n 2 super_root' and 'n 3 super_root'
 respectively.  Higher numbers work similarly.
@@ -13961,6 +14256,8 @@ principle kth super-root of n.
     'super_roots' : [
 'powers_and_roots', 'calculates all of the kth super-roots of n',
 '''
+This operator calculates all of the kth super-roots of n.
+
 The square super-root of n is x, where x^x = n.  The cube super-root of n is
 x where x^x^x = n.  These correspond to 'n 2 super_root' and 'n 3 super_root'
 respectively.  Higher numbers work similarly.
@@ -14021,10 +14318,10 @@ larger numbers, and it's easy to overflow rpn.
     'balanced_prime' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
+This operator calculates the nth balanced prime.
+
 A balanced prime is a prime which is the average of its immediate pair
 of prime neighbors.
-
-This operator returns the nth balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14039,11 +14336,11 @@ through several billion primes.
     'balanced_primes' : [
 'prime_numbers', 'calculates the nth set of balanced primes',
 '''
+This operator calculates the nth set of balanced primes.  It prints the 3 prime
+numbers that make up the nth balanced prime and its pair of prime neighbors.
+
 A balanced prime is a prime which is the average of its immediate pair of prime
 neighbors.
-
-This operator prints the 3 prime numbers that make up the nth balanced prime and
-its pair of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14056,13 +14353,13 @@ through several billion primes.
 [ 'balanced_prime', 'double_balanced_primes', 'triple_balanced_primes', 'quadruple_balanced_primes' ] ],
 
     'cousin_prime' : [
-'prime_numbers', 'returns the nth cousin prime',
+'prime_numbers', 'calculates the nth cousin prime',
 '''
+This operator calculates the first member of the nth set of cousin primes.
+
 Cousin primes are primes that are separated by 4.  The first of a pair of
 cousin primes must end with the digit 3, 7, or 9, because if a prime ends with
 a 1, then a number 4 great cannot be a prime, since it ends with 5.
-
-This operator returns the first member of the nth set of cousin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14075,13 +14372,14 @@ through several billion primes.
 [ 'cousin_primes', 'sexy_prime', 'octy_prime' ] ],
 
     'cousin_primes' : [
-'prime_numbers', 'returns the nth set of cousin primes',
+'prime_numbers', 'calculates the nth set of cousin primes',
 '''
+This operator calculates the nth set of cousin primes.  It returns the both
+members of the nth set of cousin primes.
+
 Cousin primes are primes that are separated by 4.  The first of a pair of
 cousin primes must end with the digit 3, 7, or 9, because if a prime ends with
 a 1, then a number 4 great cannot be a prime, since it ends with 5.
-
-This operator returns the boith members of the nth set of cousin primes.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14094,12 +14392,12 @@ through several billion primes.
 [ 'cousin_prime', 'sexy_primes', 'octy_primes' ] ],
 
     'double_balanced_prime' : [
-'prime_numbers', 'returns the nth double balanced prime',
+'prime_numbers', 'calculates the nth double balanced prime',
 '''
-A double balanced prime is a prime which is the average of its immediate pair
-of prime neighbors, and its second pair of prime neighbors.
+This operator calculates the nth double balanced prime.
 
-This operator returns the nth double balanced prime.
+A double balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, and its nextmost immediate pair of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14114,13 +14412,11 @@ through several billion primes.
     'double_balanced_primes' : [
 'prime_numbers', 'returns the nth double balanced prime and its neighbors',
 '''
-A double balanced prime is a prime which is the average of its immediate pair
-of prime neighbors, and its second pair of prime neighbors.
-
-This operator returns the nth double balanced prime.
-
 This operator prints the 5 prime numbers that make up the nth double balanced
 prime and its two nested pairs of prime neighbors.
+
+A double balanced prime is a prime which is the average of its immediate pair
+of prime neighbors, and its second pair of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14133,8 +14429,10 @@ through several billion primes.
 [ 'balanced_primes', 'double_balanced_prime', 'triple_balanced_primes', 'quadruple_balanced_primes' ] ],
 
     'isolated_prime' : [
-'prime_numbers', 'returns the nth isolated prime',
+'prime_numbers', 'calculates the nth isolated prime',
 '''
+This operator calculates the nth isolated prime.
+
 A prime is considered isolated if it is separated from its two prime neighbors
 by more than 2.  An alternate definition is that an isolated prime is a prime
 that is not part of a twin prime pair.
@@ -14150,9 +14448,9 @@ through several billion primes.
 [ 'balanced_prime' ] ],
 
     'next_prime' : [
-'prime_numbers', 'returns the smallest prime number greater than n',
+'prime_numbers', 'calculates the next prime number greater than n',
 '''
-This operator returns the smallest prime number greater than n.
+This operator calculates the next prime number greater than n.
 
 This function does not require the use of the prime data files, so arbitrarily
 large values can be used.  Thanks to gmpy2, rpn can calculate the next prime
@@ -14166,9 +14464,9 @@ Generate a random 200-digit prime:
 [ 'prime', 'primes', 'next_primes', 'previous_prime', 'previous_primes' ] ],
 
     'next_primes' : [
-'prime_numbers', 'returns the next k smallest prime numbers greater than n',
+'prime_numbers', 'calculates the next k smallest prime numbers greater than n',
 '''
-This operator returns the next k prime numbers greater n.
+This operator calculates the next k prime numbers greater n.
 ''',
 '''
 ''' + makeCommandExample( '100 10 next_primes' ) + '''
@@ -14176,10 +14474,14 @@ This operator returns the next k prime numbers greater n.
 [ 'prime', 'primes', 'next_prime', 'previous_primes' ] ],
 
     'next_quadruplet_prime' : [
-'prime_numbers', 'returns the first member of the smallest set of quadruplet primes above n',
+'prime_numbers', 'calculates the first member of the smallest set of quadruplet primes above n',
 '''
-This operator returns the first member of the smallest set of quadruplet
+This operator calculates the first member of the smallest set of quadruplet
 primes greater than n.
+
+A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
+is the closest possible grouping of four primes larger than 3, and is the only
+prime constellation of length 4.
 ''',
 '''
 ''' + makeCommandExample( '100 next_quadruplet_prime' ) + '''
@@ -14189,9 +14491,13 @@ primes greater than n.
 [ 'quadruplet_prime', 'nth_quadruplet_prime', 'quadruplet_primes', 'next_quadruplet_primes' ] ],
 
     'next_quadruplet_primes' : [
-'prime_numbers', 'returns the smallest set of quadruplet primes above n',
+'prime_numbers', 'calculates the smallest set of quadruplet primes above n',
 '''
-This operator returns the smallest set of quadruplet primes greater than n.
+This operator calculates the smallest set of quadruplet primes greater than n.
+
+A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
+is the closest possible grouping of four primes larger than 3, and is the only
+prime constellation of length 4.
 ''',
 '''
 ''' + makeCommandExample( '100 next_quadruplet_primes' ) + '''
@@ -14201,10 +14507,15 @@ This operator returns the smallest set of quadruplet primes greater than n.
 [ 'quadruplet_prime', 'nth_quadruplet_prime', 'quadruplet_primes', 'next_quadruplet_prime' ] ],
 
     'next_quintuplet_prime' : [
-'prime_numbers', 'returns the first member of the smallest set of quintuplet primes above n',
+'prime_numbers', 'calculates the first member of the smallest set of quintuplet primes above n',
 '''
-This operator returns the first member of the smallest set of quintuplet
+This operator calculates the first member of the smallest set of quintuplet
 primes greater than n.
+
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
+the five primes form a prime quintuplet which is the closest admissible
+constellation of five primes.   rpn considers the two kinds of quintuplets
+(ones with p-4 and ones with p+12) as equivalent.
 ''',
 '''
 ''' + makeCommandExample( '100 next_quintuplet_prime' ) + '''
@@ -14214,9 +14525,14 @@ primes greater than n.
 [ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
     'next_quintuplet_primes' : [
-'prime_numbers', 'returns the the smallest set of quintuplet primes above n',
+'prime_numbers', 'calculates the the smallest set of quintuplet primes above n',
 '''
-This operator returns the smallest set of quintuplet primes greater than n.
+This operator calculates the smallest set of quintuplet primes greater than n.
+
+If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
+the five primes form a prime quintuplet which is the closest admissible
+constellation of five primes.   rpn considers the two kinds of quintuplets
+(ones with p-4 and ones with p+12) as equivalent.
 ''',
 '''
 ''' + makeCommandExample( '100 next_quintuplet_primes' ) + '''
@@ -14226,9 +14542,9 @@ This operator returns the smallest set of quintuplet primes greater than n.
 [ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
     'next_sextuplet_prime' : [
-'prime_numbers', 'returns the first member of the smallest set of sextuplet primes above n',
+'prime_numbers', 'calculates the first member of the smallest set of sextuplet primes above n',
 '''
-This operator returns the first member of the smallest set of sextuplet
+This operator calculates the first member of the smallest set of sextuplet
 primes greater than n.
 ''',
 '''
@@ -14239,9 +14555,9 @@ primes greater than n.
 [ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
 
     'next_sextuplet_primes' : [
-'prime_numbers', 'returns the the smallest set of sextuplet primes above n',
+'prime_numbers', 'calculates the the smallest set of sextuplet primes above n',
 '''
-This operator returns the smallest set of sextuplet primes greater than n.
+This operator calculates the smallest set of sextuplet primes greater than n.
 ''',
 '''
 ''' + makeCommandExample( '100 next_sextuplet_primes' ) + '''
@@ -14251,9 +14567,9 @@ This operator returns the smallest set of sextuplet primes greater than n.
 [ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
 
     'next_triplet_prime' : [
-'prime_numbers', 'returns the next first member of the smallest set of triplet primes above n',
+'prime_numbers', 'calculates the next first member of the smallest set of triplet primes above n',
 '''
-This operator returns the first member of the smallest set of triplet primes
+This operator calculates the first member of the smallest set of triplet primes
 greater than n.
 ''',
 '''
@@ -14264,9 +14580,9 @@ greater than n.
 [ 'triplet_prime', 'nth_triplet_prime', 'triplet_primes' ] ],
 
     'next_triplet_primes' : [
-'prime_numbers', 'returns the smallest set of triplet primes above n',
+'prime_numbers', 'calculates the smallest set of triplet primes above n',
 '''
-This operator returns smallest set of triplet primes greater than n.
+This operator calculates smallest set of triplet primes greater than n.
 ''',
 '''
 ''' + makeCommandExample( '100 next_triplet_primes' ) + '''
@@ -14275,9 +14591,9 @@ This operator returns smallest set of triplet primes greater than n.
 [ 'triplet_prime', 'nth_triplet_prime', 'triplet_primes' ] ],
 
     'next_twin_prime' : [
-'prime_numbers', 'returns the first member of the smallest set of twin primes above n',
+'prime_numbers', 'calculates the first member of the smallest set of twin primes above n',
 '''
-This operator returns the first member of the smallest set of twin primes
+This operator calculates the first member of the smallest set of twin primes
 greater than n.
 ''',
 '''
@@ -14288,9 +14604,11 @@ greater than n.
 [ 'twin_prime', 'nth_twin_prime', 'twin_primes' ] ],
 
     'next_twin_primes' : [
-'prime_numbers', 'returns the smallest set of twin primes above n',
+'prime_numbers', 'calculates the smallest set of twin primes above n',
 '''
-This operator returns the smallest set of twin primes greater than n.
+This operator calculates the smallest set of twin primes greater than n.
+
+Twin primes are prime numbers that have a difference of 2.
 ''',
 '''
 ''' + makeCommandExample( '100 next_twin_primes' ) + '''
@@ -14302,7 +14620,7 @@ This operator returns the smallest set of twin primes greater than n.
     'nth_prime' : [
 'prime_numbers', 'finds the index of the closest prime less than or equal n',
 '''
-This operator returns the index of the prime number that is closest to, but not
+This operator finds the index of the prime number that is closest to, but not
 larger than n.
 
 Prime numbers can be calculated from scratch, but this would be excessively
@@ -14320,6 +14638,9 @@ through several billion primes.
     'nth_quadruplet_prime' : [
 'prime_numbers', 'finds the index of the first of the closest quadruplet prime set greater than n',
 '''
+This operator finds the index of the first of the closest quadruplet prime set
+greater than n.
+
 A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
 is the closest possible grouping of four primes larger than 3, and is the only
 prime constellation of length 4.
@@ -14342,13 +14663,13 @@ through several billion primes.
     'nth_quintuplet_prime' : [
 'prime_numbers', 'finds the index of the first of the closest quintuplet prime set greater than n',
 '''
+This operator finds the index of the prime quintuplet whose first member is
+closest to, but not larger than n.
+
 If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
 the five primes form a prime quintuplet which is the closest admissible
 constellation of five primes.   rpn considers the two kinds of quintuplets
-(ones with p-4 and ones with p+12) as equiivalent.
-
-This operator returns the index of the prime quintuplet whose first member is
-closest to, but not larger than n.
+(ones with p-4 and ones with p+12) as equvalent.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14637,14 +14958,14 @@ through several billion primes.
 [ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
     'quadruplet_primes' : [
-'prime_numbers', 'returns the nth set of quadruplet primes',
+'prime_numbers', 'calculates the nth set of quadruplet primes',
 '''
+This operator calculates a list containing the four members of the nth prime
+quadruplet.
+
 A prime quadruplet is a set of four primes of the form p, p+2, p+6, p+8.  This
 is the closest possible grouping of four primes larger than 3, and is the only
 prime constellation of length 4.
-
-This operator returns a list containing the four members of the nth prime
-quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14656,13 +14977,15 @@ through several billion primes.
 [ 'nth_quadruplet_prime', 'next_quadruplet_prime', 'quadruplet_primes' ] ],
 
     'quintuplet_prime' : [
-'prime_numbers', 'returns the first of the nth set of quintruplet primes',
+'prime_numbers', 'finds the first of the nth set of quintruplet primes',
 '''
+This operator returns the a first of the 5 primes that make up the nth prime
+quintuplet.
+
 If p, p+2, p+6, p+8 is a prime quadruplet and p-4 or p+12 is also prime, then
 the five primes form a prime quintuplet which is the closest admissible
 constellation of five primes.   rpn considers the two kinds of quintuplets
-(ones with p-4 and ones with p+12) as equiivalent.  This operator returns the
-a first of the 5 primes that make up the nth prime quintuplet.
+(ones with p-4 and ones with p+12) as equivalent.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14695,6 +15018,8 @@ through several billion primes.
     'safe_prime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
+This operator returns the nth safe prime.
+
 A safe prime is a prime number p such that ( p - 1 ) / 2 is also prime.  The
 number ( p - 1 ) / 2 is a Sophie Germain prime.
 
@@ -14711,13 +15036,13 @@ through several billion primes.
 [ 'sophie_prime' ] ],
 
     'sextuplet_prime' : [
-'prime_numbers', 'returns the first of the nth set of sextuplet primes',
+'prime_numbers', 'calculates the first of the nth set of sextuplet primes',
 '''
+This operator calculates the first of the six primes that make up the nth prime
+sextuplet.
+
 If p, p+2, p+6, p+8 is a prime quadruplet and p-4 and p+12 are both also prime,
 then the six primes are a prime sextuplet.
-
-This operator returns the first of the six primes that make up the nth prime
-sextuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14730,13 +15055,13 @@ through several billion primes.
 [ 'sextuplet_primes' ] ],
 
     'sextuplet_primes' : [
-'prime_numbers', 'returns the nth set of sextuplet primes',
+'prime_numbers', 'calculates the nth set of sextuplet primes',
 '''
+This operator calculates the nth set of sextuplet primes.  It returns the a list
+of the six primes that make up the nth prime sextuplet.
+
 If p, p+2, p+6, p+8 is a prime quadruplet and p-4 and p+12 are both also prime,
 then the six primes are a prime sextuplet.
-
-This operator returns the a list of the six primes that make up the nth prime
-sextuplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14749,8 +15074,10 @@ through several billion primes.
 [ 'sextuplet_prime' ] ],
 
     'sexy_prime' : [
-'prime_numbers', 'returns the first of the nth set of sexy primes',
+'prime_numbers', 'calculates the first of the nth set of sexy primes',
 '''
+This operator calculates the first of the nth set of sexy primes.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
 nth set of sexy primes, so the value of the result + 6 will also be prime.
@@ -14767,8 +15094,10 @@ through several billion primes.
 [ 'sexy_primes', 'sexy_triplet', 'sexy_quadruplet' ] ],
 
     'sexy_primes' : [
-'prime_numbers', 'returns the nth set of sexy primes',
+'prime_numbers', 'calculates the nth set of sexy primes',
 '''
+This operator calculates the nth set of sexy primes.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
 of the nth set of sexy primes, which will differ by 6.
@@ -14785,8 +15114,10 @@ through several billion primes.
 [ 'sexy_prime', 'sexy_triplets', 'sexy_quadruplets' ] ],
 
     'sexy_triplet' : [
-'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
+'prime_numbers', 'calculates the first of the nth set of sexy triplet primes',
 '''
+This operator calculates the first of the nth set of sexy triplet primes.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  If n + 12 is also prime, then this
 forms a "sexy triplet".
@@ -14805,14 +15136,14 @@ through several billion primes.
 [ 'sexy_prime', 'sexy_triplets', 'sexy_quadruplet' ] ],
 
     'sexy_triplets' : [
-'prime_numbers', 'returns the nth set of sexy triplet primes',
+'prime_numbers', 'calculates the nth set of sexy triplet primes',
 '''
+This operator calculates a list of the three primes that form the nth sexy
+triplet.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  If n + 12 is also prime, then this
 forms a "sexy triplet".
-
-This operator returns a list of the three primes that form the nth sexy
-triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14826,14 +15157,14 @@ through several billion primes.
 [ 'sexy_prime', 'sexy_triplet', 'sexy_quadruplets' ] ],
 
     'sexy_quadruplet' : [
-'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
+'prime_numbers', 'calculates the first of the nth set of sexy quadruplet primes',
 '''
+This operator calculates the first of the four primes that form the nth sexy
+quadruplet.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  If n + 12 and n + 18 are also both
 prime, then this forms a "sexy quadruplet".
-
-This operator returns the first of the four primes that form the nth sexy
-quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14846,14 +15177,14 @@ through several billion primes.
 [ 'sexy_quadruplets', 'sexy_prime', 'sexy_triplet' ] ],
 
     'sexy_quadruplets' : [
-'prime_numbers', 'returns the nth set of sexy quadruplet primes',
+'prime_numbers', 'calculates the nth set of sexy quadruplet primes',
 '''
+This operator calculates a list of the four primes that form the nth sexy
+quadruplet.
+
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
 prime.  n + 2 or n + 4 may also be prime.  If n + 12 and n + 18 are also both
 prime, then this forms a "sexy quadruplet".
-
-This operator returns a list of the four primes that form the nth sexy
-quadruplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14867,8 +15198,10 @@ through several billion primes.
 [ 'sexy_quadruplet', 'sexy_primes', 'sexy_triplets' ] ],
 
     'sophie_prime' : [
-'prime_numbers', 'returns the nth Sophie Germain prime',
+'prime_numbers', 'calculates the nth Sophie Germain prime',
 '''
+This operator calculates the nth Sophie Germain prime.
+
 A Sophie Germain prime is a prime number p such that 2p + 1 is also prime.  The
 number 2p + 1 is a safe prime.
 
@@ -14885,9 +15218,9 @@ through several billion primes.
 [ 'safe_prime' ] ],
 
     'super_prime' : [
-'prime_numbers', 'returns the nth super prime (the nth primeth prime)',
+'prime_numbers', 'calculates the nth super prime (the nth primeth prime)',
 '''
-This operator returns the mth prime where m is the nth prime.
+This operator calculates the mth prime where m is the nth prime.
 
 This is equivalent to 'n 2 polyprime'.
 
@@ -14903,13 +15236,13 @@ through several billion primes.
 [ 'prime', 'polyprime' ] ],
 
     'triple_balanced_prime' : [
-'prime_numbers', 'returns the nth triple balanced prime',
+'prime_numbers', 'calculates the nth triple balanced prime',
 '''
+This operator calculates the nth triple balanced prime.
+
 A triple balanced prime is a prime which is the average of its immediate pair
 of prime neighbors, its second pair of prime neighbors and its third pair of
 prime neighbors.
-
-This operator returns the nth triple balanced prime.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14922,14 +15255,14 @@ through several billion primes.
 [ 'balanced_prime', 'double_balanced_prime', 'triple_balanced_primes', 'quadruple_balanced_prime' ] ],
 
     'triple_balanced_primes' : [
-'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
+'prime_numbers', 'calculates the nth triple balanced prime and its neighbors',
 '''
+This operator calculates the 7 prime numbers that make up the nth triple
+balanced prime and its three nested pairs of prime neighbors.
+
 A triple balanced prime is a prime which is the average of its immediate pair
 of prime neighbors, its second pair of prime neighbors and its third pair of
 prime neighbors.
-
-This operator prints the 7 prime numbers that make up the nth triple balanced
-prime and its three nested pairs of prime neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14942,12 +15275,12 @@ through several billion primes.
 [ 'balanced_primes', 'double_balanced_primes', 'triple_balanced_prime', 'quadruple_balanced_primes' ] ],
 
     'triplet_prime' : [
-'prime_numbers', 'returns the first of the nth set of triplet primes',
+'prime_numbers', 'calculates the first of the nth set of triplet primes',
 '''
+This operator calculates the first of the three primes in the nth prime triplet.
+
 A set of triplet primes are three prime numbers that are as close as they
 can be, either n, n + 2, n + 6, or n, n + 4, n + 6.
-
-This operator returns the first of the three primes in the nth prime triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14960,12 +15293,12 @@ through several billion primes.
 [ 'twin_prime', 'triplet_primes', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
     'triplet_primes' : [
-'prime_numbers', 'returns the nth set of triplet primes',
+'prime_numbers', 'calculates the nth set of triplet primes',
 '''
+This operator calculates a list of the three primes in the nth prime triplet.
+
 A set of triplet primes are three prime numbers that are as close as they
 can be, either n, n + 2, n + 6, or n, n + 4, n + 6.
-
-This operator returns a list of the three primes in the nth prime triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14978,13 +15311,13 @@ through several billion primes.
 [ 'twin_primes', 'triplet_prime', 'quadruplet_primes', 'quintuplet_primes' ] ],
 
     'twin_prime' : [
-'prime_numbers', 'returns the first of the nth set of twin primes',
+'prime_numbers', 'calculates the first of the nth set of twin primes',
 '''
+This operator calculates the first of the two primes that make up the nth twin
+prime pair.
+
 Twin primes are prime numbers separated by 2.  The first twin prime pair
 consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
-
-This operator returns the first of the two primes that make up the nth twin
-prime pair.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -14997,13 +15330,13 @@ through several billion primes.
 [ 'twin_primes', 'triplet_prime', 'quadruplet_prime', 'quintuplet_prime' ] ],
 
     'twin_primes' : [
-'prime_numbers', 'returns the nth set of twin primes',
+'prime_numbers', 'calculates the nth set of twin primes',
 '''
+This operator calculates a list of the two priems that make up the nth twin
+prime pair.
+
 Twin primes are prime numbers separated by 2.  The first twin prime pair
 consists of 3 and 5.  It is conjectured that there infinitely many twin primes.
-
-This operator returns a list of the two priems that make up the nth twin
-prime pair.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  rpnChilada supports caching prime values to data files in ''' +
@@ -15043,13 +15376,13 @@ rpn (4)>default accuracy
 12
 rpn (5)>pi
 3.141592653581
-rpn (6)>
 ''',
 [ 'precision' ] ],
 
     'comma' : [
 'settings', 'allows changing the comma option in interactive mode',
 '''
+This operator allows changing the comma option in interactive mode.
 ''',
 '''
 rpn (1)>5 12 **
@@ -15058,36 +15391,67 @@ rpn (2)>true comma
 1
 rpn (3)>5 12 **
 244,140,625
+rpn (4)>false comma
+0
+rpn (5)>5 12 **
+244140625
 ''',
 [ 'comma_mode' ] ],
 
     'comma_mode' : [
-'settings', 'set temporary comma mode in interactive mode',
+'settings', 'sets temporary comma mode in interactive mode',
 '''
+This operator sets comma mode to true for a single expression, the one one
+'comma_mode' appears in.  Other than this side-effect, the operator is ignored.
 ''',
 '''
+rpn (1)> 2 23 **
+8388608
+rpn (2)> comma_mode 2 23 **
+8,388,608
+rpn (3)> 2 23 **
+8388608
 ''',
 [ 'comma' ] ],
 
     'decimal_grouping' : [
 'settings', 'used in interactive mode to set the decimal grouping level',
 '''
+This operator is used in interactive mode to set the decimal grouping level.
 ''',
 '''
+rpn (1)> pi
+3.14159265359
+rpn (2)> 3 decimal_grouping
+3
+rpn (3)> pi
+3.141 592 653 59
 ''',
 [ 'integer_grouping' ] ],
 
     'hex_mode' : [
 'settings', 'set temporary hex mode in interactive mode',
 '''
+This operator is used in interactive mode to temporarily set hexadecimal mode to
+true, just for that expression.  Then it returns to the default behavior.
+
+Hexadecimal mode consists of base 16 output, an integer grouping of 4, and
+leading zero mode set to true.
 ''',
 '''
+rpn (1)> 45 47 *
+2115
+rpn (2)> hex_mode 47 47 *
+08a1
+rpn (3)> 45 47 *
+2115
 ''',
 [ 'octal_mode', 'output_radix' ] ],
 
     'identify' : [
 'settings', 'set identify mode in interactive mode',
 '''
+This operator sets identify mode in interactive mode.
 ''',
 '''
 ''',
@@ -15104,6 +15468,9 @@ rpn (3)>5 12 **
     'input_radix' : [
 'settings', 'used in interactive mode to set the input radix',
 '''
+This operator is used to set the input radix in interactive mode.  When the
+input radix is set to something other than 10, all input will be interpreted as
+being in that base.
 ''',
 '''
 rpn (1)> 12 output_radix
@@ -15121,38 +15488,82 @@ rpn (5)>
     'integer_grouping' : [
 'settings', 'used in interactive mode to set the integer grouping',
 '''
+This operator is used in interactive mode to set the integer grouping size.
 ''',
 '''
+rpn (2)> 13 8 **
+815730721
+rpn (3)> 3 integer_grouping
+3
+rpn (4)> 13 8 **
+815 730 721
+rpn (5)> 4 integer_grouping
+4
+rpn (6)> 13 8 **
+8 1573 0721
+rpn (7)> default integer_grouping
+3
 ''',
 [ 'integer_grouping' ] ],
 
     'leading_zero' : [
 'settings', 'when set to true and integer grouping is being used, output will include leading zeroes',
 '''
+This operator is used to set the leading zero mode, which will cause the most
+significant integer grouping (if it's set to a non-zero value) to be back-filled
+with zeroes.
 ''',
 '''
+rpn (3)> 432935874
+4 3293 5874
+rpn (4)> 1 leading_zero
+0000
+rpn (5)> 432935874
+0004 3293 5874
 ''',
 [ 'leading_zero_mode' ] ],
 
     'leading_zero_mode' : [
-'settings', 'used in the interactive mode to set the leading zero mode for output',
+'settings', 'sets temporary leading zero mode in interactive mode',
 '''
+This operator is used in interactive mode to temporarily set the leading zero
+mode to true, just for that expression.  Then it returns to the default
+behavior.
 ''',
 '''
+rpn (13)> 2439085424
+24 3908 5424
+rpn (14)> leading_zero_mode 2439085424
+0024 3908 5424
+rpn (15)> 2439085424
+24 3908 5424
 ''',
 [ 'leading_zero' ] ],
 
     'octal_mode' : [
-'settings', 'set temporary octal mode in interactive mode',
+'settings', 'sets temporary octal mode in interactive mode',
 '''
+This operator is used in interactive mode to temporarily set octal mode to true,
+just for that expression.  Then it returns to the default behavior.
+
+Octal mode consists of base 8 output, an integer grouping of 3, and leading zero
+mode set to true.
 ''',
 '''
+rpn (1)> 693
+693
+rpn (2)> octal_mode 693
+001 265
+rpn (3)> 693
+693
 ''',
 [ 'hex_mode', 'output_radix' ] ],
 
     'output_radix' : [
 'settings', 'used in the interactive mode to set the output radix',
 '''
+This operator is used to set the output radix in interactive mode.  When the
+output radix is set to n, all numerical output will be in base n.
 ''',
 '''
 rpn (1)> 12 output_radix
@@ -15186,6 +15597,11 @@ rpn (5)>
     'timer_mode' : [
 'settings', 'set temporary timer mode in interactive mode',
 '''
+This operator is used in interactive mode to temporarily set the timer mode to
+true, just for that expression.  Then it returns to the default behavior.
+
+When the timer mode is true, rpnChilada will output the time it takes to
+evaluate the expression.
 ''',
 '''
 ''',
@@ -15226,6 +15642,20 @@ though.
 This operator deletes the entry for n in the configuration file.
 ''',
 '''
+c:\\> rpn test1 fred set_config
+fred
+
+c:\\> rpn dump_config
+test1: "fred"
+
+1
+
+c:\\> rpn test1 delete_config
+test1
+
+c:\\> rpn dump_config
+
+0
 ''',
 [ 'dump_config', 'get_config', 'set_config' ] ],
 

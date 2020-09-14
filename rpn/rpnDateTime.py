@@ -758,18 +758,6 @@ def calculateDSTEndOperator( year ):
 
 #******************************************************************************
 #
-#  getISODayOperator
-#
-#******************************************************************************
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ DateTimeValidator( ) ] )
-def getISODayOperator( n ):
-    return list( n.isocalendar( ) )
-
-
-#******************************************************************************
-#
 #  getWeekdayOperator
 #
 #******************************************************************************

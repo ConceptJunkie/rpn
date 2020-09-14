@@ -10,18 +10,19 @@
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
 #
+#  NOTE:  The usual operator decorators can't be used here, because these
+#         operators don't return a value.  They only have a side-effect.
+
 #******************************************************************************
 
-from mpmath import fadd, mp
+from mpmath import mp
 
 import rpn.rpnGlobals as g
-
-from rpn.rpnValidator import argValidator, IntValidator
 
 
 #******************************************************************************
 #
-#  setAccuracy
+#  setAccuracyOperator
 #
 #******************************************************************************
 
@@ -30,6 +31,9 @@ def setAccuracy( n ):
     This function make sure that the accuracy is at least as high as n.  If it's
     already higher, it doesn't lower it.
     '''
+    if n < -1:
+        raise ValueError( '\'default\', or a non-negative value expected' )
+
     if n == -1:
         g.outputAccuracy = g.defaultOutputAccuracy
     else:
@@ -41,18 +45,20 @@ def setAccuracy( n ):
     return g.outputAccuracy
 
 
-@argValidator( [ IntValidator( 0 ) ] )
 def setAccuracyOperator( n ):
-    return setAccuracy( fadd( n, 2 ) )
+    setAccuracy( n[ 0 ] )
 
 
 #******************************************************************************
 #
-#  setPrecision
+#  setPrecisionOperator
 #
 #******************************************************************************
 
 def setPrecision( n ):
+    if n < -1:
+        raise ValueError( '\'default\', or a non-negative value expected' )
+
     if n == -1:
         mp.dps = g.defaultPrecision
     else:
@@ -61,21 +67,25 @@ def setPrecision( n ):
     if mp.dps < g.outputAccuracy:
         mp.dps = g.outputAccuracy
 
-    return mp.dps
+    return g.outputAccuracy
 
 
-@argValidator( [ IntValidator( 0 ) ] )
 def setPrecisionOperator( n ):
-    setPrecision( n )
+    setPrecision( n[ 0 ] )
 
 
 #******************************************************************************
 #
-#  setComma
+#  setCommaOperator
 #
 #******************************************************************************
 
-def setComma( n ):
+def setCommaOperator( n ):
+    n = n[ 0 ]
+
+    if n not in ( -1, 0, 1 ):
+        raise ValueError( '\'true\', \'false\', or \'default\' expected' )
+
     if n == 1:
         g.comma = True
     else:
@@ -84,18 +94,18 @@ def setComma( n ):
     return 1 if g.comma else 0
 
 
-@argValidator( [ IntValidator( 0, 1 ) ] )
-def setCommaOperator( n ):
-    setComma( n )
-
-
 #******************************************************************************
 #
-#  setTimer
+#  setTimerOperator
 #
 #******************************************************************************
 
-def setTimer( n ):
+def setTimerOperator( n ):
+    n = n[ 0 ]
+
+    if n not in ( -1, 0, 1 ):
+        raise ValueError( '\'true\', \'false\', or \'default\' expected' )
+
     if n == 1:
         g.timer = True
     else:
@@ -104,18 +114,18 @@ def setTimer( n ):
     return 1 if g.timer else 0
 
 
-@argValidator( [ IntValidator( 0, 1 ) ] )
-def setTimerOperator( n ):
-    setTimer( n )
-
-
 #******************************************************************************
 #
-#  setIntegerGrouping
+#  setIntegerGroupingOperator
 #
 #******************************************************************************
 
-def setIntegerGrouping( n ):
+def setIntegerGroupingOperator( n ):
+    n = n[ 0 ]
+
+    if n < -1:
+        raise ValueError( '\'default\', or a non-negative value expected' )
+
     if n == -1:
         g.integerGrouping = g.defaultIntegerGrouping
     else:
@@ -124,18 +134,18 @@ def setIntegerGrouping( n ):
     return g.integerGrouping
 
 
-@argValidator( [ IntValidator( -1 ) ] )
-def setIntegerGroupingOperator( n ):
-    setIntegerGrouping( n )
-
-
 #******************************************************************************
 #
-#  setDecimalGrouping
+#  setDecimalGroupingOperator
 #
 #******************************************************************************
 
-def setDecimalGrouping( n ):
+def setDecimalGroupingOperator( n ):
+    n = n[ 0 ]
+
+    if n < -1:
+        raise ValueError( '\'default\', or a non-negative value expected' )
+
     if n == -1:
         g.decimalGrouping = g.defaultDecimalGrouping
     else:
@@ -144,18 +154,18 @@ def setDecimalGrouping( n ):
     return g.decimalGrouping
 
 
-@argValidator( [ IntValidator( -1 ) ] )
-def setDecimalGroupingOperator( n ):
-    setDecimalGrouping( n )
-
-
 #******************************************************************************
 #
-#  setInputRadix
+#  setInputRadixOperator
 #
 #******************************************************************************
 
-def setInputRadix( n ):
+def setInputRadixOperator( n ):
+    n = n[ 0 ]
+
+    if n < -1:
+        raise ValueError( '\'default\', or a non-negative value expected' )
+
     if n in [ 0, -1 ]:
         g.inputRadix = g.defaultInputRadix
     else:
@@ -164,18 +174,15 @@ def setInputRadix( n ):
     return g.inputRadix
 
 
-@argValidator( [ IntValidator( -1 ) ] )
-def setInputRadixOperator( n ):
-    setInputRadix( n )
-
-
 #******************************************************************************
 #
-#  setOutputRadix
+#  setOutputRadixOperator
 #
 #******************************************************************************
 
-def setOutputRadix( n ):
+def setOutputRadixOperator( n ):
+    n = n[ 0 ]
+
     if n in [ 0, -1 ]:
         g.outputRadix = g.defaultOutputRadix
     else:
@@ -184,18 +191,18 @@ def setOutputRadix( n ):
     return g.outputRadix
 
 
-@argValidator( [ IntValidator( -1 ) ] )
-def setOutputRadixOperator( n ):
-    setOutputRadix( n )
-
-
 #******************************************************************************
 #
-#  setLeadingZero
+#  setLeadingZeroOperator
 #
 #******************************************************************************
 
-def setLeadingZero( n ):
+def setLeadingZeroOperator( n ):
+    n = n[ 0 ]
+
+    if n not in ( -1, 0, 1 ):
+        raise ValueError( '\'true\', \'false\', or \'default\' expected' )
+
     result = 1 if g.leadingZero else 0
 
     if n == 0:
@@ -206,31 +213,26 @@ def setLeadingZero( n ):
     return result
 
 
-@argValidator( [ IntValidator( 0, 1 ) ] )
-def setLeadingZeroOperator( n ):
-    setLeadingZero( n )
-
-
 #******************************************************************************
 #
-#  setIdentify
+#  setIdentifyOperator
 #
 #******************************************************************************
 
-def setIdentify( n ):
+def setIdentifyOperator( n ):
+    n = n[ 0 ]
+
+    if n not in ( -1, 0, 1 ):
+        raise ValueError( '\'true\', \'false\', or \'default\' expected' )
+
     result = 1 if g.identify else 0
 
-    if n == 0:
+    if n in ( -1, 0 ):
         g.identify = False
     else:
         g.identify = True
 
     return result
-
-
-@argValidator( [ IntValidator( 0, 1 ) ] )
-def setIdentifyOperator( n ):
-    setIdentify( n )
 
 
 #******************************************************************************

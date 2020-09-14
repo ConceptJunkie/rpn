@@ -14,8 +14,8 @@
 
 import calendar
 
-from convertdate import bahai, french_republican, gregorian, hebrew, indian_civil, \
-                        islamic, julian, mayan, persian
+from convertdate import bahai, french_republican, hebrew, indian_civil, islamic, julian, \
+                        julianday, mayan, persian
 from ethiopian_date import EthiopianDateConverter as ethiopian_date
 from mpmath import ceil
 
@@ -322,7 +322,8 @@ def generateYearCalendarOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getJulianDayOperator( n ):
-    return gregorian.to_jd( n.year, n.month, n.day )
+    n.to( 'utc' )
+    return julianday.from_datetime( n )
 
 
 #******************************************************************************

@@ -684,18 +684,18 @@ def getNthMultifactorialOperator( n, k ):
 
 #******************************************************************************
 #
-#  getMultinomial
+#  getMultinomialOperator
 #
 #******************************************************************************
 
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
-def getMultinomialOperator( args ):
-    numerator = fac( fsum( args ) )
+def getMultinomialOperator( n ):
+    numerator = fac( fsum( n ) )
 
     denominator = 1
 
-    for arg in args:
+    for arg in n:
         denominator = fmul( denominator, fac( arg ) )
 
     return fdiv( numerator, denominator )
