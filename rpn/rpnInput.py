@@ -13,6 +13,7 @@
 #******************************************************************************
 
 import math
+import os
 
 import arrow
 
@@ -242,6 +243,8 @@ def parseInputValue( term, inputRadix = 10 ):
 #******************************************************************************
 
 def readListFromFileGenerator( filename ):
+    filename = g.cwd + os.sep + filename
+
     with open( filename ) as file:
         for i in file:
             if i == '\n':

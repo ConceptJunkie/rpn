@@ -61,6 +61,7 @@ astroDataLoaded = False         # Whether or not we've tried to load the astrono
 astroDataAvailable = False      # If the astronomy data is available (i.e., It's there, _and_ we loaded it.)
 checkForSingleResults = False   # This is set true for making help and unit tests, because those should always eturn single results
 creatingFunction = False        # Whether we're in the process of creating a user-defined function
+cwd = None
 duplicateOperations = 0
 echoArguments: List[ str ] = [ ]
 helpLoaded = False

@@ -556,7 +556,7 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
             else:
                 if fact not in non_prime_factors:
                     if verbose:
-                        print ("SIQS: Non-prime factor found: %d" % fact)
+                        print("SIQS: Non-prime factor found: %d" % fact)
                     non_prime_factors.add(fact)
 
     if rem != 1 and non_prime_factors:

@@ -122,8 +122,8 @@ from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayO
                             getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
                             getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, \
                             getVeteransDayOperator, getWeekdayOperator, getWeekdayNameOperator, getYearOperator, \
-                            getYesterdayOperator, makeDateTimeOperator, makeISOTimeOperator, makeJulianTimeOperator, \
-                            RPNDateTime, setTimeZoneOperator
+                            getYesterdayOperator, makeDateTimeOperator, makeJulianTimeOperator, RPNDateTime, \
+                            setTimeZoneOperator
 
 from rpn.rpnDice import enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
                         rollMultipleDiceOperator, rollSimpleDiceOperator
@@ -2297,8 +2297,6 @@ functionOperators = [
     'eval2',
     'eval3',
     'eval_list',
-    'eval_list2',
-    'eval_list3',
     'filter',
     'filter_by_index',
     'filter_integers',
@@ -2397,7 +2395,6 @@ listOperators = {
 
     # date_time
     'make_datetime'                     : RPNOperator( makeDateTimeOperator, 1 ),
-    'make_iso_time'                     : RPNOperator( makeISOTimeOperator, 1 ),
     'make_julian_time'                  : RPNOperator( makeJulianTimeOperator, 1 ),
 
     # function
@@ -2873,8 +2870,6 @@ operators = {
     'eval2'                             : RPNOperator( evaluateFunction2Operator, 3 ),
     'eval3'                             : RPNOperator( evaluateFunction3Operator, 4 ),
     'eval_list'                         : RPNOperator( evaluateListFunctionOperator, 2 ),
-    'eval_list2'                        : RPNOperator( evaluateListFunction2Operator, 3 ),
-    'eval_list3'                        : RPNOperator( evaluateListFunction3Operator, 4 ),
     'filter_integers'                   : RPNOperator( filterIntegersOperator, 2 ),
     'function'                          : RPNOperator( createUserFunctionOperator, 2 ),
     'limit'                             : RPNOperator( evaluateLimitOperator, 2 ),

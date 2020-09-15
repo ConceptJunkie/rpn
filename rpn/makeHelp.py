@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2381
+MAX_EXAMPLE_COUNT = 2395
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1287,6 +1287,8 @@ A number of bugs were fixed, and I did extensive touch-ups based on pylint.
 
 8.5.0
 
+Big Clean-Up and Documentation Release!
+
 Much more thorough argument validation has been implemented on all operators.
 In addition, all non-constant operator function names now end with 'Operator',
 which means I can be sure they are not being called recursively, or being called
@@ -1294,9 +1296,13 @@ by other operator functions, so that the argument expansion and validation isn't
 being done more than once.
 
 I have continued my focus on completing the online help, which is now more than
-95% complete.
+95% complete.  This also resulted in a number of operators being eliminated (see
+below), and a bevy of bug fixes.
 
 The help for units is now complete.  Every unit has help text.
+
+Time zone handling has been improved.  'to_time_zone', 'set_time_zone' and
+'to_local_time' have been added.
 
 'lat_long_to_nac' was removed (after I fixed it), since the developers of the
 Natural Area Code claim a copyright on the system itself, and do not allow
@@ -1315,7 +1321,9 @@ should be defined.   Plus, it isn't very interesting.
 I removed the 'planck_pressure' operator since it was identical to the
 'planck_energy_density' operator.
 
-I removed 'iso_date' and 'iso_day' which _both_ duplicated 'to_iso'.
+I removed 'iso_date' and 'iso_day' which _both_ duplicated 'to_iso'.  Also,
+'make_iso_time' was essentially a duplicate function as well, so it's been
+removed.
 
 I renamed the following operators to be more consistent:
 'get_utc' --> 'to_utc'
@@ -1334,7 +1342,10 @@ Removed the 'filter_lists' operator because it isn't needed.  'filter' works
 fine on a list of lists.
 
 I got rid of the 'repeat' operator because I literally couldn't think of a use
-for it.
+for i
+
+I eliminated 'eval_list2' and 'eval_list3' because I couldn't figure out how to
+contrive a meaningful example, and therefore don't think they would be useful.
 
 The 'recurrence' operator was removed, because it was a duplicate of the
 'sequence' operator.
@@ -4332,7 +4343,7 @@ year, the number of the week, and the weekday (from 1-7, 1 = Monday).
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso' ),
-[ 'to_iso', 'to_iso_name', 'make_iso_time' ] ],
+[ 'to_iso', 'to_iso_name' ] ],
 
     'to_iso_name' : [
 'calendars', 'converts a date to the formatted version of the equivalent ISO date',
@@ -4347,7 +4358,7 @@ parse.
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso_name' ) + '''
 ''' + makeCommandExample( '2020-07-21 to_iso_name' ),
-[ 'to_iso', 'make_iso_time' ] ],
+[ 'to_iso' ] ],
 
     'to_julian' : [
 'calendars', 'converts a date to the equivalent Julian date',
@@ -4389,8 +4400,27 @@ Date for 00:30:00.0 UT January 1, 2013, is 2456293.520833.
 [ 'from_julian', 'to_julian' ] ],
 
     'to_lilian_day' : [
-'calendars', 'returns the Lilian day for a time value',
+'calendars', 'calculates the Lilian date for a date-time value',
 '''
+The operator calculates the Lilian date for date-time value n.
+
+From https://en.wikipedia.org/wiki/Lilian_date:
+
+A Lilian date is the number of days since the beginning of the Gregorian
+Calendar on October 15, 1582, regarded as Lilian date 1.  It was invented by
+Bruce G. Ohms of IBM in 1986 and is named for Aloysius Lilius, who devised the
+Gregorian Calendar.  Lilian dates can be used to calculate the number of days
+between any two dates occurring since the beginning of the Gregorian calendar.
+It is currently used by date conversion routines that are part of IBM Language
+Environment (LE) software.
+
+The Lilian date is only a date format:  it is not tied to any particular time
+standard.  Another, better known, date notation that is used for similar
+purposes is the Julian date, which is tied to Universal time (or some other
+closely related time scale, such as International Atomic Time).  The Julian date
+always begins at noon, Universal time, and a decimal fraction may be used to
+represent the time of day.  In contrast, Ohms did not make any mention of time
+zones or time of day in his paper.
 ''',
 '''
 ''' + makeCommandExample( '1978-08-23 to_lilian_day' ) + '''
@@ -4409,8 +4439,13 @@ calendar.
 [ 'from_mayan' ] ],
 
     'to_ordinal_date' : [
-'calendars', 'returns the date in the Ordinal Date format',
+'calendars', 'calculates date-time n in the Ordinal Date format',
 '''
+This operator calculates date-time n in the Ordinal Date format.  The Ordinal
+Date format is simply the year and a dash followed by the ordinal date, i.e.,
+the number of days since January 1st inclusive.
+
+This output is not a format that rpnChilada can parse.
 ''',
 '''
 ''' + makeCommandExample( '2018-12-13 to_ordinal_date' ) + '''
@@ -6494,7 +6529,9 @@ when it's changed to something other than local, although it keeps track of it
 internally.
 ''',
 '''
-''',
+''' + makeCommandExample( 'now' ) + '''
+''' + makeCommandExample( 'now to_utc' ) + '''
+''' + makeCommandExample( 'now to_utc to_local_time' ),
 [ 'set_time_zone', 'to_utc' ] ],
 
     'get_minute' : [
@@ -6538,28 +6575,34 @@ This operator returns the value of the year from date-time n.
 [ 'get_month', 'get_day' ] ],
 
     'make_datetime' : [
-'date_time', 'interpret argument as absolute date-time',
+'date_time', 'interprets list argument as a date-time',
 '''
+This operator interprets list argument n as a date-time.  The list can have 1 to
+6 elements that are interpreted as year, month, day, hour, minute, second.
 ''',
 '''
-''',
-[ 'make_iso_time', 'make_julian_time' ] ],
-
-    'make_iso_time' : [
-'date_time', 'interpret argument as absolute date-time specified in the ISO format',
-'''
-''',
-'''
-''',
-[ 'make_datetime', 'make_julian_time' ] ],
+''' + makeCommandExample( '[ 2014 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 28 ] make_datetime', indent=4 ),
+[ 'make_julian_time' ] ],
 
     'make_julian_time' : [
-'date_time', 'interpret argument as absolute date-time specified by year, Julian day and optional time of day',
+'date_time', 'interprets list n as absolute date-time specified by year, Julian day and optional time of day',
 '''
+There elements of the list are interpreted as year, day, hour, minute, second.
+
+The day element can include a fraction, which will be converted, but if the
+hour, minute and second elements exist, they will override this.
 ''',
 '''
-''',
-[ 'make_datetime', 'make_iso_time' ] ],
+''' + makeCommandExample( '[ 2020 ] make_julian_time', indent=4 ) + '''
+''' + makeCommandExample( '[ 2020 235 ] make_julian_time', indent=4 ) + '''
+''' + makeCommandExample( '[ 2020 235.37 ] make_julian_time', indent=4 ) + '''
+''' + makeCommandExample( '[ 2020 235 8 10 12 ] make_julian_time', indent=4 ),
+[ 'make_datetime' ] ],
 
     'now' : [
 'date_time', 'returns the current date-time',
@@ -6681,7 +6724,7 @@ in the value n into the one-argument function k and returns the result.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
-[ 'eval0', 'eval2', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
+[ 'eval0', 'eval2', 'eval3', 'eval_list', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval0' : [
 'functions', 'evaluates the zero-argument function n',
@@ -6727,28 +6770,18 @@ Of course, rpn has better ways to do this:
 [ 'eval', 'eval3', 'filter', 'lambda', 'sequence', 'function' ] ],
 
     'eval_list' : [
-'functions', 'evaluates the function n for the given list argument[s] k',
+'functions', 'evaluates the function n for the given list arguments in k',
 '''
-''',
-'''
-''',
-[ 'eval', 'eval_list2', 'eval_list3', 'lambda' ] ],
+This operator evaluates the function n for the given list arguments in k.
 
-    'eval_list2' : [
-'functions', 'evaluates the function n for the given list argument[s] k',
-'''
+This means that k should be a list of lists, where each sublist is passed to n.
+This is useful for lambda functions that expect a list argument rather than a
+single value.
 ''',
 '''
-''',
-[ 'eval', 'eval_list', 'eval_list3', 'lambda' ] ],
-
-    'eval_list3' : [
-'functions', 'evaluates the function n for the given list argument[s] k',
-'''
-''',
-'''
-''',
-[ 'eval', 'eval_list', 'eval_list2', 'lambda' ] ],
+Show the averages of the factors of each of the first 20 numbers:
+''' + makeCommandExample( '1 20 range factor lambda x mean eval_list' ),
+[ 'eval', 'lambda' ] ],
 
     'filter' : [
 'functions', 'filters a list n using function k',
@@ -12460,6 +12493,11 @@ at the Moon).
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
 '''
+This operator calculates the relativistic time-dilation effect of a velocity
+difference of n.
+
+If a velocity greater than the speed of light is used for n, the answer will be
+imaginary.  You can decide what that means.
 ''',
 '''
 ''' + makeCommandExample( '1 million mph time_dilation' ) + '''
@@ -15881,6 +15919,15 @@ The file should have one number per line, and the values are subject to the
 same processing as numerical values on the rpn command line.
 ''',
 '''
+c:\\>cat test.txt
+1
+9
+11
+13
+16
+
+c:\\>rpn test.txt list_from_file
+[ 1, 9, 11, 13, 16 ]
 ''',
 [ 'set_config', 'get_config', 'set_variable', 'get_variable' ] ],
 

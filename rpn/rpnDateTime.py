@@ -169,43 +169,6 @@ def makeJulianTimeOperator( n ):
 
 #******************************************************************************
 #
-#  makeISOTimeOperator
-#
-#******************************************************************************
-
-def makeISOTime( n ):
-    if isinstance( n, RPNGenerator ):
-        return makeISOTime( list( n ) )
-
-    if len( n ) == 1:
-        year = n[ 0 ]
-        week = 1
-        day = 1
-    elif len( n ) == 2:
-        year = n[ 0 ]
-        week = n[ 1 ]
-        day = 1
-    else:
-        year = n[ 0 ]
-        week = n[ 1 ]
-        day = n[ 2 ]
-
-    result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( int( year ), int( week ), int( day ) ), '%Y-%W-%w' )
-
-    if RPNDateTime( year, 1, 4 ).isoweekday( ) > 4:
-        result -= datetime.timedelta( days = 7 )
-
-    return result
-
-
-@listArgFunctionEvaluator( )
-@argValidator( [ ListValidator( ) ] )
-def makeISOTimeOperator( n ):
-    return makeISOTime( n )
-
-
-#******************************************************************************
-#
 #  makeDateTimeOperator
 #
 #******************************************************************************

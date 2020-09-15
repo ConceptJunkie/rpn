@@ -2052,9 +2052,6 @@ def runDateTimeOperatorTests( ):
     expectException( '[ 1965 4 31 ] make_datetime' )
     expectException( '[ 1965 2 29 ] make_datetime' )
 
-    # make_iso_time
-    testOperator( '[ 2015 34 6 ] make_iso_time' )
-
     # make_julian_time
     testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
 
@@ -4729,7 +4726,7 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '3 2 tetrate' )
 
     # tetrate_right
-    # TODO: 
+    # TODO:
     #expectEqual( '-a40 infinity lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 10 21 ** * floor get_digits',
     #             '277435 oeis 21 left' )
     expectEqual( '-a100 2 2 sqrt 1 100 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
