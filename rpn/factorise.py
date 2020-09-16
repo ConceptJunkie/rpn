@@ -5,7 +5,9 @@ import random
 from fractions import gcd
 import sys
 from builtins import ValueError
+from typing import List
 
+small_primes: List[ int ] = [ ]
 
 # This script factorises a natural number given as a command line
 # parameter into its prime factors. It first attempts to use trial
@@ -216,7 +218,6 @@ def siqs_factor_base_primes(n, nf):
     """Compute and return nf factor base primes suitable for a Quadratic
     Sieve on the number n.
     """
-    global small_primes
     factor_base = []
     for p in small_primes:
         if is_quadratic_residue(n, p):
@@ -564,7 +565,7 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
         for fact in sorted(siqs_find_more_factors_gcd(non_prime_factors)):
             while fact != 1 and rem % fact == 0:
                 if verbose:
-                    print ("SIQS: Prime factor found: %d" % fact)
+                    print("SIQS: Prime factor found: %d" % fact)
                 factors.append(fact)
                 rem //= fact
             if rem == 1 or is_probable_prime(rem):
@@ -668,8 +669,8 @@ def siqs_factorise(n):
                 n, sieve_array, factor_base, smooth_relations,
                 g, h, m, required_relations)
 
-            if (len(smooth_relations) >= required_relations or
-                i_poly % 8 == 0 and len(smooth_relations) > prev_cnt):
+            if ( len(smooth_relations) >= required_relations or
+                 i_poly % 8 == 0 and len(smooth_relations) > prev_cnt):
 
                 if verbose:
                     print("Total %d/%d relations." % (len(smooth_relations), required_relations))
@@ -724,7 +725,6 @@ def trial_div_init_primes(n, upper_bound):
     if verbose:
         print("Trial division and initialising small primes...")
 
-    global small_primes
     is_prime = [True] * (upper_bound + 1)
     is_prime[0:2] = [False] * 2
     factors = []
