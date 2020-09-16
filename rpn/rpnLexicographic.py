@@ -24,9 +24,10 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import isDivisible, getPowMod
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime
+from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, getMPFIntegerAsString, \
                          listArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, IntValidator, ListValidator
+from rpn.rpnValidator import argValidator, IntValidator, ListValidator, RealValidator
 
 
 #******************************************************************************
@@ -75,6 +76,39 @@ def getDigitsOperator( n ):
 @argValidator( [ IntValidator( ) ] )
 def getNonzeroDigitsOperator( n ):
     return getDigitList( n, dropZeroes=True )
+
+
+#******************************************************************************
+#
+#  getDecimalDigitListOperator
+#
+#******************************************************************************
+
+def getDecimalDigitList( n, k ):
+    result = [ ]
+
+    setAccuracy( k )
+
+    digits = floor( log10( n ) )
+
+    if digits < 0:
+        for i in arange( fsub( fabs( digits ), 1 ) ):
+            result.append( 0 )
+
+        k = fsub( k, fsub( fabs( digits ), 1 ) )
+
+    value = fmul( n, power( 10, fsub( k, fadd( digits, 1 ) ) ) )
+
+    for c in getMPFIntegerAsString( floor( value ) ):
+        result.append( int( c ) )
+
+    return result
+
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
+def getDecimalDigitsOperator( n, k ):
+    return getDecimalDigitList( n, k )
 
 
 #******************************************************************************

@@ -144,16 +144,16 @@ from rpn.rpnGeometry import getAntiprismSurfaceAreaOperator, getAntiprismVolumeO
                             getTetrahedronSurfaceAreaOperator, getTetrahedronVolumeOperator, \
                             getTorusSurfaceAreaOperator, getTorusVolumeOperator, getTriangleAreaOperator
 
-from rpn.rpnInput import parseInputValue, readListFromFileOperator
+from rpn.rpnInput import parseInputValue, readListFromFileOperator, readNumberFromFileOperator
 
 from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, \
                                  combineDigitsOperator, containsAnyDigitsOperator, containsDigitsOperator, \
                                  containsOnlyDigitsOperator, countDifferentDigitsOperator, countDigitsOperator, \
                                  duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
                                  generateSquareDigitChainOperator, getCyclicPermutationsOperator, \
-                                 getDigitCountOperator, getDigitsOperator, getErdosPersistenceOperator, \
-                                 getPersistenceOperator, getKPersistenceOperator, getLeftDigitsOperator, \
-                                 getLeftTruncationsOperator, getNonzeroDigitsOperator, \
+                                 getDigitCountOperator, getDecimalDigitsOperator, getDigitsOperator, \
+                                 getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
+                                 getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroDigitsOperator, \
                                  getNthReversalAdditionOperator, getRightDigitsOperator, \
                                  getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
                                  isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, \
@@ -2182,18 +2182,18 @@ def evaluateListFunction3Operator( a, b, c, func ):
 
 @twoArgFunctionEvaluator( )
 def evaluateLimitOperator( n, func ):
-    return limit( func.evaluate, n, exp=True )
+    return limit( func.evaluate, n, direction=-1, exp=True )
 
 
 #******************************************************************************
 #
-#  evaluateReverseLimitOperator
+#  evaluateDecreasingLimitOperator
 #
 #******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def evaluateReverseLimitOperator( n, func ):
-    return limit( func.evaluate, n, direction=-1, exp=True )
+def evaluateDecreasingLimitOperator( n, func ):
+    return limit( func.evaluate, n, exp=True )
 
 
 #******************************************************************************
@@ -2864,7 +2864,7 @@ operators = {
 
     # function
     #'break_on'                         : RPNOperator( breakOnCondition, 3 ),
-    'decreasing_limit'                  : RPNOperator( evaluateReverseLimitOperator, 2 ),
+    'decreasing_limit'                  : RPNOperator( evaluateDecreasingLimitOperator, 2 ),
     'eval0'                             : RPNOperator( evaluateFunction0Operator, 1 ),
     'eval'                              : RPNOperator( evaluateFunctionOperator, 2 ),
     'eval2'                             : RPNOperator( evaluateFunction2Operator, 3 ),
@@ -2928,6 +2928,7 @@ operators = {
     'find_palindrome'                   : RPNOperator( findPalindromeOperator, 2 ),
     'get_base_k_digits'                 : RPNOperator( getBaseKDigitsOperator, 2 ),
     'get_digits'                        : RPNOperator( getDigitsOperator, 1 ),
+    'get_decimal_digits'                : RPNOperator( getDecimalDigitsOperator, 2 ),
     'get_left_digits'                   : RPNOperator( getLeftDigitsOperator, 2 ),
     'get_left_truncations'              : RPNOperator( getLeftTruncationsOperator, 1 ),
     'get_nonzero_base_k_digits'         : RPNOperator( getNonzeroBaseKDigitsOperator, 2 ),
@@ -3255,6 +3256,7 @@ operators = {
     'if'                                : RPNOperator( ifOperator, 3 ),
     'list_from_file'                    : RPNOperator( readListFromFileOperator, 1 ),
     'name'                              : RPNOperator( getNameOperator, 1 ),
+    'number_from_file'                  : RPNOperator( readNumberFromFileOperator, 1 ),
     'oeis'                              : RPNOperator( downloadOEISSequenceOperator, 1 ),
     'oeis_comment'                      : RPNOperator( downloadOEISCommentOperator, 1 ),
     'oeis_ex'                           : RPNOperator( downloadOEISExtraOperator, 1 ),

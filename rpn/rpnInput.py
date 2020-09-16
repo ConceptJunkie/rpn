@@ -260,3 +260,31 @@ def readListFromFileGenerator( filename ):
 @argValidator( [ StringValidator( ) ] )
 def readListFromFileOperator( filename ):
     return RPNGenerator( readListFromFileGenerator( filename ) )
+
+
+#******************************************************************************
+#
+#  readNUmberFromFile
+#
+#******************************************************************************
+
+def readNumberFromFileGenerator( filename ):
+    filename = g.cwd + os.sep + filename
+
+    string = ''
+
+    with open( filename ) as file:
+        for i in file:
+            for c in i:
+                if '0' <= c <= '9':
+                    string += c
+
+    setAccuracy( len( string ) + 1 )
+
+    return mpmathify( string )
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ StringValidator( ) ] )
+def readNumberFromFileOperator( filename ):
+    return readNumberFromFileGenerator( filename )

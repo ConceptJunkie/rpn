@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2395
+MAX_EXAMPLE_COUNT = 2402
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -1300,6 +1300,8 @@ I have continued my focus on completing the online help, which is now more than
 below), and a bevy of bug fixes.
 
 The help for units is now complete.  Every unit has help text.
+
+The 'number_from_file' and 'get_decimal_digits' operators have been added.
 
 Time zone handling has been improved.  'to_time_zone', 'set_time_zone' and
 'to_local_time' have been added.
@@ -6709,9 +6711,12 @@ Underneath this operator uses the mpmath limit( ) function, which has all kinds
 of smarts to estimate the limits accurately, even for infinite ranges.  However,
 rpnChilada does not do a great job of exposing the full functionality of
 limit( ).  If the result of a limit is infinite, it returns some weird answers.
+
+'decreasing_limit' is useful when the function is discontinuous.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 lambda x floor limit' ) + '''
+''' + makeCommandExample( '1 lambda x floor decreasing_limit' ),
 [ 'limit', 'lambda' ] ],
 
     'eval' : [
@@ -7910,6 +7915,27 @@ each digit by its base-10 equivalent.
 ''' + makeCommandExample( '3232235521 256 get_base_k_digits' ),
 [ 'base' ] ],
 
+    'get_decimal_digits' : [
+'lexicography', 'returns a list of k digits comprising the number n',
+'''
+This operator returns a list of k digits comprising the number n.  This includes
+the integral value of n (if any) followed by enough decimal digits to make k
+digits.
+
+The last digit is not rounded up.
+
+It is necessary to set the accuracy to k using -a if k is greater than the
+default accuracy.
+''',
+'''
+''' + makeCommandExample( '-a20 pi 20 get_decimal_digits' ) + '''
+''' + makeCommandExample( '-a20 2 sqrt 20 get_decimal_digits' ) + '''
+''' + makeCommandExample( '19457 3 get_decimal_digits' ) + '''
+''' + makeCommandExample( '34.678 4 get_decimal_digits' ) + '''
+''' + makeCommandExample( '0.00078 5 get_decimal_digits' ),
+[ 'get_digits', 'get_base_k_digits' ] ],
+
+
     'get_digits' : [
 'lexicography', 'returns the list of digits comprising integer n',
 '''
@@ -7918,7 +7944,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''' + makeCommandExample( '1234567890 get_digits' ),
-[ 'digits', 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right' ] ],
+[ 'get_decimal_digits', 'digits', 'has_digits', 'get_nonzero_digits', 'get_base_k_digits' ] ],
 
     'get_left_digits' : [
 'lexicography', 'returns a number composed of the left k digits of n',
@@ -15913,9 +15939,9 @@ list.
 [ 'not', 'is_equal' ] ],
 
     'list_from_file' : [
-'special', 'reads a list of values from a file',
+'special', 'reads a list of values from a text file',
 '''
-The file should have one number per line, and the values are subject to the
+The text file should have one number per line, and the values are subject to the
 same processing as numerical values on the rpn command line.
 ''',
 '''
@@ -15929,7 +15955,7 @@ c:\\>cat test.txt
 c:\\>rpn test.txt list_from_file
 [ 1, 9, 11, 13, 16 ]
 ''',
-[ 'set_config', 'get_config', 'set_variable', 'get_variable' ] ],
+[ 'number_from_file', 'set_variable', 'get_variable' ] ],
 
     'name' : [
 'special', 'returns the English name for the integer value or measurement n',
@@ -15955,6 +15981,23 @@ nine hundred ninety-nine...
 ''' + makeCommandExample( '114 feet name' ) + '''
 ''' + makeCommandExample( '2337 ounces [ pounds ounces ] convert name' ),
 [ 'ordinal_name' ] ],
+
+    'number_from_file' : [
+'special', 'reads a number from a text file',
+'''
+This operator reads a number from an ASCII text file.  The contents of the text
+file are interpreted as a single number composed of all characters '0' - '9'
+contained in the text file, without regarding any other characters, including
+whitespace.
+''',
+'''
+c:\\>cat test.txt
+365093519915713555773254766
+479531418686699271736651614
+c:\\>rpn test.txt number_from_file
+365093519915713555773254766479531418686699271736651614
+''',
+[ 'list_from_file', 'set_variable', 'get_variable' ] ],
 
     'oeis' : [
 'special', 'downloads the OEIS integer series n',
