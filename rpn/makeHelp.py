@@ -10675,7 +10675,14 @@ The first several deficient numbers:
 
     'is_sociable_list' : [
 'number_theory', 'returns whether list n is a list of sociable numbers',
-'''
+''';
+This operator returns true (1) if the list n is a list of sociable numbers.
+Sociable numbers form a looped aliquot chain:  The sum of divisors of each
+numbers is the next number in the list, with the last number having a divisor
+sum that equals the first number.
+
+Therefore, if any of these numbers are used with the 'aliquot' operator, they
+will result in early termination because of a loop.
 ''',
 '''
 ''',
@@ -15466,7 +15473,10 @@ rpn (5)>5 12 **
 'settings', 'sets temporary comma mode in interactive mode',
 '''
 This operator sets comma mode to true for a single expression, the one one
-'comma_mode' appears in.  Other than this side-effect, the operator is ignored.
+'comma_mode' appears in.
+
+Other than modifying the flag that turns on comma mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 rpn (1)> 2 23 **
@@ -15501,6 +15511,9 @@ true, just for that expression.  Then it returns to the default behavior.
 
 Hexadecimal mode consists of base 16 output, an integer grouping of 4, and
 leading zero mode set to true.
+
+Other than modifying the flag that turns on hexadecimal mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 rpn (1)> 45 47 *
@@ -15524,6 +15537,11 @@ This operator sets identify mode in interactive mode.
     'identify_mode' : [
 'settings', 'set temporary identify mode in interactive mode',
 '''
+This operator is used in interactive mode to temporarily turn on identify mode,
+just for the current expression.  Then it returns to the default behavior.
+
+Other than modifying the flag that turns on identify mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 ''',
@@ -15593,6 +15611,9 @@ rpn (5)> 432935874
 This operator is used in interactive mode to temporarily set the leading zero
 mode to true, just for that expression.  Then it returns to the default
 behavior.
+
+Other than modifying the flag that turns on leading zero mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 rpn (13)> 2439085424
@@ -15612,6 +15633,9 @@ just for that expression.  Then it returns to the default behavior.
 
 Octal mode consists of base 8 output, an integer grouping of 3, and leading zero
 mode set to true.
+
+Other than modifying the flag that turns on octal mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 rpn (1)> 693
@@ -15645,6 +15669,9 @@ rpn (5)>
     'precision' : [
 'settings', 'used in the interactive mode to set the output precision',
 '''
+This operator used in interactive mode to set the output precision.  When the
+precision is set, if the accuracy is lower than that value, it will also be
+increased to the same level.
 ''',
 '''
 ''',
@@ -15653,6 +15680,9 @@ rpn (5)>
     'timer' : [
 'settings', 'set timer mode in interactive mode',
 '''
+This operator is used in interactive mode to turn timer mode on and off.  If
+it's turned on ('true timer'), then every operator will be followed with a
+print-out of the time it took.
 ''',
 '''
 ''',
@@ -15665,7 +15695,10 @@ This operator is used in interactive mode to temporarily set the timer mode to
 true, just for that expression.  Then it returns to the default behavior.
 
 When the timer mode is true, rpnChilada will output the time it takes to
-evaluate the expression.
+evaluate each expression.
+
+Other than modifying the flag that turns on timer mode, this operator is
+ignored by rpnChilada.
 ''',
 '''
 ''',
