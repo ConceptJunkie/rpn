@@ -95,7 +95,7 @@ def runCommandLineOptionsTests( ):
 
     testOperator( '-h' )
 
-    testOperator( '2 sqrt pi * -i' )
+    testOperator( '2 sqrt pi * -y' )
 
     testOperator( '-m50 planck_length' )
 

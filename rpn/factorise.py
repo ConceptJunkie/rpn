@@ -1,26 +1,32 @@
 #!/usr/bin/python3 -O
 
 from math import sqrt, log2, ceil, floor
+
 import random
-from fractions import gcd
+import sys
+
+if sys.version_info[ 0 ] == 3 and sys.version_info[ 1 ] >= 9:
+    from math import gcd
+else:
+    from fractions import gcd
+
 import sys
 from builtins import ValueError
-from typing import List
 
-small_primes: List[ int ] = [ ]
 
-# This script factorises a natural number given as a command line
-# parameter into its prime factors. It first attempts to use trial
-# division to find very small factors, then uses Brent's version of the
-# Pollard rho algorithm [1] to find slightly larger factors. If any large
-# factors remain, it uses the Self-Initializing Quadratic Sieve (SIQS) [2]
-# to factorise those.
-#
-# [1] Brent, Richard P. 'An improved Monte Carlo factorization algorithm.'
-#     BIT Numerical Mathematics 20.2 (1980): 176-184.
-#
-# [2] Contini, Scott Patrick. 'Factoring integers with the self-
-#     initializing quadratic sieve.' (1997).
+"""This script factorises a natural number given as a command line
+parameter into its prime factors. It first attempts to use trial
+division to find very small factors, then uses Brent's version of the
+Pollard rho algorithm [1] to find slightly larger factors. If any large
+factors remain, it uses the Self-Initializing Quadratic Sieve (SIQS) [2]
+to factorise those.
+
+[1] Brent, Richard P. 'An improved Monte Carlo factorization algorithm.'
+    BIT Numerical Mathematics 20.2 (1980): 176-184.
+
+[2] Contini, Scott Patrick. 'Factoring integers with the self-
+    initializing quadratic sieve.' (1997).
+"""
 
 # Some tuning parameters
 MAX_DIGITS_POLLARD = 30
@@ -218,6 +224,7 @@ def siqs_factor_base_primes(n, nf):
     """Compute and return nf factor base primes suitable for a Quadratic
     Sieve on the number n.
     """
+    global small_primes
     factor_base = []
     for p in small_primes:
         if is_quadratic_residue(n, p):
@@ -295,7 +302,7 @@ def siqs_find_first_poly(n, m, factor_base):
     if (2 * b > a):
         b = a - b
 
-    assert b > 0
+    assert 0 < b
     assert 2 * b <= a
     assert ((b * b - n) % a == 0)
 
@@ -536,12 +543,11 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
     prime_factors = set()
     for square_indices in perfect_squares:
         fact = siqs_factor_from_square(n, square_indices, smooth_relations)
-
         if fact != 1 and fact != rem:
             if is_probable_prime(fact):
                 if fact not in prime_factors:
                     if verbose:
-                        print( "SIQS: Prime factor found: %d" % fact )
+                        print("SIQS: Prime factor found: %d" % fact)
                     prime_factors.add(fact)
 
                 while rem % fact == 0:
@@ -646,6 +652,10 @@ def siqs_factorise(n):
     smooth_relations = []
     prev_cnt = 0
     i_poly = 0
+    factors = None
+    B = [ ]
+    g = None
+
     while not success:
         if verbose:
             print("*** Step 1/2: Finding smooth relations ***")
@@ -656,20 +666,25 @@ def siqs_factorise(n):
             print("Target: %d relations" % required_relations)
 
         enough_relations = False
+
         while not enough_relations:
             if i_poly == 0:
                 g, h, B = siqs_find_first_poly(n, m, factor_base)
             else:
                 g, h = siqs_find_next_poly(n, factor_base, i_poly, g, B)
+
             i_poly += 1
+
             if i_poly >= 2 ** (len(B) - 1):
                 i_poly = 0
+
             sieve_array = siqs_sieve(factor_base, m)
+
             enough_relations = siqs_trial_division(
                 n, sieve_array, factor_base, smooth_relations,
                 g, h, m, required_relations)
 
-            if ( len(smooth_relations) >= required_relations or
+            if (len(smooth_relations) >= required_relations or
                  i_poly % 8 == 0 and len(smooth_relations) > prev_cnt):
 
                 if verbose:
@@ -693,6 +708,7 @@ def siqs_factorise(n):
             print("Finding factors from perfect squares...")
 
         factors = siqs_find_factors(n, perfect_squares, smooth_relations)
+
         if len(factors) > 1:
             success = True
         else:
@@ -725,6 +741,7 @@ def trial_div_init_primes(n, upper_bound):
     if verbose:
         print("Trial division and initialising small primes...")
 
+    global small_primes
     is_prime = [True] * (upper_bound + 1)
     is_prime[0:2] = [False] * 2
     factors = []
@@ -773,6 +790,8 @@ def pollard_brent_find_factor(n, max_iter=None):
     y, c, m = (random.randint(1, n - 1) for _ in range(3))
     r, q, g = 1, 1, 1
     i = 0
+    ys = 0
+    x = 0
     while g == 1:
         x = y
         for _ in range(r):
@@ -849,7 +868,7 @@ def check_perfect_power(n):
     global small_primes has already been initialised and that n does
     not have any prime factors from small_primes.
     """
-    largest_checked_prime = small_primes[ -1 ]
+    largest_checked_prime = small_primes[-1]
     for b in small_primes:
         bth_root = kth_root_int(n, b)
         if bth_root < largest_checked_prime:
@@ -936,7 +955,7 @@ def product(factors):
 def factorise(n):
     """Factorise the given integer n >= 1 into its prime factors."""
 
-    if not isinstance(n, int ) or n < 1:
+    if type(n) != int or n < 1:
         raise ValueError("Number needs to be an integer >= 1")
 
     if verbose:

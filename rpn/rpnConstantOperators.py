@@ -1173,9 +1173,5 @@ integer assuming two's complement representation.
 The imaginary number i is the square root of -1.  Python's normal syntax for
 imaginary numbers uses the 'j' suffix with a number, but for just the value of i
 itself, '1j' seems clumsy, so there's the 'i' constant.
-
-'-i' however cannot be used since that is the command-line switch for
-interactive mode.
 ''' ),
-
 }

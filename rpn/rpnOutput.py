@@ -65,7 +65,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping, integerDeli
         if strMantissa == '[]':
             strMantissa = ''
     else:
-        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-g.maximumFixed - 1 )
+        strNumber = nstr( number, n=g.outputAccuracy, min_fixed=-g.maximumFixed - 1 )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )

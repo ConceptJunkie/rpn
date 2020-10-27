@@ -46,7 +46,7 @@ def setAccuracy( n ):
 
 
 def setAccuracyOperator( n ):
-    setAccuracy( n[ 0 ] )
+    return setAccuracy( n[ 0 ] )
 
 
 #******************************************************************************
@@ -64,6 +64,7 @@ def setPrecision( n ):
     else:
         mp.dps = int( n )
 
+    # precision can't be lower than output accuracy
     if mp.dps < g.outputAccuracy:
         mp.dps = g.outputAccuracy
 
@@ -71,7 +72,7 @@ def setPrecision( n ):
 
 
 def setPrecisionOperator( n ):
-    setPrecision( n[ 0 ] )
+    return setPrecision( n[ 0 ] )
 
 
 #******************************************************************************

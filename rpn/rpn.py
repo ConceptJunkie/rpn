@@ -425,7 +425,7 @@ def rpn( cmdArgs ):
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, default=0,
                          const=g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
-    parser.add_argument( '-i', '--identify', action='store_true' )
+
     parser.add_argument( '-I', '--ignore_cache', action='store_true' )
     parser.add_argument( '-l', '--line_length', type=int, default=g.defaultLineLength )
     parser.add_argument( '-m', '--maximum_fixed', type=int, default=g.defaultMaximumFixed )
@@ -441,6 +441,7 @@ def rpn( cmdArgs ):
     parser.add_argument( '-v', '--verbose', action='store_true' )
     parser.add_argument( '-w', '--bitwise_group_size', type = int, default = g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
+    parser.add_argument( '-y', '--identify', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
     parser.add_argument( '-!', '--print_options', action='store_true' )
     parser.add_argument( '-?', '--other_help', action='store_true' )
@@ -469,6 +470,8 @@ def rpn( cmdArgs ):
             if arg[ 0 ] == '-' :
                 if arg[ 1 ].isdigit( ):     # a negative number, not an option
                     terms.append( arg )
+                elif arg[ 1 ] in ( 'i', 'j' ):  # -i and -j are also numbers
+                    terms.append( '-1j' )
                 else:
                     options.append( arg )
             else:

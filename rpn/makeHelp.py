@@ -178,9 +178,6 @@ command-line options:
     -h, --help
         displays basic help information
 
-    -i, --identify
-        identify the result (may just repeat input)
-
     -I, --ignore_cache
          ignore cached results, recalculates values, then updates cache
 
@@ -196,7 +193,7 @@ command-line options:
         characters set to use as numerals for output, '-' can be used for range (e.g., -na-z)
 
     -o, --octal
-        octal mode: equivalent to \'-r8 -w9 -i3 -z\'
+        octal mode: equivalent to \'-r8 -w9 -g3 -z\'
 
     -pn, --precision n
         precision, i.e., number of significant digits to use
@@ -222,7 +219,10 @@ command-line options:
         bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
 
     -x, --hex
-        hex mode: equivalent to '-r16 -w16 -i4 -z'
+        hex mode: equivalent to '-r16 -w16 -g4 -z'
+
+    -y, --identify
+        identify the result (may just repeat input)
 
     -z, --leading_zero
         add leading zeros if needed with -g
@@ -492,9 +492,9 @@ decimal_grouping:  Sets the decimal grouping number.  This is equivalent to the
 hex_mode:  Aliased to '-x'.
 
 identify:  Attempts to find an algebraic representation of the result.  This is
-equivalent to the '-i" command-line option.
+equivalent to the '-y" command-line option.
 
-identify_mode:  Aliased to '-i'.
+identify_mode:  Aliased to '-y'.
 
 input_radix:  This sets the radix that rpn will use to interpret input values.
 
@@ -1596,9 +1596,9 @@ Calculation (or approximation) of various mathematical constants:
     Kepler-Bouwkamp constant
 ''' + makeCommandExample( '3 inf lambda pi x / cos ranged_product', indent=8 ) + '''
     Exponential Factorial Constant
-''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / ranged_sum', indent=8 ) + '''
+''' + makeCommandExample( '-p80 -a20 1 inf lambda 1 x 1 range power_tower / ranged_sum', indent=8 ) + '''
     Conway's Constant
-''' + makeCommandExample( '-a80 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, '
+''' + makeCommandExample( '-p80 -a20 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, '
                           '1, 9, -3, -7, -8, -8, 10, 6, 8, -5, -12, 7, -7, 7, 1, -3, 10, 1, -6, -2, -10, -3, 2, 9, '
                           '-3, 14, -8, 0, -7, 9, 3, -4, -10, -7, 12, 7, 2, -12, -4, -2, 5, 0, 1, -7, 7, -4, 12, -6, '
                           '3, -6 ] solve real max', indent=8, slow=True ) + '''
