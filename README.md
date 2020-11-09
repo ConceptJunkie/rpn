@@ -90,8 +90,6 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.5.0
-
 8.4.0
 
 Revamped the prime number operators, and filled in a couple of missing ones.
@@ -326,7 +324,7 @@ election_day electric_constant electron_charge electron_mass element
 element_block element_boiling_point element_density element_description
 element_group element_melting_point element_name element_occurrence
 element_period element_state energy_equivalence enumerate enumerate_dice
-enumerate_dice_ epiphany equals_one_of erdos_persistence escape_velocity
+enumerate_dice\_ epiphany equals_one_of erdos_persistence escape_velocity
 estimate eta euler_brick euler_mascheroni_constant euler_phi eval eval0 eval2
 eval3 eval_list eval_polynomial exp exp10 exponential_range expphi factor
 factorial false faraday_constant fathers_day february fibonacci fibonorial
@@ -434,10 +432,10 @@ prime_pi prime_range primes primitive_units primorial prism_area prism_volume
 product proton_mass pyramidal pythagorean_triples quadlong
 quadruple_balanced_prime quadruple_balanced_primes quadruplet_prime
 quadruplet_primes quintuplet_prime quintuplet_primes radiation_constant radical
-random random_ random_element random_integer random_integers range
+random random\_ random_element random_integer random_integers range
 ranged_product ranged_sum ratios real reciprocal reduce reduced_planck_constant
 relatively_prime replace_digits repunit result reversal_addition reverse
-reverse_digits rhombic_dodecahedral right robbins_constant roll_dice roll_dice_
+reverse_digits rhombic_dodecahedral right robbins_constant roll_dice roll_dice\_
 roll_simple_dice root root_mean_square rotate_digits_left rotate_digits_right
 round round_by_digits round_by_value rydberg_constant safe_prime saturday saturn
 saturn_mass saturn_radius saturn_revolution saturn_volume sec sech september
