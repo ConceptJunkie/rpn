@@ -39,8 +39,8 @@ import rpn.rpnGlobals as g
 
 class RPNAstronomicalObject( ):
     '''This class is for identifying astronomical objects.'''
-    def __init__( self, object ):
-        self.object = object
+    def __init__( self, astronomical_object ):
+        self.object = astronomical_object
 
     def getDistanceFromEarth( self, date=None ):
         if date:
@@ -103,7 +103,8 @@ class RPNAstronomicalObject( ):
         #print( 'utc date', location.observer.date )
 
         if useCenter:
-            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, use_center=useCenter ) ).getLocalTime( )
+            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, \
+                                                             use_center=useCenter ) ).getLocalTime( )
         else:
             result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) ).getLocalTime( )
 
