@@ -380,6 +380,8 @@ operatorAliases = {
     'get_left_trunc'                : 'get_left_truncations',
     'get_permutations_with_repeat'  : 'get_repeat_permutations',
     'get_right_trunc'               : 'get_right_truncations',
+    'get_timezone'                  : 'get_time_zone',
+    'get_timezone_offset'           : 'get_time_zone_offset',
     'gigohm'                        : 'gigaohm',
     'glaisher'                      : 'glaisher_constant',
     'golden'                        : 'phi',
