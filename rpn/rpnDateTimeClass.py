@@ -86,15 +86,11 @@ class RPNDateTime( arrow.Arrow ):
     def getDateOnly( self ):
         return self.dateOnly
 
-    @staticmethod
-    def get( *args, **kwargs ):
-        result = arrow.api.get( *args, **kwargs )
-
-        return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzinfo )
-
     def getYMD( self ):
         return ( self.year, self.month, self.day )
+
+    def getYMDHMS( self ):
+        return ( self.year, self.month, self.day, self.hour, self.minute, self.second )
 
     def getLocalTime( self, timeZone=getLocalTimeZone( ) ):
         result = self
@@ -122,6 +118,8 @@ class RPNDateTime( arrow.Arrow ):
 
         dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
         dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
+        # We always pass UTC time to ephem, so we'll expect UTC back
+        dateValues.append( tz.gettz( 'UTC' ) )
 
         return RPNDateTime( *dateValues )
 
@@ -132,6 +130,7 @@ class RPNDateTime( arrow.Arrow ):
     def compare( self, value ):
         if self.year > value.year:
             return 1
+
         if self.year < value.year:
             return -1
 
@@ -213,15 +212,17 @@ class RPNDateTime( arrow.Arrow ):
                 print( 'rpn:  value is out of range to be converted into a time' )
                 return nan
 
-    def format( self ):
-        return '{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}'.format( self.year, self.month, self.day,
-                                                                        self.hour, self.minute, self.second )
+    def format( self, includeTZ=True ):
+        if includeTZ:
+            return super( ).format( 'YYYY-MM-DD HH:mm:ss ZZ' )
+        else:
+            return super( ).format( 'YYYY-MM-DD HH:mm:ss' )
 
     def formatDate( self ):
-        return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
+        return super( ).format( 'YYYY-MM-DD' )
 
     def formatTime( self ):
-        return '{0:02d}:{1:02d}:{2:02d}'.format( self.hour, self.minute, self.second )
+        return super( ).format( 'HH:mm:ss' )
 
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):

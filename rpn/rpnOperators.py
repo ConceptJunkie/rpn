@@ -32,7 +32,8 @@ from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
 from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, \
                              getAutumnalEquinoxOperator, getNextAstronomicalDawnOperator, getDayTimeOperator, \
-                             getDistanceFromEarthOperator, getEclipseTotalityOperator, getMoonPhaseOperator, \
+                             getDistanceFromEarthOperator, getDistanceFromSunOperator, getEclipseTotalityOperator, \
+                             getMoonPhaseOperator, \
                              getNextAntitransitOperator, getNextAstronomicalDuskOperator, getNextCivilDawnOperator, \
                              getNextCivilDuskOperator, getNextFirstQuarterMoonOperator, getNextFullMoonOperator, \
                              getNextLastQuarterMoonOperator, getNextMoonAntitransitOperator, getNextMoonRiseOperator, \
@@ -46,6 +47,8 @@ from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperato
                              getPreviousTransitOperator, getSkyLocationOperator, getSolarNoonOperator, \
                              getSummerSolsticeOperator, getTransitTimeOperator, getVernalEquinoxOperator, \
                              getWinterSolsticeOperator, RPNAstronomicalObject
+
+from rpn.rpnAstronomy import RPNNewAstronomicalObject
 
 from rpn.rpnBase import getBaseKDigitsOperator, getNonzeroBaseKDigitsOperator
 
@@ -1125,11 +1128,11 @@ def filterRatio( n, k, invert=False ):
 
 
 def filterRatioOperator( n, k ):
-    return filterRatio( n, k ) 
+    return filterRatio( n, k )
 
 
 def unfilterRatioOperator( n, k ):
-    return filterRatio( n, k, invert=True ) 
+    return filterRatio( n, k, invert=True )
 
 
 #******************************************************************************
@@ -1258,7 +1261,7 @@ def breakOnCondition( arguments, condition, func ):
         if value == condition:
             return value
 
-    return value
+    return None
 
 
 #******************************************************************************
@@ -1865,6 +1868,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 operatorInfo = operators[ term ]
                 argsNeeded = operatorInfo.argCount
 
+                savedArgs = [ ]
+
                 if argsNeeded > 1:
                     savedArgs = currentValueList[ -argsNeeded + 1 : ]
 
@@ -1883,6 +1888,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
             if g.duplicateOperations > 0:
                 operatorInfo = listOperators[ term ]
                 argsNeeded = operatorInfo.argCount
+
+                savedArgs = [ ]
 
                 if argsNeeded > 1:
                     savedArgs = currentValueList[ -argsNeeded + 1 : ]
@@ -2605,6 +2612,7 @@ operators = {
     'dawn'                              : RPNOperator( getNextCivilDawnOperator, 2 ),
     'day_time'                          : RPNOperator( getDayTimeOperator, 2 ),
     'distance_from_earth'               : RPNOperator( getDistanceFromEarthOperator, 2 ),
+    'distance_from_sun'                 : RPNOperator( getDistanceFromSunOperator, 2 ),
     'dusk'                              : RPNOperator( getNextCivilDuskOperator, 2 ),
     'eclipse_totality'                  : RPNOperator( getEclipseTotalityOperator, 4 ),
     'moonrise'                          : RPNOperator( getNextMoonRiseOperator, 2 ),
@@ -2652,6 +2660,18 @@ operators = {
     'uranus'                            : RPNOperator( lambda: RPNAstronomicalObject( ephem.Uranus( ) ), 0 ),
     'neptune'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Neptune( ) ), 0 ),
     'pluto'                             : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ), 0 ),
+
+    'sun2'                              : RPNOperator( lambda: RPNNewAstronomicalObject( 'sun' ), 0 ),
+    'mercury2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'mercury' ), 0 ),
+    'venus2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'venus' ), 0 ),
+    'earth2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'earth' ), 0 ),
+    'moon2'                             : RPNOperator( lambda: RPNNewAstronomicalObject( 'moon' ), 0 ),
+    'mars2'                             : RPNOperator( lambda: RPNNewAstronomicalObject( 'mars' ), 0 ),
+    'jupiter2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'jupiter barycenter' ), 0 ),
+    'saturn2'                           : RPNOperator( lambda: RPNNewAstronomicalObject( 'saturn barycenter' ), 0 ),
+    'uranus2'                           : RPNOperator( lambda: RPNNewAstronomicalObject( 'uranus barycenter' ), 0 ),
+    'neptune2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'neptune barycenter' ), 0 ),
+    'pluto2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'pluto barycenter' ), 0 ),
 
     # bitwise
     'bitwise_and'                       : RPNOperator( getBitwiseAndOperator, 2 ),
@@ -2924,8 +2944,8 @@ operators = {
 
     # geography
     'geographic_distance'               : RPNOperator( getGeographicDistanceOperator, 2 ),
-    'get_timezone'                      : RPNOperator( getTimeZoneOperator, 1 ),
-    'get_timezone_offset'               : RPNOperator( getTimeZoneOffsetOperator, 1 ),
+    'get_time_zone'                     : RPNOperator( getTimeZoneOperator, 1 ),
+    'get_time_zone_offset'              : RPNOperator( getTimeZoneOffsetOperator, 1 ),
     'lat_long'                          : RPNOperator( makeLocationOperator, 2 ),
     'location_info'                     : RPNOperator( getLocationInfoOperator, 1 ),
 
