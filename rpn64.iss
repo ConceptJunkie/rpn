@@ -81,11 +81,8 @@ Source: "{#BuildDir}\triplet_primes.cache"; DestDir: "{app}"; Flags: ignoreversi
 Source: "{#BuildDir}\triple_balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\twin_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "{#BuildDir}\de405.bsp"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\de421.bsp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\deltat.data"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\deltat.preds"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\Leap_Second.dat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\finals2000A.all"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

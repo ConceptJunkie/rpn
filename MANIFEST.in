@@ -7,9 +7,7 @@ include rpn\makeHelp.py
 include rpn\makeUnits.py
 include rpn\preparePrimeData.py
 include rpn\rpn*.py
-include rpn\rpndata\deltat.data
-include rpn\rpndata\deltat.preds
-include rpn\rpndata\Leap_Second.dat
+include rpn\rpndata\finals2000A.all
 include rpn\rpndata\help.pckl.bz2
 include rpn\rpndata\unit_conversions.pckl.bz2
 include rpn\rpndata\unit_help.pckl.bz2
