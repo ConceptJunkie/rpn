@@ -419,6 +419,7 @@ def twoArgFunctionEvaluator( ):
             else:
                 arg1 = _arg1
                 list1 = False
+                len1 = 1
 
             generator1 = isinstance( arg1, RPNGenerator )
 
@@ -436,6 +437,7 @@ def twoArgFunctionEvaluator( ):
             else:
                 arg2 = _arg2
                 list2 = False
+                len2 = 2
 
             generator2 = isinstance( arg2, RPNGenerator )
 
@@ -635,6 +637,7 @@ def listAndTwoArgFunctionEvaluator( ):
             else:
                 arg2 = _arg2
                 list1 = False
+                len1 = 1
 
             generator1 = isinstance( arg2, RPNGenerator )
 
@@ -652,6 +655,7 @@ def listAndTwoArgFunctionEvaluator( ):
             else:
                 arg3 = _arg3
                 list2 = False
+                len2 = 1
 
             generator2 = isinstance( arg3, RPNGenerator )
 
@@ -736,8 +740,8 @@ def loadAstronomyData( ):
 
     try:
         from skyfield.api import Loader
-        load = Loader( getUserDataPath( ) )
-        g.timescale = load.timescale( )
+        load = Loader( getUserDataPath( ), verbose=False )
+        g.timescale = load.timescale( builtin=False )
     except OSError:
         print( 'Downloading the astronomy data failed.  Some astronomical functions will not be available.',
                file=sys.stderr )
@@ -746,7 +750,6 @@ def loadAstronomyData( ):
         return
 
     try:
-        g.planets = load( 'de405.bsp' )
         g.ephemeris = load( 'de421.bsp' )
     except OSError:
         print( 'Downloading the astronomy data failed.  Some astronomical functions will not be available.',
