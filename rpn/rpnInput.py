@@ -76,22 +76,30 @@ def parseInputValue( term, inputRadix = 10 ):
     if isinstance( term, mpf ):
         return term
 
-    possibleDate = True
+    possibleDate = False
 
-    tCount = 0
+    hasDigit = False
+    hasDatePunct = False
+    illegalDateChars = False
 
     # one 'T' is allowed in a date, but no other letters
     for c in term:
-        if c.isalpha( ):
-            if c == 'T':
-                if tCount > 0:
-                    possibleDate = False
-                    break
+        if c.isdigit( ):
+            hasDigit = True
+            break
 
-                tCount += 1
-            else:
-                possibleDate = False
-                break
+    for c in term[ 1 : ]:
+        if c in ' -/:':
+            hasDatePunct = True
+            break
+
+    for c in term:
+        if c in '[]':
+            illegalDateChars = True
+            break
+
+    if hasDigit and hasDatePunct and not illegalDateChars:
+        possibleDate = True
 
     if not g.interactive:
         if term[ 0 ] == '$' and term[ 1 : ] in g.userVariables:
@@ -112,18 +120,82 @@ def parseInputValue( term, inputRadix = 10 ):
         term = term.replace( '/', '-' )
         innerChars = term[ 1 : -1 ]
 
-    # 'e' implies scientific notation, which isn't a date regardless
+    # Try to parse a date
     if possibleDate:
-        # 'd' means a dice expression, '[' means a build_number expression, so don't treat it as a date
-        if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( '[' not in term ):
-            # try:
-            datetime = arrow.get( term )
-            datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
-                                    datetime.hour, datetime.minute, datetime.second,
-                                    datetime.microsecond )
-            # except:
-            #     raise ValueError( 'error parsing datetime' )
+        tryAgain = False
+        datetime = None
 
+        # Try to parse a default date-time
+        try:
+            datetime = arrow.get( term )
+
+            # convert arrow to RPNDateTime with the parsed timezone
+            datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
+                        datetime.hour, datetime.minute, datetime.second,
+                        datetime.microsecond )
+            tryAgain = False
+        except:
+            tryAgain = True
+
+        if tryAgain:
+            try:
+                datetime = arrow.get( term,
+                                        [
+                                            'MMM D YYYY HH:mm:ss ZZ',
+                                            'MMM D, YYYY HH:mm:ss ZZ',
+                                            'MMM DD YYYY HH:mm:ss ZZ',
+                                            'MMM DD, YYYY HH:mm:ss ZZ',
+                                            'MMMM D YYYY HH:mm:ss ZZ',
+                                            'MMMM D, YYYY HH:mm:ss ZZ',
+                                            'MMMM DD YYYY HH:mm:ss ZZ',
+                                            'MMMM DD, YYYY HH:mm:ss ZZ',
+                                            'YYYY-MM-DD HH:mm:ss ZZ',
+                                        ] )
+
+                # convert arrow to RPNDateTime with the parsed timezone
+                datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
+                            datetime.hour, datetime.minute, datetime.second,
+                            datetime.microsecond, datetime.tzinfo )
+                tryAgain = False
+            except:
+                tryAgain = True
+
+        # If that fails, try to parse without a timezone, and use the local timezone
+        if tryAgain:
+            try:
+                datetime = arrow.get( term,
+                                        [
+                                            'MMM D YYYY HH:mm:ss',
+                                            'MMM D YYYY',
+                                            'MMM D, YYYY HH:mm:ss',
+                                            'MMM D, YYYY',
+                                            'MMM DD YYYY HH:mm:ss',
+                                            'MMM DD YYYY',
+                                            'MMM DD, YYYY HH:mm:ss',
+                                            'MMM DD, YYYY',
+                                            'MMMM D YYYY HH:mm:ss',
+                                            'MMMM D YYYY',
+                                            'MMMM D, YYYY HH:mm:ss',
+                                            'MMMM D, YYYY',
+                                            'MMMM DD YYYY HH:mm:ss',
+                                            'MMMM DD YYYY',
+                                            'MMMM DD, YYYY HH:mm:ss',
+                                            'MMMM DD, YYYY',
+                                            'YYYY-MM-DD HH:mm:ss',
+                                            'YYYY-MM-DD',
+                                            'MM-DD-YYYY',
+                                        ] )
+
+                # convert arrow to RPNDateTime with the local (default) timezone
+                datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
+                                        datetime.hour, datetime.minute, datetime.second,
+                                        datetime.microsecond )
+            except:
+                # We couldn't parse a date, but it might be something else (like a dice expression)
+                pass
+
+        # if we get a datetime, then let's use it, otherwise keep trying
+        if datetime:
             return datetime
 
     if term == '0':
