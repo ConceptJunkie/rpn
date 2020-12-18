@@ -168,6 +168,7 @@ userConfiguration: Dict[ str, str ] = { }
 userConfigurationIsDirty = False
 
 # astronomy data
+planets = None
 ephemeris = None
 timescale = None
 

@@ -16,14 +16,9 @@ import calendar
 import datetime
 
 import arrow
-import dateutil
-
-from mpmath import mpf
-from timezonefinder import TimezoneFinder
 
 from rpn.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnLocation import getLocation, getTimeZoneName, RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMeasurement import convertUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
@@ -179,8 +174,11 @@ def makeJulianTimeOperator( n ):
 #******************************************************************************
 
 def makeDateTime( n ):
-    if isinstance( n, ( RPNGenerator, int, mpf ) ):
+    if isinstance( n, ( RPNGenerator, int ) ):
         return makeDateTime( list( n ) )
+
+    if isinstance( n, str ):
+        return RPNDateTime.get( n )
 
     if isinstance( n[ 0 ], list ):
         return [ makeDateTime( i ) for i in n ]
@@ -861,20 +859,13 @@ def getLocalTimeOperator( datetime ):
 #
 #******************************************************************************
 
-def setTimeZone( datetime, timezone ):
-    try:
-        tz = arrow.now( timezone ).tzinfo
-    except:
-        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
-
-    datetime = RPNDateTime.parseDateTime( datetime )
-    datetime.tzinfo = tz
-    return datetime
-
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
 def setTimeZoneOperator( datetime, timezone ):
-    return setTimeZone( datetime, timezone )
+    tz = arrow.now( timezone ).tzinfo
+    datetime = RPNDateTime.parseDateTime( datetime )
+    datetime.tzinfo = tz
+    return datetime
 
 
 #******************************************************************************
@@ -886,9 +877,5 @@ def setTimeZoneOperator( datetime, timezone ):
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
 def convertTimeZoneOperator( datetime, timezone ):
-    try:
-        tz = arrow.now( timezone ).tzinfo
-    except:
-        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
-
+    tz = arrow.now( timezone ).tzinfo
     return datetime.to( tz )

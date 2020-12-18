@@ -2021,24 +2021,6 @@ def runConversionOperatorTests( ):
 #******************************************************************************
 
 def runDateTimeOperatorTests( ):
-    # parsing date-times
-    testOperator( '"2020-10-10 12:12:12"' )
-    testOperator( '"2020-10-10 12:12:12 +06"' )
-    testOperator( '"2020-10-10 12:12:12 +06:00"' )
-    testOperator( '"2020-10-10 12:12:12 -07"' )
-    testOperator( '"2020-10-10 12:12:12 -07:00"' )
-
-    testOperator( '"1965-03-31"' )
-    testOperator( '"March 31, 1965"' )
-    testOperator( '"March 31 1965"' )
-    testOperator( '"Dec 17 2020"' )
-    testOperator( '"Dec 17, 2020"' )
-    testOperator( '"March 5, 1961"' )
-    testOperator( '"Feb 3, 1998"' )
-    testOperator( '"March 3 1996"' )
-    testOperator( '"March 6, 1994 06:20:00"' )
-    testOperator( '"December 22 1999 21:30:00"' )
-
     # get_day
     testOperator( 'now get_day' )
 
@@ -2075,14 +2057,6 @@ def runDateTimeOperatorTests( ):
 
     # now
     testOperator( 'now' )
-
-    # set_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" set_time_zone $__unit_test "New York, NY" set_time_zone - minutes convert', '180 minutes' )
-
-    # to_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" to_time_zone $__unit_test "New York, NY" to_time_zone - minutes convert', '0 minutes' )
 
     # today
     testOperator( 'today' )
@@ -2603,13 +2577,8 @@ def runGeographyOperatorTests( ):
     # distance
     testOperator( '"Leesburg, VA" "Smithfield, VA" geographic_distance' )
 
-    # get_time_zone
-    testOperator( '"Leesburg, VA" get_time_zone' )
-
-    # get_time_zone_offset
-    testOperator( 'now get_time_zone_offset' )
-    expectEqual( '"New York, NY" get_time_zone_offset value', '-18000' )
-    expectEqual( '"Los Angeles, CA" get_time_zone_offset value', '-28800' )
+    # get_timezone
+    testOperator( '"Leesburg, VA" get_timezone' )
 
     # lat_long
     testOperator( '"Leesburg, VA" 43 -80 lat_long geographic_distance' )

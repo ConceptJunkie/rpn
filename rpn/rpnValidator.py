@@ -285,15 +285,6 @@ class RPNValidator( ):
 
         return argument
 
-    def validateLocationAndDateTime( self, argument ):
-        if isinstance( argument, ( str, RPNLocation ) ):
-            return argument
-
-        if isinstance( argument, RPNDateTime ):
-            return argument
-
-        raise ValueError( f'\'type\' { type( argument ) } found, location or date-time object expected' )
-
     def validateYear( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateInt( argument )
@@ -393,7 +384,3 @@ class RealOrMeasurementValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Real + RPNValidator.Measurement, specials=specials )
 
-
-class LocationOrDateTimeValidator( RPNValidator ):
-    def __init__( self, specials=None ):
-        super( ).__init__( RPNValidator.Location + RPNValidator.DateTime, specials=specials )

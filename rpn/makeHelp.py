@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2429
+MAX_EXAMPLE_COUNT = 2402
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -2810,128 +2810,6 @@ require an astronomical object.
 [ 'mercury', 'moon' ] ],
 
 
-    'earth2' : [
-'astronomical_objects', 'the Earth',
-'''
-This operator represents the planet Earth for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''',
-[ 'venus2', 'mars2' ] ],
-
-    'jupiter2' : [
-'astronomical_objects', 'the planet Jupiter',
-'''
-This operator represents the planet Jupiter for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'jupiter2 "Stuttgart, Germany" 2020-01-01 next_rising' ),
-[ 'mars2', 'saturn2' ] ],
-
-    'mars2' : [
-'astronomical_objects', 'the plenet Mars',
-'''
-This operator represents the planet Mars for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'mars2 "San Francisco, California" 2019-05-23 next_setting' ),
-[ 'earth2', 'jupiter2' ] ],
-
-    'mercury2' : [
-'astronomical_objects', 'the planet Mercury',
-'''
-This operator represents the planet Mercury for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'mercury "Helsinki, Finland" 2019-04-28 transit_time' ),
-[ 'venus2', 'mars2' ] ],
-
-    'moon2' : [
-'astronomical_objects', 'the Moon',
-'''
-This operator represents the Moon for the new versions of the astronomical
-operators based on the SkyField library, rather the pyephem library.
-''',
-'''
-''' + makeCommandExample( 'moon2 "Leesburg, VA" "2019-05-10 11:00:00" sky_location' ),
-[ 'earth2', 'mars2' ] ],
-
-    'neptune2' : [
-'astronomical_objects', 'the plent Neptune',
-'''
-This operator represents the planet Neptune for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'neptune2 "Sao Paulo, Brazil" 2019-05-23 previous_rising' ),
-[ 'uranus2', 'pluto2'  ] ],
-
-    'pluto2' : [
-'astronomical_objects', 'the planet Pluto',
-'''
-This operator represents the planet Pluto for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-
-Yes, I still consider Pluto a planet.  Talk to the hand.
-''',
-'''
-''' + makeCommandExample( 'pluto2 "2019-05-09 09:23:00" distance_from_earth miles convert -c' ),
-[ 'uranus2', 'neptune2' ] ],
-
-    'saturn2' : [
-'astronomical_objects', 'the planet Saturn',
-'''
-This operator represents the planet Saturn for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'saturn2 now distance_from_earth c / hms' ),
-[ 'jupiter2', 'uranus2' ] ],
-
-    'sun2' : [
-'astronomical_objects', 'the Sun',
-'''
-This operator represents the Sun for the new versions of the astronomical
-operators based on the SkyField library, rather the pyephem library.
-''',
-'''
-''' + makeCommandExample( 'sun2 "Richmond, VA" "2019-05-10 13:45:00" sky_location' ),
-[ 'moon2', 'venus2' ] ],
-
-    'uranus2' : [
-'astronomical_objects', 'the planet Uranus',
-'''
-This operator represents the planet Uranus for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'uranus "Harrisburg, PA" "2019-04-29" antitransit_time hms' ),
-[ 'saturn2', 'neptune2' ] ],
-
-    'venus2' : [
-'astronomical_objects', 'the planet Venus',
-'''
-This operator represents the planet Venus for the new versions of the
-astronomical operators based on the SkyField library, rather the pyephem
-library.
-''',
-'''
-''' + makeCommandExample( 'venus2 "Boulder, Colorado" "2019-04-15 06:00:00" next_rising' ),
-[ 'mercury2', 'earth2' ] ],
-
-
     #******************************************************************************
     #
     #  astronomy operators
@@ -3049,18 +2927,7 @@ date-time k.
 '''
 ''' + makeCommandExample( '-c mars "2018-07-10 16:00" distance_from_earth miles convert' ) + '''
 ''' + makeCommandExample( '-c jupiter "2018-07-10 16:00" distance_from_earth miles convert' ),
-[ 'sky_location', 'angular_size', 'distance_from_sun' ] ],
-
-    'distance_from_sun' : [
-'astronomy', 'returns the distance from the Sun of astronomical object n for date-time k',
-'''
-This operator returns the distance of the astronomical body n from the Sun at
-date-time k.
-''',
-'''
-''' + makeCommandExample( '-c mars2 "2018-07-10 16:00" distance_from_sun miles convert' ) + '''
-''' + makeCommandExample( '-c jupiter2 "2018-07-10 16:00" distance_from_sun miles convert' ),
-[ 'sky_location', 'angular_size', 'distance_from_earth' ] ],
+[ 'sky_location', 'angular_size' ] ],
 
     'dusk' : [
 'astronomy', 'calculates the next dusk time at location n for date-time k',
@@ -3399,7 +3266,7 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''' + makeCommandExample( 'sun "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ) + '''
 ''' + makeCommandExample( 'moon "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ),
-[ 'distance_from_earth', 'angular_size', 'distance_from_sun' ] ],
+[ 'distance_from_earth', 'angular_size' ] ],
 
     'solar_noon' : [
 'astronomy', 'calculates the next solar noon time at location n for date-time k',
@@ -6658,6 +6525,10 @@ This operator returns the value of the hour from date-time n.
 'date_time', 'converts a datetime to the local timezone',
 '''
 This operator converts a datetime to the local timezone.
+
+TODO:  rpnChilada does not currently include the timezone in a date-time value
+when it's changed to something other than local, although it keeps track of it
+internally.
 ''',
 '''
 ''' + makeCommandExample( 'now' ) + '''
@@ -6748,24 +6619,14 @@ This operator simply returns the current time value for the current timezone.
     'set_time_zone' : [
 'date_time', 'sets the date-time n to the timezone k',
 '''
-This operator sets the timezone value of n to timezone k.  k can be the name of
-a timezone or a geographic location.  It does not convert the date-time value to
-a different time zone, it actually changes the time value.  It is used to
-specify a time in a different timezone.
+This operator sets the timezone value of n to timezone k.  It does not convert
+the date-time value to a different time zone.  It is used to specift a time in a
+different timezone.
 
 To convert a date-time value to a different time zone, use 'to_time_zone'.
 ''',
 '''
-''' + makeCommandExample( 'now' ) + '''
-Here, we're taking a time and setting the time zone, meaning the actual time is
-changed:
-
-''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone' ) + '''
-''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone to_local_time' ) + '''
-Here, we're converting to a different time zone, so the time remains the same:
-
-''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone' ) + '''
-''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone to_local_time' ),
+''',
 [ 'to_time_zone', 'to_local_time' ] ],
 
     'today' : [
@@ -6795,23 +6656,13 @@ time value of 00:00:00 (midnight).
     'to_time_zone' : [
 'date_time', 'converts the date-time n to the timezone k',
 '''
-This operator converts the date-time value of n to the timezone of k.  k can be
-the name of a timezone or the name of a geographic location.
+This operator converts the date-time value of n to the timezone of k.
 
 To set the timezone for a particular date-time value without converting, use
-'set_time_zone'.
+'set_time_zone".
 ''',
 '''
-''' + makeCommandExample( 'now' ) + '''
-Here, we're converting to a different time zone, so the time remains the same:
-
-''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone' ) + '''
-''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone to_local_time' ) + '''
-Here, we're taking a time and setting the time zone, meaning the actual time is
-changed:
-
-''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone' ) + '''
-''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone to_local_time' ),
+''',
 [ 'set_time_zone', 'to_local_time' ] ],
 
     'to_utc' : [
@@ -6978,18 +6829,6 @@ Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 80 lambda x fib is_prime filter_integers' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
-
-    'filter_ratio' : [
-'functions', 'returns the ratio of items in list n not filtered out by function k',
-'''
-The function is applied to each element of the list just like the 'filter'
-operator and the ratio of items which remain after filtering is returned.
-''',
-'''
-What is the ratio of 4-digit numbers that have exactly two number 2s?
-
-''' + makeCommandExample( '1000 9999 range lambda x 2 count_digits 2 equals filter_ratio' ),
-[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'unfilter_ratio' ] ],
 
     'for_each' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments',
@@ -7173,7 +7012,7 @@ value.
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
 ''' + makeCommandExample( '1 20 range lambda x is_prime not filter' ),
-[ 'filter', 'unfilter_by_index', 'lambda', 'filter_ratio' ] ],
+[ 'filter', 'unfilter_by_index', 'lambda' ] ],
 
     'unfilter_by_index' : [
 'functions', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -7187,18 +7026,6 @@ to the user-defined function to determine if the element is to be filtered.
 '''
 ''' + makeCommandExample( '1 40 range fib lambda x is_composite unfilter_by_index' ),
 [ 'filter_by_index', 'unfilter', 'lambda' ] ],
-
-    'unfilter_ratio' : [
-'functions', 'returns the ratio of items in list n filtered out by function k',
-'''
-The function is applied to each element of the list just like the 'filter'
-operator and the ratio of items which are filtered out is returned.
-''',
-'''
-What is the ratio of the first 100,000 numbers that aren't prime?
-
-''' + makeCommandExample( '1 100000 range lambda x is_prime unfilter_ratio' ),
-[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'filter_ratio' ] ],
 
     'x' : [
 'functions', 'used as a variable in user-defined functions',
@@ -7598,31 +7425,28 @@ operator.
 ''' + makeCommandExample( '"Nome, Alaska" "Johannesburg, South Africa" geographic_distance' ),
 [ 'lat_long' ] ],
 
-    'get_time_zone' : [
-'date_time', 'returns the timezone name for location or date-time n',
+    'get_timezone' : [
+'geography', 'returns the timezone for location n',
 '''
-This operator returns the name of the timezone of date-time n or that contains
-location n.
+This operator returns the name of the timezone that contains location n.
 ''',
 '''
-''' + makeCommandExample( 'now get_time_zone' ) + '''
-''' + makeCommandExample( '"New York City, NY" get_time_zone' ) + '''
-''' + makeCommandExample( '"Nome, Alaska" get_time_zone' ) + '''
-''' + makeCommandExample( '"Johannesburg, South Africa" get_time_zone' ),
-[ 'location_info', 'get_time_zone_offset' ] ],
+''' + makeCommandExample( '"New York City, NY" get_timezone' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_timezone' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone' ),
+[ 'location_info', 'get_timezone_offset' ] ],
 
-    'get_time_zone_offset' : [
-'date_time', 'returns the timezone offset in seconds for location or date-time n',
+    'get_timezone_offset' : [
+'geography', 'returns the timezone offset in minutes for location n',
 '''
-This operator returns the offset in seconds from UTC for the timezone of
-date-time n or that contains location n.
+This operator returns the offset in minutes from UTC for the timezone that
+contains location n.
 ''',
 '''
-''' + makeCommandExample( 'now get_time_zone_offset' ) + '''
-''' + makeCommandExample( '"New York City, NY" get_time_zone_offset' ) + '''
-''' + makeCommandExample( '"Nome, Alaska" get_time_zone_offset' ) + '''
-''' + makeCommandExample( '"Johannesburg, South Africa" get_time_zone_offset' ),
-[ 'location_info', 'get_time_zone' ] ],
+''' + makeCommandExample( '"New York City, NY" get_timezone_offset' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_timezone_offset' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone_offset' ),
+[ 'location_info', 'get_timezone' ] ],
 
     'lat_long' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
@@ -7633,7 +7457,7 @@ latitude and longitude.  It is used to specify a location by latitude and
 longitude.
 ''',
 '''
-''' + makeCommandExample( '45.63 125.54 lat_long get_time_zone' ) + '''
+''' + makeCommandExample( '45.63 125.54 lat_long get_timezone' ) + '''
 ''' + makeCommandExample( '45.63 125.54 lat_long 45.67 125.43 lat_long geographic_distance' ),
 [ 'location_info', 'geographic_distance' ] ],
 
@@ -7647,7 +7471,7 @@ a two item list containing the values of latitude and longitude in degrees.
 ''' + makeCommandExample( '"Dakar, Senegal" location_info' ) + '''
 ''' + makeCommandExample( '"Philadelphia, PA" location_info' ) + '''
 ''' + makeCommandExample( '"Nome, AL" location_info' ),
-[ 'lat_long', 'geographic_distance', 'get_time_zone', 'get_time_zone_offset' ] ],
+[ 'lat_long', 'geographic_distance', 'get_timezone' ] ],
 
 
     #******************************************************************************
@@ -8033,7 +7857,7 @@ This operator is a shortcut for 'n lambda x k is_not_greater filter'.
 ''',
 '''
 ''' + makeCommandExample( '1 30 range 10 filter_max' ),
-[ 'filter_min', 'filter', 'filter_integers', 'filter_on_flags', 'filter_ratio' ] ],
+[ 'filter_min', 'filter', 'filter_integers', 'filter_on_flags' ] ],
 
     'filter_min' : [
 'functions', 'filters all values less than k from list n',

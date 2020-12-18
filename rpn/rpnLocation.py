@@ -18,11 +18,8 @@ import contextlib
 import os
 import pickle
 
-import dateutil
 import ephem
 import pytz
-
-from dateutil import tz
 
 from geopy.distance import geodesic
 from geopy.exc import GeocoderUnavailable
@@ -30,13 +27,12 @@ from geopy.geocoders import Nominatim
 from mpmath import fadd, fdiv, fmul, mpmathify, pi
 from timezonefinder import TimezoneFinder
 
-from rpn.rpnDateTimeClass import RPNDateTime
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
+from rpn.rpnOutput import convertToBaseN
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, LocationValidator, LocationOrDateTimeValidator, \
-                             RealValidator, StringValidator
+from rpn.rpnValidator import argValidator, DefaultValidator, LocationValidator, RealValidator, StringValidator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -114,8 +110,6 @@ def getLocation( name ):
 
     geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
 
-    location = None
-
     for attempts in range( 3 ):
         try:
             location = geolocator.geocode( name )
@@ -163,31 +157,27 @@ def getLocationInfoOperator( location ):
 #
 #******************************************************************************
 
-def getTimeZoneName( value ):
-    if isinstance( value, RPNDateTime ):
-        return value.tzname( )
+def getTimeZone( location ):
+    tzFinder = TimezoneFinder( )
 
-    if isinstance( value, str ):
-        value = getLocation( value )
-    elif not isinstance( value, RPNLocation ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+    elif not isinstance( location, RPNLocation ):
         raise ValueError( 'location name or location object expected' )
 
-    tzFinder = TimezoneFinder( )
-    timezoneName = tzFinder.timezone_at( lat = value.getLat( ), lng = value.getLong( ) )
+    timezoneName = tzFinder.timezone_at( lat = location.getLat( ), lng = location.getLong( ) )
 
     if timezoneName is None:
-        timezoneName = tzFinder.closest_timezone_at( lat = value.getLat( ),
-                                                     lng = value.getLong( ) )
+        timezoneName = tzFinder.closest_timezone_at( lat = location.getLat( ),
+                                                     lng = location.getLong( ) )
 
     return timezoneName
 
-def getTimeZone( name ):
-    return tz.gettz( getTimeZoneName( name ) )
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ LocationOrDateTimeValidator( ) ] )
+@argValidator( [ LocationValidator( ) ] )
 def getTimeZoneOperator( location ):
-    return getTimeZoneName( location )
+    return getTimeZone( location )
 
 
 #******************************************************************************
@@ -196,27 +186,22 @@ def getTimeZoneOperator( location ):
 #
 #******************************************************************************
 
-def getTimeZoneOffset( value ):
-    if isinstance( value, str ):
-        try:
-            tz = pytz.timezone( value )
-        except:
-            tz = pytz.timezone( getTimeZoneName( value ) )
-    else:
-        tz = pytz.timezone( getTimeZoneName( value ) )
-
+def getTimeZoneOffset( location ):
+    timezoneName = getTimeZone( location )
     # compute the timezone's offset
-    now = datetime.datetime.now( )
+    today = datetime.datetime.now( )
+    tz_target = pytz.timezone( timezoneName )
 
-    if tz:
-        now1 = tz.localize( now )
-        now2 = pytz.utc.localize( now )
-        return RPNMeasurement( ( now2 - now1 ).total_seconds( ), 'seconds' )
+    if tz_target:
+        today_target = tz_target.localize( today )
+        today_utc = pytz.utc.localize( today )
+        return ( today_utc - today_target ).total_seconds( ) / 60
 
-    return RPNMeasurement( 0, 'seconds' )
+    return 0
+
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ LocationOrDateTimeValidator( ) ] )
+@argValidator( [ LocationValidator( ) ] )
 def getTimeZoneOffsetOperator( location ):
     return getTimeZoneOffset( location )
 
@@ -243,3 +228,40 @@ def getGeographicDistanceOperator( location1, location2 ):
                          ( location2.getLat( ), location2.getLong( ) ) ).miles
 
     return RPNMeasurement( distance, [ { 'miles' : 1 } ] )
+
+
+#******************************************************************************
+#
+#  convertLatLongToNACOperator
+#
+#  https://en.wikipedia.org/wiki/Natural_Area_Code
+#
+#******************************************************************************
+
+@argValidator( [ DefaultValidator( ) ] )
+def convertLatLongToNACOperator( n ):
+    if isinstance( n[ 0 ], str ):
+        n = getLocation( n[ 0 ] )
+        lat = n.getLat( )
+        long = n.getLong( )
+    elif isinstance( n, list ) and len( n ) == 2:
+        lat = n[ 0 ]
+        long = n[ 1 ]
+    elif isinstance( n[ 0 ], RPNLocation ):
+        lat = n[ 0 ].getLat( )
+        long = n[ 0 ].getLong( )
+    else:
+        raise ValueError( 'location or lat-long (in a list) expected' )
+
+    numerals = '0123456789BCDFGHJKLMNPQRSTVWXZ'
+
+    if lat > 90.0 or lat < -90.0:
+        raise ValueError( '\'natural_area_code\' requires a latitude parameter of -90 to 90' )
+
+    if long > 180.0 or long < -180.0:
+        raise ValueError( '\'natural_area_code\' requires a longitutde parameter of -180 to 180' )
+
+    lat = fdiv( fadd( lat, 90 ), 180 ) * 729000000
+    long = fdiv( fadd( long, 180 ), 360 ) * 729000000   # 30 ** 6
+
+    return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
