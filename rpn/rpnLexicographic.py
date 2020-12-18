@@ -861,7 +861,6 @@ def parseNumbersExpression( arg ):
 
     lengthRangeLow = ''
     lengthRangeHigh = ''
-    lastDigit = ''
 
     for char in arg:
         #print( 'state', state, 'ch', ch, 'result', result, 'currentGroup', currentGroup )
