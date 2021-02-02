@@ -16,7 +16,8 @@ import ephem
 
 from dateutil import tz
 from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
-from skyfield.api import almanac, load, Topos
+from skyfield import almanac
+from skyfield.api import load, Topos
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnLocation import getLocation, getTimeZone
