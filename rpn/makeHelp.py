@@ -2927,7 +2927,18 @@ date-time k.
 '''
 ''' + makeCommandExample( '-c mars "2018-07-10 16:00" distance_from_earth miles convert' ) + '''
 ''' + makeCommandExample( '-c jupiter "2018-07-10 16:00" distance_from_earth miles convert' ),
-[ 'sky_location', 'angular_size' ] ],
+[ 'sky_location', 'angular_size', 'distance_from_sun' ] ],
+
+    'distance_from_sun' : [
+'astronomy', 'returns the distance from the Sun of astronomical object n for date-time k',
+'''
+This operator returns the distance of the astronomical body n from the Sun at
+date-time k.
+''',
+'''
+''' + makeCommandExample( '-c mars2 "2018-07-10 16:00" distance_from_sun miles convert' ) + '''
+''' + makeCommandExample( '-c jupiter2 "2018-07-10 16:00" distance_from_sun miles convert' ),
+[ 'sky_location', 'angular_size', 'distance_from_earth' ] ],
 
     'dusk' : [
 'astronomy', 'calculates the next dusk time at location n for date-time k',
@@ -3266,7 +3277,7 @@ from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 '''
 ''' + makeCommandExample( 'sun "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ) + '''
 ''' + makeCommandExample( 'moon "Indianapolis, IN" "2020-09-10 09:14:00" sky_location' ),
-[ 'distance_from_earth', 'angular_size' ] ],
+[ 'distance_from_earth', 'angular_size', 'distance_from_sun' ] ],
 
     'solar_noon' : [
 'astronomy', 'calculates the next solar noon time at location n for date-time k',
@@ -6525,10 +6536,6 @@ This operator returns the value of the hour from date-time n.
 'date_time', 'converts a datetime to the local timezone',
 '''
 This operator converts a datetime to the local timezone.
-
-TODO:  rpnChilada does not currently include the timezone in a date-time value
-when it's changed to something other than local, although it keeps track of it
-internally.
 ''',
 '''
 ''' + makeCommandExample( 'now' ) + '''
@@ -6830,6 +6837,18 @@ Which of the first 80 fibonacci numbers is prime?
 ''' + makeCommandExample( '-a20 80 lambda x fib is_prime filter_integers' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
+    'filter_ratio' : [
+'functions', 'returns the ratio of items in list n not filtered out by function k',
+'''
+The function is applied to each element of the list just like the 'filter'
+operator and the ratio of items which remain after filtering is returned.
+''',
+'''
+What is the ratio of 4-digit numbers that have exactly two number 2s?
+
+''' + makeCommandExample( '1000 9999 range lambda x 2 count_digits 2 equals filter_ratio' ),
+[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'unfilter_ratio' ] ],
+
     'for_each' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments',
 '''
@@ -7012,7 +7031,7 @@ value.
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
 ''' + makeCommandExample( '1 20 range lambda x is_prime not filter' ),
-[ 'filter', 'unfilter_by_index', 'lambda' ] ],
+[ 'filter', 'unfilter_by_index', 'lambda', 'filter_ratio' ] ],
 
     'unfilter_by_index' : [
 'functions', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -7026,6 +7045,18 @@ to the user-defined function to determine if the element is to be filtered.
 '''
 ''' + makeCommandExample( '1 40 range fib lambda x is_composite unfilter_by_index' ),
 [ 'filter_by_index', 'unfilter', 'lambda' ] ],
+
+    'unfilter_ratio' : [
+'functions', 'returns the ratio of items in list n filtered out by function k',
+'''
+The function is applied to each element of the list just like the 'filter'
+operator and the ratio of items which are filtered out is returned.
+''',
+'''
+What is the ratio of the first 100,000 numbers that aren't prime?
+
+''' + makeCommandExample( '1 100000 range lambda x is_prime unfilter_ratio' ),
+[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'filter_ratio' ] ],
 
     'x' : [
 'functions', 'used as a variable in user-defined functions',
@@ -7857,7 +7888,7 @@ This operator is a shortcut for 'n lambda x k is_not_greater filter'.
 ''',
 '''
 ''' + makeCommandExample( '1 30 range 10 filter_max' ),
-[ 'filter_min', 'filter', 'filter_integers', 'filter_on_flags' ] ],
+[ 'filter_min', 'filter', 'filter_integers', 'filter_on_flags', 'filter_ratio' ] ],
 
     'filter_min' : [
 'functions', 'filters all values less than k from list n',

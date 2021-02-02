@@ -15,9 +15,8 @@
 import ephem
 
 from dateutil import tz
-
 from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
-from skyfield import almanac
+from skyfield.api import almanac, load, Topos
 
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnLocation import getLocation, getTimeZone
@@ -410,9 +409,9 @@ def getSkyLocationOperator( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    azimuth, altitude = arguments[ 'body' ].getAzimuthAndAltitude( arguments[ 'location' ], arguments[ 'datetime' ] )
+    altitude, azimuth = arguments[ 'body' ].getAltitudeAndAzimuth( arguments[ 'location' ], arguments[ 'datetime' ] )
 
-    return [ azimuth.convert( 'degree' ), altitude.convert( 'degree' ) ]
+    return [ altitude.convert( 'degree' ), azimuth.convert( 'degree' ) ]
 
 
 #******************************************************************************
@@ -801,6 +800,23 @@ def getDistanceFromEarthOperator( arg1, arg2 ):
         raise ValueError( 'unexpected arguments' )
 
     return RPNMeasurement( arguments[ 'body' ].getDistanceFromEarth( arguments[ 'datetime' ] ), 'meters' )
+
+
+#******************************************************************************
+#
+#  getDistanceFromSunOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getDistanceFromSunOperator( arg1, arg2 ):
+    validUnitTypes = [ [ 'body', 'datetime' ] ]
+    arguments = matchUnitTypes( [ arg1, arg2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'unexpected arguments' )
+
+    return RPNMeasurement( arguments[ 'body' ].getDistanceFromSun( arguments[ 'datetime' ] ), 'meters' )
 
 
 #******************************************************************************

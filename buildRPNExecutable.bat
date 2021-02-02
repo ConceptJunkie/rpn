@@ -11,8 +11,8 @@ set TK_LIBRARY=C:\app\python38\tcl\tk8.6
 
 python setup_rpn.py build_exe
 
-copy rpn\rpndata\de405.bsp build\exe.win-amd64-3.8\
-copy rpn\rpndata\de421.bsp build\exe.win-amd64-3.8\
+copy rpn\rpndata\finals2000A.all build\exe.win-amd64-3.9\
+copy rpn\rpndata\de421.bsp build\exe.win-amd64-3.9\
 
 del version.txt
 

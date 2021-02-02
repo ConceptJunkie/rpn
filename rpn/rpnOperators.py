@@ -32,7 +32,8 @@ from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
 from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, \
                              getAutumnalEquinoxOperator, getNextAstronomicalDawnOperator, getDayTimeOperator, \
-                             getDistanceFromEarthOperator, getEclipseTotalityOperator, getMoonPhaseOperator, \
+                             getDistanceFromEarthOperator, getDistanceFromSunOperator, getEclipseTotalityOperator, \
+                             getMoonPhaseOperator, \
                              getNextAntitransitOperator, getNextAstronomicalDuskOperator, getNextCivilDawnOperator, \
                              getNextCivilDuskOperator, getNextFirstQuarterMoonOperator, getNextFullMoonOperator, \
                              getNextLastQuarterMoonOperator, getNextMoonAntitransitOperator, getNextMoonRiseOperator, \
@@ -1125,11 +1126,11 @@ def filterRatio( n, k, invert=False ):
 
 
 def filterRatioOperator( n, k ):
-    return filterRatio( n, k ) 
+    return filterRatio( n, k )
 
 
 def unfilterRatioOperator( n, k ):
-    return filterRatio( n, k, invert=True ) 
+    return filterRatio( n, k, invert=True )
 
 
 #******************************************************************************
@@ -1258,7 +1259,7 @@ def breakOnCondition( arguments, condition, func ):
         if value == condition:
             return value
 
-    return value
+    return None
 
 
 #******************************************************************************
@@ -1865,6 +1866,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 operatorInfo = operators[ term ]
                 argsNeeded = operatorInfo.argCount
 
+                savedArgs = [ ]
+
                 if argsNeeded > 1:
                     savedArgs = currentValueList[ -argsNeeded + 1 : ]
 
@@ -1883,6 +1886,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
             if g.duplicateOperations > 0:
                 operatorInfo = listOperators[ term ]
                 argsNeeded = operatorInfo.argCount
+
+                savedArgs = [ ]
 
                 if argsNeeded > 1:
                     savedArgs = currentValueList[ -argsNeeded + 1 : ]
@@ -2605,6 +2610,7 @@ operators = {
     'dawn'                              : RPNOperator( getNextCivilDawnOperator, 2 ),
     'day_time'                          : RPNOperator( getDayTimeOperator, 2 ),
     'distance_from_earth'               : RPNOperator( getDistanceFromEarthOperator, 2 ),
+    'distance_from_sun'                 : RPNOperator( getDistanceFromSunOperator, 2 ),
     'dusk'                              : RPNOperator( getNextCivilDuskOperator, 2 ),
     'eclipse_totality'                  : RPNOperator( getEclipseTotalityOperator, 4 ),
     'moonrise'                          : RPNOperator( getNextMoonRiseOperator, 2 ),
