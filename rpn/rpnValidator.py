@@ -51,6 +51,9 @@ def argValidator( validators ):
 #******************************************************************************
 
 class RPNValidator( ):
+    '''
+    This is a class used to validate arguments for operators.
+    '''
     Default =               0           # any argument is valid
     Real =                  1
     Integer =               1 << 1
@@ -112,6 +115,8 @@ class RPNValidator( ):
             argument = self.validateElement( argument )
         elif self.type == self.Location:
             argument = self.validateLocation( argument )
+        elif self.type == self.Location + self.DateTime:
+            argument = self.validateLocationOrDateTime( argument )            
         elif self.type == self.Year:
             argument = self.validateYear( argument )
 
@@ -174,25 +179,19 @@ class RPNValidator( ):
         return argument
 
     def validateDateTime( self, argument ):
-        if isinstance( argument, RPNDateTime ):
-            pass
-        else:
+        if not isinstance( argument, RPNDateTime ):
             raise ValueError( f'argument is type { type( argument ) }, but date-time value expected' )
 
         return argument
 
     def validateString( self, argument ):
-        if isinstance( argument, str ):
-            pass
-        else:
+        if not isinstance( argument, str ):
             raise ValueError( f'argument is type { type( argument ) }, but string value expected' )
 
         return argument
 
     def validateMeasurement( self, argument ):
-        if isinstance( argument, RPNMeasurement ):
-            pass
-        else:
+        if not isinstance( argument, RPNMeasurement ):
             raise ValueError( f'argument is type { type( argument ) }, but measurement value expected' )
 
         return argument
@@ -230,9 +229,7 @@ class RPNValidator( ):
     def validateComparable( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateReal( argument )
-        elif isinstance( argument, RPNMeasurement ):
-            pass
-        elif isinstance( argument, RPNDateTime ):
+        elif isinstance( argument, ( RPNMeasurement, RPNDateTime ) ):
             pass
         else:
             raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
@@ -242,9 +239,7 @@ class RPNValidator( ):
     def validateAdditive( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateComplex( argument )
-        elif isinstance( argument, RPNMeasurement ):
-            pass
-        elif isinstance( argument, RPNDateTime ):
+        elif isinstance( argument, ( RPNMeasurement, RPNDateTime ) ):
             pass
         else:
             raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
@@ -285,12 +280,17 @@ class RPNValidator( ):
 
         return argument
 
+    def validateLocationOrDateTime( self, argument ):
+        if not isinstance( argument, ( str, RPNLocation, RPNDateTime ) ):
+            raise ValueError( f'\'type\' { type( argument ) } found, string, date-time or location object expected' )
+
+        return argument
+
     def validateYear( self, argument ):
         if isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             argument = self.validateInt( argument )
         elif isinstance( argument, RPNDateTime ):
             self.validateDateTime( argument )
-
             argument = argument.year
         else:
             raise ValueError( f'\'type\' { type( argument ) } found, integer or date-time value expected' )
@@ -384,3 +384,7 @@ class RealOrMeasurementValidator( RPNValidator ):
     def __init__( self, specials=None ):
         super( ).__init__( RPNValidator.Real + RPNValidator.Measurement, specials=specials )
 
+
+class LocationOrDateTimeValidator( RPNValidator ):
+    def __init__( self, specials=None ):
+        super( ).__init__( RPNValidator.Location + RPNValidator.DateTime, specials=specials )

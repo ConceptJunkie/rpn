@@ -2930,8 +2930,8 @@ operators = {
 
     # geography
     'geographic_distance'               : RPNOperator( getGeographicDistanceOperator, 2 ),
-    'get_timezone'                      : RPNOperator( getTimeZoneOperator, 1 ),
-    'get_timezone_offset'               : RPNOperator( getTimeZoneOffsetOperator, 1 ),
+    'get_time_zone'                     : RPNOperator( getTimeZoneOperator, 1 ),
+    'get_time_zone_offset'              : RPNOperator( getTimeZoneOffsetOperator, 1 ),
     'lat_long'                          : RPNOperator( makeLocationOperator, 2 ),
     'location_info'                     : RPNOperator( getLocationInfoOperator, 1 ),
 

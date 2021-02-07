@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2402
+MAX_EXAMPLE_COUNT = 2429
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -6626,14 +6626,24 @@ This operator simply returns the current time value for the current timezone.
     'set_time_zone' : [
 'date_time', 'sets the date-time n to the timezone k',
 '''
-This operator sets the timezone value of n to timezone k.  It does not convert
-the date-time value to a different time zone.  It is used to specift a time in a
-different timezone.
+This operator sets the timezone value of n to timezone k.  k can be the name of
+a timezone or a geographic location.  It does not convert the date-time value to
+a different time zone, it actually changes the time value.  It is used to
+specify a time in a different timezone.
 
 To convert a date-time value to a different time zone, use 'to_time_zone'.
 ''',
 '''
-''',
+''' + makeCommandExample( 'now' ) + '''
+Here, we're taking a time and setting the time zone, meaning the actual time is
+changed:
+
+''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone' ) + '''
+''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone to_local_time' ) + '''
+Here, we're converting to a different time zone, so the time remains the same:
+
+''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone' ) + '''
+''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone to_local_time' ),
 [ 'to_time_zone', 'to_local_time' ] ],
 
     'today' : [
@@ -6663,13 +6673,23 @@ time value of 00:00:00 (midnight).
     'to_time_zone' : [
 'date_time', 'converts the date-time n to the timezone k',
 '''
-This operator converts the date-time value of n to the timezone of k.
+This operator converts the date-time value of n to the timezone of k.  k can be
+the name of a timezone or the name of a geographic location.
 
 To set the timezone for a particular date-time value without converting, use
-'set_time_zone".
+'set_time_zone'.
 ''',
 '''
-''',
+''' + makeCommandExample( 'now' ) + '''
+Here, we're converting to a different time zone, so the time remains the same:
+
+''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone' ) + '''
+''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone to_local_time' ) + '''
+Here, we're taking a time and setting the time zone, meaning the actual time is
+changed:
+
+''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone' ) + '''
+''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone to_local_time' ),
 [ 'set_time_zone', 'to_local_time' ] ],
 
     'to_utc' : [
@@ -7456,28 +7476,31 @@ operator.
 ''' + makeCommandExample( '"Nome, Alaska" "Johannesburg, South Africa" geographic_distance' ),
 [ 'lat_long' ] ],
 
-    'get_timezone' : [
-'geography', 'returns the timezone for location n',
+    'get_time_zone' : [
+'date_time', 'returns the timezone name for location or date-time n',
 '''
-This operator returns the name of the timezone that contains location n.
+This operator returns the name of the timezone of date-time n or that contains
+location n.
 ''',
 '''
-''' + makeCommandExample( '"New York City, NY" get_timezone' ) + '''
-''' + makeCommandExample( '"Nome, Alaska" get_timezone' ) + '''
-''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone' ),
-[ 'location_info', 'get_timezone_offset' ] ],
+''' + makeCommandExample( 'now get_time_zone' ) + '''
+''' + makeCommandExample( '"New York City, NY" get_time_zone' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_time_zone' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_time_zone' ),
+[ 'location_info', 'get_time_zone_offset' ] ],
 
-    'get_timezone_offset' : [
-'geography', 'returns the timezone offset in minutes for location n',
+    'get_time_zone_offset' : [
+'date_time', 'returns the timezone offset in seconds for location or date-time n',
 '''
-This operator returns the offset in minutes from UTC for the timezone that
-contains location n.
+This operator returns the offset in seconds from UTC for the timezone of
+date-time n or that contains location n.
 ''',
 '''
-''' + makeCommandExample( '"New York City, NY" get_timezone_offset' ) + '''
-''' + makeCommandExample( '"Nome, Alaska" get_timezone_offset' ) + '''
-''' + makeCommandExample( '"Johannesburg, South Africa" get_timezone_offset' ),
-[ 'location_info', 'get_timezone' ] ],
+''' + makeCommandExample( 'now get_time_zone_offset' ) + '''
+''' + makeCommandExample( '"New York City, NY" get_time_zone_offset' ) + '''
+''' + makeCommandExample( '"Nome, Alaska" get_time_zone_offset' ) + '''
+''' + makeCommandExample( '"Johannesburg, South Africa" get_time_zone_offset' ),
+[ 'location_info', 'get_time_zone' ] ],
 
     'lat_long' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
@@ -7488,7 +7511,7 @@ latitude and longitude.  It is used to specify a location by latitude and
 longitude.
 ''',
 '''
-''' + makeCommandExample( '45.63 125.54 lat_long get_timezone' ) + '''
+''' + makeCommandExample( '45.63 125.54 lat_long get_time_zone' ) + '''
 ''' + makeCommandExample( '45.63 125.54 lat_long 45.67 125.43 lat_long geographic_distance' ),
 [ 'location_info', 'geographic_distance' ] ],
 
@@ -7502,7 +7525,7 @@ a two item list containing the values of latitude and longitude in degrees.
 ''' + makeCommandExample( '"Dakar, Senegal" location_info' ) + '''
 ''' + makeCommandExample( '"Philadelphia, PA" location_info' ) + '''
 ''' + makeCommandExample( '"Nome, AL" location_info' ),
-[ 'lat_long', 'geographic_distance', 'get_timezone' ] ],
+[ 'lat_long', 'geographic_distance', 'get_time_zone', 'get_time_zone_offset' ] ],
 
 
     #******************************************************************************
