@@ -565,7 +565,7 @@ def oldGetPartitionNumber( n ):
         sub2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
 
         result = fadd( result, fmul( power( -1, fadd( k, 1 ) ),
-                       fadd( getPartitionNumber( sub1 ), getPartitionNumber( sub2 ) ) ) )
+                                     fadd( getPartitionNumber( sub1 ), getPartitionNumber( sub2 ) ) ) )
 
         if sub1 <= 0:
             break

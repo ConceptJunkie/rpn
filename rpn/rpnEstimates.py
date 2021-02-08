@@ -1080,7 +1080,7 @@ lengthTable = {
     mpmathify( '2.0e-23' )        : 'the effective cross section radius of 1 MeV neutrinos[3]',
     mpmathify( '1.0e-21' )        : 'the upper bound for the width of a cosmic string in string theory',
     mpmathify( '7.0e-21' )        : 'the effective cross section radius of high energy neutrinos',
-    mpmathify( '3.1e-19' )        : 'the de Broglie wavelength of protons at the Large Hadron Collider (4 TeV as of 2012)',
+    mpmathify( '3.1e-19' )        : 'the de Broglie wavelength of protons at the Large Hadron Collider (4 TeV as of 2012)',
     mpmathify( '1.0e-18' )        : 'the upper limit for the size of quarks and electrons, upper bound of the typical size range for "fundamental strings"',
     mpmathify( '1.0e-17' )        : 'the range of the weak force',
     mpmathify( '8.5e-16' )        : 'the approximate radius of a proton',

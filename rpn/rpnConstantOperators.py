@@ -194,7 +194,8 @@ Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 
     'planck_constant' :
         RPNConstantInfo( '6.62607015e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], False,
-                         'Planck\'s constant, the quantum of electromagnetic action that relates a photon\'s energy to its frequency',
+                         'Planck\'s constant, the quantum of electromagnetic action that relates a '
+                         'photon\'s energy to its frequency',
                          '''
 From:  https://en.wikipedia.org/wiki/Planck_constant
 

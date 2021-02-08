@@ -16,7 +16,6 @@ import calendar
 import datetime
 
 import arrow
-import dateutil
 
 from mpmath import mpf
 from timezonefinder import TimezoneFinder

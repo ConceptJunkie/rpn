@@ -229,14 +229,16 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
                     if im( result ) > 0:
                         outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
-                                                           g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                                                 g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
                                        ' + ' + formatOutput( nstr( mpmathify( im( result ) ),
-                                                             g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                                                                   g.outputAccuracy,
+                                                                   min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
                     elif im( result ) < 0:
                         outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
                                                                  g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
                                        ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ),
-                                                             g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
+                                                                   g.outputAccuracy,
+                                                                   min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
                     else:
                         outputString = formatOutput( nstr( re( result ), g.outputAccuracy,
                                                            min_fixed=-g.maximumFixed - 1 ) )
@@ -253,7 +255,8 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1_000_000_000 ), file=file )
+        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1_000_000_000 ),
+               file=file )
 
     return file
 

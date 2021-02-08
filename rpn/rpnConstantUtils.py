@@ -531,7 +531,8 @@ def getPlanckImpedance( ):
 @lru_cache( 1 )
 def getPlanckMagneticInductance( ):
     return getRoot( getPower( g.c, 5 ).divide( getProduct( [ g.h_bar,
-                                               getPower( g.G, 2 ), 4, pi, g.e0 ] ) ), 2 ).convert( 'tesla' )
+                                                             getPower( g.G, 2 ), 4, pi, g.e0 ] ) ),
+                    2 ).convert( 'tesla' )
 
 
 #******************************************************************************
@@ -543,7 +544,8 @@ def getPlanckMagneticInductance( ):
 @lru_cache( 1 )
 def getPlanckElectricalInductance( ):
     return getRoot( g.G.multiply( g.h_bar ).divide( getPower( g.c, 7 ).
-                                                        multiply( getPower( getProduct( [ 4, pi, g.e0 ] ), 2 ) ) ), 2 ).convert( 'henry' )
+                                                    multiply( getPower( getProduct( [ 4, pi, g.e0 ] ), 2 ) ) ),
+                    2 ).convert( 'henry' )
 
 
 #******************************************************************************

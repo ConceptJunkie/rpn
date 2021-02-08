@@ -14,12 +14,10 @@
 
 import calendar
 import datetime
-
-from dateutil import tz
 from functools import lru_cache
 
 import arrow
-
+from dateutil import tz
 from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
 from rpn.rpnMeasurementClass import RPNMeasurement
@@ -216,15 +214,15 @@ class RPNDateTime( arrow.Arrow ):
         if self.year < 1970:
             # format( ) doesn't work on Windows when using arrow, and I don't know why, but it's really stupid.
             return '{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}'.format( self.year, self.month, self.day,
-                                                                            self.hour, self.minute, self.second )                                                                         
+                                                                            self.hour, self.minute, self.second )
         elif includeTZ:
             return super( ).format( 'YYYY-MM-DD HH:mm:ss ZZ' )
         else:
             return super( ).format( 'YYYY-MM-DD HH:mm:ss' )
 
     def formatDate( self ):
-	if self.year < 1970:
-	    return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
+        if self.year < 1970:
+            return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
         else:
             return super( ).format( 'YYYY-MM-DD' )
 

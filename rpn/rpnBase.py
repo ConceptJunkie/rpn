@@ -12,9 +12,9 @@
 #
 #*******************************************************************************
 
-import gmpy2
-
 from mpmath import fdiv, floor, fmod, fmul, fneg, fsub, mpmathify
+
+import gmpy2
 
 from rpn.rpnUtils import twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator

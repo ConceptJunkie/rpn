@@ -12,14 +12,14 @@
 #
 #******************************************************************************
 
+from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, log10, \
+                   mpf, mpmathify, power, root
+
 from rpn.rpnDebug import debugPrint
 from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUnitTypes import basicUnitTypes
 from rpn.rpnUtils import getPowerSet
-
-from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, log10, \
-                   mpf, mpmathify, power, root
 
 import rpn.rpnGlobals as g
 
@@ -876,7 +876,7 @@ class RPNMeasurement( ):
                 return inverted.convert( other )
             else:
                 raise ValueError( 'incompatible units cannot be converted: ' +
-                                    self.getUnitName( ) + ' and ' + otherUnit )
+                                  self.getUnitName( ) + ' and ' + otherUnit )
 
         if ( baseUnit1, baseUnit2 ) in specialUnitConversionMatrix:
             # debugPrint( '----->', self.getUnitName( ), baseUnit1, baseUnit2, otherUnit )

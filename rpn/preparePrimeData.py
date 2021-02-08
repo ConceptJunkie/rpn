@@ -91,7 +91,8 @@ def main( ):
     preparePrimeData( 'twin_primes' )
 
     print( )
-    print( 'Prime number data prepared.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Prime number data prepared.  '
+           'Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 #******************************************************************************

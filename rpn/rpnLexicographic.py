@@ -92,7 +92,7 @@ def getDecimalDigitList( n, k ):
     digits = floor( log10( n ) )
 
     if digits < 0:
-        for i in arange( fsub( fabs( digits ), 1 ) ):
+        for _ in arange( fsub( fabs( digits ), 1 ) ):
             result.append( 0 )
 
         k = fsub( k, fsub( fabs( digits ), 1 ) )
@@ -1094,7 +1094,7 @@ def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persisten
         return persistence
 
     return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ),
-                                            exponent, dropZeroes, persistence + 1 )
+                                         exponent, dropZeroes, persistence + 1 )
 
 
 def getPersistence( n ):
@@ -1534,7 +1534,8 @@ def isOrderKSmithNumber( n, k ):
         return 0
 
     digitList1 = getDigitList( n, dropZeroes=True )
-    digitList2 = [ item for sublist in [ getDigitList( m, dropZeroes=True ) for m in getFactors( n ) ] for item in sublist ]
+    digitList2 = [ item for sublist in [ getDigitList( m, dropZeroes=True ) for m in getFactors( n ) ]
+                   for item in sublist ]
 
     if sorted( digitList1 ) == sorted( digitList2 ):
         return 0
