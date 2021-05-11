@@ -41,7 +41,7 @@ def getWhichUnitType( measurement, unitTypes ):
 
 def matchUnitTypes( args, validUnitTypes ):
     # imported here to avoid circular dependencies
-    from rpn.rpnAstronomy import RPNAstronomicalObject
+    from rpn.rpnAstronomy import RPNAstronomicalObject, RPNNewAstronomicalObject
     from rpn.rpnDateTime import RPNDateTime
     from rpn.rpnLocation import getLocation, RPNLocation
 
@@ -86,7 +86,7 @@ def matchUnitTypes( args, validUnitTypes ):
                 result = { }
                 break
 
-            if isinstance( arg, RPNAstronomicalObject ):
+            if isinstance( arg, ( RPNAstronomicalObject, RPNNewAstronomicalObject ) ):
                 if 'body' in unitTypes:
                     result[ 'body' ] = arg
                     continue

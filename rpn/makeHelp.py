@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2429
+MAX_EXAMPLE_COUNT = 2426
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -2810,6 +2810,128 @@ require an astronomical object.
 [ 'mercury', 'moon' ] ],
 
 
+    'earth2' : [
+'astronomical_objects', 'the Earth',
+'''
+This operator represents the planet Earth for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''',
+[ 'venus2', 'mars2' ] ],
+
+    'jupiter2' : [
+'astronomical_objects', 'the planet Jupiter',
+'''
+This operator represents the planet Jupiter for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'jupiter2 "Stuttgart, Germany" 2020-01-01 next_rising' ),
+[ 'mars2', 'saturn2' ] ],
+
+    'mars2' : [
+'astronomical_objects', 'the plenet Mars',
+'''
+This operator represents the planet Mars for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'mars2 "San Francisco, California" 2019-05-23 next_setting' ),
+[ 'earth2', 'jupiter2' ] ],
+
+    'mercury2' : [
+'astronomical_objects', 'the planet Mercury',
+'''
+This operator represents the planet Mercury for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'mercury "Helsinki, Finland" 2019-04-28 transit_time' ),
+[ 'venus2', 'mars2' ] ],
+
+    'moon2' : [
+'astronomical_objects', 'the Moon',
+'''
+This operator represents the Moon for the new versions of the astronomical
+operators based on the SkyField library, rather the pyephem library.
+''',
+'''
+''' + makeCommandExample( 'moon2 "Leesburg, VA" "2019-05-10 11:00:00" sky_location' ),
+[ 'earth2', 'mars2' ] ],
+
+    'neptune2' : [
+'astronomical_objects', 'the plent Neptune',
+'''
+This operator represents the planet Neptune for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'neptune2 "Sao Paulo, Brazil" 2019-05-23 previous_rising' ),
+[ 'uranus2', 'pluto2'  ] ],
+
+    'pluto2' : [
+'astronomical_objects', 'the planet Pluto',
+'''
+This operator represents the planet Pluto for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+
+Yes, I still consider Pluto a planet.  Talk to the hand.
+''',
+'''
+''' + makeCommandExample( 'pluto2 "2019-05-09 09:23:00" distance_from_earth miles convert -c' ),
+[ 'uranus2', 'neptune2' ] ],
+
+    'saturn2' : [
+'astronomical_objects', 'the planet Saturn',
+'''
+This operator represents the planet Saturn for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'saturn2 now distance_from_earth c / hms' ),
+[ 'jupiter2', 'uranus2' ] ],
+
+    'sun2' : [
+'astronomical_objects', 'the Sun',
+'''
+This operator represents the Sun for the new versions of the astronomical
+operators based on the SkyField library, rather the pyephem library.
+''',
+'''
+''' + makeCommandExample( 'sun2 "Richmond, VA" "2019-05-10 13:45:00" sky_location' ),
+[ 'moon2', 'venus2' ] ],
+
+    'uranus2' : [
+'astronomical_objects', 'the planet Uranus',
+'''
+This operator represents the planet Uranus for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'uranus "Harrisburg, PA" "2019-04-29" antitransit_time hms' ),
+[ 'saturn2', 'neptune2' ] ],
+
+    'venus2' : [
+'astronomical_objects', 'the planet Venus',
+'''
+This operator represents the planet Venus for the new versions of the
+astronomical operators based on the SkyField library, rather the pyephem
+library.
+''',
+'''
+''' + makeCommandExample( 'venus2 "Boulder, Colorado" "2019-04-15 06:00:00" next_rising' ),
+[ 'mercury2', 'earth2' ] ],
+
+
     #******************************************************************************
     #
     #  astronomy operators
@@ -3015,8 +3137,8 @@ moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
 moon, 75% is the last quarter and 100% is the new moon again.
 ''',
 '''
-What was the phase of the moon when I was born:
-''' + makeCommandExample( '"1965-03-31 05:00:00" moon_phase', indent=4 ) + '''
+What was the phase of the moon the day I got married:
+''' + makeCommandExample( '"1993-04-17 10:30:00" moon_phase', indent=4 ) + '''
 ... a waning crescent.
 ''',
 [ 'moonrise', 'moonset' ] ],
@@ -7492,11 +7614,10 @@ location n.
     'get_time_zone_offset' : [
 'date_time', 'returns the timezone offset in seconds for location or date-time n',
 '''
-This operator returns the offset in seconds from UTC for the timezone of
-date-time n or that contains location n.
+This operator returns the offset in seconds from UTC for the timezone that 
+contains location n.
 ''',
 '''
-''' + makeCommandExample( 'now get_time_zone_offset' ) + '''
 ''' + makeCommandExample( '"New York City, NY" get_time_zone_offset' ) + '''
 ''' + makeCommandExample( '"Nome, Alaska" get_time_zone_offset' ) + '''
 ''' + makeCommandExample( '"Johannesburg, South Africa" get_time_zone_offset' ),
@@ -12040,6 +12161,15 @@ Fourier transform.
 ''' + makeCommandExample( '3 unit_roots' ) + '''
 ''' + makeCommandExample( '4 unit_roots' ),
 [ 'root' ] ],
+
+    'van_eck' : [
+'number_theory', 'calculates the first n members of the van Eck sequence',
+'''
+''',
+'''
+''',
+[ 'root' ] ],
+
 
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',

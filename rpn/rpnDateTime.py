@@ -67,7 +67,7 @@ DECEMBER = 12
 @argValidator( [ DateTimeValidator( ) ] )
 def convertToUnixTimeOperator( n ):
     try:
-        result = RPNDateTime.parseDateTime( n ).timestamp
+        result = RPNDateTime.parseDateTime( n.to( 'utc' ) ).int_timestamp
     except OverflowError:
         raise ValueError( 'out of range error' )
     except TypeError:
@@ -867,7 +867,7 @@ def setTimeZone( datetime, timezone ):
         tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
 
     datetime = RPNDateTime.parseDateTime( datetime )
-    datetime.tzinfo = tz
+    datetime = datetime.replace( tzinfo=tz )
     return datetime
 
 @twoArgFunctionEvaluator( )

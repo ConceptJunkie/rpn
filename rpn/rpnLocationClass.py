@@ -15,6 +15,7 @@
 import ephem
 
 from mpmath import fdiv, fmul, mpmathify, pi
+from skyfield.api import Topos
 
 
 #******************************************************************************
@@ -109,3 +110,8 @@ class RPNLocation( ):
 
     def setPressure( self, value ):
         self.observer.pressure = value
+
+    def getTopos( self ):
+        return Topos( latitude_degrees=float( self.getLat( ) ),
+                      longitude_degrees=float( self.getLong( ) ),
+                      elevation_m=self.getElevation( ) )

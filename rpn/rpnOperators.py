@@ -48,6 +48,8 @@ from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperato
                              getSummerSolsticeOperator, getTransitTimeOperator, getVernalEquinoxOperator, \
                              getWinterSolsticeOperator, RPNAstronomicalObject
 
+from rpn.rpnAstronomy import RPNNewAstronomicalObject
+
 from rpn.rpnBase import getBaseKDigitsOperator, getNonzeroBaseKDigitsOperator
 
 from rpn.rpnCalendar import convertBahaiDateOperator, convertEthiopianDateOperator, \
@@ -271,7 +273,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 isSociableListOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
                                 makeContinuedFractionOperator, makeEulerBrickOperator, \
                                 makePythagoreanQuadrupleOperator, makePythagoreanTripleOperator, \
-                                makePythagoreanTriplesOperator, solveFrobeniusOperator
+                                makePythagoreanTriplesOperator, solveFrobeniusOperator, getVanEckOperator
 
 from rpn.rpnPersistence import doesCacheExist, getUserFunctionsFileName, loadConstants, loadResultOperator, \
                                loadUnitConversionMatrix, loadUnitData, openFunctionCache, openPrimeCache
@@ -1112,17 +1114,17 @@ def filterRatio( n, k, invert=False ):
         raise ValueError( '\'filter\' expects a function argument' )
 
     total = len( n )
-    filter = 0
+    filterCount = 0
 
     for item in n:
         value = k.evaluate( item )
 
         if invert and value == 0:
-            filter += 1
+            filterCount += 1
         elif not invert and value != 0:
-            filter += 1
+            filterCount += 1
 
-    return fdiv( filter, total )
+    return fdiv( filterCount, total )
 
 
 def filterRatioOperator( n, k ):
@@ -1821,8 +1823,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
             if multipliable:
                 # look for unit without a value (in which case we give it a value of 1)
-                if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
-                    isinstance( currentValueList[ -1 ], RPNDateTime ) or \
+                if ( len( currentValueList ) == 0 ) or \
+                    isinstance( currentValueList[ -1 ], ( RPNMeasurement, RPNDateTime ) ) or \
                     ( isinstance( currentValueList[ -1 ], list ) and
                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
@@ -2659,6 +2661,18 @@ operators = {
     'neptune'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Neptune( ) ), 0 ),
     'pluto'                             : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ), 0 ),
 
+    'sun2'                              : RPNOperator( lambda: RPNNewAstronomicalObject( 'sun' ), 0 ),
+    'mercury2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'mercury' ), 0 ),
+    'venus2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'venus' ), 0 ),
+    'earth2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'earth' ), 0 ),
+    'moon2'                             : RPNOperator( lambda: RPNNewAstronomicalObject( 'moon' ), 0 ),
+    'mars2'                             : RPNOperator( lambda: RPNNewAstronomicalObject( 'mars' ), 0 ),
+    'jupiter2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'jupiter barycenter' ), 0 ),
+    'saturn2'                           : RPNOperator( lambda: RPNNewAstronomicalObject( 'saturn barycenter' ), 0 ),
+    'uranus2'                           : RPNOperator( lambda: RPNNewAstronomicalObject( 'uranus barycenter' ), 0 ),
+    'neptune2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'neptune barycenter' ), 0 ),
+    'pluto2'                            : RPNOperator( lambda: RPNNewAstronomicalObject( 'pluto barycenter' ), 0 ),
+
     # bitwise
     'bitwise_and'                       : RPNOperator( getBitwiseAndOperator, 2 ),
     'bitwise_nand'                      : RPNOperator( getBitwiseNandOperator, 2 ),
@@ -3159,6 +3173,7 @@ operators = {
     'tribonacci'                        : RPNOperator( getNthTribonacciOperator, 1 ),
     'trigamma'                          : RPNOperator( getTrigammaOperator, 1 ),
     'unit_roots'                        : RPNOperator( getUnitRootsOperator, 1 ),
+    'van_eck'                           : RPNOperator( getVanEckOperator, 1 ),
     'zeta'                              : RPNOperator( getZetaOperator, 1 ),
     'zeta_zero'                         : RPNOperator( getNthZetaZeroOperator, 1 ),
 

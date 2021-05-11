@@ -94,8 +94,8 @@ class RPNDateTime( arrow.Arrow ):
         result = self
         result = result.subtract( getUTCOffset( self.tzinfo ) )
         result = result.add( getUTCOffset( timeZone ) )
-        result.tzinfo = timeZone
-        #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
+        result.replace( tzinfo=timeZone )
+        #result = result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
         return result
 
     @staticmethod

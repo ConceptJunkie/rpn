@@ -131,8 +131,8 @@ def parseInputValue( term, inputRadix = 10 ):
 
             # convert arrow to RPNDateTime with the parsed timezone
             datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
-                        datetime.hour, datetime.minute, datetime.second,
-                        datetime.microsecond )
+                                    datetime.hour, datetime.minute, datetime.second,
+                                    datetime.microsecond )
             tryAgain = False
         except:
             tryAgain = True

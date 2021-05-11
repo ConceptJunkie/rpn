@@ -23,10 +23,13 @@ class RPNExpression( ):
     This class defines an expression used for parsing rpnChilada.
     '''
     def __init__( self, operators, arguments ):
-        self.operators = [ ]
-        self.argumemts = [ ]
+        self.operators = operators
+        self.argumemts = arguments
 
     def parse( self ):
         '''.'''
         return self
 
+    def generateCode( self ):
+        '''.'''
+        return self.arguments

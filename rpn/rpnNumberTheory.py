@@ -84,6 +84,36 @@ def getNthPascalLineOperator( n ):
 
 #******************************************************************************
 #
+#  getVanEckGenerator
+#
+#******************************************************************************
+
+def getVanEckGenerator( n ):
+    count = 0
+    seen = [ 0 ]
+    val = 0
+
+    while count < n:
+        yield val
+
+        if val in seen[ 1 : ]:
+            val = seen.index( val, 1 )
+        else:
+            val = 0
+
+        seen.insert( 0, val )
+        count += 1
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def getVanEckOperator( n ):
+    return RPNGenerator.createGenerator( getVanEckGenerator, n )
+
+
+
+#******************************************************************************
+#
 #  getDivisorCount
 #
 #******************************************************************************
@@ -1888,7 +1918,7 @@ def isRough( n, k ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ),
-                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
+                 IntValidator( 2, None, specials=[ ( isPrime, 'argument must be a prime number' ) ] ) ] )
 def isRoughOperator( n, k ):
     if k < 2:
         return 1
@@ -1921,7 +1951,7 @@ def isSmooth( n, k ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ),
-                 IntValidator( 2, None, specials=[ ( lambda x: isPrime( x ), 'argument must be a prime number' ) ] ) ] )
+                 IntValidator( 2, None, specials=[ ( isPrime, 'argument must be a prime number' ) ] ) ] )
 def isSmoothOperator( n, k ):
     if n <= k:
         return 1
