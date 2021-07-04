@@ -22,7 +22,7 @@ import numpy as np
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac, fac2, fadd, fdiv, fib, \
                    floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log, log10, \
                    loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, \
-                   superfac, sqrt, unitroots, zeta, zetazero, autoprec
+                   superfac, sqrt, unitroots, zeta, zetazero
 
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
@@ -466,7 +466,10 @@ def getNthPadovanNumberOperator( n ):
 
 class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
-    def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
+    def __init__( self, value, maxterms=15, cutoff=1e-10 ):
+        if mp.dps < maxterms:
+            mp.dps = maxterms
+
         if isinstance( value, ( int, float, mpf ) ):            
             value = mpmathify( value )
             remainder = floor( value )
@@ -476,7 +479,7 @@ class RPNContinuedFraction( list ):
                 value -= remainder
 
                 if value > cutoff:
-                    value = autoprec( fdiv )( 1, value )
+                    value = fdiv( 1, value )
                     remainder = floor( value )
                     self.append( remainder )
                 else:
