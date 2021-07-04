@@ -111,7 +111,6 @@ def getVanEckOperator( n ):
     return RPNGenerator.createGenerator( getVanEckGenerator, n )
 
 
-
 #******************************************************************************
 #
 #  getDivisorCount
