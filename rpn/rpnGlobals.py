@@ -71,7 +71,7 @@ nestedListLevel = 0
 operandsToRemove = 0
 operatorList = False            # whether we are in the process of creating an operator list (between '(' and ')' operators)
 operatorsInList = 0
-startTime = 0
+START_TIME = 0
 testFilter = ''
 useMembers = 0
 
@@ -123,10 +123,10 @@ unitOperators: Dict[ str, list ] = { }
 unitOperatorNames: List[ str ] = [ ]
 
 # help data
-helpTopics: Dict[ str, list ] = { }
+HELP_TOPICS: Dict[ str, list ] = { }
 helpVersion = '0.0.0'
 operatorCategories: List[ str ] = [ ]
-operatorHelp: Dict[ str, list ] = { }
+OPERATOR_HELP: Dict[ str, list ] = { }
 unitTypeDict: Dict[ str, list ] = { }
 
 # interactive mode

@@ -31,7 +31,7 @@ from pathlib import Path
 
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
-from rpn.rpnAliases import operatorAliases
+from rpn.rpnAliases import OPERATOR_ALIASES
 from rpn.rpnConstantUtils import loadGlobalConstants
 from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnDebug import debugPrint
@@ -255,7 +255,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1_000_000_000 ),
+        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.START_TIME ) / 1_000_000_000 ),
                file=file )
 
     return file
@@ -308,7 +308,7 @@ def enterInteractiveMode( ):
             enterHelpMode( terms[ 1 : ] )
         else:
             if g.timer or g.tempTimerMode:
-                g.startTime = time_ns( )
+                g.START_TIME = time_ns( )
 
             #newTerms = preprocessTerms( terms )
             #print( 'newTerms', newTerms )
@@ -404,7 +404,7 @@ def rpn( cmdArgs ):
 
         loadUnitNameData( )
 
-        g.aliases.update( operatorAliases )
+        g.aliases.update( OPERATOR_ALIASES )
 
         printHelp( helpArgs )
         return None
@@ -488,7 +488,7 @@ def rpn( cmdArgs ):
     # OK, let's parse and validate the options
     args = parser.parse_args( options )
 
-    g.aliases.update( operatorAliases )
+    g.aliases.update( OPERATOR_ALIASES )
 
     if args.help or args.other_help:
         loadUnitNameData( )
@@ -646,7 +646,7 @@ def rpn( cmdArgs ):
         print( *sys.argv )
 
     if g.timer:
-        g.startTime = time_ns( )
+        g.START_TIME = time_ns( )
 
     return evaluate( terms )
 

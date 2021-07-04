@@ -22,7 +22,7 @@ import numpy as np
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac, fac2, fadd, fdiv, fib, \
                    floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log, log10, \
                    loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, \
-                   superfac, sqrt, unitroots, zeta, zetazero
+                   superfac, sqrt, unitroots, zeta, zetazero, autoprec
 
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
@@ -439,11 +439,11 @@ def getNthPadovanNumber( arg ):
     b = root( fdiv( fadd( 9, sqrt( 69 ) ), 2 ), 3 )
     c = fadd( 1, fmul( mpc( 0, 1 ), sqrt( 3 ) ) )
     d = fsub( 1, fmul( mpc( 0, 1 ), sqrt( 3 ) ) )
-    e = power( 3, fdiv( 2, 3 ) )
+    f = power( 3, fdiv( 2, 3 ) )
 
-    r = fadd( fdiv( a, 3 ), fdiv( b, e ) )
-    s = fsub( fmul( fdiv( d, -6 ), a ), fdiv( fmul( c, b ), fmul( 2, e ) ) )
-    t = fsub( fmul( fdiv( c, -6 ), a ), fdiv( fmul( d, b ), fmul( 2, e ) ) )
+    r = fadd( fdiv( a, 3 ), fdiv( b, f ) )
+    s = fsub( fmul( fdiv( d, -6 ), a ), fdiv( fmul( c, b ), fmul( 2, f ) ) )
+    t = fsub( fmul( fdiv( c, -6 ), a ), fdiv( fmul( d, b ), fmul( 2, f ) ) )
 
     return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
@@ -467,7 +467,7 @@ def getNthPadovanNumberOperator( n ):
 class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
     def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
-        if isinstance( value, ( int, float, mpf ) ):
+        if isinstance( value, ( int, float, mpf ) ):            
             value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
@@ -476,16 +476,12 @@ class RPNContinuedFraction( list ):
                 value -= remainder
 
                 if value > cutoff:
-                    value = fdiv( 1, value )
+                    value = autoprec( fdiv )( 1, value )
                     remainder = floor( value )
                     self.append( remainder )
                 else:
                     break
-
         elif isinstance( value, ( list, tuple ) ):
-            if mp.dps < maxterms:
-                mp.dps = maxterms
-
             self.extend( value )
         else:
             raise ValueError( 'RPNContinuedFraction requires a number or a list' )
@@ -536,7 +532,7 @@ def convertFromContinuedFractionOperator( n ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
 def makeContinuedFractionOperator( n, k ):
-    return RPNContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps - 2 ) ) )
+    return RPNContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps / 2 ) ) )
 
 
 #******************************************************************************
@@ -553,7 +549,7 @@ def interpretAsFractionOperator( n, k ):
     if mp.dps < k:
         mp.dps = k
 
-    cutoff = fmul( n, power( 10, -10 ) )
+    cutoff = fmul( n, power( 10, -( mp.dps / 2 ) ) )
     fraction = RPNContinuedFraction( value=n, maxterms=k, cutoff=cutoff ).getFraction( )
 
     return [ fraction.numerator, fraction.denominator ]
@@ -2259,7 +2255,7 @@ def getNthZetaZeroOperator( n ):
 #
 #******************************************************************************
 
-mersennePrimeExponents = {
+MERSENNE_PRIME_EXPONENTS = {
     1:   2,
     2:   3,
     3:   5,
@@ -2318,11 +2314,11 @@ def getNthMersenneExponent( n ):
     if n == 0:
         return 1
 
-    return mersennePrimeExponents[ n ]
+    return MERSENNE_PRIME_EXPONENTS[ n ]
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+@argValidator( [ IntValidator( 0, len( MERSENNE_PRIME_EXPONENTS ) ) ] )
 def getNthMersenneExponentOperator( n ):
     return getNthMersenneExponent( n )
 
@@ -2335,7 +2331,7 @@ def getNthMersennePrime( n ):
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+@argValidator( [ IntValidator( 0, len( MERSENNE_PRIME_EXPONENTS ) ) ] )
 def getNthMersennePrimeOperator( n ):
     return getNthMersennePrime( n )
 
@@ -2346,7 +2342,7 @@ def getNthPerfectNumber( n ):
 
 
 @oneArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 0, len( mersennePrimeExponents ) ) ] )
+@argValidator( [ IntValidator( 0, len( MERSENNE_PRIME_EXPONENTS ) ) ] )
 def getNthPerfectNumberOperator( n ):
     return getNthPerfectNumber( n )
 

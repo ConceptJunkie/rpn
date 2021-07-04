@@ -932,8 +932,6 @@ def loadUserFunctionsFile( ):
         items = config.items( 'User Functions' )
     except configparser.NoSectionError:
         return
-    except configparser.KeyError:
-        return
 
     for item in items:
         func = RPNFunction( )

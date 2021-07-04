@@ -663,12 +663,12 @@ def main( ):
 
     validateConversions = args.validate_conversions
 
-    startTime = time_ns( )
+    START_TIME = time_ns( )
 
     initializeConversionMatrix( unitConversionMatrix, validateConversions )
 
     print( )
-    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
 
 
 #******************************************************************************

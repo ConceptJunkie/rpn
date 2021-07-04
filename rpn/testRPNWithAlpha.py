@@ -21,7 +21,7 @@ from collections import OrderedDict
 
 from rpn.rpnOperators import *
 
-from rpn.rpnAliases import operatorAliases
+from rpn.rpnAliases import OPERATOR_ALIASES
 from rpn.rpnOperators import constants
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnPersistence import cachedFunction, loadUnitNameData

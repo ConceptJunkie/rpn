@@ -19,8 +19,8 @@ from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from skyfield import almanac
 #from skyfield.api import load, Topos
 
-from rpn.rpnDateTime import RPNDateTime, getNow, setTimeZone
-from rpn.rpnLocation import getLocation, getTimeZone, getTimeZoneName
+from rpn.rpnDateTime import RPNDateTime, setTimeZone
+from rpn.rpnLocation import getLocation, getTimeZone
 from rpn.rpnMatchUnitTypes import matchUnitTypes
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMath import subtract
@@ -98,7 +98,7 @@ class RPNAstronomicalObject( ):
         location.observer.horizon = str( horizon )
 
         if useCenter:
-            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, \
+            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object,
                                                              use_center=useCenter ) ).getLocalTime( )
         else:
             result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) ).getLocalTime( )
@@ -296,7 +296,7 @@ class RPNNewAstronomicalObject( ):
         location.observer.horizon = str( horizon )
 
         if useCenter:
-            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object, \
+            result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object,
                                                              use_center=useCenter ) ).getLocalTime( )
         else:
             result = RPNDateTime.convertFromEphemDate( func( location.observer, self.object ) ).getLocalTime( )
@@ -363,9 +363,9 @@ class RPNNewAstronomicalObject( ):
 
         event = 0 if anti else 1
 
-        for i in range( len( times ) ):
+        for i, time in enumerate( times ):
             if events[ i ] == event:
-                result = RPNDateTime.parseDateTime( times[ i ].utc_datetime( ) )
+                result = RPNDateTime.parseDateTime( time.utc_datetime( ) )
                 return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
 
         raise ValueError( 'transit not found' )
@@ -575,6 +575,7 @@ def getMoonPhase( n ):
 
     time = g.timescale.utc( *n.to( tz.UTC ).getYMDHMS( ) )
     return almanac.moon_phase( g.ephemeris, time ).degrees / 360
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )

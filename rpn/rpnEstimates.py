@@ -12,11 +12,11 @@
 #
 #******************************************************************************
 
-from mpmath import mpf, mpmathify
 from typing import Dict
 
-# pylint: disable=line-too-long
+from mpmath import mpf, mpmathify
 
+# pylint: disable=line-too-long
 
 #******************************************************************************
 #

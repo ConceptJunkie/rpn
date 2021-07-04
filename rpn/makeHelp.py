@@ -28,7 +28,7 @@ import time
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
-from rpn.rpnNumberTheory import mersennePrimeExponents
+from rpn.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
 from rpn.rpnOutput import printParagraph
 from rpn.rpnPrimeUtils import checkForPrimeData
 from rpn.rpnUtils import getUserDataPath
@@ -58,7 +58,7 @@ MAX_EXAMPLE_COUNT = 2426
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
-startTime = time_ns( )
+START_TIME = time_ns( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
 print( COPYRIGHT_MESSAGE )
@@ -146,8 +146,7 @@ def makeCommandExample( command, indent=0, slow=False ):
 #        redownload content from the OEIS, since existing sequences are very occasionally updated
 #
 
-
-helpTopics = {
+HELP_TOPICS = {
     # pylint: disable=bad-continuation
     'options' :
     'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' + '''
@@ -1698,7 +1697,7 @@ SI Prefixes:
 #
 #******************************************************************************
 
-operatorHelp = {
+OPERATOR_HELP = {
     # pylint: disable=bad-continuation line-too-long
     #******************************************************************************
     #
@@ -11629,14 +11628,14 @@ L( n ) = 2F( n + 1 ) - 1
 '''
 These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_exponent' ) + '''
-''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_mersenne_exponent' ),
+''' + makeCommandExample( str( len( MERSENNE_PRIME_EXPONENTS ) ) + ' nth_mersenne_exponent' ),
 [ 'nth_mersenne_prime', 'nth_perfect_number' ] ],
 
     'nth_mersenne_prime' : [
@@ -11644,14 +11643,14 @@ https://primes.utm.edu/mersenne/index.html
 '''
 These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_prime' ) + '''
-''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_mersenne_prime' ),
+''' + makeCommandExample( str( len( MERSENNE_PRIME_EXPONENTS ) ) + ' nth_mersenne_prime' ),
 [ 'nth_mersenne_exponent', 'nth_perfect_number' ] ],
 
     'nth_merten' : [
@@ -11734,12 +11733,12 @@ formula.
 These values are stored in a look-up table.  They are not calculated.  :-)
 
 The nth known perfect number is computed from the nth known Mersenne prime.
-There are currently ''' + str( len( mersennePrimeExponents ) ) + ''' known Mersenne primes.  This list is subject to change
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_perfect_number' ) + '''
-''' + makeCommandExample( str( len( mersennePrimeExponents ) ) + ' nth_perfect_number' ),
+''' + makeCommandExample( str( len( MERSENNE_PRIME_EXPONENTS ) ) + ' nth_perfect_number' ),
 [ 'is_perfect', 'nth_mersenne_exponent' ] ],
 
     'nth_stern' : [
@@ -17043,14 +17042,14 @@ Comparing hyperbolic tangent to hyperbolic sine/hyperbolic cosine and tangent:
 #
 #******************************************************************************
 
-def makeHelp( helpTopics ):
+def makeHelp( ):
     '''Builds the help data file.'''
     fileName = getUserDataPath( ) + os.sep + 'help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
-        pickle.dump( helpTopics, pickleFile )
-        pickle.dump( operatorHelp, pickleFile )
+        pickle.dump( HELP_TOPICS, pickleFile )
+        pickle.dump( OPERATOR_HELP, pickleFile )
 
     print( )
 
@@ -17078,7 +17077,7 @@ def main( ):
 
         helpText += '\n'
 
-        operatorHelp[ constant ] = [
+        OPERATOR_HELP[ constant ] = [
             'constants', constantOperators[ constant ].description,
             helpText + constantOperators[ constant ].helpText, '', [ 'constants' ]
         ]
@@ -17088,9 +17087,9 @@ def main( ):
 
         description = '\'' + unit + '\' is a unit of ' + unitInfo.unitType
 
-        operatorHelp[ unit ] = [ unitInfo.unitType, description, unitInfo.helpText, '', [ 'unit_types' ] ]
+        OPERATOR_HELP[ unit ] = [ unitInfo.unitType, description, unitInfo.helpText, '', [ 'unit_types' ] ]
 
-    makeHelp( helpTopics )
+    makeHelp( )
 
     noCategory = [ ]
     noDescription = [ ]
@@ -17100,7 +17099,7 @@ def main( ):
     badCrossReferences = set( )
 
     if not QUIET_MODE:
-        for topic, helpInfo in operatorHelp.items( ):
+        for topic, helpInfo in OPERATOR_HELP.items( ):
             if len( helpInfo ) != 5:
                 print( 'error: malformed help data for topic \'' + topic + '\'' )
                 continue
@@ -17124,7 +17123,7 @@ def main( ):
             else:
                 for crossReference in helpInfo[ 4 ]:
                     if crossReference not in g.unitOperators and crossReference not in constantOperators and \
-                       crossReference not in operatorHelp and crossReference not in ( 'constants', 'unit_types' ):
+                       crossReference not in OPERATOR_HELP and crossReference not in ( 'constants', 'unit_types' ):
                         badCrossReferences.add( crossReference )
 
         if noCategory:
@@ -17164,7 +17163,7 @@ def main( ):
             printParagraph( ', '.join( sorted( badCrossReferences ) ) )
 
     print( )
-    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1_000_000_000 ) )
+    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1_000_000_000 ) )
 
 
 #******************************************************************************

@@ -1011,7 +1011,7 @@ def describeIntegerOperator( n ):
         print( indent + 'a Stern value of ' + str( int( getNthSternNumber( n ) ) ) )
         calkinWilf = getNthCalkinWilf( n )
         print( indent + 'a Calkin-Wilf value of ' + str( int( calkinWilf[ 0 ] ) ) + '/' +
-                                                    str( int( calkinWilf[ 1 ] ) ) )
+               str( int( calkinWilf[ 1 ] ) ) )
         print( indent + 'a Mobius value of ' + str( int( getNthMobiusNumber( n ) ) ) )
         print( indent + 'a radical of ' + str( int( getRadical( n ) ) ) )
         print( indent + 'a Euler phi value of ' + str( int( getEulerPhi( n ) ) ) )

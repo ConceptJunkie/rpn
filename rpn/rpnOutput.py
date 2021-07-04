@@ -407,7 +407,7 @@ def printParagraph( text, indent = 0 ):
 #
 #******************************************************************************
 
-def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True):
+def printOperatorHelp( term, operatorInfo, OPERATOR_HELP, regularOperator = True):
     if regularOperator:
         if operatorInfo.argCount == 1:
             print( 'n ', end = '' )
@@ -422,7 +422,7 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
 
     aliasList = [ key for key in g.aliases if term == g.aliases[ key ] ]
 
-    print( term + ' - ' + operatorHelp[ 1 ] )
+    print( term + ' - ' + OPERATOR_HELP[ 1 ] )
 
     print( )
 
@@ -431,31 +431,31 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
     elif len( aliasList ) == 1:
         printParagraph( 'alias:  ' + aliasList[ 0 ] )
 
-    print( 'category: ' + operatorHelp[ 0 ] )
+    print( 'category: ' + OPERATOR_HELP[ 0 ] )
 
-    if operatorHelp[ 2 ] == '' or operatorHelp[ 2 ] == '\n':
+    if OPERATOR_HELP[ 2 ] == '' or OPERATOR_HELP[ 2 ] == '\n':
         print( )
         print( 'No further help is available.' )
         print( )
     else:
-        print( operatorHelp[ 2 ] )
+        print( OPERATOR_HELP[ 2 ] )
 
     if regularOperator:
-        if len( operatorHelp ) > 3:
-            if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
+        if len( OPERATOR_HELP ) > 3:
+            if OPERATOR_HELP[ 3 ] == '' or OPERATOR_HELP[ 3 ] == '\n':
                 print( 'No examples are available.' )
             else:
                 print( term + ' examples:' )
-                print( operatorHelp[ 3 ] )
+                print( OPERATOR_HELP[ 3 ] )
         else:
             print( 'No examples are available.' )
 
-    if len( operatorHelp ) > 4 and len( operatorHelp[ 4 ] ) > 0:
+    if len( OPERATOR_HELP ) > 4 and len( OPERATOR_HELP[ 4 ] ) > 0:
         print( 'see also:  ', end='' )
 
         bFirst = True
 
-        for name in sorted( operatorHelp[ 4 ] ):
+        for name in sorted( OPERATOR_HELP[ 4 ] ):
             if bFirst:
                 bFirst = False
             else:
@@ -472,7 +472,7 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
 #
 #******************************************************************************
 
-def printCategoryHelp( category, operators, listOperators, modifiers, operatorHelp ):
+def printCategoryHelp( category, operators, listOperators, modifiers, OPERATOR_HELP ):
     if category in basicUnitTypes:
         units = [ ]
 
@@ -489,9 +489,9 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
     printParagraph( 'The ' + category + ' category includes the following operators (with aliases in parentheses):' )
     print( )
 
-    operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == category ]
-    operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == category ] )
-    operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == category ] )
+    operatorList = [ key for key in operators if OPERATOR_HELP[ key ][ 0 ] == category ]
+    operatorList.extend( [ key for key in listOperators if OPERATOR_HELP[ key ][ 0 ] == category ] )
+    operatorList.extend( [ key for key in modifiers if OPERATOR_HELP[ key ][ 0 ] == category ] )
 
     addAliases( operatorList, g.aliases )
 
@@ -541,21 +541,21 @@ def printHelp( terms = None, interactive = False ):
 
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators and not unitType:
-        printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
+        printOperatorHelp( term, operators[ term ], g.OPERATOR_HELP[ term ] )
     elif term in g.unitOperators:
-        printOperatorHelp( term, g.unitOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
+        printOperatorHelp( term, g.unitOperators[ term ], g.OPERATOR_HELP[ term ], regularOperator = False )
     elif term in g.constantOperators:
-        printOperatorHelp( term, g.constantOperators[ term ], g.operatorHelp[ term ], regularOperator = False )
+        printOperatorHelp( term, g.constantOperators[ term ], g.OPERATOR_HELP[ term ], regularOperator = False )
     elif term in constants:
-        printOperatorHelp( term, constants[ term ], g.operatorHelp[ term ] )
+        printOperatorHelp( term, constants[ term ], g.OPERATOR_HELP[ term ] )
     elif term in listOperators:
-        printOperatorHelp( term, listOperators[ term ], g.operatorHelp[ term ] )
+        printOperatorHelp( term, listOperators[ term ], g.OPERATOR_HELP[ term ] )
     elif term in modifiers:
-        printOperatorHelp( term, modifiers[ term ], g.operatorHelp[ term ] )
-    elif term in g.helpTopics:
-        print( g.helpTopics[ term ] )
+        printOperatorHelp( term, modifiers[ term ], g.OPERATOR_HELP[ term ] )
+    elif term in g.HELP_TOPICS:
+        print( g.HELP_TOPICS[ term ] )
     elif term in g.operatorCategories:
-        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
+        printCategoryHelp( term, operators, listOperators, modifiers, g.OPERATOR_HELP )
     elif term == 'unit_types':
         printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ),
                         indent=4 )
@@ -584,7 +584,7 @@ def printHelp( terms = None, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, operators[ helpTerm ], g.OPERATOR_HELP[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in constants if i != term and i.startswith( term ) ), '' )
@@ -592,7 +592,7 @@ def printHelp( terms = None, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpTerm, constants[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, constants[ helpTerm ], g.OPERATOR_HELP[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in listOperators if i != term and i.startswith( term ) ), '' )
@@ -600,7 +600,7 @@ def printHelp( terms = None, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, listOperators[ helpTerm ], g.OPERATOR_HELP[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in modifiers if i != term and i.startswith( term ) ), '' )
@@ -608,15 +608,15 @@ def printHelp( terms = None, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, modifiers[ helpTerm ], g.OPERATOR_HELP[ helpTerm ] )
             return
 
-        helpTerm = next( ( i for i in g.helpTopics if i != term and i.startswith( term ) ), '' )
+        helpTerm = next( ( i for i in g.HELP_TOPICS if i != term and i.startswith( term ) ), '' )
 
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            print( g.helpTopics[ helpTerm ] )
+            print( g.HELP_TOPICS[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in g.operatorCategories if i != term and i.startswith( term ) ), '' )
@@ -624,7 +624,7 @@ def printHelp( terms = None, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.operatorHelp )
+            printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.OPERATOR_HELP )
         else:
             print( 'Help topic not found.' )
 
@@ -674,10 +674,10 @@ def printHelpTopics( ):
     print( 'The following is a list of general topics:' )
     print( )
 
-    helpTopics = list( g.helpTopics.keys( ) )
-    helpTopics.append( 'unit_types' )
+    HELP_TOPICS = list( g.HELP_TOPICS.keys( ) )
+    HELP_TOPICS.append( 'unit_types' )
 
-    printParagraph( ', '.join( sorted( helpTopics ) ), indent=4 )
+    printParagraph( ', '.join( sorted( HELP_TOPICS ) ), indent=4 )
 
     print( )
     print( 'The following is a list of operator categories:' )

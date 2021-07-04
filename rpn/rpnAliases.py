@@ -32,11 +32,11 @@ def dumpAliasesOperator( ):
 
 #******************************************************************************
 #
-#  operatorAliases
+#  OPERATOR_ALIASES
 #
 #******************************************************************************
 
-operatorAliases = {
+OPERATOR_ALIASES = {
     '!!'                            : 'double_factorial',
     '!'                             : 'factorial',
     '!='                            : 'is_not_equal',

@@ -68,7 +68,7 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
-    startTime = time_ns( )
+    START_TIME = time_ns( )
 
     preparePrimeData( 'balanced_primes' )
     preparePrimeData( 'cousin_primes' )
@@ -92,7 +92,7 @@ def main( ):
 
     print( )
     print( 'Prime number data prepared.  '
-           'Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+           'Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
 
 
 #******************************************************************************
