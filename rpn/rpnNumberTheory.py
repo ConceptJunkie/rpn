@@ -28,7 +28,7 @@ from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
-from rpn.rpnMath import isDivisible, isEven, isInteger
+from rpn.rpnMath import isDivisible, isEven, isInteger, isOdd
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
@@ -469,7 +469,7 @@ class RPNContinuedFraction( list ):
         if mp.dps < maxterms:
             mp.dps = maxterms
 
-        if isinstance( value, ( int, float, mpf ) ):            
+        if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
@@ -1862,6 +1862,52 @@ def isPernicious( n ):
 @argValidator( [ IntValidator( 0 ) ] )
 def isPerniciousOperator( n ):
     return isPernicious( n )
+
+
+#******************************************************************************
+#
+#  isPoliteOperator
+#
+#******************************************************************************
+
+def isPolite( n ):
+    if n < 1:
+        return 0
+
+    divisors = getDivisors( n )
+
+    for divisor in divisors:
+        if isOdd( divisor ):
+            return 1
+
+    return 0
+
+
+#******************************************************************************
+#
+#  getPolitenessOperator
+#
+#******************************************************************************
+
+def getPoliteness( n ):
+    if n < 1:
+        return 0
+
+    divisors = getDivisors( n )
+
+    result = 0
+
+    for divisor in divisors:
+        if isOdd( divisor ):
+            result += 1
+
+    return result
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getPolitenessOperator( n ):
+    return getPoliteness( n )
 
 
 #******************************************************************************
