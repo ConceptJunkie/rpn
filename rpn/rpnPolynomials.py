@@ -38,7 +38,7 @@ def determinant( M ):
     Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license
     but has no copyright notice.
     """
-    # TODO: What is the algorithm's complexity?
+    # What is the algorithm's complexity?
     k = len( M )
     assert all( len( r ) == k for r in M )
 

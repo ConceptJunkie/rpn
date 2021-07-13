@@ -67,57 +67,57 @@ class RPNValidator( ):
     Length =                1 << 9
     AstronomicalObject =    1 << 10
     List =                  1 << 11     # the argument must be a list
-    Generator =             1 << 12     # Generator is a separate type now, but eventually it should be equivalent to List
+    Generator =             1 << 12     # Generator is a separate type, but eventually it should be equivalent to List
     Function =              1 << 13
     TimeZone =              1 << 14
     Year =                  1 << 15
     Comparable =            1 << 16     # real, or measurement, or date-time
-    Additive =              1 << 17     # a value that can have something added to or subtracted from (complex, measurement, date-time)
+    Additive =              1 << 17     # a value that can have something added to or subtracted from
     Multiplicative =        1 << 18     # a value that can be multiplied (complex, measurement)
 
-    type = Default
-    min = None
-    max = None
+    valueType = Default
+    minValue = None
+    maxValue = None
     specials = None
 
-    def __init__( self, type=Default, min=None, max=None, specials=None ):
-        self.type = type
-        self.min = min
-        self.max = max
+    def __init__( self, valueType=Default, minValue=None, maxValue=None, specials=None ):
+        self.valueType = valueType
+        self.minValue = minValue
+        self.maxValue = maxValue
 
         if specials:
             self.specials = specials
 
     def validate( self, argument ):
-        if self.type == self.Default:
+        if self.valueType == self.Default:
             pass
-        elif self.type == self.Integer:
+        elif self.valueType == self.Integer:
             argument = self.validateInt( argument )
-        elif self.type == self.Real:
+        elif self.valueType == self.Real:
             argument = self.validateReal( argument )
-        elif self.type == self.Complex:
+        elif self.valueType == self.Complex:
             argument = self.validateComplex( argument )
-        elif self.type == self.Integer + self.Measurement:
+        elif self.valueType == self.Integer + self.Measurement:
             argument = self.validateIntOrMeasurement( argument )
-        elif self.type == self.Real + self.Measurement:
+        elif self.valueType == self.Real + self.Measurement:
             argument = self.validateRealOrMeasurement( argument )
-        elif self.type == self.Complex + self.Measurement:
+        elif self.valueType == self.Complex + self.Measurement:
             argument = self.validateComplexOrMeasurement( argument )
-        elif self.type == self.Real + self.Measurement + self.DateTime:
+        elif self.valueType == self.Real + self.Measurement + self.DateTime:
             argument = self.validateComparable( argument )
-        elif self.type == self.Comparable:
+        elif self.valueType == self.Comparable:
             argument = self.validateAdditive( argument )
-        elif self.type == self.Length:
+        elif self.valueType == self.Length:
             argument = self.validateLength( argument )
-        elif self.type == self.List:
+        elif self.valueType == self.List:
             argument = self.validateList( argument )
-        elif self.type == self.Integer + self.String + self.Measurement:
+        elif self.valueType == self.Integer + self.String + self.Measurement:
             argument = self.validateElement( argument )
-        elif self.type == self.Location:
+        elif self.valueType == self.Location:
             argument = self.validateLocation( argument )
-        elif self.type == self.Location + self.DateTime:
-            argument = self.validateLocationOrDateTime( argument )            
-        elif self.type == self.Year:
+        elif self.valueType == self.Location + self.DateTime:
+            argument = self.validateLocationOrDateTime( argument )          
+        elif self.valueType == self.Year:
             argument = self.validateYear( argument )
 
         if self.specials:
@@ -143,11 +143,11 @@ class RPNValidator( ):
         if argument != floor( argument ):
             raise ValueError( 'integer argument expected ({})'.format( argument ) )
 
-        if self.min is not None and argument < self.min:
-            raise ValueError( f'argument value is { int( argument ) }, but the minimum valid value is { int( self.min ) }.' )
+        if self.minValue is not None and argument < self.minValue:
+            raise ValueError( f'argument value is { int( argument ) }, but the minimum valid value is { int( self.minValue ) }.' )
 
-        if self.max is not None and argument > self.max:
-            raise ValueError( f'argument value is { int( argument ) }, but the maximum valid value is { int( self.max ) }.' )
+        if self.maxValue is not None and argument > self.maxValue:
+            raise ValueError( f'argument value is { int( argument ) }, but the maximum valid value is { int( self.maxValue ) }.' )
 
         return argument
 
@@ -158,11 +158,11 @@ class RPNValidator( ):
         if im( argument ) != 0:
             raise ValueError( 'real argument expected ({})'.format( argument ) )
 
-        if self.min is not None and argument < self.min:
-            raise ValueError( f'argument value is { argument }, minimum valid value is { self.min }.' )
+        if self.minValue is not None and argument < self.minValue:
+            raise ValueError( f'argument value is { argument }, minimum valid value is { self.minValue }.' )
 
-        if self.max is not None and argument > self.max:
-            raise ValueError( f'argument value is { argument }, maximum valid value is { self.max }.' )
+        if self.maxValue is not None and argument > self.maxValue:
+            raise ValueError( f'argument value is { argument }, maximum valid value is { self.maxValue }.' )
 
         return argument
 
@@ -170,10 +170,10 @@ class RPNValidator( ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
             raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
 
-        if self.min is not None :
+        if self.minValue is not None :
             raise ValueError( 'The min constraint is invalid for validating complex arguments.' )
 
-        if self.max is not None :
+        if self.maxValue is not None :
             raise ValueError( 'The max constraint is invalid for validating complex arguments.' )
 
         return argument
@@ -304,23 +304,23 @@ class DefaultValidator( RPNValidator ):
 
 
 class IntValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.Integer, min, max, specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.Integer, minValue, maxValue, specials )
 
 
 class RealValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.Real, min, max, specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.Real, minValue, maxValue, specials )
 
 
 class ComplexValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.Complex, min, max, specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.Complex, minValue, maxValue, specials )
 
 
 class MeasurementValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.Measurement, min, max, specials=specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.Measurement, minValue, maxValue, specials=specials )
 
 
 class StringValidator( RPNValidator ):
@@ -329,13 +329,13 @@ class StringValidator( RPNValidator ):
 
 
 class LengthValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.Length, min, max, specials=specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.Length, minValue, maxValue, specials=specials )
 
 
 class DateTimeValidator( RPNValidator ):
-    def __init__( self, min=None, max=None, specials=None ):
-        super( ).__init__( RPNValidator.DateTime, min, max, specials=specials )
+    def __init__( self, minValue=None, maxValue=None, specials=None ):
+        super( ).__init__( RPNValidator.DateTime, minValue, maxValue, specials=specials )
 
 
 class ListValidator( RPNValidator ):

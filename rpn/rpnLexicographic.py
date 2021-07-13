@@ -483,7 +483,9 @@ def countDigitsOperator( n, k ):
     n = getMPFIntegerAsString( n )
 
     if isinstance( k, ( mpf, int, float ) ):
-        k = set( [ char for char in getMPFIntegerAsString( k ) ] )
+        #k = set( [ char for char in getMPFIntegerAsString( k ) ] )
+        k = set( getMPFIntegerAsString( k ) )
+        #print( k )
 
     result = 0
 

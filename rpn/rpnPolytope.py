@@ -218,7 +218,8 @@ def getNthDecagonalNumberOperator( n ):
 #
 #  findPolygonalNumber
 #
-#  http://www.wolframalpha.com/input/?i=solve+%28+%28+k+%2F+2+%29+-+1+%29+x^2+-+%28+%28+k+%2F+2+%29+-+2+%29+x+%2B+0+%3D+n+for+x
+#  http://www.wolframalpha.com/input/?i=solve+%28+%28+k+%2F+2+%29+-+1+%29+x^2+-+
+#  %28+%28+k+%2F+2+%29+-+2+%29+x+%2B+0+%3D+n+for+x
 #
 #******************************************************************************
 

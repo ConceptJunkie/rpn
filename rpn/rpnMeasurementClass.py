@@ -697,7 +697,6 @@ class RPNMeasurement( ):
         elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
             value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( value )
         else:
-            # TODO:  Should we just convert to base units regardless?  It would be safer...
             if other.doDimensionsCancel( ):
                 other = other.convertToPrimitiveUnits( )
                 units2 = other.units

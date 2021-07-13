@@ -26,11 +26,11 @@ from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.rpnValidator import argValidator, IntValidator, StringValidator
 
 
-# TODO:  write a function to enumerate the number of outcomes for a dice expression
-#        without actually permuting them.  i.e., rpn <dice_expr> permute_dice occurrences
+# write a function to enumerate the number of outcomes for a dice expression
+# without actually permuting them.  i.e., rpn <dice_expr> permute_dice occurrences
 #
-#        Is that possible?  It's definitely possible without including x and h.  With them
-#        it becomes a problem that's harder than I can solve, probably.
+# Is that possible?  It's definitely possible without including x and h.  With them
+# it becomes a problem that's harder than I can solve, probably.
 #
 # c:\>rpn [ 1 6 dup ] 3 poly_power 3 enumerate -s1
 # [

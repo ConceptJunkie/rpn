@@ -1683,9 +1683,9 @@ def getNthQuintupletPrime( arg ):
         f = p % 30
 
         if ( ( f == 11 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and
-                             isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
+             isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and
-                            isPrime( p + 10 ) and isPrime( p + 12 ) ):
+             isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
     return p

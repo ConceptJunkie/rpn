@@ -31,7 +31,7 @@ class RPNLocation( ):
     '''This class represents a location on the surface of the Earth.'''
     observer = None
     name = None
-    
+
     def __init__( self, *_, **kwargs ):
         self.name = kwargs.get( 'name', None )
         observer = kwargs.get( 'observer', None )

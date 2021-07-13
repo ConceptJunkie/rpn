@@ -245,18 +245,18 @@ class RPNOperator( ):
 
         return True
 
-    def generateCall( self, operatorName ):
-        args = [ ]
-
-        print( operatorName )
-        for i in range( self.argCount ):
-            args.append( argumentGenerators[ self.argTypes[ i ] ]( ) )
-
-        if args:
-            print( args )
-            return ' '.join( args ) + ' ' + operatorName
-
-        return operatorName
+    #def generateCall( self, operatorName ):
+    #    args = [ ]
+    #
+    #    print( operatorName )
+    #    for i in range( self.argCount ):
+    #        args.append( argumentGenerators[ self.argTypes[ i ] ]( ) )
+    #
+    #    if args:
+    #        print( args )
+    #        return ' '.join( args ) + ' ' + operatorName
+    #
+    #    return operatorName
 
 
 #******************************************************************************

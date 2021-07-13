@@ -178,7 +178,7 @@ def formatOutput( output ):
 
     if imaginary != 0:
         strImaginary, negativeImaginary = \
-            formatNumber( imaginary, outputRadix, leadingZero, integerGrouping, integerDelimiter, g.DecimalDelimiter )
+            formatNumber( imaginary, outputRadix, leadingZero, integerGrouping, integerDelimiter, g.decimalDelimiter )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
 
     #print( 'formatOutput 2:', output )

@@ -30,8 +30,8 @@ class RPNRational( Fraction ):
     def __init__( self, value ):
         self.value = value
 
-    def __eq__( self, other ):
-        return Fraction.__eq__( other )
+    #def __eq__( self, other ):
+    #    return Fraction.__eq__( other )
 
-    def __ne__( self, other ):
-        return Fraction.__ne__( self, other )
+    #def __ne__( self, other ):
+    #    return Fraction.__ne__( self, other )

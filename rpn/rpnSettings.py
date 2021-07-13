@@ -19,6 +19,8 @@ from mpmath import mp
 
 import rpn.rpnGlobals as g
 
+from rpn.rpnDebug import debugPrint
+
 
 #******************************************************************************
 #
@@ -41,6 +43,7 @@ def setAccuracy( n ):
 
     if mp.dps < g.outputAccuracy:
         mp.dps = g.outputAccuracy
+        debugPrint( 'setAccuracy' )
 
     return g.outputAccuracy
 
@@ -61,12 +64,15 @@ def setPrecision( n ):
 
     if n == -1:
         mp.dps = g.defaultPrecision
+        debugPrint( 'setDefaultPrecision' )
     else:
         mp.dps = int( n )
+        debugPrint( 'setPrecision', n )
 
     # precision can't be lower than output accuracy
     if mp.dps < g.outputAccuracy:
         mp.dps = g.outputAccuracy
+        debugPrint( 'setPrecision to accuracy', g.outputAccuracy )
 
     return g.outputAccuracy
 
