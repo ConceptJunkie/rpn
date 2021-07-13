@@ -261,15 +261,15 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getNthSubfactorialOperator, getNthSuperfactorialOperator, getNthTetranacciOperator, \
                                 getNthThabitNumberOperator, getNthThabit2NumberOperator, \
                                 getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, \
-                                getPolygammaOperator, getPrimePiOperator, getRadicalOperator, \
+                                getPolitenessOperator, getPolygammaOperator, getPrimePiOperator, getRadicalOperator, \
                                 getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
                                 getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
                                 isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
                                 isCarmichaelNumberOperator, isDeficientOperator, isHarmonicDivisorNumberOperator, \
                                 isKHyperperfectOperator, isKPerfectOperator, isKPolydivisibleOperator, \
                                 isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, \
-                                isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, \
-                                isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, \
+                                isPolite, isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, \
+                                isRoughOperator, isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, \
                                 isSociableListOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
                                 makeContinuedFractionOperator, makeEulerBrickOperator, \
                                 makePythagoreanQuadrupleOperator, makePythagoreanTripleOperator, \
@@ -2648,16 +2648,16 @@ operators = {
     'winter_solstice'                   : RPNOperator( getWinterSolsticeOperator, 1 ),
 
     # astronomy - heavenly body operators
-    'sun'                               : RPNOperator( lambda: RPNAstronomicalObject( ephem.Sun( ) ), 0 ),
-    'mercury'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mercury( ) ), 0 ),
-    'venus'                             : RPNOperator( lambda: RPNAstronomicalObject( ephem.Venus( ) ), 0 ),
-    'moon'                              : RPNOperator( lambda: RPNAstronomicalObject( ephem.Moon( ) ), 0 ),
-    'mars'                              : RPNOperator( lambda: RPNAstronomicalObject( ephem.Mars( ) ), 0 ),
-    'jupiter'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Jupiter( ) ), 0 ),
-    'saturn'                            : RPNOperator( lambda: RPNAstronomicalObject( ephem.Saturn( ) ), 0 ),
-    'uranus'                            : RPNOperator( lambda: RPNAstronomicalObject( ephem.Uranus( ) ), 0 ),
-    'neptune'                           : RPNOperator( lambda: RPNAstronomicalObject( ephem.Neptune( ) ), 0 ),
-    'pluto'                             : RPNOperator( lambda: RPNAstronomicalObject( ephem.Pluto( ) ), 0 ),
+    'sun'                               : RPNOperator( RPNAstronomicalObject.sun, 0 ),
+    'mercury'                           : RPNOperator( RPNAstronomicalObject.mercury, 0 ),
+    'venus'                             : RPNOperator( RPNAstronomicalObject.venus, 0 ),
+    'moon'                              : RPNOperator( RPNAstronomicalObject.moon, 0 ),
+    'mars'                              : RPNOperator( RPNAstronomicalObject.mars, 0 ),
+    'jupiter'                           : RPNOperator( RPNAstronomicalObject.jupiter, 0 ),
+    'saturn'                            : RPNOperator( RPNAstronomicalObject.saturn, 0 ),
+    'uranus'                            : RPNOperator( RPNAstronomicalObject.uranus, 0 ),
+    'neptune'                           : RPNOperator( RPNAstronomicalObject.neptune, 0 ),
+    'pluto'                             : RPNOperator( RPNAstronomicalObject.pluto, 0 ),
 
     'sun2'                              : RPNOperator( lambda: RPNNewAstronomicalObject( 'sun' ), 0 ),
     'mercury2'                          : RPNOperator( lambda: RPNNewAstronomicalObject( 'mercury' ), 0 ),
@@ -3113,6 +3113,7 @@ operators = {
     'is_k_sphenic'                      : RPNOperator( isKSphenicOperator, 2 ),
     'is_perfect'                        : RPNOperator( isPerfectOperator, 1 ),
     'is_pernicious'                     : RPNOperator( isPerniciousOperator, 1 ),
+    'is_polite'                         : RPNOperator( isPolite, 1 ),
     'is_polydivisible'                  : RPNOperator( isPolydivisibleOperator, 1 ),
     'is_powerful'                       : RPNOperator( isPowerfulOperator, 1 ),
     'is_prime'                          : RPNOperator( isPrimeOperator, 1 ),
@@ -3153,6 +3154,7 @@ operators = {
     'pascal_triangle'                   : RPNOperator( getNthPascalLineOperator, 1 ),
     'pentanacci'                        : RPNOperator( getNthPentanacciOperator, 1 ),
     'phitorial'                         : RPNOperator( getNthPhitorialOperator, 1 ),
+    'politeness'                        : RPNOperator( getPolitenessOperator, 1 ),
     'polygamma'                         : RPNOperator( getPolygammaOperator, 2 ),
     'polygorial'                        : RPNOperator( getNthKPolygorialOperator, 2 ),
     'primorial'                         : RPNOperator( getNthPrimorialOperator, 1 ),

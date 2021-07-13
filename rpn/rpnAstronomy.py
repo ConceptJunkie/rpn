@@ -215,6 +215,46 @@ class RPNAstronomicalObject( ):
 
         return subtract( result2, result1 )
 
+    @staticmethod
+    def sun( ):
+        return RPNAstronomicalObject( ephem.Sun( ) )
+
+    @staticmethod
+    def moon( ):
+        return RPNAstronomicalObject( ephem.Moon( ) )
+
+    @staticmethod
+    def mercury( ):
+        return RPNAstronomicalObject( ephem.Mercury( ) )
+
+    @staticmethod
+    def venus( ):
+        return RPNAstronomicalObject( ephem.Venus( ) )
+
+    @staticmethod
+    def mars( ):
+        return RPNAstronomicalObject( ephem.Mars( ) )
+
+    @staticmethod
+    def jupiter( ):
+        return RPNAstronomicalObject( ephem.Jupiter( ) )
+
+    @staticmethod
+    def saturn( ):
+        return RPNAstronomicalObject( ephem.Saturn( ) )
+
+    @staticmethod
+    def uranus( ):
+        return RPNAstronomicalObject( ephem.Uranus( ) )
+
+    @staticmethod
+    def neptune( ):
+        return RPNAstronomicalObject( ephem.Neptune( ) )
+
+    @staticmethod
+    def pluto( ):
+        return RPNAstronomicalObject( ephem.Pluto( ) )
+
 
 #******************************************************************************
 #
@@ -658,12 +698,12 @@ def getNextRising( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getNextSunriseOperator( n, k ):
-    return getNextRising( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getNextRising( RPNAstronomicalObject.sun( ), n, k )
 
 
 @twoArgFunctionEvaluator( )
 def getNextMoonRiseOperator( n, k ):
-    return getNextRising( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+    return getNextRising( RPNAstronomicalObject.moon( ), n, k )
 
 
 def getNextRisingOperator( arg1, arg2, arg3 ):
@@ -690,12 +730,12 @@ def getNextSetting( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getNextSunsetOperator( n, k ):
-    return getNextSetting( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getNextSetting( RPNAstronomicalObject.sun( ), n, k )
 
 
 @twoArgFunctionEvaluator( )
 def getNextMoonSetOperator( n, k ):
-    return getNextSetting( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+    return getNextSetting( RPNAstronomicalObject.moon( ), n, k )
 
 
 def getNextSettingOperator( arg1, arg2, arg3 ):
@@ -721,12 +761,12 @@ def getNextTransit( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getSolarNoonOperator( n, k ):
-    return getNextTransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getNextTransit( RPNAstronomicalObject.sun( ), n, k )
 
 
 @twoArgFunctionEvaluator( )
 def getNextMoonTransitOperator( n, k ):
-    return getNextTransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+    return getNextTransit( RPNAstronomicalObject.moon( ), n, k )
 
 
 def getNextTransitOperator( arg1, arg2, arg3 ):
@@ -752,12 +792,12 @@ def getNextAntitransit( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getNextSunAntitransitOperator( n, k ):
-    return getNextAntitransit( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getNextAntitransit( RPNAstronomicalObject.sun( ), n, k )
 
 
 @twoArgFunctionEvaluator( )
 def getNextMoonAntitransitOperator( n, k ):
-    return getNextAntitransit( RPNAstronomicalObject( ephem.Moon( ) ), n, k )
+    return getNextAntitransit( RPNAstronomicalObject.moon( ), n, k )
 
 
 def getNextAntitransitOperator( arg1, arg2, arg3 ):
@@ -782,7 +822,7 @@ def getTransitTime( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getDayTimeOperator( n, k ):
-    return getTransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getTransitTime( RPNAstronomicalObject.sun( ), n, k )
 
 
 def getTransitTimeOperator( arg1, arg2, arg3 ):
@@ -807,7 +847,7 @@ def getAntitransitTime( arg1, arg2, arg3 ):
 
 @twoArgFunctionEvaluator( )
 def getNightTimeOperator( n, k ):
-    return getAntitransitTime( RPNAstronomicalObject( ephem.Sun( ) ), n, k )
+    return getAntitransitTime( RPNAstronomicalObject.sun( ), n, k )
 
 
 def getAntitransitTimeOperator( arg1, arg2, arg3 ):
@@ -917,8 +957,8 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextRising( arguments[ 'location' ],
-                                                                  arguments[ 'datetime' ], horizon=horizon )
+    result = RPNAstronomicalObject.sun( ).getNextRising( arguments[ 'location' ], arguments[ 'datetime' ],
+                                                         horizon=horizon )
     return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
 
 
@@ -954,8 +994,8 @@ def getNextDusk( arg1, arg2, horizon = -6 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject( ephem.Sun( ) ).getNextSetting( arguments[ 'location' ],
-                                                                   arguments[ 'datetime' ], horizon=horizon )
+    result = RPNAstronomicalObject.sun( ).getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ],
+                                                          horizon=horizon )
     return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
 
 
