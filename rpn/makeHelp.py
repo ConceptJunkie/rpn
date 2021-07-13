@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2427
+MAX_EXAMPLE_COUNT = 2431
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -116,6 +116,7 @@ def makeCommandExample( command, indent=0, slow=False ):
     output = io.StringIO( )
 
     global HELP_DEBUG_MODE
+
     if HELP_DEBUG_MODE:
         print( )
         print( command )
@@ -7613,7 +7614,7 @@ location n.
     'get_time_zone_offset' : [
 'date_time', 'returns the timezone offset in seconds for location or date-time n',
 '''
-This operator returns the offset in seconds from UTC for the timezone that 
+This operator returns the offset in seconds from UTC for the timezone that
 contains location n.
 ''',
 '''
@@ -11003,6 +11004,22 @@ A pernicious number has a prime number of ones in its binary representation.
 ''' + makeCommandExample( '1 30 range is_pernicious' ),
 [ 'parity', 'count_bits' ] ],
 
+    'is_polite' : [
+'number_theory', 'returns whether or not n is polite',
+'''
+From https://en.wikipedia.org/wiki/Polite_number:
+
+In number theory, a polite number is a positive integer that can be written as
+the sum of two or more consecutive positive integers.  A positive integer which
+is not polite is called impolite.  The impolite numbers are exactly the powers
+of two, and the polite numbers are the natural numbers that are not powers of
+two.
+''',
+'''
+''' + makeCommandExample( '1 20 range lambda x is_polite filter' ) + '''
+''' + makeCommandExample( '1020 1030 range lambda x is_polite filter' ),
+[ 'politeness' ] ],
+
     'is_polydivisible' : [
 'number_theory', 'returns whether or not n is polydivisible',
 '''
@@ -11900,7 +11917,27 @@ The first several pentanacci numbers:
 ''' + makeCommandExample( '1 20 range pentanacci', indent=4 ) + '''
 The Pentanacci constant:
 ''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit', indent=4 ),
-[  'fibonacci' ] ],
+[ 'fibonacci' ] ],
+
+    'politeness' : [
+'number_theory', 'returns the politeness of integer n',
+'''
+From https://en.wikipedia.org/wiki/Polite_number:
+
+In number theory, a polite number is a positive integer that can be written as
+the sum of two or more consecutive positive integers.  A positive integer which
+is not polite is called impolite.  The impolite numbers are exactly the powers
+of two, and the polite numbers are the natural numbers that are not powers of
+two.
+
+The politeness of a positive number is defined as the number of ways it can be
+expressed as the sum of consecutive integers.  For every x, the politeness of x
+equals the number of odd divisors of x that are greater than one.
+''',
+'''
+''' + makeCommandExample( '1 20 range politeness' ) + '''
+''' + makeCommandExample( '1020 1030 range politeness' ),
+[ 'is_polite' ] ],
 
     'polygamma' : [
 'number_theory', 'calculates the polygamma function for n',
