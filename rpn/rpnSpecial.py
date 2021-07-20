@@ -385,7 +385,6 @@ def generateRandomUUIDOperator( ):
 #
 #*******************************************************************************
 
-
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
 

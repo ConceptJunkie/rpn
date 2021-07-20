@@ -927,31 +927,30 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
         currentIndex = 1
         p = 18731
 
-    primes = [ 0 ] * numberOfPrimes
-
-    primes[ center ] = p
+    workingPrimes = [ 0 ] * numberOfPrimes
+    workingPrimes[ center ] = p
 
     for i in range( 1, center + 1 ):
-        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
-        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
+        workingPrimes[ center - i ] = getPreviousPrime( workingPrimes[ center - i + 1 ] )
+        workingPrimes[ center + i ] = getNextPrime( workingPrimes[ center + i - 1 ] )
 
     while n > currentIndex:
-        p = getNextPrime( primes[ -1 ] )
-        primes.append( p )
-        del primes[ 0 ]
+        p = getNextPrime( workingPrimes[ -1 ] )
+        workingPrimes.append( p )
+        del workingPrimes[ 0 ]
 
         balanced = True
 
         for i in range( 1, center + 1 ):
-            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
-               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+            if ( workingPrimes[ center - i + 1 ] - workingPrimes[ center - i ] ) != \
+               ( workingPrimes[ center + i ] - workingPrimes[ center + i - 1 ] ):
                 balanced = False
                 break
 
         if balanced:
             currentIndex += 1
 
-    return primes[ 0 ] if first else primes[ center ]
+    return workingPrimes[ 0 ] if first else workingPrimes[ center ]
 
 
 @oneArgFunctionEvaluator( )
@@ -1016,31 +1015,30 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
         currentIndex = 1
         p = 683783
 
-    primes = [ 0 ] * numberOfPrimes
-
-    primes[ center ] = p
+    workingPrimes = [ 0 ] * numberOfPrimes
+    workingPrimes[ center ] = p
 
     for i in range( 1, center + 1 ):
-        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
-        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
+        workingPrimes[ center - i ] = getPreviousPrime( workingPrimes[ center - i + 1 ] )
+        workingPrimes[ center + i ] = getNextPrime( workingPrimes[ center + i - 1 ] )
 
     while n > currentIndex:
-        p = getNextPrime( primes[ -1 ] )
-        primes.append( p )
-        del primes[ 0 ]
+        p = getNextPrime( workingPrimes[ -1 ] )
+        workingPrimes.append( p )
+        del workingPrimes[ 0 ]
 
         balanced = True
 
         for i in range( 1, center + 1 ):
-            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
-               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+            if ( workingPrimes[ center - i + 1 ] - workingPrimes[ center - i ] ) != \
+               ( workingPrimes[ center + i ] - workingPrimes[ center + i - 1 ] ):
                 balanced = False
                 break
 
         if balanced:
             currentIndex += 1
 
-    return primes[ 0 ] if first else primes[ center ]
+    return workingPrimes[ 0 ] if first else workingPrimes[ center ]
 
 
 @oneArgFunctionEvaluator( )
@@ -1105,32 +1103,30 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
         currentIndex = 1
         p = 98303927
 
-    primes = [ 0 ] * numberOfPrimes
-
-    primes[ center ] = p
+    workingPrimes = [ 0 ] * numberOfPrimes
+    workingPrimes[ center ] = p
 
     for i in range( 1, center + 1 ):
-        primes[ center - i ] = getPreviousPrime( primes[ center - i + 1 ] )
-        primes[ center + i ] = getNextPrime( primes[ center + i - 1 ] )
+        workingPrimes[ center - i ] = getPreviousPrime( workingPrimes[ center - i + 1 ] )
+        workingPrimes[ center + i ] = getNextPrime( workingPrimes[ center + i - 1 ] )
 
     while n > currentIndex:
-        p = getNextPrime( primes[ -1 ] )
-        print( p )
-        primes.append( p )
-        del primes[ 0 ]
+        p = getNextPrime( workingPrimes[ -1 ] )
+        workingPrimes.append( p )
+        del workingPrimes[ 0 ]
 
         balanced = True
 
         for i in range( 1, center + 1 ):
-            if ( primes[ center - i + 1 ] - primes[ center - i ] ) != \
-               ( primes[ center + i ] - primes[ center + i - 1 ] ):
+            if ( workingPrimes[ center - i + 1 ] - workingPrimes[ center - i ] ) != \
+               ( workingPrimes[ center + i ] - workingPrimes[ center + i - 1 ] ):
                 balanced = False
                 break
 
         if balanced:
             currentIndex += 1
 
-    return primes[ 0 ] if first else primes[ center ]
+    return workingPrimes[ 0 ] if first else workingPrimes[ center ]
 
 
 @oneArgFunctionEvaluator( )

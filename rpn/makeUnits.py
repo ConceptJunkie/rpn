@@ -100,13 +100,13 @@ def makeMetricUnit( prefix, unit ):
 #
 #******************************************************************************
 
-def makeUnitTypeTable( unitOperators ):
+def makeUnitTypeTable( unitOps ):
     unitTypeTable = { }
 
     for unitType in basicUnitTypes:
         unitTypeTable[ unitType ] = [ ]
 
-    for unit, unitInfo in unitOperators.items( ):
+    for unit, unitInfo in unitOps.items( ):
         unitTypeTable[ unitInfo.unitType ].append( unit )
 
     return unitTypeTable
@@ -380,7 +380,7 @@ def expandDataUnits( ):
 #
 #******************************************************************************
 
-def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitConversionMatrix ):
+def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, matrix ):
     newConversions = { }
 
     for op3 in unitTypeTable[ unitType ]:
@@ -388,22 +388,22 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
         if op3 in [ op1, op2 ]:
             continue
 
-        conversion = unitConversionMatrix[ ( op1, op2 ) ]
+        conversion = matrix[ ( op1, op2 ) ]
 
-        if ( op1, op3 ) not in unitConversionMatrix and \
-           ( op2, op3 ) in unitConversionMatrix:
+        if ( op1, op3 ) not in matrix and \
+           ( op2, op3 ) in matrix:
             # print( 'transitive: ', ( op2, op3 ),
             #        unitConversionMatrix[ ( op2, op3 ) ] )
-            newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
+            newConversion = fmul( conversion, matrix[ ( op2, op3 ) ] )
             # print( ( op1, op3 ), newConversion )
             newConversions[ ( op1, op3 ) ] = newConversion
             # print( ( op3, op1 ), fdiv( 1, newConversion ) )
             newConversions[ ( op3, op1 ) ] = fdiv( 1, newConversion )
-        elif ( op2, op3 ) not in unitConversionMatrix and \
-             ( op1, op3 ) in unitConversionMatrix:
+        elif ( op2, op3 ) not in matrix and \
+             ( op1, op3 ) in matrix:
             # print( 'transitive: ', ( op1, op3 ),
             #        unitConversionMatrix[ ( op1, op3 ) ] )
-            newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
+            newConversion = fdiv( matrix[ ( op1, op3 ) ], conversion )
             # print( ( op2, op3 ), newConversion )
             newConversions[ ( op2, op3 ) ] = newConversion
             # print( ( op3, op2 ), fdiv( 1, newConversion ) )
@@ -425,17 +425,17 @@ def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitCon
 #
 #******************************************************************************
 
-def testAllCombinations( unitTypeTable, unitConversionMatrix ):
+def testAllCombinations( unitTypeTable, matrix ):
     for _, unitList in unitTypeTable.items( ):
         for unit1, unit2 in itertools.combinations( unitList, 2 ):
-            if ( unit1, unit2 ) not in unitConversionMatrix and \
+            if ( unit1, unit2 ) not in matrix and \
                ( unit1, unit2 ) not in specialUnitConversionMatrix:
                 baseUnit1 = basicUnitTypes[ unitOperators[ unit1 ].unitType ].baseUnit
                 baseUnit2 = basicUnitTypes[ unitOperators[ unit2 ].unitType ].baseUnit
 
-                if ( unit1, baseUnit1 ) not in unitConversionMatrix and \
+                if ( unit1, baseUnit1 ) not in matrix and \
                    ( unit1, baseUnit1 ) not in specialUnitConversionMatrix and \
-                   ( baseUnit2, unit2 ) not in unitConversionMatrix and \
+                   ( baseUnit2, unit2 ) not in matrix and \
                    ( baseUnit2, unit2 ) not in specialUnitConversionMatrix:
                     print( 'conversion not found for', unit1, 'and', unit2 )
 
@@ -448,7 +448,7 @@ def testAllCombinations( unitTypeTable, unitConversionMatrix ):
 #
 #******************************************************************************
 
-def testAllConversions( unitTypeTable, unitConversionMatrix ):
+def testAllConversions( unitTypeTable, matrix ):
     print( 'Testing all conversions for consistency...' )
     print( )
 
@@ -457,9 +457,9 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
     for _, unitList in unitTypeTable.items( ):
         for unit1, unit2, unit3 in itertools.permutations( unitList, 3 ):
             try:
-                factor1 = unitConversionMatrix[ unit1, unit2 ]
-                factor2 = unitConversionMatrix[ unit2, unit3 ]
-                factor3 = unitConversionMatrix[ unit1, unit3 ]
+                factor1 = matrix[ unit1, unit2 ]
+                factor2 = matrix[ unit2, unit3 ]
+                factor3 = matrix[ unit1, unit3 ]
             except ValueError:
                 continue
 
@@ -478,7 +478,7 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
                 print( '\r' + '{:,} conversion permutations validated...'.format( validated ), end='' )
 
     print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.',
-                                                                        format( validated, VALIDATION_PRECISION ) )
+           format( validated, VALIDATION_PRECISION ) )
     print( 'No consistency problems detected.' )
 
 
@@ -488,27 +488,27 @@ def testAllConversions( unitTypeTable, unitConversionMatrix ):
 #
 #******************************************************************************
 
-def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
+def initializeConversionMatrix( matrix, validateConversions ):
     # reverse each conversion
     print( 'Reversing each conversion...' )
 
     newConversions = { }
 
-    for ops, factor in unitConversionMatrix.items( ):
+    for ops, factor in matrix.items( ):
         conversion = fdiv( 1, factor )
         newConversions[ ( ops[ 1 ], ops[ 0 ] ) ] = conversion
 
-    unitConversionMatrix.update( newConversions )
+    matrix.update( newConversions )
 
     print( 'Expanding metric units against the list of SI prefixes...' )
 
     metricConversions, metricAliases = expandMetricUnits( )
 
-    unitConversionMatrix.update( metricConversions )
+    matrix.update( metricConversions )
     newAliases = metricAliases
 
     print( 'Expanding data units against the list of SI and binary prefixes...' )
-    unitConversionMatrix.update( expandDataUnits( ) )
+    matrix.update( expandDataUnits( ) )
 
     # add new operators for compound time units
     print( 'Expanding compound time units...' )
@@ -527,21 +527,20 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
             newConversions = { }
 
             for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
-                if ( op1, op2 ) in unitConversionMatrix:
+                if ( op1, op2 ) in matrix:
                     # print( )
                     # print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
                     newConversions.update(
-                        extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType,
-                                                          unitConversionMatrix ) )
+                        extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, matrix ) )
 
             if not newConversions:
                 break
 
             unitConversionMatrix.update( newConversions )
 
-            print( '\r' + '{:,}'.format( len( unitConversionMatrix ) ), end='' )
+            print( '\r' + '{:,}'.format( len( matrix ) ), end='' )
 
-    print( '\r' + '{:,} conversions'.format( len( unitConversionMatrix ) ) )
+    print( '\r' + '{:,} conversions'.format( len( matrix ) ) )
 
     # make some more aliases
     print( '        ' )
@@ -550,8 +549,8 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     newAliases.update( makeAliases( ) )
 
     print( 'Stringifying conversion matrix values...' )
-    for ops, factor in unitConversionMatrix.items( ):
-        unitConversionMatrix[ ( ops[ 0 ], ops[ 1 ] ) ] = str( factor )
+    for ops, factor in matrix.items( ):
+        matrix[ ( ops[ 0 ], ops[ 1 ] ) ] = str( factor )
 
     print( 'Saving everything...' )
 
@@ -567,10 +566,10 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     # save the actual unit data
     fileName = getUserDataPath( ) + os.sep + 'units.pckl.bz2'
 
-    testAllCombinations( unitTypeTable, unitConversionMatrix )
+    testAllCombinations( unitTypeTable, matrix )
 
     if validateConversions:
-        testAllConversions( unitTypeTable, unitConversionMatrix )
+        testAllConversions( unitTypeTable, matrix )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -581,7 +580,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
     fileName = getUserDataPath( ) + os.sep + 'unit_conversions.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-        pickle.dump( unitConversionMatrix, pickleFile )
+        pickle.dump( matrix, pickleFile )
 
     unitTypeDict = { }
 
@@ -598,7 +597,7 @@ def initializeConversionMatrix( unitConversionMatrix, validateConversions ):
 
     print( )
     print( '{:,} unit operators'.format( len( unitOperators ) ) )
-    print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
+    print( '{:,} unit conversions'.format( len( matrix ) ) )
     print( '{:,} aliases'.format( len( newAliases ) ) )
 
     missingHelp = [ ]

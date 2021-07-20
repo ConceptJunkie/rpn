@@ -18,11 +18,10 @@ import datetime
 import arrow
 
 from mpmath import mpf
-from timezonefinder import TimezoneFinder
 
 from rpn.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnLocation import getLocation, getTimeZoneName, RPNLocation
+from rpn.rpnLocation import getTimeZoneName
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnMeasurement import convertUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
@@ -838,8 +837,8 @@ def isDST( dateTime, timeZone ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
-def getUTCOperator( datetime ):
-    return datetime.to( 'utc' )
+def getUTCOperator( dt ):
+    return dt.to( 'utc' )
 
 
 #******************************************************************************
@@ -850,8 +849,8 @@ def getUTCOperator( datetime ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
-def getLocalTimeOperator( datetime ):
-    return datetime.getLocalTime( )
+def getLocalTimeOperator( dt ):
+    return dt.getLocalTime( )
 
 
 #******************************************************************************
@@ -860,15 +859,16 @@ def getLocalTimeOperator( datetime ):
 #
 #******************************************************************************
 
-def setTimeZone( datetime, timezone ):
+def setTimeZone( dt, timezone ):
     try:
         tz = arrow.now( timezone ).tzinfo
-    except:
+    except arrow.parser.ParserError:
         tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
 
-    datetime = RPNDateTime.parseDateTime( datetime )
-    datetime = datetime.replace( tzinfo=tz )
-    return datetime
+    dt = RPNDateTime.parseDateTime( dt )
+    dt = dt.replace( tzinfo=tz )
+    return dt
+
 
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
@@ -884,10 +884,10 @@ def setTimeZoneOperator( datetime, timezone ):
 
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
-def convertTimeZoneOperator( datetime, timezone ):
+def convertTimeZoneOperator( dt, timezone ):
     try:
         tz = arrow.now( timezone ).tzinfo
-    except:
+    except arrow.parser.ParserError:
         tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
 
-    return datetime.to( tz )
+    return dt.to( tz )

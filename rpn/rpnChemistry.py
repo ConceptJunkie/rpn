@@ -246,10 +246,15 @@ def parseAtom( expression ):
 class RPNMolecule( collections.Counter ):
     '''This class represents a collection of atoms.'''
     def __init__( self, arg = '' ):
+        super( ).__init__( )
+
         if isinstance( arg, str ) and arg:
             self.update( self.parseMoleculeString( arg ) )
         elif isinstance( arg, RPNMolecule ):
             self.update( arg )
+
+    def fromkeys( x ):
+        pass
 
     @staticmethod
     def parseMoleculeString( expression ):

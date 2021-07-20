@@ -20,8 +20,6 @@ import string
 
 from shutil import copyfile
 
-import ephem
-
 from mpmath import apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
                    lambertw, limit, mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 

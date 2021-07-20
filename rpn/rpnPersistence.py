@@ -319,10 +319,12 @@ class PersistentDict( MutableMapping ):
 
         self.update( kwargs )
 
-    def encode( self, obj ):
+    @staticmethod
+    def encode( obj ):
         return pickle.dumps( obj )
 
-    def decode( self, blob ):
+    @staticmethod
+    def decode( blob ):
         return pickle.loads( blob )
 
     def getConnection( self ):
@@ -427,8 +429,6 @@ def loadUserVariablesFile( ):
     try:
         items = config.items( 'User Variables' )
     except configparser.NoSectionError:
-        return
-    except configparser.KeyError:
         return
 
     for item in items:
@@ -570,8 +570,6 @@ def loadUserConfigurationFile( ):
     try:
         items = config.items( 'User Configuration' )
     except configparser.NoSectionError:
-        return
-    except configparser.KeyError:
         return
 
     for item in items:

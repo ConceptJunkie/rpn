@@ -134,63 +134,63 @@ def parseInputValue( term, inputRadix = 10 ):
                                     datetime.hour, datetime.minute, datetime.second,
                                     datetime.microsecond )
             tryAgain = False
-        except:
+        except arrow.parser.ParserError:
             tryAgain = True
 
         if tryAgain:
             try:
                 datetime = arrow.get( term,
-                                        [
-                                            'MMM D YYYY HH:mm:ss ZZ',
-                                            'MMM D, YYYY HH:mm:ss ZZ',
-                                            'MMM DD YYYY HH:mm:ss ZZ',
-                                            'MMM DD, YYYY HH:mm:ss ZZ',
-                                            'MMMM D YYYY HH:mm:ss ZZ',
-                                            'MMMM D, YYYY HH:mm:ss ZZ',
-                                            'MMMM DD YYYY HH:mm:ss ZZ',
-                                            'MMMM DD, YYYY HH:mm:ss ZZ',
-                                            'YYYY-MM-DD HH:mm:ss ZZ',
-                                        ] )
+                                      [
+                                          'MMM D YYYY HH:mm:ss ZZ',
+                                          'MMM D, YYYY HH:mm:ss ZZ',
+                                          'MMM DD YYYY HH:mm:ss ZZ',
+                                          'MMM DD, YYYY HH:mm:ss ZZ',
+                                          'MMMM D YYYY HH:mm:ss ZZ',
+                                          'MMMM D, YYYY HH:mm:ss ZZ',
+                                          'MMMM DD YYYY HH:mm:ss ZZ',
+                                          'MMMM DD, YYYY HH:mm:ss ZZ',
+                                          'YYYY-MM-DD HH:mm:ss ZZ',
+                                      ] )
 
                 # convert arrow to RPNDateTime with the parsed timezone
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
                                         datetime.microsecond, datetime.tzinfo )
                 tryAgain = False
-            except:
+            except arrow.parser.ParserError:
                 tryAgain = True
 
         # If that fails, try to parse without a timezone, and use the local timezone
         if tryAgain:
             try:
                 datetime = arrow.get( term,
-                                        [
-                                            'MMM D YYYY HH:mm:ss',
-                                            'MMM D YYYY',
-                                            'MMM D, YYYY HH:mm:ss',
-                                            'MMM D, YYYY',
-                                            'MMM DD YYYY HH:mm:ss',
-                                            'MMM DD YYYY',
-                                            'MMM DD, YYYY HH:mm:ss',
-                                            'MMM DD, YYYY',
-                                            'MMMM D YYYY HH:mm:ss',
-                                            'MMMM D YYYY',
-                                            'MMMM D, YYYY HH:mm:ss',
-                                            'MMMM D, YYYY',
-                                            'MMMM DD YYYY HH:mm:ss',
-                                            'MMMM DD YYYY',
-                                            'MMMM DD, YYYY HH:mm:ss',
-                                            'MMMM DD, YYYY',
-                                            'YYYY-MM-DD HH:mm:ss',
-                                            'YYYY-MM-DD',
-                                            'MM-DD-YYYY',
-                                        ] )
+                                      [
+                                          'MMM D YYYY HH:mm:ss',
+                                          'MMM D YYYY',
+                                          'MMM D, YYYY HH:mm:ss',
+                                          'MMM D, YYYY',
+                                          'MMM DD YYYY HH:mm:ss',
+                                          'MMM DD YYYY',
+                                          'MMM DD, YYYY HH:mm:ss',
+                                          'MMM DD, YYYY',
+                                          'MMMM D YYYY HH:mm:ss',
+                                          'MMMM D YYYY',
+                                          'MMMM D, YYYY HH:mm:ss',
+                                          'MMMM D, YYYY',
+                                          'MMMM DD YYYY HH:mm:ss',
+                                          'MMMM DD YYYY',
+                                          'MMMM DD, YYYY HH:mm:ss',
+                                          'MMMM DD, YYYY',
+                                          'YYYY-MM-DD HH:mm:ss',
+                                          'YYYY-MM-DD',
+                                          'MM-DD-YYYY',
+                                      ] )
 
                 # convert arrow to RPNDateTime with the local (default) timezone
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
                                         datetime.microsecond )
-            except:
+            except arrow.parser.ParserError:
                 # We couldn't parse a date, but it might be something else (like a dice expression)
                 pass
 
@@ -322,10 +322,9 @@ def readListFromFileGenerator( filename ):
             if i == '\n':
                 continue
 
-            #try:
+            i = i[ : -1 ]    # trim off the newline
+
             yield parseInputValue( i )
-            #except:
-            #    pass
 
 
 @oneArgFunctionEvaluator( )

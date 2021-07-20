@@ -24,7 +24,7 @@ class RPNExpression( ):
     '''
     def __init__( self, operators, arguments ):
         self.operators = operators
-        self.argumemts = arguments
+        self.arguments = arguments
 
     def parse( self ):
         '''.'''

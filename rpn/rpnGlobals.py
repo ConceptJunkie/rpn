@@ -59,7 +59,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 # state variables
 astroDataLoaded = False         # Whether or not we've tried to load the astronomy data
 astroDataAvailable = False      # If the astronomy data is available (i.e., It's there, _and_ we loaded it.)
-checkForSingleResults = False   # This is set true for making help and unit tests, because those should always eturn single results
+checkForSingleResults = False   # This is for making help and unit tests, because those always return single results
 creatingFunction = False        # Whether we're in the process of creating a user-defined function
 cwd = None
 duplicateOperations = 0
@@ -69,7 +69,7 @@ interactive = False
 lastOperand = 0
 nestedListLevel = 0
 operandsToRemove = 0
-operatorList = False            # whether we are in the process of creating an operator list (between '(' and ')' operators)
+operatorList = False            # whether we are in the process of creating an operator list
 operatorsInList = 0
 START_TIME = 0
 testFilter = ''

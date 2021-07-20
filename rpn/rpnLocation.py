@@ -18,7 +18,6 @@ import contextlib
 import os
 import pickle
 
-import dateutil
 import ephem
 import pytz
 
@@ -27,7 +26,7 @@ from dateutil import tz
 from geopy.distance import geodesic
 from geopy.exc import GeocoderUnavailable
 from geopy.geocoders import Nominatim
-from mpmath import fadd, fdiv, fmul, mpmathify, pi
+from mpmath import fdiv, fmul, mpmathify, pi
 from timezonefinder import TimezoneFinder
 
 from rpn.rpnDateTimeClass import RPNDateTime
@@ -35,8 +34,8 @@ from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnLocationClass import RPNLocation
 from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, DefaultValidator, LocationValidator, LocationOrDateTimeValidator, \
-                             RealValidator, StringValidator
+from rpn.rpnValidator import argValidator, LocationValidator, LocationOrDateTimeValidator, RealValidator, \
+                             StringValidator
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
@@ -181,8 +180,10 @@ def getTimeZoneName( value ):
 
     return timezoneName
 
+
 def getTimeZone( name ):
     return tz.gettz( getTimeZoneName( name ) )
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LocationOrDateTimeValidator( ) ] )
@@ -199,17 +200,17 @@ def getTimeZoneOperator( location ):
 def getTimeZoneOffset( value ):
     if isinstance( value, str ):
         try:
-            tz = pytz.timezone( value )
-        except:
-            tz = pytz.timezone( getTimeZoneName( value ) )
+            timezone = pytz.timezone( value )
+        except pytz.exceptions.UnknownTimeZoneError:
+            timezone = pytz.timezone( getTimeZoneName( value ) )
     else:
-        tz = pytz.timezone( getTimeZoneName( value ) )
+        timezone = pytz.timezone( getTimeZoneName( value ) )
 
     # compute the timezone's offset
     now = datetime.datetime.now( )
 
-    if tz:
-        now1 = tz.localize( now )
+    if timezone:
+        now1 = timezone.localize( now )
         now2 = pytz.utc.localize( now )
         return RPNMeasurement( ( now2 - now1 ).total_seconds( ), 'seconds' )
 
