@@ -5,7 +5,7 @@
 #  rpnValidator.py
 #
 #  rpnChilada argument validation classes
-#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -75,18 +75,11 @@ class RPNValidator( ):
     Additive =              1 << 17     # a value that can have something added to or subtracted from
     Multiplicative =        1 << 18     # a value that can be multiplied (complex, measurement)
 
-    valueType = Default
-    minValue = None
-    maxValue = None
-    specials = None
-
     def __init__( self, valueType=Default, minValue=None, maxValue=None, specials=None ):
         self.valueType = valueType
         self.minValue = minValue
         self.maxValue = maxValue
-
-        if specials:
-            self.specials = specials
+        self.specials = specials
 
     def validate( self, argument ):
         if self.valueType == self.Default:
@@ -116,7 +109,7 @@ class RPNValidator( ):
         elif self.valueType == self.Location:
             argument = self.validateLocation( argument )
         elif self.valueType == self.Location + self.DateTime:
-            argument = self.validateLocationOrDateTime( argument )          
+            argument = self.validateLocationOrDateTime( argument )         
         elif self.valueType == self.Year:
             argument = self.validateYear( argument )
 

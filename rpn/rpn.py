@@ -5,7 +5,7 @@
 #  rpn.py
 #
 #  rpnChilada - RPN command-line calculator
-#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
 #
 #  *** NOTE:  Don't run this file directly.  Use ../rpn.py.
 #

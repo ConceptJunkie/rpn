@@ -5,7 +5,7 @@
 #  testRPN.py
 #
 #  rpnChilada main test script
-#  copyright (c) 2020, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -3717,8 +3717,10 @@ def runNumberTheoryOperatorTests( ):
         #expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
 
     # hurwitz_zeta
-    expectEqual( '1 1 200 range range square 1/x sum', '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
-    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval', '-p100 173947 oeis 173948 oeis / 250 left 249 right' )
+    expectEqual( '1 1 200 range range square 1/x sum', 
+                '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
+    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval', 
+                 '-p100 173947 oeis 173948 oeis / 250 left 249 right' )
 
     # hyperfactorial
     expectEqual( '-a120 0 10 range hyperfactorial', '2109 oeis 11 left' )
