@@ -1049,7 +1049,6 @@ def calculateRootMeanSquare( args ):
             return [ calculateRootMeanSquare( list( arg ) ) for arg in args ]
 
         if isinstance( args[ 0 ], RPNMeasurement ):
-            # TODO: handle measurements
             raise ValueError( '\'root_mean_square\' doesn\'t support measurements' )
 
         return sqrt( fdiv( fsum( args, squared=True ), len( args ) ) )

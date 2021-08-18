@@ -964,7 +964,6 @@ def getNthDecagonalNonagonalNumberOperator( n ):
 #    # sqrt3 = sqrt( 3 )
 #    # curt3 = cbrt( 3 )
 #
-#    # TODO:  finish me
 #    return 0
 
 # http://www.wolframalpha.com/input/?i=solve+p%3D%281%2F6%29*%28n^3%2B3*n^2%2B2*n%29+for+n

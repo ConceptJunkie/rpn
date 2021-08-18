@@ -167,7 +167,7 @@ def loadResultOperator( ):
 def saveResult( result ):
     fileName = getUserDataPath( ) + os.sep + 'result.pckl.bz2'
 
-    # TODO:  handle RPNGenerator and RPNMeasurement
+    # TODO: handle RPNGenerator and RPNMeasurement
     try:
         with DelayedKeyboardInterrupt( ):
             with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:

@@ -403,6 +403,9 @@ def runArithmeticOperatorTests( ):
         expectEqual( '1 5000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / floor is_prime and filter',
                      '353 oeis 5000 prime filter_max' )
 
+        expectEqual( '1 1900 primes lambda x 11 modulo [ 1 3 5 7 9 ] equals_one_of filter',
+                     '137978 oeis 1900 prime filter_max' )
+
         if SLOW:
             expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / floor is_prime and filter',
                          '353 oeis 33100 prime filter_max' )
@@ -594,6 +597,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '2 is_odd', 0 )
 
     expectEqual( '0 20001 range lambda x is_odd filter', '5408 oeis 10001 left' )
+
+    expectEqual( '3 1000 2 interval_range lambda x factor unique count is_odd x factor sum is_odd and x get_digits sum is_odd and filter', 
+                 '84424 oeis 1000 filter_max' )
 
     expectException( '5j 3 + is_odd' )  # real arguments required
     expectException( '5 3j - is_odd' )  # real arguments required
@@ -3786,7 +3792,7 @@ def runNumberTheoryOperatorTests( ):
     if SLOW:
         expectEqual( '27687 oeis 4 is_k_perfect and_all', '1' )
         expectEqual( '46060 oeis 5 is_k_perfect and_all', '1' )
-        # TODO:  Why are OEIS entries over a certain size require the -a option?!
+        # TODO:  Why do OEIS entries over a certain size require the -a option?!
         expectEqual( '-a200 46061 oeis 6 is_k_perfect and_all', '1' )
 
     # is_k_polydivisible
@@ -5636,7 +5642,7 @@ def main( ):
         elif arg not in ( '-s', '-t' ):
             args.append( arg )
 
-    START_TIME = time_ns( )
+    startTime = time_ns( )
 
     checkForPrimeData( )
 
@@ -5700,7 +5706,7 @@ def main( ):
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
-    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
+    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
 
 #******************************************************************************

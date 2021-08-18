@@ -466,6 +466,8 @@ def getNthPadovanNumberOperator( n ):
 class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
+        super( ).__init__( )
+
         if mp.dps < maxterms:
             mp.dps = maxterms
 

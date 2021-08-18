@@ -71,7 +71,7 @@ nestedListLevel = 0
 operandsToRemove = 0
 operatorList = False            # whether we are in the process of creating an operator list
 operatorsInList = 0
-START_TIME = 0
+startTime = 0
 testFilter = ''
 useMembers = 0
 

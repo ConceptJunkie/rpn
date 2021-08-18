@@ -862,8 +862,13 @@ def getLocalTimeOperator( dt ):
 def setTimeZone( dt, timezone ):
     try:
         tz = arrow.now( timezone ).tzinfo
+    except TypeError:
+        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
     except arrow.parser.ParserError:
         tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
+    #except Exception as e:
+    #    import sys
+    #    print('Whew!', sys.exc_info()[0], 'occurred.')
 
     dt = RPNDateTime.parseDateTime( dt )
     dt = dt.replace( tzinfo=tz )
@@ -872,8 +877,8 @@ def setTimeZone( dt, timezone ):
 
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
-def setTimeZoneOperator( datetime, timezone ):
-    return setTimeZone( datetime, timezone )
+def setTimeZoneOperator( dt, timezone ):
+    return setTimeZone( dt, timezone )
 
 
 #******************************************************************************

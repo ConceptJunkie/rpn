@@ -58,7 +58,7 @@ MAX_EXAMPLE_COUNT = 2431
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
-START_TIME = time_ns( )
+startTime = time_ns( )
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
 print( COPYRIGHT_MESSAGE )
@@ -17200,7 +17200,7 @@ def main( ):
             printParagraph( ', '.join( sorted( badCrossReferences ) ) )
 
     print( )
-    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1_000_000_000 ) )
+    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1_000_000_000 ) )
 
 
 #******************************************************************************

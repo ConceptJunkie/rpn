@@ -216,6 +216,7 @@ def getTimeZoneOffset( value ):
 
     return RPNMeasurement( 0, 'seconds' )
 
+
 @oneArgFunctionEvaluator( )
 @argValidator( [ LocationOrDateTimeValidator( ) ] )
 def getTimeZoneOffsetOperator( location ):

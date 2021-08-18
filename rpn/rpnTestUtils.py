@@ -39,38 +39,38 @@ def compareLists( result1, result2 ):
     if len( result1 ) != len( result2 ):
         raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
 
-    for i in range( 0, len( result1 ) ):
-        if isinstance( result1[ i ], RPNGenerator ):
-            return compareLists( list( result1[ i ].getGenerator( ) ), result2[ i ] )
+    for i, result in enumerate( result1 ):
+        if isinstance( result, RPNGenerator ):
+            return compareLists( list( result.getGenerator( ) ), result2[ i ] )
 
         if isinstance( result2[ i ], RPNGenerator ):
-            return compareResults( result1[ i ], list( result2[ i ].getGenerator( ) ) )
+            return compareResults( result, list( result2[ i ].getGenerator( ) ) )
 
-        if isinstance( result1[ i ], list ) != isinstance( result2[ i ], list ):
+        if isinstance( result, list ) != isinstance( result2[ i ], list ):
             raise ValueError( 'lists are nested to different levels:', result1, result2 )
 
-        if isinstance( result1[ i ], list ) and isinstance( result2[ i ], list ):
-            compareLists( result1[ i ], result2[ i ] )
+        if isinstance( result, list ) and isinstance( result2[ i ], list ):
+            compareLists( result, result2[ i ] )
         else:
-            if isinf( result1[ i ] ):
+            if isinf( result ):
                 if isinf( result2[ i ] ):
                     return True
                 else:
                     print( '**** error in results comparison' )
-                    print( type( result1[ i ] ), type( result2[ i ] ) )
-                    print( result1[ i ], result2[ i ], 'are not equal' )
+                    print( type( result ), type( result2[ i ] ) )
+                    print( result, result2[ i ], 'are not equal' )
 
                     raise ValueError( 'unit test failed' )
 
-            if not compareValues( result1[ i ], result2[ i ] ):
-                digits = max( log10( result1[ i ] ), log10( result2[ i ] ) ) + 5
+            if not compareValues( result, result2[ i ] ):
+                digits = max( log10( result ), log10( result2[ i ] ) ) + 5
 
                 mp.dps = digits
 
                 print( '**** error in results comparison' )
-                print( type( result1[ i ] ), type( result2[ i ] ) )
-                print( result1[ i ], result2[ i ], 'are not equal' )
-                print( 'difference', fsub( result1[ i ], result2[ i ] ) )
+                print( type( result ), type( result2[ i ] ) )
+                print( result, result2[ i ], 'are not equal' )
+                print( 'difference', fsub( result, result2[ i ] ) )
                 print( 'difference found at index', i )
 
                 raise ValueError( 'unit test failed' )
@@ -207,7 +207,7 @@ def expectEqual( command1, command2 ):
             return
 
     if g.timeIndividualTests:
-        START_TIME = time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command1 )
     print( 'rpn', command2 )
@@ -229,7 +229,7 @@ def expectEqual( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( )
 
@@ -274,7 +274,7 @@ def expectEquivalent( command1, command2 ):
             return
 
     if g.timeIndividualTests:
-        START_TIME = time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command1 )
     print( 'rpn', command2 )
@@ -297,7 +297,7 @@ def expectEquivalent( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 
@@ -314,7 +314,7 @@ def testOperator( command, ignoreCache = True ):
             return
 
     if g.timeIndividualTests:
-        START_TIME = time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command )
 
@@ -332,7 +332,7 @@ def testOperator( command, ignoreCache = True ):
     print( '    operator works!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 
@@ -349,7 +349,7 @@ def expectResult( command, expected ):
             return
 
     if g.timeIndividualTests:
-        START_TIME = time_ns( )
+        startTime = time_ns( )
 
     print( 'rpn', command )
     result = rpn( shlex.split( command + ' -I' ) )[ 0 ]
@@ -375,7 +375,7 @@ def expectResult( command, expected ):
     print( '    test passed!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - START_TIME ) / 1000000000 ) )
+        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
 
     print( '' )
 
