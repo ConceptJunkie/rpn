@@ -37,6 +37,7 @@ def dumpAliasesOperator( ):
 #******************************************************************************
 
 OPERATOR_ALIASES = {
+    '.'                             : 'multiply',
     '!!'                            : 'double_factorial',
     '!'                             : 'factorial',
     '!='                            : 'is_not_equal',
