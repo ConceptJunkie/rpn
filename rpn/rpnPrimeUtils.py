@@ -1679,9 +1679,10 @@ def getNthQuintupletPrime( arg ):
         f = p % 30
 
         if ( ( f == 11 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and
-             isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and
-             isPrime( p + 10 ) and isPrime( p + 12 ) ):
+             isPrime( p + 8 ) and isPrime( p + 12 ) ):
+            currentIndex += 1
+        elif ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and
+               isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
     return p
@@ -1740,8 +1741,9 @@ def findQuintupletPrimes( arg ):
 
         f = p % 10
 
-        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
+        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ):
+            currentIndex += 1
+        elif ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
             if p > n:

@@ -1066,7 +1066,7 @@ def getSequenceOperator( n, k, func ):
 #
 #******************************************************************************
 
-def filterList( n, k, invert=False ):
+def filterList( n, k, invert=False, showIndex=False ):
     if isinstance( n, mpf ):
         n = [ n ]
 
@@ -1076,13 +1076,13 @@ def filterList( n, k, invert=False ):
 
         raise ValueError( '\'filter\' expects a function argument' )
 
-    for item in n:
+    for index, item in enumerate( n ):
         value = k.evaluate( item )
 
         if invert and value == 0:
-            yield item
+            yield index if showIndex else item
         elif not invert and value != 0:
-            yield item
+            yield index if showIndex else item
 
 
 def filterListOperator( n, k ):
@@ -1091,6 +1091,14 @@ def filterListOperator( n, k ):
 
 def unfilterListOperator( n, k ):
     return RPNGenerator( filterList( n, k, invert=True ) )
+
+
+def filterListShowIndexOperator( n, k ):
+    return RPNGenerator( filterList( n, k, showIndex=True ) )
+
+
+def unfilterListShowIndexOperator( n, k ):
+    return RPNGenerator( filterList( n, k, invert=True, showIndex=True ) )
 
 
 #******************************************************************************
@@ -2342,6 +2350,7 @@ functionOperators = [
     'filter_by_index',
     'filter_integers',
     'filter_ratio',
+    'filter_show_index',
     'for_each',
     'for_each_list',
     'function',
@@ -2444,11 +2453,13 @@ listOperators = {
     'filter'                            : RPNOperator( filterListOperator, 2 ),
     'filter_by_index'                   : RPNOperator( filterListByIndexOperator, 2 ),
     'filter_ratio'                      : RPNOperator( filterRatioOperator, 2 ),
+    'filter_show_index'                 : RPNOperator( filterListShowIndexOperator, 2 ),
     'for_each'                          : RPNOperator( forEachOperator, 2 ),
     'for_each_list'                     : RPNOperator( forEachListOperator, 2 ),
     'unfilter'                          : RPNOperator( unfilterListOperator, 2 ),
     'unfilter_by_index'                 : RPNOperator( unfilterListByIndexOperator, 2 ),
     'unfilter_ratio'                    : RPNOperator( unfilterRatioOperator, 2 ),
+    'unfilter_show_index'               : RPNOperator( unfilterListShowIndexOperator, 2 ),    
 
     # lexicographic
     'combine_digits'                    : RPNOperator( combineDigitsOperator, 1 ),

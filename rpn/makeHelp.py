@@ -12101,7 +12101,7 @@ This version of the operator allows the results to be zero, so that if there are
 fewer than b cth powers can add up to a, they will be included as well.
 ''',
 '''
-''' + makeCommandExample( '5104 3 3 sums_of_k_powers' ),
+''' + makeCommandExample( '40321 4 3 sums_of_k_powers' ),
 [ 'sums_of_k_nonzero_powers' ] ],
 
     'sums_of_k_nonzero_powers' : [
@@ -12114,7 +12114,7 @@ The name of the operator adheres to the rpnChilada standard that two-argument
 operators have arguments named n and k.
 ''',
 '''
-''' + makeCommandExample( '1072 3 3 sums_of_k_nonzero_powers' ),
+''' + makeCommandExample( '40321 4 3 sums_of_k_nonzero_powers' ),
 [ 'sums_of_k_powers' ] ],
 
     'superfactorial' : [

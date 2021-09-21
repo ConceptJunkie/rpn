@@ -710,11 +710,11 @@ class RPNTimeoutError( Exception ):
 
 def timeout( seconds, errorMessage = 'Function call timed out' ):
     def decorated( func ):
-        def _handle_timeout( signum, frame ):
+        def handleTimeout( signum, frame ):
             raise RPNTimeoutError( errorMessage )
 
         def wrapper( *args, **kwargs ):
-            signal.signal( signal.SIGALRM, _handle_timeout )
+            signal.signal( signal.SIGALRM, handleTimeout )
             signal.alarm( seconds )
 
             try:
