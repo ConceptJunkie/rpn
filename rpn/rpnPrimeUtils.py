@@ -1645,7 +1645,7 @@ def getNextQuintupletPrimeCandidate( p ):
 #
 #  getNthQuintupletPrimeOperator
 #
-#******************************************************************************
+#*****************************************************************************
 
 def getNthQuintupletPrime( arg ):
     n = int( arg )
@@ -1672,7 +1672,7 @@ def getNthQuintupletPrime( arg ):
         currentIndex = 3
         p = 11
 
-    # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
+    # after 5, the first of a prime quintuplet must be a number of the form 30n + 11
     while n > currentIndex:
         p = getNextPrime( p, getNextQuintupletPrimeCandidate )
 
@@ -1743,14 +1743,14 @@ def findQuintupletPrimes( arg ):
 
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ):
             currentIndex += 1
+
+            if p > n:
+                return currentIndex, [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ), fadd( p, 12 ) ]
         elif ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
 
             if p > n:
-                if f == 1:
-                    return currentIndex, [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ), fadd( p, 12 ) ]
-                elif f == 7:
-                    return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
+                return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
 
 
 @oneArgFunctionEvaluator( )
