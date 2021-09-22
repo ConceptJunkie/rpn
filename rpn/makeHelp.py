@@ -6949,7 +6949,7 @@ Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 1 100 range lambda x is_square filter' ) + '''
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
-[ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
+[ 'filter_show_index', 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
     'filter_by_index' : [
 'functions', 'filters a list n using function k applied to the list indexes',
@@ -6990,6 +6990,19 @@ What is the ratio of 4-digit numbers that have exactly two number 2s?
 
 ''' + makeCommandExample( '1000 9999 range lambda x 2 count_digits 2 equals filter_ratio' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'unfilter_ratio' ] ],
+
+    'filter_show_index' : [
+'functions', 'filters a list n using function k but returns a list of indexes of matching elements',
+'''
+The 'filter' operator uses a one-argument user-defined function to filter out
+elements based on whether or not the function returns 0 for each element.
+
+'filter_show_index' works the same way, except that if an element matches, the
+index of the element is returned instead of the element itself.
+''',
+'''
+''' + makeCommandExample( '1 50 range fib lambda x is_prime filter_by_index' ),
+[ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
     'for_each' : [
 'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments',
@@ -7173,7 +7186,7 @@ value.
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
 ''' + makeCommandExample( '1 20 range lambda x is_prime not filter' ),
-[ 'filter', 'unfilter_by_index', 'lambda', 'filter_ratio' ] ],
+[ 'filter', 'unfilter_by_index', 'lambda', 'unfilter_show_index' ] ],
 
     'unfilter_by_index' : [
 'functions', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -7181,8 +7194,9 @@ value.
 The 'unfilter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 1 for each element.
 
-'unfilter_by_index' works the same way, except the index of the element is passed
-to the user-defined function to determine if the element is to be filtered.
+'unfilter_by_index' works the same way, except the index of the element is 
+passed to the user-defined function to determine if the element is to be 
+filtered.
 ''',
 '''
 ''' + makeCommandExample( '1 40 range fib lambda x is_composite unfilter_by_index' ),
@@ -7199,6 +7213,19 @@ What is the ratio of the first 100,000 numbers that aren't prime?
 
 ''' + makeCommandExample( '1 100000 range lambda x is_prime unfilter_ratio' ),
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'filter_ratio' ] ],
+
+    'unfilter_show_index' : [
+'functions', 'filters a list n using the inverse of function k and returns the indexes of matching elements',
+'''
+The 'unfilter' operator uses a one-argument user-defined function to filter out
+elements based on whether or not the function returns 1 for each element.
+
+'unfilter_show_index' works the same way, except that if an element matches, the
+index of the element is returned instead of the element itself.
+''',
+'''
+''' + makeCommandExample( '1 40 range fib lambda x is_composite unfilter_by_index' ),
+[ 'unfilter_by_index', 'unfilter', 'lambda' ] ],
 
     'x' : [
 'functions', 'used as a variable in user-defined functions',
@@ -14811,8 +14838,8 @@ constellation of five primes.   rpn considers the two kinds of quintuplets
 '''
 ''' + makeCommandExample( '100 next_quintuplet_prime' ) + '''
 ''' + makeCommandExample( '10,000 next_quintuplet_prime' ) + '''
-''' + makeCommandExample( '1,000,000 next_quintuplet_prime' ) + '''
-''' + makeCommandExample( '100,000,000 next_quintuplet_prime' ),
+''' + makeCommandExample( '100,000 next_quintuplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_quintuplet_prime' ),
 [ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
     'next_quintuplet_primes' : [
@@ -14828,8 +14855,8 @@ constellation of five primes.   rpn considers the two kinds of quintuplets
 '''
 ''' + makeCommandExample( '100 next_quintuplet_primes' ) + '''
 ''' + makeCommandExample( '10,000 next_quintuplet_primes' ) + '''
-''' + makeCommandExample( '1,000,000 next_quintuplet_primes' ) + '''
-''' + makeCommandExample( '100,000,000 next_quintuplet_primes' ),
+''' + makeCommandExample( '100,000 next_quintuplet_primes' ) + '''
+''' + makeCommandExample( '1,000,000 next_quintuplet_primes' ),
 [ 'quintuplet_primes', 'quintuplet_prime', 'nth_quintuplet_prime', 'next_quintuplet_primes' ] ],
 
     'next_sextuplet_prime' : [
@@ -14841,8 +14868,8 @@ primes greater than n.
 '''
 ''' + makeCommandExample( '100 next_sextuplet_prime' ) + '''
 ''' + makeCommandExample( '10,000 next_sextuplet_prime' ) + '''
-''' + makeCommandExample( '1,000,000 next_sextuplet_prime' ) + '''
-''' + makeCommandExample( '100,000,000 next_sextuplet_prime' ),
+''' + makeCommandExample( '100,000 next_sextuplet_prime' ) + '''
+''' + makeCommandExample( '1,000,000 next_sextuplet_prime' ),
 [ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
 
     'next_sextuplet_primes' : [
@@ -14852,9 +14879,9 @@ This operator calculates the smallest set of sextuplet primes greater than n.
 ''',
 '''
 ''' + makeCommandExample( '100 next_sextuplet_primes' ) + '''
+''' + makeCommandExample( '1,000 next_sextuplet_primes' ) + '''
 ''' + makeCommandExample( '10,000 next_sextuplet_primes' ) + '''
-''' + makeCommandExample( '1,000,000 next_sextuplet_primes' ) + '''
-''' + makeCommandExample( '100,000,000 next_sextuplet_primes' ),
+''' + makeCommandExample( '50,000 next_sextuplet_primes' ),
 [ 'sextuplet_primes', 'sextuplet_prime', 'nth_sextuplet_prime', 'next_sextuplet_primes' ] ],
 
     'next_triplet_prime' : [
