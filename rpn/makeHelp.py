@@ -1353,6 +1353,10 @@ contrive a meaningful example, and therefore don't think they would be useful.
 
 The 'recurrence' operator was removed, because it was a duplicate of the
 'sequence' operator.
+
+8.5.1
+
+Forgot to add Python 3.9 to the list of supported versions.
     ''',
     'license' :
     '''
