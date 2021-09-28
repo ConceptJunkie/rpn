@@ -101,11 +101,7 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.5.1
-
-Forgot to add Python 3.9 to the list of supported versions.
-
-8.5.0
+8.5.2
 
 Big Clean-Up and Documentation Release!
 

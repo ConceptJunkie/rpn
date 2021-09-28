@@ -1357,6 +1357,10 @@ The 'recurrence' operator was removed, because it was a duplicate of the
 8.5.1
 
 Forgot to add Python 3.9 to the list of supported versions.
+
+8.5.2
+
+The library name is now "python-dateutil", not "dateutil".
     ''',
     'license' :
     '''
