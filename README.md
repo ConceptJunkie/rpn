@@ -11,7 +11,7 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 RPN isn't dead, although I figured it was time for a new release since with the
 library updates, 8.4.0 didn't work any more.
 
-Version rpn 8.5.0 is released:  Big Clean-Up and Documentation Release!
+rpn 8.5.0 is released:  Big Clean-Up and Documentation Release!
 
 Much more thorough argument validation has been implemented on all operators.
 In addition, all non-constant operator function names now end with 'Operator',
