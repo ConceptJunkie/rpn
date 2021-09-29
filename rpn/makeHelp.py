@@ -1297,9 +1297,11 @@ being done more than once.
 
 I have continued my focus on completing the online help, which is now more than
 95% complete.  This also resulted in a number of operators being eliminated (see
-below), and a bevy of bug fixes.
+below), and a bevy of bug fixes.  Almost every operator now has a help example.
 
 The help for units is now complete.  Every unit has help text.
+
+About 70 new operators have been added, including:
 
 The 'number_from_file' and 'get_decimal_digits' operators have been added.
 
@@ -1344,13 +1346,21 @@ Removed the 'filter_lists' operator because it isn't needed.  'filter' works
 fine on a list of lists.
 
 I got rid of the 'repeat' operator because I literally couldn't think of a use
-for i
+for it.
 
 I eliminated 'eval_list2' and 'eval_list3' because I couldn't figure out how to
 contrive a meaningful example, and therefore don't think they would be useful.
 
 The 'recurrence' operator was removed, because it was a duplicate of the
 'sequence' operator.
+
+8.5.1
+
+Forgot to add Python 3.9 to the list of supported versions.
+
+8.5.2
+
+The library name is now "python-dateutil", not "dateutil".
     ''',
     'license' :
     '''
