@@ -14,7 +14,7 @@
 
 import sqlite3
 
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from typing import Dict, List
 # pylint: disable=invalid-name
 

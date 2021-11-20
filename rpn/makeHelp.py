@@ -576,6 +576,11 @@ how I can do that.
 
 'reversal_addition' doesn't work with generators.  I see a theme here.
 
+'hyperop' just doesn't work very well.  It gives incorrect answers in some 
+instances and overflows when analogous operations with the 'tetrate' operator 
+work fine.  Since I'm using a library, I think I should just replace it with my 
+own code.
+
 See 'rpn help TODO'.
     ''',
     'TODO' :
@@ -1361,6 +1366,21 @@ Forgot to add Python 3.9 to the list of supported versions.
 8.5.2
 
 The library name is now "python-dateutil", not "dateutil".
+
+8.5.3
+
+Still sorting out the requirements that allow updates.
+
+8.5.4
+
+Got rid of a unit test that fails on Android and Linux, at least until I can 
+figure out why.
+
+8.5.5
+
+Python 3.10 broke some stuff, including the pyreadline modules.  I replaced that
+with pyreadline3, which works fine and is actually being maintained.  I also
+fixed a few other incompatibilities introduced by Python 3.10.
     ''',
     'license' :
     '''

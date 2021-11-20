@@ -150,16 +150,16 @@ def makeJulianTime( n ):
     result = RPNDateTime( n[ 0 ], 1, 1 ).add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
-        result = result.replace( hour = n[ 2 ] )
+        result = result.replace( hour = int( n[ 2 ] ) )
 
     if len( n ) >= 4:
-        result = result.replace( minute = n[ 3 ] )
+        result = result.replace( minute = int( n[ 3 ] ) )
 
     if len( n ) >= 5:
-        result = result.replace( second = n[ 4 ] )
+        result = result.replace( second = int ( n[ 4 ] ) )
 
     if len( n ) >= 6:
-        result = result.replace( microsecond = n[ 5 ] )
+        result = result.replace( microsecond = int( n[ 5 ] ) )
 
     return result
 
@@ -374,7 +374,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     if isinstance( year, RPNDateTime ):
         year = year.year
 
-    firstDayOfWeek = arrow.Arrow( year, month, 1 ).isoweekday( )
+    firstDayOfWeek = arrow.Arrow( int( year ), int( month ), 1 ).isoweekday( )
 
     if nth < 0:
         day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7

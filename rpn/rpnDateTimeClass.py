@@ -195,7 +195,7 @@ class RPNDateTime( arrow.Arrow ):
 
         if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
             years = time.convertValue( 'year' )
-            return self.replace( year = self.year + years )
+            return self.replace( year = self.year + int( years ) )
         elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
             months = time.convertValue( 'month' )
             return self.incrementMonths( months )

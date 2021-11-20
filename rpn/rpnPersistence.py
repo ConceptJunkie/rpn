@@ -20,7 +20,7 @@ import os
 import pickle
 import sqlite3
 
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from functools import lru_cache
 from shutil import copyfile
 

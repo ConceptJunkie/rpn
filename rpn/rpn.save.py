@@ -23,11 +23,11 @@
 
 import argparse
 import os
+import readline
 import sys
 import time
 
 from pathlib import Path
-from pyreadline3.rlmain import Readline as readline
 
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
@@ -273,9 +273,8 @@ def enterInteractiveMode( ):
     mode, where it will continue to evaluate new expressions input until
     the 'exit' command.
     '''
-    rl = readline( )
-    rl.parse_and_bind( 'tab: complete' )
-    rl.parse_and_bind( 'set editing-mode vi' )
+    readline.parse_and_bind( 'tab: complete' )
+    readline.parse_and_bind( 'set editing-mode vi' )
 
     printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
 

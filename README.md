@@ -6,12 +6,18 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 
 ## Updates
 
+### Update - November 19, 2021
+
+Python 3.10 really broke RPN, but the fixes were simple. 
+
+8.5.5 includes several small fixes to deal with incompatibilities introduced with Python 3.10, the most significant of which is that pyreadline, the moribund library that provides readline functionality for Python on Windows was replaced with pyreadline3, which is apparently still maintained.
+
 ### Update - September 27, 2021
 
 RPN isn't dead, although I figured it was time for a new release since with the
 library updates, 8.4.0 didn't work any more.
 
-rpn 8.5.2 is released:  Big Clean-Up and Documentation Release!
+rpn 8.5.4 is released:  Big Clean-Up and Documentation Release!
 
 Much more thorough argument validation has been implemented on all operators.
 In addition, all non-constant operator function names now end with 'Operator',
@@ -29,7 +35,7 @@ About 70 new operators have been added.
 
 ---
 
-The current release is 8.5.2.
+The current release is 8.5.5.
 
 See "rpn help settings" for more information.
 
@@ -38,6 +44,9 @@ See "rpn help settings" for more information.
 In theory, you just need to do "pip install rpnChilada".
 
 Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
+
+For Python 3.10, an installer for gmpy2 can be found here:
+https://github.com/aleaxit/gmpy/releases/download/gmpy2-2.1.0rc1/gmpy2-2.1.0rc1-cp310-cp310-win_amd64.whl
 
 ## Installing RPN on Debian-based Linux:
 
@@ -101,7 +110,7 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see (http://www.gnu.org
 
 ## Release Notes
 
-8.5.2
+8.5.4
 
 Big Clean-Up and Documentation Release!
 

@@ -96,13 +96,13 @@ class Polynomial( ):
         if len( args ) == 1:
             val = args[ 0 ]
 
-            if isinstance( val, Polynomial ):                # copy constructor
+            if isinstance( val, Polynomial ):                  # copy constructor
                 self.coeffs = val.coeffs[ : ]
-            elif isinstance( val, collections.Iterable ):    # from sequence
+            elif isinstance( val, collections.abc.Iterable ):  # from sequence
                 self.coeffs = list( val )
-            else:                                            # from single scalar
+            else:                                              # from single scalar
                 self.coeffs = [ val + 0 ]
-        else:                                                # multiple scalars
+        else:                                                   # multiple scalars
             self.coeffs = [ i + 0 for i in args ]
 
         self.trim( )
