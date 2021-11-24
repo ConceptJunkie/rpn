@@ -1381,6 +1381,12 @@ figure out why.
 Python 3.10 broke some stuff, including the pyreadline modules.  I replaced that
 with pyreadline3, which works fine and is actually being maintained.  I also
 fixed a few other incompatibilities introduced by Python 3.10.
+
+8.5.6
+
+pyreadline3 doesn't work on Linux.  However, the built-in readline library 
+supports Windows just fine now.  It didn't used to, which is why I started using
+the pyreadline library.
     ''',
     'license' :
     '''

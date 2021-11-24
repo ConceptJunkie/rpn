@@ -6,11 +6,15 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 
 ## Updates
 
-### Update - November 19, 2021
+### Update - November 24, 2021
 
 Python 3.10 really broke RPN, but the fixes were simple. 
 
-8.5.5 includes several small fixes to deal with incompatibilities introduced with Python 3.10, the most significant of which is that pyreadline, the moribund library that provides readline functionality for Python on Windows was replaced with pyreadline3, which is apparently still maintained.
+8.5.6 includes several small fixes to deal with incompatibilities introduced with 
+Python 3.10, the most significant of which is that pyreadline, the moribund 
+library that provides readline functionality for Python on Windows was replaced 
+with the built-in readline.  If I recall correctly, the readline library didn't 
+support Windows in the hazy past, which is why I started using pyreadline.  
 
 ### Update - September 27, 2021
 
@@ -35,7 +39,7 @@ About 70 new operators have been added.
 
 ---
 
-The current release is 8.5.5.
+The current release is 8.5.6.
 
 See "rpn help settings" for more information.
 
