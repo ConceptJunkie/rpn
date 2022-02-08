@@ -235,8 +235,9 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 findSumsOfKNonzeroPowersOperator, findSumsOfKPowersOperator, \
                                 generatePolydivisiblesOperator, getAbundanceOperator, getAbundanceRatioOperator, \
                                 getAliquotSequenceOperator, getAlternatingHarmonicFractionOperator, \
-                                getAltZetaOperator, getBarnesGOperator, getBetaOperator, getCollatzSequenceOperator, \
-                                getDigammaOperator, getDigitalRootOperator, \
+                                getAltZetaOperator, getAntidivisorsOperator, getAntidivisorCountOperator, \
+                                getBarnesGOperator, getBetaOperator, \
+                                getCollatzSequenceOperator, getDigammaOperator, getDigitalRootOperator, \
                                 getDivisorCountOperator, getDivisorsOperator, getEulerPhiOperator, \
                                 getFrobeniusNumberOperator, getGammaOperator, getGeometricRecurrenceOperator, \
                                 getHarmonicFractionOperator, getHarmonicResidueOperator, getHurwitzZetaOperator, \
@@ -720,13 +721,13 @@ class RPNFunction( ):
 
                 if listDepth > 0:
                     if len( listArgs[ listDepth - 1 ] ) < operands:
-                        raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
+                        raise ValueError( f'\'{ term }\' expects { operands } operands' )
 
                     for _ in range( 0, operands ):
                         argList.insert( 0, listArgs[ listDepth - 1 ].pop( ) )
                 else:
                     if len( args ) < operands:
-                        raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
+                        raise ValueError( f'\'{ term }\' expects { operands } operands' )
 
                     for _ in range( 0, operands ):
                         argList.insert( 0, args.pop( ) )
@@ -771,7 +772,7 @@ class RPNFunction( ):
                 operands = listOperators[ term ].argCount
 
                 if len( args ) < operands:
-                    raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
+                    raise ValueError( f'\'{ term }\' expects { operands } operands' )
 
                 for _ in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
@@ -810,7 +811,7 @@ class RPNFunction( ):
                 operands = g.userFunctions[ term[ 1 : ] ].argCount
 
                 if len( args ) < operands:
-                    raise ValueError( '{0} expects {1} operands'.format( term, operands ) )
+                    raise ValueError( f'{ term } expects { operands } operands' )
 
                 for _ in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
@@ -954,7 +955,7 @@ def saveUserFunctionsFile( ):
     if os.path.isfile( getUserFunctionsFileName( ) ):
         copyfile( getUserFunctionsFileName( ), getUserFunctionsFileName( ) + '.backup' )
 
-    with open( getUserFunctionsFileName( ), 'w' ) as userFunctionsFile:
+    with open( getUserFunctionsFileName( ), 'w', encoding='ascii' ) as userFunctionsFile:
         config.write( userFunctionsFile )
 
 
@@ -1326,7 +1327,7 @@ def evaluateConstantOperator( term, currentValueList ):
     operatorInfo = constants[ term ]
     result = callers[ 0 ]( operatorInfo.function, None )
 
-    newResult = list( )
+    newResult = [ ]
 
     if not isinstance( result, list ):
         result = [ result ]
@@ -1486,18 +1487,17 @@ def dumpOperators( totalsOnly=False ):
     regularOperators = 0
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
-        # print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
         regularOperators += 1
 
         if not totalsOnly:
-            print( '   ' + i )
+            print( f'   { i }' )
 
     if not totalsOnly:
         print( )
         print( 'list operators:' )
 
         for i in sorted( listOperators.keys( ) ):
-            print( '   ' + i )
+            print( f'   { i }' )
 
         print( )
         print( 'constant operators:' )
@@ -1507,13 +1507,13 @@ def dumpOperators( totalsOnly=False ):
 
     if not totalsOnly:
         for i in sorted( constantNames ):
-            print( '   ' + i )
+            print( f'   { i }' )
 
         print( )
         print( 'modifier operators:' )
 
         for i in sorted( modifiers.keys( ) ):
-            print( '   ' + i )
+            print( f'   { i }' )
 
         print( )
         print( 'internal operators:' )
@@ -1524,21 +1524,21 @@ def dumpOperators( totalsOnly=False ):
         internalOperators += 1
 
         if not totalsOnly:
-            print( '   ' + i )
+            print( f'   { i }' )
 
     if not totalsOnly:
         print( )
 
-    print( '{:10,} regular operators'.format( regularOperators ) )
-    print( '{:10,} list operators'.format( len( listOperators ) ) )
-    print( '{:10,} modifier operators'.format( len( modifiers ) ) )
-    print( '{:10,} constant operators'.format( len( constantNames ) ) )
-    print( '{:10,} internal operators'.format( internalOperators ) )
+    print( f'{regularOperators:10,} regular operators' )
+    print( f'{len( listOperators ):10,} list operators' )
+    print( f'{len( modifiers ):10,} modifier operators' )
+    print( f'{len( constantNames ):10,} constant operators' )
+    print( f'{internalOperators:10,} internal operators' )
 
     total = len( operators ) + len( listOperators ) + len( modifiers ) + len( constantNames )
 
     print( '     ----- ------------------' )
-    print( '{:10,} unique operators'.format( total ) )
+    print( f'{total:10,} unique operators' )
     print( )
 
     return total
@@ -1560,8 +1560,7 @@ def dumpConstantsOperator( ):
         loadConstants( )
 
     for constant in sorted( g.constantOperators ):
-        print( constant + ':  ' + str( g.constantOperators[ constant ].value ) + ' ' +
-               g.constantOperators[ constant ].unit )
+        print( f'{ constant }:  { g.constantOperators[ constant ].value } { g.constantOperators[ constant ].unit }' )
 
     print( )
 
@@ -1647,7 +1646,7 @@ def dumpPrimeCacheOperator( name ):
     rows.sort( key=lambda x: x[ 0 ] )
 
     for row in rows:
-        print( '{:13} {}'.format( row[ 0 ], row[ 1 ] ) )
+        print( f'{row[ 0 ]:13} {row[ 1 ]}' )
 
     return len( rows )
 
@@ -1662,7 +1661,7 @@ def printStats( cacheName, name ):
     count = countCache( cacheName )
     key, value = getMaxPrime( cacheName )
 
-    print( '{:10,} {:27} max: {:14,} ({:,})'.format( count, name, key, value ) )
+    print( f'{count:10,} {name:27} max: {key:14,} ({value:,})' )
 
 
 #******************************************************************************
@@ -1684,11 +1683,11 @@ def dumpStatsOperator( printTitle=True ):
 
     dumpOperators( totalsOnly=True )
 
-    print( '{:10,} aliases'.format( len( g.aliases ) ) )
+    print( f'{len( g.aliases ):10,} aliases' )
     print( )
 
-    print( '{:10,} units'.format( len( g.unitOperators ) ) )
-    print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
+    print( f'{len( g.unitOperators ):10,} units' )
+    print( f'{len( g.unitConversionMatrix ):10,} unit conversions' )
     print( )
 
     if g.primeDataAvailable:
@@ -1916,7 +1915,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
             except ValueError as error:
-                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
+                print( f'rpn:  error in arg { index }:  { error }' )
 
                 if g.debugMode:
                     raise
@@ -1943,13 +1942,12 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                     guess = guess[ 0 ]
 
                     if guess in g.aliases:
-                        print( 'rpn:  Unrecognized operator \'{0}\'.  '
-                               'Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.
-                               format( term, guess, g.aliases[ guess ] ) )
+                        print( f'rpn:  Unrecognized operator \'{ term }\'.  '
+                               f'Did you mean \'{ guess }\', i.e., an alias for \'{ g.aliases[ guess ] }\'?' )
                     else:
-                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\'?'.format( term, guess ) )
+                        print( f'rpn:  Unrecognized operator \'{ term }\'.  Did you mean \'{ guess }\'?' )
                 else:
-                    print( 'rpn:  Unrecognized operator \'{0}\'.'.format( term ) )
+                    print( f'rpn:  Unrecognized operator \'{ term }\'.' )
 
                 return False
 
@@ -1975,7 +1973,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 return True
 
     except ( ValueError, AttributeError, TypeError ) as error:
-        print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+        print( f'rpn:  error for operator at arg { index }:  { error }' )
 
         if g.debugMode:
             raise
@@ -1991,8 +1989,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
         return False
 
     except IndexError:
-        print( 'rpn:  index error for list operator at arg ' + format( index ) +
-               '.  Are your arguments in the right order?' )
+        print( f'rpn:  index error for list operator at arg { index }.  Are your arguments in the right order?' )
 
         if g.debugMode:
             raise
@@ -2121,8 +2118,8 @@ def deleteUserConfigurationOperator( key ):
 #******************************************************************************
 
 def dumpUserConfigurationOperator( ):
-    for i in g.userConfiguration:
-        print( i + ':', '"' + g.userConfiguration[ i ] + '"' )
+    for key, value in g.userConfiguration.items( ):
+        print( key + ':', '"' + value + '"' )
 
     print( )
 
@@ -2136,8 +2133,8 @@ def dumpUserConfigurationOperator( ):
 #******************************************************************************
 
 def dumpVariablesOperator( ):
-    for i in g.userVariables:
-        print( i + ':', '"' + g.userVariables[ i ] + '"' )
+    for key, value in g.userVariables.items( ):
+        print( key + ':', '"' + value + '"' )
 
     print( )
 
@@ -2459,7 +2456,7 @@ listOperators = {
     'unfilter'                          : RPNOperator( unfilterListOperator, 2 ),
     'unfilter_by_index'                 : RPNOperator( unfilterListByIndexOperator, 2 ),
     'unfilter_ratio'                    : RPNOperator( unfilterRatioOperator, 2 ),
-    'unfilter_show_index'               : RPNOperator( unfilterListShowIndexOperator, 2 ),    
+    'unfilter_show_index'               : RPNOperator( unfilterListShowIndexOperator, 2 ),
 
     # lexicographic
     'combine_digits'                    : RPNOperator( combineDigitsOperator, 1 ),
@@ -3080,10 +3077,12 @@ operators = {
     'aliquot_limit'                     : RPNOperator( getLimitedAliquotSequenceOperator, 2 ),
     'alternating_factorial'             : RPNOperator( getNthAlternatingFactorialOperator, 1 ),
     'alternating_harmonic_fraction'     : RPNOperator( getAlternatingHarmonicFractionOperator, 1 ),
+    'antidivisors'                      : RPNOperator( getAntidivisorsOperator, 1 ),
     'barnesg'                           : RPNOperator( getBarnesGOperator, 1 ),
     'beta'                              : RPNOperator( getBetaOperator, 2 ),
     'calkin_wilf'                       : RPNOperator( getNthCalkinWilfOperator, 1 ),
     'collatz'                           : RPNOperator( getCollatzSequenceOperator, 2 ),
+    'count_antidivisors'                : RPNOperator( getAntidivisorCountOperator, 1 ),
     'count_divisors'                    : RPNOperator( getDivisorCountOperator, 1 ),
     'digamma'                           : RPNOperator( getDigammaOperator, 1 ),
     'digital_root'                      : RPNOperator( getDigitalRootOperator, 1 ),

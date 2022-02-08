@@ -12,6 +12,7 @@
 #
 #*******************************************************************************
 
+import functools
 import re as regex
 import sys
 import urllib.request as urllib2
@@ -388,11 +389,8 @@ def generateRandomUUIDOperator( ):
 def findInput( value, func, estimator, minimum=0, maximum=inf ):
     guess1 = floor( estimator( value ) )
 
-    if guess1 > maximum:
-        guess1 = maximum
-
-    if guess1 < minimum:
-        guess1 = minimum
+    guess1 = min( guess1, maximum )
+    guess1 = max( guess1, minimum )
 
     # closing in
     result = func( guess1 )
@@ -409,11 +407,8 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
 
     guess2 = guess1 + delta
 
-    if guess2 > maximum:
-        guess2 = maximum
-
-    if guess2 < minimum:
-        guess2 = minimum
+    guess2 = min( guess2, maximum )
+    guess2 = max( guess2, minimum )
 
     result = func( guess2 )
     debugPrint( 'findInput func call', guess2 )
@@ -445,11 +440,8 @@ def findInput( value, func, estimator, minimum=0, maximum=inf ):
         if result == value:
             return True, guess2
 
-    if guess1 < minimum:
-        guess1 = minimum
-
-    if guess2 < minimum:
-        guess2 = minimum
+    guess1 = max( minimum, guess1 )
+    guess2 = max( minimum, guess2 )
 
     if guess1 == guess2:
         return False, 0
@@ -671,7 +663,8 @@ def describeIntegerOperator( n ):
     # base-k repunits
     if n > 1:
         for i in range( 2, 21 ):
-            result = findInput( n, lambda x: getNthBaseKRepunit( x, i ), lambda n: log( n, i ), minimum=1 )
+            result = findInput( n, functools.partial( getNthBaseKRepunit, k=i ),
+                                functools.partial( log, b=i ), minimum=1 )
 
             if result[ 0 ]:
                 print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' base-' + str( i ) + ' repunit' )

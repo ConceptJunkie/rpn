@@ -420,7 +420,7 @@ def printOperatorHelp( term, operatorInfo, operatorHelp, regularOperator = True)
         elif operatorInfo.argCount == 5:
             print( 'a b c d e ', end = '' )
 
-    aliasList = [ key for key in g.aliases if term == g.aliases[ key ] ]
+    aliasList = [ key for key, value in g.aliases.items( ) if term == value ]
 
     print( term + ' - ' + operatorHelp[ 1 ] )
 

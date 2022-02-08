@@ -188,7 +188,7 @@ class RPNOperator( ):
         if argsNeeded == 0:
             result = self.function( )
         else:
-            argList = list( )
+            argList = [ ]
 
             if g.operatorList:
                 g.operatorsInList += 1
@@ -223,7 +223,7 @@ class RPNOperator( ):
             #result = list( map( self.function, *reversed( argList ) ) )
 
         # process results
-        newResult = list( )
+        newResult = [ ]
 
         if isinstance( result, RPNGenerator ):
             newResult.append( result )

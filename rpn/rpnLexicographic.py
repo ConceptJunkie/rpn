@@ -669,9 +669,7 @@ def isBaseKNarcissisticOperator( n, k ):
 def isGeneralizedDudeneyNumber( base, exponent ):
     '''http://www.jakob.at/steffen/dudeney.html'''
     precision = fadd( fmul( base, exponent ), 2 )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     n = power( base, exponent )
     return 1 if sumDigits( n ) == base else 0
@@ -880,7 +878,7 @@ def parseNumbersExpression( arg ):
             elif '0' <= char <= '9':
                 result.append( [ char ] )
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( char ) )
+                raise ValueError( f'unexpected character \'{ char }\'' )
         elif state == startDigitState:
             if '0' <= char <= '9':
                 currentGroup.add( char )
@@ -890,7 +888,7 @@ def parseNumbersExpression( arg ):
                 result.append( sorted( list( currentGroup ) ) )
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( char ) )
+                raise ValueError( f'unexpected character \'{ char }\'' )
         elif state == digitState:
             if '0' <= char <= '9':
                 currentGroup.add( char )
@@ -943,7 +941,7 @@ def parseNumbersExpression( arg ):
                 lengthRangeHigh = ''
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( char ) )
+                raise ValueError( f'unexpected character \'{ char }\'' )
         elif state == numberLengthRange2:
             if '0' <= char <= '9':
                 lengthRangeHigh += char
@@ -954,7 +952,7 @@ def parseNumbersExpression( arg ):
                 lengthRangeHigh = ''
                 state = defaultState
             else:
-                raise ValueError( 'unexpected character \'{}\''.format( char ) )
+                raise ValueError( f'unexpected character \'{ char }\'' )
 
     return result
 

@@ -119,9 +119,9 @@ def getLocation( name ):
         try:
             location = geolocator.geocode( name )
             break
-        except GeocoderUnavailable:
+        except GeocoderUnavailable as e:
             if attempts == 2:
-                raise ValueError( 'location lookup connection failure, check network connectivity' )
+                raise ValueError( 'location lookup connection failure, check network connectivity' ) from e
 
     if location is None:
         raise ValueError( 'location lookup failed, try a different search term' )

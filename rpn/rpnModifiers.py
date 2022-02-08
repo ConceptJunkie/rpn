@@ -26,7 +26,7 @@ import rpn.rpnGlobals as g
 def incrementNestedListLevelOperator( valueList ):
     g.nestedListLevel += 1
 
-    valueList.append( list( ) )
+    valueList.append( [ ] )
 
 
 #******************************************************************************
@@ -57,7 +57,7 @@ def startOperatorListOperator( valueList ):
     g.operandsToRemove = 0
     g.operatorsInList = 0
 
-    valueList.append( list( ) )
+    valueList.append( [ ] )
 
 
 #******************************************************************************

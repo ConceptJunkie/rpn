@@ -143,14 +143,14 @@ def validateOptions( args ):
     '''Validates arguments for options that take arguments, and also checks for
     options that are mutually exclusive.'''
     if args.hex:
-        if args.output_radix != 10 and args.output_radix != 16:
+        if args.output_radix not in [ 10, 16 ]:
             return False, '-r and -x cannot be used together'
 
         if args.octal:
             return False, '-x and -o cannot be used together'
 
     if args.octal:
-        if args.output_radix != 10 and args.output_radix != 8:
+        if args.output_radix not in [ 8, 10 ]:
             return False, '-r and -o cannot be used together'
 
     if args.comma and args.integer_grouping > 0 :
@@ -177,7 +177,7 @@ def validateArguments( terms ):
             bracketCount -= 1
 
     if bracketCount:
-        print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
+        print( f'rpn:  mismatched brackets (count: { bracketCount })' )
         return False
 
     parenCount = 0
@@ -189,7 +189,7 @@ def validateArguments( terms ):
             parenCount -= 1
 
     if parenCount:
-        print( 'rpn:  mismatched parenthesis (count: {})'.format( parenCount ) )
+        print( f'rpn:  mismatched parenthesis (count: { parenCount }) ' )
         return False
 
     braceCount = 0
@@ -201,7 +201,7 @@ def validateArguments( terms ):
             braceCount -= 1
 
     if braceCount:
-        print( 'rpn:  mismatched braces (count: {})'.format( braceCount ) )
+        print( f'rpn:  mismatched braces (count: { braceCount })' )
         return False
 
     return True
@@ -231,8 +231,8 @@ def getCurrentArgList( valueList ):
 def abortArgsNeeded( term, index, argsNeeded ):
     '''Issues the error message when an operator is provided with an insufficient
     number of arguments.'''
-    print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-           format( argsNeeded ) + ' argument', end = '' )
+    print( f'rpn:  error in arg { index }:  operator \'{ term }\' expects '
+           f'{ argsNeeded } argument', end = '' )
 
     print( 's' if argsNeeded > 1 else '' )
 
@@ -486,7 +486,7 @@ def twoArgFunctionEvaluator( ):
 #
 #******************************************************************************
 
-def NEWtwoArgFunctionEvaluator( ):
+def newTwoArgFunctionEvaluator( ):
     def twoArgFunction( func ):
         @functools.wraps( func )
         def evaluateTwoArgs( _arg1, _arg2 ):
@@ -833,6 +833,4 @@ def flattenList( args ):
 
 def setAccuracyForN( n ):
     magnitude = mag( n )
-
-    if mp.prec < magnitude:
-        mp.prec = magnitude
+    mp.prec = max( mp.prec, magnitude )

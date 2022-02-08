@@ -178,6 +178,62 @@ def getDivisorsOperator( n ):
 
 #******************************************************************************
 #
+#  getAntidivisorGenerator
+#
+#******************************************************************************
+
+def getAntidivisors( n ):
+    two_n = fmul( 2, n )
+    two_n_divisors = getDivisors( two_n )
+    two_n_plus_1_divisors = getDivisors( fadd( two_n, 1 ) )
+    two_n_minus_1_divisors = getDivisors( fsub( two_n, 1 ) )
+
+    antidivisors = [ ]
+
+    for divisor in two_n_divisors:
+        if divisor == 1:
+            continue
+
+        if isOdd( divisor ):
+            antidivisors.append( fdiv( two_n, divisor ) )
+
+    for divisor in two_n_plus_1_divisors:
+        if divisor == 1:
+            continue
+
+        if divisor >= n:
+            break
+
+        if isOdd( divisor ):
+            antidivisors.append( divisor )
+
+    for divisor in two_n_minus_1_divisors:
+        if divisor == 1:
+            continue
+
+        if divisor >= n:
+            break
+
+        if isOdd( divisor ):
+            antidivisors.append( divisor )
+
+    return sorted( antidivisors )
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def getAntidivisorsOperator( n ):
+    return getAntidivisors( n )
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def getAntidivisorCountOperator( n ):
+    return len( getAntidivisors( n ) )
+
+
+#******************************************************************************
+#
 #  getNthLucasNumber
 #
 #******************************************************************************
@@ -189,9 +245,7 @@ def getNthLucasNumber( n ):
         return 1
     else:
         precision = int( fdiv( fmul( n, 2 ), 8 ) )
-
-        if mp.dps < precision:
-            mp.dps = precision
+        mp.dps = max( precision, mp.dps )
 
         return floor( fadd( power( phi, n ), 0.5 ) )
 
@@ -228,8 +282,6 @@ def getNthJacobsthalNumberOperator( n ):
 #
 #******************************************************************************
 
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ), IntValidator( 2 ) ] )
 def getNthBaseKRepunit( n, k ):
     return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], fsub( n, 1 ) )
 
@@ -323,9 +375,7 @@ def getNthKFibonacciNumber( n, k ):
     nth = int( n ) + 4
 
     precision = int( fdiv( fmul( n, k ), 8 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     poly = [ 1 ]
     poly.extend( [ -1 ] * int( k ) )
@@ -336,8 +386,8 @@ def getNthKFibonacciNumber( n, k ):
         try:
             #  Let's try again, really hard!
             roots = polyroots( poly, maxsteps = 2000, extraprec = 5000 )
-        except libmp.libhyper.NoConvergence:
-            raise ValueError( 'polynomial failed to converge' )
+        except libmp.libhyper.NoConvergence as no_convergence:
+            raise ValueError( 'polynomial failed to converge' ) from no_convergence
 
     nthPoly = getNthFibonacciPolynomial( k )
 
@@ -403,9 +453,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     This is used for testing getNthKFibonacciNumber( ).
     '''
     precision = int( fdiv( fmul( int( n ), k ), 8 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], n )
 
@@ -468,8 +516,7 @@ class RPNContinuedFraction( list ):
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
         super( ).__init__( )
 
-        if mp.dps < maxterms:
-            mp.dps = maxterms
+        mp.dps = max( maxterms, mp.dps )
 
         if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
@@ -507,7 +554,7 @@ class RPNContinuedFraction( list ):
         return float( self.getFraction( ) )
 
     def __str__( self ):
-        return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
+        return f'[ { ", ".join( [ str( int( x ) ) for x in self ] ) } ]'
 
 
 #******************************************************************************
@@ -550,8 +597,7 @@ def makeContinuedFractionOperator( n, k ):
 def interpretAsFractionOperator( n, k ):
     k = int( k )
 
-    if mp.dps < k:
-        mp.dps = k
+    mp.dps = max( mp.dps, k )
 
     cutoff = fmul( n, power( 10, -( mp.dps / 2 ) ) )
     fraction = RPNContinuedFraction( value=n, maxterms=k, cutoff=cutoff ).getFraction( )

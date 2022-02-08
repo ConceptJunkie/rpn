@@ -42,7 +42,7 @@ def preparePrimeData( baseName ):
     deleteCache( baseName )
     db, cursor = createPrimeCache( baseName )
 
-    with open( inputFileName, 'r' ) as inputFile:
+    with open( inputFileName, 'r', encoding='ascii' ) as inputFile:
         for line in inputFile:
             try:
                 key, value = line.split( )
@@ -91,8 +91,7 @@ def main( ):
     preparePrimeData( 'twin_primes' )
 
     print( )
-    print( 'Prime number data prepared.  '
-           'Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+    print( f'Prime number data prepared.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
 
 #******************************************************************************

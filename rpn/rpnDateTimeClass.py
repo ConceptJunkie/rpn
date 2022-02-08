@@ -74,9 +74,9 @@ class RPNDateTime( arrow.Arrow ):
     def __init__( self, year, month, day, hour=0, minute=0, second=0,
                   microsecond=0, tzinfo=getLocalTimeZone( ), fold=0, dateOnly=False ):
         self.dateOnly = dateOnly
-        super( RPNDateTime, self ).__init__( year=int( year ), month=int( month ), day=int( day ),
-                                             hour=int( hour ), minute=int( minute ), second=int( second ),
-                                             microsecond=int( microsecond ), tzinfo=tzinfo, fold=fold )
+        super( ).__init__( year=int( year ), month=int( month ), day=int( day ),
+                           hour=int( hour ), minute=int( minute ), second=int( second ),
+                           microsecond=int( microsecond ), tzinfo=tzinfo, fold=fold )
 
     def setDateOnly( self, dateOnly=True ):
         self.dateOnly = dateOnly
@@ -114,7 +114,7 @@ class RPNDateTime( arrow.Arrow ):
     def convertFromEphemDate( ephemDate ):
         dateValues = list( ephemDate.tuple( ) )
 
-        dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
+        dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1_000_000 ) ) )
         dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
         # We always pass UTC time to ephem, so we'll expect UTC back
         dateValues.append( tz.gettz( 'UTC' ) )
@@ -180,9 +180,7 @@ class RPNDateTime( arrow.Arrow ):
             newMonth = ( ( newMonth - 1 ) % 12 ) + 1
 
         maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
-
-        if newDay > maxDay:
-            newDay = maxDay
+        newDay = min( maxDay, newDay )
 
         return RPNDateTime( newYear, newMonth, newDay, self.hour, self.minute, self.second )
 
@@ -202,7 +200,7 @@ class RPNDateTime( arrow.Arrow ):
         else:
             days = int( floor( time.convertValue( 'day' ) ) )
             seconds = int( fmod( floor( time.convertValue( 'second' ) ), 86400 ) )
-            microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1000000 ) )
+            microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1_000_000 ) )
 
             try:
                 return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
@@ -213,8 +211,8 @@ class RPNDateTime( arrow.Arrow ):
     def format( self, includeTZ=True ):
         if self.year < 1970:
             # format( ) doesn't work on Windows when using arrow, and I don't know why, but it's really stupid.
-            return '{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}'.format( self.year, self.month, self.day,
-                                                                            self.hour, self.minute, self.second )
+            return f'{self.year:4d}-{self.month:02d}-{self.day:02d} ' \
+                   f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
         elif includeTZ:
             return super( ).format( 'YYYY-MM-DD HH:mm:ss ZZ' )
         else:
@@ -222,13 +220,13 @@ class RPNDateTime( arrow.Arrow ):
 
     def formatDate( self ):
         if self.year < 1970:
-            return '{0:4d}-{1:02d}-{2:02d}'.format( self.year, self.month, self.day )
+            return f'{self.year:4d}-{self.month:02d}-{self.day:02d}'
         else:
             return super( ).format( 'YYYY-MM-DD' )
 
     def formatTime( self ):
         if self.year < 1970:
-            return '{0:02d}:{1:02d}:{2:02d}'.format( self.hour, self.minute, self.second )
+            return f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
         else:
             return super( ).format( 'HH:mm:ss' )
 

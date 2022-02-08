@@ -42,7 +42,7 @@ def convertToBaseN( value, base, outputBaseDigits=False, numerals=g.defaultNumer
             raise ValueError( '\'get_base_k_digits\' does not support negative numbers.' )
     else:
         if not 2 <= base <= len( numerals ):
-            raise ValueError( 'base must be from 2 to {0}'.format( len( numerals ) ) )
+            raise ValueError( f'base must be from 2 to { len( numerals ) }' )
 
     if value == 0:
         return 0
@@ -82,10 +82,10 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
             raise ValueError( 'base must be greater than 1' )
     else:
         if not 2 <= base <= len( g.numerals ):
-            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
+            raise ValueError( f'base must be from 2 to { len( g.numerals ) }' )
 
     if value < 0 or value >= 1.0:
-        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
+        raise ValueError( f'value { value } must be >= 0 and < 1.0' )
 
     if base == 10:
         return str( value )

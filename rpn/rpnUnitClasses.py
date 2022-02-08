@@ -79,7 +79,7 @@ def getUnitType( unit ):
     if unit == '1':
         return '_null_type'
 
-    raise ValueError( '2 undefined unit type \'{}\''.format( unit ) )
+    raise ValueError( f'2 undefined unit type \'{ unit }\'' )
 
 
 #******************************************************************************
@@ -162,7 +162,7 @@ class RPNUnits( collections.Counter ):
             else:
                 raise ValueError( 'invalid call to RPNUnits constructor' )
         else:
-            super( RPNUnits, self ).__init__( *arg, **kw )
+            super( ).__init__( *arg, **kw )
 
     def __eq__( self, other ):
         for i in self:
@@ -230,7 +230,7 @@ class RPNUnits( collections.Counter ):
                 unitType = unit
             else:
                 if unit not in g.unitOperators:
-                    raise ValueError( '3 undefined unit type \'{}\''.format( unit ) )
+                    raise ValueError( f'undefined unit type \'{ unit }\'' )
 
                 unitType = g.unitOperators[ unit ].unitType
 
@@ -397,3 +397,6 @@ class RPNUnits( collections.Counter ):
                 denominator[ unit ] = self[ unit ] * -1
 
         return numerator, denominator
+
+    def fromkeys( self, iterable, v=None ):
+        pass

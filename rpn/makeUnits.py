@@ -180,7 +180,7 @@ def makeAliases( ):
                 newAliases[ prefix[ 1 ] + unitInfo.abbrev ] = newUnit
 
     for unit, unitInfo in unitOperators.items( ):
-        if unitInfo.plural != unit and unitInfo.plural != '':
+        if unitInfo.plural not in [ unit, '' ]:
             newAliases[ unitInfo.plural ] = unit
 
         for alias in unitInfo.aliases:
@@ -258,9 +258,9 @@ def expandMetricUnits( ):
             newPlural = makeMetricUnit( prefix[ 0 ], unitInfo.plural )
 
             # construct unit operator info
-            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
-                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + metricUnit + \
-                       '\'.\n\nPlease see the help entry for \'' + metricUnit + '\' for more information.'
+            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\n' \
+                       f'of { 10 ** prefix[ 2 ]:,} times the value of { metricUnit }' \
+                       f'\'.\n\nPlease see the help entry for \'{ metricUnit }\' for more information.'
 
             if unitInfo.abbrev:
                 newAbbrev = prefix[ 1 ] + unitInfo.abbrev
@@ -292,9 +292,9 @@ def expandMetricUnits( ):
                 newAbbrev = ''
 
             # construct unit operator info
-            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
-                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + integralMetricUnit + \
-                       '\'.\n\nPlease see the help entry for \'' + integralMetricUnit + '\' for more information.'
+            helpText = f'\n\'Using the standard SI prefixes, \'{ newName }\' is the equivalent\n' \
+                       f'of {10 ** prefix[ 2 ]:,} times the value of \'{ integralMetricUnit }\'.\n\n' \
+                       f'Please see the help entry for \'{ integralMetricUnit }\' for more information.'
 
             unitOperators[ newName ] = \
                     RPNUnitInfo( unitInfo.unitType, newPlural, newAbbrev, [ ],
@@ -329,9 +329,9 @@ def expandDataUnits( ):
             newName = prefix[ 0 ] + dataUnit
 
             # constuct unit operator info
-            helpText = '\n\'Using the standard SI prefixes, ' + newName + '\' is the equivalent\nof ' + \
-                       '{:,}'.format( 10 ** prefix[ 2 ] ) + ' times the value of \'' + dataUnit + \
-                       '\'.\n\nPlease see the help entry for \'' + dataUnit + '\' for more information.'
+            helpText = f'\n\'Using the standard SI prefixes, \'{ newName }\' is the equivalent\n' \
+                       f'of {10 ** prefix[ 2 ]:,} times the value of \'{ dataUnit }\'.\n\n' \
+                       f'Please see the help entry for \'{ dataUnit }\' for more information.'
 
             if unitInfo.abbrev:
                 newAbbrev = prefix[ 0 ] + unitInfo.abbrev
@@ -475,10 +475,9 @@ def testAllConversions( unitTypeTable, matrix ):
             validated += 1
 
             if validated % 1000 == 0:
-                print( '\r' + '{:,} conversion permutations validated...'.format( validated ), end='' )
+                print( f'\r{validated:,} conversion permutations validated...', end='' )
 
-    print( '\r' + '{:,} conversion permutations were validated to {:,} digits precision.',
-           format( validated, VALIDATION_PRECISION ) )
+    print( f'\r{validated:,} conversion permutations were validated to {VALIDATION_PRECISION:,} digits precision.' )
     print( 'No consistency problems detected.' )
 
 
@@ -515,13 +514,13 @@ def initializeConversionMatrix( matrix, validateConversions ):
 
     # extrapolate transitive conversions
     print( )
-    print( 'Extrapolating transitive conversions for', len( unitOperators ), 'units...' )
+    print( f'Extrapolating transitive conversions for { len( unitOperators ) } units...' )
 
     unitTypeTable = makeUnitTypeTable( unitOperators )
 
     for unitType in sorted( basicUnitTypes ):
         if unitType != '_null_type':
-            print( '\r     ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
+            print( f'\r     { unitType } ({ len( unitTypeTable[ unitType ] ) } units)' )
 
         while True:
             newConversions = { }
@@ -538,9 +537,9 @@ def initializeConversionMatrix( matrix, validateConversions ):
 
             unitConversionMatrix.update( newConversions )
 
-            print( '\r' + '{:,}'.format( len( matrix ) ), end='' )
+            print( f'\r {len( matrix ):,}', end='' )
 
-    print( '\r' + '{:,} conversions'.format( len( matrix ) ) )
+    print( f'\r{len( matrix ):,} conversions' )
 
     # make some more aliases
     print( '        ' )
@@ -549,6 +548,7 @@ def initializeConversionMatrix( matrix, validateConversions ):
     newAliases.update( makeAliases( ) )
 
     print( 'Stringifying conversion matrix values...' )
+
     for ops, factor in matrix.items( ):
         matrix[ ( ops[ 0 ], ops[ 1 ] ) ] = str( factor )
 
@@ -585,7 +585,7 @@ def initializeConversionMatrix( matrix, validateConversions ):
     unitTypeDict = { }
 
     for unitType in basicUnitTypes:
-        unitTypeDict[ unitType ] = list( )
+        unitTypeDict[ unitType ] = [ ]
 
     for unit, unitInfo in unitOperators.items( ):
         unitTypeDict[ unitInfo.unitType ].append( unit )
@@ -596,9 +596,9 @@ def initializeConversionMatrix( matrix, validateConversions ):
         pickle.dump( unitTypeDict, pickleFile )
 
     print( )
-    print( '{:,} unit operators'.format( len( unitOperators ) ) )
-    print( '{:,} unit conversions'.format( len( matrix ) ) )
-    print( '{:,} aliases'.format( len( newAliases ) ) )
+    print( f'{len( unitOperators ):,} unit operators' )
+    print( f'{len( matrix ):,} unit conversions' )
+    print( f'{len( newAliases ):,} aliases' )
 
     missingHelp = [ ]
 
@@ -615,7 +615,7 @@ def initializeConversionMatrix( matrix, validateConversions ):
 
     if missingHelp:
         print( )
-        print( 'The following {} units do not have help text:'.format( len( missingHelp ) ) )
+        print( f'The following { len( missingHelp ) } units do not have help text:' )
         print( )
         printParagraph( ', '.join( sorted( missingHelp ) ) )
 
@@ -634,7 +634,7 @@ def initializeConversionMatrix( matrix, validateConversions ):
 
     if missingHelp:
         print( )
-        print( 'The following {} constants do not have help text:'.format( len( missingHelp ) ) )
+        print( f'The following { len( missingHelp ) } constants do not have help text:' )
         print( )
         printParagraph( ', '.join( sorted( missingHelp ) ) )
 
@@ -667,7 +667,7 @@ def main( ):
     initializeConversionMatrix( unitConversionMatrix, validateConversions )
 
     print( )
-    print( 'Unit data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+    print( f'Unit data completed.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
 
 #******************************************************************************

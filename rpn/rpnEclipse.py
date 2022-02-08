@@ -82,7 +82,8 @@ function populatecircumstances(elements, circumstances) {
   h = 15.0*(elements[6+index] + (t - elements[2+index]/3600.0)*1.00273791) - ra
   h = h * Math.PI / 180.0 - obsvconst[1]
   circumstances[2] = h
-  circumstances[4] = Math.asin(Math.sin(obsvconst[0]) * Math.sin(dec) + Math.cos(obsvconst[0]) * Math.cos(dec) * Math.cos(h))
+  circumstances[4] = Math.asin(Math.sin(obsvconst[0]) *
+                               Math.sin(dec) + Math.cos(obsvconst[0]) * Math.cos(dec) * Math.cos(h))
   circumstances[4] -= Math.asin(Math.sin(elements[7+index]*Math.PI/180.0) * Math.cos(circumstances[4]))
   if (circumstances[4] * 180.0 / Math.PI < elements[8+index] - 0.5667) {
     circumstances[5] = 2
@@ -155,12 +156,14 @@ function readform() {
   document.eclipseform.alt.value=Math.abs(parseFloat(document.eclipseform.alt.value))
 
   // Get the latitude
-  obsvconst[0]=parseFloat(document.eclipseform.latd.value)+parseFloat(document.eclipseform.latm.value)/60.0+parseFloat(document.eclipseform.lats.value)/3600.0
+  obsvconst[0]=parseFloat(document.eclipseform.latd.value)+
+               parseFloat(document.eclipseform.latm.value)/60.0+parseFloat(document.eclipseform.lats.value)/3600.0
   obsvconst[0]=obsvconst[0]*parseFloat(document.eclipseform.latx.options[document.eclipseform.latx.selectedIndex].value)
   obsvconst[0]=obsvconst[0]*Math.PI/180.0
 
   // Get the longitude
-  obsvconst[1]=parseFloat(document.eclipseform.lond.value)+parseFloat(document.eclipseform.lonm.value)/60.0+parseFloat(document.eclipseform.lons.value)/3600.0
+  obsvconst[1]=parseFloat(document.eclipseform.lond.value)+
+               parseFloat(document.eclipseform.lonm.value)/60.0+parseFloat(document.eclipseform.lons.value)/3600.0
   obsvconst[1]=obsvconst[1]*parseFloat(document.eclipseform.lonx.options[document.eclipseform.lonx.selectedIndex].value)
   obsvconst[1]=obsvconst[1]*Math.PI/180.0
 
@@ -169,7 +172,8 @@ function readform() {
 
   // Get the time zone
   obsvconst[3]=parseFloat(document.eclipseform.tzm.options[document.eclipseform.tzm.selectedIndex].value)
-  obsvconst[3]=parseFloat(document.eclipseform.tzh.options[document.eclipseform.tzh.selectedIndex].value) + obsvconst[3]/60.0
+  obsvconst[3]=parseFloat(document.eclipseform.tzh.options[document.eclipseform.tzh.selectedIndex].value) +
+                          obsvconst[3]/60.0
   obsvconst[3]=parseFloat(document.eclipseform.tzx.options[document.eclipseform.tzx.selectedIndex].value) * obsvconst[3]
 
   obsvconst[4] = 0

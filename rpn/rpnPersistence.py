@@ -123,15 +123,16 @@ def loadHelpData( ):
             g.helpVersion = pickle.load( pickleFile )
             g.HELP_TOPICS = pickle.load( pickleFile )
             g.OPERATOR_HELP = pickle.load( pickleFile )
-    except FileNotFoundError:
-        raise ValueError( 'rpn:  Unable to load help.  Run "makeHelp" to generate the help data files.' )
+    except FileNotFoundError as e:
+        raise ValueError( 'rpn:  Unable to load help.  Run "makeHelp" to generate the help data files.' ) from e
 
     try:
         with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) \
                 as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
-    except FileNotFoundError:
-        raise ValueError( 'rpn:  Unable to load unit help data.  Run "makeHelp" to generate the help data files.' )
+    except FileNotFoundError as e:
+        raise ValueError( 'rpn:  Unable to load unit help data.  '
+                          'Run "makeHelp" to generate the help data files.' ) from e
 
     g.operatorCategories = set( g.OPERATOR_HELP[ key ][ 0 ] for key in g.OPERATOR_HELP )
 
@@ -290,9 +291,9 @@ def openPrimeCache( name ):
         try:
             g.databases[ name ] = sqlite3.connect( getPrimeCacheFileName( name ) )
             g.cursors[ name ] = g.databases[ name ].cursor( )
-        except sqlite3.OperationalError:
+        except sqlite3.OperationalError as e:
             raise ValueError( 'prime number table ' + name +
-                              ' cannot be found.  Run "preparePrimeData" to create the prime data.' )
+                              ' cannot be found.  Run "preparePrimeData" to create the prime data.' ) from e
 
     return g.cursors[ name ]
 
@@ -446,13 +447,13 @@ def saveUserVariablesFile( ):
 
     config[ 'User Variables' ] = { }
 
-    for key in g.userVariables:
-        config[ 'User Variables' ][ key ] = str( g.userVariables[ key ] )
+    for key, value in g.userVariables.items( ):
+        config[ 'User Variables' ][ key ] = str( value )
 
     if os.path.isfile( getUserVariablesFileName( ) ):
         copyfile( getUserVariablesFileName( ), getUserVariablesFileName( ) + '.backup' )
 
-    with open( getUserVariablesFileName( ), 'w' ) as userVariablesFile:
+    with open( getUserVariablesFileName( ), 'w', encoding='ascii' ) as userVariablesFile:
         config.write( userVariablesFile )
 
 
@@ -587,12 +588,12 @@ def saveUserConfigurationFile( ):
 
     config[ 'User Configuration' ] = { }
 
-    for key in g.userConfiguration:
-        config[ 'User Configuration' ][ key ] = g.userConfiguration[ key ]
+    for key, value in g.userConfiguration.items( ):
+        config[ 'User Configuration' ][ key ] = value
 
     if os.path.isfile( getUserConfigurationFileName( ) ):
         copyfile( getUserConfigurationFileName( ), getUserConfigurationFileName( ) + '.backup' )
 
-    with open( getUserConfigurationFileName( ), 'w' ) as userConfigurationFile:
+    with open( getUserConfigurationFileName( ), 'w', encoding='ascii' ) as userConfigurationFile:
         config.write( userConfigurationFile )
 

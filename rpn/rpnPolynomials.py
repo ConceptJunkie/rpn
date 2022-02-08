@@ -91,7 +91,7 @@ class Polynomial( ):
         p = Polynomial( [ 1, 2, 3 ... ] )   # from sequence
         p = Polynomial( 1, 2, 3 ... )       # from scalars
         '''
-        super( Polynomial, self ).__init__( )
+        super( ).__init__( )
 
         if len( args ) == 1:
             val = args[ 0 ]
@@ -166,7 +166,7 @@ class Polynomial( ):
         return self + val
 
     def __repr__( self ):
-        return '{0}({1})'.format( self.__class__.__name__, self.coeffs )
+        return f'{ self.__class__.__name__ }({ self.coeffs })'
 
     def __rmul__( self, val ):
         'Return val * self'
@@ -288,8 +288,7 @@ def solveCubicPolynomial( a, b, c, d ):
     This function applies the cubic formula to solve a polynomial
     with coefficients of a, b, c and d.
     '''
-    if mp.dps < 50:
-        mp.dps = 50
+    mp.dps = max( 50, mp.dps )
 
     if a == 0:
         return solveQuadraticPolynomial( b, c, d )
@@ -371,8 +370,7 @@ def solveQuarticPolynomialOperator( _a, _b, _c, _d, _e ):
     This function applies the quartic formula to solve a polynomial
     with coefficients of a, b, c, d, and e.
     '''
-    if mp.dps < 50:
-        mp.dps = 50
+    mp.dps = max( 50, mp.dps )
 
     # maybe it's really an order-3 polynomial
     if _a == 0:
@@ -565,8 +563,8 @@ def solvePolynomialOperator( args ):
         try:
             #  Let's try again, really hard!
             result = polyroots( args, maxsteps = 2000, extraprec = 5000 )
-        except libmp.libhyper.NoConvergence:
-            raise ValueError( 'polynomial failed to converge' )
+        except libmp.libhyper.NoConvergence as e:
+            raise ValueError( 'polynomial failed to converge' ) from e
 
     return result
 

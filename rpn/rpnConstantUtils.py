@@ -252,15 +252,6 @@ def getRobbinsConstant( ):
     return robbins
 
 
-#  http://www.numericana.com/answer/constants.htm
-#  (2014-05-15)    1-1/e  =  0.632120558828557678404476229838539...
-#  Rise time and fixed-point probability:  1/1! - 1/2! + 1/3! - 1/4! + 1/5! - ...
-
-#   CODATA
-#
-#   http://physics.nist.gov/cuu/Constants/index.html
-
-
 #******************************************************************************
 #
 #  getMaxDouble
@@ -269,7 +260,7 @@ def getRobbinsConstant( ):
 
 @lru_cache( 1 )
 def getMaxDouble( ):
-    return interpretAsDouble( mpmathify( 0x7fefffffffffffff ) )
+    return interpretAsDouble( mpmathify( 0x7fef_ffff_ffff_ffff ) )
 
 
 #******************************************************************************
@@ -280,7 +271,7 @@ def getMaxDouble( ):
 
 @lru_cache( 1 )
 def getMaxFloat( ):
-    return interpretAsFloat( mpmathify( 0x7f7fffff ) )
+    return interpretAsFloat( mpmathify( 0x7f7f_ffff ) )
 
 
 #******************************************************************************
@@ -291,7 +282,7 @@ def getMaxFloat( ):
 
 @lru_cache( 1 )
 def getMinDouble( ):
-    return interpretAsDouble( mpmathify( 0x0010000000000000 ) )
+    return interpretAsDouble( mpmathify( 0x0010_0000_0000_0000 ) )
 
 
 #******************************************************************************
@@ -302,7 +293,7 @@ def getMinDouble( ):
 
 @lru_cache( 1 )
 def getMinFloat( ):
-    return interpretAsFloat( mpmathify( 0x00800000 ) )
+    return interpretAsFloat( mpmathify( 0x0080_0000 ) )
 
 
 #******************************************************************************

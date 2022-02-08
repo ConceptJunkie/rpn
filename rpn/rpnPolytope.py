@@ -162,7 +162,7 @@ def getNthGeneralizedDecagonalNumberOperator( n ):
 #******************************************************************************
 
 def getNthPolygonalNumber( n, k ):
-    coeff = fdiv( fsub( k, 2 ), 2 )                         # validateRealInt isn't happy, why?
+    coeff = fdiv( fsub( k, 2 ), 2 )
     return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], int( n ) )
 
 
@@ -840,8 +840,7 @@ def getNthDecagonalCenteredSquareNumberOperator( n ):
 
     dps = 7 * int( n )
 
-    if mp.dps < dps:
-        mp.dps = dps
+    mp.dps = max( mp.dps, dps )
 
     return nint( floor( fsum( [ fdiv( 1, 8 ),
                                 fmul( fdiv( 7, 16 ), power( fsub( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ),
@@ -942,10 +941,7 @@ def getNthDecagonalOctagonalNumberOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthDecagonalNonagonalNumberOperator( n ):
-    dps = 8 * int( n )
-
-    if mp.dps < dps:
-        mp.dps = dps
+    mp.dps = max( 8 * int( n ), mp.dps )
 
     return nint( floor( fdiv( fmul( fadd( 15, fmul( 2, sqrt( 14 ) ) ),
                                     power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ),
@@ -996,9 +992,7 @@ def getNthTruncatedTetrahedralNumberOperator( n ):
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthSquareTriangularNumberOperator( n ):
     neededPrecision = int( n * 3.5 )  # determined by experimentation
-
-    if mp.dps < neededPrecision:
-        mp.dps = neededPrecision
+    mp.dps = max( mp.dps, neededPrecision )
 
     sqrt2 = sqrt( 2 )
 

@@ -40,9 +40,7 @@ def getNthAperyNumber( n ):
     a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
     '''
     precision = int( fmul( n, 1.6 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     result = 0
 
@@ -71,9 +69,7 @@ def getNthDelannoyNumber( n ):
         return 3
 
     precision = int( fmul( n, 0.8 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     result = 0
 
@@ -105,9 +101,7 @@ def getNthSchroederNumber( n ):
     result = 0
 
     precision = int( fmul( n, 0.8 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     for k in arange( 0, fadd( n, 1 ) ):
         result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ),
@@ -136,9 +130,7 @@ def getNthMotzkinNumber( n ):
     a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
     '''
     precision = int( n )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     result = 0
 
@@ -171,9 +163,7 @@ def getNthSchroederHipparchusNumber( n ):
         return 1
 
     precision = int( fmul( n, 0.8 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     result = 0
 
@@ -201,9 +191,7 @@ def getNthPellNumber( n ):
     a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
     '''
     precision = int( fmul( n, 0.4 ) )
-
-    if mp.dps < precision:
-        mp.dps = precision
+    mp.dps = max( precision, mp.dps )
 
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
 
@@ -224,7 +212,7 @@ def getNthPellNumberOperator( n ):
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getPermutationsOperator( n, r ):
     if r > n:
-        raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
+        raise ValueError( f'number of elements { r } cannot exceed the size of the set { r }' )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
 
@@ -239,7 +227,7 @@ def getPermutationsOperator( n, r ):
 @argValidator( [ IntValidator( 0 ), IntValidator( 0 ) ] )
 def getCombinationsOperator( n, r ):
     if r > n:
-        raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
+        raise ValueError( f'number of elements { r } cannot exceed the size of the set { n }' )
 
     return fdiv( fac( n ), fmul( fac( fsub( n, r ) ), fac( r ) ) )
 
@@ -487,8 +475,7 @@ def partitionsWithLimit( n, k=None ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def getPartitionsWithLimitOperator( n, k ):
-    if k > n:
-        k = n
+    k = min( k, n )
 
     return RPNGenerator( partitionsWithLimit( n, k ) )
 

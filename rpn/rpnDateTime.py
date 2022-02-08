@@ -67,12 +67,12 @@ DECEMBER = 12
 def convertToUnixTimeOperator( n ):
     try:
         result = RPNDateTime.parseDateTime( n.to( 'utc' ) ).int_timestamp
-    except OverflowError:
-        raise ValueError( 'out of range error' )
-    except TypeError:
-        raise ValueError( 'expected time value' )
-    except OSError:
-        raise ValueError( 'out of range error' )
+    except OverflowError as overflow_error:
+        raise ValueError( 'out of range error' ) from overflow_error
+    except TypeError as type_error:
+        raise ValueError( 'expected time value' ) from type_error
+    except OSError as os_error:
+        raise ValueError( 'out of range error' ) from os_error
 
     return result
 
@@ -88,12 +88,12 @@ def convertToUnixTimeOperator( n ):
 def convertFromUnixTimeOperator( n ):
     try:
         result = RPNDateTime.parseDateTime( int( n ) ).getLocalTime( )
-    except OverflowError:
-        raise ValueError( 'out of range error' )
-    except TypeError:
-        raise ValueError( 'expected time value' )
-    except OSError:
-        raise ValueError( 'out of range error' )
+    except OverflowError as overflow_error:
+        raise ValueError( 'out of range error' ) from overflow_error
+    except TypeError as type_error:
+        raise ValueError( 'expected time value' ) from type_error
+    except OSError as os_error:
+        raise ValueError( 'out of range error' ) from os_error
 
     return result
 
@@ -156,7 +156,7 @@ def makeJulianTime( n ):
         result = result.replace( minute = int( n[ 3 ] ) )
 
     if len( n ) >= 5:
-        result = result.replace( second = int ( n[ 4 ] ) )
+        result = result.replace( second = int( n[ 4 ] ) )
 
     if len( n ) >= 6:
         result = result.replace( microsecond = int( n[ 5 ] ) )

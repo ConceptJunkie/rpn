@@ -44,7 +44,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         digit = validNumerals.find( integer[ i ] )
 
         if digit == -1:
-            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
+            raise ValueError( f'invalid numeral \'{ integer[ i ] } \' for base { inputRadix }' )
 
         result += digit * base
         base *= inputRadix
@@ -55,7 +55,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         digit = validNumerals.find( numeral )
 
         if digit == -1:
-            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
+            raise ValueError( f'invalid numeral \'{ mantissa[ i ] }\' for base { inputRadix }' )
 
         result += digit * base
         base /= inputRadix
@@ -317,7 +317,7 @@ def parseInputValue( term, inputRadix = 10 ):
 def readListFromFileGenerator( filename ):
     filename = g.cwd + os.sep + filename
 
-    with open( filename ) as file:
+    with open( filename, encoding='ascii' ) as file:
         for i in file:
             if i == '\n':
                 continue
@@ -344,7 +344,7 @@ def readNumberFromFileGenerator( filename ):
 
     string = ''
 
-    with open( filename ) as file:
+    with open( filename, encoding='ascii' ) as file:
         for i in file:
             for c in i:
                 if '0' <= c <= '9':

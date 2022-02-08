@@ -1,5 +1,8 @@
 #!/usr/bin/python3 -O
 
+# pylint: disable=invalid-name
+
+from builtins import ValueError
 from math import sqrt, log2, ceil, floor
 
 import random
@@ -10,11 +13,8 @@ if sys.version_info[ 0 ] == 3 and sys.version_info[ 1 ] >= 9:
 else:
     from fractions import gcd
 
-import sys
-from builtins import ValueError
-
-
-"""This script factorises a natural number given as a command line
+"""
+This script factorises a natural number given as a command line
 parameter into its prime factors. It first attempts to use trial
 division to find very small factors, then uses Brent's version of the
 Pollard rho algorithm [1] to find slightly larger factors. If any large
@@ -78,28 +78,34 @@ class FactorBasePrime:
 def lowest_set_bit(a):
     b = (a & -a)
     low_bit = -1
-    while (b):
+
+    while b:
         b >>= 1
         low_bit += 1
+
     return low_bit
 
 
 def to_bits(k):
-    """Return a generator that returns the bits of k, starting from the
+    """
+    Return a generator that returns the bits of k, starting from the
     least significant bit, using True for 1s, and False for 0s.
     """
     k_binary = bin(k)[2:]
-    return (bit == '1' for bit in k_binary[::-1])
+    return (bit == "1" for bit in k_binary[::-1])
 
 
 def pow_mod(a, k, m):
     """Return a^k mod m."""
     r = 1
     b = a
+
     for bit in to_bits(k):
         if bit:
             r = (r * b) % m
+
         b = (b * b) % m
+
     return r
 
 
@@ -123,6 +129,7 @@ def legendre(a, q, l, n):
         else:
             x -= 1
             z = (z * a) % n
+
     return z
 
 
@@ -132,36 +139,49 @@ def sqrt_mod_prime(a, p):
     # Algorithm from http://www.mersennewiki.org/index.php/Modular_Square_Root
     assert a < p
     assert is_probable_prime(p)
+
     if a == 0:
         return 0
+
     if p == 2:
         return a
+
     if p % 2 == 0:
         return None
+
     p_mod_8 = p % 8
+
     if p_mod_8 == 1:
         # Shanks method
         q = p // 8
         e = 3
+
         while q % 2 == 0:
             q //= 2
             e += 1
+
         while True:
             x = random.randint(2, p - 1)
             z = pow_mod(x, q, p)
+
             if pow_mod(z, 2 ** (e - 1), p) != 1:
                 break
+
         y = z
         r = e
         x = pow_mod(a, (q - 1) // 2, p)
         v = (a * x) % p
         w = (v * x) % p
+
         while True:
             if w == 1:
                 return v
+
             k = 1
+
             while pow_mod(w, 2 ** k, p) != 1:
                 k += 1
+
             d = pow_mod(y, 2 ** (r - k - 1), p)
             y = (d ** 2) % p
             r = k
@@ -186,6 +206,7 @@ def eea(a, b):
     """
     if a == 0:
         return (0, 1, b)
+
     x = eea(b % a, a)
     return (x[1] - b // a * x[0], x[0], x[2])
 
@@ -197,8 +218,10 @@ def is_probable_prime(a):
     """
     if a == 2:
         return True
+
     if a == 1 or a % 2 == 0:
         return False
+
     return primality_test_miller_rabin(a, MILLER_RABIN_ITERATIONS)
 
 
@@ -211,9 +234,11 @@ def primality_test_miller_rabin(a, iterations):
         b = random.randint(2, a - 1)
         j = 0
         z = pow_mod(b, m, a)
+
         while not ((j == 0 and z == 1) or z == a - 1):
             if (j > 0 and z == 1 or j + 1 == lb):
                 return False
+
             j += 1
             z = (z * z) % a
 
@@ -226,13 +251,16 @@ def siqs_factor_base_primes(n, nf):
     """
     global small_primes
     factor_base = []
+
     for p in small_primes:
         if is_quadratic_residue(n, p):
             t = sqrt_mod_prime(n % p, p)
             lp = round(log2(p))
             factor_base.append(FactorBasePrime(p, t, lp))
+
             if len(factor_base) >= nf:
                 break
+
     return factor_base
 
 
@@ -242,9 +270,11 @@ def siqs_find_first_poly(n, m, factor_base):
     """
     p_min_i = None
     p_max_i = None
+
     for i, fb in enumerate(factor_base):
         if p_min_i is None and fb.p >= SIQS_MIN_PRIME_POLYNOMIAL:
             p_min_i = i
+
         if p_max_i is None and fb.p > SIQS_MAX_PRIME_POLYNOMIAL:
             p_max_i = i - 1
             break
@@ -253,6 +283,7 @@ def siqs_find_first_poly(n, m, factor_base):
     # that we have enough primes.
     if p_max_i is None:
         p_max_i = len(factor_base) - 1
+
     if p_min_i is None or p_max_i - p_min_i < 20:
         p_min_i = min(p_min_i, 5)
 
@@ -269,8 +300,10 @@ def siqs_find_first_poly(n, m, factor_base):
 
         while a < target1:
             p_i = 0
+
             while p_i == 0 or p_i in q:
                 p_i = random.randint(p_min_i, p_max_i)
+
             p = factor_base[p_i].p
             a *= p
             q.append(p_i)
@@ -283,31 +316,37 @@ def siqs_find_first_poly(n, m, factor_base):
             best_q = q
             best_a = a
             best_ratio = ratio
+
     a = best_a
     q = best_q
 
     s = len(q)
     B = []
+
     for l in range(s):
         fb_l = factor_base[q[l]]
         q_l = fb_l.p
         assert a % q_l == 0
         gamma = (fb_l.tmem * inv_mod(a // q_l, q_l)) % q_l
+
         if gamma > q_l // 2:
             gamma = q_l - gamma
+
         B.append(a // q_l * gamma)
 
     b = sum(B) % a
     b_orig = b
-    if (2 * b > a):
+
+    if 2 * b > a:
         b = a - b
 
-    assert 0 < b
+    assert b >  0
     assert 2 * b <= a
-    assert ((b * b - n) % a == 0)
+    assert ( b * b - n) % a == 0
 
     g = Polynomial([b * b - n, 2 * a * b, a * a], a, b_orig)
     h = Polynomial([b, a])
+
     for fb in factor_base:
         if a % fb.p != 0:
             fb.ainv = inv_mod(a, fb.p)
@@ -326,12 +365,15 @@ def siqs_find_next_poly(n, factor_base, i, g, B):
     b = (g.b + 2 * z * B[v - 1]) % g.a
     a = g.a
     b_orig = b
-    if (2 * b > a):
+
+    if 2 * b > a:
         b = a - b
-    assert ((b * b - n) % a == 0)
+
+    assert ( b * b - n ) % a == 0
 
     g = Polynomial([b * b - n, 2 * a * b, a * a], a, b_orig)
     h = Polynomial([b, a])
+
     for fb in factor_base:
         if a % fb.p != 0:
             fb.soln1 = (fb.ainv * (fb.tmem - b)) % fb.p
@@ -343,21 +385,26 @@ def siqs_find_next_poly(n, factor_base, i, g, B):
 def siqs_sieve(factor_base, m):
     """Perform the sieving step of the SIQS. Return the sieve array."""
     sieve_array = [0] * (2 * m + 1)
+
     for fb in factor_base:
         if fb.soln1 is None:
             continue
+
         p = fb.p
         i_start_1 = -((m + fb.soln1) // p)
         a_start_1 = fb.soln1 + i_start_1 * p
         lp = fb.lp
+
         if p > 20:
             for a in range(a_start_1 + m, 2 * m + 1, p):
                 sieve_array[a] += lp
 
             i_start_2 = -((m + fb.soln2) // p)
             a_start_2 = fb.soln2 + i_start_2 * p
+
             for a in range(a_start_2 + m, 2 * m + 1, p):
                 sieve_array[a] += lp
+
     return sieve_array
 
 
@@ -367,15 +414,20 @@ def siqs_trial_divide(a, factor_base):
     factors from the factor base. If not, return None.
     """
     divisors_idx = []
+
     for i, fb in enumerate(factor_base):
         if a % fb.p == 0:
             exp = 0
+
             while a % fb.p == 0:
                 a //= fb.p
                 exp += 1
+
             divisors_idx.append((i, exp))
+
         if a == 1:
             return divisors_idx
+
     return None
 
 
@@ -386,18 +438,22 @@ def siqs_trial_division(n, sieve_array, factor_base, smooth_relations, g, h, m,
     """
     sqrt_n = sqrt(float(n))
     limit = log2(m * sqrt_n) - SIQS_TRIAL_DIVISION_EPS
+
     for (i, sa) in enumerate(sieve_array):
         if sa >= limit:
             x = i - m
             gx = g.eval(x)
             divisors_idx = siqs_trial_divide(gx, factor_base)
+
             if divisors_idx is not None:
                 u = h.eval(x)
                 v = gx
                 assert (u * u) % n == v % n
                 smooth_relations.append((u, v, divisors_idx))
-                if (len(smooth_relations) >= req_relations):
+
+                if len(smooth_relations) >= req_relations:
                     return True
+
     return False
 
 
@@ -405,11 +461,15 @@ def siqs_build_matrix(factor_base, smooth_relations):
     """Build the matrix for the linear algebra step of the Quadratic Sieve."""
     fb = len(factor_base)
     M = []
+
     for sr in smooth_relations:
         mi = [0] * fb
+
         for j, exp in sr[2]:
             mi[j] = exp % 2
+
         M.append(mi)
+
     return M
 
 
@@ -421,9 +481,11 @@ def siqs_build_matrix_opt(M):
     """
     m = len(M[0])
     cols_binary = [""] * m
+
     for mi in M:
         for j, mij in enumerate(mi):
             cols_binary[j] += "1" if mij else "0"
+
     return [int(cols_bin[::-1], 2) for cols_bin in cols_binary], len(M), m
 
 
@@ -440,6 +502,7 @@ def find_pivot_column_opt(M_opt, j):
     """
     if M_opt[j] == 0:
         return None
+
     return lowest_set_bit(M_opt[j])
 
 
@@ -456,22 +519,30 @@ def siqs_solve_matrix_opt(M_opt, n, m):
     """
     row_is_marked = [False] * n
     pivots = [-1] * m
+
     for j in range(m):
         i = find_pivot_column_opt(M_opt, j)
+
         if i is not None:
             pivots[j] = i
             row_is_marked[i] = True
+
             for k in range(m):
                 if k != j and (M_opt[k] >> i) & 1:  # test M[i][k] == 1
                     add_column_opt(M_opt, k, j)
+
     perf_squares = []
+
     for i in range(n):
         if not row_is_marked[i]:
             perfect_sq_indices = [i]
+
             for j in range(m):
                 if (M_opt[j] >> i) & 1:  # test M[i][j] == 1
                     perfect_sq_indices.append(pivots[j])
+
             perf_squares.append(perfect_sq_indices)
+
     return perf_squares
 
 
@@ -481,9 +552,11 @@ def siqs_calc_sqrts(square_indices, smooth_relations):
     that a^2 = b^2 (mod n).
     """
     res = [1, 1]
+
     for idx in square_indices:
         res[0] *= smooth_relations[idx][0]
         res[1] *= smooth_relations[idx][1]
+
     res[1] = sqrt_int(res[1])
     return res
 
@@ -495,14 +568,18 @@ def sqrt_int(n):
     a = n
     s = 0
     o = 1 << (floor(log2(n)) & ~1)
+
     while o != 0:
         t = s + o
+
         if a >= t:
             a -= t
             s = (s >> 1) + o
         else:
             s >>= 1
+
         o >>= 2
+
     assert s * s == n
     return s
 
@@ -513,10 +590,12 @@ def kth_root_int(n, k):
     """
     u = n
     s = n + 1
+
     while u < s:
         s = u
         t = (k - 1) * s + n // pow(s, k - 1)
         u = t // k
+
     return s
 
 
@@ -541,13 +620,16 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
     rem = n
     non_prime_factors = set()
     prime_factors = set()
+
     for square_indices in perfect_squares:
         fact = siqs_factor_from_square(n, square_indices, smooth_relations)
-        if fact != 1 and fact != rem:
+
+        if fact not in [ 1, rem ]:
             if is_probable_prime(fact):
                 if fact not in prime_factors:
                     if verbose:
-                        print("SIQS: Prime factor found: %d" % fact)
+                        print( f"SIQS: Prime factor found: { fact }" )
+
                     prime_factors.add(fact)
 
                 while rem % fact == 0:
@@ -556,6 +638,7 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
 
                 if rem == 1:
                     break
+
                 if is_probable_prime(rem):
                     factors.append(rem)
                     rem = 1
@@ -563,39 +646,50 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
             else:
                 if fact not in non_prime_factors:
                     if verbose:
-                        print("SIQS: Non-prime factor found: %d" % fact)
+                        print( f"SIQS: Non-prime factor found: { fact }" )
+
                     non_prime_factors.add(fact)
 
     if rem != 1 and non_prime_factors:
         non_prime_factors.add(rem)
+
         for fact in sorted(siqs_find_more_factors_gcd(non_prime_factors)):
             while fact != 1 and rem % fact == 0:
                 if verbose:
                     print("SIQS: Prime factor found: %d" % fact)
+
                 factors.append(fact)
                 rem //= fact
+
             if rem == 1 or is_probable_prime(rem):
                 break
 
     if rem != 1:
         factors.append(rem)
+
     return factors
 
 
 def siqs_find_more_factors_gcd(numbers):
     res = set()
+
     for n in numbers:
         res.add(n)
+
         for m in numbers:
             if n != m:
                 fact = gcd(n, m)
-                if fact != 1 and fact != n and fact != m:
+
+                if fact not in [ 1, n, m ]:
                     if fact not in res:
                         if verbose:
-                            print("SIQS: GCD found non-trivial factor: %d" % fact)
+                            print( f"SIQS: GCD found non-trivial factor: { fact }" )
+
                         res.add(fact)
+
                     res.add(n // fact)
                     res.add(m // fact)
+
     return res
 
 
@@ -606,34 +700,49 @@ def siqs_choose_nf_m(d):
     # Using similar parameters as msieve-1.52
     if d <= 34:
         return 200, 65536
+
     if d <= 36:
         return 300, 65536
+
     if d <= 38:
-        return 400, 65536
+        return 400, 65535
+
     if d <= 40:
         return 500, 65536
+
     if d <= 42:
         return 600, 65536
+
     if d <= 44:
         return 700, 65536
+
     if d <= 48:
         return 1000, 65536
+
     if d <= 52:
         return 1200, 65536
+
     if d <= 56:
         return 2000, 65536 * 3
+
     if d <= 60:
         return 4000, 65536 * 3
+
     if d <= 66:
         return 6000, 65536 * 3
+
     if d <= 74:
         return 10000, 65536 * 3
+
     if d <= 80:
         return 30000, 65536 * 3
+
     if d <= 88:
         return 50000, 65536 * 3
+
     if d <= 94:
         return 60000, 65536 * 9
+
     return 100000, 65536 * 9
 
 
@@ -663,7 +772,7 @@ def siqs_factorise(n):
         required_relations = round(len(factor_base) * required_relations_ratio)
 
         if verbose:
-            print("Target: %d relations" % required_relations)
+            print( f"Target: { required_relations } relations" )
 
         enough_relations = False
 
@@ -688,7 +797,7 @@ def siqs_factorise(n):
                  i_poly % 8 == 0 and len(smooth_relations) > prev_cnt):
 
                 if verbose:
-                    print("Total %d/%d relations." % (len(smooth_relations), required_relations))
+                    print( f"Total { len(smooth_relations) }/{ required_relations } relations." )
 
                 prev_cnt = len(smooth_relations)
 
@@ -724,14 +833,17 @@ def check_factor(n, i, factors):
     while n % i == 0:
         n //= i
         factors.append(i)
+
         if is_probable_prime(n):
             factors.append(n)
             n = 1
+
     return n
 
 
 def trial_div_init_primes(n, upper_bound):
-    """Perform trial division on the given number n using all primes up
+    """
+    Perform trial division on the given number n using all primes up
     to upper_bound. Initialise the global variable small_primes with a
     list of all primes <= upper_bound. Return (factors, rem), where
     factors is the list of identified prime factors of n, and rem is the
@@ -748,10 +860,12 @@ def trial_div_init_primes(n, upper_bound):
     small_primes = []
     max_i = sqrt_int(upper_bound)
     rem = n
+
     for i in range(2, max_i + 1):
         if is_prime[i]:
             small_primes.append(i)
             rem = check_factor(rem, i, factors)
+
             if rem == 1:
                 return factors, 1
 
@@ -762,6 +876,7 @@ def trial_div_init_primes(n, upper_bound):
         if is_prime[i]:
             small_primes.append(i)
             rem = check_factor(rem, i, factors)
+
             if rem == 1:
                 return factors, 1
 
@@ -772,17 +887,21 @@ def trial_div_init_primes(n, upper_bound):
 
 
 def pollard_brent_f(c, n, x):
-    """Return f(x) = (x^2 + c)%n. Assume c < n.
+    """
+    Return f( x ) = ( x^2 + c ) % n. Assume c < n.
     """
     x1 = (x * x) % n + c
+
     if x1 >= n:
         x1 -= n
+
     assert x1 >= 0 and x1 < n
     return x1
 
 
 def pollard_brent_find_factor(n, max_iter=None):
-    """Perform Brent's variant of the Pollard rho factorisation
+    """
+    Perform Brent's variant of the Pollard rho factorisation
     algorithm to attempt to a non-trivial factor of the given number n.
     If max_iter > 0, return None if no factors were found within
     max_iter iterations.
@@ -792,41 +911,54 @@ def pollard_brent_find_factor(n, max_iter=None):
     i = 0
     ys = 0
     x = 0
+
     while g == 1:
         x = y
+
         for _ in range(r):
             y = pollard_brent_f(c, n, y)
+
         k = 0
+
         while k < r and g == 1:
             ys = y
+
             for _ in range(min(m, r - k)):
                 y = pollard_brent_f(c, n, y)
                 q = (q * abs(x - y)) % n
+
             g = gcd(q, n)
             k += m
+
         r *= 2
+
         if max_iter:
             i += 1
-            if (i == max_iter):
+
+            if i == max_iter:
                 return None
 
     if g == n:
         while True:
             ys = pollard_brent_f(c, n, ys)
             g = gcd(abs(x - ys), n)
+
             if g > 1:
                 break
+
     return g
 
 
 def pollard_brent_quick(n, factors):
-    """Perform up to max_iter iterations of Brent's variant of the
+    """
+    Perform up to max_iter iterations of Brent's variant of the
     Pollard rho factorisation algorithm to attempt to find small
     prime factors. Restart the algorithm each time a factor was found.
     Add all identified prime factors to factors, and return 1 if all
     prime factors were found, or otherwise the remaining factor.
     """
     rem = n
+
     while True:
         if is_probable_prime(rem):
             factors.append(rem)
@@ -834,23 +966,25 @@ def pollard_brent_quick(n, factors):
             break
 
         digits = len(str(n))
+
         if digits < MIN_DIGITS_POLLARD_QUICK2:
             max_iter = POLLARD_QUICK_ITERATIONS
         else:
             max_iter = POLLARD_QUICK2_ITERATIONS
 
         f = pollard_brent_find_factor(rem, max_iter)
+
         if f and f < rem:
             if is_probable_prime(f):
                 if verbose:
-                    print("Pollard rho (Brent): Prime factor found: %s" % f)
+                    print( f"Pollard rho (Brent): Prime factor found: { f }" )
 
                 factors.append(f)
                 assert rem % f == 0
                 rem //= f
             else:
                 if verbose:
-                    print("Pollard rho (Brent): Non-prime factor found: %s" % f)
+                    print( f"Pollard rho (Brent): Non-prime factor found: { f }" )
 
                 rem_f = pollard_brent_quick(f, factors)
                 rem = (rem // f) * rem_f
@@ -859,39 +993,45 @@ def pollard_brent_quick(n, factors):
                 print("No (more) small factors found.")
 
             break
+
     return rem
 
 
 def check_perfect_power(n):
-    """Check if the given integer is a perfect power. If yes, return
+    """
+    Check if the given integer is a perfect power. If yes, return
     (r, b) such that r^b == n. If no, return None. Assume that
     global small_primes has already been initialised and that n does
     not have any prime factors from small_primes.
     """
     largest_checked_prime = small_primes[-1]
+
     for b in small_primes:
         bth_root = kth_root_int(n, b)
+
         if bth_root < largest_checked_prime:
             break
-        if (bth_root ** b == n):
-            return (bth_root, b)
+
+        if bth_root ** b == n:
+            return bth_root, b
+
     return None
 
 
 def find_prime_factors(n):
-    """Return one or more prime factors of the given number n. Assume
+    """
+    Return one or more prime factors of the given number n. Assume
     that n is not a prime and does not have very small factors, and that
     the global small_primes has already been initialised. Do not return
     duplicate factors.
     """
-
     if verbose:
-        print("Checking whether %d is a perfect power..." % n)
+        print( f"Checking whether { n } is a perfect power..." )
 
     perfect_power = check_perfect_power(n)
     if perfect_power:
         if verbose:
-            print("%d is %d^%d" % (n, perfect_power[0], perfect_power[1]))
+            print("{ n } is { perfect_power[ 0 ] }^{ perfect_power[ 1 ]" )
 
         factors = [perfect_power[0]]
     else:
@@ -901,16 +1041,17 @@ def find_prime_factors(n):
         digits = len(str(n))
         if digits <= MAX_DIGITS_POLLARD:
             if verbose:
-                print("Using Pollard rho (Brent's variant) to factorise %d (%d digits)..." % (n, digits))
+                print( f"Using Pollard rho (Brent's variant) to factorise { n } ({ digits } digits)..." )
 
             factors = [pollard_brent_find_factor(n)]
         else:
             if verbose:
-                print("Using Self-Initializing Quadratic Sieve to factorise" +
-                      " %d (%d digits)..." % (n, digits))
+                print( f"Using Self-Initializing Quadratic Sieve to factorise { n } ({ digits } digits)..." )
+
             factors = siqs_factorise(n)
 
     prime_factors = []
+
     for f in set(factors):
         for pf in find_all_prime_factors(f):
             prime_factors.append(pf)
@@ -919,7 +1060,8 @@ def find_prime_factors(n):
 
 
 def find_all_prime_factors(n):
-    """Return all prime factors of the given number n. Assume that n
+    """
+    Return all prime factors of the given number n. Assume that n
     does not have very small factors and that the global small_primes
     has already been initialised.
     """
@@ -933,10 +1075,11 @@ def find_all_prime_factors(n):
 
         for f in find_prime_factors(rem):
             if verbose:
-                print("Prime factor found: %d" % f)
+                print( f"Prime factor found: { f }" )
 
             assert is_probable_prime(f)
             assert rem % f == 0
+
             while rem % f == 0:
                 rem //= f
                 factors.append(f)
@@ -947,8 +1090,10 @@ def find_all_prime_factors(n):
 def product(factors):
     """Return the product of all numbers in the given list."""
     prod = 1
+
     for f in factors:
         prod *= f
+
     return prod
 
 
@@ -959,7 +1104,7 @@ def factorise(n):
         raise ValueError("Number needs to be an integer >= 1")
 
     if verbose:
-        print("Factorising %d (%d digits)..." % (n, len(str(n))))
+        print( f"Factorising { n } ({ len( str( n ) ) } digits)..." )
 
     if n == 1:
         return []
@@ -967,37 +1112,39 @@ def factorise(n):
     if is_probable_prime(n):
         return [n]
 
-    factors, rem = trial_div_init_primes(n, 1000000)
+    factors, rem = trial_div_init_primes(n, 1_000_000)
 
     if verbose:
         if factors:
-            print("Prime factors found so far: %s" % factors)
+            print("Prime factors found so far: { factors }" )
         else:
             print("No small factors found.")
 
     if rem != 1:
         digits = len(str(rem))
+
         if digits > MAX_DIGITS_POLLARD:
             if verbose:
-                print("Attempting quick Pollard rho (Brent's variant) to find slightly " +
-                      "larger factors...")
+                print( "Attempting quick Pollard rho (Brent's variant) to find slightly larger factors..." )
+
             rem = pollard_brent_quick(rem, factors)
+
         if rem > 1:
             for fr in find_all_prime_factors(rem):
                 factors.append(fr)
 
     factors.sort()
     assert product(factors) == n
+
     for p in factors:
         assert is_probable_prime(p)
 
     return factors
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) > 1:
         N = int(sys.argv[1])
-        print("\nSuccess. Prime factors: %s" % factorise(N))
+        print( "\nSuccess. Prime factors: { factorise( N ) }" )
     else:
-        print("Usage: factorize.py <N>", file=sys.stderr)
-
+        print( "Usage: factorize.py <N>", file=sys.stderr )

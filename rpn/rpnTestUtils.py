@@ -229,7 +229,7 @@ def expectEqual( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+        print( f'Test complete.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
     print( )
 
@@ -297,7 +297,7 @@ def expectEquivalent( command1, command2 ):
     print( '    both are equal!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+        print( f'Test complete.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
     print( '' )
 
@@ -332,7 +332,7 @@ def testOperator( command, ignoreCache = True ):
     print( '    operator works!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+        print( f'Test complete.  Time elapsed:  { ( time_ns( ) - startTime ) / 1_000_000_000:.3f } seconds' )
 
     print( '' )
 
@@ -375,7 +375,7 @@ def expectResult( command, expected ):
     print( '    test passed!' )
 
     if g.timeIndividualTests:
-        print( 'Test complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+        print( f'Test complete.  Time elapsed:  { ( time_ns( ) - startTime ) / 1_000_000_000:.3f } seconds' )
 
     print( '' )
 

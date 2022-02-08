@@ -232,14 +232,10 @@ def collate( argList ):
     for arg in argList:
         if isinstance( arg, list ):
             listOfLists.append( arg )
-
-            if length < len( arg ):
-                length = len( arg )
+            length = max( len( arg ), length )
         else:
             listOfLists.append( [ arg ] )
-
-            if length < 1:
-                length = 1
+            length = max( 1, length )
 
     for i in range( 0, length ):
         newSubList = [ ]

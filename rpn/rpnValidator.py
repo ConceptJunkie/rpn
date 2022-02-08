@@ -109,7 +109,7 @@ class RPNValidator( ):
         elif self.valueType == self.Location:
             argument = self.validateLocation( argument )
         elif self.valueType == self.Location + self.DateTime:
-            argument = self.validateLocationOrDateTime( argument )         
+            argument = self.validateLocationOrDateTime( argument )
         elif self.valueType == self.Year:
             argument = self.validateYear( argument )
 
@@ -128,28 +128,30 @@ class RPNValidator( ):
 
     def validateInt( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, integer value expected' )
+            raise ValueError( f'type { type( argument ) } found, integer value expected' )
 
         if im( argument ) != 0:
-            raise ValueError( 'real argument expected ({})'.format( argument ) )
+            raise ValueError( f'real argument expected ( { argument } )' )
 
         if argument != floor( argument ):
-            raise ValueError( 'integer argument expected ({})'.format( argument ) )
+            raise ValueError( f'integer argument expected ({ argument })' )
 
         if self.minValue is not None and argument < self.minValue:
-            raise ValueError( f'argument value is { int( argument ) }, but the minimum valid value is { int( self.minValue ) }.' )
+            raise ValueError( f'argument value is { int( argument ) }, '
+                              f'but the minimum valid value is { int( self.minValue ) }.' )
 
         if self.maxValue is not None and argument > self.maxValue:
-            raise ValueError( f'argument value is { int( argument ) }, but the maximum valid value is { int( self.maxValue ) }.' )
+            raise ValueError( f'argument value is { int( argument ) }, '
+                              f'but the maximum valid value is { int( self.maxValue ) }.' )
 
         return argument
 
     def validateReal( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
+            raise ValueError( f'type { type( argument ) } found, numeric value expected' )
 
         if im( argument ) != 0:
-            raise ValueError( 'real argument expected ({})'.format( argument ) )
+            raise ValueError( f'real argument expected ({ argument })' )
 
         if self.minValue is not None and argument < self.minValue:
             raise ValueError( f'argument value is { argument }, minimum valid value is { self.minValue }.' )
@@ -161,7 +163,7 @@ class RPNValidator( ):
 
     def validateComplex( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric value expected' )
+            raise ValueError( f'type { type( argument ) } found, numeric value expected' )
 
         if self.minValue is not None :
             raise ValueError( 'The min constraint is invalid for validating complex arguments.' )
@@ -171,19 +173,22 @@ class RPNValidator( ):
 
         return argument
 
-    def validateDateTime( self, argument ):
+    @staticmethod
+    def validateDateTime( argument ):
         if not isinstance( argument, RPNDateTime ):
             raise ValueError( f'argument is type { type( argument ) }, but date-time value expected' )
 
         return argument
 
-    def validateString( self, argument ):
+    @staticmethod
+    def validateString( argument ):
         if not isinstance( argument, str ):
             raise ValueError( f'argument is type { type( argument ) }, but string value expected' )
 
         return argument
 
-    def validateMeasurement( self, argument ):
+    @staticmethod
+    def validateMeasurement( argument ):
         if not isinstance( argument, RPNMeasurement ):
             raise ValueError( f'argument is type { type( argument ) }, but measurement value expected' )
 
@@ -195,7 +200,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNMeasurement ):
             self.validateMeasurement( argument )
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, integer or measurement value expected' )
+            raise ValueError( f'type { type( argument ) } found, integer or measurement value expected' )
 
         return argument
 
@@ -215,7 +220,7 @@ class RPNValidator( ):
         elif isinstance( argument, RPNMeasurement ):
             pass
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric or measurement value expected' )
+            raise ValueError( f'type { type( argument ) } found, numeric or measurement value expected' )
 
         return argument
 
@@ -225,7 +230,7 @@ class RPNValidator( ):
         elif isinstance( argument, ( RPNMeasurement, RPNDateTime ) ):
             pass
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
+            raise ValueError( f'type { type( argument ) } found, numeric, measurement, date-time value expected' )
 
         return argument
 
@@ -235,7 +240,7 @@ class RPNValidator( ):
         elif isinstance( argument, ( RPNMeasurement, RPNDateTime ) ):
             pass
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, numeric, measurement, date-time value expected' )
+            raise ValueError( f'type { type( argument ) } found, numeric, measurement, date-time value expected' )
 
         return argument
 
@@ -247,13 +252,14 @@ class RPNValidator( ):
             if argument.getDimensions( ) != { 'length' : 1 }:
                 raise ValueError( 'measurement argument must be a length' )
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, measurement (length) expected' )
+            raise ValueError( f'type { type( argument ) } found, measurement (length) expected' )
 
         return argument
 
-    def validateList( self, argument ):
+    @staticmethod
+    def validateList( argument ):
         if not isinstance( argument, ( list, RPNGenerator ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, list expected' )
+            raise ValueError( f'type { type( argument ) } found, list expected' )
 
         return argument
 
@@ -263,19 +269,21 @@ class RPNValidator( ):
         elif isinstance( argument, RPNMeasurement ):
             self.validateMeasurement( argument )
         elif not isinstance( argument, str ):
-            raise ValueError( f'\'type\' { type( argument ) } found, string or integer expected' )
+            raise ValueError( f'type { type( argument ) } found, string or integer expected' )
 
         return argument
 
-    def validateLocation( self, argument ):
+    @staticmethod
+    def validateLocation( argument ):
         if not isinstance( argument, ( str, RPNLocation ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, string or location object expected' )
+            raise ValueError( f'type { type( argument ) } found, string or location object expected' )
 
         return argument
 
-    def validateLocationOrDateTime( self, argument ):
+    @staticmethod
+    def validateLocationOrDateTime( argument ):
         if not isinstance( argument, ( str, RPNLocation, RPNDateTime ) ):
-            raise ValueError( f'\'type\' { type( argument ) } found, string, date-time or location object expected' )
+            raise ValueError( f'type { type( argument ) } found, string, date-time or location object expected' )
 
         return argument
 
@@ -286,7 +294,7 @@ class RPNValidator( ):
             self.validateDateTime( argument )
             argument = argument.year
         else:
-            raise ValueError( f'\'type\' { type( argument ) } found, integer or date-time value expected' )
+            raise ValueError( f'type { type( argument ) } found, integer or date-time value expected' )
 
         return argument
 

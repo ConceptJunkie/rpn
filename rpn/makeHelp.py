@@ -54,13 +54,13 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2431
+MAX_EXAMPLE_COUNT = 2438
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
 startTime = time_ns( )
 
-print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION )
+print( f'makeHelp { PROGRAM_VERSION_STRING } - { PROGRAM_DESCRIPTION }' )
 print( COPYRIGHT_MESSAGE )
 print( )
 
@@ -105,7 +105,7 @@ def makeCommandExample( command, indent=0, slow=False ):
         return ''
 
     # This total count needs to be manually updated when the help examples are modified.
-    global MAX_EXAMPLE_COUNT
+    #global MAX_EXAMPLE_COUNT
     # print( command )
     print( '\rGenerating example: ', EXAMPLE_COUNT, 'of', MAX_EXAMPLE_COUNT, end='' )
     #print( )
@@ -114,8 +114,6 @@ def makeCommandExample( command, indent=0, slow=False ):
         print( '  (please be patient...)', end='', flush=True )
 
     output = io.StringIO( )
-
-    global HELP_DEBUG_MODE
 
     if HELP_DEBUG_MODE:
         print( )
@@ -148,7 +146,6 @@ def makeCommandExample( command, indent=0, slow=False ):
 #
 
 HELP_TOPICS = {
-    # pylint: disable=bad-continuation
     'options' :
     'rpn' + PROGRAM_VERSION_STRING + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' + '''
 command-line options:
@@ -576,9 +573,9 @@ how I can do that.
 
 'reversal_addition' doesn't work with generators.  I see a theme here.
 
-'hyperop' just doesn't work very well.  It gives incorrect answers in some 
-instances and overflows when analogous operations with the 'tetrate' operator 
-work fine.  Since I'm using a library, I think I should just replace it with my 
+'hyperop' just doesn't work very well.  It gives incorrect answers in some
+instances and overflows when analogous operations with the 'tetrate' operator
+work fine.  Since I'm using a library, I think I should just replace it with my
 own code.
 
 See 'rpn help TODO'.
@@ -1373,7 +1370,7 @@ Still sorting out the requirements that allow updates.
 
 8.5.4
 
-Got rid of a unit test that fails on Android and Linux, at least until I can 
+Got rid of a unit test that fails on Android and Linux, at least until I can
 figure out why.
 
 8.5.5
@@ -1384,9 +1381,13 @@ fixed a few other incompatibilities introduced by Python 3.10.
 
 8.5.6
 
-pyreadline3 doesn't work on Linux.  However, the built-in readline library 
+pyreadline3 doesn't work on Linux.  However, the built-in readline library
 supports Windows just fine now.  It didn't used to, which is why I started using
 the pyreadline library.
+
+8.6.0
+
+Added the 'antidivisors' and 'count_antidivisors' operators.
     ''',
     'license' :
     '''
@@ -1735,7 +1736,6 @@ SI Prefixes:
 #******************************************************************************
 
 OPERATOR_HELP = {
-    # pylint: disable=bad-continuation line-too-long
     #******************************************************************************
     #
     #  algebra operators
@@ -2975,7 +2975,8 @@ library.
     #******************************************************************************
 
     'angular_separation' : [
-'astronomy', 'returns the angular separation of astronomical objects a and b in radians, at location c, for date-time d',
+'astronomy', 'returns the angular separation of astronomical objects a and b in radians, '
+             'at location c, for date-time d',
 '''
 The angular separation describes the angle between where the two objects
 appear in the sky.
@@ -4408,7 +4409,8 @@ calendar.
 [ 'from_french_republican', 'to_french_republican_name' ] ],
 
     'to_french_republican_name' : [
-'calendars', 'converts a date to the equivalent date in the French Republican calendar with the weekday and month names',
+'calendars', 'converts a date to the equivalent date in the French Republican calendar with the weekday '
+             'and month names',
 '''
 This operator converts a date to the equivalent date in the French Republican
 calendar with day and month names.
@@ -7230,8 +7232,8 @@ value.
 The 'unfilter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 1 for each element.
 
-'unfilter_by_index' works the same way, except the index of the element is 
-passed to the user-defined function to determine if the element is to be 
+'unfilter_by_index' works the same way, except the index of the element is
+passed to the user-defined function to determine if the element is to be
 filtered.
 ''',
 '''
@@ -7324,7 +7326,8 @@ meters.
 '''
 ''' + makeCommandExample( '3 1 antiprism_area' ) + '''
 ''' + makeCommandExample( '7 1 meter antiprism_area' ),
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area',
+  'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'antiprism_volume' : [
 'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
@@ -7342,7 +7345,8 @@ meters.
 '''
 ''' + makeCommandExample( '3 1 antiprism_volume' ) + '''
 ''' + makeCommandExample( '7 1 meter antiprism_volume' ),
-[ 'antiprism_area', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_area', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume',
+  'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'cone_area' : [
 'geometry', 'calculates the surface area of a cone of radius n and height k',
@@ -7381,7 +7385,8 @@ with edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch dodecahedron_area' ),
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_volume',
+  'icosahedron_area', 'sphere_area' ] ],
 
     'dodecahedron_volume' : [
 'geometry', 'calculates the volume of a regular dodecahedron of edge length n',
@@ -7390,7 +7395,8 @@ This operator returns the volume of a regular dodecahedron of edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch dodecahedron_volume' ),
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume',
+  'icosahedron_volume', 'sphere_volume' ] ],
 
     'hypotenuse' : [
 'geometry', 'calculates the hypotenuse of n and k',
@@ -7415,7 +7421,8 @@ triangle with edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch icosahedron_area' ),
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_volume', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area',
+  'icosahedron_volume', 'sphere_area' ] ],
 
     'icosahedron_volume' : [
 'geometry', 'calculates the volume of a regular icosahedron of edge length n',
@@ -7424,7 +7431,8 @@ This operator returns the volume of a regular icosahedron of edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch icosahedron_volume' ),
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume',
+  'icosahedron_area', 'sphere_volume' ] ],
 
     'k_sphere_area' : [
 'geometry', 'calculates the surface area of a k-sphere of size n (radius or volume)',
@@ -7483,7 +7491,8 @@ triangle with edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch octahedron_area' ),
-[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_area',
+  'icosahedron_area', 'sphere_area' ] ],
 
     'octahedron_volume' : [
 'geometry', 'calculates the volume of a regular octahedron of edge length n',
@@ -7492,7 +7501,8 @@ This operator returns the volume of a regular octahedron of edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch octahedron_volume' ),
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_volume',
+  'icosahedron_volume', 'sphere_volume' ] ],
 
     'polygon_area' : [
 'geometry', 'calculates the area of an regular n-sided polygon with sides of length k',
@@ -7522,7 +7532,8 @@ length in meters.
 '''
 ''' + makeCommandExample( '3 4 inches 1 inch prism_area' ) + '''
 ''' + makeCommandExample( '7 3 meters 1 meter prism_area' ),
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octahedron_area', 'dodecahedron_area',
+  'icosahedron_area', 'sphere_area' ] ],
 
     'prism_volume' : [
 'geometry', 'calculates the volume of an a-sided prism of edge length b, and height c',
@@ -7540,7 +7551,8 @@ length in meters.
 '''
 ''' + makeCommandExample( '3 4 inches 1 inch prism_volume' ) + '''
 ''' + makeCommandExample( '7 3 meters 1 meter prism_volume' ),
-[ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octahedron_volume', 'dodecahedron_volume',
+  'icosahedron_volume', 'sphere_volume' ] ],
 
     'sphere_area' : [
 'geometry', 'calculates the surface area of a sphere of size n (radius or volume)',
@@ -7592,7 +7604,8 @@ triangle with edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch octahedron_area' ),
-[ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octahedron_area', 'dodecahedron_area',
+  'icosahedron_area', 'sphere_area' ] ],
 
     'tetrahedron_volume' : [
 'geometry', 'calculates the volume of a regular tetrahedron of edge length n',
@@ -7601,7 +7614,8 @@ This operator returns the volume of a regular tetrahedron of edge length n.
 ''',
 '''
 ''' + makeCommandExample( '1 inch tetrahedron_volume' ),
-[ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octahedron_volume', 'dodecahedron_volume',
+  'icosahedron_volume', 'sphere_volume' ] ],
 
     'torus_area' : [
 'geometry', 'calculates the surface area of a torus of major radius n and minor radius k',
@@ -7754,7 +7768,8 @@ zst zeptostere
 
 8726
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units',
+  '_dump_constants', '_dump_prime_cache' ] ],
 
     '_dump_cache' : [
 'internal', 'dumps the contents of cache n',
@@ -7796,7 +7811,8 @@ avogadro_number:  6.022140756e23
 bohr_radius:  5.29177210903e-11 meter
 ...
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units',
+  '_dump_aliases', '_dump_prime_cache' ] ],
 
     '_dump_conversions' : [
 'internal', 'dumps the list of unit conversions',
@@ -7814,7 +7830,8 @@ c:\\>rpn _dump_conversions
 ('1/second', 'centihertz') 100.0
 ...
 ''',
-[ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units', '_dump_aliases', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_constants', '_dump_operators', '_dump_stats', '_dump_units',
+  '_dump_aliases', '_dump_prime_cache' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -7836,7 +7853,8 @@ regular operators:
    ackermann_number
    ...
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_stats', '_dump_units',
+  '_dump_constants', '_dump_prime_cache' ] ],
 
     '_dump_prime_cache' : [
 'internal', 'dumps the contents of a prime number cache file',
@@ -7878,7 +7896,8 @@ rpnChilada Statistics:
         12 modifier operators
         ...
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_units',
+  '_dump_constants', '_dump_prime_cache' ] ],
 
     '_dump_units' : [
 'internal', 'lists all rpn units',
@@ -7897,7 +7916,8 @@ abhenry
 abmho
 ...
 ''',
-[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats', '_dump_constants', '_dump_prime_cache' ] ],
+[ '_dump_cache', '_dump_conversions', '_dump_aliases', '_dump_operators', '_dump_stats',
+  '_dump_constants', '_dump_prime_cache' ] ],
 
 
     #******************************************************************************
@@ -7916,7 +7936,8 @@ is the equivalent of the concatenation of digits from each argument.
 ''' + makeCommandExample( '34 45 add_digits' ) + '''
 ''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''',
-[ 'build_numbers', 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'build_numbers', 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits',
+  'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'build_numbers' : [
 'lexicography', 'constructs numbers lexicographically using a simple language',
@@ -7970,7 +7991,8 @@ Euler's number).  'o' by itself is interpreted as the symbol for 'abohm'.
 ''' + makeCommandExample( '[1-4:2:3] build_numbers' ) + '''
 ''' + makeCommandExample( '[1-4:1:2]e build_numbers' ) + '''
 ''',
-[ 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits',
+  'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'build_step_numbers' : [
 'list_operators', 'builds all step numbers up to n digits in length',
@@ -7997,7 +8019,8 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 ''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
 ''' + makeCommandExample( '9 0 range combine_digits' ) + '''
 ''' + makeCommandExample( '1 7 primes combine_digits' ),
-[ 'build_numbers', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'build_numbers', 'duplicate_digits', 'duplicate_number', 'get_digits',
+  'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'count_digits' : [
 'lexicography', 'counts the occurrences in n of all digits in k',
@@ -8030,7 +8053,8 @@ n.
 '''
 ''' + makeCommandExample( '12345 cyclic_permutations' ) + '''
 All of the circular primes up to a million:
-''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime and_all filter [ 2 5 ] append sort' ),
+''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime '
+                          'and_all filter [ 2 5 ] append sort' ),
 [ 'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'digits' : [
@@ -8135,7 +8159,8 @@ this operator.
 Find the longest palindrome chain in the numbers between 10000 and 11000.  Of
 course, it necessary by trial-and-error to discover how long the chains can
 become and how big the numbers get.
-''' + makeCommandExample( '-a30 10000 11000 range 100 find_palindrome lambda 0 x 0 element x 1 element 0 equal if for_each_list max_index 10000 +' ) + '''
+''' + makeCommandExample( '-a30 10000 11000 range 100 find_palindrome lambda 0 x 0 element x 1 element '
+                          '0 equal if for_each_list max_index 10000 +' ) + '''
 ''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) + '''
 ''' + makeCommandExample( '-a20 89 25 find_palindrome' ),
 [ 'reversal_addition', 'is_kaprekar', 'reverse_digits' ] ],
@@ -8193,7 +8218,8 @@ number.
 '''
 ''' + makeCommandExample( '1234567890 5 get_left_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_left_digits' ),
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits',
+  'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_left_truncations' : [
 'lexicography', 'returns a list of numbers, successively truncated a digit from the left',
@@ -8234,7 +8260,8 @@ This operator simply takes the right k digits of n and returns them as a number.
 '''
 ''' + makeCommandExample( '1234567890 5 get_right_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_right_digits' ),
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits',
+  'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns a list of numbers, successively truncated a digit from the right',
@@ -8629,7 +8656,8 @@ otherwise it returns 0.
 [ 'is_automorphic', 'is_trimorphic' ] ],
 
     'k_persistence' : [
-'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',
+'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power '
+                'to get a one-digit number',
 '''
 This operator implements 'multiplicative persistence' as described by Martin
 Gardner, with the addition that every digit is first taken to the kth power.
@@ -8661,7 +8689,8 @@ also a version that ignores 0, 'multiply_nonzero_digits'.
 ''' + makeCommandExample( '123456789 multiply_digits' ) + '''
 ''' + makeCommandExample( '1234567 multiply_digits' ) + '''
 ''' + makeCommandExample( '12345670 multiply_digits' ),
-[ 'multiply_digit_powers', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+[ 'multiply_digit_powers', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits',
+  'get_digits', 'persistence' ] ],
 
     'multiply_digit_powers' : [
 'lexicography', 'calculates the product of the kth power of each digit of integer n',
@@ -8674,7 +8703,8 @@ before doing the multiplication.  If k is 1 then it's the same as
 ''' + makeCommandExample( '123456789 2 multiply_digit_powers' ) + '''
 ''' + makeCommandExample( '-a15 1234567 4 multiply_digit_powers' ) + '''
 ''' + makeCommandExample( '-a15 12345670 4 multiply_digit_powers' ),
-[ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+[ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits',
+  'get_digits', 'persistence' ] ],
 
     'multiply_nonzero_digits' : [
 'lexicography', 'calculates the product of the non-zero digits of integer n',
@@ -8687,7 +8717,8 @@ power k before doing the multiplication.  If k is 1 then it's the same as
 ''' + makeCommandExample( '123456789 multiply_nonzero_digits' ) + '''
 ''' + makeCommandExample( '1234567 multiply_nonzero_digits' ) + '''
 ''' + makeCommandExample( '12345670 multiply_nonzero_digits' ),
-[ 'multiply_digit_powers', 'multiply_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+[ 'multiply_digit_powers', 'multiply_digits', 'multiply_nonzero_digit_powers', 'sum_digits',
+  'get_digits', 'persistence' ] ],
 
     'multiply_nonzero_digit_powers' : [
 'lexicography', 'calculates the product of the kth power of each non-zero digit of integer n',
@@ -8713,7 +8744,8 @@ lexicographic permutations of the digits.
 [ 'combine_digits', 'is_digital_permutation' ] ],
 
     'persistence' : [
-'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',
+'lexicography', 'counts the number of times it takes to successively multiply the digits of n '
+                'to get a one-digit number',
 '''
 This operator implements 'multiplicative persistence' as described by Martin
 Gardner:
@@ -10233,6 +10265,18 @@ rational numbers, so it's possible to represent them as fractions.
 ''' + makeCommandExample( '-a50 110 alternating_harmonic_fraction' ),
 [ 'harmonic_fraction' ] ],
 
+    'antidivisors' : [
+'number_theory', 'returns a list of antidivisors of n',
+'''
+This operator lists all antidivisors of an integer.
+
+Ref:  https://oeis.org/A066272/a066272a.html
+''',
+'''
+''' + makeCommandExample( '1000000 antidivisors' ) + '''
+''' + makeCommandExample( '1 20 range antidivisors' ),
+[ 'divisors', 'count_antidivisors' ] ],
+
     'barnesg' : [
 'number_theory', 'evaluates the Barnes G-function for n',
 '''
@@ -10352,6 +10396,16 @@ or until 1 is reached.
 ''' + makeCommandExample( '3 10 collatz' ) + '''
 ''' + makeCommandExample( '74 25 collatz' ),
 [ 'aliquot' ] ],
+
+    'count_antidivisors' : [
+'number_theory', 'returns a count of the antidivisors of n',
+'''
+''',
+'''
+''' + makeCommandExample( '38807865608 count_antidivisors' ) + '''
+''' + makeCommandExample( '14809541015890854379394722643016154544844622790702218770137481216 count_antidivisors' ) + '''
+''' + makeCommandExample( '1 20 range count_antidivisors' ),
+[ 'antidivisors', 'count_divisors' ] ],
 
     'count_divisors' : [
 'number_theory', 'returns a count of the divisors of n',
@@ -10599,7 +10653,8 @@ in the 13th century.  The sequence has many amazing properties.
 ''' + makeCommandExample( '1 20 range fibonacci' ) + '''
 This shows the relationship between the Fibonacci numbers and the Lucas numbers:
 
-''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
+''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib '
+                          'lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
 ''' + makeCommandExample( '1 30 range lucas' ),
 [ 'tribonacci', 'fibonorial', 'tetranacci', 'pentanacci', 'hexanacci', 'heptanacci', 'octanacci' ] ],
 
@@ -10711,7 +10766,8 @@ etc.
 [ 'is_polydivisible' ] ],
 
     'geometric_recurrence' : [
-'number_theory', 'calculates the dth value of a geometric recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
+'number_theory', 'calculates the dth value of a geometric recurrence specified by '
+                 'a list of factors (a), powers (b) and of seeds (c)',
 '''
 This operator calculates the dth value of a geometric recurrence specified by a
 list of factors (a), powers (b) and of seeds (c).
@@ -11399,7 +11455,8 @@ The Perrin sequence:
 [ 'linear_recurrence_with_modulo', 'nth_linear_recurrence', 'nth_linear_recurrence_with_modulo' ] ],
 
     'linear_recurrence_with_modulo' : [
-'number_theory', 'calculates the first c values of a linear recurrence specified by factors (a) and seeds (b), modulo d',
+'number_theory', 'calculates the first c values of a linear recurrence specified by '
+                 'factors (a) and seeds (b), modulo d',
 '''
 This operator calculates the first c values of a linear recurrence specified by
 a list of factors (a) and a list of seeds (b),  where each successive result is
@@ -11708,8 +11765,8 @@ L( n ) = 2F( n + 1 ) - 1
 '''
 These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
-as new Mersenne Primes are being actively searched for.
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.
+This list is subject to change as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
@@ -11723,8 +11780,8 @@ https://primes.utm.edu/mersenne/index.html
 '''
 These values are stored in a look-up table.  They are not calculated.  :-)
 
-There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
-as new Mersenne Primes are being actively searched for.
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.
+This list is subject to change as new Mersenne Primes are being actively searched for.
 
 https://primes.utm.edu/mersenne/index.html
 ''',
@@ -11813,8 +11870,8 @@ formula.
 These values are stored in a look-up table.  They are not calculated.  :-)
 
 The nth known perfect number is computed from the nth known Mersenne prime.
-There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.  This list is subject to change
-as new Mersenne Primes are being actively searched for.
+There are currently ''' + str( len( MERSENNE_PRIME_EXPONENTS ) ) + ''' known Mersenne primes.
+This list is subject to change as new Mersenne Primes are being actively searched for.
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_perfect_number' ) + '''
@@ -12355,7 +12412,8 @@ Temperature
 ''' + makeCommandExample( '1 billion watts black_hole_entropy' ) + '''
 ''' + makeCommandExample( 'gee black_hole_entropy' ) + '''
 ''' + makeCommandExample( '100 tons black_hole_entropy' ),
-[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature',
+  'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_lifetime' : [
 'physics', 'calculates the lifetime of a black hole given one of several different measurements',
@@ -12381,7 +12439,8 @@ Temperature
 ''' + makeCommandExample( '1 billion watts black_hole_lifetime' ) + '''
 ''' + makeCommandExample( '1.0e12 kg black_hole_lifetime' ) + '''
 ''' + makeCommandExample( 'gee black_hole_lifetime' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature',
+  'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'black_hole_luminosity' : [
 'physics', 'calculates the luminosity of a black hole given one of several different measurements',
@@ -12406,7 +12465,8 @@ Temperature
 ''' + makeCommandExample( '373 kelvin black_hole_luminosity' ) + '''
 ''' + makeCommandExample( '1.0e16 kg black_hole_luminosity' ) + '''
 ''' + makeCommandExample( 'gee black_hole_luminosity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature',
+  'black_hole_surface_gravity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_mass' : [
 'physics', 'calculates the mass of a black hole given one of several different measurements',
@@ -12431,7 +12491,8 @@ Temperature
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
 ''' + makeCommandExample( '10 gee black_hole_mass' ),
-[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature',
+  'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_radius' : [
 'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
@@ -12458,7 +12519,8 @@ Temperature
 ''' + makeCommandExample( '3 kelvin black_hole_radius' ) + '''
 ''' + makeCommandExample( '1 trillion watts black_hole_radius' ) + '''
 ''' + makeCommandExample( '100 gee black_hole_radius' ),
-[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_surface_area', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature',
+  'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_area' : [
 'physics', 'calculates the surface area of a black hole given one of several different measurements',
@@ -12483,7 +12545,8 @@ Temperature
 ''' + makeCommandExample( '1.0e12 kelvin black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '1 sextillion watts black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '1.0e25 gee black_hole_surface_area' ),
-[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature',
+  'black_hole_luminosity', 'black_hole_lifetime', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_gravity' : [
 'physics', 'calculates the surface gravity of a black hole given one of several different measurements',
@@ -12508,10 +12571,12 @@ Temperature
 ''' + makeCommandExample( '1.0e15 kelvin black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '60 watts black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '2000 gee black_hole_surface_gravity' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_temperature',
+  'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity', 'black_hole_surface_tides' ] ],
 
     'black_hole_surface_tides' : [
-'physics', 'calculates the tidal force at the event horizon of a black hole given one of several different measurements',
+'physics', 'calculates the tidal force at the event horizon of a black hole given '
+           'one of several different measurements',
 '''
 This operator calculates the tidal force at the event horizon of a black hole
 given one of several different measurements.
@@ -12537,7 +12602,8 @@ Temperature
 ''' + makeCommandExample( '273 kelvin black_hole_surface_tides' ) + '''
 ''' + makeCommandExample( '1 thousand watts black_hole_surface_tides' ) + '''
 ''' + makeCommandExample( '100 gee black_hole_surface_tides' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_temperature' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime',
+  'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_temperature' ] ],
 
     'black_hole_temperature' : [
 'physics', 'calculates the temperature of a black hole given one of several different measurements',
@@ -12562,7 +12628,8 @@ Tidal force (at the event horizon)
 ''' + makeCommandExample( '273 kelvin black_hole_temperature' ) + '''
 ''' + makeCommandExample( '1 million watts black_hole_temperature' ) + '''
 ''' + makeCommandExample( '0.01 gee black_hole_temperature' ),
-[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime', 'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
+[ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_area', 'black_hole_lifetime',
+  'black_hole_surface_gravity', 'black_hole_luminosity', 'black_hole_surface_tides' ] ],
 
     'distance' : [
 'physics', 'calculates distance given different measurement types',
@@ -12791,7 +12858,8 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 [ 'black_hole_surface_gravity' ] ],
 
     'tidal_force' : [
-'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), and the distance difference (c)',
+'physics', 'calculates the tidal_force due to gravity, given the mass (a), distance from the mass (b), '
+           'and the distance difference (c)',
 '''
 https://en.wikipedia.org/wiki/Tidal_force#Formulation
 ''',
@@ -16160,7 +16228,8 @@ expressions.
 [ 'roll_dice', 'enumerate_dice_', 'permute_dice', 'roll_dice_' ] ],
 
     'enumerate_dice_' : [
-'special', 'evaluates a dice expression to simulate rolling dice k times, with dice values enumerated separately for each roll',
+'special', 'evaluates a dice expression to simulate rolling dice k times, with dice values enumerated '
+           'separately for each roll',
 '''
 Please see 'roll_dice' for an explanation of the dice expression language.
 
@@ -16407,7 +16476,8 @@ expression n (see 'roll_dice') and list all the results.
 ''' + makeCommandExample( '2d6 permute_dice' ) + '''
 This expression compares the distribution of 4d6 drop the lowest and 5d6 drop
 the two lowest for all outcomes.
-''' + makeCommandExample( '4d6x1 permute_dice occurrence_ratios 5d6x2 permute_dice occurrence_ratios interleave -s1', indent=4 ) + '''
+''' + makeCommandExample( '4d6x1 permute_dice occurrence_ratios 5d6x2 permute_dice occurrence_ratios '
+                          'interleave -s1', indent=4 ) + '''
 As can be seen the change for an 18 goes from 1.6% with '4d6x1' to 3.5% with
 '5d6x2'.''',
 [ 'roll_dice', 'roll_dice_', 'enumerate_dice', 'enumerate_dice_' ] ],
@@ -16686,7 +16756,8 @@ numerical part of the measurement value.
 Koide's Constant... is it really 2/3?
 (see https://www.johndcook.com/blog/2018/09/11/koide/)
 
-''' + makeCommandExample( '[ electron_mass value muon_mass value tau_mass value ] sum [ electron_mass value sqrt muon_mass value sqrt tau_mass value sqrt ] sum sqr /' ),
+''' + makeCommandExample( '[ electron_mass value muon_mass value tau_mass value ] sum '
+                          '[ electron_mass value sqrt muon_mass value sqrt tau_mass value sqrt ] sum sqr /' ),
 [ 'invert_units' ] ],
 
 
@@ -17169,25 +17240,23 @@ def main( ):
 
     from rpn.rpnConstantOperators import constantOperators
 
-    for constant in constantOperators:
-        helpText = '\n\'' + constant + '\' returns a value of ' + str( constantOperators[ constant ].value )
+    for key, value in constantOperators.items( ):
+        helpText = '\n\'' + key + '\' returns a value of ' + str( value.value )
 
-        if constantOperators[ constant ].unit:
-            helpText += ' ' + constantOperators[ constant ].unit
+        if value.unit:
+            helpText += ' ' + value.unit
 
         helpText += '\n'
 
-        OPERATOR_HELP[ constant ] = [
-            'constants', constantOperators[ constant ].description,
-            helpText + constantOperators[ constant ].helpText, '', [ 'constants' ]
+        OPERATOR_HELP[ key ] = [
+            'constants', value.description,
+            helpText + value.helpText, '', [ 'constants' ]
         ]
 
-    for unit in g.unitOperators:
-        unitInfo = g.unitOperators[ unit ]
-
-        description = '\'' + unit + '\' is a unit of ' + unitInfo.unitType
-
-        OPERATOR_HELP[ unit ] = [ unitInfo.unitType, description, unitInfo.helpText, '', [ 'unit_types' ] ]
+    for key, value in g.unitOperators.items( ):
+        unitInfo = value
+        description = '\'' + key + '\' is a unit of ' + unitInfo.unitType
+        OPERATOR_HELP[ key ] = [ unitInfo.unitType, description, unitInfo.helpText, '', [ 'unit_types' ] ]
 
     makeHelp( )
 
@@ -17228,42 +17297,42 @@ def main( ):
 
         if noCategory:
             print( )
-            print( 'The following {} topics do not have a category defined:'.format( len( noCategory ) ) )
+            print( f'The following { len( noCategory ) } topics do not have a category defined:' )
             print( )
             printParagraph( ', '.join( sorted( noCategory ) ) )
 
         if noDescription:
             print( )
-            print( 'The following {} topics do not have any description:'.format( len( noDescription ) ) )
+            print( f'The following { len( noDescription ) } topics do not have any description:' )
             print( )
             printParagraph( ', '.join( sorted( noDescription ) ) )
 
         if noHelpText:
             print( )
-            print( 'The following {} topics do not have any help text:'.format( len( noHelpText ) ) )
+            print( f'The following { len( noHelpText ) } topics do not have any help text:' )
             print( )
             printParagraph( ', '.join( sorted( noHelpText ) ) )
 
         if noExamples:
             print( )
-            print( 'The following {} topics do not have any examples:'.format( len( noExamples ) ) )
+            print( f'The following { len( noExamples ) } topics do not have any examples:' )
             print( )
             printParagraph( ', '.join( sorted( noExamples ) ) )
 
         if noCrossReferences:
             print( )
-            print( 'The following {} topics do not have any cross references:'.format( len( noCrossReferences ) ) )
+            print( f'The following { len( noCrossReferences ) } topics do not have any cross references:' )
             print( )
             printParagraph( ', '.join( sorted( noCrossReferences ) ) )
 
         if badCrossReferences:
             print( )
-            print( 'The following {} cross references are invalid:'.format( len( badCrossReferences ) ) )
+            print( f'The following { len( badCrossReferences ) } cross references are invalid:' )
             print( )
             printParagraph( ', '.join( sorted( badCrossReferences ) ) )
 
     print( )
-    print( 'Help data completed.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1_000_000_000 ) )
+    print( f'Help data completed.  Time elapsed:  { ( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
 
 #******************************************************************************

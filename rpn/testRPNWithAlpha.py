@@ -331,8 +331,8 @@ def runPowersAndRootsOperatorTests( ):
 def runPrimeNumberOperatorTests( ):
     for i in range( 150 ):
         print( 'ready!' )
-        rpnSide = str( ( i + 1 ) * 100000000 ) + ' prime'
-        alphaSide = str( ( i + 1 ) * 100000000 ) + 'th prime number'
+        rpnSide = str( ( i + 1 ) * 100_000_000 ) + ' prime'
+        alphaSide = str( ( i + 1 ) * 100_000_000 ) + 'th prime number'
 
         expectEqual( rpnSide, str( queryAlpha( alphaSide ) ) )
         time.sleep( 5 )

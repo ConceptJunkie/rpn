@@ -253,7 +253,7 @@ class RPNMolecule( collections.Counter ):
         elif isinstance( arg, RPNMolecule ):
             self.update( arg )
 
-    def fromkeys( x ):
+    def fromkeys( self, iterable, v=None ):
         pass
 
     @staticmethod

@@ -74,6 +74,8 @@ if filterArg:
 #
 #******************************************************************************
 
+# pylint: disable=line-too-long, too-many-statements
+
 def runCommandLineOptionsTests( ):
     testOperator( '-a20 7 square_root' )
 
@@ -598,7 +600,7 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '0 20001 range lambda x is_odd filter', '5408 oeis 10001 left' )
 
-    expectEqual( '3 1000 2 interval_range lambda x factor unique count is_odd x factor sum is_odd and x get_digits sum is_odd and filter', 
+    expectEqual( '3 1000 2 interval_range lambda x factor unique count is_odd x factor sum is_odd and x get_digits sum is_odd and filter',
                  '84424 oeis 1000 filter_max' )
 
     expectException( '5j 3 + is_odd' )  # real arguments required
@@ -3446,7 +3448,6 @@ def runModifierOperatorTests( ):
 #******************************************************************************
 
 def runNumberTheoryOperatorTests( ):
-
     # abundance
     expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )
 
@@ -3478,6 +3479,10 @@ def runNumberTheoryOperatorTests( ):
                      '58313 oeis 2000 left' )
         expectEqual( '-a1002 1 2000 range alternating_harmonic_fraction lambda x 1 element for_each_list',
                      '58312 oeis 2000 left' )
+
+    # antidivisors
+
+    expectEqual( '1 10000 range count_antidivisors', '66272 oeis 10000 left' )
 
     # base
     testOperator( '[ 1 1 1 1 1 1 ] 2 10 range base' )
@@ -3527,6 +3532,10 @@ def runNumberTheoryOperatorTests( ):
 
     if SLOW:
         expectEqual( '2 10000 range 300 collatz lambda x length for_each_list 1 +', '8908 oeis 10000 left 9999 right' )
+
+    # count_antidivisors
+
+    expectEqual( '1 10000 range count_antidivisors', '66272 oeis 10000 left' )
 
     # count_divisors
     expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
@@ -3717,9 +3726,9 @@ def runNumberTheoryOperatorTests( ):
         #expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
 
     # hurwitz_zeta
-    expectEqual( '1 1 200 range range square 1/x sum', 
-                '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
-    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval', 
+    expectEqual( '1 1 200 range range square 1/x sum',
+                 '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
+    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval',
                  '-p100 173947 oeis 173948 oeis / 250 left 249 right' )
 
     # hyperfactorial
@@ -4765,7 +4774,6 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '3 2 tetrate' )
 
     # tetrate_right
-    # TODO:
     #expectEqual( '-a40 infinity lambda 2 2 sqrt x tetrate_right - 2 ln x ** / limit 21 get_decimal_digits',
     #             '277435 oeis 21 left' )
     expectEqual( '-a100 2 2 sqrt 1 100 range tetrate_right - 5 make_continued_fraction lambda x 1 element for_each_list -s1',
@@ -5569,6 +5577,7 @@ def runTests( tests ):
         for test in tests:
             if test in rpnTests:
                 rpnTests[ test ]( )
+                return True
             else:
                 guess = difflib.get_close_matches( test, rpnTests, 1 )
 
@@ -5667,30 +5676,30 @@ def main( ):
 
     foundProblem = False
 
-    for alias in g.aliases:
-        if alias in operators or \
-           alias in listOperators or \
-           alias in modifiers or \
-           alias in constants or \
-           alias in g.unitOperatorNames or \
-           alias in g.operatorCategories:
-            print( 'alias \'' + alias + '\' collides with an existing name' )
+    for key, value in g.aliases.items( ):
+        if key in operators or \
+           key in listOperators or \
+           key in modifiers or \
+           key in constants or \
+           key in g.unitOperatorNames or \
+           key in g.operatorCategories:
+            print( 'alias \'' + key + '\' collides with an existing name' )
             foundProblem = True
 
-        if g.aliases[ alias ] in operators or \
-           g.aliases[ alias ] in listOperators or \
-           g.aliases[ alias ] in modifiers or \
-           g.aliases[ alias ] in constants or \
-           g.aliases[ alias ] in g.constantOperators or \
-           g.aliases[ alias ] in g.unitOperatorNames or \
-           g.aliases[ alias ] in g.operatorCategories or \
-           g.aliases[ alias ] == 'unit_types':
+        if value in operators or \
+           value in listOperators or \
+           value in modifiers or \
+           value in constants or \
+           value in g.constantOperators or \
+           value in g.unitOperatorNames or \
+           value in g.operatorCategories or \
+           value == 'unit_types':
             continue
 
-        if '*' in g.aliases[ alias ] or '^' in g.aliases[ alias ]:
+        if '*' in value or '^' in value:
             continue
 
-        print( 'alias \'' + alias + '\' resolves to invalid name \'' + g.aliases[ alias ] + '\'' )
+        print( 'alias \'' + key + '\' resolves to invalid name \'' + value + '\'' )
         foundProblem = True
 
     if foundProblem:
@@ -5708,7 +5717,7 @@ def main( ):
             print( 'Prime number tests were skipped because the prime number data is not available.' )
             print( )
 
-    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( ( time_ns( ) - startTime ) / 1000000000 ) )
+    print( f'Tests complete.  Time elapsed:  {( time_ns( ) - startTime ) / 1000000000:.3f} seconds' )
 
 
 #******************************************************************************

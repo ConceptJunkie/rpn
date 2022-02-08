@@ -1,8 +1,8 @@
+import os
+
 from cx_Freeze import setup, Executable
 from rpn.rpnVersion import PROGRAM_VERSION
 import rpn.rpnGlobals as g
-
-import os
 
 # Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \
@@ -82,10 +82,6 @@ executables = [
                 shortcutName = 'rpnChilada Test ' + PROGRAM_VERSION,
                 targetName = 'testRPN.exe'
     )
-
-
-
-
 ]
 
 setup( name = 'rpn',

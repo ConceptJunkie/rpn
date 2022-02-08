@@ -453,7 +453,7 @@ def getNextPrimesOperator( n, k ):
 #******************************************************************************
 
 def getPreviousPrimes( p, k, func = getPreviousPrimeCandidateForAny ):
-    if p < 1000000000 and getNthPrime( p ) < k:
+    if p < 1_000_000_000 and getNthPrime( p ) < k:
         raise ValueError( 'There is no previous prime to 2.' )
 
     result = [ ]
@@ -492,28 +492,27 @@ def getNthPrime( arg ):
     if n == 3:
         return 5
 
-    if g.primeDataAvailable and n >= 1000000000:
+    if g.primeDataAvailable and n >= 1_000_000_000:
         openPrimeCache( 'huge_primes' )
 
-        maxIndex = g.cursors[ 'huge_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'huge_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'huge_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
-    elif g.primeDataAvailable and n >= 1000000:
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
+    elif g.primeDataAvailable and n >= 1_000_000:
         openPrimeCache( 'large_primes' )
 
         currentIndex, p = g.cursors[ 'large_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     elif g.primeDataAvailable and n >= 100:
         openPrimeCache( 'small_primes' )
 
         currentIndex, p = g.cursors[ 'small_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 4
         p = 7
@@ -559,17 +558,17 @@ def findPrime( arg ):
         openPrimeCache( 'small_primes' )
 
         currentIndex, p = g.cursors[ 'small_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( target, ) ).fetchone( )
     elif g.primeDataAvailable and target <= 22801763489:  # 1,000,000,000th prime
         openPrimeCache( 'large_primes' )
 
         currentIndex, p = g.cursors[ 'large_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( target, ) ).fetchone( )
     elif g.primeDataAvailable:
         openPrimeCache( 'huge_primes' )
 
         currentIndex, p = g.cursors[ 'huge_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( target, ) ).fetchone( )
     else:
         currentIndex = 4
         p = 7
@@ -608,7 +607,7 @@ def findQuadrupletPrimes( arg ):
         openPrimeCache( 'quad_primes' )
 
         currentIndex, p = g.cursors[ 'quad_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( n, ) ).fetchone( )
     else:
         p = 11
 
@@ -662,15 +661,14 @@ def getNthQuadrupletPrime( arg ):
     if g.primeDataAvailable and n >= 10:
         openPrimeCache( 'quad_primes' )
 
-        maxIndex = g.cursors[ 'quad_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'quad_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'quad_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 11
@@ -722,7 +720,7 @@ def getNthIsolatedPrimeOperator( arg ):
         openPrimeCache( 'isolated_primes' )
 
         currentIndex, p = g.cursors[ 'isolated_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 2
         p = 23
@@ -782,15 +780,14 @@ def getNthTwinPrime( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'twin_primes' )
 
-        maxIndex = g.cursors[ 'twin_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'twin_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'twin_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -837,15 +834,14 @@ def getNthBalancedPrime( arg ):
     if g.primeDataAvailable:
         openPrimeCache( 'balanced_primes' )
 
-        maxIndex = g.cursors[ 'balanced_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'balanced_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'balanced_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
 
         if n == currentIndex:
             return p
@@ -908,14 +904,13 @@ def getNthDoubleBalancedPrimeElement( arg, first = False ):
     if g.primeDataAvailable:
         openPrimeCache( 'double_balanced_primes' )
 
-        maxIndex = g.cursors[ 'double_balanced_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'double_balanced_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
         currentIndex, p = g.cursors[ 'double_balanced_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
 
         if currentIndex == n:
             return p
@@ -995,15 +990,14 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
     if g.primeDataAvailable:
         openPrimeCache( 'triple_balanced_primes' )
 
-        maxIndex = g.cursors[ 'triple_balanced_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'triple_balanced_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'triple_balanced_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
 
         if n == currentIndex:
             return p
@@ -1083,15 +1077,14 @@ def getNthQuadrupleBalancedPrimeElement( arg, first = False ):
     if g.primeDataAvailable:
         openPrimeCache( 'quadruple_balanced_primes' )
 
-        maxIndex = g.cursors[ 'quadruple_balanced_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'quadruple_balanced_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'quadruple_balanced_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
 
         if n == currentIndex:
             return p
@@ -1174,15 +1167,14 @@ def getNthSophiePrime( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sophie_primes' )
 
-        maxIndex = g.cursors[ 'sophie_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'sophie_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'sophie_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 4
         p = 11
@@ -1230,15 +1222,14 @@ def getNthCousinPrime( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'cousin_primes' )
 
-        maxIndex = g.cursors[ 'cousin_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'cousin_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'cousin_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 2
         p = 7
@@ -1311,15 +1302,14 @@ def getNthSexyPrime( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_primes' )
 
-        maxIndex = g.cursors[ 'sexy_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'sexy_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'sexy_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 7
@@ -1364,15 +1354,14 @@ def getNthSexyTriplet( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_triplets' )
 
-        maxIndex = g.cursors[ 'sexy_triplets' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'sexy_triplets' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'sexy_triplets' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 1
         p = 7
@@ -1427,15 +1416,14 @@ def getNthSexyQuadruplet( arg ):
     elif g.primeDataAvailable and n >= 100:
         openPrimeCache( 'sexy_quadruplets' )
 
-        maxIndex = g.cursors[ 'sexy_quadruplets' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'sexy_quadruplets' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'sexy_quadruplets' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
 
     while n > startingPlace:
         p += 10
@@ -1514,15 +1502,14 @@ def getNthOctyPrime( arg ):
     if g.primeDataAvailable:
         openPrimeCache( 'octy_primes' )
 
-        maxIndex = g.cursors[ 'octy_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'octy_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'octy_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 3
         p = 11
@@ -1570,15 +1557,14 @@ def getNthTripletPrimeList( arg ):
     if g.primeDataAvailable and n >= 100:
         openPrimeCache( 'triplet_primes' )
 
-        maxIndex = g.cursors[ 'triplet_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'triplet_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'triplet_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -1659,15 +1645,14 @@ def getNthQuintupletPrime( arg ):
     if g.primeDataAvailable and n >= 10:
         openPrimeCache( 'quint_primes' )
 
-        maxIndex = g.cursors[ 'quint_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'quint_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         currentIndex, p = g.cursors[ 'quint_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -1731,7 +1716,7 @@ def findQuintupletPrimes( arg ):
         openPrimeCache( 'quint_primes' )
 
         currentIndex, p = g.cursors[ 'quint_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( n, ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -1789,7 +1774,7 @@ def findSextupletPrimes( arg ):
         openPrimeCache( 'sext_primes' )
 
         currentIndex, p = g.cursors[ 'sext_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( n, ) ).fetchone( )
     else:
         currentIndex = 3
         p = 16057
@@ -1839,7 +1824,7 @@ def findTripletPrimes( arg ):
         openPrimeCache( 'triplet_primes' )
 
         currentIndex, p = g.cursors[ 'triplet_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( n, ) ).fetchone( )
     else:
         currentIndex = 2
         p = 7
@@ -1894,7 +1879,7 @@ def findTwinPrimes( arg ):
         openPrimeCache( 'twin_primes' )
 
         currentIndex, p = g.cursors[ 'twin_primes' ].execute(
-            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
+            'SELECT id, max( value ) FROM cache WHERE value <= ?', ( n, ) ).fetchone( )
     else:
         currentIndex = 2
         p = 5
@@ -1945,15 +1930,14 @@ def getNthSextupletPrime( arg ):
     if g.primeDataAvailable:
         openPrimeCache( 'sext_primes' )
 
-        maxIndex = g.cursors[ 'sext_primes' ].execute(
-            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
+        maxIndex = g.cursors[ 'sext_primes' ].execute( 'SELECT MAX( id ) FROM cache' ).fetchone( )[ 0 ]
 
         if n > maxIndex:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
+            sys.stderr.write( f'{n:,} is above the max cached index of {maxIndex:,}.  '
+                              'This could take some time...\n' )
 
         startingPlace, p = g.cursors[ 'sext_primes' ].execute(
-            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
+            'SELECT MAX( id ), value FROM cache WHERE id <= ?', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 97
@@ -2100,7 +2084,7 @@ def getPrimesOperator( n, k ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def getPrimeRangeOperator( start, end ):
-    result = list( )
+    result = [ ]
 
     for i in getNthPrimeRange( start, fadd( fsub( end, start ), 1 ) ):
         result.append( i )
@@ -2135,7 +2119,7 @@ def getNthPrimorialOperator( n ):
 
 def countCache( name ):
     openPrimeCache( name )
-    return g.cursors[ name ].execute( '''SELECT count( id ) FROM cache''' ).fetchone( )[ 0 ]
+    return g.cursors[ name ].execute( 'SELECT count( id ) FROM cache' ).fetchone( )[ 0 ]
 
 
 #******************************************************************************
@@ -2146,7 +2130,7 @@ def countCache( name ):
 
 def getMaxPrime( name ):
     openPrimeCache( name )
-    return g.cursors[ name ].execute( '''SELECT max( id ), value FROM cache''' ).fetchone( )
+    return g.cursors[ name ].execute( 'SELECT max( id ), value FROM cache' ).fetchone( )
 
 
 #******************************************************************************

@@ -82,7 +82,10 @@ def lookAhead( iterable ):
     '''
     # Get an iterator and pull the first value.
     i = iter( iterable )
-    last = next( i )
+    try:
+        last = next( i )
+    except StopIteration:
+        return
 
     # Run the iterator to exhaustion (starting from the second value).
     for value in i:
@@ -108,7 +111,7 @@ def evaluate( terms ):
     get pushed back on to the stack for further processing, or ultimately,
     output.
     '''
-    valueList = list( )
+    valueList = [ ]
     index = 1                 # only used for error messages
 
     # handle a unit operator
@@ -138,7 +141,7 @@ def evaluate( terms ):
                 valueList = [ nan ]
                 break
         except ValueError as error:
-            print( 'rpn:  error:  {0}'.format( error ) )
+            print( f'rpn:  error:  { error }' )
             valueList = [ nan ]
             break
 
@@ -255,8 +258,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n' + indentString + '{:.3f} seconds'.format( ( time_ns( ) - g.startTime ) / 1_000_000_000 ),
-               file=file )
+        print( f'\n { indentString }{ ( time_ns( ) - g.startTime ) / 1_000_000_000:.3f} seconds', file=file )
 
     return file
 
@@ -564,7 +566,7 @@ def rpn( cmdArgs ):
             if g.outputRadix == 10:
                 g.outputRadix = int( args.output_radix )
         except ValueError:
-            print( 'rpn:  cannot interpret output radix \'%s\' as a number' % args.output_radix )
+            print( f'rpn:  cannot interpret output radix \'{ args.output_radix }\' as a number' )
             return [ nan ]
 
     # -r validation
@@ -601,24 +603,24 @@ def rpn( cmdArgs ):
         setAccuracy( 53 )
 
     if args.print_options:
-        print( '--output_accuracy:  %d' % g.outputAccuracy )
-        print( '--input_radix:  %d' % g.inputRadix )
-        print( '--comma:  ' + ( 'true' if g.comma else 'false' ) )
-        print( '--decimal_grouping:  %d' % g.decimalGrouping )
-        print( '--integer_grouping:  %d' % g.integerGrouping )
-        print( '--line_length:  %d' % g.lineLength )
-        print( '--numerals:  ' + g.numerals )
-        print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
-        print( '--precision:  %d' % args.precision )
-        print( '--output_radix:  %d' % g.outputRadix )
-        print( '--list_format_level:  %d' % g.listFormatLevel )
-        print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
-        print( '--verbose:  ' + ( 'true' if g.verbose else 'false' ) )
-        print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
-        print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
-        print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
-        print( '--leading_zero:  ' + ( 'true' if g.leadingZero else 'false' ) )
-        print( '--ignore_cache:  ' + ( 'true' if g.ignoreCache else 'false' ) )
+        print( f'--output_accuracy:   { g.outputAccuracy }' )
+        print( f'--input_radix:  { g.inputRadix }' )
+        print( f'--comma:  { "true" if g.comma else "false" }' )
+        print( f'--decimal_grouping:  { g.decimalGrouping }' )
+        print( f'--integer_grouping:  { g.integerGrouping }' )
+        print( f'--line_length:  { g.lineLength }' )
+        print( f'--numerals:  { g.numerals }' )
+        print( f'--octal:  { "true" if args.octal else "false" }' )
+        print( f'--precision:  { args.precision }' )
+        print( f'--output_radix:  { g.outputRadix }' )
+        print( f'--list_format_level:  { g.listFormatLevel }' )
+        print( f'--timer:  { "true" if args.timer else "false" }' )
+        print( f'--verbose:  { "true" if g.verbose else "false" }' )
+        print( f'--bitwise_group_size:  { g.bitwiseGroupSize }' )
+        print( f'--hex:  { "true" if args.hex else "false" }' )
+        print( f'--identify:  { "true" if args.identify else "false" }' )
+        print( f'--leading_zero:  { "true" if g.leadingZero else "false" }' )
+        print( f'--ignore_cache:  { "true" if g.ignoreCache else "false" }' )
         print( )
 
     g.creatingFunction = False
@@ -693,7 +695,7 @@ def main( ):
         if g.userConfigurationIsDirty:
             saveUserConfigurationFile( )
     except ValueError as error:
-        print( '\nrpn:  value error:  {0}'.format( error ) )
+        print( f'\nrpn:  value error:  { error }' )
 
         if g.debugMode:
             raise
