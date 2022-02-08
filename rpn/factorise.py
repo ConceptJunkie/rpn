@@ -294,6 +294,7 @@ def siqs_find_first_poly(n, m, factor_base):
     # find q such that the product of factor_base[q_i] is approximately
     # sqrt(2 * n) / m; try a few different sets to find a good one
     best_q, best_a, best_ratio = None, None, None
+
     for _ in range(30):
         a = 1
         q = []
@@ -311,8 +312,8 @@ def siqs_find_first_poly(n, m, factor_base):
         ratio = a / target
 
         # ratio too small seems to be not good
-        if (best_ratio is None or (ratio >= 0.9 and ratio < best_ratio) or
-                    best_ratio < 0.9 and ratio > best_ratio):
+        if ( best_ratio is None or (0.9 <= ratio < best_ratio) or
+             best_ratio < 0.9 and ratio > best_ratio ):
             best_q = q
             best_a = a
             best_ratio = ratio
@@ -656,7 +657,7 @@ def siqs_find_factors(n, perfect_squares, smooth_relations):
         for fact in sorted(siqs_find_more_factors_gcd(non_prime_factors)):
             while fact != 1 and rem % fact == 0:
                 if verbose:
-                    print("SIQS: Prime factor found: %d" % fact)
+                    print( f"SIQS: Prime factor found: { fact }" )
 
                 factors.append(fact)
                 rem //= fact
@@ -895,7 +896,7 @@ def pollard_brent_f(c, n, x):
     if x1 >= n:
         x1 -= n
 
-    assert x1 >= 0 and x1 < n
+    assert 0 <= x1 < n
     return x1
 
 
@@ -1100,8 +1101,8 @@ def product(factors):
 def factorise(n):
     """Factorise the given integer n >= 1 into its prime factors."""
 
-    if type(n) != int or n < 1:
-        raise ValueError("Number needs to be an integer >= 1")
+    if not isinstance(n, int) or n < 1:
+        raise ValueError( "Number needs to be an integer >= 1" )
 
     if verbose:
         print( f"Factorising { n } ({ len( str( n ) ) } digits)..." )
@@ -1143,8 +1144,8 @@ def factorise(n):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        N = int(sys.argv[1])
+    if len( sys.argv ) > 1:
+        N = int( sys.argv[ 1 ]  )
         print( "\nSuccess. Prime factors: { factorise( N ) }" )
     else:
         print( "Usage: factorize.py <N>", file=sys.stderr )

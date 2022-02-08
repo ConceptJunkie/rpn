@@ -6444,7 +6444,7 @@ unitConversionMatrix = {
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
 
     # electric_potential
-    ( 'statvolt',                   'volt' )                                : fdiv( 299792458, 1000000 ),
+    ( 'statvolt',                   'volt' )                                : fdiv( 299_792_458, 1_000_000 ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
     ( 'volt',                       'kilogram*meter^2/ampere*second^3' )    : mpmathify( '1' ),
 
@@ -6453,7 +6453,7 @@ unitConversionMatrix = {
     ( 'calorie',                    'joule' )                               : mpmathify( '4.184' ),
     ( 'electron-volt',              'joule' )                               : mpmathify( '1.602176634e-19' ),
     ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
-    ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
+    ( 'gram_equivalent',            'joule' )                               : fdiv( power( 299_792_458, 2 ), 1000 ),
     ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram*meter^2/second^2' )           : mpmathify( '1' ),
@@ -6559,7 +6559,7 @@ unitConversionMatrix = {
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'palm',                       'inch' )                                : mpmathify( '3' ),
-    ( 'parsec',                     'meter' )                               : fmul( 149597870700, fdiv( 648000, pi ) ),  # based on AU
+    ( 'parsec',                     'meter' )                               : fmul( 149_597_870_700, fdiv( 648_000, pi ) ),  # based on AU
     ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
     ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
@@ -6575,7 +6575,7 @@ unitConversionMatrix = {
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
     ( 'stadion',                    'foot' )                                : mpmathify( '606.95' ),
-    ( 'survey_acre',                'meter^2' )                             : fadd( 4046, fdiv( 13525426, 15499969 ) ),   # exact!
+    ( 'survey_acre',                'meter^2' )                             : fadd( 4046, fdiv( 13_525_426, 15_499_969 ) ),   # exact!
     ( 'survey_foot',                'meter' )                               : fdiv( 1200, 3937 ),
     ( 'versta',                     'arshin' )                              : mpmathify( '1500' ),
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
