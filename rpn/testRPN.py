@@ -2861,7 +2861,7 @@ def runLexicographyOperatorTests( ):
     if g.primeDataAvailable:
         expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
 
-    if g.primeDataAvailable and  g.slowTests:
+    if g.primeDataAvailable and g.slowTests:
         expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
 
     # has_digits
@@ -5558,24 +5558,24 @@ for test in RPN_TEST_LIST:
 
 def runTests( tests ):
     if tests:
-        for test in tests:
-            if test in rpnTests:
-                rpnTests[ test ]( )
+        for single_test in tests:
+            if single_test in rpnTests:
+                rpnTests[ single_test ]( )
                 return True
             else:
-                guess = difflib.get_close_matches( test, rpnTests, 1 )
+                guess = difflib.get_close_matches( single_test, rpnTests, 1 )
 
                 if len( guess ) == 1:
-                    print( 'Interpreting \'' + test + '\' as \'' + guess[ 0 ] + '\'...' )
+                    print( 'Interpreting \'' + single_test + '\' as \'' + guess[ 0 ] + '\'...' )
                     print( )
                     rpnTests[ guess[ 0 ] ]( )
                     return True
                 else:
-                    printHelpText( 'I don\'t know what \'' + test + '\' means in this context.' )
+                    printHelpText( 'I don\'t know what \'' + single_test + '\' means in this context.' )
                     return False
     else:
-        for test in rpnTests:
-            rpnTests[ test ]( )
+        for single_test in rpnTests:
+            rpnTests[ single_test ]( )
 
         return True
 
@@ -5637,7 +5637,7 @@ def main( ):
         elif arg == '-t':
             g.timeIndividualTests = True
         elif arg == '-y':
-            g.testWithYafu = True                             
+            g.testWithYafu = True
         elif arg == '-?':
             printHelpText( )
             return
