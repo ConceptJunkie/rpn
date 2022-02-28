@@ -5,7 +5,7 @@
 #  rpnOperators.py
 #
 #  rpnChilada operator definitions
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -261,6 +261,7 @@ from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFu
                                 getNthThabitNumberOperator, getNthThabit2NumberOperator, \
                                 getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, \
                                 getPolitenessOperator, getPolygammaOperator, getPrimePiOperator, getRadicalOperator, \
+                                getRandomPrimeOperator, getRandomPrimesOperator, \
                                 getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
                                 getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
                                 isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
@@ -3168,6 +3169,8 @@ operators = {
     'primorial'                         : RPNOperator( getNthPrimorialOperator, 1 ),
     'pythagorean_triples'               : RPNOperator( makePythagoreanTriplesOperator, 1 ),
     'radical'                           : RPNOperator( getRadicalOperator, 1 ),
+    'random_prime'                      : RPNOperator( getRandomPrimeOperator, 1 ),
+    'random_primes'                     : RPNOperator( getRandomPrimesOperator, 2 ),
     'relatively_prime'                  : RPNOperator( areRelativelyPrimeOperator, 2 ),
     'repunit'                           : RPNOperator( getNthBaseKRepunitOperator, 2 ),
     'reversal_addition'                 : RPNOperator( getNthReversalAdditionOperator, 2 ),
@@ -3336,10 +3339,10 @@ operators = {
     'ordinal_name'                      : RPNOperator( getOrdinalNameOperator, 1 ),
     'permute_dice'                      : RPNOperator( permuteDiceOperator, 1 ),
     'primitive_units'                   : RPNOperator( convertToPrimitiveUnitsOperator, 1 ),
-    'random'                            : RPNOperator( getRandomNumberOperator, 0 ),
-    'random_'                           : RPNOperator( getMultipleRandomsOperator, 1 ),
     'random_integer'                    : RPNOperator( getRandomIntegerOperator, 1 ),
     'random_integers'                   : RPNOperator( getRandomIntegersOperator, 2 ),
+    'random_number'                     : RPNOperator( getRandomNumberOperator, 0 ),
+    'random_numbers'                    : RPNOperator( getMultipleRandomsOperator, 1 ),
     'result'                            : RPNOperator( loadResultOperator, 0 ),
     'roll_dice'                         : RPNOperator( rollDiceOperator, 1 ),
     'roll_simple_dice'                  : RPNOperator( rollSimpleDiceOperator, 2 ),

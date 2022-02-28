@@ -5,7 +5,7 @@
 #  rpnNumberTheory.py
 #
 #  rpnChilada number theory operators
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -16,13 +16,14 @@ import random
 
 from fractions import Fraction
 from functools import reduce
+from random import randrange
 
 import numpy as np
 
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac, fac2, fadd, fdiv, fib, \
                    floor, fmod, fmul, fneg, fprod, fsub, fsum, gamma, harmonic, hyperfac, libmp, log, log10, \
-                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, re, root, \
-                   superfac, sqrt, unitroots, zeta, zetazero
+                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, power, primepi2, psi, \
+                   re, root, superfac, sqrt, unitroots, zeta, zetazero
 
 from rpn.rpnComputer import getBitCount
 from rpn.rpnFactor import getFactors, getFactorList
@@ -30,7 +31,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
 from rpn.rpnMath import isDivisible, isEven, isInteger, isOdd
 from rpn.rpnPersistence import cachedFunction
-from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime
+from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime, getNextPrime
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
                          twoArgFunctionEvaluator
@@ -3060,6 +3061,39 @@ def getNthKPolygorialOperator( n, k ):
                  fdiv( fmul( power( fsub( k, 2 ), n ),
                              gamma( fdiv( fadd( fsub( fmul( n, k ), fmul( 2, n ) ), 2 ), fsub( k, 2 ) ) ) ),
                        gamma( fdiv( 2, fsub( k, 2 ) ) ) ) )
+
+
+#******************************************************************************
+#
+#  getRandomPrimeOperator
+#
+#******************************************************************************
+
+def getRandomPrime( n ):
+    return getNextPrime( randrange( power( 10, n ) ) )
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ) ] )
+def getRandomPrimeOperator( n ):
+    return getRandomPrime( n )
+
+
+#******************************************************************************
+#
+#  getRandomPrimesOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
+def getRandomPrimesOperator( n, k ):
+    result = [ ]
+
+    for _ in arange( k ):
+        result.append( getRandomPrime( n ) )
+
+    return result
 
 
 #******************************************************************************
