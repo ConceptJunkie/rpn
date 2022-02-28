@@ -5,7 +5,7 @@
 #  rpnUtils.py
 #
 #  rpnChilada utility functions
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -15,7 +15,6 @@
 import functools
 import itertools
 import os
-import signal
 import sys
 
 from collections.abc import Iterable
@@ -708,24 +707,24 @@ class RPNTimeoutError( Exception ):
     pass
 
 
-def timeout( seconds, errorMessage = 'Function call timed out' ):
-    def decorated( func ):
-        def handleTimeout( signum, frame ):
-            raise RPNTimeoutError( errorMessage )
-
-        def wrapper( *args, **kwargs ):
-            signal.signal( signal.SIGALRM, handleTimeout )
-            signal.alarm( seconds )
-
-            try:
-                result = func( *args, **kwargs )
-            finally:
-                signal.alarm( 0 )
-            return result
-
-        return functools.wraps( func )( wrapper )
-
-    return decorated
+#def timeout( seconds, errorMessage = 'Function call timed out' ):
+#    def decorated( func ):
+#        def handleTimeout( signum, frame ):
+#            raise RPNTimeoutError( errorMessage )
+#
+#        def wrapper( *args, **kwargs ):
+#            signal.signal( signal.SIGALRM, handleTimeout )
+#            signal.alarm( seconds )
+#
+#            try:
+#                result = func( *args, **kwargs )
+#            finally:
+#                signal.alarm( 0 )
+#            return result
+#
+#        return functools.wraps( func )( wrapper )
+#
+#    return decorated
 
 
 #******************************************************************************

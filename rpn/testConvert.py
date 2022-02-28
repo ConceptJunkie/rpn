@@ -5,7 +5,7 @@
 #  testConvert
 #
 #  test script for RPN unit conversion
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -34,9 +34,7 @@ def runConvertTests( ):
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
-    for unit in g.unitOperators:
-        unitInfo = g.unitOperators[ unit ]
-
+    for unit, unitInfo in g.unitOperators.items( ):
         baseUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
 
         if unit != baseUnit:

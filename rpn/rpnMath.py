@@ -5,7 +5,7 @@
 #  rpnMath.py
 #
 #  rpnChilada mathematical operators
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -504,6 +504,7 @@ def isPowerOperator( n, k ):
 #******************************************************************************
 
 def isKthPower( n, k ):
+    #TODO: handle measurements
     if not isint( k, gaussian=True ):
         raise ValueError( 'integer argument expected' )
 

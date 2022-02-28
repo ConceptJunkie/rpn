@@ -5,7 +5,7 @@
 #  rpnGlobals.py
 #
 #  rpnChilada global declarations
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -71,8 +71,10 @@ nestedListLevel = 0
 operandsToRemove = 0
 operatorList = False            # whether we are in the process of creating an operator list
 operatorsInList = 0
+slowTests = False
 startTime = 0
 testFilter = ''
+testWithYafu = False
 useMembers = 0
 
 # options
@@ -123,6 +125,7 @@ unitOperators: Dict[ str, list ] = { }
 unitOperatorNames: List[ str ] = [ ]
 
 # help data
+EXAMPLE_COUNT = 0
 HELP_TOPICS: Dict[ str, list ] = { }
 helpVersion = '0.0.0'
 operatorCategories: List[ str ] = [ ]

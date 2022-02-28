@@ -5,7 +5,7 @@
 #  rpnSpecial.py
 #
 #  rpnChilada special operators
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -216,7 +216,8 @@ def downloadOEISText( aNumber, char, addCR = False ):
     Downloads, formats and caches text data from oeis.org.
     '''
     try:
-        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( int( aNumber ) ) + '&fmt=text' ).read( )
+        with urllib2.urlopen( f'http://oeis.org/search?q=id%3AA{int( aNumber ):06}' + '&fmt=text' ) as url:
+            data = url.read( )
     except URLError:
         print( 'rpn:  HTTP access to oeis.org failed' )
         return ''
@@ -268,7 +269,8 @@ def downloadOEISOffsetOperator( n ):
 
 def downloadOEISTable( aNumber ):
     try:
-        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( aNumber ), int( aNumber ) ) ).read( )
+        with urllib2.urlopen( f'http://oeis.org/A{int( aNumber ):06}/b{int( aNumber ):06}.txt' ) as url:
+            data = url.read( )
     except URLError:
         print( 'HTTP access to oeis.org failed', file=sys.stderr )
         return [ ], False

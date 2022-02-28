@@ -5,7 +5,7 @@
 #  rpnAliases.py
 #
 #  rpnChilada alias declarations
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -774,7 +774,7 @@ OPERATOR_ALIASES = {
     'quintuplet_prime?'             : 'next_quintuplet_prime',
     'quintuplet_prime_'             : 'quintuplet_primes',
     'quintuplet_primes_'            : 'quintuplet_primes',
-    'rand'                          : 'random',
+    'rand'                          : 'random_number',
     'rand_int'                      : 'random_integer',
     'rand_int_'                     : 'random_integers',
     'rand_integers'                 : 'random_integers',
@@ -782,6 +782,8 @@ OPERATOR_ALIASES = {
     'randint'                       : 'random_integer',
     'randint_'                      : 'random_integers',
     'randints'                      : 'random_integers',
+    'random'                        : 'random_number',
+    'random_'                       : 'random_numbers',
     'random_int'                    : 'random_integer',
     'random_int_'                   : 'random_integers',
     'random_integer_'               : 'random_integers',

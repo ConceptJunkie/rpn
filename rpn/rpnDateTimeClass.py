@@ -5,7 +5,7 @@
 #  rpnDateTimeClass.py
 #
 #  rpnChilada date and time class
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -208,7 +208,7 @@ class RPNDateTime( arrow.Arrow ):
                 print( 'rpn:  value is out of range to be converted into a time' )
                 return nan
 
-    def format( self, includeTZ=True ):
+    def format( self, includeTZ=True, locale='en-us' ):
         if self.year < 1970:
             # format( ) doesn't work on Windows when using arrow, and I don't know why, but it's really stupid.
             return f'{self.year:4d}-{self.month:02d}-{self.day:02d} ' \

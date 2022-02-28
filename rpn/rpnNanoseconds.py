@@ -5,7 +5,7 @@
 #  rpnNanoseconds
 #
 #  nanosecond-resolution timer for Python <= 3.6 on Linux
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -34,6 +34,9 @@ class TimeSpec( ctypes.Structure ):
         ( 'tv_sec', ctypes.c_int64 ),   # seconds, https://stackoverflow.com/q/471248/1672565
         ( 'tv_nsec', ctypes.c_int64 ),   # nanoseconds
     ]
+
+    def foo( self ):   # make pylint happy
+        pass
 
 
 clock_gettime = ctypes.cdll.LoadLibrary( 'libc.so.6' ).clock_gettime

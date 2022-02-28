@@ -5,7 +5,7 @@
 #  rpnTestUtils.py
 #
 #  rpnChilada test utility functions
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -332,7 +332,7 @@ def testOperator( command, ignoreCache = True ):
     print( '    operator works!' )
 
     if g.timeIndividualTests:
-        print( f'Test complete.  Time elapsed:  { ( time_ns( ) - startTime ) / 1_000_000_000:.3f } seconds' )
+        print( f'Test complete.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
     print( '' )
 
@@ -375,7 +375,7 @@ def expectResult( command, expected ):
     print( '    test passed!' )
 
     if g.timeIndividualTests:
-        print( f'Test complete.  Time elapsed:  { ( time_ns( ) - startTime ) / 1_000_000_000:.3f } seconds' )
+        print( f'Test complete.  Time elapsed:  {( time_ns( ) - startTime ) / 1_000_000_000:.3f} seconds' )
 
     print( '' )
 
