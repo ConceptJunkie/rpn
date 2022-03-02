@@ -3070,7 +3070,13 @@ def getNthKPolygorialOperator( n, k ):
 #******************************************************************************
 
 def getRandomPrime( n ):
-    return getNextPrime( randrange( power( 10, n ) ) )
+    base = power( 10, n )
+    result = getNextPrime( randrange( base ) )
+
+    if result > base:
+        return getRandomPrime( n )
+
+    return result        
 
 
 @oneArgFunctionEvaluator( )
