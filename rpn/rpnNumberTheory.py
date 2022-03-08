@@ -32,6 +32,7 @@ from rpn.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceLi
 from rpn.rpnMath import isDivisible, isEven, isInteger, isOdd
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import findPrime, getNthPrime, isPrime, getNextPrime
+from rpn.rpnSettings import setAccuracy
 from rpn.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
                          twoArgFunctionEvaluator
@@ -3070,6 +3071,8 @@ def getNthKPolygorialOperator( n, k ):
 #******************************************************************************
 
 def getRandomPrime( n ):
+    setAccuracy( n )
+
     base = power( 10, n )
     result = getNextPrime( randrange( base ) )
 
