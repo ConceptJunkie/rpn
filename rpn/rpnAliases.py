@@ -745,6 +745,7 @@ OPERATOR_ALIASES = {
     'puff'                          : 'picofarad',
     'pyr'                           : 'pyramidal',
     'pyramid'                       : 'pyramidal',
+    'qE'                            : 'electron_charge',
     'qP'                            : 'planck_charge',
     'quad?'                         : 'nth_quadruplet_prime',
     'quad_prime'                    : 'quadruplet_prime',

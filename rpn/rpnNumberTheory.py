@@ -3079,7 +3079,7 @@ def getRandomPrime( n ):
     if result > base:
         return getRandomPrime( n )
 
-    return result        
+    return result
 
 
 @oneArgFunctionEvaluator( )

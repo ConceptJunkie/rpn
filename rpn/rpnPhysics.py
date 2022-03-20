@@ -12,7 +12,7 @@
 #
 #******************************************************************************
 
-from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, ln, pi, power, sqrt
+from mpmath import fdiv, fmul, fneg, fprod, fsub, fsum, inf, ln, mpmathify, pi, power, sqrt
 
 from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
@@ -28,6 +28,8 @@ from rpn.rpnValidator import argValidator, MeasurementValidator
 #******************************************************************************
 #
 #  calculateBlackHoleMassOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #******************************************************************************
 
@@ -64,38 +66,52 @@ def calculateBlackHoleMass( measurement ):
         gravity = arguments[ 'acceleration' ]
 
         return divide( getPower( getConstant( 'speed_of_light' ), 4 ),
-                       getProduct( [ 4, getConstant( 'newton_constant' ), gravity ] ) ).convert( 'kilogram' )
+                       getProduct( [ 4, getConstant( 'newton_constant' ),
+                                     gravity ] ) ).convert( 'kilogram' )
 
     if 'area' in arguments:
         area = arguments[ 'area' ].convert( 'meters^2' )
 
-        return getRoot( divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 4 ), area ] ),
-                                getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
+        return getRoot( divide( getProduct( [ getPower( getConstant( 'speed_of_light' ),
+                                                        4 ), area ] ),
+                                getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ),
+                        2 ) ] ) ), 2 ).convert( 'kilogram' )
 
     if 'temperature' in arguments:
         temperature = arguments[ 'temperature' ]
 
-        return divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
-                       getProduct( [ temperature, 8, getConstant( 'boltzmann_constant' ), pi, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
+        return divide( getProduct( [ getConstant( 'reduced_planck_constant' ),
+                       getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
+                       getProduct( [ temperature, 8, getConstant( 'boltzmann_constant' ), pi,
+                       getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
 
     if 'power' in arguments:
         luminosity = arguments[ 'power' ]
 
-        return getRoot( divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
-                                getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
-                                              getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
+        return getRoot( divide(
+                        getProduct( [ getConstant( 'reduced_planck_constant' ),
+                                      getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
+                        getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
+                                      getPower( getConstant( 'newton_constant' ), 2 ) ] ) ),
+                        2  ).convert( 'kilogram' )
 
     if 'tidal_force' in arguments:
         tidalForce = arguments[ 'tidal_force' ]
 
         return getRoot( divide( getPower( getConstant( 'speed_of_light' ), 6 ),
-                                getProduct( [ 4, tidalForce, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
+                                getProduct( [ 4, tidalForce,
+                                     getPower( getConstant( 'newton_constant' ), 2 ) ] ) ),
+                        2 ).convert( 'kilogram' )
 
     if 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
-        return getRoot( divide( getProduct( [ lifetime, getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ),
-                                getProduct( [ 5120, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 3 ).convert( 'kilogram' )
+        return getRoot( divide( getProduct( [ lifetime, mpmathify( "1.8083" ),
+                                              getConstant( 'reduced_planck_constant' ),
+                                              getPower( getConstant( 'speed_of_light' ), 4 ) ] ),
+                                getProduct( [ 5120, pi,
+                                              getPower( getConstant( 'newton_constant' ), 2 ) ] ) ),
+                        3 ).convert( 'kilogram' )
 
     raise ValueError( 'invalid arguments to black hole operator' )
 
@@ -109,6 +125,8 @@ def calculateBlackHoleMassOperator( n ):
 #******************************************************************************
 #
 #  calculateBlackHoleRadiusOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #******************************************************************************
 
@@ -142,6 +160,8 @@ def calculateBlackHoleRadiusOperator( measurement ):
 #
 #  calculateBlackHoleSurfaceAreaOperator
 #
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
@@ -165,7 +185,8 @@ def calculateBlackHoleSurfaceAreaOperator( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    area = divide( getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ),
+    area = divide( getProduct( [ 16, pi,
+                                 getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ),
                    getPower( getConstant( 'speed_of_light' ), 4 ) )
     return area.convert( 'meter^2' )
 
@@ -173,6 +194,8 @@ def calculateBlackHoleSurfaceAreaOperator( measurement ):
 #******************************************************************************
 #
 #  calculateBlackHoleSurfaceGravityOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #******************************************************************************
 
@@ -205,6 +228,8 @@ def calculateBlackHoleSurfaceGravityOperator( measurement ):
 #******************************************************************************
 #
 #  calculateBlackHoleEntropyOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #******************************************************************************
 
@@ -239,6 +264,8 @@ def calculateBlackHoleEntropyOperator( measurement ):
 #******************************************************************************
 #
 #  calculateBlackHoleTemperatureOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #******************************************************************************
 
@@ -275,6 +302,8 @@ def calculateBlackHoleTemperatureOperator( measurement ):
 #
 #  calculateBlackHoleLuminosityOperator
 #
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
@@ -310,6 +339,8 @@ def calculateBlackHoleLuminosityOperator( measurement ):
 #
 #  calculateBlackHoleLifetimeOperator
 #
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
+#
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
@@ -335,7 +366,7 @@ def calculateBlackHoleLifetimeOperator( measurement ):
 
     lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi,
                                      getPower( getConstant( 'newton_constant' ), 2 ) ] ),
-                       getProduct( [ getConstant( 'reduced_planck_constant' ),
+                       getProduct( [ mpmathify( '1.8083' ), getConstant( 'reduced_planck_constant' ),
                                      getPower( getConstant( 'speed_of_light' ), 4 ) ] ) )
 
     return lifetime.convert( 'seconds' )
@@ -343,7 +374,7 @@ def calculateBlackHoleLifetimeOperator( measurement ):
 
 #******************************************************************************
 #
-#  calculateBlackHoleTidalForceOperator
+#  calculateSurfaceTidesOperator
 #
 #******************************************************************************
 
@@ -377,6 +408,8 @@ def calculateBlackHoleSurfaceTidesOperator( measurement ):
 #******************************************************************************
 #
 #  calculateTidalForceOperator
+#
+#  https://www.vttoth.com/CMS/physics-notes/311-hawking-radiation-calculator
 #
 #  Two arguments are the same unit type, so the order needs to be fixed.
 #
