@@ -2,7 +2,7 @@ import os
 
 from cx_Freeze import setup, Executable
 from rpn.rpnVersion import PROGRAM_VERSION
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 # Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \

@@ -20,373 +20,316 @@ import string
 
 from shutil import copyfile
 
-from mpmath import apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, \
-                   lambertw, limit, mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
+from mpmath import \
+    apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, lambertw, limit, \
+    mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 
-from rpn.rpnAliases import dumpAliasesOperator
+from rpn.util.rpnAliases import dumpAliasesOperator
 from rpn.rpnOperator import callers, RPNOperator
-from rpn.rpnOutput import printTitleScreen
+from rpn.util.rpnOutput import printTitleScreen
 from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
 
-from rpn.rpnAstronomy import getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, \
-                             getAutumnalEquinoxOperator, getNextAstronomicalDawnOperator, getDayTimeOperator, \
-                             getDistanceFromEarthOperator, getDistanceFromSunOperator, getEclipseTotalityOperator, \
-                             getMoonPhaseOperator, \
-                             getNextAntitransitOperator, getNextAstronomicalDuskOperator, getNextCivilDawnOperator, \
-                             getNextCivilDuskOperator, getNextFirstQuarterMoonOperator, getNextFullMoonOperator, \
-                             getNextLastQuarterMoonOperator, getNextMoonAntitransitOperator, getNextMoonRiseOperator, \
-                             getNextMoonSetOperator, getNextMoonTransitOperator, getNextNauticalDawnOperator, \
-                             getNextNauticalDuskOperator, getNextNewMoonOperator, getNextRisingOperator, \
-                             getNextSettingOperator, getNextSunAntitransitOperator, getNextSunriseOperator, \
-                             getNextSunsetOperator, getNextTransitOperator, getNightTimeOperator, \
-                             getPreviousAntitransitOperator, getPreviousFirstQuarterMoonOperator, \
-                             getPreviousFullMoonOperator, getPreviousLastQuarterMoonOperator, \
-                             getPreviousNewMoonOperator, getPreviousRisingOperator, getPreviousSettingOperator, \
-                             getPreviousTransitOperator, getSkyLocationOperator, getSolarNoonOperator, \
-                             getSummerSolsticeOperator, getTransitTimeOperator, getVernalEquinoxOperator, \
-                             getWinterSolsticeOperator, RPNAstronomicalObject
+from rpn.science.rpnAstronomy import \
+    getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, getAutumnalEquinoxOperator, \
+    getNextAstronomicalDawnOperator, getDayTimeOperator, getDistanceFromEarthOperator, getDistanceFromSunOperator, \
+    getEclipseTotalityOperator, getMoonPhaseOperator, getNextAntitransitOperator, getNextAstronomicalDuskOperator, \
+    getNextCivilDawnOperator, getNextCivilDuskOperator, getNextFirstQuarterMoonOperator, getNextFullMoonOperator, \
+    getNextLastQuarterMoonOperator, getNextMoonAntitransitOperator, getNextMoonRiseOperator, getNextMoonSetOperator, \
+    getNextMoonTransitOperator, getNextNauticalDawnOperator, getNextNauticalDuskOperator, getNextNewMoonOperator, \
+    getNextRisingOperator, getNextSettingOperator, getNextSunAntitransitOperator, getNextSunriseOperator, \
+    getNextSunsetOperator, getNextTransitOperator, getNightTimeOperator, getPreviousAntitransitOperator, \
+    getPreviousFirstQuarterMoonOperator, getPreviousFullMoonOperator, getPreviousLastQuarterMoonOperator, \
+    getPreviousNewMoonOperator, getPreviousRisingOperator, getPreviousSettingOperator, getPreviousTransitOperator, \
+    getSkyLocationOperator, getSolarNoonOperator, getSummerSolsticeOperator, getTransitTimeOperator, \
+    getVernalEquinoxOperator, getWinterSolsticeOperator, RPNAstronomicalObject
 
-from rpn.rpnAstronomy import RPNNewAstronomicalObject
+from rpn.science.rpnAstronomy import RPNNewAstronomicalObject
 
-from rpn.rpnBase import getBaseKDigitsOperator, getNonzeroBaseKDigitsOperator
+from rpn.math.rpnBase import getBaseKDigitsOperator, getNonzeroBaseKDigitsOperator
 
-from rpn.rpnCalendar import convertBahaiDateOperator, convertEthiopianDateOperator, \
-                            convertFrenchRepublicanDateOperator, convertHebrewDateOperator, \
-                            convertIndianCivilDateOperator, convertIslamicDateOperator, convertJulianDateOperator, \
-                            convertMayanDateOperator, convertPersianDateOperator, generateMonthCalendarOperator, \
-                            generateYearCalendarOperator, getBahaiCalendarDateOperator, \
-                            getBahaiCalendarDateNameOperator, getEthiopianCalendarDateOperator, \
-                            getEthiopianCalendarDateNameOperator, getFrenchRepublicanCalendarDateOperator, \
-                            getFrenchRepublicanCalendarDateNameOperator, getHebrewCalendarDateOperator, \
-                            getHebrewCalendarDateNameOperator, getIndianCivilCalendarDateOperator, \
-                            getIndianCivilCalendarDateNameOperator, getIslamicCalendarDateOperator, \
-                            getIslamicCalendarDateNameOperator, getISODateOperator, getISODateNameOperator, \
-                            getJulianCalendarDateOperator, getJulianDayOperator, getLilianDayOperator, \
-                            getMayanCalendarDateOperator, getOrdinalDateOperator, getPersianCalendarDateOperator, \
-                            getPersianCalendarDateNameOperator
+from rpn.time.rpnCalendar import \
+    convertBahaiDateOperator, convertEthiopianDateOperator, convertFrenchRepublicanDateOperator, \
+    convertHebrewDateOperator, convertIndianCivilDateOperator, convertIslamicDateOperator, convertJulianDateOperator, \
+    convertMayanDateOperator, convertPersianDateOperator, generateMonthCalendarOperator, generateYearCalendarOperator, \
+    getBahaiCalendarDateOperator, getBahaiCalendarDateNameOperator, getEthiopianCalendarDateOperator, \
+    getEthiopianCalendarDateNameOperator, getFrenchRepublicanCalendarDateOperator, \
+    getFrenchRepublicanCalendarDateNameOperator, getHebrewCalendarDateOperator, getHebrewCalendarDateNameOperator, \
+    getIndianCivilCalendarDateOperator, getIndianCivilCalendarDateNameOperator, getIslamicCalendarDateOperator, \
+    getIslamicCalendarDateNameOperator, getISODateOperator, getISODateNameOperator, getJulianCalendarDateOperator, \
+    getJulianDayOperator, getLilianDayOperator, getMayanCalendarDateOperator, getOrdinalDateOperator, \
+    getPersianCalendarDateOperator, getPersianCalendarDateNameOperator
 
-from rpn.rpnChemistry import getAtomicNumberOperator, getAtomicSymbolOperator, getAtomicWeightOperator, \
-                             getElementBlockOperator, getElementBoilingPointOperator, getElementDensityOperator, \
-                             getElementDescriptionOperator, getElementGroupOperator, getElementMeltingPointOperator, \
-                             getElementNameOperator, getElementOccurrenceOperator, getElementPeriodOperator, \
-                             getElementStateOperator, getMolarMassOperator
+from rpn.science.rpnChemistry import \
+    getAtomicNumberOperator, getAtomicSymbolOperator, getAtomicWeightOperator, getElementBlockOperator, \
+    getElementBoilingPointOperator, getElementDensityOperator, getElementDescriptionOperator, getElementGroupOperator, \
+    getElementMeltingPointOperator, getElementNameOperator, getElementOccurrenceOperator, getElementPeriodOperator, \
+    getElementStateOperator, getMolarMassOperator
 
-from rpn.rpnCombinatorics import countFrobeniusOperator, getArrangementsOperator, getNthBellPolynomialOperator, \
-                                 getBinomialOperator, getCombinationsOperator, getCompositionsOperator, \
-                                 getDeBruijnSequenceOperator, getIntegerPartitionsOperator, getLahNumberOperator, \
-                                 getMultinomialOperator, getNarayanaNumberOperator, getNthAperyNumberOperator, \
-                                 getNthBellNumberOperator, getNthBernoulliNumberOperator, \
-                                 getNthCatalanNumberOperator, getNthDelannoyNumberOperator, \
-                                 getNthMenageNumberOperator, getNthMotzkinNumberOperator, \
-                                 getNthMultifactorialOperator, getNthPellNumberOperator, \
-                                 getNthSchroederNumberOperator, getNthSchroederHipparchusNumberOperator, \
-                                 getNthSylvesterNumberOperator, getPartitionNumberOperator, \
-                                 getPartitionsWithLimitOperator, getPermutationsOperator, getStirling1NumberOperator, \
-                                 getStirling2NumberOperator
+from rpn.math.rpnCombinatorics import \
+    countFrobeniusOperator, getArrangementsOperator, getNthBellPolynomialOperator, getBinomialOperator, \
+    getCombinationsOperator, getCompositionsOperator, getDeBruijnSequenceOperator, getIntegerPartitionsOperator, \
+    getLahNumberOperator, getMultinomialOperator, getNarayanaNumberOperator, getNthAperyNumberOperator, \
+    getNthBellNumberOperator, getNthBernoulliNumberOperator, getNthCatalanNumberOperator, \
+    getNthDelannoyNumberOperator, getNthMenageNumberOperator, getNthMotzkinNumberOperator, \
+    getNthMultifactorialOperator, getNthPellNumberOperator, getNthSchroederNumberOperator, \
+    getNthSchroederHipparchusNumberOperator, getNthSylvesterNumberOperator, getPartitionNumberOperator, \
+    getPartitionsWithLimitOperator, getPermutationsOperator, getStirling1NumberOperator, getStirling2NumberOperator
 
-from rpn.rpnComputer import andOperator, convertToCharOperator, convertToDoubleOperator, convertToFloatOperator, \
-                            convertToLongOperator, convertToLongLongOperator, convertToQuadLongOperator, \
-                            convertToShortOperator, convertToSignedIntOperator, convertToUnsignedCharOperator, \
-                            convertToUnsignedIntOperator, convertToUnsignedLongOperator, \
-                            convertToUnsignedLongLongOperator, convertToUnsignedQuadLongOperator, \
-                            convertToUnsignedShortOperator, getBitCountOperator, getBitwiseAndOperator, \
-                            getBitwiseNandOperator, getBitwiseNorOperator, getBitwiseOrOperator, \
-                            getBitwiseXnorOperator, getBitwiseXorOperator, getInvertedBitsOperator, \
-                            getParityOperator, interpretAsDoubleOperator, interpretAsFloatOperator, \
-                            nandOperator, orOperator, norOperator, notOperator, packIntegerOperator, \
-                            shiftLeftOperator, shiftRightOperator, unpackIntegerOperator, xnorOperator, \
-                            xorOperator
+from rpn.math.rpnComputer import \
+    andOperator, convertToCharOperator, convertToDoubleOperator, convertToFloatOperator, convertToLongOperator, \
+    convertToLongLongOperator, convertToQuadLongOperator, convertToShortOperator, convertToSignedIntOperator, \
+    convertToUnsignedCharOperator, convertToUnsignedIntOperator, convertToUnsignedLongOperator, \
+    convertToUnsignedLongLongOperator, convertToUnsignedQuadLongOperator, convertToUnsignedShortOperator, \
+    getBitCountOperator, getBitwiseAndOperator, getBitwiseNandOperator, getBitwiseNorOperator, getBitwiseOrOperator, \
+    getBitwiseXnorOperator, getBitwiseXorOperator, getInvertedBitsOperator, getParityOperator, \
+    interpretAsDoubleOperator, interpretAsFloatOperator, nandOperator, orOperator, norOperator, notOperator, \
+    packIntegerOperator, shiftLeftOperator, shiftRightOperator, unpackIntegerOperator, xnorOperator, xorOperator
 
-from rpn.rpnConstantUtils import getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, \
-                                 getFineStructureConstant, getMillsConstant, getPlanckAcceleration, \
-                                 getPlanckArea, getPlanckCharge, getPlanckCurrent, getPlanckDensity, \
-                                 getPlanckEnergy, getPlanckElectricalInductance, getPlanckEnergyDensity, \
-                                 getPlanckForce, getPlanckImpedance, getPlanckIntensity, getPlanckLength, \
-                                 getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, getPlanckPower, \
-                                 getPlanckTemperature, getPlanckTime, getPlanckViscosity, getPlanckVoltage, \
-                                 getPlanckVolume, getPlanckVolumetricFlowRate, getPlasticConstant, \
-                                 getRadiationConstant, getRobbinsConstant, getStefanBoltzmannConstant, \
-                                 getThueMorseConstant, getVacuumImpedance, getvonKlitzingConstant
+from rpn.units.rpnConstantUtils import \
+    getChampernowneConstant, getCopelandErdosConstant, getFaradayConstant, getFineStructureConstant, getMillsConstant, \
+    getPlanckAcceleration, getPlanckArea, getPlanckCharge, getPlanckCurrent, getPlanckDensity, getPlanckEnergy, \
+    getPlanckElectricalInductance, getPlanckEnergyDensity, getPlanckForce, getPlanckImpedance, getPlanckIntensity, \
+    getPlanckLength, getPlanckMagneticInductance, getPlanckMass, getPlanckMomentum, getPlanckPower, \
+    getPlanckTemperature, getPlanckTime, getPlanckViscosity, getPlanckVoltage, getPlanckVolume, \
+    getPlanckVolumetricFlowRate, getPlasticConstant, getRadiationConstant, getRobbinsConstant, \
+    getStefanBoltzmannConstant, getThueMorseConstant, getVacuumImpedance, getvonKlitzingConstant
 
-from rpn.rpnDateTime import calculateAdventOperator, calculateAscensionThursdayOperator, \
-                            calculateAshWednesdayOperator, calculateColumbusDayOperator, \
-                            calculateDSTEndOperator, calculateDSTStartOperator, calculateEasterOperator, \
-                            calculateElectionDayOperator, calculateFathersDayOperator, calculateGoodFridayOperator, \
-                            calculateLaborDayOperator, calculateMartinLutherKingDayOperator, \
-                            calculateMemorialDayOperator, calculateMothersDayOperator, \
-                            calculateNthWeekdayOfMonthOperator, calculateNthWeekdayOfYearOperator, \
-                            calculatePentecostSundayOperator, calculatePresidentsDayOperator, \
-                            calculateThanksgivingOperator, convertFromUnixTimeOperator, \
-                            convertTimeZoneOperator, convertToDHMSOperator, convertToHMSOperator, \
-                            convertToYDHMSOperator, convertToUnixTimeOperator, getChristmasDayOperator, \
-                            getDayOperator, getEpiphanyDayOperator, getHourOperator, getIndependenceDayOperator, \
-                            getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
-                            getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, \
-                            getVeteransDayOperator, getWeekdayOperator, getWeekdayNameOperator, getYearOperator, \
-                            getYesterdayOperator, makeDateTimeOperator, makeJulianTimeOperator, RPNDateTime, \
-                            setTimeZoneOperator
+from rpn.time.rpnDateTime import \
+    calculateAdventOperator, calculateAscensionThursdayOperator, calculateAshWednesdayOperator, \
+    calculateColumbusDayOperator, calculateDSTEndOperator, calculateDSTStartOperator, calculateEasterOperator, \
+    calculateElectionDayOperator, calculateFathersDayOperator, calculateGoodFridayOperator, calculateLaborDayOperator, \
+    calculateMartinLutherKingDayOperator, calculateMemorialDayOperator, calculateMothersDayOperator, \
+    calculateNthWeekdayOfMonthOperator, calculateNthWeekdayOfYearOperator, calculatePentecostSundayOperator, \
+    calculatePresidentsDayOperator, calculateThanksgivingOperator, convertFromUnixTimeOperator, \
+    convertTimeZoneOperator, convertToDHMSOperator, convertToHMSOperator, convertToYDHMSOperator, \
+    convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, getEpiphanyDayOperator, getHourOperator, \
+    getIndependenceDayOperator, getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
+    getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, getVeteransDayOperator, \
+    getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, makeDateTimeOperator, \
+    makeJulianTimeOperator, RPNDateTime, setTimeZoneOperator
 
-from rpn.rpnDice import enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
-                        rollMultipleDiceOperator, rollSimpleDiceOperator
+from rpn.special.rpnDice import \
+    enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
+    rollMultipleDiceOperator, rollSimpleDiceOperator
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 
-from rpn.rpnFactor import getFactorsOperator
+from rpn.math.rpnFactor import getFactorsOperator
 
-from rpn.rpnGenerator import RPNGenerator
+from rpn.util.rpnGenerator import RPNGenerator
 
-from rpn.rpnGeometry import getAntiprismSurfaceAreaOperator, getAntiprismVolumeOperator, getConeSurfaceAreaOperator, \
-                            getConeVolumeOperator, getDodecahedronSurfaceAreaOperator, getDodecahedronVolumeOperator, \
-                            getIcosahedronSurfaceAreaOperator, getIcosahedronVolumeOperator, \
-                            getKSphereSurfaceAreaOperator, getKSphereRadiusOperator, getKSphereVolumeOperator, \
-                            getOctahedronSurfaceAreaOperator, getOctahedronVolumeOperator, \
-                            getRegularPolygonAreaOperator, getPrismSurfaceAreaOperator, getPrismVolumeOperator, \
-                            getSphereAreaOperator, getSphereRadiusOperator, getSphereVolumeOperator, \
-                            getTetrahedronSurfaceAreaOperator, getTetrahedronVolumeOperator, \
-                            getTorusSurfaceAreaOperator, getTorusVolumeOperator, getTriangleAreaOperator
+from rpn.math.rpnGeometry import \
+    getAntiprismSurfaceAreaOperator, getAntiprismVolumeOperator, getConeSurfaceAreaOperator, getConeVolumeOperator, \
+    getDodecahedronSurfaceAreaOperator, getDodecahedronVolumeOperator, getIcosahedronSurfaceAreaOperator, \
+    getIcosahedronVolumeOperator, getKSphereSurfaceAreaOperator, getKSphereRadiusOperator, getKSphereVolumeOperator, \
+    getOctahedronSurfaceAreaOperator, getOctahedronVolumeOperator, getRegularPolygonAreaOperator, \
+    getPrismSurfaceAreaOperator, getPrismVolumeOperator, getSphereAreaOperator, getSphereRadiusOperator, \
+    getSphereVolumeOperator, getTetrahedronSurfaceAreaOperator, getTetrahedronVolumeOperator, \
+    getTorusSurfaceAreaOperator, getTorusVolumeOperator, getTriangleAreaOperator
 
-from rpn.rpnInput import parseInputValue, readListFromFileOperator, readNumberFromFileOperator
+from rpn.util.rpnInput import parseInputValue, readListFromFileOperator, readNumberFromFileOperator
 
-from rpn.rpnLexicographic import addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, \
-                                 combineDigitsOperator, containsAnyDigitsOperator, containsDigitsOperator, \
-                                 containsOnlyDigitsOperator, countDifferentDigitsOperator, countDigitsOperator, \
-                                 duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
-                                 generateSquareDigitChainOperator, getCyclicPermutationsOperator, \
-                                 getDigitCountOperator, getDecimalDigitsOperator, getDigitsOperator, \
-                                 getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
-                                 getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroDigitsOperator, \
-                                 getNthReversalAdditionOperator, getRightDigitsOperator, \
-                                 getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
-                                 isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, \
-                                 isDecreasingOperator, isDigitalPermutationOperator, \
-                                 isGeneralizedDudeneyNumberOperator, isHarshadNumberOperator, isIncreasingOperator, \
-                                 isKaprekarNumberOperator, isKMorphicOperator, isNarcissisticOperator, \
-                                 isOrderKSmithNumberOperator, isPalindromeOperator, isPandigitalOperator, \
-                                 isPerfectDigitalInvariantOperator, isPerfectDigitToDigitInvariantOperator, \
-                                 isSmithNumberOperator, isStepNumberOperator, isSumProductNumberOperator, \
-                                 isTrimorphicOperator, multiplyDigitsOperator, multiplyDigitPowersOperator, \
-                                 multiplyNonzeroDigitPowersOperator, multiplyNonzeroDigitsOperator, \
-                                 permuteDigitsOperator, replaceDigitsOperator, reverseDigitsOperator, \
-                                 rotateDigitsLeftOperator, rotateDigitsRightOperator, showErdosPersistenceOperator, \
-                                 showKPersistenceOperator, showPersistenceOperator, sumDigitsOperator
+from rpn.math.rpnLexicographic import \
+    addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, combineDigitsOperator, \
+    containsAnyDigitsOperator, containsDigitsOperator, containsOnlyDigitsOperator, countDifferentDigitsOperator, \
+    countDigitsOperator, duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
+    generateSquareDigitChainOperator, getCyclicPermutationsOperator, getDigitCountOperator, getDecimalDigitsOperator, \
+    getDigitsOperator, getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
+    getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroDigitsOperator, getNthReversalAdditionOperator, \
+    getRightDigitsOperator, getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
+    isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, isDecreasingOperator, \
+    isDigitalPermutationOperator, isGeneralizedDudeneyNumberOperator, isHarshadNumberOperator, isIncreasingOperator, \
+    isKaprekarNumberOperator, isKMorphicOperator, isNarcissisticOperator, isOrderKSmithNumberOperator, \
+    isPalindromeOperator, isPandigitalOperator, isPerfectDigitalInvariantOperator, \
+    isPerfectDigitToDigitInvariantOperator, isSmithNumberOperator, isStepNumberOperator, isSumProductNumberOperator, \
+    isTrimorphicOperator, multiplyDigitsOperator, multiplyDigitPowersOperator, multiplyNonzeroDigitPowersOperator, \
+    multiplyNonzeroDigitsOperator, permuteDigitsOperator, replaceDigitsOperator, reverseDigitsOperator, \
+    rotateDigitsLeftOperator, rotateDigitsRightOperator, showErdosPersistenceOperator, showKPersistenceOperator, \
+    showPersistenceOperator, sumDigitsOperator
 
-from rpn.rpnList import alternateSignsOperator, alternateSigns2Operator, appendListsOperator, \
-                        calculateAntiharmonicMeanOperator, calculateArithmeticMeanOperator, \
-                        calculateGeometricMeanOperator, calculateHarmonicMeanOperator, calculatePowerTowerOperator, \
-                        calculatePowerTowerRightOperator, calculateRootMeanSquareOperator, collateOperator, \
-                        compareListsOperator, countElementsOperator, doesListRepeatOperator, enumerateListOperator, \
-                        equalsOneOfOperator, filterMaxOperator, filterMinOperator, filterOnFlagsOperator, \
-                        findInListOperator, flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, \
-                        getAndAllOperator, getCumulativeListDiffsOperator, getCumulativeListMeansOperator, \
-                        getCumulativeListProductsOperator, getCumulativeListRatiosOperator, \
-                        getCumulativeListSumsOperator, getCumulativeOccurrenceRatiosOperator, getDifferenceOperator, \
-                        getGCDOperator, getGCDOfListOperator, getListCombinationsOperator, \
-                        getListCombinationsWithRepeatsOperator, getLeftOperator, getListDiffsOperator, \
-                        getListPowerSetOperator, getListRatiosOperator, getRightOperator, getIndexOfMaxOperator, \
-                        getIndexOfMinOperator, getListElementOperator, getListPermutationsOperator, \
-                        getListPermutationsWithRepeatsOperator, getNandAllOperator, getNonzeroesOperator, \
-                        getNorAllOperator, getProductOperator, getOccurrencesOperator, getOccurrenceRatiosOperator, \
-                        getOrAllOperator, getRandomElementOperator, getReverseOperator, getSliceOperator, \
-                        getStandardDeviationOperator, getSublistOperator, getSumOperator, getUniqueElementsOperator, \
-                        getZeroesOperator, groupElementsOperator, interleaveOperator, isPalindromeListOperator, \
-                        makeIntersectionOperator, makeUnionOperator, permuteListsOperator, reduceListOperator, \
-                        shuffleListOperator, sortAscendingOperator, sortDescendingOperator
+from rpn.special.rpnList import \
+    alternateSignsOperator, alternateSigns2Operator, appendListsOperator, calculateAntiharmonicMeanOperator, \
+    calculateArithmeticMeanOperator, calculateGeometricMeanOperator, calculateHarmonicMeanOperator, \
+    calculatePowerTowerOperator, calculatePowerTowerRightOperator, calculateRootMeanSquareOperator, collateOperator, \
+    compareListsOperator, countElementsOperator, doesListRepeatOperator, enumerateListOperator, \
+    equalsOneOfOperator, filterMaxOperator, filterMinOperator, filterOnFlagsOperator, findInListOperator, \
+    flattenOperator, getAlternatingSumOperator, getAlternatingSum2Operator, getAndAllOperator, \
+    getCumulativeListDiffsOperator, getCumulativeListMeansOperator, getCumulativeListProductsOperator, \
+    getCumulativeListRatiosOperator, getCumulativeListSumsOperator, getCumulativeOccurrenceRatiosOperator, \
+    getDifferenceOperator, getGCDOperator, getGCDOfListOperator, getListCombinationsOperator, \
+    getListCombinationsWithRepeatsOperator, getLeftOperator, getListDiffsOperator, getListPowerSetOperator, \
+    getListRatiosOperator, getRightOperator, getIndexOfMaxOperator, getIndexOfMinOperator, getListElementOperator, \
+    getListPermutationsOperator, getListPermutationsWithRepeatsOperator, getNandAllOperator, getNonzeroesOperator, \
+    getNorAllOperator, getProductOperator, getOccurrencesOperator, getOccurrenceRatiosOperator, getOrAllOperator, \
+    getRandomElementOperator, getReverseOperator, getSliceOperator, getStandardDeviationOperator, getSublistOperator, \
+    getSumOperator, getUniqueElementsOperator, getZeroesOperator, groupElementsOperator, interleaveOperator, \
+    isPalindromeListOperator, makeIntersectionOperator, makeUnionOperator, permuteListsOperator, reduceListOperator, \
+    shuffleListOperator, sortAscendingOperator, sortDescendingOperator
 
-from rpn.rpnLocation import getGeographicDistanceOperator, getLocationInfoOperator, getTimeZoneOperator, \
-                            getTimeZoneOffsetOperator, makeLocationOperator
+from rpn.special.rpnLocation import \
+    getGeographicDistanceOperator, getLocationInfoOperator, getTimeZoneOperator, getTimeZoneOffsetOperator, \
+    makeLocationOperator
 
-from rpn.rpnMath import acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, \
-                        addOperator, asecOperator, asechOperator, asinOperator, asinhOperator, atanOperator, \
-                        atanhOperator, calculateHypotenuseOperator, calculateNthHyperoperatorOperator, \
-                        calculateNthRightHyperoperatorOperator, cosOperator, coshOperator, cotOperator, cothOperator, \
-                        cscOperator, cschOperator, cubeOperator, decrementOperator, divideOperator, getAGMOperator, \
-                        getAbsoluteValueOperator, getArgumentOperator, getCeilingOperator, getConjugateOperator, \
-                        getCubeRootOperator, getCubeSuperRootOperator, getExp10Operator, getExpOperator, \
-                        getExpPhiOperator, getFloorOperator, getImaginaryOperator, getLIOperator, \
-                        getLambertWOperator, getLargerOperator, getLog10Operator, getLog2Operator, getLogOperator, \
-                        getLogXYOperator, getMantissaOperator, getMaximumOperator, getMinimumOperator, \
-                        getModuloOperator, getNearestIntOperator, getNegativeOperator, getPolyexpOperator, \
-                        getPolylogOperator, getPowerOperator, getPowModOperator, getRealOperator, \
-                        getReciprocalOperator, getRootOperator, getSignOperator, getSmallerOperator, \
-                        getSquareRootOperator, getSquareSuperRootOperator, getSuperRootOperator, \
-                        getSuperRootsOperator, getValueOperator, incrementOperator, isDivisibleOperator, \
-                        isEqualOperator, isEvenOperator, isGreaterOperator, isIntegerOperator, isKthPowerOperator, \
-                        isLessOperator, isNotEqualOperator, isNotGreaterOperator, isNotLessOperator, \
-                        isNotZeroOperator, isOddOperator, isPowerOperator, isSquareOperator, isZeroOperator, \
-                        multiplyOperator, roundByDigitsOperator, roundByValueOperator, roundOffOperator, secOperator, \
-                        sechOperator, sinOperator, sinhOperator, squareOperator, subtractOperator, tanOperator, \
-                        tanhOperator, tetrateOperator, tetrateRightOperator
+from rpn.math.rpnMath import \
+    acosOperator, acoshOperator, acotOperator, acothOperator, acscOperator, acschOperator, addOperator, asecOperator, \
+    asechOperator, asinOperator, asinhOperator, atanOperator, atanhOperator, calculateHypotenuseOperator, \
+    calculateNthHyperoperatorOperator, calculateNthRightHyperoperatorOperator, cosOperator, coshOperator, cotOperator, \
+    cothOperator, cscOperator, cschOperator, cubeOperator, decrementOperator, divideOperator, getAGMOperator, \
+    getAbsoluteValueOperator, getArgumentOperator, getCeilingOperator, getConjugateOperator, getCubeRootOperator, \
+    getCubeSuperRootOperator, getExp10Operator, getExpOperator, getExpPhiOperator, getFloorOperator, \
+    getImaginaryOperator, getLIOperator, getLambertWOperator, getLargerOperator, getLog10Operator, getLog2Operator, \
+    getLogOperator, getLogXYOperator, getMantissaOperator, getMaximumOperator, getMinimumOperator, getModuloOperator, \
+    getNearestIntOperator, getNegativeOperator, getPolyexpOperator, getPolylogOperator, getPowerOperator, \
+    getPowModOperator, getRealOperator, getReciprocalOperator, getRootOperator, getSignOperator, getSmallerOperator, \
+    getSquareRootOperator, getSquareSuperRootOperator, getSuperRootOperator, getSuperRootsOperator, getValueOperator, \
+    incrementOperator, isDivisibleOperator, isEqualOperator, isEvenOperator, isGreaterOperator, isIntegerOperator, \
+    isKthPowerOperator, isLessOperator, isNotEqualOperator, isNotGreaterOperator, isNotLessOperator, \
+    isNotZeroOperator, isOddOperator, isPowerOperator, isSquareOperator, isZeroOperator, multiplyOperator, \
+    roundByDigitsOperator, roundByValueOperator, roundOffOperator, secOperator, sechOperator, sinOperator, \
+    sinhOperator, squareOperator, subtractOperator, tanOperator, tanhOperator, tetrateOperator, tetrateRightOperator
 
-from rpn.rpnMeasurement import applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, \
-                               convertToPrimitiveUnitsOperator, convertUnitsOperator, estimateOperator, \
-                               getDimensionsOperator, invertUnitsOperator
+from rpn.units.rpnMeasurement import \
+    applyNumberValueToUnit, convertToBaseUnitsOperator, convertToDMSOperator, convertToPrimitiveUnitsOperator, \
+    convertUnitsOperator, estimateOperator, getDimensionsOperator, invertUnitsOperator
 
-from rpn.rpnMeasurementClass import RPNMeasurement
+from rpn.units.rpnMeasurementClass import RPNMeasurement
 
-from rpn.rpnModifiers import decrementNestedListLevelOperator, duplicateOperationOperator, duplicateTermOperator, \
-                             endOperatorListOperator, getPreviousOperator, incrementNestedListLevelOperator, \
-                             startOperatorListOperator, unlistOperator
+from rpn.special.rpnModifiers import \
+    decrementNestedListLevelOperator, duplicateOperationOperator, duplicateTermOperator, endOperatorListOperator, \
+    getPreviousOperator, incrementNestedListLevelOperator, startOperatorListOperator, unlistOperator
 
-from rpn.rpnName import getNameOperator, getOrdinalNameOperator
+from rpn.special.rpnName import getNameOperator, getOrdinalNameOperator
 
-from rpn.rpnNumberTheory import areRelativelyPrimeOperator, calculateAckermannFunctionOperator, \
-                                calculateChineseRemainderTheoremOperator, convertFromContinuedFractionOperator, \
-                                findNthSumOfCubesOperator, findNthSumOfSquaresOperator, \
-                                findSumsOfKNonzeroPowersOperator, findSumsOfKPowersOperator, \
-                                generatePolydivisiblesOperator, getAbundanceOperator, getAbundanceRatioOperator, \
-                                getAliquotSequenceOperator, getAlternatingHarmonicFractionOperator, \
-                                getAltZetaOperator, getAntidivisorsOperator, getAntidivisorCountOperator, \
-                                getBarnesGOperator, getBetaOperator, \
-                                getCollatzSequenceOperator, getDigammaOperator, getDigitalRootOperator, \
-                                getDivisorCountOperator, getDivisorsOperator, getEulerPhiOperator, \
-                                getFrobeniusNumberOperator, getGammaOperator, getGeometricRecurrenceOperator, \
-                                getHarmonicFractionOperator, getHarmonicResidueOperator, getHurwitzZetaOperator, \
-                                getLCMOperator, getLCMOfListOperator, getLeylandNumberOperator, \
-                                getLimitedAliquotSequenceOperator, getLinearRecurrenceOperator, \
-                                getLinearRecurrenceWithModuloOperator, getLogGammaOperator, \
-                                getNthAlternatingFactorialOperator, getGreedyEgyptianFractionOperator, \
-                                getNthBaseKRepunitOperator, getNthCarolNumberOperator, getNthDoubleFactorialOperator, \
-                                getNthCalkinWilfOperator, getNthFactorialOperator, getNthFibonacciOperator, \
-                                getNthFibonorialOperator, getNthHarmonicNumberOperator, getNthHeptanacciOperator, \
-                                getNthHexanacciOperator, getNthHyperfactorialOperator, \
-                                getNthJacobsthalNumberOperator, getNthKFibonacciNumberOperator, \
-                                getNthKThabitNumberOperator, getNthKThabit2NumberOperator, getNthKyneaNumberOperator, \
-                                getNthLeonardoNumberOperator, getNthLinearRecurrenceOperator, \
-                                getNthLinearRecurrenceWithModuloOperator, getNthLucasNumberOperator, \
-                                getNthMersenneExponentOperator, getNthMersennePrimeOperator, getNthMertenOperator, \
-                                getNthMobiusNumberOperator, getNthPadovanNumberOperator, getNthPhitorialOperator, \
-                                getNthOctanacciOperator, getNthPascalLineOperator, getNthPentanacciOperator, \
-                                getNthPerfectNumberOperator, getNthKPolygorialOperator, getNthSternNumberOperator, \
-                                getNthSubfactorialOperator, getNthSuperfactorialOperator, getNthTetranacciOperator, \
-                                getNthThabitNumberOperator, getNthThabit2NumberOperator, \
-                                getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, \
-                                getPolitenessOperator, getPolygammaOperator, getPrimePiOperator, getRadicalOperator, \
-                                getRandomPrimeOperator, getRandomPrimesOperator, \
-                                getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
-                                getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, \
-                                isAbundantOperator, isAchillesNumberOperator, isAntiharmonicOperator, \
-                                isCarmichaelNumberOperator, isDeficientOperator, isHarmonicDivisorNumberOperator, \
-                                isKHyperperfectOperator, isKPerfectOperator, isKPolydivisibleOperator, \
-                                isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, \
-                                isPolite, isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, \
-                                isRoughOperator, isRuthAaronNumberOperator, isSemiprimeOperator, isSmoothOperator, \
-                                isSociableListOperator, isSphenicOperator, isSquareFreeOperator, isUnusualOperator, \
-                                makeContinuedFractionOperator, makeEulerBrickOperator, \
-                                makePythagoreanQuadrupleOperator, makePythagoreanTripleOperator, \
-                                makePythagoreanTriplesOperator, solveFrobeniusOperator, getVanEckOperator
+from rpn.math.rpnNumberTheory import \
+    areRelativelyPrimeOperator, calculateAckermannFunctionOperator, calculateChineseRemainderTheoremOperator, \
+    convertFromContinuedFractionOperator, findNthSumOfCubesOperator, findNthSumOfSquaresOperator, \
+    findSumsOfKNonzeroPowersOperator, findSumsOfKPowersOperator, generatePolydivisiblesOperator, getAbundanceOperator, \
+    getAbundanceRatioOperator, getAliquotSequenceOperator, getAlternatingHarmonicFractionOperator, getAltZetaOperator, \
+    getAntidivisorsOperator, getAntidivisorCountOperator, getBarnesGOperator, getBetaOperator, \
+    getCollatzSequenceOperator, getDigammaOperator, getDigitalRootOperator, getDivisorCountOperator, \
+    getDivisorsOperator, getEulerPhiOperator, getFrobeniusNumberOperator, getGammaOperator, \
+    getGeometricRecurrenceOperator, getHarmonicFractionOperator, getHarmonicResidueOperator, getHurwitzZetaOperator, \
+    getLCMOperator, getLCMOfListOperator, getLeylandNumberOperator, getLimitedAliquotSequenceOperator, \
+    getLinearRecurrenceOperator, getLinearRecurrenceWithModuloOperator, getLogGammaOperator, \
+    getNthAlternatingFactorialOperator, getGreedyEgyptianFractionOperator, getNthBaseKRepunitOperator, \
+    getNthCarolNumberOperator, getNthDoubleFactorialOperator, getNthCalkinWilfOperator, getNthFactorialOperator, \
+    getNthFibonacciOperator, getNthFibonorialOperator, getNthHarmonicNumberOperator, getNthHeptanacciOperator, \
+    getNthHexanacciOperator, getNthHyperfactorialOperator, getNthJacobsthalNumberOperator, \
+    getNthKFibonacciNumberOperator, getNthKThabitNumberOperator, getNthKThabit2NumberOperator, \
+    getNthKyneaNumberOperator, getNthLeonardoNumberOperator, getNthLinearRecurrenceOperator, \
+    getNthLinearRecurrenceWithModuloOperator, getNthLucasNumberOperator, getNthMersenneExponentOperator, \
+    getNthMersennePrimeOperator, getNthMertenOperator, getNthMobiusNumberOperator, getNthPadovanNumberOperator, \
+    getNthPhitorialOperator, getNthOctanacciOperator, getNthPascalLineOperator, getNthPentanacciOperator, \
+    getNthPerfectNumberOperator, getNthKPolygorialOperator, getNthSternNumberOperator, getNthSubfactorialOperator, \
+    getNthSuperfactorialOperator, getNthTetranacciOperator, getNthThabitNumberOperator, getNthThabit2NumberOperator, \
+    getNthThueMorseNumberOperator, getNthTribonacciOperator, getNthZetaZeroOperator, getPolitenessOperator, \
+    getPolygammaOperator, getPrimePiOperator, getRadicalOperator, getRandomPrimeOperator, getRandomPrimesOperator, \
+    getReciprocalPeriodOperator, getSigmaKOperator, getSigmaOperator, getTrigammaOperator, getUnitRootsOperator, \
+    getZetaOperator, interpretAsBaseOperator, interpretAsFractionOperator, isAbundantOperator, \
+    isAchillesNumberOperator, isAntiharmonicOperator, isCarmichaelNumberOperator, isDeficientOperator, \
+    isHarmonicDivisorNumberOperator, isKHyperperfectOperator, isKPerfectOperator, isKPolydivisibleOperator, \
+    isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, isPolite, \
+    isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, isRuthAaronNumberOperator, \
+    isSemiprimeOperator, isSmoothOperator, isSociableListOperator, isSphenicOperator, isSquareFreeOperator, \
+    isUnusualOperator, makeContinuedFractionOperator, makeEulerBrickOperator, makePythagoreanQuadrupleOperator, \
+    makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator, getVanEckOperator
 
-from rpn.rpnPersistence import doesCacheExist, getUserFunctionsFileName, loadConstants, loadResultOperator, \
-                               loadUnitConversionMatrix, loadUnitData, openFunctionCache, openPrimeCache
+from rpn.util.rpnPersistence import \
+    doesCacheExist, getUserFunctionsFileName, loadConstants, loadResultOperator, loadUnitConversionMatrix, \
+    loadUnitData, openFunctionCache, openPrimeCache
 
-from rpn.rpnPhysics import calculateAccelerationOperator, calculateBlackHoleEntropyOperator, \
-                           calculateBlackHoleLifetimeOperator, calculateBlackHoleLuminosityOperator, \
-                           calculateBlackHoleMassOperator, calculateBlackHoleRadiusOperator, \
-                           calculateBlackHoleSurfaceAreaOperator, calculateBlackHoleSurfaceGravityOperator, \
-                           calculateBlackHoleSurfaceTidesOperator, calculateBlackHoleTemperatureOperator, \
-                           calculateDistanceOperator, calculateEnergyEquivalenceOperator, \
-                           calculateEscapeVelocityOperator, calculateHeatIndexOperator, \
-                           calculateHorizonDistanceOperator, calculateKineticEnergyOperator, \
-                           calculateMassEquivalenceOperator, calculateOrbitalMassOperator, \
-                           calculateOrbitalPeriodOperator, calculateOrbitalRadiusOperator, \
-                           calculateOrbitalVelocityOperator, calculateSurfaceGravityOperator, \
-                           calculateTidalForceOperator, calculateTimeDilationOperator, \
-                           calculateVelocityOperator, calculateWindChillOperator
+from rpn.science.rpnPhysics import \
+    calculateAccelerationOperator, calculateBlackHoleEntropyOperator, calculateBlackHoleLifetimeOperator, \
+    calculateBlackHoleLuminosityOperator, calculateBlackHoleMassOperator, calculateBlackHoleRadiusOperator, \
+    calculateBlackHoleSurfaceAreaOperator, calculateBlackHoleSurfaceGravityOperator, \
+    calculateBlackHoleSurfaceTidesOperator, calculateBlackHoleTemperatureOperator, \
+    calculateDistanceOperator, calculateEnergyEquivalenceOperator, calculateEscapeVelocityOperator, \
+    calculateHeatIndexOperator, calculateHorizonDistanceOperator, calculateKineticEnergyOperator, \
+    calculateMassEquivalenceOperator, calculateOrbitalMassOperator, calculateOrbitalPeriodOperator, \
+    calculateOrbitalRadiusOperator, calculateOrbitalVelocityOperator, calculateSurfaceGravityOperator, \
+    calculateTidalForceOperator, calculateTimeDilationOperator, calculateVelocityOperator, calculateWindChillOperator
 
-from rpn.rpnPolynomials import addPolynomialsOperator, evaluatePolynomialOperator, exponentiatePolynomialOperator, \
-                               getPolynomialDiscriminantOperator, multiplyPolynomialsOperator, \
-                               multiplyPolynomialListOperator, solveCubicPolynomialOperator, \
-                               solveQuadraticPolynomialOperator, solveQuarticPolynomialOperator, \
-                               solvePolynomialOperator, sumPolynomialListOperator
+from rpn.math.rpnPolynomials import \
+    addPolynomialsOperator, evaluatePolynomialOperator, exponentiatePolynomialOperator, \
+    getPolynomialDiscriminantOperator, multiplyPolynomialsOperator, multiplyPolynomialListOperator, \
+    solveCubicPolynomialOperator, solveQuadraticPolynomialOperator, solveQuarticPolynomialOperator, \
+    solvePolynomialOperator, sumPolynomialListOperator
 
-from rpn.rpnPolytope import findCenteredDecagonalNumberOperator, findCenteredHeptagonalNumberOperator, \
-                            findCenteredHexagonalNumberOperator, findCenteredNonagonalNumberOperator, \
-                            findCenteredOctagonalNumberOperator, findCenteredPentagonalNumberOperator, \
-                            findCenteredPolygonalNumberOperator, findCenteredSquareNumberOperator, \
-                            findCenteredTriangularNumberOperator, findDecagonalNumberOperator, \
-                            findHeptagonalNumberOperator, findHexagonalNumberOperator, findNonagonalNumberOperator, \
-                            findOctagonalNumberOperator, findPentagonalNumberOperator, \
-                            findPolygonalNumberOperator, findSquareNumberOperator, findTriangularNumberOperator, \
-                            getNthCenteredCubeNumberOperator, getNthCenteredDecagonalNumberOperator, \
-                            getNthCenteredDodecahedralNumberOperator, getNthCenteredHeptagonalNumberOperator, \
-                            getNthCenteredHexagonalNumberOperator, getNthCenteredIcosahedralNumberOperator, \
-                            getNthCenteredNonagonalNumberOperator, getNthCenteredOctagonalNumberOperator, \
-                            getNthCenteredOctahedralNumberOperator, getNthCenteredPentagonalNumberOperator, \
-                            getNthCenteredPolygonalNumberOperator, getNthCenteredSquareNumberOperator, \
-                            getNthCenteredTetrahedralNumberOperator, getNthCenteredTriangularNumberOperator, \
-                            getNthDecagonalCenteredSquareNumberOperator, getNthDecagonalHeptagonalNumberOperator, \
-                            getNthDecagonalHexagonalNumberOperator, getNthDecagonalNonagonalNumberOperator, \
-                            getNthDecagonalNumberOperator, getNthDecagonalOctagonalNumberOperator, \
-                            getNthDecagonalPentagonalNumberOperator, getNthDecagonalTriangularNumberOperator, \
-                            getNthDodecahedralNumberOperator, getNthGeneralizedDecagonalNumberOperator, \
-                            getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedNonagonalNumberOperator, \
-                            getNthGeneralizedOctagonalNumberOperator, getNthGeneralizedPentagonalNumberOperator, \
-                            getNthHeptagonalHexagonalNumberOperator, getNthHeptagonalNumberOperator, \
-                            getNthHeptagonalPentagonalNumberOperator, getNthHeptagonalSquareNumberOperator, \
-                            getNthHeptagonalTriangularNumberOperator, getNthHexagonalNumberOperator, \
-                            getNthHexagonalPentagonalNumberOperator, getNthHexagonalSquareNumberOperator, \
-                            getNthIcosahedralNumberOperator, getNthNonagonalHeptagonalNumberOperator, \
-                            getNthNonagonalHexagonalNumberOperator, getNthNonagonalNumberOperator, \
-                            getNthNonagonalOctagonalNumberOperator, getNthNonagonalPentagonalNumberOperator, \
-                            getNthNonagonalSquareNumberOperator, getNthNonagonalTriangularNumberOperator, \
-                            getNthOctagonalHeptagonalNumberOperator, getNthOctagonalHexagonalNumberOperator, \
-                            getNthOctagonalNumberOperator, getNthOctagonalPentagonalNumberOperator, \
-                            getNthOctagonalSquareNumberOperator, getNthOctagonalTriangularNumberOperator, \
-                            getNthTruncatedOctahedralNumberOperator, getNthOctahedralNumberOperator, \
-                            getNthPentagonalNumberOperator, getNthPentagonalSquareNumberOperator, \
-                            getNthPentagonalTriangularNumberOperator, getNthPentatopeNumberOperator, \
-                            getNthPolygonalNumberOperator, getNthPolygonalPyramidalNumberOperator, \
-                            getNthPolytopeNumberOperator, getNthPyramidalNumberOperator, \
-                            getNthRhombicDodecahedralNumberOperator, getNthSquareTriangularNumberOperator, \
-                            getNthStarNumberOperator, getNthStellaOctangulaNumberOperator, \
-                            getNthTetrahedralNumberOperator, getNthTruncatedTetrahedralNumberOperator, \
-                            getNthTriangularNumberOperator
+from rpn.math.rpnPolytope import findCenteredDecagonalNumberOperator, findCenteredHeptagonalNumberOperator, \
+    findCenteredHexagonalNumberOperator, findCenteredNonagonalNumberOperator, findCenteredOctagonalNumberOperator, \
+    findCenteredPentagonalNumberOperator, findCenteredPolygonalNumberOperator, findCenteredSquareNumberOperator, \
+    findCenteredTriangularNumberOperator, findDecagonalNumberOperator, findHeptagonalNumberOperator, \
+    findHexagonalNumberOperator, findNonagonalNumberOperator, findOctagonalNumberOperator, \
+    findPentagonalNumberOperator, findPolygonalNumberOperator, findSquareNumberOperator, findTriangularNumberOperator, \
+    getNthCenteredCubeNumberOperator, getNthCenteredDecagonalNumberOperator, getNthCenteredDodecahedralNumberOperator, \
+    getNthCenteredHeptagonalNumberOperator, getNthCenteredHexagonalNumberOperator, \
+    getNthCenteredIcosahedralNumberOperator, getNthCenteredNonagonalNumberOperator, \
+    getNthCenteredOctagonalNumberOperator, getNthCenteredOctahedralNumberOperator, \
+    getNthCenteredPentagonalNumberOperator, getNthCenteredPolygonalNumberOperator, \
+    getNthCenteredSquareNumberOperator, getNthCenteredTetrahedralNumberOperator, \
+    getNthCenteredTriangularNumberOperator, getNthDecagonalCenteredSquareNumberOperator, \
+    getNthDecagonalHeptagonalNumberOperator, getNthDecagonalHexagonalNumberOperator, \
+    getNthDecagonalNonagonalNumberOperator, getNthDecagonalNumberOperator, getNthDecagonalOctagonalNumberOperator, \
+    getNthDecagonalPentagonalNumberOperator, getNthDecagonalTriangularNumberOperator, \
+    getNthDodecahedralNumberOperator, getNthGeneralizedDecagonalNumberOperator, \
+    getNthGeneralizedHeptagonalNumberOperator, getNthGeneralizedNonagonalNumberOperator, \
+    getNthGeneralizedOctagonalNumberOperator, getNthGeneralizedPentagonalNumberOperator, \
+    getNthHeptagonalHexagonalNumberOperator, getNthHeptagonalNumberOperator, getNthHeptagonalPentagonalNumberOperator, \
+    getNthHeptagonalSquareNumberOperator, getNthHeptagonalTriangularNumberOperator, getNthHexagonalNumberOperator, \
+    getNthHexagonalPentagonalNumberOperator, getNthHexagonalSquareNumberOperator, getNthIcosahedralNumberOperator, \
+    getNthNonagonalHeptagonalNumberOperator, getNthNonagonalHexagonalNumberOperator, getNthNonagonalNumberOperator, \
+    getNthNonagonalOctagonalNumberOperator, getNthNonagonalPentagonalNumberOperator, \
+    getNthNonagonalSquareNumberOperator, getNthNonagonalTriangularNumberOperator, \
+    getNthOctagonalHeptagonalNumberOperator, getNthOctagonalHexagonalNumberOperator, getNthOctagonalNumberOperator, \
+    getNthOctagonalPentagonalNumberOperator, getNthOctagonalSquareNumberOperator, \
+    getNthOctagonalTriangularNumberOperator, getNthTruncatedOctahedralNumberOperator, getNthOctahedralNumberOperator, \
+    getNthPentagonalNumberOperator, getNthPentagonalSquareNumberOperator, getNthPentagonalTriangularNumberOperator, \
+    getNthPentatopeNumberOperator, getNthPolygonalNumberOperator, getNthPolygonalPyramidalNumberOperator, \
+    getNthPolytopeNumberOperator, getNthPyramidalNumberOperator, getNthRhombicDodecahedralNumberOperator, \
+    getNthSquareTriangularNumberOperator, getNthStarNumberOperator, getNthStellaOctangulaNumberOperator, \
+    getNthTetrahedralNumberOperator, getNthTruncatedTetrahedralNumberOperator, getNthTriangularNumberOperator
 
-from rpn.rpnPrimeUtils import countCache, findPrimeOperator, findQuadrupletPrimeOperator, \
-                              findQuintupletPrimeOperator, findSextupletPrimeOperator, findTripletPrimeOperator, \
-                              findTwinPrimeOperator, getMaxPrime, getNextPrimeOperator, \
-                              getNextPrimesOperator, getNextQuadrupletPrimeOperator, getNextQuadrupletPrimesOperator, \
-                              getNextQuintupletPrimeOperator, getNextQuintupletPrimesOperator, \
-                              getNextSextupletPrimeOperator, getNextSextupletPrimesOperator, \
-                              getNextTripletPrimeOperator, getNextTripletPrimesOperator, getNextTwinPrimeOperator, \
-                              getNextTwinPrimesOperator, getNthBalancedPrimeOperator, \
-                              getNthBalancedPrimeListOperator, getNthCousinPrimeOperator, \
-                              getNthCousinPrimeListOperator, getNthDoubleBalancedPrimeOperator, \
-                              getNthDoubleBalancedPrimeListOperator, getNthIsolatedPrimeOperator, \
-                              getNthOctyPrimeOperator, getNthOctyPrimeListOperator, getNthPolyPrimeOperator, \
-                              getNthPrimeOperator, getNthPrimorialOperator, getNthQuadrupleBalancedPrimeOperator, \
-                              getNthQuadrupleBalancedPrimeListOperator, getNthQuadrupletPrimeOperator, \
-                              getNthQuadrupletPrimeListOperator, getNthQuintupletPrimeOperator, \
-                              getNthQuintupletPrimeListOperator, getNthSextupletPrimeOperator, \
-                              getNthSextupletPrimeListOperator, getNthSexyPrimeOperator, \
-                              getNthSexyPrimeListOperator, getNthSexyQuadrupletOperator, \
-                              getNthSexyQuadrupletListOperator, getNthSexyTripletOperator, \
-                              getNthSexyTripletListOperator, getNthSophiePrimeOperator, getNthSuperPrimeOperator, \
-                              getNthTripleBalancedPrimeOperator, getNthTripleBalancedPrimeListOperator, \
-                              getNthTripletPrimeOperator, getNthTripletPrimeListOperator, getNthTwinPrimeOperator, \
-                              getNthTwinPrimeListOperator, getSafePrimeOperator, getPreviousPrimeOperator, \
-                              getPreviousPrimesOperator, getPrimeRangeOperator, getPrimesOperator, \
-                              isCompositeOperator, isPrimeOperator, isStrongPseudoprimeOperator
+from rpn.math.rpnPrimeUtils import \
+    countCache, findPrimeOperator, findQuadrupletPrimeOperator, findQuintupletPrimeOperator, \
+    findSextupletPrimeOperator, findTripletPrimeOperator, findTwinPrimeOperator, getMaxPrime, getNextPrimeOperator, \
+    getNextPrimesOperator, getNextQuadrupletPrimeOperator, getNextQuadrupletPrimesOperator, \
+    getNextQuintupletPrimeOperator, getNextQuintupletPrimesOperator, getNextSextupletPrimeOperator, \
+    getNextSextupletPrimesOperator, getNextTripletPrimeOperator, getNextTripletPrimesOperator, \
+    getNextTwinPrimeOperator, getNextTwinPrimesOperator, getNthBalancedPrimeOperator, getNthBalancedPrimeListOperator, \
+    getNthCousinPrimeOperator, getNthCousinPrimeListOperator, getNthDoubleBalancedPrimeOperator, \
+    getNthDoubleBalancedPrimeListOperator, getNthIsolatedPrimeOperator, getNthOctyPrimeOperator, \
+    getNthOctyPrimeListOperator, getNthPolyPrimeOperator, getNthPrimeOperator, getNthPrimorialOperator, \
+    getNthQuadrupleBalancedPrimeOperator, getNthQuadrupleBalancedPrimeListOperator, getNthQuadrupletPrimeOperator, \
+    getNthQuadrupletPrimeListOperator, getNthQuintupletPrimeOperator, getNthQuintupletPrimeListOperator, \
+    getNthSextupletPrimeOperator, getNthSextupletPrimeListOperator, getNthSexyPrimeOperator, \
+    getNthSexyPrimeListOperator, getNthSexyQuadrupletOperator, getNthSexyQuadrupletListOperator, \
+    getNthSexyTripletOperator, getNthSexyTripletListOperator, getNthSophiePrimeOperator, getNthSuperPrimeOperator, \
+    getNthTripleBalancedPrimeOperator, getNthTripleBalancedPrimeListOperator, getNthTripletPrimeOperator, \
+    getNthTripletPrimeListOperator, getNthTwinPrimeOperator, getNthTwinPrimeListOperator, getSafePrimeOperator, \
+    getPreviousPrimeOperator, getPreviousPrimesOperator, getPrimeRangeOperator, getPrimesOperator, \
+    isCompositeOperator, isPrimeOperator, isStrongPseudoprimeOperator
 
-from rpn.rpnSettings import setCommaOperator, setCommaModeOperator, setDecimalGroupingOperator, setHexModeOperator, \
-                            setIdentifyOperator, setIdentifyModeOperator, setInputRadixOperator, \
-                            setIntegerGroupingOperator, setLeadingZeroOperator, setLeadingZeroModeOperator, \
-                            setAccuracyOperator, setPrecisionOperator, setOctalModeOperator, setOutputRadixOperator, \
-                            setTimerOperator, setTimerModeOperator
+from rpn.util.rpnSettings import \
+    setCommaOperator, setCommaModeOperator, setDecimalGroupingOperator, setHexModeOperator, setIdentifyOperator, \
+    setIdentifyModeOperator, setInputRadixOperator, setIntegerGroupingOperator, setLeadingZeroOperator, \
+    setLeadingZeroModeOperator, setAccuracyOperator, setPrecisionOperator, setOctalModeOperator, \
+    setOutputRadixOperator, setTimerOperator, setTimerModeOperator
 
-from rpn.rpnSpecial import describeIntegerOperator, downloadOEISCommentOperator, downloadOEISExtraOperator, \
-                           downloadOEISNameOperator, downloadOEISOffsetOperator, downloadOEISSequenceOperator, \
-                           findPolynomialOperator, generateRandomUUIDOperator, generateUUIDOperator, \
-                           getMultipleRandomsOperator, getRandomIntegerOperator, getRandomIntegersOperator, \
-                           getRandomNumberOperator, ifOperator
+from rpn.special.rpnSpecial import \
+    describeIntegerOperator, downloadOEISCommentOperator, downloadOEISExtraOperator, downloadOEISNameOperator, \
+    downloadOEISOffsetOperator, downloadOEISSequenceOperator, findPolynomialOperator, generateRandomUUIDOperator, \
+    generateUUIDOperator, getMultipleRandomsOperator, getRandomIntegerOperator, getRandomIntegersOperator, \
+    getRandomNumberOperator, ifOperator
 
-from rpn.rpnUnitClasses import RPNUnits
+from rpn.units.rpnUnitClasses import RPNUnits
 
-from rpn.rpnUtils import addEchoArgumentOperator, abortArgsNeeded, listAndOneArgFunctionEvaluator, \
-                         oneArgFunctionEvaluator, twoArgFunctionEvaluator, validateArguments
+from rpn.util.rpnUtils import \
+    addEchoArgumentOperator, abortArgsNeeded, listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, \
+    twoArgFunctionEvaluator, validateArguments
 
-from rpn.rpnValidator import argValidator, StringValidator
+from rpn.util.rpnValidator import argValidator, StringValidator
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
@@ -2007,7 +1950,7 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 #******************************************************************************
 
 def printHelpMessageOperator( ):
-    from rpn.rpnOutput import printHelp
+    from rpn.util.rpnOutput import printHelp
     printHelp( interactive=True )
     return 0
 
@@ -3172,6 +3115,7 @@ operators = {
     'random_prime'                      : RPNOperator( getRandomPrimeOperator, 1 ),
     'random_primes'                     : RPNOperator( getRandomPrimesOperator, 2 ),
     'relatively_prime'                  : RPNOperator( areRelativelyPrimeOperator, 2 ),
+    'reciprocal_period'                 : RPNOperator( getReciprocalPeriodOperator, 1 ),
     'repunit'                           : RPNOperator( getNthBaseKRepunitOperator, 2 ),
     'reversal_addition'                 : RPNOperator( getNthReversalAdditionOperator, 2 ),
     'sigma'                             : RPNOperator( getSigmaOperator, 1 ),

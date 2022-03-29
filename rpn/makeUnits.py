@@ -30,19 +30,19 @@ from mpmath import almosteq, mp, fdiv, fmul, fneg, mpmathify, power
 mp.dps = 52
 
 # pylint: disable=wrong-import-position
-from rpn.rpnConstantOperators import constantOperators
-from rpn.rpnMeasurementClass import specialUnitConversionMatrix
+from rpn.units.rpnConstantOperators import constantOperators
+from rpn.units.rpnMeasurementClass import specialUnitConversionMatrix
 
-from rpn.rpnUnits import binaryPrefixes, compoundTimeUnits, dataPrefixes, dataUnits, integralMetricUnits, \
-                         metricPrefixes, metricUnits, RPNUnitInfo, unitConversionMatrix, timeUnits, \
-                         unitOperators
+from rpn.units.rpnUnits import \
+    binaryPrefixes, compoundTimeUnits, dataPrefixes, dataUnits, integralMetricUnits, metricPrefixes, metricUnits, \
+    RPNUnitInfo, unitConversionMatrix, timeUnits, unitOperators
 
-from rpn.rpnUtils import getUserDataPath
-from rpn.rpnUnitTypes import basicUnitTypes
+from rpn.util.rpnUtils import getUserDataPath
+from rpn.units.rpnUnitTypes import basicUnitTypes
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
+    from rpn.util.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 

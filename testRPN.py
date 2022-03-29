@@ -19,6 +19,6 @@
 #******************************************************************************
 
 if __name__ == '__main__':
-    from rpn.testRPN import main
+    from rpn.test.testRPN import main
     main( )
 

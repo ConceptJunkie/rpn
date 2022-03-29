@@ -16,13 +16,13 @@ import random
 
 from mpmath import exp, fadd, fmul, nan, nstr
 
-from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnSpecial import getRandomInteger, getRandomNumber
-from rpn.rpnUtils import abortArgsNeeded
-from rpn.rpnValidator import RPNValidator
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.special.rpnSpecial import getRandomInteger, getRandomNumber
+from rpn.util.rpnUtils import abortArgsNeeded
+from rpn.util.rpnValidator import RPNValidator
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************

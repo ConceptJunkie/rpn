@@ -31,39 +31,42 @@ import readline
 
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
-from rpn.rpnAliases import OPERATOR_ALIASES
-from rpn.rpnConstantUtils import loadGlobalConstants
-from rpn.rpnDateTime import RPNDateTime
-from rpn.rpnDebug import debugPrint
-from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurementClass import RPNMeasurement
 from rpn.rpnOperator import checkForVariable
+
+from rpn.time.rpnDateTime import RPNDateTime
+
+from rpn.units.rpnConstantUtils import loadGlobalConstants
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+
+from rpn.util.rpnAliases import OPERATOR_ALIASES
+from rpn.util.rpnDebug import debugPrint
+from rpn.util.rpnGenerator import RPNGenerator
 
 from rpn.rpnOperators import evaluateTerm, functionOperators, loadUserFunctionsFile, \
                              RPNFunction, saveUserFunctionsFile
 
-from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
+from rpn.util.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpn.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariablesFile, \
+from rpn.util.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariablesFile, \
                                saveUserVariablesFile, loadUserConfigurationFile, saveResult, \
                                saveUserConfigurationFile
 
-from rpn.rpnPrimeUtils import checkForPrimeData
-from rpn.rpnSettings import setAccuracy, setPrecision
-from rpn.rpnSpecial import handleIdentify
-from rpn.rpnSpecialBase import specialBaseNames
+from rpn.math.rpnPrimeUtils import checkForPrimeData
+from rpn.util.rpnSettings import setAccuracy, setPrecision
+from rpn.special.rpnSpecial import handleIdentify
+from rpn.math.rpnSpecialBase import specialBaseNames
 
-from rpn.rpnUtils import getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, \
+from rpn.util.rpnUtils import getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, \
                          validateOptions
 
 from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_DESCRIPTION, \
                            COPYRIGHT_MESSAGE
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
+    from rpn.util.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 

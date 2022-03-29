@@ -18,12 +18,12 @@ import os
 import sqlite3
 import time
 
-from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
-from rpn.rpnUtils import getSourcePath
+from rpn.util.rpnPersistence import createPrimeCache, deleteCache, saveToCache
+from rpn.util.rpnUtils import getSourcePath
 from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
+    from rpn.util.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 

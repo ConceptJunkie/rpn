@@ -5,7 +5,7 @@
 #  makeHelp
 #
 #  rpnChilada help file generator
-#  copyright (c) 2021, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
 #
 #  *** NOTE:  Don't run this file directly.  Use ../makeHelp.py.
 #
@@ -28,16 +28,16 @@ import time
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
-from rpn.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
-from rpn.rpnOutput import printParagraph
-from rpn.rpnPrimeUtils import checkForPrimeData
-from rpn.rpnUtils import getUserDataPath
+from rpn.math.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
+from rpn.util.rpnOutput import printParagraph
+from rpn.math.rpnPrimeUtils import checkForPrimeData
+from rpn.util.rpnUtils import getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, RPN_PROGRAM_NAME
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 if not hasattr( time, 'time_ns' ):
-    from rpn.rpnNanoseconds import time_ns
+    from rpn.util.rpnNanoseconds import time_ns
 else:
     from time import time_ns
 
@@ -54,7 +54,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2443      # This needs to be manually updated when the help examples are modified.
+MAX_EXAMPLE_COUNT = 2445      # This needs to be manually updated when the help examples are modified.
 
 os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
 
@@ -12149,6 +12149,17 @@ The radical function is defined as the largest squarefree factor.
 ''' + makeCommandExample( '1 100 range radical' ),
 [ 'harmonic_residue', 'digital_root' ] ],
 
+    'reciprocal_period' : [
+'number_theory', 'returns the period of the decimal expansion of the reciprocal of n',
+'''
+The reciprocal period of a number is the length of the decimal expansion of the
+reciprocal of that number.
+''',
+'''
+''' + makeCommandExample( '7 reciprocal_period' ) + '''
+''' + makeCommandExample( '39631 reciprocal_period' ),
+[ 'reciprocal' ] ],
+
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n',
 '''
@@ -17263,7 +17274,7 @@ def main( ):
         print( 'Please run "rpnMakeUnits" (or makeUnits.py) to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
-    from rpn.rpnConstantOperators import constantOperators
+    from rpn.units.rpnConstantOperators import constantOperators
 
     for key, value in constantOperators.items( ):
         helpText = '\n\'' + key + '\' returns a value of ' + str( value.value )
