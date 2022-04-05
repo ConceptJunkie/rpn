@@ -42,26 +42,27 @@ from rpn.util.rpnAliases import OPERATOR_ALIASES
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 
-from rpn.rpnOperators import evaluateTerm, functionOperators, loadUserFunctionsFile, \
-                             RPNFunction, saveUserFunctionsFile
+from rpn.rpnOperators import \
+    evaluateTerm, functionOperators, loadUserFunctionsFile, RPNFunction, saveUserFunctionsFile
 
-from rpn.util.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
-                          printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
+from rpn.util.rpnOutput import \
+    formatDateTime, formatListOutput, formatOutput, formatUnits, printHelp, printHelpModeHelp, \
+    printInteractiveHelp, printTitleScreen
 
-from rpn.util.rpnPersistence import loadUnitData, loadUnitNameData, loadUserVariablesFile, \
-                               saveUserVariablesFile, loadUserConfigurationFile, saveResult, \
-                               saveUserConfigurationFile
+from rpn.util.rpnPersistence import \
+    loadUnitData, loadUnitNameData, loadUserVariablesFile, saveUserVariablesFile, loadUserConfigurationFile, \
+    saveResult, saveUserConfigurationFile
 
 from rpn.math.rpnPrimeUtils import checkForPrimeData
 from rpn.util.rpnSettings import setAccuracy, setPrecision
 from rpn.special.rpnSpecial import handleIdentify
 from rpn.math.rpnSpecialBase import specialBaseNames
 
-from rpn.util.rpnUtils import getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, \
-                         validateOptions
+from rpn.util.rpnUtils import \
+    getCurrentArgList, getUserDataPath, parseNumerals, validateArguments, validateOptions
 
-from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_DESCRIPTION, \
-                           COPYRIGHT_MESSAGE
+from rpn.rpnVersion import \
+    RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_DESCRIPTION, COPYRIGHT_MESSAGE
 
 import rpn.util.rpnGlobals as g
 

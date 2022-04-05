@@ -22,14 +22,14 @@
 from functools import lru_cache
 from mpmath import arange, cbrt, fadd, fdiv, fmul, fsub, log, mp, mpf, mpmathify, pi, sqrt
 
-from rpn.rpnComputer import interpretAsDouble, interpretAsFloat
-from rpn.rpnInput import convertToBase10
-from rpn.rpnList import getProduct
-from rpn.rpnMath import getPower, getRoot
-from rpn.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnNumberTheory import getNthThueMorseNumber
-from rpn.rpnOutput import convertToBaseN
-from rpn.rpnPrimeUtils import getNthPrime
+from rpn.math.rpnComputer import interpretAsDouble, interpretAsFloat
+from rpn.util.rpnInput import convertToBase10
+from rpn.special.rpnList import getProduct
+from rpn.math.rpnMath import getPower, getRoot
+from rpn.unit.rpnMeasurementClass import RPNMeasurement
+from rpn.math.rpnNumberTheory import getNthThueMorseNumber
+from rpn.util.rpnOutput import convertToBaseN
+from rpn.math.rpnPrimeUtils import getNthPrime
 
 import rpn.rpnGlobals as g
 
