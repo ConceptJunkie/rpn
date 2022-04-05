@@ -44,6 +44,11 @@ cd time
 for /t; %TARGET_DIR in (%1) if exist %TARGET_DIR .and. isdir %TARGET_DIR copy rpn*.py %TARGET_DIR%\rpn\time
 cd ..
 
+cd units
+for /t; %TARGET_DIR in (%1) if exist %TARGET_DIR .and. isdir %TARGET_DIR copy rpn*.py %TARGET_DIR%\rpn\units
+cd ..
+
+
 cd util
 for /t; %TARGET_DIR in (%1) if exist %TARGET_DIR .and. isdir %TARGET_DIR copy rpn*.py %TARGET_DIR%\rpn\util
 cd ..

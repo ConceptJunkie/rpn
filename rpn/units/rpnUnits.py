@@ -14,7 +14,7 @@
 
 from mpmath import fadd, fdiv, fmul, log, mpmathify, pi, power
 
-from rpn.rpnUnitClasses import RPNUnitInfo
+from rpn.units.rpnUnitClasses import RPNUnitInfo
 
 
 # jansky (Jy)

@@ -14,8 +14,8 @@
 
 from mpmath import fdiv, fmul, mpmathify, pi
 
-from rpn.rpnConstantUtils import getMaxDouble, getMaxFloat, getMinDouble, getMinFloat
-from rpn.rpnUnitClasses import RPNConstantInfo
+from rpn.units.rpnConstantUtils import getMaxDouble, getMaxFloat, getMinDouble, getMinFloat
+from rpn.units.rpnUnitClasses import RPNConstantInfo
 
 
 #******************************************************************************

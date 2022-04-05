@@ -15,13 +15,13 @@
 from mpmath import fdiv, fmul, nstr, mpmathify
 
 from rpn.rpnDebug import debugPrint
-from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnUnitClasses import RPNUnits
-from rpn.rpnUtils import oneArgFunctionEvaluator
-from rpn.rpnValidator import argValidator, MeasurementValidator, MultiplicativeValidator
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.units.rpnUnitClasses import RPNUnits
+from rpn.util.rpnUtils import oneArgFunctionEvaluator
+from rpn.util.rpnValidator import argValidator, MeasurementValidator, MultiplicativeValidator
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************

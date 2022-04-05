@@ -26,12 +26,12 @@ from rpn.math.rpnComputer import interpretAsDouble, interpretAsFloat
 from rpn.util.rpnInput import convertToBase10
 from rpn.special.rpnList import getProduct
 from rpn.math.rpnMath import getPower, getRoot
-from rpn.unit.rpnMeasurementClass import RPNMeasurement
+from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.math.rpnNumberTheory import getNthThueMorseNumber
 from rpn.util.rpnOutput import convertToBaseN
 from rpn.math.rpnPrimeUtils import getNthPrime
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
@@ -41,7 +41,7 @@ import rpn.rpnGlobals as g
 #******************************************************************************
 
 def loadGlobalConstants( ):
-    g.c = getConstant( 'speed_of_light'  )
+    g.c = getConstant( 'speed_of_light' )
     g.e = getConstant( 'electron_charge' )
     g.e0 = getConstant( 'electric_constant' )
     g.G = getConstant( 'newton_constant' )

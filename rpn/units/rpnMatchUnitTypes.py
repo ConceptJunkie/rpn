@@ -41,9 +41,9 @@ def getWhichUnitType( measurement, unitTypes ):
 
 def matchUnitTypes( args, validUnitTypes ):
     # imported here to avoid circular dependencies
-    from rpn.rpnAstronomy import RPNAstronomicalObject, RPNNewAstronomicalObject
-    from rpn.rpnDateTime import RPNDateTime
-    from rpn.rpnLocation import getLocation, RPNLocation
+    from rpn.science.rpnAstronomy import RPNAstronomicalObject, RPNNewAstronomicalObject
+    from rpn.time.rpnDateTime import RPNDateTime
+    from rpn.special.rpnLocation import getLocation, RPNLocation
 
     result = { }
 

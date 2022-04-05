@@ -16,12 +16,12 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, lo
                    mpf, mpmathify, power, root
 
 from rpn.rpnDebug import debugPrint
-from rpn.rpnPersistence import loadUnitConversionMatrix, loadUnitData
-from rpn.rpnUnitClasses import getUnitType, RPNUnits
-from rpn.rpnUnitTypes import basicUnitTypes
-from rpn.rpnUtils import getPowerSet
+from rpn.util.rpnPersistence import loadUnitConversionMatrix, loadUnitData
+from rpn.units.rpnUnitClasses import getUnitType, RPNUnits
+from rpn.units.rpnUnitTypes import basicUnitTypes
+from rpn.util.rpnUtils import getPowerSet
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************

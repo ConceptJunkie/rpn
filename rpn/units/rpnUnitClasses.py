@@ -16,9 +16,9 @@ import collections
 
 from mpmath import fdiv, mpmathify
 
-from rpn.rpnPersistence import loadUnitConversionMatrix
+from rpn.util.rpnPersistence import loadUnitConversionMatrix
 
-import rpn.rpnGlobals as g
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
