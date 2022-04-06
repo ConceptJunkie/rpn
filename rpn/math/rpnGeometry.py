@@ -15,8 +15,8 @@
 from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, gamma, power, pi, \
                    root, sin, sqrt, tan
 
-from rpn.special.rpnList import getProduct, getSum
 from rpn.math.rpnMath import add, divide, getPower, getRoot, multiply, subtract
+from rpn.special.rpnList import getProduct, getSum
 from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator, LengthValidator, MeasurementValidator

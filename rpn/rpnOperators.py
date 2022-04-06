@@ -24,10 +24,10 @@ from mpmath import \
     apery, arange, catalan, cplot, e, euler, exp, fadd, fdiv, fib, fmul, glaisher, inf, khinchin, lambertw, limit, \
     mertens, mpf, mpmathify, nprod, nsum, phi, pi, plot, power, splot, sqrt
 
-from rpn.util.rpnAliases import dumpAliasesOperator
 from rpn.rpnOperator import callers, RPNOperator
-from rpn.util.rpnOutput import printTitleScreen
 from rpn.rpnVersion import PROGRAM_DESCRIPTION, PROGRAM_NAME, PROGRAM_VERSION
+from rpn.util.rpnAliases import dumpAliasesOperator
+from rpn.util.rpnOutput import printTitleScreen
 
 from rpn.science.rpnAstronomy import \
     getAngularSeparationOperator, getAngularSizeOperator, getAntitransitTimeOperator, getAutumnalEquinoxOperator, \
@@ -1962,7 +1962,7 @@ def printHelpMessageOperator( ):
 #******************************************************************************
 
 def printHelpTopic( n ):
-    from rpn.rpnOutput import printHelp
+    from rpn.util.rpnOutput import printHelp
 
     if isinstance( n, str ):
         printHelp( [ n ], interactive=True )

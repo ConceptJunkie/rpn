@@ -14,7 +14,7 @@
 
 from mpmath import fdiv, fmul, nstr, mpmathify
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.units.rpnUnitClasses import RPNUnits

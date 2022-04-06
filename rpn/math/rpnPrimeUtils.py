@@ -22,9 +22,10 @@ from mpmath import arange, fadd, fmod, fmul, fprod, fsub
 
 import gmpy2
 
-from rpn.rpnDebug import debugPrint
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.math.rpnPrimes import primes
+
+from rpn.util.rpnDebug import debugPrint
+from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedFunction, openPrimeCache
 from rpn.util.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator

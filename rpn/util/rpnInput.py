@@ -21,7 +21,7 @@ from mpmath import fdiv, fneg, mp, mpc, mpf, mpmathify
 
 from rpn.time.rpnDateTime import RPNDateTime
 from rpn.util.rpnGenerator import RPNGenerator
-from rpn.rpnSettings import setAccuracy
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, StringValidator
 

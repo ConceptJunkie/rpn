@@ -13,8 +13,8 @@
 #******************************************************************************
 
 from rpn.test.rpnTestUtils import expectEqual, expectException, testOperator
-from rpn.util.rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpn.units.rpnUnitClasses import getUnitType
+from rpn.util.rpnPersistence import loadUnitData, loadUnitConversionMatrix
 
 import rpn.util.rpnGlobals as g
 

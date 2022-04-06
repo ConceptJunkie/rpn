@@ -28,11 +28,12 @@ import time
 from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
-from rpn.math.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
-from rpn.util.rpnOutput import printParagraph
-from rpn.math.rpnPrimeUtils import checkForPrimeData
-from rpn.util.rpnUtils import getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, RPN_PROGRAM_NAME
+
+from rpn.math.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
+from rpn.math.rpnPrimeUtils import checkForPrimeData
+from rpn.util.rpnOutput import printParagraph
+from rpn.util.rpnUtils import getUserDataPath
 
 import rpn.util.rpnGlobals as g
 

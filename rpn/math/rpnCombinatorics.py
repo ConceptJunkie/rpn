@@ -16,11 +16,12 @@ from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor,
                    fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
                    power, sqrt, stirling1, stirling2
 
-from rpn.rpnDebug import debugPrint
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.math.rpnNumberTheory import getNthLinearRecurrence
-from rpn.util.rpnPersistence import cachedFunction
 from rpn.math.rpnPolytope import getNthGeneralizedPolygonalNumber
+
+from rpn.util.rpnDebug import debugPrint
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnPersistence import cachedFunction
 from rpn.util.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator

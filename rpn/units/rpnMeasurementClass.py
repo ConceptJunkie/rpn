@@ -15,7 +15,7 @@
 from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, log10, \
                    mpf, mpmathify, power, root
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnPersistence import loadUnitConversionMatrix, loadUnitData
 from rpn.units.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.units.rpnUnitTypes import basicUnitTypes

@@ -21,12 +21,12 @@ from collections import OrderedDict
 
 from rpn.rpnOperators import *
 
-from rpn.rpnAliases import OPERATOR_ALIASES
-from rpn.rpnOperators import constants
-from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.util.rpnPersistence import cachedFunction, loadUnitNameData
 from rpn.math.rpnPrimeUtils import checkForPrimeData
+from rpn.rpnOperators import constants
 from rpn.test.rpnTestUtils import *
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnAliases import OPERATOR_ALIASES
+from rpn.util.rpnPersistence import cachedFunction, loadUnitNameData
 from rpn.util.rpnUtils import getUserDataPath
 
 from mpmath import *

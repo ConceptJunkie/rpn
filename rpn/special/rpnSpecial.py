@@ -30,9 +30,7 @@ from rpn.math.rpnCombinatorics import \
     getNthAperyNumber, getNthDelannoyNumber, getNthMenageNumber, getNthMotzkinNumber, getNthPellNumber, \
     getNthSchroederNumber, getNthSchroederHipparchusNumber, getNthSylvesterNumber, getPartitionNumber
 
-from rpn.rpnDebug import debugPrint
 from rpn.math.rpnFactor import getFactors
-from rpn.util.rpnGenerator import RPNGenerator
 
 from rpn.math.rpnLexicographic import getErdosPersistence, getPersistence, \
                                  hasUniqueDigits, isAutomorphic, isBaseKSmithNumber, \
@@ -42,7 +40,6 @@ from rpn.math.rpnLexicographic import getErdosPersistence, getPersistence, \
                                  multiplyDigits, multiplyNonzeroDigits, sumDigits
 
 from rpn.math.rpnMath import isEven, isInteger, isKthPower, isOdd
-from rpn.special.rpnName import getNumberName, getShortOrdinalName
 
 from rpn.math.rpnNumberTheory import \
     getDigitalRoot, getDivisorCount, getNthDoubleFactorial, getEulerPhi, \
@@ -58,12 +55,16 @@ from rpn.math.rpnNumberTheory import \
                                 isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
                                 isSquareFree, isUnusual
 
-from rpn.util.rpnPersistence import cachedOEISFunction
-
 from rpn.math.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 
 from rpn.math.rpnPrimeUtils import getPrimes, isPrime
+
+from rpn.special.rpnName import getNumberName, getShortOrdinalName
+
+from rpn.util.rpnDebug import debugPrint
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnPersistence import cachedOEISFunction
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator
 

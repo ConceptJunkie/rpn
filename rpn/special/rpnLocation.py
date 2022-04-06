@@ -29,13 +29,17 @@ from geopy.geocoders import Nominatim
 from mpmath import fdiv, fmul, mpmathify, pi
 from timezonefinder import TimezoneFinder
 
-from rpn.time.rpnDateTimeClass import RPNDateTime
-from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.special.rpnLocationClass import RPNLocation
+
+from rpn.time.rpnDateTimeClass import RPNDateTime
+
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+
+from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.util.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, LocationValidator, LocationOrDateTimeValidator, RealValidator, \
                              StringValidator
+                             
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.util.rpnGlobals as g

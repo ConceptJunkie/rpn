@@ -24,8 +24,8 @@ from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
                    tan, tanh, unitroots
 
 from rpn.time.rpnDateTime import RPNDateTime
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, AdditiveValidator, ComparableValidator, IntValidator, \
                              ListValidator, MultiplicativeValidator, RealValidator, RealOrMeasurementValidator

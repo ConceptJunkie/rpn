@@ -27,12 +27,14 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac,
 
 from rpn.math.rpnComputer import getBitCount
 from rpn.math.rpnFactor import getFactors, getFactorList
-from rpn.util.rpnGenerator import RPNGenerator
-from rpn.special.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
 from rpn.math.rpnMath import isDivisible, isEven, isInteger, isOdd
-from rpn.util.rpnPersistence import cachedFunction
 from rpn.math.rpnPrimeUtils import findPrime, getNthPrime, isPrime, getNextPrime
-from rpn.rpnSettings import setAccuracy
+
+from rpn.special.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
+
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnPersistence import cachedFunction
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
                          twoArgFunctionEvaluator

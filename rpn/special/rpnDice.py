@@ -20,7 +20,7 @@ from random import randrange
 
 from mpmath import arange
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator, StringValidator

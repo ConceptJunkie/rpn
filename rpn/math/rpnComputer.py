@@ -16,9 +16,10 @@ import struct
 
 from mpmath import fadd, fdiv, floor, fmod, fmul, fsub, fsum, log, mpf, mp, mpmathify, power
 
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.rpnSettings import setAccuracy
+
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator, ListValidator, RealValidator
 

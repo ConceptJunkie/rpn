@@ -19,7 +19,7 @@ from mpmath import mp
 
 import rpn.util.rpnGlobals as g
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 
 
 #******************************************************************************

@@ -20,11 +20,12 @@ from mpmath import arange, fabs, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsu
 
 from rpn.math.rpnBase import convertToBaseN, getBaseKDigits
 from rpn.math.rpnFactor import getFactors
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.math.rpnMath import isDivisible, getPowMod
-from rpn.util.rpnPersistence import cachedFunction
 from rpn.math.rpnPrimeUtils import isPrime
-from rpn.rpnSettings import setAccuracy
+
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnPersistence import cachedFunction
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, getMPFIntegerAsString, \
                          listArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator, ListValidator, RealValidator

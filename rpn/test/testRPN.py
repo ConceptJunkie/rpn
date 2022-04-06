@@ -20,18 +20,17 @@ import time
 from collections import OrderedDict
 from pathlib import Path
 
-from rpn.rpnOperators import modifiers
+from rpn.rpnOperators import constants, listOperators, modifiers, operators
 
-from rpn.units.rpnConstantUtils import loadGlobalConstants
 from rpn.math.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
-from rpn.rpnOperators import constants, listOperators, operators
-from rpn.util.rpnPersistence import loadHelpData, loadUnitData, loadUnitNameData
 from rpn.math.rpnPrimeUtils import checkForPrimeData
-from rpn.test.rpnTestUtils import expectEqual, expectEquivalent, expectException, expectResult, testOperator
-from rpn.util.rpnUtils import getUserDataPath, loadAstronomyData
 from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
+from rpn.test.rpnTestUtils import expectEqual, expectEquivalent, expectException, expectResult, testOperator
 from rpn.test.testConvert import runConvertTests
 from rpn.test.testHelp import runHelpTests
+from rpn.units.rpnConstantUtils import loadGlobalConstants
+from rpn.util.rpnPersistence import loadHelpData, loadUnitData, loadUnitNameData
+from rpn.util.rpnUtils import getUserDataPath, loadAstronomyData
 
 import rpn.util.rpnGlobals as g
 

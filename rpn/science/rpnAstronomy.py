@@ -19,11 +19,11 @@ from mpmath import acos, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from skyfield import almanac
 #from skyfield.api import load, Topos
 
-from rpn.time.rpnDateTime import RPNDateTime, setTimeZone
+from rpn.math.rpnMath import subtract
 from rpn.special.rpnLocation import getLocation, getTimeZone
+from rpn.time.rpnDateTime import RPNDateTime, setTimeZone
 from rpn.units.rpnMatchUnitTypes import matchUnitTypes
 from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.math.rpnMath import subtract
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          loadAstronomyData
 from rpn.util.rpnValidator import argValidator, DateTimeValidator, IntValidator, YearValidator

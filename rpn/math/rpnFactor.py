@@ -19,11 +19,12 @@ import subprocess
 from mpmath import fadd, fdiv, floor, fmod, fneg, fprod, log10, mpmathify
 
 from rpn.math.factorise import factorise
-from rpn.rpnDebug import debugPrint
-from rpn.util.rpnPersistence import loadFactorCache
-from rpn.math.rpnPrimes import primes
 from rpn.math.rpnPrimeUtils import isPrime
-from rpn.rpnSettings import setAccuracy
+from rpn.math.rpnPrimes import primes
+
+from rpn.util.rpnDebug import debugPrint
+from rpn.util.rpnPersistence import loadFactorCache
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator
 

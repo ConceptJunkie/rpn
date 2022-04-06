@@ -24,9 +24,9 @@ from collections.abc import MutableMapping
 from functools import lru_cache
 from shutil import copyfile
 
-from rpn.rpnDebug import debugPrint
+from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
-from rpn.rpnKeyboard import DelayedKeyboardInterrupt
+from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.util.rpnUtils import getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 

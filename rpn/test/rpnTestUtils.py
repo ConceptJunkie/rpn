@@ -18,8 +18,9 @@ import time
 from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
 
 from rpn.rpn import rpn, handleOutput
-from rpn.util.rpnGenerator import RPNGenerator
+
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnGenerator import RPNGenerator
 
 import rpn.util.rpnGlobals as g
 

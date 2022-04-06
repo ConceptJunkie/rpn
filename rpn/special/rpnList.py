@@ -18,9 +18,9 @@ import random
 
 from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, inf, power, root, sqrt
 
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.math.rpnMath import add, multiply, square, subtract, divide
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnUtils import getPowerSet, listArgFunctionEvaluator, listAndOneArgFunctionEvaluator, \
                          listAndTwoArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComparableValidator, ComplexValidator, DefaultValidator, IntValidator, \
