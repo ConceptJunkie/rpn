@@ -7,6 +7,7 @@ geopy>=2.2.0
 gmpy2>=2.0.8
 hyperop>=1.1
 importlib_resources>=5.4.0
+joblib>=1.2.0
 mpmath>=1.2.1
 numpy>=1.19.5
 pytz>=2021.3
