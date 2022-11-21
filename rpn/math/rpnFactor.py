@@ -76,7 +76,6 @@ def getFactors( target ):
             g.factorCache[ n ] = result
 
         return result
-
     except ValueError:
         pass
 

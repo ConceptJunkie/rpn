@@ -14,10 +14,12 @@
 
 import functools
 import itertools
+import multiprocessing
 import os
 import sys
 
 from collections.abc import Iterable
+from joblib import delayed, Parallel
 
 from functools import lru_cache, reduce
 from mpmath import floor, log10, mag, mp, nint, nstr
@@ -39,10 +41,12 @@ def getSourcePath( ):
     if getattr( sys, 'frozen', False ):
         sourcePath = os.path.dirname( sys.executable )
     else:
-        sourcePath = os.path.dirname( os.path.realpath( __file__ ) )
+        sourcePath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + '..'
 
-    if not os.path.isdir( sourcePath ):
-        os.makedirs( sourcePath )
+    #print( 'sourcePath', sourcePath )
+
+    #if not os.path.isdir( sourcePath ):
+    #    os.makedirs( sourcePath )
 
     return sourcePath
 
@@ -833,3 +837,24 @@ def flattenList( args ):
 def setAccuracyForN( n ):
     magnitude = mag( n )
     mp.prec = max( mp.prec, magnitude )
+
+
+#******************************************************************************
+#
+#  parallel
+#
+#******************************************************************************
+
+def parallel( func=None, args=( ), merge_func=lambda x:x, parallelism = multiprocessing.cpu_count( ) ):
+    def decorator( func: callable ):
+        def inner( *args, **kwargs ):
+            results = Parallel( n_jobs=parallelism )( delayed( func )( *args, **kwargs ) for i in range( parallelism ) )
+            return merge_func( results )
+        return inner
+
+    if func is None:
+        # decorator was used like @parallel(...)
+        return decorator
+    else:
+        # decorator was used like @parallel, without parens
+        return decorator( func )

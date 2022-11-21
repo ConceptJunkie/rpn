@@ -2901,8 +2901,8 @@ def runLexicographyOperatorTests( ):
     expectResult( '12234566 is_decreasing', 0 )
     expectResult( '66633322 is_decreasing', 1 )
     expectResult( '987654321 is_decreasing', 1 )
-    expectResult( ' 1111111 is_decreasing', 1 )
-    expectResult( ' 11111112 is_decreasing', 0 )
+    expectResult( '1111111 is_decreasing', 1 )
+    expectResult( '11111112 is_decreasing', 0 )
 
     # is_digital_palindrome
     expectResult( '101 is_digital_palindrome', 1 )
@@ -2935,8 +2935,8 @@ def runLexicographyOperatorTests( ):
     expectResult( '12234566 is_increasing', 1 )
     expectResult( '66633322 is_increasing', 0 )
     expectResult( '987654321 is_increasing', 0 )
-    expectResult( ' 1111111 is_increasing', 1 )
-    expectResult( ' 11111112 is_increasing', 1 )
+    expectResult( '1111111 is_increasing', 1 )
+    expectResult( '11111112 is_increasing', 1 )
 
     # is_kaprekar
     expectResult( '533170 is_kaprekar', 1 )
@@ -4951,7 +4951,7 @@ def runPrimeNumberOperatorTests( ):
 
     # prime_pi
     testOperator( '87 prime_pi' )
-    expectEqual( '1 999 range lambda x x prime_pi combinations eval', '37031 oeis 999 left' )
+    expectEqual( '0 998 range lambda x x prime_pi combinations eval', '37031 oeis 999 left' )
 
     # primes
     testOperator( '1 5 range 5 primes' )
@@ -5496,7 +5496,7 @@ def runAdvancedTests( ):
     expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter',
                  '[ 3816547290 ]' )
 
-    testOperator( ' 400 watt meter sqr / stefan_boltzmann / 4 root' )
+    testOperator( '400 watt meter sqr / stefan_boltzmann / 4 root' )
 
 
 #******************************************************************************

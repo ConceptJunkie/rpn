@@ -284,6 +284,8 @@ def runConvertTests( ):
     expectEqual( '1 petabyte bit convert', '8e15 bits' )
     expectEqual( 'mile^2 acre convert', '640 acres' )
     expectEqual( 'gallon cubic_inches convert', '231 cubic_inches' )
+    expectEqual( 'square_yard rod * cubic_inch convert', '256608 cubic_inch' )
+    expectEqual( 'cubic_rod square_inch foot * convert', '7762392 cubic_inch' )
 
     expectEqual( 'newton meter *', 'joule' )
     expectEqual( 'newton*meter', 'joule' )

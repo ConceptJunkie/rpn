@@ -37,7 +37,7 @@ from rpn.util.rpnPersistence import cachedFunction
 from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
-                         twoArgFunctionEvaluator
+                         twoArgFunctionEvaluator, parallel
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator, RealValidator
 
 
@@ -1577,7 +1577,9 @@ def getAliquotSequenceGenerator( n, k ):
         b = fsub( getSigma( a ), a )
         yield b
 
-        if b in results:
+        if b == 1:
+            break
+        elif b in results:
             break
 
         a = b

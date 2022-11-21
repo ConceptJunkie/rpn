@@ -64,7 +64,7 @@ def convertUnits( unit1, unit2 ):
     if not isinstance( unit2, ( list, str, RPNUnits, RPNMeasurement ) ):
         raise ValueError( 'cannot convert non-measurements' )
 
-    debugPrint( 'convertUnits' )
+    debugPrint( '**** convertUnits' )
     debugPrint( 'unit1:', unit1.getUnitTypes( ) )
     debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 

@@ -17,7 +17,7 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, lo
 
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnPersistence import loadUnitConversionMatrix, loadUnitData
-from rpn.units.rpnUnitClasses import getUnitType, RPNUnits
+from rpn.units.rpnUnitClasses import getUnitDimensionList, getUnitType, RPNUnits
 from rpn.units.rpnUnitTypes import basicUnitTypes
 from rpn.util.rpnUtils import getPowerSet
 
@@ -675,6 +675,8 @@ class RPNMeasurement( ):
 
                 return self.convertUnitList( listToConvert )
 
+        debugPrint( 'OK, we\'re past the preliminaries... let\'s convert!' )
+
         conversions = [ ]
 
         value = self.value    # This is what we'll return down below
@@ -685,6 +687,8 @@ class RPNMeasurement( ):
 
         unit1String = units1.getUnitString( )
         unit2String = units2.getUnitString( )
+
+        debugPrint( 'convertValue:', self.value, unit1String, 'to', other.value, unit2String )
 
         if unit1String == unit2String:
             return value
@@ -724,6 +728,7 @@ class RPNMeasurement( ):
 
                     if getUnitType( unit1 ) == getUnitType( unit2 ):
                         debugPrint( 'found a conversion:', unit1, unit2 )
+                        debugPrint( 'newUnits1[ unit1 ]', newUnits1[ unit1 ], 'newUnits2[ unit2 ]', newUnits2[ unit2 ] )
                         conversions.append( ( unit1, unit2 ) )
                         exponents[ ( unit1, unit2 ) ] = units1[ unit1 ]
                         foundConversion = True
