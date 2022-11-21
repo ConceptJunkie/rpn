@@ -1393,7 +1393,7 @@ def runChemistryOperatorTests( ):
     testOperator( 'Se atomic_number' )
     testOperator( 'Br atomic_number' )
     testOperator( 'Kr atomic_number' )
-    testOperator( 'Rb atomic_number' )
+    testOperator( 'Rb atomic_number' )      # ronnabit
     testOperator( 'Sr atomic_number' )
     testOperator( 'Y atomic_number' )
     testOperator( 'Zr atomic_number' )
@@ -1449,7 +1449,7 @@ def runChemistryOperatorTests( ):
     testOperator( 'At atomic_number' )
     testOperator( 'Rn atomic_number' )
     testOperator( 'Fr atomic_number' )      # franklin
-    testOperator( 'Ra atomic_number' )
+    testOperator( 'Ra atomic_number' )      # ronnare
     testOperator( 'Ac atomic_number' )
     testOperator( 'Th atomic_number' )
 
@@ -1475,7 +1475,7 @@ def runChemistryOperatorTests( ):
     testOperator( 'Mt atomic_number' )
     testOperator( 'Ds atomic_number' )
 
-    testOperator( 'Rg atomic_number' )
+    testOperator( 'Rg atomic_number' )      # ronnagram
     testOperator( 'Cn atomic_number' )
     testOperator( 'Nh atomic_number' )
     testOperator( 'Fl atomic_number' )
