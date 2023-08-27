@@ -274,7 +274,7 @@ frenchRepublicanMonths = [
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getOrdinalDateOperator( n ):
-    return str( n.year ) + '-' + str( n.timetuple( ).tm_yday )
+    return str( n.getYear( ) ) + '-' + str( n.dateTime.day_of_year )
 
 
 #******************************************************************************
@@ -288,10 +288,10 @@ def getOrdinalDateOperator( n ):
 def generateMonthCalendarOperator( datetime ):
     cal = calendar.TextCalendar( firstweekday = 6 )
     print( )
-    cal.prmonth( datetime.year, datetime.month )
+    cal.prmonth( datetime.getYear( ), datetime.getMonth( ) )
     print( )
 
-    return [ datetime.year, datetime.month ]
+    return [ datetime.getYear( ), datetime.getMonth( ) ]
 
 
 #******************************************************************************
@@ -306,7 +306,7 @@ def generateYearCalendarOperator( n ):
     cal = calendar.TextCalendar( firstweekday = 6 )
 
     if isinstance( n, RPNDateTime ):
-        cal.pryear( n.year )
+        cal.pryear( n.getYear( ) )
     else:
         cal.pryear( int( n ) )
 
@@ -322,8 +322,7 @@ def generateYearCalendarOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getJulianDayOperator( n ):
-    n.to( 'utc' )
-    return julianday.from_datetime( n )
+    return julianday.from_datetime( n.setTimeZone( 'utc' ).dateTime )
 
 
 #******************************************************************************
@@ -347,9 +346,7 @@ def getLilianDayOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getISODateOperator( n ):
-    result = n.isocalendar( )
-
-    return list( result )
+    return [ n.getYear( ), n.getWeekOfYear( ), n.getDayOfWeek( ) ]
 
 
 #******************************************************************************
@@ -361,9 +358,7 @@ def getISODateOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getISODateNameOperator( n ):
-    result = n.isocalendar( )
-
-    return str( result[ 0 ] ) + '-W' + str( result[ 1 ] ) + '-' + str( result[ 2 ] )
+    return str( n.getYear( ) ) + '-W' + str( n.getWeekOfYear( ) ) + '-' + str( n.getDayOfWeek( ) )
 
 
 #******************************************************************************
@@ -375,7 +370,7 @@ def getISODateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getHebrewCalendarDateOperator( n ):
-    return list( hebrew.from_gregorian( n.year, n.month, n.day ) )
+    return list( hebrew.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -398,9 +393,9 @@ def convertHebrewDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getHebrewCalendarDateNameOperator( n ):
-    date = hebrew.from_gregorian( n.year, n.month, n.day )
+    date = hebrew.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    return hebrewDays[ n.weekday( ) ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
+    return hebrewDays[ n.getDayOfWeek( ) - 1 ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
@@ -413,7 +408,7 @@ def getHebrewCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getIndianCivilCalendarDateOperator( n ):
-    return list( indian_civil.from_gregorian( n.year, n.month, n.day ) )
+    return list( indian_civil.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -436,9 +431,9 @@ def convertIndianCivilDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getIndianCivilCalendarDateNameOperator( n ):
-    date = indian_civil.from_gregorian( n.year, n.month, n.day )
+    date = indian_civil.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    return indianCivilDays[ n.weekday( ) ] + ', ' + indianCivilMonths[ date[ 1 ] - 1 ] + \
+    return indianCivilDays[ n.getDayOfWeek( ) - 1 ] + ', ' + indianCivilMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
@@ -451,7 +446,7 @@ def getIndianCivilCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getMayanCalendarDateOperator( n ):
-    return list( mayan.from_gregorian( n.year, n.month, n.day ) )
+    return list( mayan.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -474,7 +469,7 @@ def convertMayanDateOperator( baktun, katun, tun, uinal, kin ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getIslamicCalendarDateOperator( n ):
-    return list( islamic.from_gregorian( n.year, n.month, n.day ) )
+    return list( islamic.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -497,9 +492,9 @@ def convertIslamicDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getIslamicCalendarDateNameOperator( n ):
-    date = islamic.from_gregorian( n.year, n.month, n.day )
+    date = islamic.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    return islamicDays[ n.weekday( ) ] + ', ' + islamicMonths[ date[ 1 ] - 1 ] + \
+    return islamicDays[ n.getDayOfWeek( ) - 1 ] + ', ' + islamicMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
@@ -512,7 +507,7 @@ def getIslamicCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getJulianCalendarDateOperator( n ):
-    return list( julian.from_gregorian( n.year, n.month, n.day ) )
+    return list( julian.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -535,7 +530,7 @@ def convertJulianDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getPersianCalendarDateOperator( n ):
-    return list( persian.from_gregorian( n.year, n.month, n.day ) )
+    return list( persian.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -558,9 +553,9 @@ def convertPersianDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getPersianCalendarDateNameOperator( n ):
-    date = persian.from_gregorian( n.year, n.month, n.day )
+    date = persian.from_gregorian(n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    return persianDays[ n.weekday( ) ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
+    return persianDays[ n.getDayOfWeek( ) - 1 ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
@@ -573,7 +568,7 @@ def getPersianCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getBahaiCalendarDateOperator( n ):
-    return list( bahai.from_gregorian( n.year, n.month, n.day ) )
+    return list( bahai.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -596,9 +591,9 @@ def convertBahaiDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getBahaiCalendarDateNameOperator( n ):
-    date = bahai.from_gregorian( n.year, n.month, n.day )
+    date = bahai.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    result = bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
+    result = bahaiDays[ n.getDayOfWeek( ) - 1 ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', '
 
     if date[ 0 ] >= 1:
@@ -621,7 +616,7 @@ def getBahaiCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getEthiopianCalendarDateOperator( n ):
-    return list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
+    return list( ethiopian_date.to_ethiopian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -645,7 +640,7 @@ def convertEthiopianDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getEthiopianCalendarDateNameOperator( n ):
-    date = list( ethiopian_date.to_ethiopian( n.year, n.month, n.day ) )
+    date = list( ethiopian_date.to_ethiopian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
     return ethiopianDays[ date[ 2 ] - 1 ] + ' ' + ethiopianMonths[ date[ 1 ] - 1 ] + \
                           ' ' + str( date[ 0 ] )
@@ -660,7 +655,7 @@ def getEthiopianCalendarDateNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getFrenchRepublicanCalendarDateOperator( n ):
-    return list( french_republican.from_gregorian( n.year, n.month, n.day ) )
+    return list( french_republican.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) ) )
 
 
 #******************************************************************************
@@ -683,9 +678,9 @@ def convertFrenchRepublicanDateOperator( year, month, day ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getFrenchRepublicanCalendarDateNameOperator( n ):
-    date = french_republican.from_gregorian( n.year, n.month, n.day )
+    date = french_republican.from_gregorian( n.getYear( ), n.getMonth( ), n.getDay( ) )
 
-    #return frenchRepublicanDays[ n.weekday( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
+    #return frenchRepublicanDays[ n.getDayOfWeek( ) ] + ', ' + frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
     #       ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )
     return frenchRepublicanMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( int( date[ 0 ] ) )

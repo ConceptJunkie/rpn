@@ -105,7 +105,7 @@ from rpn.time.rpnDateTime import \
     convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, getEpiphanyDayOperator, getHourOperator, \
     getIndependenceDayOperator, getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
     getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, getVeteransDayOperator, \
-    getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, makeDateTimeOperator, \
+    getDayOfWeekOperator, getDayOfWeekNameOperator, getYearOperator, getYesterdayOperator, makeDateTimeOperator, \
     makeJulianTimeOperator, RPNDateTime, setTimeZoneOperator
 
 from rpn.special.rpnDice import \
@@ -2690,8 +2690,8 @@ operators = {
     'to_persian'                        : RPNOperator( getPersianCalendarDateOperator, 1 ),
     'to_persian_name'                   : RPNOperator( getPersianCalendarDateNameOperator, 1 ),
     'veterans_day'                      : RPNOperator( getVeteransDayOperator, 1 ),
-    'weekday'                           : RPNOperator( getWeekdayOperator, 1 ),
-    'weekday_name'                      : RPNOperator( getWeekdayNameOperator, 1 ),
+    'weekday'                           : RPNOperator( getDayOfWeekOperator, 1 ),
+    'weekday_name'                      : RPNOperator( getDayOfWeekNameOperator, 1 ),
     'year_calendar'                     : RPNOperator( generateYearCalendarOperator, 1 ),
 
     # chemistry

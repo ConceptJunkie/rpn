@@ -16,18 +16,16 @@ import calendar
 import datetime
 from functools import lru_cache
 
-import arrow
+from tzlocal import get_localzone
+
+import rpn.util.rpnGlobals as g
 from dateutil import tz
-from mpmath import floor, fmod, fmul, fneg, fsub, nan
+
+from mpmath import floor, fmod, fmul, fneg, fsub, mpf, nan
 
 from rpn.units.rpnMeasurementClass import RPNMeasurement
 
-import rpn.util.rpnGlobals as g
-
-arrowVersion = [ int( i ) for i in arrow.__version__.split( '.' ) ]
-
-if arrowVersion[ 0 ] == 0 and arrowVersion[ 1 ] < 16:
-    raise ValueError( 'Please upgrade the arrow package to version 0.16.0 or later.' )
+import pendulum
 
 
 #******************************************************************************
@@ -49,12 +47,7 @@ def getUTCOffset( timeZone ):
 
 @lru_cache( 1 )
 def getLocalTimeZone( ):
-    if 'time_zone' in g.userVariables:
-        #print( 'tz from g.userVariables' )
-        return tz.gettz( g.userVariables[ 'time_zone' ] )
-
-    #print( 'tz from tz.gettz( )', tz.gettz( ), getUTCOffset( tz.gettz( ) ).value )
-    return tz.gettz( )
+    return get_localzone()
 
 
 #******************************************************************************
@@ -63,20 +56,19 @@ def getLocalTimeZone( ):
 #
 #******************************************************************************
 
-class RPNDateTime( arrow.Arrow ):
+class RPNDateTime( object ):
     '''
-    This class wraps the Arrow class, with lots of convenience functions and
+    This class wraps the Pendulum class, with lots of convenience functions and
     implements support for date math.
 
     There was a temptation here to try to normalize timezones in this class, but
     I decided it's best left to the operator functions.
     '''
     def __init__( self, year, month, day, hour=0, minute=0, second=0,
-                  microsecond=0, tzinfo=getLocalTimeZone( ), fold=0, dateOnly=False ):
+                  microsecond=0, tz=getLocalTimeZone( ), fold=0, dateOnly=False ):
         self.dateOnly = dateOnly
-        super( ).__init__( year=int( year ), month=int( month ), day=int( day ),
-                           hour=int( hour ), minute=int( minute ), second=int( second ),
-                           microsecond=int( microsecond ), tzinfo=tzinfo, fold=fold )
+        self.dateTime = pendulum.datetime( int( year ), int( month ), int( day ), int( hour ),
+                                          int( minute ), int( second ), int( microsecond ), tz=tz )
 
     def setDateOnly( self, dateOnly=True ):
         self.dateOnly = dateOnly
@@ -85,30 +77,40 @@ class RPNDateTime( arrow.Arrow ):
         return self.dateOnly
 
     def getYMD( self ):
-        return ( self.year, self.month, self.day )
+        return ( self.getYear( ), self.getMonth( ), self.getDay( ) )
 
     def getYMDHMS( self ):
-        return ( self.year, self.month, self.day, self.hour, self.minute, self.second )
+        return ( self.getYear( ), self.getMonth( ), self.getDay( ), self.getHour( ), self.getMinute( ),
+                 self.getSecond( ) )
 
     def getLocalTime( self, timeZone=getLocalTimeZone( ) ):
         result = self
-        result = result.subtract( getUTCOffset( self.tzinfo ) )
-        result = result.add( getUTCOffset( timeZone ) )
-        result.replace( tzinfo=timeZone )
-        #result = result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
+        result.setTimeZone( timeZone )
         return result
 
     @staticmethod
     def parseDateTime( n ):
-        result = arrow.api.get( n )
+        if isinstance( n, str ):
+            result = pendulum.parse( n )
 
-        return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzinfo )
+            return RPNDateTime( result.year, result.month, result.day, result.hour,
+                                result.minute, result.second, result.microsecond, result.tzinfo )
+        elif isinstance( n, datetime.datetime ):
+            return RPNDateTime( n.year, n.month, n.day, n.hour, n.minute, n.second, n.microsecond, n.tzinfo )
+        elif isinstance( n, RPNDateTime ):
+            return RPNDateTime( n.dateTime.year, n.dateTime.month, n.dateTime.day, n.dateTime.hour, n.dateTime.minute,
+                                n.dateTime.second, n.dateTime.microsecond, n.dateTime.tzinfo )
+        elif isinstance( n, mpf ):
+            result = RPNDateTime( 1, 1, 1 )
+            result.dateTime = pendulum.from_timestamp( int( n ) )
+            return result
+        else:
+            raise ValueError( 'RPNDateTime parsing unsupported type' )
 
     @staticmethod
-    def convertFromArrow( arrowDT ):
-        return RPNDateTime( arrowDT.year, arrowDT.month, arrowDT.day, arrowDT.hour,
-                            arrowDT.minute, arrowDT.second, arrowDT.microsecond, arrowDT.tzinfo )
+    def convertFromPendulum( pendulumDT ):
+        return RPNDateTime( pendulumDT.year, pendulumDT.month, pendulumDT.day, pendulumDT.hour,
+                            pendulumDT.minute, pendulumDT.second, pendulumDT.microsecond, pendulumDT.tzinfo )
 
     @staticmethod
     def convertFromEphemDate( ephemDate ):
@@ -116,6 +118,7 @@ class RPNDateTime( arrow.Arrow ):
 
         dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1_000_000 ) ) )
         dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
+
         # We always pass UTC time to ephem, so we'll expect UTC back
         dateValues.append( tz.gettz( 'UTC' ) )
 
@@ -123,57 +126,60 @@ class RPNDateTime( arrow.Arrow ):
 
     @staticmethod
     def getNow( ):
-        return RPNDateTime.convertFromArrow( arrow.now( ) )
+        timeZone = pendulum.timezone( str( getLocalTimeZone( ) ).replace( ' ', '_' ) )
+        dateTime = RPNDateTime.convertFromPendulum( pendulum.now( ) )
+        dateTime = dateTime.setTimeZone( timeZone )
+        return dateTime
 
     def compare( self, value ):
-        if self.year > value.year:
+        if self.dateTime.year > value.dateTime.year:
             return 1
 
-        if self.year < value.year:
+        if self.dateTime.year < value.dateTime.year:
             return -1
 
-        if self.month > value.month:
+        if self.dateTime.month > value.dateTime.month:
             return 1
 
-        if self.month < value.month:
+        if self.dateTime.month < value.dateTime.month:
             return -1
 
-        if self.day > value.day:
+        if self.dateTime.day > value.dateTime.day:
             return 1
 
-        if self.day < value.day:
+        if self.dateTime.day < value.dateTime.day:
             return -1
 
-        if self.hour > value.hour:
+        if self.dateTime.hour > value.dateTime.hour:
             return 1
 
-        if self.hour < value.hour:
+        if self.dateTime.hour < value.dateTime.hour:
             return -1
 
-        if self.minute > value.minute:
+        if self.dateTime.minute > value.dateTime.minute:
             return 1
 
-        if self.minute < value.minute:
+        if self.dateTime.minute < value.dateTime.minute:
             return -1
 
-        if self.second > value.second:
+        if self.dateTime.second > value.dateTime.second:
             return 1
 
-        if self.second < value.second:
+        if self.dateTime.second < value.dateTime.second:
             return -1
 
-        if self.microsecond > value.microsecond:
+        if self.dateTime.microsecond > value.dateTime.microsecond:
             return 1
 
-        if self.microsecond < value.microsecond:
+        if self.dateTime.microsecond < value.dateTime.microsecond:
             return -1
 
         return 0
 
     def incrementMonths( self, months ):
-        newDay = self.day
-        newMonth = self.month + int( months )
-        newYear = self.year
+        newDay = self.dateTime.day
+        newMonth = self.dateTime.month + int( months )
+        newYear = self.dateTime.year
 
         if not 1 < newMonth < 12:
             newYear += ( newMonth - 1 ) // 12
@@ -182,7 +188,14 @@ class RPNDateTime( arrow.Arrow ):
         maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
         newDay = min( maxDay, newDay )
 
-        return RPNDateTime( newYear, newMonth, newDay, self.hour, self.minute, self.second )
+        self.dateTime = pendulum.datetime( newYear, newMonth, newDay, self.dateTime.hour, self.dateTime.minute,
+                                           self.dateTime.second )
+
+    def __add__( self, time ):
+        return add( self, time )
+
+    def __subtract__( self, time ):
+        return subtract( self, time )
 
     def add( self, time ):
         if not isinstance( time, RPNMeasurement ):
@@ -192,43 +205,36 @@ class RPNDateTime( arrow.Arrow ):
         #print( 'g.unitOperators[ time.getUnitName( ) ].categories', g.unitOperators[ time.getUnitName( ) ].categories )
 
         if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
-            years = time.convertValue( 'year' )
-            return self.replace( year = self.year + int( years ) )
+            years = time.value
+            self.dateTime = self.dateTime.add( years=int( years ) )
+            return self
         elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
-            months = time.convertValue( 'month' )
-            return self.incrementMonths( months )
+            months = time.value
+            self.dateTime = self.dateTime.add( months=int( months ) )
+            return self
         else:
             days = int( floor( time.convertValue( 'day' ) ) )
             seconds = int( fmod( floor( time.convertValue( 'second' ) ), 86400 ) )
             microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1_000_000 ) )
 
             try:
-                return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
+                self.dateTime = self.dateTime.add( days = days, seconds = seconds, microseconds = microseconds )
+                return self
             except OverflowError:
                 print( 'rpn:  value is out of range to be converted into a time' )
                 return nan
 
     def format( self, includeTZ=True, locale='en-us' ):
-        if self.year < 1970:
-            # format( ) doesn't work on Windows when using arrow, and I don't know why, but it's really stupid.
-            return f'{self.year:4d}-{self.month:02d}-{self.day:02d} ' \
-                   f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
-        elif includeTZ:
-            return super( ).format( 'YYYY-MM-DD HH:mm:ss ZZ' )
+        if includeTZ:
+            return self.dateTime.format( 'YYYY-MM-DD HH:mm:ss ZZ' )
         else:
-            return super( ).format( 'YYYY-MM-DD HH:mm:ss' )
+            return self.dateTime.format( 'YYYY-MM-DD HH:mm:ss' )
 
     def formatDate( self ):
-        if self.year < 1970:
-            return f'{self.year:4d}-{self.month:02d}-{self.day:02d}'
-        else:
-            return super( ).format( 'YYYY-MM-DD' )
+        return self.dateTime.format( 'YYYY-MM-DD' )
 
     def formatTime( self ):
-        if self.year < 1970:
-            return f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
-        else:
-            return super( ).format( 'HH:mm:ss' )
+        return self.dateTime.format( 'HH:mm:ss' )
 
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
@@ -236,10 +242,10 @@ class RPNDateTime( arrow.Arrow ):
             return self.add( kneg )
         elif isinstance( time, RPNDateTime ):
             if self > time:
-                delta = self - time
+                delta = self.dateTime - time.dateTime
                 factor = 1
             else:
-                delta = time - self
+                delta = time.dateTime - self.dateTime
                 factor = -1
 
             if delta.days != 0:
@@ -270,3 +276,55 @@ class RPNDateTime( arrow.Arrow ):
 
     def __le__( self, value ):
         return self.compare( value ) <= 0
+
+    def modifyTimeZone( self, tz ):
+        offset = self.dateTime.offset
+
+        try:
+            self.dateTime = self.dateTime.in_tz( tz )
+        except pendulum.tz.exceptions.InvalidTimezone:
+            self.dateTime = self.dateTime.in_tz( getLocation( tz ).getTimeZone( ) )
+
+        newOffset = self.dateTime.offset
+
+        self.dateTime = self.dateTime.add( seconds = ( newOffset - offset ) )
+
+        return self
+
+    def setTimeZone( self, tz ):
+        try:
+            self.dateTime = self.dateTime.set( tz=tz )
+        except pendulum.tz.exceptions.InvalidTimezone:
+            self.dateTime = self.dateTime.set( getLocation( tz ).getTimeZone( ) )
+
+        return self
+
+    def getYear( self ):
+        return self.dateTime.year
+
+    def getMonth( self ):
+        return self.dateTime.month
+
+    def getDay( self ):
+        return self.dateTime.day
+
+    def getHour( self ):
+        return self.dateTime.hour
+
+    def getMinute( self ):
+        return self.dateTime.minute
+
+    def getSecond( self ):
+        return self.dateTime.second
+
+    def getMicrosecond( self ):
+        return self.dateTime.microsecond
+
+    def getDayOfWeek( self ):
+        return self.dateTime.weekday( ) + 1
+
+    def getWeekOfYear( self ):
+        return self.dateTime.week_of_year
+
+    def getTimestamp( self ):
+        return self.dateTime.int_timestamp

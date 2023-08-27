@@ -415,3 +415,24 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
 def rollSimpleDiceOperator( n, k ):
     values, modifier = evaluateDiceExpression( [ ( int( n ), int( k ), 0, 0, 0 ) ] )
     return sum( values ) + modifier
+
+
+def dice_roll_distribution(num_dice, num_sides, drop_lowest=0, drop_highest=0):
+    # Generate all possible rolls of the dice
+    all_rolls = itertools.product(range(1, num_sides+1), repeat=num_dice)
+
+    # Determine the lowest and highest dice to drop
+    dice_to_drop = drop_lowest + drop_highest
+    if dice_to_drop >= num_dice:
+        return None # Can't drop all dice
+
+    # Create a dictionary to store the counts for each total value
+    totals = {i:0 for i in range(num_dice, num_dice*num_sides+1)}
+
+    # Count the occurrences of each total value, taking into account dropped dice
+    for roll in all_rolls:
+        sorted_roll = sorted(roll)
+        total = sum(sorted_roll[dice_to_drop:-drop_highest])
+        totals[total] += 1
+
+    return totals

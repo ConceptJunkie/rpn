@@ -140,7 +140,7 @@ def formatOutput( output ):
         if c in string.whitespace or c in string.punctuation:
             return output
 
-    # output settings, which may be overrided by temp settings
+    # output settings, which may be overridden by temp settings
     outputRadix = g.outputRadix
     integerGrouping = g.integerGrouping
     leadingZero = g.leadingZero
@@ -180,9 +180,6 @@ def formatOutput( output ):
         strImaginary, negativeImaginary = \
             formatNumber( imaginary, outputRadix, leadingZero, integerGrouping, integerDelimiter, g.decimalDelimiter )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
-
-    #print( 'formatOutput 2:', output )
-    #print( )
 
     return result
 
@@ -385,7 +382,7 @@ def formatDateTime( datetime ):
     # if datetime.microsecond:
     #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
     # else:
-    return datetime.format( )
+    return datetime.format( includeTZ=g.showTimeZones )
 
 
 #******************************************************************************

@@ -17,9 +17,9 @@ import datetime
 import contextlib
 import os
 import pickle
+from zoneinfo import ZoneInfo
 
 import ephem
-import pytz
 
 from dateutil import tz
 
@@ -39,7 +39,7 @@ from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.util.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, LocationValidator, LocationOrDateTimeValidator, RealValidator, \
                              StringValidator
-                             
+
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.util.rpnGlobals as g
@@ -203,19 +203,23 @@ def getTimeZoneOperator( location ):
 
 def getTimeZoneOffset( value ):
     if isinstance( value, str ):
-        try:
-            timezone = pytz.timezone( value )
-        except pytz.exceptions.UnknownTimeZoneError:
-            timezone = pytz.timezone( getTimeZoneName( value ) )
+        timezone = zoneinfo.timezone( value )
     else:
-        timezone = pytz.timezone( getTimeZoneName( value ) )
+        timezone = value.tzinfo
+
+    print( 'timezone', timezone )
 
     # compute the timezone's offset
     now = datetime.datetime.now( )
 
+    print( 'now', now )
+
+    utc_offset = (datetime.fromtimestamp(ts) -
+                datetime.utcfromtimestamp(ts)).total_seconds()
+
     if timezone:
         now1 = timezone.localize( now )
-        now2 = pytz.utc.localize( now )
+        now2 = ZoneInfo.utc.localize( now )
         return RPNMeasurement( ( now2 - now1 ).total_seconds( ), 'seconds' )
 
     return RPNMeasurement( 0, 'seconds' )

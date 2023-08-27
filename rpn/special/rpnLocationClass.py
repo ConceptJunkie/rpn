@@ -85,6 +85,9 @@ class RPNLocation( ):
     def getPressure( self ):
         return self.observer.pressure
 
+    def getTimeZone( self ):
+        return geopy.reverse_timezone( geopy.point.Point( self.getLat( ), self.getLong( ) ) )
+
     def setName( self, value ):
         self.name = value
 

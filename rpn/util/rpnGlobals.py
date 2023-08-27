@@ -99,6 +99,7 @@ numerals = ''
 outputAccuracy = -1
 outputRadix = defaultOutputRadix
 refreshOEISCache = False
+showTimeZones = False
 tempCommaMode = False
 tempHexMode = False
 tempIdentifyMode = False

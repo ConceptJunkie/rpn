@@ -19,6 +19,8 @@
 
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
+import sys
+
 from functools import lru_cache
 from mpmath import arange, cbrt, fadd, fdiv, fmul, fsub, log, mp, mpf, mpmathify, pi, sqrt
 
@@ -95,6 +97,14 @@ def getPlasticConstant( ):
 @lru_cache( 1 )
 def getMillsConstant( ):
     '''The Mills constant is hard-coded.'''
+
+    # This was introduced in 3.10.7, but didn't exist beforehand.  It only needs
+    # to be called if it exists.  The limit in 3.10.8 is 4300. 
+    try:
+        sys.set_int_max_str_digits(7000)
+    except:
+        pass
+
     mills = '''
 1.3063778838 6308069046 8614492602 6057129167 8458515671 3644368053 7599664340
 5376682659 8821501403 7011973957 0729696093 8103086882 2388614478 1635348688

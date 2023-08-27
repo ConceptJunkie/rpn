@@ -434,8 +434,8 @@ def rpn( cmdArgs ):
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, default=0,
                          const=g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
-
     parser.add_argument( '-I', '--ignore_cache', action='store_true' )
+    parser.add_argument( '-k', '--show_timezones', action='store_true' )
     parser.add_argument( '-l', '--line_length', type=int, default=g.defaultLineLength )
     parser.add_argument( '-m', '--maximum_fixed', type=int, default=g.defaultMaximumFixed )
     parser.add_argument( '-n', '--numerals', type=str, default=g.defaultNumerals )
@@ -541,6 +541,9 @@ def rpn( cmdArgs ):
     # handle -I
     g.ignoreCache = args.ignore_cache
     g.refreshOEISCache = args.ignore_cache
+
+    if args.show_timezones:
+        g.showTimeZones = True
 
     # handle -l
     g.lineLength = args.line_length
@@ -679,6 +682,7 @@ def main( ):
     helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
+        debugPrint('Expected help file location: ', helpFile)
         print( 'Please run "makeHelp" to initialize the help files.' )
         sys.exit( 0 )
 

@@ -43,7 +43,7 @@ class RPNAstronomicalObject( ):
         self.object = astronomical_object
 
     def getDistanceFromEarth( self, date ):
-        self.object.compute( date.to( 'utc' ).format( includeTZ=False ) )
+        self.object.compute( date.setTimeZone( 'utc' ).format( includeTZ=False ) )
         return RPNMeasurement( fmul( self.object.earth_distance, ephem.meters_per_au ), 'meters' )
 
     def getAngularSize( self, location=None, date=None ):
@@ -51,7 +51,7 @@ class RPNAstronomicalObject( ):
             if isinstance( location, str ):
                 location = getLocation( location )
 
-            location.observer.date = date.to( 'utc' ).format( includeTZ=False )
+            location.observer.date = date.setTimeZone( 'utc' ).format( includeTZ=False )
             self.object.compute( location.observer )
 
         # I have no idea why size seems to return the value in arcseconds... that
@@ -62,7 +62,7 @@ class RPNAstronomicalObject( ):
         if isinstance( location, str ):
             location = getLocation( location )
 
-        location.observer.date = date.to( 'utc' ).format( includeTZ=False )
+        location.observer.date = date.setTimeZone( 'utc' ).format( includeTZ=False )
 
         self.object.compute( location.observer )
         other.object.compute( location.observer )
@@ -74,7 +74,7 @@ class RPNAstronomicalObject( ):
         if isinstance( location, str ):
             location = getLocation( location )
 
-        location.observer.date = date.to( 'utc' ).format( includeTZ=False )
+        location.observer.date = date.setTimeZone( 'utc' ).format( includeTZ=False )
         self.object.compute( location.observer )
 
         return RPNMeasurement( mpmathify( self.object.alt ), 'radians' ), \
@@ -94,7 +94,7 @@ class RPNAstronomicalObject( ):
         oldHorizon = location.observer.horizon
 
         # We'll give ephem UTC time just to keep things simple
-        location.observer.date = datetime.to( 'utc' ).format( includeTZ=False )
+        location.observer.date = datetime.setTimeZone( 'utc' ).format( includeTZ=False )
         location.observer.horizon = str( horizon )
 
         if useCenter:
@@ -270,12 +270,12 @@ class RPNNewAstronomicalObject( ):
         self.object = g.ephemeris[ objectName ]
 
     def getDistanceFromEarth( self, datetime ):
-        time = g.timescale.utc( *datetime.to( tz.UTC ).getYMDHMS( ) )
+        time = g.timescale.utc( *datetime.setTimeZone( 'utc' ).getYMDHMS( ) )
         distance = ( g.ephemeris[ 'earth' ].at( time ) - self.object.at( time ) ).distance( ).m
         return RPNMeasurement( distance, 'meters' )
 
     def getDistanceFromSun( self, datetime ):
-        time = g.timescale.utc( *datetime.to( tz.UTC ).getYMDHMS( ) )
+        time = g.timescale.utc( *datetime.setTimeZone( 'utc' ).getYMDHMS( ) )
         distance = ( g.ephemeris[ 'sun' ].at( time ) - self.object.at( time ) ).distance( ).m
         return RPNMeasurement( distance, 'meters' )
 
@@ -284,7 +284,7 @@ class RPNNewAstronomicalObject( ):
             if isinstance( location, str ):
                 location = getLocation( location )
 
-            location.observer.date = date.to( 'utc' ).format( includeTZ=False )
+            location.observer.date = date.setTimeZone( 'utc' ).format( includeTZ=False )
             self.object.compute( location.observer )
 
         # I have no idea why size seems to return the value in arcseconds... that
@@ -296,7 +296,7 @@ class RPNNewAstronomicalObject( ):
             location = getLocation( location )
 
         datetime = setTimeZone( datetime, location )
-        time = g.timescale.utc( *datetime.to( tz.UTC ).getYMDHMS( ) )
+        time = g.timescale.utc( *datetime.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         observationSite = g.ephemeris[ 'earth' ] + location.getTopos( )
 
@@ -310,7 +310,7 @@ class RPNNewAstronomicalObject( ):
             location = getLocation( location )
 
         datetime = setTimeZone( datetime, location )
-        time = g.timescale.utc( *datetime.to( tz.UTC ).getYMDHMS( ) )
+        time = g.timescale.utc( *datetime.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         observationSite = g.ephemeris[ 'earth' ] + location.getTopos( )
         alt, az, _ = observationSite.at( time ).observe( self.object ).apparent( ).altaz( 'standard' )
@@ -332,7 +332,7 @@ class RPNNewAstronomicalObject( ):
         oldHorizon = location.observer.horizon
 
         # We'll give ephem UTC time just to keep things simple
-        location.observer.date = datetime.to( 'utc' ).format( includeTZ=False )
+        location.observer.date = datetime.setTimeZone( 'utc' ).format( includeTZ=False )
         location.observer.horizon = str( horizon )
 
         if useCenter:
@@ -357,10 +357,10 @@ class RPNNewAstronomicalObject( ):
         if previous:
             now.subtract( RPNMeasurement( 1, 'day' ) )
 
-        time1 = g.timescale.utc( *now.to( tz.UTC ).getYMDHMS( ) )
+        time1 = g.timescale.utc( *now.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         then = now.add( RPNMeasurement( 1, 'day' ) )
-        time2 = g.timescale.utc( *then.to( tz.UTC ).getYMDHMS( ) )
+        time2 = g.timescale.utc( *then.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         observationSite = arguments[ 'location' ].getTopos( )
 
@@ -391,10 +391,10 @@ class RPNNewAstronomicalObject( ):
         if previous:
             now.subtract( RPNMeasurement( 1, 'day' ) )
 
-        time1 = g.timescale.utc( *now.to( tz.UTC ).getYMDHMS( ) )
+        time1 = g.timescale.utc( *now.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         then = now.add( RPNMeasurement( 1, 'day' ) )
-        time2 = g.timescale.utc( *then.to( tz.UTC ).getYMDHMS( ) )
+        time2 = g.timescale.utc( *then.setTimeZone( 'utc' ).getYMDHMS( ) )
 
         observationSite = arguments[ 'location' ].getTopos( )
 
@@ -458,7 +458,7 @@ class RPNNewAstronomicalObject( ):
 #
 #  getSeasonOperator
 #
-#  0 = spring, 1 = summer, 2 = mn, 3 = winter
+#  0 = spring, 1 = summer, 2 = autumn, 3 = winter
 #
 #******************************************************************************
 
@@ -474,6 +474,7 @@ def getSeason( n, season ):
 
     times, _ = almanac.find_discrete( g.timescale.utc( n, 1, 1 ),
                                       g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
+    print( 'foo', times[ season ].utc_datetime( ) )
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
 
@@ -547,13 +548,9 @@ def getEphemTime( n, func ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'expected a date-time argument' )
 
-    # We always convert to UTC when passing to any third-party library, and
-    # convert the answer back to the previous timezone.
-    tzinfo = n.tzinfo
-
-    result = RPNDateTime.convertFromEphemDate( func( n.to( 'utc' ).format( includeTZ=False ) ) )
-    result.replace( tzinfo=tz.UTC )
-    return result.getLocalTime( tzinfo )
+    # We always convert to UTC when passing to any third-party library
+    result = RPNDateTime.convertFromEphemDate( func( n.setTimeZone( 'utc' ).format( includeTZ=False ) ) )
+    return result.getLocalTime( )
 
 
 @oneArgFunctionEvaluator( )
@@ -613,7 +610,7 @@ def getPreviousNewMoonOperator( n ):
 def getMoonPhase( n ):
     loadAstronomyData( )
 
-    time = g.timescale.utc( *n.to( tz.UTC ).getYMDHMS( ) )
+    time = g.timescale.utc( *n.setTimeZone( 'utc' ).getYMDHMS( ) )
     return almanac.moon_phase( g.ephemeris, time ).degrees / 360
 
 
@@ -724,8 +721,7 @@ def getNextSetting( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 @twoArgFunctionEvaluator( )
@@ -755,8 +751,7 @@ def getNextTransit( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getNextTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getNextTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 @twoArgFunctionEvaluator( )
@@ -786,8 +781,7 @@ def getNextAntitransit( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getNextAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getNextAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 @twoArgFunctionEvaluator( )
@@ -868,8 +862,7 @@ def getPreviousRising( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getPreviousRising( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 def getPreviousRisingOperator( arg1, arg2, arg3 ):
@@ -890,8 +883,7 @@ def getPreviousSetting( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getPreviousSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 def getPreviousSettingOperator( arg1, arg2, arg3 ):
@@ -911,8 +903,7 @@ def getPreviousTransit( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getPreviousTransit( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 def getPreviousTransitOperator( arg1, arg2, arg3 ):
@@ -932,8 +923,7 @@ def getPreviousAntitransit( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return arguments[ 'body' ].getPreviousAntitransit( arguments[ 'location' ], arguments[ 'datetime' ] )
 
 
 def getPreviousAntitransitOperator( arg1, arg2, arg3 ):
@@ -957,9 +947,8 @@ def getNextDawn( arg1, arg2, horizon = -6 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    result = RPNAstronomicalObject.sun( ).getNextRising( arguments[ 'location' ], arguments[ 'datetime' ],
-                                                         horizon=horizon )
-    return result.getLocalTime( getTimeZone( arguments[ 'location' ] ) )
+    return RPNAstronomicalObject.sun( ).getNextRising( arguments[ 'location' ], arguments[ 'datetime' ],
+                                                       horizon=horizon )
 
 
 @twoArgFunctionEvaluator( )
