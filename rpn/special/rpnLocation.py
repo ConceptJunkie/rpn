@@ -34,13 +34,12 @@ from rpn.special.rpnLocationClass import RPNLocation
 from rpn.time.rpnDateTimeClass import RPNDateTime
 
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.special.rpnLocationLookup import loadLocationCache, saveLocationCache, lookupLocation
 
 from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.util.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, LocationValidator, LocationOrDateTimeValidator, RealValidator, \
                              StringValidator
-
-from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.util.rpnGlobals as g
 
@@ -55,36 +54,6 @@ import rpn.util.rpnGlobals as g
 @argValidator( [ RealValidator( 0, 90 ), RealValidator( -180, 180 ) ] )
 def makeLocationOperator( n, k ):
     return RPNLocation( lat=float( n ), long=float( k ) )
-
-
-#******************************************************************************
-#
-#  loadLocationCache
-#
-#******************************************************************************
-
-def loadLocationCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
-                                              'locations.pckl.bz2', 'rb' ) ) as pickleFile:
-            locationCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        locationCache = { }
-
-    return locationCache
-
-
-#******************************************************************************
-#
-#  saveLocationCache
-#
-#******************************************************************************
-
-def saveLocationCache( locationCache ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
-                                              'locations.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( locationCache, pickleFile )
 
 
 #******************************************************************************
@@ -115,26 +84,13 @@ def getLocation( name ):
         # print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
-    geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
-
-    location = None
-
-    for attempts in range( 3 ):
-        try:
-            location = geolocator.geocode( name )
-            break
-        except GeocoderUnavailable as e:
-            if attempts == 2:
-                raise ValueError( 'location lookup connection failure, check network connectivity' ) from e
-
-    if location is None:
-        raise ValueError( 'location lookup failed, try a different search term' )
+    latitude, longitude = lookupLocation(name)
 
     observer = ephem.Observer( )
     result = RPNLocation( name=name, observer=observer )
 
-    result.setLat( location.latitude )
-    result.setLong( location.longitude )
+    result.setLat( latitude )
+    result.setLong( longitude )
 
     g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ) ]
     saveLocationCache( g.locationCache )

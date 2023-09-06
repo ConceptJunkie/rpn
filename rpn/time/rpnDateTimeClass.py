@@ -14,6 +14,8 @@
 
 import calendar
 import datetime
+import geopy
+
 from functools import lru_cache
 
 from tzlocal import get_localzone
@@ -24,6 +26,7 @@ from dateutil import tz
 from mpmath import floor, fmod, fmul, fneg, fsub, mpf, nan
 
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.special.rpnLocationLookup import lookupLocation, lookupTimeZone
 
 import pendulum
 
@@ -283,7 +286,9 @@ class RPNDateTime( object ):
         try:
             self.dateTime = self.dateTime.in_tz( tz )
         except pendulum.tz.exceptions.InvalidTimezone:
-            self.dateTime = self.dateTime.in_tz( getLocation( tz ).getTimeZone( ) )
+            lat, long = lookupLocation( tz )
+            timeZone = lookupTimeZone( lat, long )
+            self.dateTime = self.dateTime.in_tz( timeZone )
 
         newOffset = self.dateTime.offset
 
@@ -295,7 +300,7 @@ class RPNDateTime( object ):
         try:
             self.dateTime = self.dateTime.set( tz=tz )
         except pendulum.tz.exceptions.InvalidTimezone:
-            self.dateTime = self.dateTime.set( getLocation( tz ).getTimeZone( ) )
+            self.dateTime = self.dateTime.set( tz=lookupTimeZone( *lookupLocation( tz ) ) )
 
         return self
 

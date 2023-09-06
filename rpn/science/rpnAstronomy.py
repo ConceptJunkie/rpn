@@ -474,7 +474,6 @@ def getSeason( n, season ):
 
     times, _ = almanac.find_discrete( g.timescale.utc( n, 1, 1 ),
                                       g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
-    print( 'foo', times[ season ].utc_datetime( ) )
     result = RPNDateTime.parseDateTime( times[ season ].utc_datetime( ) )
     return result.getLocalTime( )
 

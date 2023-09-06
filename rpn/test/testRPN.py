@@ -2063,7 +2063,7 @@ def runDateTimeOperatorTests( ):
 
     # set_time_zone
     testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" set_time_zone $__unit_test "New York, NY" set_time_zone - minutes convert', '180 minutes' )
+    expectEqual( '$__unit_test "Los Angeles, CA" set_time_zone $__unit_test "New York, NY" set_time_zone - minutes convert', '-180 minutes' )
 
     # to_time_zone
     testOperator( '__unit_test now set_variable' )
