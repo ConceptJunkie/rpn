@@ -20,7 +20,7 @@
 
 PROGRAM_NAME = 'rpnChilada'
 PROGRAM_VERSION = '8.999.991'
-PROGRAM_VERSION_NAME = '9.0.beta1'
+PROGRAM_VERSION_NAME = '9.0.alpha1'
 COPYRIGHT_MESSAGE = 'copyright (c) 2023 (1988), Rick Gutleber (rickg@his.com)'
 
 if PROGRAM_VERSION != PROGRAM_VERSION_NAME:

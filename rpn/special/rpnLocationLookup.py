@@ -19,6 +19,7 @@ import pickle
 
 import pendulum
 
+from geopy.exc import GeocoderUnavailable
 from geopy.geocoders import Nominatim
 
 from rpn.rpnVersion import RPN_PROGRAM_NAME
@@ -60,11 +61,11 @@ def saveLocationCache( locationCache ):
 
 #******************************************************************************
 #
-#  lookupLocation
+#  lookUpLocation
 #
 #******************************************************************************
 
-def lookupLocation( name ):
+def lookUpLocation( name ):
     geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
 
     location = None
@@ -85,10 +86,10 @@ def lookupLocation( name ):
 
 #******************************************************************************
 #
-#  lookupTimeZone
+#  lookUpTimeZone
 #
 #******************************************************************************
 
-def lookupTimeZone( lat, long ):
+def lookUpTimeZone( lat, long ):
     tzName = tzwhere.tzwhere().tzNameAt( lat, long )
     return pendulum.timezone( tzName )

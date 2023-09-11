@@ -322,7 +322,7 @@ def generateYearCalendarOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getJulianDayOperator( n ):
-    return julianday.from_datetime( n.setTimeZone( 'utc' ).dateTime )
+    return julianday.from_datetime( n.convertTimeZone( 'utc' ).dateTime )
 
 
 #******************************************************************************

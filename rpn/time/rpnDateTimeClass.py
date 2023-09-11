@@ -14,21 +14,21 @@
 
 import calendar
 import datetime
-import geopy
 
 from functools import lru_cache
 
 from tzlocal import get_localzone
 
-import rpn.util.rpnGlobals as g
-from dateutil import tz
-
 from mpmath import floor, fmod, fmul, fneg, fsub, mpf, nan
 
-from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.special.rpnLocationLookup import lookupLocation, lookupTimeZone
+import rpn.util.rpnGlobals as g
 
 import pendulum
+
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.special.rpnLocationLookup import lookUpLocation, lookUpTimeZone
+
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
@@ -87,8 +87,7 @@ class RPNDateTime( object ):
                  self.getSecond( ) )
 
     def getLocalTime( self, timeZone=getLocalTimeZone( ) ):
-        result = self
-        result.setTimeZone( timeZone )
+        result = self.convertTimeZone( timeZone )
         return result
 
     @staticmethod
@@ -122,16 +121,13 @@ class RPNDateTime( object ):
         dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1_000_000 ) ) )
         dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
 
-        # We always pass UTC time to ephem, so we'll expect UTC back
-        dateValues.append( tz.gettz( 'UTC' ) )
-
-        return RPNDateTime( *dateValues )
+        return RPNDateTime( *dateValues, tz='UTC' )
 
     @staticmethod
     def getNow( ):
         timeZone = pendulum.timezone( str( getLocalTimeZone( ) ).replace( ' ', '_' ) )
         dateTime = RPNDateTime.convertFromPendulum( pendulum.now( ) )
-        dateTime = dateTime.setTimeZone( timeZone )
+        dateTime = dateTime.convertTimeZone( timeZone )
         return dateTime
 
     def compare( self, value ):
@@ -284,23 +280,22 @@ class RPNDateTime( object ):
         offset = self.dateTime.offset
 
         try:
-            self.dateTime = self.dateTime.in_tz( tz )
-        except pendulum.tz.exceptions.InvalidTimezone:
-            lat, long = lookupLocation( tz )
-            timeZone = lookupTimeZone( lat, long )
-            self.dateTime = self.dateTime.in_tz( timeZone )
+            self.dateTime = self.dateTime.set( tz=lookUpTimeZone( tz.getLat( ), tz.getLong( ) ) )
+        except AttributeError:
+            #print(f"Caught an exception of type {type(e)}: {str(e)}")
 
-        newOffset = self.dateTime.offset
-
-        self.dateTime = self.dateTime.add( seconds = ( newOffset - offset ) )
+            try:
+                self.dateTime = self.dateTime.set( tz=tz )
+            except pendulum.tz.exceptions.InvalidTimezone:
+                self.dateTime = self.dateTime.set( tz=lookUpTimeZone( *lookUpLocation( tz ) ) )
 
         return self
 
-    def setTimeZone( self, tz ):
+    def convertTimeZone( self, tz ):
         try:
-            self.dateTime = self.dateTime.set( tz=tz )
+            self.dateTime = self.dateTime.in_tz( tz=tz )
         except pendulum.tz.exceptions.InvalidTimezone:
-            self.dateTime = self.dateTime.set( tz=lookupTimeZone( *lookupLocation( tz ) ) )
+            self.dateTime = self.dateTime.in_tz( tz=lookUpTimeZone( *lookUpLocation( tz ) ) )
 
         return self
 
@@ -333,3 +328,6 @@ class RPNDateTime( object ):
 
     def getTimestamp( self ):
         return self.dateTime.int_timestamp
+
+    def getTZ( self ):
+        return self.dateTime.tz

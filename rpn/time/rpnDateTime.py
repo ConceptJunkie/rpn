@@ -18,13 +18,14 @@ import pendulum
 
 from mpmath import mpf
 
-from rpn.time.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
+from rpn.time.rpnDateTimeClass import RPNDateTime
 from rpn.util.rpnGenerator import RPNGenerator
-from rpn.special.rpnLocation import getTimeZoneName
-from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.units.rpnMeasurement import convertUnits
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, DateTimeValidator, IntValidator, ListValidator, YearValidator
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
@@ -53,6 +54,25 @@ SEPTEMBER = 9
 OCTOBER = 10
 NOVEMBER = 11
 DECEMBER = 12
+
+
+#******************************************************************************
+#
+#  formatDateTime
+#
+#******************************************************************************
+
+def formatDateTime( datetime ):
+    if not isinstance( datetime, RPNDateTime ):
+        raise ValueError( 'expected RPNDateTime' )
+
+    if datetime.getDateOnly( ):
+        return datetime.formatDate( )
+
+    # if datetime.microsecond:
+    #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
+    # else:
+    return datetime.format( includeTZ=g.showTimeZones )
 
 
 #******************************************************************************
@@ -136,7 +156,8 @@ def makeJulianTime( n ):
 
     result = RPNDateTime( n[ 0 ], 1, 1 )
 
-    result = result.add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
+    if len( n ) >= 2:
+        result = result.add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
         result = result.add( RPNMeasurement( n[ 2 ], 'hour' ) )
@@ -824,7 +845,7 @@ def isDST( dateTime, timeZone ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getUTCOperator( dt ):
-    return dt.setTimeZone( 'utc' )
+    return dt.convertTimeZone( 'utc' )
 
 
 #******************************************************************************
@@ -836,24 +857,23 @@ def getUTCOperator( dt ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getLocalTimeOperator( dt ):
-    return pendulum.local( dt )
+    return dt.getLocalTime( )
 
 
 #******************************************************************************
 #
-#  setTimeZoneOperator
+#  modifyTimeZoneOperator
 #
 #******************************************************************************
 
-def setTimeZone( dt, timeZone ):
-    dt = RPNDateTime.parseDateTime( dt )
+def modifyTimeZone( dt, timeZone ):
     return dt.modifyTimeZone( timeZone )
 
 
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
-def setTimeZoneOperator( dt, timeZone ):
-    return setTimeZone( dt, timeZone )
+def modifyTimeZoneOperator( dt, timeZone ):
+    return modifyTimeZone( dt, timeZone )
 
 
 #******************************************************************************
@@ -862,7 +882,10 @@ def setTimeZoneOperator( dt, timeZone ):
 #
 #******************************************************************************
 
+def convertTimeZone( dt, timeZone ):
+    return dt.convertTimeZone( timeZone )
+
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
 def convertTimeZoneOperator( dt, timezone ):
-    return dt.setTimeZone( timezone )
+    return dt.convertTimeZone( timezone )

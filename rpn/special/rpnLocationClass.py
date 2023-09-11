@@ -20,7 +20,7 @@ from skyfield.api import Topos
 import pendulum
 import geopy
 
-from rpn.special.rpnLocationLookup import lookupTimeZone
+from rpn.special.rpnLocationLookup import lookUpTimeZone
 
 
 #******************************************************************************
@@ -91,7 +91,7 @@ class RPNLocation( ):
         return self.observer.pressure
 
     def getTimeZone( self ):
-        return pendulum.timezone( lookupTimeZone( self.getLat( ), self.getLong( ) ) )
+        return pendulum.timezone( lookUpTimeZone( self.getLat( ), self.getLong( ) ) )
 
     def setName( self, value ):
         self.name = value

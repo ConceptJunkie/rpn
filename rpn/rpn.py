@@ -42,11 +42,13 @@ from rpn.util.rpnAliases import OPERATOR_ALIASES
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 
+from rpn.time.rpnDateTime import formatDateTime
+
 from rpn.rpnOperators import \
     evaluateTerm, functionOperators, loadUserFunctionsFile, RPNFunction, saveUserFunctionsFile
 
 from rpn.util.rpnOutput import \
-    formatDateTime, formatListOutput, formatOutput, formatUnits, printHelp, printHelpModeHelp, \
+    formatListOutput, formatOutput, formatUnits, printHelp, printHelpModeHelp, \
     printInteractiveHelp, printTitleScreen
 
 from rpn.util.rpnPersistence import \

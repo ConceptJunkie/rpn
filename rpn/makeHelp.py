@@ -1028,7 +1028,7 @@ Added the 'decagonal_triangular', 'decagonal_centered_square',
 'decagonal_pentagonal', 'decagonal_hexagonal', 'decagonal_heptagonal',
 'decagonal_octagonal', 'decagonal_nonagonal' operators.
 
-Added the 'distance' operator and changed geocoding lookup to use Nominatim
+Added the 'distance' operator and changed geocoding lookUp to use Nominatim
 instead of Google, because the Google lookup (provided by ephem) suddenly
 stopped working.
 
@@ -1387,6 +1387,22 @@ Added the 'antidivisors' and 'count_antidivisors' operators.
 Added the 'random_prime' and 'random_primes' operators.
 
 And the usual bug fixes and pylint fixes.
+
+9.0.0
+
+After a long hiatus, rpnChilada is back and the long-running timezone issues
+have finally been put to rest.  9.0 replaces the arrow library with the
+pendulum library for date and time handling.
+
+'to_time_zone' has been renamed to 'convert_time_zone'
+'set_time_zone' has been renamed to 'modify_time_zone'
+
+The old names were confusing to me, so I thought they would be confusing to
+users.
+
+And finally after about 8 years (since version 6.4.0), the Windows binary is
+back!
+
     ''',
     'license' :
     '''
@@ -6534,10 +6550,10 @@ number of seconds since the epoch, January 1, 1970 00:00:00.  Times from before
 the epoch are undefined for this operator.
 ''',
 '''
-''' + makeCommandExample( '"1970-01-01 00:00:00" utc set_time_zone to_unix_time' ) + '''
+''' + makeCommandExample( '"1970-01-01 00:00:00" utc modify_time_zone to_unix_time' ) + '''
 ''' + makeCommandExample( '2001-01-01 to_unix_time' ) + '''
 ''' + makeCommandExample( '2020-08-05 to_unix_time' ) + '''
-''' + makeCommandExample( '"2038-01-18 22:14:07" utc set_time_zone to_unix_time' ),
+''' + makeCommandExample( '"2038-01-18 22:14:07" utc modify_time_zone to_unix_time' ),
 [ 'from_unix_time' ] ],
 
     'uchar' : [
@@ -6700,7 +6716,7 @@ This operator converts a datetime to the local timezone.
 ''' + makeCommandExample( 'now' ) + '''
 ''' + makeCommandExample( 'now to_utc' ) + '''
 ''' + makeCommandExample( 'now to_utc to_local_time' ),
-[ 'set_time_zone', 'to_utc' ] ],
+[ 'modify_time_zone', 'to_utc' ] ],
 
     'get_minute' : [
 'date_time', 'returns the minute value of a date-time',
@@ -6782,7 +6798,7 @@ This operator simply returns the current time value for the current timezone.
 ''' + makeCommandExample( 'now' ),
 [ 'today' ] ],
 
-    'set_time_zone' : [
+    'modify_time_zone' : [
 'date_time', 'sets the date-time n to the timezone k',
 '''
 This operator sets the timezone value of n to timezone k.  k can be the name of
@@ -6797,13 +6813,13 @@ To convert a date-time value to a different time zone, use 'to_time_zone'.
 Here, we're taking a time and setting the time zone, meaning the actual time is
 changed:
 
-''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone' ) + '''
-''' + makeCommandExample( 'now "Moscow, Russia" set_time_zone to_local_time' ) + '''
+''' + makeCommandExample( 'now "Moscow, Russia" modify_time_zone' ) + '''
+''' + makeCommandExample( 'now "Moscow, Russia" modify_time_zone to_local_time' ) + '''
 Here, we're converting to a different time zone, so the time remains the same:
 
 ''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone' ) + '''
 ''' + makeCommandExample( 'now "Moscow, Russia" to_time_zone to_local_time' ),
-[ 'to_time_zone', 'to_local_time' ] ],
+[ 'convert_time_zone', 'to_local_time' ] ],
 
     'today' : [
 'date_time', 'returns the current date',
@@ -6829,27 +6845,27 @@ time value of 00:00:00 (midnight).
 ''' + makeCommandExample( 'tomorrow' ),
 [ 'yesterday', 'today' ] ],
 
-    'to_time_zone' : [
+    'convert_time_zone' : [
 'date_time', 'converts the date-time n to the timezone k',
 '''
 This operator converts the date-time value of n to the timezone of k.  k can be
 the name of a timezone or the name of a geographic location.
 
 To set the timezone for a particular date-time value without converting, use
-'set_time_zone'.
+'modify_time_zone'.
 ''',
 '''
 ''' + makeCommandExample( 'now' ) + '''
 Here, we're converting to a different time zone, so the time remains the same:
 
-''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone' ) + '''
-''' + makeCommandExample( 'now "Johannesburg, South Africa" to_time_zone to_local_time' ) + '''
+''' + makeCommandExample( 'now "Johannesburg, South Africa" convert_time_zone' ) + '''
+''' + makeCommandExample( 'now "Johannesburg, South Africa" convert_time_zone to_local_time' ) + '''
 Here, we're taking a time and setting the time zone, meaning the actual time is
 changed:
 
-''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone' ) + '''
-''' + makeCommandExample( 'now "Johannesburg, South Africa" set_time_zone to_local_time' ),
-[ 'set_time_zone', 'to_local_time' ] ],
+''' + makeCommandExample( 'now "Johannesburg, South Africa" modify_time_zone' ) + '''
+''' + makeCommandExample( 'now "Johannesburg, South Africa" modify_time_zone to_local_time' ),
+[ 'modify_time_zone', 'to_local_time' ] ],
 
     'to_utc' : [
 'date_time', 'returns the datetime converted to UTC time',
@@ -6858,7 +6874,7 @@ This operator returns date-time n converted to the UTC timezone.
 ''',
 '''
 ''' + makeCommandExample( '"2020-08-29 13:13:18" to_utc' ),
-[ 'to_local_time', 'set_time_zone' ] ],
+[ 'to_local_time', 'modify_time_zone' ] ],
 
     'yesterday' : [
 'date_time', 'returns the previous date',

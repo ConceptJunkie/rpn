@@ -29,6 +29,7 @@ from rpn.units.rpnUnitTypes import basicUnitTypes
 from rpn.util.rpnUtils import addAliases
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
                            RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
+from rpn.time.rpnDateTime import formatDateTime
 
 import rpn.util.rpnGlobals as g
 
@@ -364,25 +365,6 @@ def formatUnits( measurement ):
             result += c
 
     return result
-
-
-#******************************************************************************
-#
-#  formatDateTime
-#
-#******************************************************************************
-
-def formatDateTime( datetime ):
-    if not isinstance( datetime, RPNDateTime ):
-        raise ValueError( 'expected RPNDateTime' )
-
-    if datetime.getDateOnly( ):
-        return datetime.formatDate( )
-
-    # if datetime.microsecond:
-    #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
-    # else:
-    return datetime.format( includeTZ=g.showTimeZones )
 
 
 #******************************************************************************
