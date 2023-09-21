@@ -110,9 +110,10 @@ class RPNDateTime( object ):
             raise ValueError( 'RPNDateTime parsing unsupported type' )
 
     @staticmethod
-    def convertFromPendulum( pendulumDT ):
+    def convertFromPendulum( pendulumDT, dateOnly=False ):
         return RPNDateTime( pendulumDT.year, pendulumDT.month, pendulumDT.day, pendulumDT.hour,
-                            pendulumDT.minute, pendulumDT.second, pendulumDT.microsecond, pendulumDT.tzinfo )
+                            pendulumDT.minute, pendulumDT.second, pendulumDT.microsecond, pendulumDT.tzinfo,
+                            dateOnly=dateOnly )
 
     @staticmethod
     def convertFromEphemDate( ephemDate ):
@@ -205,20 +206,23 @@ class RPNDateTime( object ):
 
         if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
             years = time.value
-            self.dateTime = self.dateTime.add( years=int( years ) )
-            return self
+            result = self.dateTime.add( years=int( years ) )
+            return RPNDateTime.convertFromPendulum( result, dateOnly=self.dateOnly )
         elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
             months = time.value
-            self.dateTime = self.dateTime.add( months=int( months ) )
-            return self
+            result = self.dateTime.add( months=int( months ) )
+            return RPNDateTime.convertFromPendulum( result, dateOnly=self.dateOnly )
         else:
             days = int( floor( time.convertValue( 'day' ) ) )
             seconds = int( fmod( floor( time.convertValue( 'second' ) ), 86400 ) )
             microseconds = int( fmod( floor( time.convertValue( 'microsecond' ) ), 1_000_000 ) )
 
             try:
-                self.dateTime = self.dateTime.add( days = days, seconds = seconds, microseconds = microseconds )
-                return self
+                result = self.dateTime.add( days = days, seconds = seconds, microseconds = microseconds )
+
+                dateOnly = self.dateOnly and seconds == 0 and microseconds == 0
+
+                return RPNDateTime.convertFromPendulum( result, dateOnly=dateOnly )
             except OverflowError:
                 print( 'rpn:  value is out of range to be converted into a time' )
                 return nan
