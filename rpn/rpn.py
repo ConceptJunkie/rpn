@@ -386,6 +386,9 @@ def rpn( cmdArgs ):
     # initialize globals
     g.outputRadix = 10
 
+    # allow unlimited conversion lengths for integers
+    sys.set_int_max_str_digits(0)
+
     # look for help argument before we start setting everything up (because it's faster this way)
     showHelp = False
     helpArgs = [ ]
