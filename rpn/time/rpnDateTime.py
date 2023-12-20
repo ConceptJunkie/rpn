@@ -14,18 +14,18 @@
 
 import calendar
 import datetime
-
-import arrow
+import pendulum
 
 from mpmath import mpf
 
-from rpn.time.rpnDateTimeClass import RPNDateTime, getLocalTimeZone
+from rpn.time.rpnDateTimeClass import RPNDateTime
 from rpn.util.rpnGenerator import RPNGenerator
-from rpn.special.rpnLocation import getTimeZoneName
-from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.units.rpnMeasurement import convertUnits
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, DateTimeValidator, IntValidator, ListValidator, YearValidator
+from rpn.units.rpnMeasurementClass import RPNMeasurement
+
+import rpn.util.rpnGlobals as g
 
 
 #******************************************************************************
@@ -58,6 +58,25 @@ DECEMBER = 12
 
 #******************************************************************************
 #
+#  formatDateTime
+#
+#******************************************************************************
+
+def formatDateTime( datetime ):
+    if not isinstance( datetime, RPNDateTime ):
+        raise ValueError( 'expected RPNDateTime' )
+
+    if datetime.getDateOnly( ):
+        return datetime.formatDate( )
+
+    # if datetime.microsecond:
+    #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
+    # else:
+    return datetime.format( includeTZ=g.showTimeZones )
+
+
+#******************************************************************************
+#
 #  convertToUnixTimeOperator
 #
 #******************************************************************************
@@ -65,16 +84,7 @@ DECEMBER = 12
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def convertToUnixTimeOperator( n ):
-    try:
-        result = RPNDateTime.parseDateTime( n.to( 'utc' ) ).int_timestamp
-    except OverflowError as overflow_error:
-        raise ValueError( 'out of range error' ) from overflow_error
-    except TypeError as type_error:
-        raise ValueError( 'expected time value' ) from type_error
-    except OSError as os_error:
-        raise ValueError( 'out of range error' ) from os_error
-
-    return result
+    return n.getTimestamp( )
 
 
 #******************************************************************************
@@ -87,7 +97,7 @@ def convertToUnixTimeOperator( n ):
 @argValidator( [ IntValidator( ) ] )
 def convertFromUnixTimeOperator( n ):
     try:
-        result = RPNDateTime.parseDateTime( int( n ) ).getLocalTime( )
+        result = RPNDateTime.parseDateTime( n ).getLocalTime( )
     except OverflowError as overflow_error:
         raise ValueError( 'out of range error' ) from overflow_error
     except TypeError as type_error:
@@ -144,22 +154,22 @@ def makeJulianTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeJulianTime( list( n ) )
 
-    if len( n ) == 1:
-        return RPNDateTime( n[ 0 ], 1, 1 )
+    result = RPNDateTime( n[ 0 ], 1, 1 )
 
-    result = RPNDateTime( n[ 0 ], 1, 1 ).add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
+    if len( n ) >= 2:
+        result = result.add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
-        result = result.replace( hour = int( n[ 2 ] ) )
+        result = result.add( RPNMeasurement( n[ 2 ], 'hour' ) )
 
     if len( n ) >= 4:
-        result = result.replace( minute = int( n[ 3 ] ) )
+        result = result.add( RPNMeasurement( n[ 3 ], 'minute' ) )
 
     if len( n ) >= 5:
-        result = result.replace( second = int( n[ 4 ] ) )
+        result = result.add( RPNMeasurement( n[ 4 ], 'second' ) )
 
     if len( n ) >= 6:
-        result = result.replace( microsecond = int( n[ 5 ] ) )
+        result = result.add( RPNMeasurement( n[ 5 ], 'microsecond' ) )
 
     return result
 
@@ -207,8 +217,7 @@ def makeDateTimeOperator( n ):
 #******************************************************************************
 
 def getNow( ):
-    return RPNDateTime.now( tzinfo=getLocalTimeZone( ) )
-
+    return RPNDateTime.getNow( )
 
 def getNowOperator( ):
     return getNow( )
@@ -232,9 +241,8 @@ def getTodayOperator( ):
 #******************************************************************************
 
 def getTomorrowOperator( ):
-    now = getNow( )
-    now = now + datetime.timedelta( days = 1 )
-    return RPNDateTime( *now.getYMD( ), dateOnly = True )
+    tomorrow = getNow( ).add( RPNMeasurement( 1, 'day' ) )
+    return RPNDateTime( *tomorrow.getYMD( ), dateOnly = True )
 
 
 #******************************************************************************
@@ -244,9 +252,8 @@ def getTomorrowOperator( ):
 #******************************************************************************
 
 def getYesterdayOperator( ):
-    now = getNow( )
-    now = now + datetime.timedelta( days = -1 )
-    return RPNDateTime( *now.getYMD( ), dateOnly = True )
+    yesterday = getNow( ).subtract( RPNMeasurement( 1, 'day' ) )
+    return RPNDateTime( *yesterday.getYMD( ), dateOnly = True )
 
 
 #******************************************************************************
@@ -258,7 +265,7 @@ def getYesterdayOperator( ):
 def calculateEaster( year ):
     '''This algorithm comes from Gauss.'''
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
     else:
         year = int( year )
 
@@ -326,19 +333,19 @@ def getLastDayOfMonth( year, month ):
 
 @argValidator( [ IntValidator( ), IntValidator( -53, 53 ), IntValidator( MONDAY, SUNDAY ) ] )
 def calculateNthWeekdayOfYearOperator( year, nth, weekday ):
-    ''' Monday = 1, etc., as per arrow, nth == -1 for last, etc.'''
+    ''' Monday = 1, etc., nth == -1 for last, etc.'''
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     if nth > 0:
         firstDay = RPNDateTime( year, 1, 1 )
 
-        firstWeekDay = weekday - firstDay.isoweekday( ) + 1
+        firstWeekday = weekday - firstDay.getDayOfWeek( ) + 1
 
-        if firstWeekDay < 1:
-            firstWeekDay += 7
+        if firstWeekday < 1:
+            firstWeekday += 7
 
-        result = RPNDateTime( year, 1, firstWeekDay ).add( RPNMeasurement( nth - 1, 'week' ) )
+        result = RPNDateTime( year, 1, firstWeekday ).add( RPNMeasurement( nth - 1, 'week' ) )
         result.setDateOnly( )
 
         return result
@@ -346,14 +353,14 @@ def calculateNthWeekdayOfYearOperator( year, nth, weekday ):
     if nth < 0:
         lastDay = RPNDateTime( year, 12, 31 )
 
-        lastWeekDay = weekday - lastDay.isoweekday( )
+        lastWeekday = weekday - ( lastDay.getDayOfWeek( ) )
 
-        if lastWeekDay > 0:
-            lastWeekDay -= 7
+        if lastWeekday > 0:
+            lastWeekday -= 7
 
-        lastWeekDay += 31
+        lastWeekday += 31
 
-        result = RPNDateTime( year, 12, lastWeekDay, dateOnly = True ).add( RPNMeasurement( ( nth + 1 ), 'week' ) )
+        result = RPNDateTime( year, 12, lastWeekday, dateOnly = True ).add( RPNMeasurement( ( nth + 1 ), 'week' ) )
         result.setDateOnly( )
 
         return result
@@ -372,9 +379,9 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
-    firstDayOfWeek = arrow.Arrow( int( year ), int( month ), 1 ).isoweekday( )
+    firstDayOfWeek = pendulum.datetime( int( year ), int( month ), 1 ).day_of_week
 
     if nth < 0:
         day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7
@@ -409,7 +416,7 @@ def calculateNthWeekdayOfMonthOperator( year, month, nth, weekday ):
 @argValidator( [ YearValidator( ) ] )
 def calculateThanksgivingOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, NOVEMBER, 4, THURSDAY )
 
@@ -426,7 +433,7 @@ def calculateThanksgivingOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateLaborDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, SEPTEMBER, 1, MONDAY )
 
@@ -443,10 +450,10 @@ def calculateLaborDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateElectionDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     result = calculateNthWeekdayOfMonth( year, NOVEMBER, 1, MONDAY )
-    result.replace( day = result.day + 1 )
+    result.add( RPNMeasurement( 1, 'day' ) )
 
     return RPNDateTime( *result.getYMD( ), dateOnly = True )
 
@@ -463,7 +470,7 @@ def calculateElectionDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateMemorialDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, MAY, -1, MONDAY )
 
@@ -480,7 +487,7 @@ def calculateMemorialDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculatePresidentsDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, FEBRUARY, 3, MONDAY )
 
@@ -497,7 +504,7 @@ def calculatePresidentsDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateMartinLutherKingDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, JANUARY, 3, MONDAY )
 
@@ -514,7 +521,7 @@ def calculateMartinLutherKingDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateColumbusDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, OCTOBER, 2, MONDAY )
 
@@ -531,7 +538,7 @@ def calculateColumbusDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateMothersDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, MAY, 2, SUNDAY )
 
@@ -548,7 +555,7 @@ def calculateMothersDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateFathersDayOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     return calculateNthWeekdayOfMonth( year, JUNE, 3, SUNDAY )
 
@@ -617,7 +624,7 @@ def getChristmasDayOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateAdventOperator( year ):
     firstAdvent = getChristmasDay( year ).add( RPNMeasurement( -3, 'week' ) )
-    firstAdvent = firstAdvent.subtract( RPNMeasurement( getWeekday( firstAdvent ), 'day'  ) )
+    firstAdvent = firstAdvent.subtract( RPNMeasurement( getDayOfWeek( firstAdvent ), 'day'  ) )
 
     return RPNDateTime( *firstAdvent.getYMD( ), dateOnly = True )
 
@@ -679,7 +686,7 @@ Church being created before the number 0.
 @argValidator( [ YearValidator( ) ] )
 def calculateDSTStartOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, MARCH, 2, SUNDAY )
@@ -705,7 +712,7 @@ def calculateDSTStartOperator( year ):
 @argValidator( [ YearValidator( ) ] )
 def calculateDSTEndOperator( year ):
     if isinstance( year, RPNDateTime ):
-        year = year.year
+        year = year.getYear( )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, NOVEMBER, 1, SUNDAY )
@@ -721,30 +728,30 @@ def calculateDSTEndOperator( year ):
 
 #******************************************************************************
 #
-#  getWeekdayOperator
+#  getDayOfWeekOperator
 #
 #******************************************************************************
 
-def getWeekday( n ):
-    return n.weekday( ) + 1
+def getDayOfWeek( n ):
+    return n.getDayOfWeek( )
 
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
-def getWeekdayOperator( n ):
-    return getWeekday( n )
+def getDayOfWeekOperator( n ):
+    return getDayOfWeek( n )
 
 
 #******************************************************************************
 #
-#  getWeekdayNameOperator
+#  getDayOfWeekNameOperator
 #
 #******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
-def getWeekdayNameOperator( n ):
-    return calendar.day_name[ getWeekday( n ) - 1 ]
+def getDayOfWeekNameOperator( n ):
+    return calendar.day_name[ getDayOfWeek( n ) - 1 ]
 
 
 #******************************************************************************
@@ -756,7 +763,7 @@ def getWeekdayNameOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getYearOperator( n ):
-    return n.year
+    return n.getYear( )
 
 
 #******************************************************************************
@@ -768,7 +775,7 @@ def getYearOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getMonthOperator( n ):
-    return n.month
+    return n.getMonth( )
 
 
 #******************************************************************************
@@ -780,7 +787,7 @@ def getMonthOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getDayOperator( n ):
-    return n.day
+    return n.getDay( )
 
 
 #******************************************************************************
@@ -792,7 +799,7 @@ def getDayOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getHourOperator( n ):
-    return n.hour
+    return n.getHour( )
 
 
 #******************************************************************************
@@ -804,7 +811,7 @@ def getHourOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getMinuteOperator( n ):
-    return n.minute
+    return n.getMinute( )
 
 
 #******************************************************************************
@@ -816,7 +823,7 @@ def getMinuteOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getSecondOperator( n ):
-    return n.second
+    return n.getSecond( )
 
 
 #******************************************************************************
@@ -838,12 +845,12 @@ def isDST( dateTime, timeZone ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ DateTimeValidator( ) ] )
 def getUTCOperator( dt ):
-    return dt.to( 'utc' )
+    return dt.convertTimeZone( 'utc' )
 
 
 #******************************************************************************
 #
-#  setLocalTimeOperator
+#  getLocalTimeOperator
 #
 #******************************************************************************
 
@@ -855,30 +862,18 @@ def getLocalTimeOperator( dt ):
 
 #******************************************************************************
 #
-#  setTimeZoneOperator
+#  modifyTimeZoneOperator
 #
 #******************************************************************************
 
-def setTimeZone( dt, timezone ):
-    try:
-        tz = arrow.now( timezone ).tzinfo
-    except TypeError:
-        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
-    except arrow.parser.ParserError:
-        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
-    #except Exception as e:
-    #    import sys
-    #    print('Whew!', sys.exc_info()[0], 'occurred.')
-
-    dt = RPNDateTime.parseDateTime( dt )
-    dt = dt.replace( tzinfo=tz )
-    return dt
+def modifyTimeZone( dt, timeZone ):
+    return dt.modifyTimeZone( timeZone )
 
 
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
-def setTimeZoneOperator( dt, timezone ):
-    return setTimeZone( dt, timezone )
+def modifyTimeZoneOperator( dt, timeZone ):
+    return modifyTimeZone( dt, timeZone )
 
 
 #******************************************************************************
@@ -887,12 +882,10 @@ def setTimeZoneOperator( dt, timezone ):
 #
 #******************************************************************************
 
+def convertTimeZone( dt, timeZone ):
+    return dt.convertTimeZone( timeZone )
+
 @twoArgFunctionEvaluator( )
 #@argValidator( [ DateTimeValidator( ) ] )
 def convertTimeZoneOperator( dt, timezone ):
-    try:
-        tz = arrow.now( timezone ).tzinfo
-    except arrow.parser.ParserError:
-        tz = arrow.now( getTimeZoneName( timezone ) ).tzinfo
-
-    return dt.to( tz )
+    return dt.convertTimeZone( timezone )

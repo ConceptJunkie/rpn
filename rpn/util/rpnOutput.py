@@ -29,6 +29,7 @@ from rpn.units.rpnUnitTypes import basicUnitTypes
 from rpn.util.rpnUtils import addAliases
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
                            RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
+from rpn.time.rpnDateTime import formatDateTime
 
 import rpn.util.rpnGlobals as g
 
@@ -140,7 +141,7 @@ def formatOutput( output ):
         if c in string.whitespace or c in string.punctuation:
             return output
 
-    # output settings, which may be overrided by temp settings
+    # output settings, which may be overridden by temp settings
     outputRadix = g.outputRadix
     integerGrouping = g.integerGrouping
     leadingZero = g.leadingZero
@@ -180,9 +181,6 @@ def formatOutput( output ):
         strImaginary, negativeImaginary = \
             formatNumber( imaginary, outputRadix, leadingZero, integerGrouping, integerDelimiter, g.decimalDelimiter )
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
-
-    #print( 'formatOutput 2:', output )
-    #print( )
 
     return result
 
@@ -367,25 +365,6 @@ def formatUnits( measurement ):
             result += c
 
     return result
-
-
-#******************************************************************************
-#
-#  formatDateTime
-#
-#******************************************************************************
-
-def formatDateTime( datetime ):
-    if not isinstance( datetime, RPNDateTime ):
-        raise ValueError( 'expected RPNDateTime' )
-
-    if datetime.getDateOnly( ):
-        return datetime.formatDate( )
-
-    # if datetime.microsecond:
-    #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
-    # else:
-    return datetime.format( )
 
 
 #******************************************************************************

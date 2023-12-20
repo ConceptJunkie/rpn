@@ -12,35 +12,25 @@
 #
 #******************************************************************************
 
-import bz2
 import datetime
-import contextlib
-import os
-import pickle
-
 import ephem
-import pytz
-
-from dateutil import tz
+import pendulum
 
 from geopy.distance import geodesic
-from geopy.exc import GeocoderUnavailable
-from geopy.geocoders import Nominatim
+
 from mpmath import fdiv, fmul, mpmathify, pi
-from timezonefinder import TimezoneFinder
 
 from rpn.special.rpnLocationClass import RPNLocation
 
 from rpn.time.rpnDateTimeClass import RPNDateTime
 
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.special.rpnLocationLookup import loadLocationCache, saveLocationCache, lookUpLocation
 
-from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
-from rpn.util.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.special.rpnLocationLookup import lookUpTimeZone
+from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, LocationValidator, LocationOrDateTimeValidator, RealValidator, \
                              StringValidator
-                             
-from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.util.rpnGlobals as g
 
@@ -55,36 +45,6 @@ import rpn.util.rpnGlobals as g
 @argValidator( [ RealValidator( 0, 90 ), RealValidator( -180, 180 ) ] )
 def makeLocationOperator( n, k ):
     return RPNLocation( lat=float( n ), long=float( k ) )
-
-
-#******************************************************************************
-#
-#  loadLocationCache
-#
-#******************************************************************************
-
-def loadLocationCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
-                                              'locations.pckl.bz2', 'rb' ) ) as pickleFile:
-            locationCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        locationCache = { }
-
-    return locationCache
-
-
-#******************************************************************************
-#
-#  saveLocationCache
-#
-#******************************************************************************
-
-def saveLocationCache( locationCache ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep +
-                                              'locations.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( locationCache, pickleFile )
 
 
 #******************************************************************************
@@ -111,30 +71,15 @@ def getLocation( name ):
         result.setLat( locationInfo[ 1 ] )
         result.setLong( locationInfo[ 2 ] )
 
-        # print( 'looked up', result.name )
-        # print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
-    geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
-
-    location = None
-
-    for attempts in range( 3 ):
-        try:
-            location = geolocator.geocode( name )
-            break
-        except GeocoderUnavailable as e:
-            if attempts == 2:
-                raise ValueError( 'location lookup connection failure, check network connectivity' ) from e
-
-    if location is None:
-        raise ValueError( 'location lookup failed, try a different search term' )
+    latitude, longitude = lookUpLocation(name)
 
     observer = ephem.Observer( )
     result = RPNLocation( name=name, observer=observer )
 
-    result.setLat( location.latitude )
-    result.setLong( location.longitude )
+    result.setLat( latitude )
+    result.setLong( longitude )
 
     g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ) ]
     saveLocationCache( g.locationCache )
@@ -168,26 +113,31 @@ def getLocationInfoOperator( location ):
 
 def getTimeZoneName( value ):
     if isinstance( value, RPNDateTime ):
-        return value.tzname( )
-
-    if isinstance( value, str ):
+        return value.getTZ( ).name
+    elif isinstance( value, pendulum.Timezone ):
+        return value.name
+    elif isinstance( value, str ):
         value = getLocation( value )
     elif not isinstance( value, RPNLocation ):
         raise ValueError( 'location name or location object expected' )
 
-    tzFinder = TimezoneFinder( )
-    timezoneName = tzFinder.timezone_at( lat = value.getLat( ), lng = value.getLong( ) )
-
-    if timezoneName is None:
-        timezoneName = tzFinder.closest_timezone_at( lat = value.getLat( ),
-                                                     lng = value.getLong( ) )
-
-    return timezoneName
+    return lookUpTimeZone( value.getLat( ), value.getLong( ) ).name
 
 
-def getTimeZone( name ):
-    return tz.gettz( getTimeZoneName( name ) )
+def getTimeZone( value ):
+    if isinstance( value, RPNDateTime ):
+        return value.tz
+    elif isinstance( value, pendulum.Timezone ):
+        return value
+    elif isinstance( value, RPNLocation ):
+        return lookUpTimeZone( value.getLat( ), value.getLong( ) )
 
+    try:
+        tz = pendulum.timezone( value )
+    except pendulum.tz.exceptions.InvalidTimezone:
+        tz = lookUpTimeZone( *lookUpLocation( value ) )
+
+    return tz
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ LocationOrDateTimeValidator( ) ] )
@@ -202,23 +152,9 @@ def getTimeZoneOperator( location ):
 #******************************************************************************
 
 def getTimeZoneOffset( value ):
-    if isinstance( value, str ):
-        try:
-            timezone = pytz.timezone( value )
-        except pytz.exceptions.UnknownTimeZoneError:
-            timezone = pytz.timezone( getTimeZoneName( value ) )
-    else:
-        timezone = pytz.timezone( getTimeZoneName( value ) )
+    tz = getTimeZone( value )
 
-    # compute the timezone's offset
-    now = datetime.datetime.now( )
-
-    if timezone:
-        now1 = timezone.localize( now )
-        now2 = pytz.utc.localize( now )
-        return RPNMeasurement( ( now2 - now1 ).total_seconds( ), 'seconds' )
-
-    return RPNMeasurement( 0, 'seconds' )
+    return RPNMeasurement( pendulum.from_timestamp(0, tz).offset, 'seconds' )
 
 
 @oneArgFunctionEvaluator( )

@@ -42,11 +42,13 @@ from rpn.util.rpnAliases import OPERATOR_ALIASES
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 
+from rpn.time.rpnDateTime import formatDateTime
+
 from rpn.rpnOperators import \
     evaluateTerm, functionOperators, loadUserFunctionsFile, RPNFunction, saveUserFunctionsFile
 
 from rpn.util.rpnOutput import \
-    formatDateTime, formatListOutput, formatOutput, formatUnits, printHelp, printHelpModeHelp, \
+    formatListOutput, formatOutput, formatUnits, printHelp, printHelpModeHelp, \
     printInteractiveHelp, printTitleScreen
 
 from rpn.util.rpnPersistence import \
@@ -384,6 +386,9 @@ def rpn( cmdArgs ):
     # initialize globals
     g.outputRadix = 10
 
+    # allow unlimited conversion lengths for integers
+    sys.set_int_max_str_digits(0)
+
     # look for help argument before we start setting everything up (because it's faster this way)
     showHelp = False
     helpArgs = [ ]
@@ -434,8 +439,8 @@ def rpn( cmdArgs ):
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, default=0,
                          const=g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
-
     parser.add_argument( '-I', '--ignore_cache', action='store_true' )
+    parser.add_argument( '-k', '--show_timezones', action='store_true' )
     parser.add_argument( '-l', '--line_length', type=int, default=g.defaultLineLength )
     parser.add_argument( '-m', '--maximum_fixed', type=int, default=g.defaultMaximumFixed )
     parser.add_argument( '-n', '--numerals', type=str, default=g.defaultNumerals )
@@ -541,6 +546,9 @@ def rpn( cmdArgs ):
     # handle -I
     g.ignoreCache = args.ignore_cache
     g.refreshOEISCache = args.ignore_cache
+
+    if args.show_timezones:
+        g.showTimeZones = True
 
     # handle -l
     g.lineLength = args.line_length
@@ -679,6 +687,7 @@ def main( ):
     helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
+        debugPrint('Expected help file location: ', helpFile)
         print( 'Please run "makeHelp" to initialize the help files.' )
         sys.exit( 0 )
 

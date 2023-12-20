@@ -17,6 +17,11 @@ import ephem
 from mpmath import fdiv, fmul, mpmathify, pi
 from skyfield.api import Topos
 
+import pendulum
+import geopy
+
+from rpn.special.rpnLocationLookup import lookUpTimeZone
+
 
 #******************************************************************************
 #
@@ -84,6 +89,9 @@ class RPNLocation( ):
 
     def getPressure( self ):
         return self.observer.pressure
+
+    def getTimeZone( self ):
+        return pendulum.timezone( lookUpTimeZone( self.getLat( ), self.getLong( ) ) )
 
     def setName( self, value ):
         self.name = value

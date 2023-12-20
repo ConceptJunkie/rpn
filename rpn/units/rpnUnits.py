@@ -6570,7 +6570,7 @@ unitConversionMatrix = {
     ( 'parsec',                     'meter' )                               : fmul( 149_597_870_700, fdiv( 648_000, pi ) ),  # based on AU
     ( 'potrzebie',                  'farshimmelt_potrzebie' )               : mpmathify( '1.0e5' ),
     ( 'potrzebie',                  'furshlugginer_potrzebie' )             : mpmathify( '1.0e-6' ),
-    ( 'potrzebie',                  'meter' )                               : mpmathify( '0.002263348517438173216473' ),  # see Mad #33
+    ( 'potrzebie',                  'meter' )                               : mpmathify( '0.0022633484517438173216473' ),  # see Mad #33
     ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
     ( 'arshin',                     'vershok' )                             : mpmathify( '16' ),
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),

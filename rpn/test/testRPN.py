@@ -2024,6 +2024,10 @@ def runDateTimeOperatorTests( ):
     testOperator( '"March 6, 1994 06:20:00"' )
     testOperator( '"December 22 1999 21:30:00"' )
 
+    # convert_time_zone
+    testOperator( '__unit_test now set_variable' )
+    expectEqual( '$__unit_test "Los Angeles, CA" convert_time_zone $__unit_test "New York, NY" convert_time_zone - minutes convert', '0 minutes' )
+
     # get_day
     testOperator( 'now get_day' )
 
@@ -2045,6 +2049,10 @@ def runDateTimeOperatorTests( ):
     # make_datetime
     testOperator( '[ 1965 03 31 ] make_datetime' )
 
+    # modify_time_zone
+    testOperator( '__unit_test now set_variable' )
+    expectEqual( '$__unit_test "Los Angeles, CA" modify_time_zone $__unit_test "New York, NY" modify_time_zone - minutes convert', '180 minutes' )
+
     # expectEqual can't handle date values
     #expectEqual( '[ 1965 03 31 ] make_datetime', '1965-03-31' )
 
@@ -2060,14 +2068,6 @@ def runDateTimeOperatorTests( ):
 
     # now
     testOperator( 'now' )
-
-    # set_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" set_time_zone $__unit_test "New York, NY" set_time_zone - minutes convert', '180 minutes' )
-
-    # to_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" to_time_zone $__unit_test "New York, NY" to_time_zone - minutes convert', '0 minutes' )
 
     # today
     testOperator( 'today' )

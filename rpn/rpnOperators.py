@@ -105,8 +105,8 @@ from rpn.time.rpnDateTime import \
     convertToUnixTimeOperator, getChristmasDayOperator, getDayOperator, getEpiphanyDayOperator, getHourOperator, \
     getIndependenceDayOperator, getLocalTimeOperator, getMinuteOperator, getMonthOperator, getNewYearsDayOperator, \
     getNowOperator, getSecondOperator, getTodayOperator, getTomorrowOperator, getUTCOperator, getVeteransDayOperator, \
-    getWeekdayOperator, getWeekdayNameOperator, getYearOperator, getYesterdayOperator, makeDateTimeOperator, \
-    makeJulianTimeOperator, RPNDateTime, setTimeZoneOperator
+    getDayOfWeekOperator, getDayOfWeekNameOperator, getYearOperator, getYesterdayOperator, makeDateTimeOperator, \
+    makeJulianTimeOperator, RPNDateTime, modifyTimeZoneOperator
 
 from rpn.special.rpnDice import \
     enumerateDiceOperator, enumerateMultipleDiceOperator, permuteDiceOperator, rollDiceOperator, \
@@ -2690,8 +2690,8 @@ operators = {
     'to_persian'                        : RPNOperator( getPersianCalendarDateOperator, 1 ),
     'to_persian_name'                   : RPNOperator( getPersianCalendarDateNameOperator, 1 ),
     'veterans_day'                      : RPNOperator( getVeteransDayOperator, 1 ),
-    'weekday'                           : RPNOperator( getWeekdayOperator, 1 ),
-    'weekday_name'                      : RPNOperator( getWeekdayNameOperator, 1 ),
+    'weekday'                           : RPNOperator( getDayOfWeekOperator, 1 ),
+    'weekday_name'                      : RPNOperator( getDayOfWeekNameOperator, 1 ),
     'year_calendar'                     : RPNOperator( generateYearCalendarOperator, 1 ),
 
     # chemistry
@@ -2770,19 +2770,19 @@ operators = {
     'ydhms'                             : RPNOperator( convertToYDHMSOperator, 1 ),
 
     # date_time
-    'get_year'                          : RPNOperator( getYearOperator, 1 ),
-    'get_month'                         : RPNOperator( getMonthOperator, 1 ),
+    'convert_time_zone'                 : RPNOperator( convertTimeZoneOperator, 2 ),
     'get_day'                           : RPNOperator( getDayOperator, 1 ),
     'get_hour'                          : RPNOperator( getHourOperator, 1 ),
     'get_minute'                        : RPNOperator( getMinuteOperator, 1 ),
+    'get_month'                         : RPNOperator( getMonthOperator, 1 ),
     'get_second'                        : RPNOperator( getSecondOperator, 1 ),
+    'get_year'                          : RPNOperator( getYearOperator, 1 ),
+    'modify_time_zone'                  : RPNOperator( modifyTimeZoneOperator, 2 ),
     'now'                               : RPNOperator( getNowOperator, 0 ),
-    'set_time_zone'                     : RPNOperator( setTimeZoneOperator, 2 ),
+    'to_local_time'                     : RPNOperator( getLocalTimeOperator, 1 ),
+    'to_utc'                            : RPNOperator( getUTCOperator, 1 ),
     'today'                             : RPNOperator( getTodayOperator, 0 ),
     'tomorrow'                          : RPNOperator( getTomorrowOperator, 0 ),
-    'to_local_time'                     : RPNOperator( getLocalTimeOperator, 1 ),
-    'to_time_zone'                      : RPNOperator( convertTimeZoneOperator, 2 ),
-    'to_utc'                            : RPNOperator( getUTCOperator, 1 ),
     'yesterday'                         : RPNOperator( getYesterdayOperator, 0 ),
 
     # figurate

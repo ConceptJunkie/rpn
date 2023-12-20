@@ -292,7 +292,7 @@ class RPNValidator( ):
             argument = self.validateInt( argument )
         elif isinstance( argument, RPNDateTime ):
             self.validateDateTime( argument )
-            argument = argument.year
+            argument = argument.getYear( )
         else:
             raise ValueError( f'type { type( argument ) } found, integer or date-time value expected' )
 

@@ -15,11 +15,12 @@
 import math
 import os
 
-import arrow
+import pendulum
 
 from mpmath import fdiv, fneg, mp, mpc, mpf, mpmathify
 
 from rpn.time.rpnDateTime import RPNDateTime
+from rpn.time.rpnDateTimeClass import getLocalTimeZone
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator
@@ -125,74 +126,74 @@ def parseInputValue( term, inputRadix = 10 ):
         tryAgain = False
         datetime = None
 
-        # Try to parse a default date-time
         try:
-            datetime = arrow.get( term )
+            # Try to parse a default date-time
+            datetime = pendulum.parse( term )
 
-            # convert arrow to RPNDateTime with the parsed timezone
+            # convert pendulum to RPNDateTime with the parsed timezone
             datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                     datetime.hour, datetime.minute, datetime.second,
                                     datetime.microsecond )
             tryAgain = False
-        except arrow.parser.ParserError:
+            return datetime
+        except pendulum.parsing.exceptions.ParserError:
             tryAgain = True
 
-        if tryAgain:
-            try:
-                datetime = arrow.get( term,
-                                      [
-                                          'MMM D YYYY HH:mm:ss ZZ',
-                                          'MMM D, YYYY HH:mm:ss ZZ',
-                                          'MMM DD YYYY HH:mm:ss ZZ',
-                                          'MMM DD, YYYY HH:mm:ss ZZ',
-                                          'MMMM D YYYY HH:mm:ss ZZ',
-                                          'MMMM D, YYYY HH:mm:ss ZZ',
-                                          'MMMM DD YYYY HH:mm:ss ZZ',
-                                          'MMMM DD, YYYY HH:mm:ss ZZ',
-                                          'YYYY-MM-DD HH:mm:ss ZZ',
-                                      ] )
+        dtFormats = [
+            'MMM D YYYY HH:mm:ss ZZ',
+            'MMM D YYYY HH:mm:ss ZZ',
+            'MMM D, YYYY HH:mm:ss ZZ',
+            'MMM DD YYYY HH:mm:ss ZZ',
+            'MMM DD, YYYY HH:mm:ss ZZ',
+            'MMMM D YYYY HH:mm:ss ZZ',
+            'MMMM D, YYYY HH:mm:ss ZZ',
+            'MMMM DD YYYY HH:mm:ss ZZ',
+            'MMMM DD, YYYY HH:mm:ss ZZ',
+            'YYYY-MM-DD HH:mm:ss ZZ'
+        ]
 
-                # convert arrow to RPNDateTime with the parsed timezone
+        for dtFormat in dtFormats:
+            try:
+                datetime = pendulum.from_format( term, dtFormat )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
-                                        datetime.microsecond, datetime.tzinfo )
-                tryAgain = False
-            except arrow.parser.ParserError:
-                tryAgain = True
+                                        datetime.microsecond, tz=datetime.tzinfo )
+                break
+            except ValueError:
+                continue
 
         # If that fails, try to parse without a timezone, and use the local timezone
-        if tryAgain:
-            try:
-                datetime = arrow.get( term,
-                                      [
-                                          'MMM D YYYY HH:mm:ss',
-                                          'MMM D YYYY',
-                                          'MMM D, YYYY HH:mm:ss',
-                                          'MMM D, YYYY',
-                                          'MMM DD YYYY HH:mm:ss',
-                                          'MMM DD YYYY',
-                                          'MMM DD, YYYY HH:mm:ss',
-                                          'MMM DD, YYYY',
-                                          'MMMM D YYYY HH:mm:ss',
-                                          'MMMM D YYYY',
-                                          'MMMM D, YYYY HH:mm:ss',
-                                          'MMMM D, YYYY',
-                                          'MMMM DD YYYY HH:mm:ss',
-                                          'MMMM DD YYYY',
-                                          'MMMM DD, YYYY HH:mm:ss',
-                                          'MMMM DD, YYYY',
-                                          'YYYY-MM-DD HH:mm:ss',
-                                          'YYYY-MM-DD',
-                                          'MM-DD-YYYY',
-                                      ] )
+        dtFormats = [
+            'MMM D YYYY HH:mm:ss',
+            'MMM D YYYY',
+            'MMM D, YYYY HH:mm:ss',
+            'MMM D, YYYY',
+            'MMM DD YYYY HH:mm:ss',
+            'MMM DD YYYY',
+            'MMM DD, YYYY HH:mm:ss',
+            'MMM DD, YYYY',
+            'MMMM D YYYY HH:mm:ss',
+            'MMMM D YYYY',
+            'MMMM D, YYYY HH:mm:ss',
+            'MMMM D, YYYY',
+            'MMMM DD YYYY HH:mm:ss',
+            'MMMM DD YYYY',
+            'MMMM DD, YYYY HH:mm:ss',
+            'MMMM DD, YYYY',
+            'YYYY-MM-DD HH:mm:ss',
+            'YYYY-MM-DD',
+            'MM-DD-YYYY'
+        ]
 
-                # convert arrow to RPNDateTime with the local (default) timezone
+        for dtFormat in dtFormats:
+            try:
+                datetime = pendulum.from_format( term, dtFormat )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
-                                        datetime.microsecond )
-            except arrow.parser.ParserError:
-                # We couldn't parse a date, but it might be something else (like a dice expression)
-                pass
+                                        datetime.microsecond, tz=getLocalTimeZone( ) )
+                break
+            except ValueError:
+                continue
 
         # if we get a datetime, then let's use it, otherwise keep trying
         if datetime:
