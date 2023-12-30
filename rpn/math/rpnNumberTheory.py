@@ -1049,8 +1049,8 @@ def makePythagoreanTriplesOperator( n ):
 @argValidator( [ IntValidator( 1 ), IntValidator( 1 ) ] )
 def makePythagoreanQuadrupleOperator( a, b ):
     # pylint: disable=invalid-name
-    odd1 = ( fmod( a, 2 ) == 1 )
-    odd2 = ( fmod( b, 2 ) == 1 )
+    odd1 = fmod( a, 2 ) == 1
+    odd2 = fmod( b, 2 ) == 1
 
     if odd1 and odd2:
         raise ValueError( "'make_pyth_4' arguments cannot both be odd" )

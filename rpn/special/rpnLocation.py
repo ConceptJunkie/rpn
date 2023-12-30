@@ -25,7 +25,7 @@ from rpn.special.rpnLocationClass import RPNLocation
 from rpn.time.rpnDateTimeClass import RPNDateTime
 
 from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.special.rpnLocationLookup import loadLocationCache, saveLocationCache, lookUpLocation
+from rpn.special.rpnLocationLookup import lookUpLocation
 
 from rpn.special.rpnLocationLookup import lookUpTimeZone
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
@@ -66,9 +66,6 @@ def getLocation( name ):
 
     result.setLat( latitude )
     result.setLong( longitude )
-
-    g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ) ]
-    saveLocationCache( g.locationCache )
 
     return result
 

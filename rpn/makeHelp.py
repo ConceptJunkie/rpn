@@ -55,9 +55,9 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2445      # This needs to be manually updated when the help examples are modified.
+MAX_EXAMPLE_COUNT = 2451      # This needs to be manually updated when the help examples are modified.
 
-os.chdir( getUserDataPath( ) )    # SkyField doesn't like running in the root directory
+os.chdir( getUserDataPath( ) )  # SkyField doesn't like running in the root directory
 
 startTime = time_ns( )
 
@@ -1402,7 +1402,7 @@ users.
 
 tzwhere has been replaced with timezonefinder.
 
-The 'change_digits' operator was added. 
+The 'change_digits' operator was added.
 
 And finally after about 8 years (since version 6.4.0), the Windows binary is
 back!

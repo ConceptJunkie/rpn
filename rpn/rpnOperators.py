@@ -230,7 +230,7 @@ from rpn.math.rpnNumberTheory import \
     isHarmonicDivisorNumberOperator, isKHyperperfectOperator, isKPerfectOperator, isKPolydivisibleOperator, \
     isKSemiprimeOperator, isKSphenicOperator, isPerfectOperator, isPerniciousOperator, isPolite, \
     isPolydivisibleOperator, isPowerfulOperator, isPronicOperator, isRoughOperator, isRuthAaronNumberOperator, \
-    isSemiprimeOperator, isSmoothOperator, isSociableListOperator, isSphenicOperator, isSquareFreeOperator, \
+    isSemiprimeOperator, isSmoothOperator, isSphenicOperator, isSquareFreeOperator, \
     isUnusualOperator, makeContinuedFractionOperator, makeEulerBrickOperator, makePythagoreanQuadrupleOperator, \
     makePythagoreanTripleOperator, makePythagoreanTriplesOperator, solveFrobeniusOperator, getVanEckOperator
 

@@ -27,7 +27,7 @@ from rpn.util.rpnValidator import argValidator, IntValidator
 #******************************************************************************
 
 def getNthGeneralizedPolygonalNumber( n, k ):
-    negative = ( fmod( n, 2 ) == 0 )
+    negative = fmod( n, 2 ) == 0
 
     n = floor( fdiv( fadd( n, 1 ), 2 ) )
 

@@ -43,7 +43,7 @@ import rpn.util.rpnGlobals as g
 #******************************************************************************
 
 def formatNumber( number, outputRadix, leadingZero, integerGrouping, integerDelimiter, decimalDelimiter ):
-    negative = ( number < 0 )
+    negative = number < 0
 
     if outputRadix == g.fibBase:
         strInteger = convertToFibBase( floor( number ) )

@@ -108,7 +108,7 @@ def calculateBlackHoleMass( measurement ):
     if 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
-        return getRoot( divide( getProduct( [ lifetime, mpmathify( "1.8083" ),
+        return getRoot( divide( getProduct( [ lifetime, mpmathify( '1.8083' ),
                                               getConstant( 'reduced_planck_constant' ),
                                               getPower( getConstant( 'speed_of_light' ), 4 ) ] ),
                                 getProduct( [ 5120, pi,

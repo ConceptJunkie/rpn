@@ -91,6 +91,9 @@ def lookUpLocation( name ):
     if location is None:
         raise ValueError( 'location lookup failed, try a different search term' )
 
+    g.locationCache[ name ] = [ name, location.latitude, location.longitude ]
+    saveLocationCache( g.locationCache )
+
     return location.latitude, location.longitude
 
 
