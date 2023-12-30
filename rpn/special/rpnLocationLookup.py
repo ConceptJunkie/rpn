@@ -18,15 +18,18 @@ import os
 import pickle
 
 import pendulum
+import timezonefinder
 
 from geopy.exc import GeocoderUnavailable
 from geopy.geocoders import Nominatim
 
+from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
+
 from rpn.rpnVersion import RPN_PROGRAM_NAME
 
-from rpn.util.rpnUtils import getUserDataPath
+import rpn.util.rpnGlobals as g
 
-from tzwhere import tzwhere
+from rpn.util.rpnUtils import getUserDataPath
 
 
 #******************************************************************************
@@ -66,6 +69,13 @@ def saveLocationCache( locationCache ):
 #******************************************************************************
 
 def lookUpLocation( name ):
+    if g.locationCache is None:
+        g.locationCache = loadLocationCache( )
+
+    if name in g.locationCache:
+        locationInfo = g.locationCache[ name ]
+        return locationInfo[ 1 ], locationInfo[ 2 ]
+
     geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
 
     location = None
@@ -91,5 +101,8 @@ def lookUpLocation( name ):
 #******************************************************************************
 
 def lookUpTimeZone( lat, long ):
-    tzName = tzwhere.tzwhere().tzNameAt( lat, long )
+    if g.timeZoneFinder is None:
+        g.timeZoneFinder = timezonefinder.TimezoneFinder( )
+
+    tzName = g.timeZoneFinder.timezone_at( lat=lat, lng=long )
     return pendulum.timezone( tzName )

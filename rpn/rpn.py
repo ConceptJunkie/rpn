@@ -193,6 +193,7 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
     if len( valueList ) != 1:
         if g.checkForSingleResults:
             print( 'valueList', valueList )
+            formatListOutput( valueList )
             raise ValueError( 'unexpected multiple results!' )
 
         valueList = [ valueList ]

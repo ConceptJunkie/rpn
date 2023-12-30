@@ -175,6 +175,9 @@ userConfigurationIsDirty = False
 ephemeris = None
 timescale = None
 
+# timezonefinder
+timeZoneFinder = None
+
 # constants
 c = None
 e = None

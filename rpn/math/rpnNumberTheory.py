@@ -3077,7 +3077,7 @@ def getNthKPolygorialOperator( n, k ):
 def getRandomPrime( n ):
     setAccuracy( n )
 
-    base = power( 10, n )
+    base = int( power( 10, n ) )
     result = getNextPrime( randrange( base ) )
 
     if result > base:
@@ -3155,7 +3155,7 @@ def getReciprocalPeriodOperator( n ):
 #    if n == 0:
 #        return 0
 #
-#    a, b = divmod(n.bit_length(), 2)
+#    a, b = divmod(n.bit_length( ), 2)
 #    x = 2**(a+b)
 #
 #    while True:

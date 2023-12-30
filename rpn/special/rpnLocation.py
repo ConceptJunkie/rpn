@@ -59,20 +59,6 @@ def getLocation( name ):
     if not isinstance( name, str ):
         raise ValueError( '\'location\' expects a string argument' )
 
-    if g.locationCache is None:
-        g.locationCache = loadLocationCache( )
-
-    if name in g.locationCache:
-        locationInfo = g.locationCache[ name ]
-
-        observer = ephem.Observer( )
-        result = RPNLocation( name=name, observer=observer )
-
-        result.setLat( locationInfo[ 1 ] )
-        result.setLong( locationInfo[ 2 ] )
-
-        return result
-
     latitude, longitude = lookUpLocation(name)
 
     observer = ephem.Observer( )

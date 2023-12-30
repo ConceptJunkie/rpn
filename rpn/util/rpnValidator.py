@@ -128,7 +128,7 @@ class RPNValidator( ):
 
     def validateInt( self, argument ):
         if not isinstance( argument, ( complex, mpc, mpf, int, float ) ):
-            raise ValueError( f'type { type( argument ) } found, integer value expected' )
+            raise ValueError( f'type { type( argument ) } found ({ argument }), integer value expected' )
 
         if im( argument ) != 0:
             raise ValueError( f'real argument expected ( { argument } )' )

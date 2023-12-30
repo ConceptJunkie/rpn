@@ -130,7 +130,7 @@ from rpn.math.rpnGeometry import \
 from rpn.util.rpnInput import parseInputValue, readListFromFileOperator, readNumberFromFileOperator
 
 from rpn.math.rpnLexicographic import \
-    addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, combineDigitsOperator, \
+    addDigitsOperator, buildNumbersOperator, buildStepNumbersOperator, changeDigitsOperator, combineDigitsOperator, \
     containsAnyDigitsOperator, containsDigitsOperator, containsOnlyDigitsOperator, countDifferentDigitsOperator, \
     countDigitsOperator, duplicateDigitsOperator, duplicateNumberOperator, findPalindromeOperator, \
     generateSquareDigitChainOperator, getCyclicPermutationsOperator, getDigitCountOperator, getDecimalDigitsOperator, \
@@ -2470,7 +2470,7 @@ listOperators = {
     'crt'                               : RPNOperator( calculateChineseRemainderTheoremOperator, 2 ),
     'frobenius'                         : RPNOperator( getFrobeniusNumberOperator, 1 ),
     'geometric_recurrence'              : RPNOperator( getGeometricRecurrenceOperator, 4 ),
-    'is_sociable_list'                  : RPNOperator( isSociableListOperator, 1 ),
+    #'is_sociable_list'                  : RPNOperator( isSociableListOperator, 1 ),
     'linear_recurrence'                 : RPNOperator( getLinearRecurrenceOperator, 3 ),
     'linear_recurrence_with_modulo'     : RPNOperator( getLinearRecurrenceWithModuloOperator, 4 ),
     'nth_linear_recurrence'             : RPNOperator( getNthLinearRecurrenceOperator, 3 ),
@@ -2928,6 +2928,7 @@ operators = {
     'add_digits'                        : RPNOperator( addDigitsOperator, 2 ),
     'build_numbers'                     : RPNOperator( buildNumbersOperator, 1 ),
     'build_step_numbers'                : RPNOperator( buildStepNumbersOperator, 1 ),
+    'change_digits'                     : RPNOperator( changeDigitsOperator, 2 ),
     'count_different_digits'            : RPNOperator( countDifferentDigitsOperator, 1 ),
     'count_digits'                      : RPNOperator( countDigitsOperator, 2 ),
     'cyclic_permutations'               : RPNOperator( getCyclicPermutationsOperator, 1 ),

@@ -3904,7 +3904,7 @@ def runNumberTheoryOperatorTests( ):
     expectException( '1 20 range 12 is_smooth' )
 
     # is_sociable_list
-    testOperator( '[ 220 264 ] is_sociable_list' )
+    #testOperator( '[ 220 264 ] is_sociable_list' )
 
     # is_sphenic
     expectResult( '[ 2 3 5 ] prod is_sphenic', 1 )

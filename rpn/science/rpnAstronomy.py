@@ -19,7 +19,8 @@ from skyfield import almanac
 #from skyfield.api import load, Topos
 
 from rpn.math.rpnMath import subtract
-from rpn.special.rpnLocation import getLocation, getTimeZone
+from rpn.special.rpnLocation import getTimeZone
+from rpn.special.rpnLocation import getLocation
 from rpn.time.rpnDateTime import RPNDateTime, convertTimeZone, modifyTimeZone
 from rpn.units.rpnMatchUnitTypes import matchUnitTypes
 from rpn.units.rpnMeasurementClass import RPNMeasurement
@@ -719,8 +720,9 @@ def getNextSetting( arg1, arg2, arg3 ):
     if not arguments:
         raise ValueError( 'unexpected arguments' )
 
-    return arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
+    result = arguments[ 'body' ].getNextSetting( arguments[ 'location' ], arguments[ 'datetime' ] )
 
+    return result.getLocalTime( getTimeZone( arguments[ 'location' ].name ) )
 
 @twoArgFunctionEvaluator( )
 def getNextSunsetOperator( n, k ):

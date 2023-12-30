@@ -13,6 +13,7 @@
 #******************************************************************************
 
 import itertools
+import random
 import string
 
 from mpmath import arange, fabs, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, fsum, log10, \
@@ -830,8 +831,8 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
 #      - "[I[I]...:n:m]" - permutations of any digits I, from a minimum of n,
 #                          up to a maximum of m digits long
 #      - "s" - the designation for a "step digit", which can be one greater
-#              or one less than the previous digit.  For the purposes of step
-#
+#              or one less than the previous digit.  For the purposes of step,
+#              0 succeeds 9 and precedes 1.
 #
 #  A digit expression (I) can be a single digit or a range.  A single digit is
 #  anything from "0" through "9".  A digit range looks like: "a-b" where a
@@ -1185,6 +1186,50 @@ def showErdosPersistenceOperator( n ):
 @argValidator( [ IntValidator( 0 ) ] )
 def permuteDigitsOperator( n ):
     return RPNGenerator.createPermutations( getMPFIntegerAsString( n ) )
+
+
+#******************************************************************************
+#
+#  changeDigitsOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ), IntValidator( 1 ) ] )
+def changeDigitsOperator( n, k ):
+    numbers = '0123456789'
+    digits = getMPFIntegerAsString( n )
+    digit_count = len( digits )
+
+    if k > digit_count:
+        raise ValueError( 'change_digits cannot change more digits than exist' )
+
+    indices_to_change = [ ]
+
+    for _ in arange( k ):
+        done = False
+
+        while not done:
+            index = random.randrange( digit_count )
+
+            if index not in indices_to_change:
+                indices_to_change.append( index )
+                done = True
+
+    for index in indices_to_change:
+        digit_to_change = digits[ index ]
+
+        done = False
+
+        while not done:
+            new_digit = numbers[ random.randrange( 10 ) ]
+
+            if new_digit != digit_to_change:
+                done = True
+
+        digits = digits[ : index ] + new_digit + digits[ index + 1 : ]
+
+    return mpmathify( digits )
 
 
 #******************************************************************************

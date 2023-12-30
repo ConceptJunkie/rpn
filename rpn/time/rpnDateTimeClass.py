@@ -50,7 +50,7 @@ def getUTCOffset( timeZone ):
 
 @lru_cache( 1 )
 def getLocalTimeZone( ):
-    return get_localzone()
+    return get_localzone( )
 
 
 #******************************************************************************

@@ -92,7 +92,7 @@ def getRandomNumberOperator( ):
 #*******************************************************************************
 
 def getRandomInteger( n ):
-    return randrange( n )
+    return randrange( int( n ) )
 
 
 @oneArgFunctionEvaluator( )
@@ -132,7 +132,7 @@ def getRandomIntegers( n, k ):
     Returns k random integers between 0 and n-1.
     '''
     for _ in arange( 0, k ):
-        yield randrange( n )
+        yield randrange( int( n ) )
 
 
 @twoArgFunctionEvaluator( )

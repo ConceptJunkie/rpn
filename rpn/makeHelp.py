@@ -1400,6 +1400,10 @@ pendulum library for date and time handling.
 The old names were confusing to me, so I thought they would be confusing to
 users.
 
+tzwhere has been replaced with timezonefinder.
+
+The 'change_digits' operator was added. 
+
 And finally after about 8 years (since version 6.4.0), the Windows binary is
 back!
 
@@ -2806,7 +2810,7 @@ require an astronomical object.
 ''',
 '''
 ''' + makeCommandExample( 'neptune "Sao Paulo, Brazil" 2019-05-23 previous_rising' ),
-[ 'uranus', 'pluto'  ] ],
+[ 'uranus', 'pluto' ] ],
 
     'pluto' : [
 'astronomical_objects', 'the planet Pluto',
@@ -2924,7 +2928,7 @@ library.
 ''',
 '''
 ''' + makeCommandExample( 'neptune2 "Sao Paulo, Brazil" 2019-05-23 previous_rising' ),
-[ 'uranus2', 'pluto2'  ] ],
+[ 'uranus2', 'pluto2' ] ],
 
     'pluto2' : [
 'astronomical_objects', 'the planet Pluto',
@@ -5020,7 +5024,7 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
 ''' + makeCommandExample( '3 3 debruijn_sequence' ),
-[ 'permutations', 'nth_thue_morse' ] ],
+[ 'permutations', 'nth_thue_morse', 'van_eck' ] ],
 
     'count_frobenius' : [
 'combinatorics', 'calculates the number of combinations of items on n that add up to k',
@@ -7194,7 +7198,7 @@ This operator allows for infinite arguments, using 'infinity' and
 Somos\' Quadratic Recurrence Constant
 ''' + makeCommandExample( '-a20 1 inf lambda x 1 2 x ** / power ranged_product' ) + '''
 What percentage of numbers have a factor less than 1000?
-''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *' ),
+''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - ranged_product - 100 *', slow=True ),
 [ 'ranged_sum', 'lambda' ] ],
 
     'ranged_sum' : [
@@ -7952,7 +7956,7 @@ is the equivalent of the concatenation of digits from each argument.
 ''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''',
 [ 'build_numbers', 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits',
-  'rotate_digits_left', 'rotate_digits_right'  ] ],
+  'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'build_numbers' : [
 'lexicography', 'constructs numbers lexicographically using a simple language',
@@ -8007,7 +8011,7 @@ Euler's number).  'o' by itself is interpreted as the symbol for 'abohm'.
 ''' + makeCommandExample( '[1-4:1:2]e build_numbers' ) + '''
 ''',
 [ 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits',
-  'rotate_digits_left', 'rotate_digits_right' ] ],
+  'rotate_digits_left', 'rotate_digits_right', 'change_digits' ] ],
 
     'build_step_numbers' : [
 'list_operators', 'builds all step numbers up to n digits in length',
@@ -8020,6 +8024,19 @@ the Euler Project Problem #178.
 ''' + makeCommandExample( '3 build_step_numbers' ),
 [ 'is_step_number' ] ],
 
+    'change_digits' : [
+'lexicography', 'changes k digits in number n',
+'''
+This operator changes k different digits in number n.  The digits are replaced
+with another digit from 0-9 at random.
+''',
+'''
+''' + makeCommandExample( '111111111111111 1 change_digits' ) + '''
+''' + makeCommandExample( '111111111111111 5 change_digits' ) + '''
+''' + makeCommandExample( '111111111111111 5 change_digits' ) + '''
+''' + makeCommandExample( '111111111111111 12 change_digits' ),
+[ 'permute_digits', 'add_digits' ] ],
+
     'combine_digits' : [
 'lexicography', 'combines the digits of all elements of list n into a single number',
 '''
@@ -8027,7 +8044,7 @@ The individual digits are combined lexicographically to produce a number that
 is the equivalent of the concatenation of digits from each item in the argument
 list.
 
-This function is the "list version" of 'add_digits'.  It does the same thing as
+This function is the 'list version" of 'add_digits'.  It does the same thing as
 'add_digits', but with a list of arguments instead of two arguments.
 ''',
 '''
@@ -8114,7 +8131,7 @@ number.
 This operator implements a variation of 'multiplicative persistence' as
 described by Martin Gardner.
 
-"A number's persistence is the number of steps required to reduce it to a
+A number's persistence is the number of steps required to reduce it to a
 single digit by multiplying all its digits to obtain a second number, then
 multiplying all the digits of that number to obtain a third number, and so
 on until a one-digit number is obtained.
@@ -8234,7 +8251,7 @@ number.
 ''' + makeCommandExample( '1234567890 5 get_left_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_left_digits' ),
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits',
-  'rotate_digits_left', 'rotate_digits_right'  ] ],
+  'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'get_left_truncations' : [
 'lexicography', 'returns a list of numbers, successively truncated a digit from the left',
@@ -8276,7 +8293,7 @@ This operator simply takes the right k digits of n and returns them as a number.
 ''' + makeCommandExample( '1234567890 5 get_right_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_right_digits' ),
 [ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits',
-  'rotate_digits_left', 'rotate_digits_right'  ] ],
+  'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns a list of numbers, successively truncated a digit from the right',
@@ -10982,21 +10999,6 @@ The first several deficient numbers:
 ''' + makeCommandExample( '1 25 range lambda x is_deficient filter' ),
 [ 'is_abundant', 'is_perfect' ] ],
 
-    'is_sociable_list' : [
-'number_theory', 'returns whether list n is a list of sociable numbers',
-''';
-This operator returns true (1) if the list n is a list of sociable numbers.
-Sociable numbers form a looped aliquot chain:  The sum of divisors of each
-numbers is the next number in the list, with the last number having a divisor
-sum that equals the first number.
-
-Therefore, if any of these numbers are used with the 'aliquot' operator, they
-will result in early termination because of a loop.
-''',
-'''
-''',
-[ 'sigma', 'aliquot' ] ],
-
     'is_harmonic_divisor_number' : [
 'number_theory', 'returns whether or not n is a harmonic divisor number',
 '''
@@ -12347,10 +12349,35 @@ Fourier transform.
     'van_eck' : [
 'number_theory', 'calculates the first n members of the van Eck sequence',
 '''
+Neil Sloane talks about the Van Eck sequence on Numberphile:
+
+https://www.youtube.com/watch?v=etMJxB-igrc
+
+The first item in the sequence is 0. Compute the next item as follows:  If the
+previous item has not previously appeared in the sequence, add 0 to the
+sequence, otherwise add to the sequence the number of steps back in the sequence
+the previous item previously appeared.
+
+For instance, the first item is 0.
+
+Since 0 has not previously appeared in the sequence, the next item is 0.
+Now 0 has previously appeared, and the previous 0 was one back in the sequence,
+so add 1 to the sequence.  Since 1 has not previously appeared, add 0.  But 0
+appeared previously, two back in the sequence, so add 2.  Since 2 has not
+previously appeared, add 0.  But 0 appeared previously, two items back, so add
+2 to the sequence.  Since 2 previously appeared in the sequence, two terms back,
+add another 2 to the sequence.  The next item in the sequence is 1, because 2
+also appeared as the previous number.  Since 1 appeared in the sequence, count
+back to the previous 1, and add 6 to the sequence. And so on.
+
+The sequence begins 0, 0, 1, 0, 2, 0, 2, 2, 1, 6, 0, 5, 0, 2, 6, 5, 4, 0, ...
+
+https://oeis.org/A181391
 ''',
 '''
-''',
-[ 'root' ] ],
+''' + makeCommandExample( '10 van_eck' ) + '''
+''' + makeCommandExample( '100 van_eck' ),
+[ 'root', 'nth_thue_morse', 'debruijn_sequence' ] ],
 
 
     'zeta' : [
