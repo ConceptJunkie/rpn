@@ -61,7 +61,7 @@ def getSourcePath( ):
 def getDataPath( ):
     '''Returns the path for the data files.'''
     if getattr( sys, 'frozen', False ):
-        dataPath = os.path.dirname( sys.executable )
+        dataPath = os.path.dirname( sys.executable ) + os.sep + g.dataDir
     else:
         dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + '..' + os.sep + g.dataDir
 

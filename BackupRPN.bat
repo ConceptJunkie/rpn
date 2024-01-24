@@ -14,7 +14,7 @@ iff "%1" == "" then
 endiff
 
 rem set VERSION=%@execstr[grep "PROGRAM_VERSION " rpn\rpnVersion.py | cut -d' ' -f3  | tr -d -c 01234567890.]
-set RPN_FILES=__init__.py;rpn*.py;makeHelp.py;makeRPNPrimes.py;makeUnits.py;setup_rpn.py;test*.py;profile*.py;rpn.ico;rpn32.iss;rpn64.iss;BuildRPN.bat;BuildRPNInstaller.bat;requirements.txt;setup.cfg;MANIFEST.in;setup.py;unpickle.py;preparePrimeData.py;BackupRPN.bat;rpn.py;makeHelp.py;makeUnits.py;preparePrimes.py;testRPN.py;README.md;pylintrc
+set RPN_FILES=__init__.py;rpn*.py;makeHelp.py;makeRPNPrimes.py;makeUnits.py;setup_rpn.py;test*.py;profile*.py;rpn.ico;rpn64.iss;BuildRPN.bat;BuildRPNInstaller.bat;BuildRPNExecutable.bat;requirements.txt;setup.cfg;MANIFEST.in;setup.py;unpickle.py;preparePrimeData.py;BackupRPN.bat;rpn.py;makeHelp.py;makeUnits.py;preparePrimes.py;testRPN.py;README.md;pylintrc;BuildRPNExecutable.bat;BuildRPNInstaller.bat;BackupRPN.bat;BuildRPNWheel.bat
 
 echo %VERSION
 
@@ -47,7 +47,6 @@ cd ..
 cd units
 for /t; %TARGET_DIR in (%1) if exist %TARGET_DIR .and. isdir %TARGET_DIR copy rpn*.py %TARGET_DIR%\rpn\units
 cd ..
-
 
 cd util
 for /t; %TARGET_DIR in (%1) if exist %TARGET_DIR .and. isdir %TARGET_DIR copy rpn*.py %TARGET_DIR%\rpn\util

@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "rpnChilada"
-#define MyAppVersion "8.0.0"
+#define MyAppVersion "9.0.beta1"
 #define MyAppPublisher "Rick Gutleber"
 #define MyAppURL "https://github.com/ConceptJunkie/rpn"
 #define MyAppExeName "rpn.exe"
-#define BuildDir="c:\sys\ut\rpn\build\exe.win-amd64-3.7"
+#define BuildDir="c:\sys\ut\rpn\"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -35,54 +35,37 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#BuildDir}\rpn.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\dist\rpn.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "{#BuildDir}\lib\gmpy2.cp37-win_amd64.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\library.zip"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\VCRUNTIME140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sqlite3.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\python37.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\pywintypes37.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\win32api.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\win32evtlog.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_bz2.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_ctypes.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_decimal.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_hashlib.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_lzma.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_socket.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\lib\_ssl.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\help.pckl.bz2"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\units.pckl.bz2"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\unit_conversions.pckl.bz2"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\unit_help.pckl.bz2"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\unit_names.pckl.bz2"; DestDir: "{app}\rpndata"; Flags: ignoreversion
 
-Source: "{#BuildDir}\help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\unit_conversions.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\unit_help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\unit_names.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\balanced_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\cousin_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\double_balanced_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\huge_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\isolated_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\large_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\quad_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\quint_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\sext_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\sexy_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\sexy_quadruplets.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\sexy_triplets.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\small_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\sophie_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\super_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\triplet_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\triple_balanced_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\twin_primes.cache"; DestDir: "{app}\rpndata"; Flags: ignoreversion
 
-Source: "{#BuildDir}\balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\cousin_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\double_balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\isolated_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\large_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\quad_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\quint_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sext_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_quadruplets.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sexy_triplets.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\small_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\sophie_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\super_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\triplet_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\triple_balanced_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\twin_primes.cache"; DestDir: "{app}"; Flags: ignoreversion
-
-Source: "{#BuildDir}\de421.bsp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\finals2000A.all"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\de421.bsp"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\de405.bsp"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\deltat.data"; DestDir: "{app}\rpndata"; Flags: ignoreversion
+Source: "{#BuildDir}\rpn\rpndata\deltat.preds"; DestDir: "{app}\rpndata"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

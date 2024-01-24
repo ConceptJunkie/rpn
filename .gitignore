@@ -226,7 +226,6 @@ rpn/rpndata/rpnChilada_user_functions.cfg.backup
 rpn/rpndata/rpnChilada_user_functions.cfg
 
 # obsolete Skyfield data files
-
 rpn/rpndata/de405.bsp
 rpn/rpndata/de421.bsp
 rpn/rpndata/deltat.data
@@ -236,7 +235,6 @@ rpn/rpndata/deltat.old1.data
 rpn/rpndata/Leap_Second.old1.dat
 
 # Skyfield data files
-
 rpn/rpndata/de421.bsp
 rpn/rpndata/finals2000A.all
 
@@ -245,8 +243,10 @@ rpn/rpndata/finals2000A.all
 .vscode
 
 # RPN user data files
-
 rpn/rpndata/rpnChilada_user_variables.cfg.backup
 rpn/rpndata/rpnChilada_user_config.cfg
 rpn/rpndata/rpnChilada_user_config.cfg.backup
 rpn/rpndata/rpnChilada_user_variables.cfg
+
+# RPN prime number data files
+rpn/*.txt

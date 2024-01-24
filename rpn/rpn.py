@@ -41,6 +41,7 @@ from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.util.rpnAliases import OPERATOR_ALIASES
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnUtils import getDataPath
 
 from rpn.time.rpnDateTime import formatDateTime
 
@@ -682,14 +683,15 @@ def main( ):
     os.chdir( getUserDataPath( ) )     # SkyField doesn't like running in the root directory
 
     if not unitsFile.is_file( ):
-        print( 'Please run "rpnMakeUnits" (or makeUnits.py) to initialize the unit conversion data files.' )
+        print( f'unit conversion data files not found in {getDataPath()}' )
+        print( 'Please run makeUnits.py to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
     helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
-        debugPrint('Expected help file location: ', helpFile)
-        print( 'Please run "makeHelp" to initialize the help files.' )
+        print( f'help files not found in {getDataPath()}' )
+        print( 'Please run makeHelp.py to initialize the help files.' )
         sys.exit( 0 )
 
     try:
