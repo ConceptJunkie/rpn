@@ -2,8 +2,6 @@ rem TCC script for building the RPN installer
 
 setlocal
 
-if not exist installer_dist mkdir installer_dist
-
 if exist version.txt rm version.txt
 
 echos VERSION= > version.txt

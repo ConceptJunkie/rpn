@@ -17312,7 +17312,7 @@ def makeHelp( ):
 #******************************************************************************
 
 def main( ):
-    unitsFile = Path( getUserDataPath( ) + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "rpnMakeUnits" (or makeUnits.py) to initialize the unit conversion data files.' )
