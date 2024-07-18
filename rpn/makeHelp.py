@@ -6321,7 +6321,7 @@ The impedance of free space, z_0, is a physical constant relating the magnitudes
 of the electric and magnetic fields of electromagnetic radiation travelling
 through free  space. That is, z_0 = |E|/|H|, where |E| is the electric field
 strength and |H| is the magnetic field strength.  Its presently accepted value
-is z_0 = 376.730313668(57) ohms.
+is z_0 = 376.730313412 ohms.
 ''',
 '''
 ''' + makeCommandExample( 'vacuum_impedance' ),
@@ -7831,11 +7831,11 @@ The operator returns number of constants.
 '''
 c:\\>rpn _dump_constants
 aa_battery:  15400 joule
-alpha_particle_mass:  6.644657230e-27 kilogram
+alpha_particle_mass:  6.6446573450e-27 kilogram
 april:  4
 august:  8
-avogadro_number:  6.022140756e23
-bohr_radius:  5.29177210903e-11 meter
+avogadro_number:  6.02214076e23
+bohr_radius:  5.29177210544e-11 meter
 ...
 ''',
 [ '_dump_cache', '_dump_conversions', '_dump_operators', '_dump_stats', '_dump_units',

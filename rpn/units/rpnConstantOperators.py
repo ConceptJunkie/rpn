@@ -52,7 +52,7 @@ This value is now exact, by definition.
 ''' ),
 
     'bohr_radius' :
-        RPNConstantInfo( '5.29177210903e-11', 'meter', [ ], False,
+        RPNConstantInfo( '5.29177210544e-11', 'meter', [ ], False,
                          'the Bohr radius, an idealized measure of the size of a hydrogen atom',
                          '''
 From https://en.wikipedia.org/wiki/Bohr_radius:
@@ -66,7 +66,7 @@ Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
     'classical_electron_radius' :
-        RPNConstantInfo( '2.8179403227e-15', 'meter', [ 'electron_radius' ], False,
+        RPNConstantInfo( '2.8179403205e-15', 'meter', [ 'electron_radius' ], False,
                          'the classical size of an electron',
                          '''
 Ref:  https://en.wikipedia.org/wiki/Classical_electron_radius
@@ -80,7 +80,7 @@ Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 ''' ),
 
     'electric_constant' :
-        RPNConstantInfo( '8.8541878128e-12', 'ampere^2*second^4/kilogram*meter^3',
+        RPNConstantInfo( '8.8541878188e-12', 'ampere^2*second^4/kilogram*meter^3',
                          [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity',
                            'vacuum_permittivity' ], False,
                          'the permittivity of free space',
@@ -126,7 +126,7 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 ''' ),
 
     'magnetic_constant' :
-        RPNConstantInfo( '1.25663706212e-6', 'newton/ampere^2',
+        RPNConstantInfo( '1.25663706127e-6', 'newton/ampere^2',
                          [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], False,
                          'the permeability of free space',
                          '''
@@ -183,7 +183,7 @@ Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
 ''' ),
 
     'nuclear_magneton' :
-        RPNConstantInfo( '5.0507837461e-27', 'joule/tesla', [ ], False,
+        RPNConstantInfo( '5.0507837393e-27', 'joule/tesla', [ ], False,
                          'the nuclear magneton, a physical constant of magnetic moment',
                          '''
 From https://en.wikipedia.org/wiki/Nuclear_magneton:
@@ -296,7 +296,7 @@ time due to fluctuations in solar energy output.
 
     # subatomic particle constants
     'alpha_particle_mass' :
-        RPNConstantInfo( '6.644657230e-27', 'kilogram', [ ], True,
+        RPNConstantInfo( '6.6446573450e-27', 'kilogram', [ ], True,
                          'the mass of an alpha particle (helium nucleus)',
                          '''
 The alpha particle is the equivalent of a helium nucleus, and consists of two
@@ -314,7 +314,7 @@ Ref:  https://en.wikipedia.org/wiki/Deuterium#Deuteron_mass_and_radius
 ''' ),
 
     'electron_mass' :
-        RPNConstantInfo( '9.10938356e-31', 'kilogram', [ 'electron_rest_mass' ], True,
+        RPNConstantInfo( '9.1093837139e-31', 'kilogram', [ 'electron_rest_mass' ], True,
                          'the mass of the electron',
                          '''
 The electron rest mass is the mass of a stationary electron, also known as the
@@ -356,7 +356,7 @@ Ref:  https://en.wikipedia.org/wiki/Muon
 ''' ),
 
     'neutron_mass' :
-        RPNConstantInfo( '1.674927471e-27', 'kilogram', [ ], True,
+        RPNConstantInfo( '1.67492750056e-27', 'kilogram', [ ], True,
                          'the mass of a neutron',
                          '''
 The neutron is a subatomic particle, with no net electric charge and a mass
@@ -370,7 +370,7 @@ Ref:  https://en.wikipedia.org/wiki/Neutron
 ''' ),
 
     'proton_mass' :
-        RPNConstantInfo( '1.672621898e-27', 'kilogram', [ ], True,
+        RPNConstantInfo( '1.67262192595e-27', 'kilogram', [ ], True,
                          'the mass of a proton',
                          '''
 A proton is a subatomic particle with a positive electric charge of +1

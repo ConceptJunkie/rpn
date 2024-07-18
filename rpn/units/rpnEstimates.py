@@ -1085,7 +1085,7 @@ lengthTable = {
     mpmathify( '1.0e-17' )        : 'the range of the weak force',
     mpmathify( '8.5e-16' )        : 'the approximate radius of a proton',
     mpmathify( '1.5e-15' )        : 'the size of an 11 MeV proton',
-    mpmathify( '2.81794e-15' )    : 'the classical electron radius',
+    mpmathify( '2.8179403205e-15' )    : 'the classical electron radius',
     mpmathify( '1.0e-12' )        : 'the longest wavelength of gamma rays',
     mpmathify( '2.4e-12' )        : 'the Compton wavelength of electron',
     mpmathify( '5.0e-12' )        : 'the wavelength of shortest X-rays',

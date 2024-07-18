@@ -6622,7 +6622,7 @@ unitConversionMatrix = {
     ( 'blintz',                     'gram' )                                : mpmathify( '36.42538631' ),
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
-    ( 'dalton',                     'gram' )                                : mpmathify( '1.66053906660e-24' ),  # based on best measurements
+    ( 'dalton',                     'gram' )                                : mpmathify( '1.66053906892e-24' ),  # based on best measurements
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
     ( 'funt',                       'dolya' )                               : mpmathify( '9216' ),
