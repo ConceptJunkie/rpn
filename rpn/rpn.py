@@ -25,6 +25,7 @@ import argparse
 import os
 import sys
 import time
+import types
 
 from pathlib import Path
 import readline
@@ -215,7 +216,9 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
         else:
             g.integerDelimiter = ' '
 
-        if isinstance( result, RPNGenerator ):
+        if isinstance( result, types.GeneratorType):
+            formatListOutput( result, indent=indent, file=file)
+        elif isinstance( result, RPNGenerator ):
             formatListOutput( result.getGenerator( ), indent=indent, file=file )
         elif isinstance( result, list ):
             formatListOutput( result, indent=indent, file=file )

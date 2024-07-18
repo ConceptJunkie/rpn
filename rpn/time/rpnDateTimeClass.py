@@ -25,7 +25,6 @@ import rpn.util.rpnGlobals as g
 
 import pendulum
 
-from rpn.util.rpnDebug import debugPrint
 from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.special.rpnLocationLookup import lookUpLocation, lookUpTimeZone
 
@@ -202,14 +201,14 @@ class RPNDateTime( object ):
         if not isinstance( time, RPNMeasurement ):
             ValueError( 'RPNMeasurement expected' )
 
-        debugPrint( 'time.getUnitName( )', time.getUnitName( ) )
-        debugPrint( 'g.unitOperators[ time.getUnitName( ) ].categories', g.unitOperators[ time.getUnitName( ) ].categories )
+        #print( 'time.getUnitName( )', time.getUnitName( ) )
+        #print( 'g.unitOperators[ time.getUnitName( ) ].categories', g.unitOperators[ time.getUnitName( ) ].categories )
 
-        if time.getUnitName( ) == 'year':
+        if 'years' in g.unitOperators[ time.getUnitName( ) ].categories:
             years = time.value
             result = self.dateTime.add( years=int( years ) )
             return RPNDateTime.convertFromPendulum( result, dateOnly=self.dateOnly )
-        elif time.getUnitName( ) == 'month':
+        elif 'months' in g.unitOperators[ time.getUnitName( ) ].categories:
             months = time.value
             result = self.dateTime.add( months=int( months ) )
             return RPNDateTime.convertFromPendulum( result, dateOnly=self.dateOnly )

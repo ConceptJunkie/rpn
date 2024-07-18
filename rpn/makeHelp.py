@@ -33,7 +33,7 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
 from rpn.math.rpnNumberTheory import MERSENNE_PRIME_EXPONENTS
 from rpn.math.rpnPrimeUtils import checkForPrimeData
 from rpn.util.rpnOutput import printParagraph
-from rpn.util.rpnUtils import getUserDataPath
+from rpn.util.rpnUtils import getDataPath, getUserDataPath
 
 import rpn.util.rpnGlobals as g
 
@@ -7083,6 +7083,14 @@ operator that expects a list argument.
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 6 7 ] [ 8 9 ] ] lambda x -1 element for_each_list' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 ] [ 3 4 ] [ 5 6 ] [ 7 8 ] ] lambda x sum for_each_list' ),
+[ 'for_each', 'sequence' ] ],
+
+    'for_each_list' : [
+'functions', 'filters based on function k on elements of list n, treating each element as a list argument',
+'''
+''',
+'''
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 7 ] [ 8 9 ] ] lambda x 0 element x 1 element is_equal for_each_list' ),
 [ 'for_each', 'sequence' ] ],
 
     'function': [

@@ -8,13 +8,13 @@ rpnChilada supports arithmetic with arbitrary precision, powers and roots, logar
 
 ### Update - November 24, 2021
 
-Python 3.10 really broke RPN, but the fixes were simple. 
+Python 3.10 really broke RPN, but the fixes were simple.
 
-8.5.6 includes several small fixes to deal with incompatibilities introduced with 
-Python 3.10, the most significant of which is that pyreadline, the moribund 
-library that provides readline functionality for Python on Windows was replaced 
-with the built-in readline.  If I recall correctly, the readline library didn't 
-support Windows in the hazy past, which is why I started using pyreadline.  
+8.5.6 includes several small fixes to deal with incompatibilities introduced with
+Python 3.10, the most significant of which is that pyreadline, the moribund
+library that provides readline functionality for Python on Windows was replaced
+with the built-in readline.  If I recall correctly, the readline library didn't
+support Windows in the hazy past, which is why I started using pyreadline.
 
 ### Update - September 27, 2021
 
@@ -51,6 +51,20 @@ Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 
 
 For Python 3.10, an installer for gmpy2 can be found here:
 https://github.com/aleaxit/gmpy/releases/download/gmpy2-2.1.0rc1/gmpy2-2.1.0rc1-cp310-cp310-win_amd64.whl
+
+## Installing for Termux
+
+Before installing from PyPI or from source for use on Termux, the following packages need to be installed:
+
+"pkg install rust binutils libandroid-spawn build-essential"
+
+and for Python:
+
+https://github.com/termux/termux-packages/issues/10065
+
+"pip install cmake ninja"
+
+for reasons I can't explain, it takes a really long time to build the required Python packages.  A really long time.
 
 ## Installing RPN on Debian-based Linux:
 

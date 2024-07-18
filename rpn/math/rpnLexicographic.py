@@ -15,6 +15,7 @@
 import itertools
 import random
 import string
+import types
 
 from mpmath import arange, fabs, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsub, fsum, log10, \
                    mp, mpf, mpmathify, nint, power
@@ -269,9 +270,6 @@ def addDigitsOperator( n, k ):
 #******************************************************************************
 
 def combineDigits( n ):
-    if isinstance( n, RPNGenerator ):
-        return combineDigits( list( n ) )
-
     result = 0
 
     listResult = False
@@ -279,7 +277,7 @@ def combineDigits( n ):
     for i in n:
         if isinstance( i, ( list, RPNGenerator ) ) and result == 0:
             listResult = True
-            result = [ combineDigits( i ) ]
+            result = combineDigits( i )
         elif listResult:
             if not isinstance( result, list ):
                 result = [ result ]

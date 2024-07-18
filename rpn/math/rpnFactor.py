@@ -187,7 +187,8 @@ def runYAFU( n ):
     answer = fprod( result )
 
     if answer != n:
-        debugPrint( '\nyafu has barfed' )
+        debugPrint( '\nyafu has failed, result:', result )
+
         for i in result:
             n = fdiv( n, i )
 

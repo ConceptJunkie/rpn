@@ -15,8 +15,10 @@
 import collections
 import itertools
 import random
+import types
 
-from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, inf, power, root, sqrt
+from mpmath import arange, fadd, fdiv, fmod, fmul, fneg, fprod, fsub, fsum, inf, mpmathify, power, \
+                   root, sqrt
 
 from rpn.math.rpnMath import add, multiply, square, subtract, divide
 from rpn.units.rpnMeasurementClass import RPNMeasurement
@@ -918,10 +920,17 @@ def reduceListOperator( n ):
 #******************************************************************************
 
 def calculateGeometricMean( args ):
-    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+    if isinstance( args[ 0 ], ( list, types.GeneratorType ) ):
         return [ calculateGeometricMean( list( arg ) ) for arg in args ]
 
-    return root( fprod( args ), len( args ) )
+    result = mpmathify( 1 )
+    count = 0
+
+    for arg in args:
+        result = fmul( result, arg )
+        count += 1
+
+    return root( result, count )
 
 
 @listArgFunctionEvaluator( )
@@ -1315,8 +1324,11 @@ def permuteListsOperator( lists ):
         if not isinstance( i, ( list, RPNGenerator ) ):
             raise ValueError( '\'permute_lists\' expects a list of lists' )
 
-    return RPNGenerator.createProduct( lists )
+    #for i in RPNGenerator.createProduct( lists ):
+    #    yield i
 
+    for item in itertools.product( *lists ):
+        yield [ i for i in item ]
 
 #******************************************************************************
 #
@@ -1338,7 +1350,8 @@ def getListCombinationsOperator( n, k ):
     if len( n ) < k:
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
-    return RPNGenerator( getListCombinationsGenerator( n, k ) )
+    for i in RPNGenerator( getListCombinationsGenerator( n, k ) ):
+        yield i
 
 
 #******************************************************************************
@@ -1361,7 +1374,8 @@ def getListCombinationsWithRepeatsOperator( n, k ):
     if len( n ) < k:
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
-    return RPNGenerator( getListCombinationsWithRepeatsGenerator( n, k ) )
+    for i in RPNGenerator( getListCombinationsWithRepeatsGenerator( n, k ) ):
+        yield i
 
 
 #******************************************************************************
@@ -1384,7 +1398,8 @@ def getListPermutationsOperator( n, k ):
     if len( n ) < k:
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
-    return RPNGenerator( getListPermutationsGenerator( n, k ) )
+    for i in RPNGenerator( getListPermutationsGenerator( n, k ) ):
+        yield i
 
 
 #******************************************************************************
@@ -1407,7 +1422,8 @@ def getListPermutationsWithRepeatsOperator( n, k ):
     if len( n ) < k:
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
-    return RPNGenerator( getListPermutationsWithRepeatsGenerator( n, k ) )
+    for i in RPNGenerator( getListPermutationsWithRepeatsGenerator( n, k ) ):
+        yield i
 
 
 #******************************************************************************
@@ -1440,10 +1456,8 @@ def getListPowerSet( n ):
 @listArgFunctionEvaluator( )
 @argValidator( [ ListValidator( ) ] )
 def getListPowerSetOperator( n ):
-    if isinstance( n, RPNGenerator ):
-        return RPNGenerator( getListPowerSet( list( n ) ) )
-
-    return RPNGenerator( getListPowerSet( n ) )
+    for i in RPNGenerator( getListPowerSet( n ) ):
+        yield i
 
 
 #******************************************************************************

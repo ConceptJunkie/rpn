@@ -1191,6 +1191,31 @@ def forEachListOperator( listArg, func ):
 
 #******************************************************************************
 #
+#  forEachListFilter
+#
+#******************************************************************************
+
+def forEachListFilter( listArg, func, invert=False ):
+    if not isinstance( func, RPNFunction ):
+        raise ValueError( '\'for_each_list\' expects a function argument' )
+
+    for i in listArg:
+        value = func.evaluate( i )
+
+        if invert and value == 0:
+            yield i
+        elif not invert and value != 0:
+            yield i
+
+
+def forEachListFilterOperator( listArg, func ):
+    return RPNGenerator( forEachListFilter( listArg, func ) )
+
+def forEachListUnfilterOperator( listArg, func ):
+    return RPNGenerator( forEachListFilter( listArg, func, invert=True ) )
+
+#******************************************************************************
+#
 #  breakOnCondition
 #
 #******************************************************************************
@@ -2294,6 +2319,8 @@ functionOperators = [
     'filter_show_index',
     'for_each',
     'for_each_list',
+    'for_each_list_filter',
+    'for_each_list_unfilter',
     'function',
     'limit',
     'plot',
@@ -2397,6 +2424,8 @@ listOperators = {
     'filter_show_index'                 : RPNOperator( filterListShowIndexOperator, 2 ),
     'for_each'                          : RPNOperator( forEachOperator, 2 ),
     'for_each_list'                     : RPNOperator( forEachListOperator, 2 ),
+    'for_each_list_filter'              : RPNOperator( forEachListFilterOperator, 2 ),
+    'for_each_list_unfilter'            : RPNOperator( forEachListUnfilterOperator, 2 ),
     'unfilter'                          : RPNOperator( unfilterListOperator, 2 ),
     'unfilter_by_index'                 : RPNOperator( unfilterListByIndexOperator, 2 ),
     'unfilter_ratio'                    : RPNOperator( unfilterRatioOperator, 2 ),

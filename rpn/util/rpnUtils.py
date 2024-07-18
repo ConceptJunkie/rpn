@@ -17,12 +17,13 @@ import itertools
 import multiprocessing
 import os
 import sys
+import types
 
 from collections.abc import Iterable
 from joblib import delayed, Parallel
 
 from functools import lru_cache, reduce
-from mpmath import floor, log10, mag, mp, nint, nstr
+from mpmath import floor, log10, mag, mp, mpmathify, nint, nstr
 
 from rpn.util.rpnGenerator import RPNGenerator
 
@@ -426,7 +427,11 @@ def twoArgFunctionEvaluator( ):
                 list1 = False
                 len1 = 1
 
+            # print( 'list1', list1 )
+
             generator1 = isinstance( arg1, RPNGenerator )
+
+            #print( 'generator1', generator1 )
 
             if isinstance( _arg2, list ):
                 len2 = len( _arg2 )
@@ -444,7 +449,11 @@ def twoArgFunctionEvaluator( ):
                 list2 = False
                 len2 = 2
 
+            #print( 'list2', list2 )
+
             generator2 = isinstance( arg2, RPNGenerator )
+
+            #print( 'generator2', generator2 )
 
             if generator1:
                 if generator2:
@@ -814,6 +823,9 @@ def matchArgumentTypes( args, validArgTypes ):
 #******************************************************************************
 
 def getPowerSet( args ):
+    if isinstance( args, RPNGenerator ):
+        return getPowerSet( list( args ) )
+
     # standard python powerset recipe, minus the empty subset, which is not useful to us
     return itertools.chain.from_iterable( itertools.combinations( args, n )
                                           for n in range( 1, len( args ) + 1 ) )
