@@ -61,8 +61,8 @@ def calculateBlackHoleMass( measurement ):
     if 'length' in arguments:
         radius = arguments[ 'length' ]
 
-        return divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 2 ), radius ] ),
-                       getProduct( [ 2, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
+        return divide( getProduct( [ 2, getConstant( 'newton_constant' ) ] ),
+                       getProduct( [ getPower( getConstant( 'speed_of_light' ), 2 ), radius ] ) ).convert( 'kilogram' )
 
     if 'acceleration' in arguments:
         gravity = arguments[ 'acceleration' ]
