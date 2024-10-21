@@ -450,6 +450,7 @@ def rpn( cmdArgs ):
     parser.add_argument( '-m', '--maximum_fixed', type=int, default=g.defaultMaximumFixed )
     parser.add_argument( '-n', '--numerals', type=str, default=g.defaultNumerals )
     parser.add_argument( '-o', '--octal', action='store_true' )
+    parser.add_argument( '-O', '--ignore_oeis_cache', action='store_true' )
     parser.add_argument( '-p', '--precision', type=int, default=g.defaultPrecision )
     parser.add_argument( '-r', '--output_radix', type=str, default=g.defaultOutputRadix )
     parser.add_argument( '-s', '--list_format_level', nargs='?', type=int, default=0,
@@ -550,7 +551,6 @@ def rpn( cmdArgs ):
 
     # handle -I
     g.ignoreCache = args.ignore_cache
-    g.refreshOEISCache = args.ignore_cache
 
     if args.show_timezones:
         g.showTimeZones = True
@@ -570,6 +570,9 @@ def rpn( cmdArgs ):
         g.leadingZero = True
         g.integerGrouping = 3
         g.bitwiseGroupSize = 9
+
+    # handle -O
+    g.refreshOEISCache = args.ignore_oeis_cache
 
     # handle -p
     setPrecision( args.precision )

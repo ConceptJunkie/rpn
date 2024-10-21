@@ -928,8 +928,6 @@ def calculateGeometricMean( args ):
     count = 0
 
     for arg in args:
-        print( 'arg', arg, type( arg ) )
-        
         result = fmul( result, arg )
         count += 1
 

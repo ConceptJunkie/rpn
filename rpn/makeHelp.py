@@ -187,6 +187,9 @@ command-line options:
     -o, --octal
         octal mode: equivalent to \'-r8 -w9 -g3 -z\'
 
+    -O, --ignore_oeis-cache
+         ignore cached results from OEIS, accesses the website and updates the cache
+
     -pn, --precision n
         precision, i.e., number of significant digits to use
 
@@ -2150,9 +2153,9 @@ values.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 ] geometric_mean' ) + '''
-''' + makeCommandExample( '[ 1 10 range ] geometric_mean' ) + '''
+''' + makeCommandExample( '1 10 range geometric_mean' ) + '''
 Calculate the geometric mean of the first n numbers from 1 to 5:
-''' + makeCommandExample( '[ 1 1 5 range range ] geometric_mean' ),
+''' + makeCommandExample( '1 1 5 range range lambda x geometric_mean for_each_list' ),
 [ 'mean', 'agm', 'harmonic_mean', 'root_mean_square' ] ],
 
     'harmonic_mean' : [
@@ -7085,13 +7088,22 @@ operator that expects a list argument.
 ''' + makeCommandExample( '[ [ 1 2 ] [ 3 4 ] [ 5 6 ] [ 7 8 ] ] lambda x sum for_each_list' ),
 [ 'for_each', 'sequence' ] ],
 
-    'for_each_list' : [
+    'for_each_list_filter' : [
 'functions', 'filters based on function k on elements of list n, treating each element as a list argument',
 '''
 ''',
 '''
-''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 7 ] [ 8 9 ] ] lambda x 0 element x 1 element is_equal for_each_list' ),
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 7 ] [ 8 9 ] ] lambda x 0 element x 1 element is_equal for_each_list_filter' ),
 [ 'for_each', 'sequence' ] ],
+
+    'for_each_list_unfilter' : [
+'functions', 'filters based on the inverse of function k on elements of list n, treating each element as a list argument',
+'''
+''',
+'''
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 7 ] [ 8 9 ] ] lambda x 0 element x 1 element is_equal for_each_list_unfilter' ),
+[ 'for_each', 'sequence' ] ],
+
 
     'function': [
 'functions', 'creates a user-defined function k named n',

@@ -3173,8 +3173,8 @@ def runListOperatorTests( ):
     # geometric_mean
     expectEqual( '1 500 range lambda [ x sigma x euler_phi ] geometric_mean is_integer filter', '11257 oeis 500 filter_max' )
     # rpn isn't smart enough to let me turn this into a lamdba I can run on a range, so let's just pick 2 particular values to try.
-    expectEqual( '12 lambda 1 x range powerset eval geometric_mean lambda x is_integer filter count', '326027 oeis 12 element' )
-    expectEqual( '14 lambda 1 x range powerset eval geometric_mean lambda x is_integer filter count', '326027 oeis 14 element' )
+    expectEqual( '12 lambda 1 x range powerset eval lambda x geometric_mean for_each_list lambda x is_integer filter count', '326027 oeis 12 element' )
+    expectEqual( '14 lambda 1 x range powerset eval lambda x geometric_mean for_each_list lambda x is_integer filter count', '326027 oeis 14 element' )
 
     # geometric_range
     expectEqual( '2 8 8 geometric_range', '0 7 range lambda 2 8 x ** * eval' )
@@ -4951,7 +4951,7 @@ def runPrimeNumberOperatorTests( ):
 
     # prime_pi
     testOperator( '87 prime_pi' )
-    expectEqual( '0 998 range lambda x x prime_pi combinations eval', '37031 oeis 999 left' )
+    expectEqual( '1 999 range lambda x x prime_pi combinations eval', '37031 oeis 999 left' )
 
     # primes
     testOperator( '1 5 range 5 primes' )
