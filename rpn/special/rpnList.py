@@ -920,13 +920,16 @@ def reduceListOperator( n ):
 #******************************************************************************
 
 def calculateGeometricMean( args ):
-    if isinstance( args[ 0 ], ( list, types.GeneratorType ) ):
-        return [ calculateGeometricMean( list( arg ) ) for arg in args ]
+    if not isinstance( args, types.GeneratorType ):
+        if isinstance( args[ 0 ], ( list, types.GeneratorType ) ):
+            return [ calculateGeometricMean( arg ) for arg in args ]
 
     result = mpmathify( 1 )
     count = 0
 
     for arg in args:
+        print( 'arg', arg, type( arg ) )
+        
         result = fmul( result, arg )
         count += 1
 

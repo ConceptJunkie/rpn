@@ -275,7 +275,7 @@ def combineDigits( n ):
     listResult = False
 
     for i in n:
-        if isinstance( i, ( list, RPNGenerator ) ) and result == 0:
+        if isinstance( i, ( list, types.GeneratorType, RPNGenerator ) ) and result == 0:
             listResult = True
             result = combineDigits( i )
         elif listResult:
