@@ -2971,10 +2971,19 @@ def runLexicographyOperatorTests( ):
         expectEqual( '1 100000 range lambda x is_narcissistic filter', '5188 oeis 100000 filter_max' )
 
     # is_pandigital
+    expectResult( '384759621 is_pandigital', 1 )
+    expectResult( '3847590621 is_pandigital', 1 )
+    expectResult( '384750621 is_pandigital', 0 )
+    expectResult( '11335577998866442200 is_pandigital', 1 )
+    expectResult( '1234567890 is_pandigital', 1 )
+    expectResult( '1234567880 is_pandigital', 0 )
+
+    # is_pandigital_zero
     expectResult( '3847596201 is_pandigital', 1 )
     expectResult( '11335577998866442200 is_pandigital', 1 )
     expectResult( '1234567890 is_pandigital', 1 )
     expectResult( '1234567880 is_pandigital', 0 )
+
 
     # is_pddi
     testOperator( '1253 4 is_pddi' )

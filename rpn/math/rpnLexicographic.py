@@ -160,6 +160,27 @@ def isBaseKPandigitalOperator( n, base ):
 
 #******************************************************************************
 #
+#  isBaseKPandigitalZeroOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( ), IntValidator( 2 ) ] )
+def isBaseKPandigitalZeroOperator( n, base ):
+    digits = convertToBaseN( n, base, outputBaseDigits=True )
+
+    for i in arange( 1, min( int( base ), len( digits ) ) ):
+        try:
+            digits.index( i )
+        except ValueError:
+            return 0
+
+    return 1
+
+
+
+#******************************************************************************
+#
 #  sumDigitsOperator
 #
 #******************************************************************************
@@ -392,6 +413,35 @@ def isPandigital( n ):
 
     length = len( n )
 
+    if length < 9:
+        return 0
+
+    digitsToCheck = string.digits[ 1 : ]
+
+    for c in digitsToCheck:
+        if c not in n:
+            return 0
+
+    return 1
+
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def isPandigitalOperator( n ):
+    return isPandigital( n )
+
+
+#******************************************************************************
+#
+#  isPandigitalZeroOperator
+#
+#******************************************************************************
+
+def isPandigitalZero( n ):
+    n = getMPFIntegerAsString( n )
+
+    length = len( n )
+
     if length < 10:
         return 0
 
@@ -406,8 +456,8 @@ def isPandigital( n ):
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
-def isPandigitalOperator( n ):
-    return isPandigital( n )
+def isPandigitalZeroOperator( n ):
+    return isPandigitalZero( n )
 
 
 #******************************************************************************

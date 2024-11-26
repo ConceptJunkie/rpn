@@ -55,7 +55,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2451      # This needs to be manually updated when the help examples are modified.
+MAX_EXAMPLE_COUNT = 2458      # This needs to be manually updated when the help examples are modified.
 
 os.chdir( getUserDataPath( ) )  # SkyField doesn't like running in the root directory
 
@@ -8383,14 +8383,26 @@ number squared ends with the digits of the original number.
 [ 'is_k_morphic', 'is_trimorphic', 'is_kaprekar' ] ],
 
     'is_base_k_pandigital' : [
-'lexicography', 'returns whether n a pandigital number in base k',
+'lexicography', 'returns whether n a pandigital number in base k, not counting 0',
+'''
+This boolean operator returns whether n is a pandigital number in base k, not
+counting the digit 0.  The presence or abscence of 0 does not affect this
+operator, only digits 1 through k.
+''',
+'''
+''' + makeCommandExample( '12345678 -b9' ) + '''
+''' + makeCommandExample( '6053444 9 is_base_k_pandigital' ),
+[ 'is_base_k_pandigital_zero, is_pandigital', 'is_pandigital_zero' ] ],
+
+    'is_base_k_pandigital_zero' : [
+'lexicography', 'returns whether n a pandigital number in base k, including 0',
 '''
 This boolean operator returns whether n is a pandigital number in base k.
 ''',
 '''
 ''' + makeCommandExample( '123456780 -b9' ) + '''
 ''' + makeCommandExample( '54480996 9 is_base_k_pandigital' ),
-[ 'is_pandigital' ] ],
+[ 'is_base_k_pandigital, is_pandigital', 'is_pandigital_zero' ] ],
 
     'is_base_k_smith_number' : [
 'lexicography', 'returns whether n is a Smith number in base k',
@@ -8452,7 +8464,7 @@ then k is a digital permutation of n.
 ''' + makeCommandExample( '101 110 is_digital_permutation' ) + '''
 ''' + makeCommandExample( '1234 4321 is_digital_permutation' ) + '''
 ''' + makeCommandExample( '1201 1201 is_digital_permutation' ),
-[ 'is_pandigital', 'permute_digits' ] ],
+[ 'is_pandigital', 'is_pandigital_zero', 'permute_digits' ] ],
 
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number of power k',
@@ -8612,16 +8624,28 @@ read the same forwards as backwards, then the operator returns 1.
 [ 'find_palindrome', 'is_pandigital', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pandigital' : [
-'lexicography', 'returns whether an integer n is pandigital',
+'lexicography', 'returns whether an integer n is pandigital, not counting 0',
 '''
-A pandigital number contains at least one of all the of the digits 0 through
-9.
+A pandigital number contains at least one of all the of the digits 1 through
+9.  Zeroes are ignored.
 ''',
 '''
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
 ''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ),
-[ 'is_base_k_pandigital', 'is_digital_palindrome', 'is_increasing', 'is_decreasing' ] ],
+[ 'is_pandigital_zero', 'is_base_k_pandigital', 'is_digital_palindrome', 'is_increasing', 'is_decreasing' ] ],
+
+    'is_pandigital_zero' : [
+'lexicography', 'returns whether an integer n is pandigital, including 0',
+'''
+A pandigital number contains at least one of all the of the digits 0 through
+9.
+''',
+'''
+''' + makeCommandExample( '123456789 is_pandigital_zero' ) + '''
+''' + makeCommandExample( '1234567890 is_pandigital_zero' ) + '''
+''' + makeCommandExample( '-a30 [ 3, 3, 3, 3, 37, 37, 333667, 333667 ] prod is_pandigital_zero' ),
+[ 'is_pandigital', 'is_base_k_pandigital', 'is_digital_palindrome', 'is_increasing', 'is_decreasing' ] ],
 
     'is_pdi' : [
 'lexicography', 'returns whether an integer n is a perfect digital invariant',

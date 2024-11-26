@@ -137,15 +137,16 @@ from rpn.math.rpnLexicographic import \
     getDigitsOperator, getErdosPersistenceOperator, getPersistenceOperator, getKPersistenceOperator, \
     getLeftDigitsOperator, getLeftTruncationsOperator, getNonzeroDigitsOperator, getNthReversalAdditionOperator, \
     getRightDigitsOperator, getRightTruncationsOperator, isAutomorphicOperator, isBaseKNarcissisticOperator, \
-    isBaseKPandigitalOperator, isBaseKSmithNumberOperator, isBouncyOperator, isDecreasingOperator, \
-    isDigitalPermutationOperator, isGeneralizedDudeneyNumberOperator, isHarshadNumberOperator, isIncreasingOperator, \
-    isKaprekarNumberOperator, isKMorphicOperator, isNarcissisticOperator, isOrderKSmithNumberOperator, \
-    isPalindromeOperator, isPandigitalOperator, isPerfectDigitalInvariantOperator, \
-    isPerfectDigitToDigitInvariantOperator, isSmithNumberOperator, isStepNumberOperator, isSumProductNumberOperator, \
-    isTrimorphicOperator, multiplyDigitsOperator, multiplyDigitPowersOperator, multiplyNonzeroDigitPowersOperator, \
-    multiplyNonzeroDigitsOperator, permuteDigitsOperator, replaceDigitsOperator, reverseDigitsOperator, \
-    rotateDigitsLeftOperator, rotateDigitsRightOperator, showErdosPersistenceOperator, showKPersistenceOperator, \
-    showPersistenceOperator, sumDigitsOperator
+    isBaseKPandigitalOperator, isBaseKPandigitalZeroOperator, isBaseKSmithNumberOperator, isBouncyOperator, \
+    isDecreasingOperator, isDigitalPermutationOperator, isGeneralizedDudeneyNumberOperator, isHarshadNumberOperator, \
+    isIncreasingOperator, isKaprekarNumberOperator, isKMorphicOperator, isNarcissisticOperator, \
+    isOrderKSmithNumberOperator, isPalindromeOperator, isPandigitalOperator, isPandigitalZeroOperator, \
+    isPerfectDigitalInvariantOperator, isPerfectDigitToDigitInvariantOperator, isSmithNumberOperator, \
+    isStepNumberOperator, isSumProductNumberOperator, isTrimorphicOperator, multiplyDigitsOperator, \
+    multiplyDigitPowersOperator, multiplyNonzeroDigitPowersOperator, multiplyNonzeroDigitsOperator, \
+    permuteDigitsOperator, replaceDigitsOperator, reverseDigitsOperator, rotateDigitsLeftOperator, \
+    rotateDigitsRightOperator, showErdosPersistenceOperator, showKPersistenceOperator, showPersistenceOperator, \
+    sumDigitsOperator
 
 from rpn.special.rpnList import \
     alternateSignsOperator, alternateSigns2Operator, appendListsOperator, calculateAntiharmonicMeanOperator, \
@@ -2980,6 +2981,7 @@ operators = {
     'has_only_digits'                   : RPNOperator( containsOnlyDigitsOperator, 2 ),
     'is_automorphic'                    : RPNOperator( isAutomorphicOperator, 1 ),
     'is_base_k_pandigital'              : RPNOperator( isBaseKPandigitalOperator, 2 ),
+    'is_base_k_pandigital_zero'         : RPNOperator( isBaseKPandigitalZeroOperator, 2 ),
     'is_base_k_smith_number'            : RPNOperator( isBaseKSmithNumberOperator, 2 ),
     'is_bouncy'                         : RPNOperator( isBouncyOperator, 1 ),
     'is_decreasing'                     : RPNOperator( isDecreasingOperator, 1 ),
@@ -2994,6 +2996,7 @@ operators = {
     'is_narcissistic'                   : RPNOperator( isNarcissisticOperator, 1 ),
     'is_order_k_smith_number'           : RPNOperator( isOrderKSmithNumberOperator, 2 ),
     'is_pandigital'                     : RPNOperator( isPandigitalOperator, 1 ),
+    'is_pandigital_zero'                : RPNOperator( isPandigitalZeroOperator, 1 ),
     'is_pddi'                           : RPNOperator( isPerfectDigitToDigitInvariantOperator, 2 ),
     'is_pdi'                            : RPNOperator( isPerfectDigitalInvariantOperator, 1 ),
     'is_smith_number'                   : RPNOperator( isSmithNumberOperator, 1 ),

@@ -796,6 +796,7 @@ OPERATOR_ALIASES = {
     'range3'                        : 'sized_range',
     'ratios2'                       : 'cumulative_ratios',
     're'                            : 'real',
+    'recurrence'                    : 'sequence',
     'rev_add'                       : 'reversal_addition',
     'rev_dig'                       : 'reverse_digits',
     'rev_digits'                    : 'reverse_digits',
