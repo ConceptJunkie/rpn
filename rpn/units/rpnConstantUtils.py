@@ -5,7 +5,7 @@
 #  rpnConstantUtils.py
 #
 #  rpnChilada constant operator utilities
-#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2024, Rick Gutleber (rickg@his.com)
 #
 #  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #  information).
@@ -99,7 +99,7 @@ def getMillsConstant( ):
     '''The Mills constant is hard-coded.'''
 
     # This was introduced in 3.10.7, but didn't exist beforehand.  It only needs
-    # to be called if it exists.  The limit in 3.10.8 is 4300. 
+    # to be called if it exists.  The limit in 3.10.8 is 4300.
     try:
         sys.set_int_max_str_digits(7000)
     except:

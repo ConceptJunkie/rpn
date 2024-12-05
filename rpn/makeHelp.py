@@ -5,7 +5,7 @@
 #  makeHelp
 #
 #  rpnChilada help file generator
-#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2024, Rick Gutleber (rickg@his.com)
 #
 #  *** NOTE:  Don't run this file directly.  Use ../makeHelp.py.
 #
@@ -446,7 +446,7 @@ evaluated is given a successive number:
 
 c:\\>rpn
 rpnChilada 8.4.0 - RPN command-line calculator
-copyright (c) 2021 (1988), Rick Gutleber (rickg@his.com)
+copyright (c) 2024 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
 rpn (1)> 2 3 +
@@ -7926,7 +7926,7 @@ The operator returns the rpnChilada version number in list format.
 '''
 c:\\>rpn _dump_stats
 rpnChilada 8.5.0 - RPN command-line calculator
-copyright (c) 2021 (1988), Rick Gutleber (rickg@his.com)
+copyright (c) 2024 (1988), Rick Gutleber (rickg@his.com)
 
 rpnChilada Statistics:
 

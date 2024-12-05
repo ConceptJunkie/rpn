@@ -5,7 +5,7 @@
 #  makeUnits
 #
 #  rpnChilada unit conversion data generator
-#  copyright (c) 2022, Rick Gutleber (rickg@his.com)
+#  copyright (c) 2024, Rick Gutleber (rickg@his.com)
 #
 #  *** NOTE:  Don't run this file directly.  Use ../makeUnits.py.
 #
