@@ -597,6 +597,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '5 is_square', 0 )
     expectResult( '12 16j + is_square', 1 )
 
+    expectResult( '-a103 2 100 range lambda x is_square not filter sqrt 10 99 ** * floor sum_digits sum', 40886 )
+
     # is_zero
     expectResult( '-1 is_zero', 0 )
     expectResult( '0 is_zero', 1 )
@@ -1534,6 +1536,8 @@ def runCombinatoricsOperatorTests( ):
     # combinations
     expectEqual( '0 99 range lambda x 2 * x combinations sqr x 2 * x combinations + 2 / eval', '37967 oeis 100 left' )
 
+    expectResult( '1 100 range lambda x 1 x range combinations eval flatten lambda x 1000000 greater filter count', 4075 )
+
     # compositions
     testOperator( '5 2 compositions' )
     testOperator( '6 3 compositions' )
@@ -1621,6 +1625,9 @@ def runCombinatoricsOperatorTests( ):
 
     # debruijn_sequence
     testOperator( '4 3 debruijn_sequence' )
+
+    # denomination_combinations
+    expectResult( '[ 1 2 5 10 20 50 100 200 ] 200 denomination_combinations', 73682 )
 
     # get_combinations
     testOperator( '1 5 range 2 get_combinations' )
@@ -2819,6 +2826,8 @@ def runLexicographyOperatorTests( ):
     testOperator( '-a30 10911 55 find_palindrome' )
     testOperator( '180 200 range 10 find_palindrome -s1' )
 
+    expectResult( '-a50 1 10000 range lambda x 30 find_palindrome 1 right 0 equals filter count', 249 )
+
     # get_base_k_digits
     expectEqual( '0 10000 range lambda x 2 get_base_k_digits sum x 10 get_base_k_digits sum equals filter',
                  '37308 oeis 10000 filter_max' )
@@ -2853,8 +2862,10 @@ def runLexicographyOperatorTests( ):
     expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter',
                  '350 oeis 42 left 41 right' )
 
+    expectResult( '2 7830457 10 10 ** powmod 28433 * 1 + 10 get_right_digits', 8739992577 )
+
     # get_right_truncations
-    testOperator( '123456789 get_right_truncations' )
+    expectEqual( '123456789 get_right_truncations', '[ 123456789, 12345678, 1234567, 123456, 12345, 1234, 123, 12, 1 ]' )
 
     # has_any_digits
     if g.primeDataAvailable:
@@ -2978,12 +2989,13 @@ def runLexicographyOperatorTests( ):
     expectResult( '1234567890 is_pandigital', 1 )
     expectResult( '1234567880 is_pandigital', 0 )
 
+    expectEqual( '9001 9999 range lambda x 1 2 range * combine_digits is_pandigital filter', '[ 9267, 9273, 9327 ]' )
+
     # is_pandigital_zero
     expectResult( '3847596201 is_pandigital', 1 )
     expectResult( '11335577998866442200 is_pandigital', 1 )
     expectResult( '1234567890 is_pandigital', 1 )
     expectResult( '1234567880 is_pandigital', 0 )
-
 
     # is_pddi
     testOperator( '1253 4 is_pddi' )
@@ -3027,6 +3039,8 @@ def runLexicographyOperatorTests( ):
     expectEqual( '12345 permute_digits', '30299 oeis 153 left 120 right' )
     expectEqual( '123456 permute_digits', '30299 oeis 873 left 720 right' )
     expectEqual( '1234567 permute_digits', '30299 oeis 5913 left 5040 right' )
+
+    expectEqual( '1234567 permute_digits lambda x is_prime filter 1 right', '[ 7652413 ]' )
 
     if g.slowTests:
         expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
@@ -3075,6 +3089,8 @@ def runLexicographyOperatorTests( ):
 
     # sum_digits
     expectEqual( '0 1000 range sum_digits', '7953 oeis 1001 left' )
+
+    expectResult( '-a300 [ 1 99 range 1 99 range ] permute_lists lambda x y ** sum_digits for_each max', 972 )
 
     if g.slowTests:
         expectEqual( '0 10000 range sum_digits', '7953 oeis 10001 left' )
@@ -3214,10 +3230,12 @@ def runListOperatorTests( ):
     expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
     # max_index
-    expectResult( '1 10 range max_index', 9 )
+    expectEqual( '1 10 range max_index', '[ 9 ]' )
+    expectEqual( '[ 1 1 2 3 4 5 6 5 6 ] max_index', '[ 6 8 ]' )
 
     # min_index
-    expectResult( '1 10 range min_index', 0 )
+    expectEqual( '1 10 range min_index', '[ 0 ]' )
+    expectEqual( '[ 1 1 2 3 4 5 6 5 6 1 ] min_index', '[ 0 1 9 ]' )
 
     # nand_all
     testOperator( '[ 1 0 1 1 1 1 0 1 ] nand_all' )
@@ -5731,4 +5749,3 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
-

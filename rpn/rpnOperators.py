@@ -1183,7 +1183,10 @@ def forEachList( listArg, func ):
         raise ValueError( '\'for_each_list\' expects a function argument' )
 
     for i in listArg:
-        yield func.evaluate( i )
+        if isinstance( i, RPNGenerator ):
+            yield func.evaluate( list( i ) )
+        else:
+            yield func.evaluate( i )
 
 
 def forEachListOperator( listArg, func ):
@@ -1214,6 +1217,7 @@ def forEachListFilterOperator( listArg, func ):
 
 def forEachListUnfilterOperator( listArg, func ):
     return RPNGenerator( forEachListFilter( listArg, func, invert=True ) )
+
 
 #******************************************************************************
 #

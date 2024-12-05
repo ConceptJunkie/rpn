@@ -305,7 +305,9 @@ def getIndexOfMaxOperator( args ):
     for i in args:
         if i > maximum:
             maximum = i
-            result = index
+            result = [ index ]
+        elif i == maximum:
+            result.append( index )
 
         index += 1
 
@@ -322,13 +324,15 @@ def getIndexOfMaxOperator( args ):
 @argValidator( [ ListValidator( ) ] )
 def getIndexOfMinOperator( args ):
     minimum = inf
-    result = -1
+    result = [ ]
     index = 0
 
     for i in args:
         if i < minimum:
             minimum = i
-            result = index
+            result = [ index ]
+        elif i == minimum:
+            result.append( index )
 
         index += 1
 
@@ -1471,7 +1475,16 @@ def getListPowerSetOperator( n ):
 @argValidator( [ ListValidator( ), DefaultValidator( ) ] )
 def findInListOperator( target, k ):
     try:
-        result = target.index( k )
+        if isinstance( target, RPNGenerator ):
+            index = 0
+
+            for i in target:
+                if i == k:
+                    return index
+
+                index += 1
+        else:
+            result = target.index( k )
     except ValueError:
         return -1
 

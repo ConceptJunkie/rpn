@@ -7012,7 +7012,7 @@ Which of the first 80 fibonacci numbers is prime?
 [ 'filter_show_index', 'filter_by_index', 'lambda', 'unfilter', 'filter_integers' ] ],
 
     'filter_by_index' : [
-'functions', 'filters a list n using function k applied to the list indexes',
+'functions', 'filters a list n using function k applied to the list indices',
 '''
 The 'filter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 0 for each element.
@@ -7052,7 +7052,7 @@ What is the ratio of 4-digit numbers that have exactly two number 2s?
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'unfilter_ratio' ] ],
 
     'filter_show_index' : [
-'functions', 'filters a list n using function k but returns a list of indexes of matching elements',
+'functions', 'filters a list n using function k but returns a list of indices of matching elements',
 '''
 The 'filter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 0 for each element.
@@ -7266,7 +7266,7 @@ value.
 [ 'filter', 'unfilter_by_index', 'lambda', 'unfilter_show_index' ] ],
 
     'unfilter_by_index' : [
-'functions', 'filters a list n using the inverse of function k applied to the list indexes',
+'functions', 'filters a list n using the inverse of function k applied to the list indices',
 '''
 The 'unfilter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 1 for each element.
@@ -7292,7 +7292,7 @@ What is the ratio of the first 100,000 numbers that aren't prime?
 [ 'filter_by_index', 'lambda', 'unfilter', 'filter_integers', 'filter_ratio' ] ],
 
     'unfilter_show_index' : [
-'functions', 'filters a list n using the inverse of function k and returns the indexes of matching elements',
+'functions', 'filters a list n using the inverse of function k and returns the indices of matching elements',
 '''
 The 'unfilter' operator uses a one-argument user-defined function to filter out
 elements based on whether or not the function returns 1 for each element.
@@ -8212,7 +8212,7 @@ Find the longest palindrome chain in the numbers between 10000 and 11000.  Of
 course, it necessary by trial-and-error to discover how long the chains can
 become and how big the numbers get.
 ''' + makeCommandExample( '-a30 10000 11000 range 100 find_palindrome lambda 0 x 0 element x 1 element '
-                          '0 equal if for_each_list max_index 10000 +' ) + '''
+                          '0 equal if for_each_list max_index 0 element 10000 +' ) + '''
 ''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) + '''
 ''' + makeCommandExample( '-a20 89 25 find_palindrome' ),
 [ 'reversal_addition', 'is_kaprekar', 'reverse_digits' ] ],
@@ -9549,11 +9549,10 @@ This operator returns a list consisting of the leftmost k items of list n.
 [ 'right', 'slice', 'sublist', 'random_element' ] ],
 
     'max_index' : [
-'list_operators', 'returns the index of largest value in list n',
+'list_operators', 'returns the indices of largest value in list n',
 '''
-This operator returns the index of the item in the list with the largest value.
-If there are more than one item in the list with this largest value, then the
-operator returns the index of the first occurrence of that value.
+This operator returns the indices of the items in the list with the largest
+value.
 ''',
 '''
 ''' + makeCommandExample( '[ 8 10 9 3 4 2 5 1 7 6 ] max_index' ) + '''
@@ -9562,11 +9561,10 @@ operator returns the index of the first occurrence of that value.
 [ 'min_index', 'element' ] ],
 
     'min_index' : [
-'list_operators', 'returns the index of smallest value in list n',
+'list_operators', 'returns the indices of smallest value in list n',
 '''
-This operator returns the index of the item in the list with the smallest value.
-If there are more than one item in the list with this smallest value, then the
-operator returns the index of the first occurrence of that value.
+This operator returns the indices of the items in the list with the smallest
+value.
 ''',
 '''
 ''' + makeCommandExample( '[ 8 10 9 3 4 2 5 1 7 6 ] min_index' ) + '''
@@ -9592,7 +9590,7 @@ returns false (0).
 This operator is useful for applying an operator that returns a binary value
 on a list, and getting a summary of the results.
 
-Indices are zero-based.
+indices are zero-based.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] nonzero' ) + '''
@@ -9780,7 +9778,7 @@ list contains c items.
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
 '''
-Indices are zero-based, and the ending index is not included in the slice.
+indices are zero-based, and the ending index is not included in the slice.
 This functionality echoes the Python slicing semantics.  As in Python, a
 negative ending index represents counting backwards from the end of the list.
 
@@ -9859,7 +9857,7 @@ This operator returns a list of the unique elements in list n.
 This operator is useful for applying an operator that returns a binary value
 on a list, and getting a summary of the results.
 
-Indices are zero-based.
+indices are zero-based.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] zero' ) + '''

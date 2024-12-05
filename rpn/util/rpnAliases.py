@@ -432,6 +432,8 @@ OPERATOR_ALIASES = {
     'im'                            : 'imaginary',
     'index_of_max'                  : 'max_index',
     'index_of_min'                  : 'min_index',
+    'indices_of_max'                : 'max_index',
+    'indices_of_min'                : 'min_index',
     'indian'                        : 'to_indian_civil',
     'indian_civil'                  : 'to_indian_civil',
     'indian_civil_name'             : 'to_indian_civil_name',
