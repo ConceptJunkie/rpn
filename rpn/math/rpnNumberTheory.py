@@ -282,7 +282,7 @@ def getNthJacobsthalNumberOperator( n ):
 
 #******************************************************************************
 #
-#  getNthBaseKRepunitOperator
+#  getNthBaseKRepunit
 #
 #******************************************************************************
 
@@ -592,7 +592,7 @@ def makeContinuedFractionOperator( n, k ):
 
 #******************************************************************************
 #
-#  interpretAsFraction
+#  interpretAsFractionOperator
 #
 #******************************************************************************
 
@@ -947,7 +947,7 @@ def getGeometricRecurrenceOperator( recurrence, powers, seeds, count ):
 
 #******************************************************************************
 #
-#  makePythagoreanTriple
+#  makePythagoreanTripleOperator
 #
 #  Euclid's formula
 #
@@ -995,10 +995,9 @@ def generatePythagoreanTriplesOld( n ):
 
 
 def generatePythagoreanTriples( limit ):
-    # pylint: disable=invalid-name
-    u = np.mat( ' 1  2  2; -2 -1 -2; 2 2 3' )
-    a = np.mat( ' 1  2  2;  2  1  2; 2 2 3' )
-    d = np.mat( '-1 -2 -2;  2  1  2; 2 2 3' )
+    u = np.asmatrix( ' 1  2  2; -2 -1 -2; 2 2 3' )
+    a = np.asmatrix( ' 1  2  2;  2  1  2; 2 2 3' )
+    d = np.asmatrix( '-1 -2 -2;  2  1  2; 2 2 3' )
 
     uad = np.array( [ u, a, d ] )
 
@@ -1027,7 +1026,7 @@ def makePythagoreanTriplesOperator( n ):
 
 #******************************************************************************
 #
-#  makePythagoreanQuadruple
+#  makePythagoreanQuadrupleOperator
 #
 #  From https://en.wikipedia.org/wiki/Pythagorean_quadruple:
 #
@@ -1083,7 +1082,7 @@ def makePythagoreanQuadrupleOperator( a, b ):
 
 #******************************************************************************
 #
-#  makeEulerBrick
+#  makeEulerBrickOperator
 #
 #  http://mathworld.wolfram.com/EulerBrick.html
 #
@@ -1167,7 +1166,7 @@ def getExtendedGCD( a, b ):
 
 #******************************************************************************
 #
-#  getLCMOperator
+#  getLCMOfList
 #
 #******************************************************************************
 
@@ -1433,7 +1432,7 @@ def calculateChineseRemainderTheoremOperator( values, mods ):
 
 #******************************************************************************
 #
-#  getRadicalOperator
+#  getRadical
 #
 #******************************************************************************
 
@@ -1660,7 +1659,7 @@ def getNthMobiusNumberOperator( n ):
 
 #******************************************************************************
 #
-#  getNthMertenOperator
+#  getNthMerten
 #
 #  This recursive version is much, much faster when the cache is being used.
 #
@@ -1687,7 +1686,7 @@ def getNthMertenOperator( n ):
 
 #******************************************************************************
 #
-#  getEulerPhiOperator
+#  getEulerPhi
 #
 #******************************************************************************
 
@@ -1708,7 +1707,7 @@ def getEulerPhiOperator( n ):
 
 #******************************************************************************
 #
-#  getAbundanceOperator
+#  getAbundance
 #
 #******************************************************************************
 
@@ -1728,7 +1727,7 @@ def getAbundanceOperator( n ):
 
 #******************************************************************************
 #
-#  isAbundantOperator
+#  isAbundant
 #
 #******************************************************************************
 
@@ -1769,7 +1768,7 @@ def isAchillesNumberOperator( n ):
 
 #******************************************************************************
 #
-#  isDeficientOperator
+#  isDeficient
 #
 #******************************************************************************
 
@@ -1902,7 +1901,7 @@ def isPerfectOperator( n ):
 
 #******************************************************************************
 #
-#  isPerniciousOperator
+#  isPernicious
 #
 #******************************************************************************
 
@@ -1921,7 +1920,7 @@ def isPerniciousOperator( n ):
 
 #******************************************************************************
 #
-#  isPoliteOperator
+#  isPolite
 #
 #******************************************************************************
 
@@ -1940,7 +1939,7 @@ def isPolite( n ):
 
 #******************************************************************************
 #
-#  getPolitenessOperator
+#  getPoliteness
 #
 #******************************************************************************
 
@@ -2012,13 +2011,6 @@ def isPolydivisibleOperator( n ):
 
 @cachedFunction( 'rough' )
 def isRough( n, k ):
-    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
-
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ IntValidator( 1 ),
-                 IntValidator( 2, None, specials=[ ( isPrime, 'argument must be a prime number' ) ] ) ] )
-def isRoughOperator( n, k ):
     if k < 2:
         return 1
 
@@ -2034,6 +2026,13 @@ def isRoughOperator( n, k ):
     if n == k:
         return 1
 
+    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
+
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 1 ),
+                 IntValidator( 2, None, specials=[ ( isPrime, 'argument must be a prime number' ) ] ) ] )
+def isRoughOperator( n, k ):
     return isRough( n, k )
 
 
@@ -2045,6 +2044,9 @@ def isRoughOperator( n, k ):
 
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
+    if n <= k:
+        return 1
+
     return 1 if sorted( getFactorList( n ) )[ -1 ][ 0 ] <= k else 0
 
 
@@ -2052,9 +2054,6 @@ def isSmooth( n, k ):
 @argValidator( [ IntValidator( 1 ),
                  IntValidator( 2, None, specials=[ ( isPrime, 'argument must be a prime number' ) ] ) ] )
 def isSmoothOperator( n, k ):
-    if n <= k:
-        return 1
-
     return isSmooth( n, k )
 
 
@@ -2782,7 +2781,7 @@ def findNthSumOfCubesOperator( n ):
 
 #******************************************************************************
 #
-#  getDigitalRootOperator
+#  getDigitalRoot
 #
 #  https://en.wikipedia.org/wiki/Digital_root
 #
@@ -2819,6 +2818,9 @@ def getDigitalRootOperator( n ):
 #@cachedFunction( 'carmichael' )
 #@pysnooper.snoop( )
 def isCarmichaelNumber( n ):
+    if n < 2 or isDivisible( n, 2 ) or isPrime( n ):
+        return 0
+
     factorList = getFactorList( n )
 
     for i in factorList:
@@ -2835,9 +2837,6 @@ def isCarmichaelNumber( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isCarmichaelNumberOperator( n ):
-    if n < 2 or isDivisible( n, 2 ) or isPrime( n ):
-        return 0
-
     return isCarmichaelNumber( n )
 
 
@@ -2862,7 +2861,7 @@ def isRuthAaronNumberOperator( n ):
 
 #******************************************************************************
 #
-#  calculateAckermannFunctionOperator
+#  calculateAckermannFunction
 #
 #******************************************************************************
 
@@ -2914,7 +2913,7 @@ def calculateAckermannFunctionOperator( n, k ):
 
 #******************************************************************************
 #
-#  getHarmonicResidueOperator
+#  getHarmonicResidue
 #
 #******************************************************************************
 
@@ -2948,7 +2947,7 @@ def isHarmonicDivisorNumberOperator( n ):
 
 #******************************************************************************
 #
-#  isAntiharmonicOperator
+#  isAntiharmonic
 #
 #******************************************************************************
 
@@ -3020,7 +3019,7 @@ def getAlternatingHarmonicFractionOperator( n ):
 
 #******************************************************************************
 #
-#  areRelativelyPrimeOperator
+#  areRelativelyPrime
 #
 #******************************************************************************
 
@@ -3072,7 +3071,7 @@ def getNthKPolygorialOperator( n, k ):
 
 #******************************************************************************
 #
-#  getRandomPrimeOperator
+#  getRandomPrime
 #
 #******************************************************************************
 

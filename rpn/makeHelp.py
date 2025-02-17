@@ -8392,7 +8392,7 @@ operator, only digits 1 through k.
 '''
 ''' + makeCommandExample( '12345678 -b9' ) + '''
 ''' + makeCommandExample( '6053444 9 is_base_k_pandigital' ),
-[ 'is_base_k_pandigital_zero, is_pandigital', 'is_pandigital_zero' ] ],
+[ 'is_base_k_pandigital_zero', 'is_pandigital', 'is_pandigital_zero' ] ],
 
     'is_base_k_pandigital_zero' : [
 'lexicography', 'returns whether n a pandigital number in base k, including 0',
@@ -8402,7 +8402,7 @@ This boolean operator returns whether n is a pandigital number in base k.
 '''
 ''' + makeCommandExample( '123456780 -b9' ) + '''
 ''' + makeCommandExample( '54480996 9 is_base_k_pandigital' ),
-[ 'is_base_k_pandigital, is_pandigital', 'is_pandigital_zero' ] ],
+[ 'is_base_k_pandigital', 'is_pandigital', 'is_pandigital_zero' ] ],
 
     'is_base_k_smith_number' : [
 'lexicography', 'returns whether n is a Smith number in base k',

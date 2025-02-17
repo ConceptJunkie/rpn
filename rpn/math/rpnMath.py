@@ -15,13 +15,11 @@
 from functools import reduce
 
 from hyperop import hyperop
-from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
-                   asec, asech, asin, asinh, atan, atanh, autoprec, ceil, \
-                   conj, cos, cosh, cot, coth, csc, csch, e, exp, fabs, fadd, \
-                   fdiv, floor, fmod, fmul, fneg, fsub, hypot, im, isint, \
-                   lambertw, li, ln, log, log10, mpf, nint, phi, polyexp, \
-                   polylog, power, re, root, sec, sech, sign, sin, sinh, sqrt, \
-                   tan, tanh, unitroots
+from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg,  asec, asech, asin, \
+                   asinh, atan, atanh, autoprec, ceil, conj, cos, cosh, cot, coth, csc, csch, e, \
+                   exp, fabs, fadd, fdiv, floor, fmod, fmul, fneg, fsub, hypot, im, isint, \
+                   lambertw, li, ln, log, log10, mpf, nint, phi, polyexp, polylog, power, re, \
+                   root, sec, sech, sign, sin, sinh, sqrt, tan, tanh, unitroots
 
 from rpn.time.rpnDateTime import RPNDateTime
 from rpn.units.rpnMeasurementClass import RPNMeasurement
@@ -33,7 +31,7 @@ from rpn.util.rpnValidator import argValidator, AdditiveValidator, ComparableVal
 
 #******************************************************************************
 #
-#  addOperator
+#  add
 #
 #  We used to be able to call fadd directly, but now we want to be able to add
 #  units.  Adding units includes an implicit conversion if the units are not
@@ -72,7 +70,7 @@ def incrementOperator( n ):
 
 #******************************************************************************
 #
-#  subtractOperator
+#  subtract
 #
 #  We used to be able to call fsub directly, but now we want to be able to
 #  subtract units and do the appropriate conversions.
@@ -154,7 +152,7 @@ def getValueOperator( n ):
 
 #******************************************************************************
 #
-#  divideOperator
+#  divide
 #
 #  We used to be able to call fdiv directly, but now we want to also divide
 #  the units.  Doing so lets us do all kinds of great stuff because now we
@@ -181,7 +179,7 @@ def divideOperator( n, k ):
 
 #******************************************************************************
 #
-#  multiplyOperator
+#  multiply
 #
 #  We used to be able to call fmul directly, but now we want to also multiply
 #  the units.  This allows compound units and the conversion routines try to
@@ -207,7 +205,7 @@ def multiplyOperator( n, k ):
 
 #******************************************************************************
 #
-#  getPowerOperator
+#  getPower
 #
 #******************************************************************************
 
@@ -243,7 +241,7 @@ def cubeOperator( n ):
 
 #******************************************************************************
 #
-#  getRootOperator
+#  getRoot
 #
 #******************************************************************************
 
@@ -436,7 +434,7 @@ def tetrateRightOperator( i, j ):
 
 #******************************************************************************
 #
-#  isDivisibleOperator
+#  isDivisible
 #
 #  Is n divisible by k?
 #
@@ -458,7 +456,7 @@ def isDivisibleOperator( n, k ):
 
 #******************************************************************************
 #
-#  isSquareOperator
+#  isSquare
 #
 #  The "smarter" algorithm is slower... WHY?!
 #
@@ -694,7 +692,7 @@ def tanhOperator( n ):
 
 #******************************************************************************
 #
-#  isEqualOperator
+#  isEqual
 #
 #******************************************************************************
 
@@ -728,7 +726,7 @@ def isNotEqualOperator( n, k ):
 
 #******************************************************************************
 #
-#  isGreaterOperator
+#  isGreater
 #
 #******************************************************************************
 
@@ -747,7 +745,7 @@ def isGreaterOperator( n, k ):
 
 #******************************************************************************
 #
-#  isLessOperator
+#  isLess
 #
 #******************************************************************************
 
@@ -796,7 +794,7 @@ def isNotLessOperator( n, k ):
 
 #******************************************************************************
 #
-#  isIntegerOperator
+#  isInteger
 #
 #******************************************************************************
 
@@ -812,7 +810,7 @@ def isIntegerOperator( n ):
 
 #******************************************************************************
 #
-#  roundOffOperator
+#  roundOff
 #
 #******************************************************************************
 
@@ -831,7 +829,7 @@ def roundOffOperator( n ):
 
 #******************************************************************************
 #
-#  roundByValueOperator
+#  roundByValue
 #
 #******************************************************************************
 
@@ -850,7 +848,7 @@ def roundByValueOperator( n, value ):
 
 #******************************************************************************
 #
-#  roundByDigitsOperator
+#  roundByDigits
 #
 #******************************************************************************
 
@@ -899,7 +897,7 @@ def getSmallerOperator( n, k ):
 
 #******************************************************************************
 #
-#  getFloorOperator
+#  getFloor
 #
 #******************************************************************************
 
@@ -918,7 +916,7 @@ def getFloorOperator( n ):
 
 #******************************************************************************
 #
-#  getCeilingOperator
+#  getCeiling
 #
 #******************************************************************************
 
@@ -967,7 +965,7 @@ def getMinimumOperator( n ):
 
 #******************************************************************************
 #
-#  isEvenOperator
+#  isEven
 #
 #******************************************************************************
 
@@ -983,7 +981,7 @@ def isEvenOperator( n ):
 
 #******************************************************************************
 #
-#  isOddOperator
+#  isOdd
 #
 #******************************************************************************
 
@@ -1355,7 +1353,7 @@ def calculateNthRightHyperoperatorOperator( a, b, c ):
 
 #******************************************************************************
 #
-#  getPowModOperator
+#  getPowMod
 #
 #******************************************************************************
 
@@ -1389,5 +1387,3 @@ def getPowModOperator( a, b, c ):
 @argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )
 def getPowModOperatorNew( a, b, c ):
     return getPowMod( a, b, c )
-
-

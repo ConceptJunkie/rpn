@@ -32,7 +32,7 @@ from rpn.units.rpnUnitClasses import RPNConstantInfo
 constantOperators = {
     # physical constants
     'avogadro_number' :
-        RPNConstantInfo( '6.022140756e23', '',
+        RPNConstantInfo( '6.02214076e23', '',
                          [ 'avogadro', 'avogadros_number', 'N_sub_A' ], False,
                          'Avogadro\'s number, the number of atoms in a mole',
                          '''

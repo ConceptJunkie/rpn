@@ -3230,12 +3230,12 @@ def runListOperatorTests( ):
     expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
     # max_index
-    expectEqual( '1 10 range max_index', '[ 9 ]' )
-    expectEqual( '[ 1 1 2 3 4 5 6 5 6 ] max_index', '[ 6 8 ]' )
+    expectResult( '1 10 range max_index', [ 9 ] )
+    expectResult( '[ 1 1 2 3 4 5 6 5 6 ] max_index', [ 6, 8 ] )
 
     # min_index
-    expectEqual( '1 10 range min_index', '[ 0 ]' )
-    expectEqual( '[ 1 1 2 3 4 5 6 5 6 1 ] min_index', '[ 0 1 9 ]' )
+    expectResult( '1 10 range min_index', [ 0 ] )
+    expectResult( '[ 1 1 2 3 4 5 6 5 6 1 ] min_index', [ 0, 1, 9 ] )
 
     # nand_all
     testOperator( '[ 1 0 1 1 1 1 0 1 ] nand_all' )
@@ -3455,6 +3455,9 @@ def runNumberTheoryOperatorTests( ):
     # abundance
     expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )
 
+    if g.slowTests:
+        expectEqual( '0 500000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 4 left' )
+
     # abundance_ratio
     expectResult( '6 abundance_ratio', 2 )
     expectResult( '28 abundance_ratio', 2 )
@@ -3467,6 +3470,13 @@ def runNumberTheoryOperatorTests( ):
 
     # aliquot
     testOperator( '276 10 aliquot' )
+
+    expectEqual( '1 500 range 2 aliquot lambda x 1 element for_each_list',
+                 '1065 oeis 500 left' )
+
+    if g.slowTests:
+        expectEqual( '1 10000 range 2 aliquot lambda x 1 element for_each_list',
+                     '1065 oeis 10000 left' )
 
     # alternating_factorial
     testOperator( '13 alternating_factorial' )
@@ -3684,6 +3694,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '2 6 range lambda x generate_polydivisibles count eval', '271374 oeis 5 left' )
 
     if g.slowTests:
+        expectEqual( '-a100 2 15 range lambda x generate_polydivisibles count eval', '271374 oeis 14 left' )
         expectEqual( '-a25 10 generate_polydivisibles', '144688 oeis' )
         expectEqual( '-a30 7 12 range lambda x generate_polydivisibles count eval', '271374 oeis 11 left 6 right' )
 
@@ -3701,7 +3712,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 1000 range lambda x harmonic x harmonic exp x harmonic log * + floor x sigma - eval',
                      '57641 oeis 1000 left' )
 
-    # harmonic fraction
+    # harmonic_fraction
     expectEqual( '-a100 1 100 range harmonic_fraction lambda x 0 element for_each_list', '1008 oeis 100 left' )
     expectEqual( '-a100 1 100 range harmonic_fraction lambda x 1 element for_each_list', '2805 oeis 100 left' )
 
@@ -5659,12 +5670,12 @@ def main( ):
         elif arg == '-f':
             filterArg = True
         elif arg == '-s':
-            g.slowMode = True
+            g.slowTests = True
         elif arg == '-t':
             g.timeIndividualTests = True
         elif arg == '-y':
             g.testWithYafu = True
-        elif arg == '-?':
+        elif arg == '-?' or arg == '-h':
             printHelpText( )
             return
         elif arg not in ( '-s', '-t', '-y', '-D' ):
