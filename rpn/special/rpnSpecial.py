@@ -33,27 +33,27 @@ from rpn.math.rpnCombinatorics import \
 from rpn.math.rpnFactor import getFactors
 
 from rpn.math.rpnLexicographic import getErdosPersistence, getPersistence, \
-                                 hasUniqueDigits, isAutomorphic, isBaseKSmithNumber, \
-                                 isDecreasing, isBouncy, isIncreasing, isKaprekarNumber, isKMorphic, \
-                                 isNarcissistic, isOrderKSmithNumber, isPandigital, isPerfectDigitalInvariant, \
-                                 isPerfectDigitToDigitInvariant, isSmithNumber, isStepNumber, isTrimorphic, \
-                                 multiplyDigits, multiplyNonzeroDigits, sumDigits
+    hasUniqueDigits, isAutomorphic, isBaseKSmithNumber, \
+    isDecreasing, isBouncy, isIncreasing, isKaprekarNumber, isKMorphic, \
+    isNarcissistic, isOrderKSmithNumber, isPandigital, isPerfectDigitalInvariant, \
+    isPerfectDigitToDigitInvariant, isSmithNumber, isStepNumber, isTrimorphic, \
+    multiplyDigits, multiplyNonzeroDigits, sumDigits
 
 from rpn.math.rpnMath import isEven, isInteger, isKthPower, isOdd
 
 from rpn.math.rpnNumberTheory import \
     getDigitalRoot, getDivisorCount, getNthDoubleFactorial, getEulerPhi, \
-                                getNthMobiusNumber, getNthAlternatingFactorial, getNthBaseKRepunit, \
-                                getNthCalkinWilf, getNthCarolNumber, getNthFactorial, getNthFibonorial, \
-                                getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
-                                getNthKyneaNumber, getNthLeonardoNumber, getNthLucasNumber, \
-                                getNthMersenneExponent, getNthMersennePrime, getNthPadovanNumber, \
-                                getNthPerfectNumber, getNthSubfactorial, getNthSternNumber, \
-                                getNthSuperfactorial, getNthThabitNumber, getRadical, getSigma, \
-                                isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumber, \
-                                isDeficient, isKHyperperfect, isPernicious, isPolydivisible, isPowerful, \
-                                isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
-                                isSquareFree, isUnusual
+    getNthMobiusNumber, getNthAlternatingFactorial, getNthBaseKRepunit, \
+    getNthCalkinWilf, getNthCarolNumber, getNthFactorial, getNthFibonorial, \
+    getNthHyperfactorial, getNthJacobsthalNumber, getNthKFibonacciNumber, \
+    getNthKyneaNumber, getNthLeonardoNumber, getNthLucasNumber, \
+    getNthMersenneExponent, getNthMersennePrime, getNthPadovanNumber, \
+    getNthPerfectNumber, getNthSubfactorial, getNthSternNumber, \
+    getNthSuperfactorial, getNthThabitNumber, getRadical, getSigma, \
+    isAbundant, isAchillesNumber, isAntiharmonic, isCarmichaelNumber, \
+    isDeficient, isKHyperperfect, isPernicious, isPolydivisible, isPowerful, \
+    isPronic, isRough, isRuthAaronNumber, isSemiprime, isSmooth, isSphenic, \
+    isSquareFree, isUnusual
 
 from rpn.math.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber

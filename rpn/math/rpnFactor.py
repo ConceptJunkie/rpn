@@ -145,11 +145,11 @@ def factorByTrialDivision( n ):
 @oneArgFunctionEvaluator( )
 def runYAFU( n ):
     fullOut = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
-                                g.userConfiguration[ 'yafu_binary' ], '-xover', '120' ],
+                                g.userConfiguration[ 'yafu_binary' ], '-R', '-xover', '120' ],
                               input='factor(' + str( int( n ) ) + ')\n', encoding='ascii', stdout=subprocess.PIPE,
                               cwd=g.userConfiguration[ 'yafu_path' ], check=True ).stdout
 
-    #print( 'out', fullOut )
+    debugPrint( 'yafu output: ', fullOut )
 
     out = fullOut[ fullOut.find( '***factors found***' ) : ]
 

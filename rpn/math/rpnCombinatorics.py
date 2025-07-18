@@ -26,6 +26,8 @@ from rpn.util.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEva
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
+from flint import *
+
 
 #******************************************************************************
 #
@@ -530,6 +532,23 @@ def getPartitionNumber( n ):
 
     return total
 
+def getPartitionNumber( n ):
+    '''
+    Fredrick Johannson's version of the partition number, which is infinitely
+    better than anything I could come up with. It uses the FLINT library to
+    calculate the partition number for any integer n, and since it's not
+    recursive, I'm not bothering to cache it anymore.
+    '''
+    debugPrint( 'partition', int( n ) )
+
+    if n in ( 0, 1 ):
+        return 1
+
+    total = mpmathify( int ( fmpz( int ( n ) ).partitions_p( ) ) )
+
+    return total
+
+
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
@@ -564,86 +583,6 @@ def oldGetPartitionNumber( n ):
     #    raise ValueError( "It's broke." )
 
     return result
-
-
-#******************************************************************************
-#
-#  createIntegerPartitions
-#
-#  https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
-#
-#  http://jeromekelleher.net/generating-integer-partitions.html provides a
-#  similar version of this algorithm.
-#
-#******************************************************************************
-
-def createIntegerPartitions( n ):
-    """Generate partitions of n as ordered lists in ascending
-    lexicographical order.
-
-    This highly efficient routine is based on the delightful
-    work of Kelleher and O'Sullivan.
-
-    Examples
-    ========
-
-    >>> for i in aP(6): i
-    ...
-    [1, 1, 1, 1, 1, 1]
-    [1, 1, 1, 1, 2]
-    [1, 1, 1, 3]
-    [1, 1, 2, 2]
-    [1, 1, 4]
-    [1, 2, 3]
-    [1, 5]
-    [2, 2, 2]
-    [2, 4]
-    [3, 3]
-    [6]
-
-    >>> for i in aP(0): i
-    ...
-    []
-
-    References
-    ==========
-
-    .. [1] Generating Integer Partitions, [online],
-        Available: http://jeromekelleher.net/generating-integer-partitions.html
-    .. [2] Jerome Kelleher and Barry O'Sullivan, "Generating All
-        Partitions: A Comparison Of Two Encodings", [online],
-        Available: http://arxiv.org/pdf/0909.2331v2.pdf
-
-    """
-    # The list `a`'s leading elements contain the partition in which
-    # y is the biggest element and x is either the same as y or the
-    # 2nd largest element; v and w are adjacent element indices
-    # to which x and y are being assigned, respectively.
-    a = [ 1 ] * n
-    y = -1
-    v = n
-
-    while v > 0:
-        v -= 1
-        x = a[ v ] + 1
-
-        while y >= 2 * x:
-            a[ v ] = x
-            y -= x
-            v += 1
-
-        w = v + 1
-
-        while x <= y:
-            a[ v ] = x
-            a[ w ] = y
-            yield a[ : w + 1 ]
-            x += 1
-            y -= 1
-
-        a[ v ] = x + y
-        y = a[ v ] - 1
-        yield a[ : w ]
 
 
 #******************************************************************************

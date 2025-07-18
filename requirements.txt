@@ -11,6 +11,7 @@ mpmath>=1.3.0
 numpy>=1.26.4
 pendulum>=3.0.0
 pyreadline3>=3.4.1
+python-flint>=0.7.1
 rpnChiladaData>=1.1.0
 setuptools>=69.2.0
 skyfield>=1.48
