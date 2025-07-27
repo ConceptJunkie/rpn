@@ -20,6 +20,7 @@ import sys
 import types
 
 from collections.abc import Iterable
+from concurrent.futures import ProcessPoolExecutor
 from joblib import delayed, Parallel
 
 from functools import lru_cache, reduce
@@ -341,6 +342,9 @@ def oneArgFunctionEvaluator( ):
         @functools.wraps( func )
         def evaluateOneArg( arg ):
             if isinstance( arg, list ):
+                #print( 'ProcessPoolExecutor' )
+                #with ProcessPoolExecutor( max_workers = 4 ) as executor:
+                #    result = list( executor.map( evaluateOneArg, arg ) )
                 result = [ evaluateOneArg( i ) for i in arg ]
             elif isinstance( arg, RPNGenerator ):
                 result = RPNGenerator.createChained( arg.getGenerator( ), func )

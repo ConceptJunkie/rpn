@@ -223,8 +223,7 @@ def parseInputValue( term, inputRadix = 10 ):
         if inputRadix == 10:
             newPrecision = len( term ) + 1
 
-            if mp.dps < newPrecision:
-                setAccuracy( newPrecision )
+            setAccuracy( newPrecision )
 
             if imaginary:
                 return mpc( imag = term )
@@ -258,8 +257,7 @@ def parseInputValue( term, inputRadix = 10 ):
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( ( math.log10( 16 ) * ( len( integer ) - 2 ) ) ) + 1
 
-                if mp.dps < newPrecision:
-                    setAccuracy( newPrecision )
+                setAccuracy( newPrecision )
 
                 return mpmathify( int( integer[ 2 : ], 16 ) )
 
@@ -267,8 +265,7 @@ def parseInputValue( term, inputRadix = 10 ):
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
 
-                if mp.dps < newPrecision:
-                    setAccuracy( newPrecision )
+                setAccuracy( newPrecision )
 
                 integer = integer[ : -1 ]
                 return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
@@ -280,8 +277,7 @@ def parseInputValue( term, inputRadix = 10 ):
             # set the precision big enough to handle this value
             newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
 
-            if mp.dps < newPrecision:
-                setAccuracy( newPrecision )
+            setAccuracy( newPrecision )
 
             integer = integer[ : -1 ]
             return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
@@ -289,8 +285,7 @@ def parseInputValue( term, inputRadix = 10 ):
         if inputRadix == 10:
             newPrecision = len( integer ) + 1
 
-            if mp.dps < newPrecision:
-                setAccuracy( newPrecision )
+            setAccuracy( newPrecision )
 
             result = fneg( integer ) if negative else mpmathify( integer )
 

@@ -19,6 +19,7 @@ from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub,
                    fsum, im, libmp, mp, mpc, polyroots, polyval, power, root, sin, sqrt
 
 from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnSettings import setAccuracy, setPrecision
 from rpn.util.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
@@ -288,7 +289,7 @@ def solveCubicPolynomial( a, b, c, d ):
     This function applies the cubic formula to solve a polynomial
     with coefficients of a, b, c and d.
     '''
-    mp.dps = max( 50, mp.dps )
+    setAccuracy( 50 )
 
     if a == 0:
         return solveQuadraticPolynomial( b, c, d )
@@ -370,7 +371,7 @@ def solveQuarticPolynomialOperator( _a, _b, _c, _d, _e ):
     This function applies the quartic formula to solve a polynomial
     with coefficients of a, b, c, d, and e.
     '''
-    mp.dps = max( 50, mp.dps )
+    setAccuracy( 50 )
 
     # maybe it's really an order-3 polynomial
     if _a == 0:

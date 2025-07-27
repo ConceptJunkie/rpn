@@ -22,8 +22,9 @@ from mpmath import arange, fabs, fadd, ceil, floor, fmod, fmul, fneg, fprod, fsu
 
 from rpn.math.rpnBase import convertToBaseN, getBaseKDigits
 from rpn.math.rpnFactor import getFactors
-from rpn.math.rpnMath import isDivisible, getPowMod
+from rpn.math.rpnMath import isDivisible
 from rpn.math.rpnPrimeUtils import isPrime
+from rpn.math.rpnSimpleMath import getPowMod
 
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedFunction
@@ -718,8 +719,7 @@ def isBaseKNarcissisticOperator( n, k ):
 @cachedFunction( 'generalized_dudeney' )
 def isGeneralizedDudeneyNumber( base, exponent ):
     '''http://www.jakob.at/steffen/dudeney.html'''
-    precision = fadd( fmul( base, exponent ), 2 )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fadd( fmul( base, exponent ), 2 ) )
 
     n = power( base, exponent )
     return 1 if sumDigits( n ) == base else 0
@@ -852,8 +852,8 @@ def buildNumbersOperator( expression ):
 #******************************************************************************
 
 def buildLimitedDigitNumbers( digits, minLength, maxLength ):
-    if minLength < 1:
-        raise ValueError( 'minimum length must be greater than 0' )
+    if minLength < 0:
+        raise ValueError( 'minimum length must be non-negative' )
 
     if maxLength < minLength:
         raise ValueError( 'maximum length must be greater than or equal to minimum length' )

@@ -16,6 +16,8 @@ import itertools
 
 from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, mpmathify, power
 
+from concurrent.futures import ProcessPoolExecutor, as_completed
+
 
 #******************************************************************************
 #
@@ -204,6 +206,21 @@ def evaluateNestedArgs( func, i ):
 def chainedGenerator( generator, func ):
     for i in generator:
         yield evaluateNestedArgs( func, i )
+    #print( 'chainedGenerator', generator, func )
+    #
+    #with ProcessPoolExecutor( max_workers = 4 ) as executor:
+    #    # Submit tasks with their index
+    #    futures = { executor.submit( func, item ): idx for idx, item in enumerate( generator ) }
+    #
+    #    # Collect results in order
+    #    results = [ None ] * len( futures )
+    #
+    #    for future in as_completed( futures ):
+    #        index = futures[ future ]
+    #        results[ index ] = future.result( )
+    #
+    #    for result in results:
+    #        yield result
 
 
 #******************************************************************************

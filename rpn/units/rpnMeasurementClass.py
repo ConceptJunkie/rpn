@@ -15,10 +15,15 @@
 from mpmath import chop, extradps, fadd, fdiv, floor, fmod, fmul, frac, fsub, log10, \
                    mpf, mpmathify, power, root
 
+from rpn.math.rpnSimpleMath import roundNumberByDigits
+
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnPersistence import loadUnitConversionMatrix, loadUnitData
+from rpn.util.rpnSettings import getAccuracy
+
 from rpn.units.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.units.rpnUnitTypes import basicUnitTypes
+
 from rpn.util.rpnUtils import getPowerSet
 
 import rpn.util.rpnGlobals as g
@@ -149,9 +154,29 @@ class RPNMeasurement( ):
 
     def __eq__( self, other ):
         if isinstance( other, RPNMeasurement ):
+            if fmod( self.value, 1 ) == 0:
+                self_value = self.value
+            else:
+                self_value = roundNumberByDigits( self.value, -getAccuracy( ) )
+
+            if fmod( other.value, 1 ) == 0:
+                other_value = other.value
+            else:
+                other_value = roundNumberByDigits( other.value, -getAccuracy( ) )
+
             result = mpf.__eq__( self.value, other.value )
         else:
-            result = mpf.__eq__( self.value, other )
+            if fmod( self.value, 1 ) == 0:
+                self_value = self.value
+            else:
+                self_value = roundNumberByDigits( self.value, -getAccuracy( ) )
+
+            if fmod( other, 1 ) == 0:
+                other_value = other
+            else:
+                other_value = roundNumberByDigits( other, -getAccuracy( ) )
+
+        result = mpf.__eq__( self_value, other_value )
 
         if not result:
             return result
@@ -613,14 +638,40 @@ class RPNMeasurement( ):
 
     def isLarger( self, other ):
         newValue = self.convertValue( other.units )
-        return newValue > other.value
+
+        if fmod( newValue, 1 ) == 0:
+            value1 = newValue
+        else:
+            value1 = roundNumberByDigits( newValue, -getAccuracy( ) )
+
+        if fmod( other.value, 1 ) == 0:
+            value2 = other.value
+        else:
+            value2 = roundNumberByDigits( other.value, -getAccuracy( ) ) 
+
+        print( 'isLarger:', value1, value2, 'accuracy:', getAccuracy( ) )
+
+        return value1 > value2
 
     def isNotLarger( self, other ):
         return not self.isLarger( other )
 
     def isSmaller( self, other ):
         newValue = self.convertValue( other.units )
-        return newValue < other.value
+
+        if fmod( newValue, 1 ) == 0:
+            value1 = newValue
+        else:
+            value1 = roundNumberByDigits( newValue, -getAccuracy( ) )
+
+        if fmod( other.value, 1 ) == 0:
+            value2 = other.value
+        else:
+            value2 = roundNumberByDigits( other.value, -getAccuracy( ) )
+
+        print( 'isSmaller:', value1, value2, 'accuracy:', getAccuracy( ) )
+
+        return value1 < value2
 
     def isNotSmaller( self, other ):
         return not self.isSmaller( other )

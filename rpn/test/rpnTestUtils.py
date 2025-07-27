@@ -15,12 +15,18 @@
 import shlex
 import time
 
-from mpmath import almosteq, fsub, isinf, mpf, mpmathify, log10, mp, nan, workdps
+from mpmath import almosteq, fmod, fsub, im, isinf, mpf, mpmathify, log10, mpc, \
+                   nan, re, workdps
 
 from rpn.rpn import rpn, handleOutput
 
+from rpn.math.rpnSimpleMath import roundNumberByDigits, roundImaginaryByDigits
+
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+
+from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnSettings import getAccuracy, setAccuracy
 
 import rpn.util.rpnGlobals as g
 
@@ -66,7 +72,7 @@ def compareLists( result1, result2 ):
             if not compareValues( result, result2[ i ] ):
                 digits = max( log10( result ), log10( result2[ i ] ) ) + 5
 
-                mp.dps = digits
+                setAccuracy( digits )
 
                 print( '**** error in results comparison' )
                 print( type( result ), type( result2[ i ] ) )
@@ -99,29 +105,20 @@ def compareResults( result1, result2 ):
 
     if isinstance( result1, list ) != isinstance( result2, list ):
         print( '**** error in results comparison' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
         raise ValueError( 'one result is a list, the other isn\'t' )
 
     if isinstance( result1, str ) != isinstance( result2, str ):
         print( '**** error in results comparison' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
         raise ValueError( 'one result is a string, the other isn\'t' )
 
     if isinstance( result1, str ) and isinstance( result2, str ):
         if result1 != result2:
             print( '**** error in results comparison' )
-            print( type( result1 ), type( result2 ) )
-            print( result1, result2, 'are not equal' )
             raise ValueError( 'unit test failed' )
 
         return True
 
     if isinstance( result1, RPNMeasurement ) and isinstance( result2, RPNMeasurement ):
-        #print( result1.value, result1.units )
-        #print( result2.value, result2.units )
-
         if result1 != result2:
             print( '**** error in results comparison' )
             print( type( result1 ), type( result2 ) )
@@ -156,6 +153,9 @@ def compareValues( result1, result2 ):
     if isinstance( result1, RPNMeasurement ) != isinstance( result2, RPNMeasurement ):
         return False
 
+    # if precision isn't explicitly set, use the accuracy
+    precision = getAccuracy( ) if g.outputPrecision < 0 else g.outputPrecision
+
     if isinstance( result1, RPNMeasurement ):
         return result1.__eq__( result2 )
     else:
@@ -169,7 +169,23 @@ def compareValues( result1, result2 ):
 
                 raise ValueError( 'unit test failed' )
 
-        return almosteq( result1, result2 )
+        if im( result1 ) == 0:
+            if fmod( re( result1 ), 1 ) == 0:
+                test1 = re( result1 )
+            else:
+                test1 = roundNumberByDigits( result1, -precision )
+        else:
+            test1 = roundImaginaryByDigits( result1, -precision )
+
+        if im( result2 ) == 0:
+            if fmod( re( result2 ), 1 ) == 0:
+                test2 = re( result2 )
+            else:
+                test2 = roundNumberByDigits( result2, -precision )
+        else:
+            test2 = roundImaginaryByDigits( result2, -precision )
+
+        return almosteq( test1, test2 )
 
 
 #******************************************************************************
@@ -185,8 +201,14 @@ def expectException( command ):
 
     print( 'rpn', command )
 
-    result = rpn( shlex.split( command + ' -I' ) )
+    try:
+        result = rpn( shlex.split( command + ' -I' ) )
+    except Exception as e:
+        print( 'exception test passed!' )
+        print( '' )
+        return True
 
+    # If the result is nan, it means rpn handled the exception.
     if result == [ nan ]:
         print( 'exception test passed!' )
         print( '' )
@@ -217,10 +239,14 @@ def expectEqual( command1, command2 ):
     # precision gets reset.
     result1 = rpn( shlex.split( command1 + ' -I' ) )[ 0 ]
 
+    debugPrint( 'command1: ', shlex.split( command1 + ' -I' ) )
+
     if isinstance( result1, RPNGenerator ):
         result1 = list( result1.getGenerator( ) )
 
     result2 = rpn( shlex.split( command2 + ' -I' ) )[ 0 ]
+
+    debugPrint( 'command2: ', shlex.split( command2 + ' -I' ) )
 
     if isinstance( result2, RPNGenerator ):
         result2 = list( result2.getGenerator( ) )

@@ -39,7 +39,7 @@ from rpn.math.rpnLexicographic import getErdosPersistence, getPersistence, \
     isPerfectDigitToDigitInvariant, isSmithNumber, isStepNumber, isTrimorphic, \
     multiplyDigits, multiplyNonzeroDigits, sumDigits
 
-from rpn.math.rpnMath import isEven, isInteger, isKthPower, isOdd
+from rpn.math.rpnMath import isInteger
 
 from rpn.math.rpnNumberTheory import \
     getDigitalRoot, getDivisorCount, getNthDoubleFactorial, getEulerPhi, \
@@ -60,11 +60,14 @@ from rpn.math.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumbe
 
 from rpn.math.rpnPrimeUtils import getPrimes, isPrime
 
+from rpn.math.rpnSimpleMath import isEven, isKthPower, isOdd
+
 from rpn.special.rpnName import getNumberName, getShortOrdinalName
 
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedOEISFunction
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, DefaultValidator, IntValidator
 
@@ -197,7 +200,10 @@ def downloadOEISSequence( aNumber ):
         result = ''.join( result.split( ',' ) )
         return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
 
-    # return [ mpmathify( i ) for i in result.split( ',' ) ]
+    value_list = [ int( i ) for i in result.split( ',' ) ]
+
+    setAccuracy( max( len( i ) for i in value_list ) + 1 )
+
     return [ int( i ) for i in result.split( ',' ) ]
 
 
@@ -345,6 +351,8 @@ def findPolynomialOperator( n, k ):
     Calls the mpmath findpoly function to try to identify a polynomial of
     degree <= k for which n is a zero.
     '''
+    setAccuracy( 53 )
+
     poly = findpoly( n, int( k ) )
 
     if poly is None:

@@ -17,6 +17,7 @@ from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmul, fsub, log, mp, nint
 from rpn.math.rpnNumberTheory import getNthLucasNumber
 from rpn.math.rpnPolytope import getNthPolygonalNumber
 from rpn.math.rpnPrimeUtils import getNthPrimorial
+from rpn.util.rpnSettings import getAccuracy
 
 import rpn.util.rpnGlobals as g
 
@@ -143,8 +144,8 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
 #******************************************************************************
 
 def convertToNonintegerBase( num, base ):
-    epsilon = power( 10, -( mp.dps - 3 ) )
-    minPlace = -( floor( mp.dps / log( base ) ) )
+    epsilon = power( 10, -( getAccuracy( ) - 3 ) )
+    minPlace = -( floor( getAccuracy( ) / log( base ) ) )
 
     output = ''
     integer = ''
@@ -166,9 +167,9 @@ def convertToNonintegerBase( num, base ):
 
         value = fdiv( remaining, placeValue )
 
-        value = fmul( value, power( 10, mp.dps - 3 ) )
+        value = fmul( value, power( 10, getAccuracy( ) - 3 ) )
         value = nint( value )
-        value = fdiv( value, power( 10, mp.dps - 3 ) )
+        value = fdiv( value, power( 10, getAccuracy( ) - 3 ) )
 
         value = floor( value )
         remaining = chop( fsub( remaining, fmul( placeValue, value ) ) )
@@ -194,7 +195,7 @@ def convertToNonintegerBase( num, base ):
 #******************************************************************************
 
 def convertToPhiBase( num ):
-    epsilon = power( 10, -( mp.dps - 3 ) )
+    epsilon = power( 10, -( getAccuracy( ) - 3 ) )
 
     output = ''
     integer = ''

@@ -21,13 +21,18 @@ import types
 from mpmath import e, floor, frac, im, mp, mpf, mpmathify, nstr, phi, pi, re, sqrt
 
 from rpn.math.rpnBase import convertFractionToBaseN, convertToBaseN
-from rpn.time.rpnDateTime import RPNDateTime
-from rpn.util.rpnGenerator import RPNGenerator
-from rpn.units.rpnMeasurementClass import RPNMeasurement
-from rpn.util.rpnPersistence import loadHelpData, loadUnitData
 from rpn.math.rpnSpecialBase import convertToFibBase, convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
+
+from rpn.time.rpnDateTime import RPNDateTime
+
+from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.units.rpnUnitTypes import basicUnitTypes
+
+from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnPersistence import loadHelpData, loadUnitData
+from rpn.util.rpnSettings import getAccuracy
 from rpn.util.rpnUtils import addAliases
+
 from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
                            RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpn.time.rpnDateTime import formatDateTime
@@ -46,6 +51,9 @@ import rpn.util.rpnGlobals as g
 def formatNumber( number, outputRadix, leadingZero, integerGrouping, integerDelimiter, decimalDelimiter ):
     negative = number < 0
 
+    # if precision isn't explicitly set, use the accuracy
+    precision = getAccuracy( ) if g.outputPrecision < 0 else g.outputPrecision
+
     if outputRadix == g.fibBase:
         strInteger = convertToFibBase( floor( number ) )
         strMantissa = ''
@@ -63,11 +71,11 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping, integerDeli
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
         strInteger = str( convertToBaseN( floor( number ), outputRadix, False, g.numerals ) )
         strMantissa = str( convertFractionToBaseN( frac( number ), outputRadix,
-                                                   int( mp.dps / math.log10( outputRadix ) ), False ) )
+                                                   int( precision / math.log10( outputRadix ) ), False ) )
         if strMantissa == '[]':
             strMantissa = ''
     else:
-        strNumber = nstr( number, n=g.outputAccuracy, min_fixed=-g.maximumFixed - 1 )
+        strNumber = nstr( number, n=precision, min_fixed=-g.maximumFixed - 1 )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )

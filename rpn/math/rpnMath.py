@@ -2,7 +2,7 @@
 
 #******************************************************************************
 #
-# mathpy
+#  rpnMath.py
 #
 #  rpnChilada mathematical operators
 #  copyright (c) 2025, Rick Gutleber (rickg@his.com)
@@ -15,14 +15,19 @@
 from functools import reduce
 
 from hyperop import hyperop
+
 from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg,  asec, asech, asin, \
                    asinh, atan, atanh, autoprec, ceil, conj, cos, cosh, cot, coth, csc, csch, e, \
                    exp, fabs, fadd, fdiv, floor, fmod, fmul, fneg, fsub, hypot, im, isint, \
                    lambertw, li, ln, log, log10, mpf, nint, phi, polyexp, polylog, power, re, \
                    root, sec, sech, sign, sin, sinh, sqrt, tan, tanh, unitroots
 
+from rpn.math.rpnSimpleMath import isDivisible, isEven, isKthPower, isOdd, isSquare, roundNumberByValue
+
 from rpn.time.rpnDateTime import RPNDateTime
+
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, listArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, AdditiveValidator, ComparableValidator, IntValidator, \
@@ -275,65 +280,6 @@ def getCubeRootOperator( n ):
 
 #******************************************************************************
 #
-#  getSquareSuperRootOperator
-#
-#******************************************************************************
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ) ] )
-def getSquareSuperRootOperator( n ):
-    '''Returns the positive, real square super root of n.'''
-    return power( e, lambertw( log( n ) ) )
-
-
-#******************************************************************************
-#
-#  getCubeSuperRootOperator
-#
-#******************************************************************************
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ) ] )
-def getCubeSuperRootOperator( n ):
-    '''Returns the positive, real cube super root of n.'''
-    value = fmul( 2, log( n ) )
-    return sqrt( fdiv( value, lambertw( value ) ) )
-
-
-#******************************************************************************
-#
-#  getSuperRootOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
-def getSuperRootOperator( n, k ):
-    '''Returns the positive, real kth super root of n.'''
-    k = fsub( k, 1 )
-    value = fmul( k, log( n ) )
-    return root( fdiv( value, lambertw( value ) ), k )
-
-
-#******************************************************************************
-#
-#  getSuperRootsOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
-def getSuperRootsOperator( n, k ):
-    '''Returns all the super-roots of n, not just the nice, positive, real one.'''
-    k = fsub( k, 1 )
-    factors = [ fmul( i, root( k, k ) ) for i in unitroots( int( k ) ) ]
-    base = root( fdiv( log( n ), lambertw( fmul( k, log( n ) ) ) ), k )
-
-    return [ fmul( i, base ) for i in factors ]
-
-
-#******************************************************************************
-#
 #  getReciprocalOperator
 #
 #  We used to be able to call fdiv directly, but now we want to handle
@@ -384,151 +330,6 @@ def getNearestIntOperator( n ):
         return RPNMeasurement( nint( n.value ), n.units )
 
     return nint( n )
-
-
-#******************************************************************************
-#
-#  tetrateOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
-def tetrateOperator( i, j ):
-    '''
-    This is the smaller (left-associative) version of the hyper4 operator.
-
-    This function forces the second argument to an integer and runs in O( n )
-    time based on the second argument.
-    '''
-    result = i
-
-    for _ in arange( 1, j ):
-        result = power( result, i )
-
-    return result
-
-
-#******************************************************************************
-#
-#  tetrateRightOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
-def tetrateRightOperator( i, j ):
-    '''
-    This is the larger, right-associative version of the hyper4 operator.
-
-    This function forces the second argument to an integer and runs in O( n )
-    time based on the second argument.
-    '''
-    result = i
-
-    for _ in arange( 1, j ):
-        result = power( i, result )
-
-    return result
-
-
-#******************************************************************************
-#
-#  isDivisible
-#
-#  Is n divisible by k?
-#
-#******************************************************************************
-
-def isDivisible( n, k ):
-    if n == 0:
-        return 1
-
-    return 1 if ( n >= k ) and ( fmod( n, k ) == 0 ) else 0
-
-
-@twoArgFunctionEvaluator( )
-#TODO: handle measurements
-@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
-def isDivisibleOperator( n, k ):
-    return isDivisible( n, k )
-
-
-#******************************************************************************
-#
-#  isSquare
-#
-#  The "smarter" algorithm is slower... WHY?!
-#
-#******************************************************************************
-
-#TODO: handle measurements
-def isSquare( n ):
-    #mod = fmod( n, 16 )
-
-    #if mod in [ 0, 1, 4, 9 ]:
-    sqrtN = sqrt( n )
-    return 1 if sqrtN == floor( sqrtN ) else 0
-    #else:
-    #    return 0
-
-
-@oneArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ) ] )
-def isSquareOperator( n ):
-    return isSquare( n )
-
-
-#******************************************************************************
-#
-#  isPowerOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-#TODO: handle measurements
-@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
-def isPowerOperator( n, k ):
-    #print( 'log( n )', log( n ) )
-    #print( 'log( k )', log( k ) )
-    #print( 'divide', autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
-    return isInteger( autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
-
-
-#******************************************************************************
-#
-#  isKthPowerOperator
-#
-#******************************************************************************
-
-def isKthPower( n, k ):
-    #TODO: handle measurements
-    if not isint( k, gaussian=True ):
-        raise ValueError( 'integer argument expected' )
-
-    if k == 1:
-        return 1
-
-    if im( n ):
-        # I'm not sure why this is necessary...
-        if re( n ) == 0:
-            return isKthPower( im( n ), k )
-
-        # We're looking for a Gaussian integer among any of the roots.
-        for i in [ autoprec( root )( n, k, i ) for i in arange( k ) ]:
-            if isint( i, gaussian=True ):
-                return 1
-
-        return 0
-
-    rootN = autoprec( root )( n, k )
-    return 1 if isint( rootN, gaussian=True ) else 0
-
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
-def isKthPowerOperator( n, k ):
-    return isKthPower( n, k )
 
 
 #******************************************************************************
@@ -799,6 +600,9 @@ def isNotLessOperator( n, k ):
 #******************************************************************************
 
 def isInteger( n ):
+    if isinstance( n, RPNMeasurement ):
+        return isInteger( n.value )
+
     return 1 if fmod( n, 1 ) == 0 else 0
 
 
@@ -829,15 +633,15 @@ def roundOffOperator( n ):
 
 #******************************************************************************
 #
-#  roundByValue
+#  roundByValueOperator
 #
 #******************************************************************************
 
 def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
-        return RPNMeasurement( roundByValue( n.value, value ), n.units )
+        return RPNMeasurement( roundNumberByValue( n.value, value ), n.units )
 
-    return fmul( floor( fdiv( fadd( n, fdiv( value, 2 ) ), value ) ), value )
+    return roundNumberByValue( n, value )
 
 
 @twoArgFunctionEvaluator( )
@@ -848,7 +652,7 @@ def roundByValueOperator( n, value ):
 
 #******************************************************************************
 #
-#  roundByDigits
+#  roundByDigitsOperator
 #
 #******************************************************************************
 
@@ -856,7 +660,7 @@ def roundByDigits( n, digits ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByDigits( n.value, digits ), n.units )
 
-    return roundByValue( n, power( 10, digits ) )
+    return roundNumberByValue( n, power( 10, digits ) )
 
 
 @twoArgFunctionEvaluator( )
@@ -965,13 +769,190 @@ def getMinimumOperator( n ):
 
 #******************************************************************************
 #
-#  isEven
+#  getModuloOperator
 #
 #******************************************************************************
 
-def isEven( n ):
-    return 1 if fmod( n, 2 ) == 0 else 0
+@twoArgFunctionEvaluator( )
+@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
+def getModuloOperator( n, k ):
+    if isinstance( n, RPNMeasurement ):
+        return n.getModulo( k )
 
+    if isinstance( k, RPNMeasurement ):
+        raise ValueError( 'cannot take a non-measurement modulo a measurement' )
+
+    return fmod( n, k )
+
+#******************************************************************************
+#
+#  getSquareSuperRootOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ) ] )
+def getSquareSuperRootOperator( n ):
+    '''Returns the positive, real square super root of n.'''
+    return power( e, lambertw( log( n ) ) )
+
+
+#******************************************************************************
+#
+#  getCubeSuperRootOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ) ] )
+def getCubeSuperRootOperator( n ):
+    '''Returns the positive, real cube super root of n.'''
+    value = fmul( 2, log( n ) )
+    return sqrt( fdiv( value, lambertw( value ) ) )
+
+
+#******************************************************************************
+#
+#  getSuperRootOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
+def getSuperRootOperator( n, k ):
+    '''Returns the positive, real kth super root of n.'''
+    k = fsub( k, 1 )
+    value = fmul( k, log( n ) )
+    return root( fdiv( value, lambertw( value ) ), k )
+
+
+#******************************************************************************
+#
+#  getSuperRootsOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
+def getSuperRootsOperator( n, k ):
+    '''Returns all the super-roots of n, not just the nice, positive, real one.'''
+    k = fsub( k, 1 )
+    factors = [ fmul( i, root( k, k ) ) for i in unitroots( int( k ) ) ]
+    base = root( fdiv( log( n ), lambertw( fmul( k, log( n ) ) ) ), k )
+
+    return [ fmul( i, base ) for i in factors ]
+
+
+#******************************************************************************
+#
+#  tetrateOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
+def tetrateOperator( i, j ):
+    '''
+    This is the smaller (left-associative) version of the hyper4 operator.
+
+    This function forces the second argument to an integer and runs in O( n )
+    time based on the second argument.
+    '''
+    result = i
+
+    for _ in arange( 1, j ):
+        result = power( result, i )
+
+    return result
+
+
+#******************************************************************************
+#
+#  tetrateRightOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 0 ) ] )
+def tetrateRightOperator( i, j ):
+    '''
+    This is the larger, right-associative version of the hyper4 operator.
+
+    This function forces the second argument to an integer and runs in O( n )
+    time based on the second argument.
+    '''
+    result = i
+
+    for _ in arange( 1, j ):
+        result = power( i, result )
+
+    return result
+
+
+#******************************************************************************
+#
+#  isDivisibleOperator
+#
+#  Is n divisible by k?
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+#TODO: handle measurements
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
+def isDivisibleOperator( n, k ):
+    return isDivisible( n, k )
+
+
+#******************************************************************************
+#
+#  isSquareOperator
+#
+#  The "smarter" algorithm is slower... WHY?!
+#
+#******************************************************************************
+
+#TODO: handle measurements
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ) ] )
+def isSquareOperator( n ):
+    return isSquare( n )
+
+
+#******************************************************************************
+#
+#  isPowerOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+#TODO: handle measurements
+@argValidator( [ MultiplicativeValidator( ), MultiplicativeValidator( ) ] )
+def isPowerOperator( n, k ):
+    #print( 'log( n )', log( n ) )
+    #print( 'log( k )', log( k ) )
+    #print( 'divide', autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
+    return isInteger( autoprec( lambda n, k: fdiv( re( log( n ) ), re( log( k ) ) ) )( n, k ) )
+
+
+#******************************************************************************
+#
+#  isKthPowerOperator
+#
+#******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@argValidator( [ MultiplicativeValidator( ), IntValidator( 1 ) ] )
+def isKthPowerOperator( n, k ):
+    return isKthPower( n, k )
+
+
+#******************************************************************************
+#
+#  isEvenOperator
+#
+#******************************************************************************
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -981,13 +962,9 @@ def isEvenOperator( n ):
 
 #******************************************************************************
 #
-#  isOdd
+#  isOddOperator
 #
 #******************************************************************************
-
-def isOdd( n ):
-    return 1 if fmod( n, 2 ) == 1 else 0
-
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ) ] )
@@ -1029,24 +1006,6 @@ def isZeroOperator( n ):
 @argValidator( [ RealValidator( ) ] )
 def getMantissaOperator( n ):
     return fmod( fabs( n ), 1 )
-
-
-#******************************************************************************
-#
-#  getModuloOperator
-#
-#******************************************************************************
-
-@twoArgFunctionEvaluator( )
-@argValidator( [ RealOrMeasurementValidator( ), RealOrMeasurementValidator( ) ] )
-def getModuloOperator( n, k ):
-    if isinstance( n, RPNMeasurement ):
-        return n.getModulo( k )
-
-    if isinstance( k, RPNMeasurement ):
-        raise ValueError( 'cannot take a non-measurement modulo a measurement' )
-
-    return fmod( n, k )
 
 
 #******************************************************************************
@@ -1349,28 +1308,6 @@ def calculateNthRightHyperoperatorOperator( a, b, c ):
         raise ValueError( 'overflow' )
 
     return hyperop( a )( b, c )
-
-
-#******************************************************************************
-#
-#  getPowMod
-#
-#******************************************************************************
-
-def getPowMod( a, b, c ):
-    '''
-    Calculate (a ** y) % z efficiently.
-    '''
-    result = 1
-
-    while b:
-        if fmod( b, 2 ) == 1:
-            result = fmod( fmul( result, a ), c )
-
-        b = floor( fdiv( b, 2 ) )
-        a = fmod( fmul( a, a ), c )
-
-    return result
 
 
 @argValidator( [ IntValidator( ), IntValidator( ), IntValidator( 1 ) ] )

@@ -55,7 +55,7 @@ g.lineLength = 80
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'rpnChilada help generator'
 
-MAX_EXAMPLE_COUNT = 2458      # This needs to be manually updated when the help examples are modified.
+MAX_EXAMPLE_COUNT = 2464      # This needs to be manually updated when the help examples are modified.
 
 os.chdir( getUserDataPath( ) )  # SkyField doesn't like running in the root directory
 
@@ -5268,7 +5268,97 @@ published complex computer program.
 '''
 ''' + makeCommandExample( '1 20 range nth_bernoulli' ) + '''
 ''' + makeCommandExample( '50 nth_bernoulli' ),
-[ 'zeta', 'tan', 'tanh' ] ],
+[ 'nth_bernoulli_fraction', 'nth_bernoulli_numerator', 'nth_bernoulli_denominator', 'zeta', ] ],
+
+    'nth_bernoulli_denominator' : [
+'combinatorics', 'calculates the numerator of the nth Bernoulli number',
+'''
+This operator calculates the numerator of the nth Bernoulli number which is an
+integer. 
+
+From https://en.wikipedia.org/wiki/Bernoulli_number:
+
+In mathematics, the Bernoulli numbers Bn are a sequence of rational numbers
+with deep connections to number theory.
+
+The Bernoulli numbers appear in the Taylor series expansions of the tangent
+and hyperbolic tangent functions, in formulas for the sum of powers of the
+first positive integers, in the Euler-Maclaurin formula, and in expressions
+for certain values of the Riemann zeta function.
+
+The Bernoulli numbers were discovered around the same time by the Swiss
+mathematician Jakob Bernoulli, after whom they are named, and independently by
+Japanese mathematician Seki Ko-wa.
+
+Ada Lovelace's note G on the analytical engine from 1842 describes an algorithm
+for generating Bernoulli numbers with Babbage's machine.  As a result, the
+Bernoulli numbers have the distinction of being the subject of the first
+published complex computer program.
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_bernoulli_denominator' ) + '''
+''' + makeCommandExample( '80 nth_bernoulli_denominator' ),
+[ 'nth_bernoulli', 'nth_bernoulli_fraction', 'nth_bernoulli_numerator', 'zeta', ] ],
+
+    'nth_bernoulli_fraction' : [
+'combinatorics', 'calculates the nth Bernoulli number',
+'''
+This operator calculates the nth Bernoulli number as a numerator and
+denominator, returned as a list of two.
+
+From https://en.wikipedia.org/wiki/Bernoulli_number:
+
+In mathematics, the Bernoulli numbers Bn are a sequence of rational numbers
+with deep connections to number theory.
+
+The Bernoulli numbers appear in the Taylor series expansions of the tangent
+and hyperbolic tangent functions, in formulas for the sum of powers of the
+first positive integers, in the Euler-Maclaurin formula, and in expressions
+for certain values of the Riemann zeta function.
+
+The Bernoulli numbers were discovered around the same time by the Swiss
+mathematician Jakob Bernoulli, after whom they are named, and independently by
+Japanese mathematician Seki Ko-wa.
+
+Ada Lovelace's note G on the analytical engine from 1842 describes an algorithm
+for generating Bernoulli numbers with Babbage's machine.  As a result, the
+Bernoulli numbers have the distinction of being the subject of the first
+published complex computer program.
+''',
+'''
+''' + makeCommandExample( '1 5 range nth_bernoulli_fraction' ) + '''
+''' + makeCommandExample( '100 nth_bernoulli_fraction' ),
+[ 'nth_bernoulli', 'nth_bernoulli_numerator', 'nth_bernoulli_denominator', 'zeta', ] ],
+
+    'nth_bernoulli_numerator' : [
+'combinatorics', 'calculates the numerator of the nth Bernoulli number',
+'''
+This operator calculates the numerator of the nth Bernoulli number which is an
+integer.
+
+From https://en.wikipedia.org/wiki/Bernoulli_number:
+
+In mathematics, the Bernoulli numbers Bn are a sequence of rational numbers
+with deep connections to number theory.
+
+The Bernoulli numbers appear in the Taylor series expansions of the tangent
+and hyperbolic tangent functions, in formulas for the sum of powers of the
+first positive integers, in the Euler-Maclaurin formula, and in expressions
+for certain values of the Riemann zeta function.
+
+The Bernoulli numbers were discovered around the same time by the Swiss
+mathematician Jakob Bernoulli, after whom they are named, and independently by
+Japanese mathematician Seki Ko-wa.
+
+Ada Lovelace's note G on the analytical engine from 1842 describes an algorithm
+for generating Bernoulli numbers with Babbage's machine.  As a result, the
+Bernoulli numbers have the distinction of being the subject of the first
+published complex computer program.
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_bernoulli_numerator' ) + '''
+''' + makeCommandExample( '120 nth_bernoulli_numerator' ),
+[ 'nth_bernoulli', 'nth_bernoulli_fraction', 'nth_bernoulli_denominator', 'zeta', ] ],
 
     'nth_catalan' : [
 'combinatorics', 'calculates the nth Catalan number',

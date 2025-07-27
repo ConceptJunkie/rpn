@@ -16,6 +16,7 @@ from mpmath import arange, ceil, fadd, fac, fdiv, floor, fmod, fmul, fneg, fprod
                    fsub, fsum, mp, nint, pi, polyval, power, sqrt, tan
 
 from rpn.math.rpnNumberTheory import getNthLinearRecurrence
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, IntValidator
 
@@ -838,9 +839,7 @@ def getNthDecagonalTriangularNumberOperator( n ):
 def getNthDecagonalCenteredSquareNumberOperator( n ):
     sqrt10 = sqrt( 10 )
 
-    dps = 7 * int( n )
-
-    mp.dps = max( mp.dps, dps )
+    setAccuracy( fmul( n, 7 ) )
 
     return nint( floor( fsum( [ fdiv( 1, 8 ),
                                 fmul( fdiv( 7, 16 ), power( fsub( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ),
@@ -941,7 +940,7 @@ def getNthDecagonalOctagonalNumberOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthDecagonalNonagonalNumberOperator( n ):
-    mp.dps = max( 8 * int( n ), mp.dps )
+    setAccuracy( fmul( n, 8 ) )
 
     return nint( floor( fdiv( fmul( fadd( 15, fmul( 2, sqrt( 14 ) ) ),
                                     power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ),
@@ -991,8 +990,7 @@ def getNthTruncatedTetrahedralNumberOperator( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthSquareTriangularNumberOperator( n ):
-    neededPrecision = int( n * 3.5 )  # determined by experimentation
-    mp.dps = max( mp.dps, neededPrecision )
+    setAccuracy( fmul( n, 3.5 ) ) # determined by experimentation
 
     sqrt2 = sqrt( 2 )
 

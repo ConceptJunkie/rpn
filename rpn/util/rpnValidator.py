@@ -17,10 +17,10 @@ import functools
 from mpmath import floor, im, mpf
 from mpmath.ctx_mp_python import mpc
 
-from rpn.time.rpnDateTimeClass import RPNDateTime
-from rpn.util.rpnGenerator import RPNGenerator
 from rpn.special.rpnLocationClass import RPNLocation
+from rpn.time.rpnDateTimeClass import RPNDateTime
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnGenerator import RPNGenerator
 
 
 #******************************************************************************

@@ -12,8 +12,8 @@
 #
 #******************************************************************************
 
-from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
-                   fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
+from mpmath import arange, bell, bernfrac, bernoulli, binomial, e, fac, fadd, fdiv, \
+                   floor, fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
                    power, sqrt, stirling1, stirling2
 
 from rpn.math.rpnNumberTheory import getNthLinearRecurrence
@@ -22,6 +22,7 @@ from rpn.math.rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedFunction
+from rpn.util.rpnSettings import setAccuracy
 from rpn.util.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
@@ -42,8 +43,7 @@ def getNthAperyNumber( n ):
 
     a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
     '''
-    precision = int( fmul( n, 1.6 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fmul( n, 1.6 ) )
 
     result = 0
 
@@ -71,8 +71,7 @@ def getNthDelannoyNumber( n ):
     if n == 1:
         return 3
 
-    precision = int( fmul( n, 0.8 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fmul( n, 0.8 ) )
 
     result = 0
 
@@ -103,8 +102,7 @@ def getNthSchroederNumber( n ):
 
     result = 0
 
-    precision = int( fmul( n, 0.8 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fmul( n, 0.8 ) )
 
     for k in arange( 0, fadd( n, 1 ) ):
         result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ),
@@ -132,8 +130,7 @@ def getNthMotzkinNumber( n ):
 
     a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
     '''
-    precision = int( n )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( n )
 
     result = 0
 
@@ -165,8 +162,7 @@ def getNthSchroederHipparchusNumber( n ):
     if n == 0:
         return 1
 
-    precision = int( fmul( n, 0.8 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fmul( n, 0.8 ) )
 
     result = 0
 
@@ -193,8 +189,7 @@ def getNthPellNumber( n ):
     From:  http://oeis.org/A000129:
     a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
     '''
-    precision = int( fmul( n, 0.4 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fmul( n, 0.4 ) )
 
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], fsub( n, 1 ) )
 
@@ -509,8 +504,7 @@ def getPartitionNumber( n ):
 
     estimate = log10( fdiv( power( e, fmul( pi, sqrt( fdiv( fmul( 2, n ), 3 ) ) ) ),
                             fprod( [ 4, n, sqrt( 3 ) ] ) ) )
-    if mp.dps < estimate + 5:
-        mp.dps = estimate + 5
+    setAccuracy( estimate + 5 )
 
     partitionList = [ ]
 
@@ -583,6 +577,86 @@ def oldGetPartitionNumber( n ):
     #    raise ValueError( "It's broke." )
 
     return result
+
+
+#******************************************************************************
+#
+#  createIntegerPartitions
+#
+#  https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+#
+#  http://jeromekelleher.net/generating-integer-partitions.html provides a
+#  similar version of this algorithm.
+#
+#******************************************************************************
+
+def createIntegerPartitions( n ):
+    """Generate partitions of n as ordered lists in ascending
+    lexicographical order.
+
+    This highly efficient routine is based on the delightful
+    work of Kelleher and O'Sullivan.
+
+    Examples
+    ========
+
+    >>> for i in aP(6): i
+    ...
+    [1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 2]
+    [1, 1, 1, 3]
+    [1, 1, 2, 2]
+    [1, 1, 4]
+    [1, 2, 3]
+    [1, 5]
+    [2, 2, 2]
+    [2, 4]
+    [3, 3]
+    [6]
+
+    >>> for i in aP(0): i
+    ...
+    []
+
+    References
+    ==========
+
+    .. [1] Generating Integer Partitions, [online],
+        Available: http://jeromekelleher.net/generating-integer-partitions.html
+    .. [2] Jerome Kelleher and Barry O'Sullivan, "Generating All
+        Partitions: A Comparison Of Two Encodings", [online],
+        Available: http://arxiv.org/pdf/0909.2331v2.pdf
+
+    """
+    # The list `a`'s leading elements contain the partition in which
+    # y is the biggest element and x is either the same as y or the
+    # 2nd largest element; v and w are adjacent element indices
+    # to which x and y are being assigned, respectively.
+    a = [ 1 ] * n
+    y = -1
+    v = n
+
+    while v > 0:
+        v -= 1
+        x = a[ v ] + 1
+
+        while y >= 2 * x:
+            a[ v ] = x
+            y -= x
+            v += 1
+
+        w = v + 1
+
+        while x <= y:
+            a[ v ] = x
+            a[ w ] = y
+            yield a[ : w + 1 ]
+            x += 1
+            y -= 1
+
+        a[ v ] = x + y
+        y = a[ v ] - 1
+        yield a[ : w ]
 
 
 #******************************************************************************
@@ -744,6 +818,42 @@ def getNthBellNumberOperator( n ):
 @argValidator( [ IntValidator( 0 ) ] )
 def getNthBernoulliNumberOperator( n ):
     return bernoulli( n )
+
+
+#******************************************************************************
+#
+#  getNthBernoulliFractionOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthBernoulliFractionOperator( n ):
+    return list( bernfrac( n ) )
+
+
+#******************************************************************************
+#
+#  getNthBernoulliNumeratorOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthBernoulliNumeratorOperator( n ):
+    return bernfrac( n )[ 0 ]
+
+
+#******************************************************************************
+#
+#  getNthBernoulliDenominatorOperator
+#
+#******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@argValidator( [ IntValidator( 0 ) ] )
+def getNthBernoulliDenominatorOperator( n ):
+    return bernfrac( n )[ 1 ]
 
 
 #******************************************************************************

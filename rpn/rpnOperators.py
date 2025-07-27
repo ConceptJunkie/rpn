@@ -69,7 +69,8 @@ from rpn.math.rpnCombinatorics import \
     countFrobeniusOperator, getArrangementsOperator, getNthBellPolynomialOperator, getBinomialOperator, \
     getCombinationsOperator, getCompositionsOperator, getDeBruijnSequenceOperator, getIntegerPartitionsOperator, \
     getLahNumberOperator, getMultinomialOperator, getNarayanaNumberOperator, getNthAperyNumberOperator, \
-    getNthBellNumberOperator, getNthBernoulliNumberOperator, getNthCatalanNumberOperator, \
+    getNthBellNumberOperator, getNthBernoulliDenominatorOperator,   getNthBernoulliFractionOperator, \
+     getNthBernoulliNumberOperator, getNthBernoulliNumeratorOperator, getNthCatalanNumberOperator, \
     getNthDelannoyNumberOperator, getNthMenageNumberOperator, getNthMotzkinNumberOperator, \
     getNthMultifactorialOperator, getNthPellNumberOperator, getNthSchroederNumberOperator, \
     getNthSchroederHipparchusNumberOperator, getNthSylvesterNumberOperator, getPartitionNumberOperator, \
@@ -2759,7 +2760,10 @@ operators = {
     'nth_apery'                         : RPNOperator( getNthAperyNumberOperator, 1 ),
     'nth_bell'                          : RPNOperator( getNthBellNumberOperator, 1 ),
     'nth_bell_polynomial'               : RPNOperator( getNthBellPolynomialOperator, 2 ),
+    'nth_bernoulli_denominator'         : RPNOperator( getNthBernoulliDenominatorOperator, 1 ),
+    'nth_bernoulli_fraction'            : RPNOperator( getNthBernoulliFractionOperator, 1 ),
     'nth_bernoulli'                     : RPNOperator( getNthBernoulliNumberOperator, 1 ),
+    'nth_bernoulli_numerator'           : RPNOperator( getNthBernoulliNumeratorOperator, 1 ),
     'nth_catalan'                       : RPNOperator( getNthCatalanNumberOperator, 1 ),
     'nth_delannoy'                      : RPNOperator( getNthDelannoyNumberOperator, 1 ),
     'nth_motzkin'                       : RPNOperator( getNthMotzkinNumberOperator, 1 ),

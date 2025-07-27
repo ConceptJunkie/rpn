@@ -34,11 +34,8 @@ import rpn.util.rpnGlobals as g
 #
 #******************************************************************************
 
-def convertToSignedInt( n, k ):
-    newPrecision = ( int( k ) * 3 / 10 ) + 3
-
-    if mp.dps < newPrecision:
-        setAccuracy( newPrecision )
+def convertToSignedInt( n, k ) -> mpf:
+    setAccuracy( ( int( k ) * 3 / 10 ) + 3 )
 
     value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
     value = fmod( value, power( 2, k ) )
@@ -49,7 +46,7 @@ def convertToSignedInt( n, k ):
 
 @twoArgFunctionEvaluator( )
 @argValidator( [ IntValidator( ), IntValidator( 1 ) ] )
-def convertToSignedIntOperator( n, k ):
+def convertToSignedIntOperator( n, k ) -> mpf:
     return convertToSignedInt( n, k )
 
 

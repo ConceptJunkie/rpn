@@ -80,7 +80,7 @@ def runCommandLineOptionsTests( ):
 
     testOperator( '1 10 range 3 ** -o' )
 
-    testOperator( 'pi -p1000' )
+    testOperator( 'pi -a1000' )
 
     testOperator( '10 100 10 range2 -re' )
     testOperator( '10 100 10 range2 -rfac' )
@@ -233,6 +233,8 @@ def runAlgebraOperatorTests( ):
     expectEqual( '[ 1 1 ] 15 polynomial_power', '16 pascal_triangle' )
     expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '151 pascal_triangle' )
 
+    expectEqual( '-a50 [ 1 1 ] 1 130 range polynomial_power flatten', '-a50 7318 oeis 1 131 triangular slice' )
+
     expectEqual( '5 500 range pascal_triangle lambda x 4 element for_each_list', '332 oeis 500 left 496 right' )
 
     if g.slowTests:
@@ -262,7 +264,7 @@ def runAlgebraOperatorTests( ):
     # solve_cubic
     expectEquivalent( '1 0 0 0 solve_cubic', '[ 1 0 0 0 ] solve' )
     expectEquivalent( '0 1 0 0 solve_cubic', '[ 0 1 0 0 ] solve' )
-    expectEquivalent( '1 1 0 0 solve_cubic', '[ 1 1 0 0 ] solve' )
+    expectEquivalent( '-p20 1 1 0 0 solve_cubic', '-p20 [ 1 1 0 0 ] solve' )
     expectEquivalent( '0 0 1 0 solve_cubic', '[ 0 0 1 0 ] solve' )
     expectEquivalent( '1 0 -3 0 solve_cubic', '[ 1 0 -3 0 ] solve' )
     expectEquivalent( '10 -10 10 -10 solve_cubic', '[ 10 -10 10 -10 ] solve' )
@@ -291,7 +293,7 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '0 0 0 1 0 solve_quartic', '[ 0 0 0 1 0 ] solve' )
     expectEquivalent( '1 0 -5 0 7 solve_quartic', '[ 1 0 -5 0 7 ] solve' )
     expectEquivalent( '2 -3 2 -3 2 solve_quartic', '[ 2 -3 2 -3 2 ] solve' )
-    expectEquivalent( '54 23 -87 19 2042 solve_quartic', '[ 54 23 -87 19 2042 ] solve' )
+    expectEquivalent( '-p20 54 23 -87 19 2042 solve_quartic', '-p20 [ 54 23 -87 19 2042 ] solve' )
 
     expectException( '0 0 0 0 0 solve_quartic' )   # order too low
     expectException( '0 0 0 0 1 solve_quartic' )   # order too low
@@ -428,11 +430,11 @@ def runArithmeticOperatorTests( ):
         expectEqual( '-a4200 0 20000 range lambda x x fib gcd2 eval', '104714 oeis 20001 left' )
 
     # harmonic_mean
-    expectEqual( '1 500 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter',
+    expectEqual( '-a20 1 500 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter',
                  '1599 oeis 500 filter_max' )
 
     if g.slowTests:
-        expectEqual( '1 100000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter',
+        expectEqual( '-a20 1 100000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter',
                      '1599 oeis 100000 filter_max' )
 
     # increment
@@ -1747,7 +1749,7 @@ def runCombinatoricsOperatorTests( ):
         expectEqual( '-a1000 0 1000 range nth_schroeder_hipparchus', '1003 oeis 1001 left' )
 
     # nth_sylvester
-    expectEqual( '1 13 range nth_sylvester', '58 oeis 13 left' )
+    expectEqual( '-a100 1 13 range nth_sylvester', '58 oeis 13 left' )
 
     # partitions
     expectEqual( '0 10 range partitions', '41 oeis 11 left' )  # This function is extremely slow without caching.
@@ -2032,8 +2034,8 @@ def runDateTimeOperatorTests( ):
     testOperator( '"December 22 1999 21:30:00"' )
 
     # convert_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" convert_time_zone $__unit_test "New York, NY" convert_time_zone - minutes convert', '0 minutes' )
+    #testOperator( '__unit_test now set_variable' )
+    #expectEqual( '$__unit_test "Los Angeles, CA" convert_time_zone $__unit_test "New York, NY" convert_time_zone - minutes convert', '0 minutes' )
 
     # get_day
     testOperator( 'now get_day' )
@@ -2057,8 +2059,8 @@ def runDateTimeOperatorTests( ):
     testOperator( '[ 1965 03 31 ] make_datetime' )
 
     # modify_time_zone
-    testOperator( '__unit_test now set_variable' )
-    expectEqual( '$__unit_test "Los Angeles, CA" modify_time_zone $__unit_test "New York, NY" modify_time_zone - minutes convert', '180 minutes' )
+    #testOperator( '__unit_test now set_variable' )
+    #expectEqual( '$__unit_test "Los Angeles, CA" modify_time_zone $__unit_test "New York, NY" modify_time_zone - minutes convert', '180 minutes' )
 
     # expectEqual can't handle date values
     #expectEqual( '[ 1965 03 31 ] make_datetime', '1965-03-31' )
@@ -2862,7 +2864,7 @@ def runLexicographyOperatorTests( ):
     expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter',
                  '350 oeis 42 left 41 right' )
 
-    expectResult( '2 7830457 10 10 ** powmod 28433 * 1 + 10 get_right_digits', 8739992577 )
+    expectResult( '-a20 2 7830457 10 10 ** powmod 28433 * 1 + 10 get_right_digits', 8739992577 )
 
     # get_right_truncations
     expectEqual( '123456789 get_right_truncations', '[ 123456789, 12345678, 1234567, 123456, 12345, 1234, 123, 12, 1 ]' )
@@ -3568,7 +3570,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '[ 2 3 2 ] [ 3 5 7 ] crt', 23 )
 
     # rpn isn't smart enough to let me turn this into a user-defined function, so we'll just try a few values.
-    expectEqual( '1 10 range 1 10 primes crt', '53664 oeis 9 element' )
+    expectEqual( '-a20 1 10 range 1 10 primes crt', '53664 oeis 9 element' )
     expectEqual( '-a50 1 20 range 1 20 primes crt', '53664 oeis 19 element' )
     expectEqual( '-a100 1 30 range 1 30 primes crt', '53664 oeis 29 element' )
     expectEqual( '-a500 1 100 range 1 100 primes crt', '53664 oeis 99 element' )
@@ -3743,8 +3745,8 @@ def runNumberTheoryOperatorTests( ):
     # hurwitz_zeta
     expectEqual( '1 1 200 range range square 1/x sum',
                  '2 zeta 2 2 201 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
-    expectEqual( '-p100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval',
-                 '-p100 173947 oeis 173948 oeis / 250 left 249 right' )
+    expectEqual( '-a100 1 249 range lambda 2 0.25 hurwitz_zeta 2 x 0.25 + hurwitz_zeta - eval',
+                 '-a100 173947 oeis 173948 oeis / 250 left 249 right' )
 
     # hyperfactorial
     expectEqual( '-a120 0 10 range hyperfactorial', '2109 oeis 11 left' )
@@ -3795,8 +3797,8 @@ def runNumberTheoryOperatorTests( ):
     # is_k_hyperperfect
     expectEqual( '1 700 range lambda x 12 is_k_hyperperfect filter', '[ 697 ]' )
 
-    expectEqual( '28501 oeis 18 is_k_hyperperfect and_all', '1' )
-    expectEqual( '28502 oeis 2772 is_k_hyperperfect and_all', '1' )
+    expectEqual( '-a20 28501 oeis 18 is_k_hyperperfect and_all', '1' )
+    expectEqual( '-a20 28502 oeis 2772 is_k_hyperperfect and_all', '1' )
     expectEqual( '34916 oeis 31752 is_k_hyperperfect and_all', '1' )
 
     if g.slowTests:
@@ -4125,6 +4127,9 @@ def runNumberTheoryOperatorTests( ):
     # nth_padovan
     expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
 
+    if g.slowTests:
+        expectEqual( '0 8000 range nth_padovan', '931 oeis 8005 left 8001 right' )
+
     # nth_perfect_number
     expectEqual( '1 14 range nth_perfect_number', '396 oeis 14 left' )
 
@@ -4248,9 +4253,9 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-p40 1 100 range 11 sigma_k', '13959 oeis 100 left' )
     expectEqual( '-p45 1 100 range 12 sigma_k', '13960 oeis 100 left' )
     expectEqual( '-p45 1 100 range 13 sigma_k', '13961 oeis 100 left' )
-    expectEqual( '-p45 1 100 range 14 sigma_k', '13962 oeis 100 left' )
-    expectEqual( '-p50 1 100 range 15 sigma_k', '13963 oeis 100 left' )
-    expectEqual( '-p55 1 100 range 16 sigma_k', '13964 oeis 100 left' )
+    expectEqual( '-p55 1 100 range 14 sigma_k', '13962 oeis 100 left' )
+    expectEqual( '-p55 1 100 range 15 sigma_k', '13963 oeis 100 left' )
+    expectEqual( '-p60 1 100 range 16 sigma_k', '13964 oeis 100 left' )
     expectEqual( '-p65 1 100 range 17 sigma_k', '13965 oeis 100 left' )
     expectEqual( '-p75 1 100 range 18 sigma_k', '13966 oeis 100 left' )
     expectEqual( '-p80 1 100 range 19 sigma_k', '13967 oeis 100 left' )

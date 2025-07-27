@@ -42,6 +42,7 @@ from rpn.units.rpnMeasurementClass import RPNMeasurement
 from rpn.util.rpnAliases import OPERATOR_ALIASES
 from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
+from rpn.util.rpnSettings import getAccuracy
 from rpn.util.rpnUtils import getDataPath
 
 from rpn.time.rpnDateTime import formatDateTime
@@ -194,7 +195,6 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
     if len( valueList ) != 1:
         if g.checkForSingleResults:
-            print( 'valueList', valueList )
             formatListOutput( valueList )
             raise ValueError( 'unexpected multiple results!' )
 
@@ -230,10 +230,13 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
                 result = checkForVariable( result )
                 outputString = result
             else:
+                # if precision isn't explicitly set, use the accuracy
+                precision = getAccuracy( ) if g.outputPrecision < 0 else g.outputPrecision
+
                 # output the answer with all the extras according to command-line arguments
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
-                    outputString = formatOutput( nstr( result.value, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
+                    outputString = formatOutput( nstr( result.value, precision, min_fixed=-g.maximumFixed - 1 ) )
                     outputString += ' ' + formatUnits( result )
                 # handle a complex output (mpmath type: mpc)
                 elif isinstance( result, mpc ):
@@ -243,22 +246,20 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
                     if im( result ) > 0:
                         outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
-                                                                 g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                                                 precision, min_fixed=-g.maximumFixed - 1 ) ) + \
                                        ' + ' + formatOutput( nstr( mpmathify( im( result ) ),
-                                                                   g.outputAccuracy,
-                                                                   min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
+                                                                   precision, min_fixed=-g.maximumFixed - 1 ) ) + 'j)'
                     elif im( result ) < 0:
                         outputString = '(' + formatOutput( nstr( mpmathify( re( result ) ),
-                                                                 g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) ) + \
+                                                                 precision, min_fixed=-g.maximumFixed - 1 ) ) + \
                                        ' - ' + formatOutput( nstr( fneg( mpmathify( im( result ) ) ),
-                                                                   g.outputAccuracy,
-                                                                   min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
+                                                                   precision, min_fixed=-g.maximumFixed - 1 ) ) + 'i)'
                     else:
-                        outputString = formatOutput( nstr( re( result ), g.outputAccuracy,
+                        outputString = formatOutput( nstr( re( result ), precision,
                                                            min_fixed=-g.maximumFixed - 1 ) )
                 # otherwise, it's a plain old mpf
                 else:
-                    outputString = formatOutput( nstr( result, g.outputAccuracy, min_fixed=-g.maximumFixed - 1 ) )
+                    outputString = formatOutput( nstr( result, precision, min_fixed=-g.maximumFixed - 1 ) )
 
             print( indentString + outputString, file=file )
 
@@ -525,7 +526,7 @@ def rpn( cmdArgs ):
     g.leadingZero = args.leading_zero
 
     # handle -a
-    setAccuracy( args.output_accuracy )
+    setAccuracy( args.output_accuracy, force=True )
 
     # handle -b
     g.inputRadix = int( args.input_radix )
@@ -619,11 +620,11 @@ def rpn( cmdArgs ):
         g.bitwiseGroupSize = 16
 
     # handle -u and -y:  mpmath wants precision of at least 53 for these functions
-    if args.identify and mp.dps < 53:
+    if args.identify:
         setAccuracy( 53 )
 
     if args.print_options:
-        print( f'--output_accuracy:   { g.outputAccuracy }' )
+        print( f'--output_precision:   { g.outputPrecision }' )
         print( f'--input_radix:  { g.inputRadix }' )
         print( f'--comma:  { "true" if g.comma else "false" }' )
         print( f'--decimal_grouping:  { g.decimalGrouping }' )

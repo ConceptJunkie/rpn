@@ -17,6 +17,7 @@ from mpmath import fdiv, floor, fmod, fmul, fneg, fsub, mpmathify
 import gmpy2
 
 from rpn.util.rpnUtils import twoArgFunctionEvaluator
+from rpn.util.rpnSettings import getAccuracy
 from rpn.util.rpnValidator import argValidator, IntValidator
 
 import rpn.util.rpnGlobals as g
@@ -95,12 +96,15 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
     else:
         result = ''
 
+    # if precision isn't explicitly set, use the accuracy
+    precision = getAccuracy( ) if g.outputPrecision < 0 else g.outputPrecision
+
     while value > 0 and precision > 0:
         value = fmul( value, base )
 
         digit = int( value )
 
-        if len( result ) == g.outputAccuracy:
+        if len( result ) == precision:
             if digit >= base // 2:
                 digit += 1
 

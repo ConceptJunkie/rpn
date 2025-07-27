@@ -52,7 +52,7 @@ defaultMinValueForYAFU = 1_000_000_000_000_000_000
 defaultMaximumFixed = 5
 defaultOutputAccuracy = 12
 defaultOutputRadix = 10
-defaultPrecision = 20
+defaultPrecision = -1
 
 defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -96,7 +96,7 @@ maximumFixed = defaultMaximumFixed
 maxToFactorByTrialDivision = 100_000_000  # 10,000 squared because we check all primes below 10,000
 minValueForYAFU = defaultMinValueForYAFU
 numerals = ''
-outputAccuracy = -1
+outputPrecision = -1
 outputRadix = defaultOutputRadix
 refreshOEISCache = False
 showTimeZones = False

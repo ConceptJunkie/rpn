@@ -35,6 +35,7 @@ from rpn.units.rpnMeasurementClass import RPNMeasurement
 
 from rpn.util.rpnInput import convertToBase10
 from rpn.util.rpnOutput import convertToBaseN
+from rpn.util.rpnSettings import getAccuracy
 
 import rpn.util.rpnGlobals as g
 
@@ -222,7 +223,7 @@ def getChampernowneConstant( ):
 
     count = 1
 
-    while len( result ) <= mp.dps:
+    while len( result ) <= getAccuracy( ):
         result += convertToBaseN( count, g.inputRadix )
         count += 1
 
@@ -240,7 +241,7 @@ def getCopelandErdosConstant( ):
 
     count = 1
 
-    while len( result ) < mp.dps:
+    while len( result ) < getAccuracy( ):
         # TODO: use a generator
         result += str( getNthPrime( count ) )
         count += 1

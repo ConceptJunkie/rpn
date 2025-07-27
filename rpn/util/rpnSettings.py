@@ -24,11 +24,23 @@ from rpn.util.rpnDebug import debugPrint
 
 #******************************************************************************
 #
-#  setAccuracyOperator
+#  getAccuracy
 #
 #******************************************************************************
 
-def setAccuracy( n ):
+def getAccuracy( ):
+    return mp.dps
+
+#******************************************************************************
+#
+#  setAccuracyOperator
+#
+#  Setting the accuracy sets the precision to the same value.  So if you want
+#  precision to be different, you need to set it afterwards.
+#
+#******************************************************************************
+
+def setAccuracy( n, force=False ):
     '''
     This function make sure that the accuracy is at least as high as n.  If it's
     already higher, it doesn't lower it.
@@ -39,11 +51,11 @@ def setAccuracy( n ):
     if n == -1:
         g.outputAccuracy = g.defaultOutputAccuracy
     else:
-        g.outputAccuracy = int( n )
+        g.outputAccuracy = max( int( n ), g.defaultOutputAccuracy )
 
-    if mp.dps < g.outputAccuracy:
+    if mp.dps < g.outputAccuracy or force:
         mp.dps = g.outputAccuracy
-        debugPrint( 'setAccuracy' )
+        debugPrint( 'setAccuracy', g.outputAccuracy )
 
     return g.outputAccuracy
 
@@ -56,25 +68,20 @@ def setAccuracyOperator( n ):
 #
 #  setPrecisionOperator
 #
+#  Accuracy can't be set lower, but precision can.
+#
 #******************************************************************************
 
 def setPrecision( n ):
     if n < -1:
         raise ValueError( '\'default\', or a non-negative value expected' )
 
-    if n == -1:
-        mp.dps = g.defaultPrecision
-        debugPrint( 'setDefaultPrecision' )
-    else:
-        mp.dps = int( n )
-        debugPrint( 'setPrecision', n )
+    g.outputPrecision = int( n )
 
-    # precision can't be lower than output accuracy
-    if mp.dps < g.outputAccuracy:
-        mp.dps = g.outputAccuracy
-        debugPrint( 'setPrecision to accuracy', g.outputAccuracy )
+    # make sure the accuracy is at least as high as the precision
+    setAccuracy( g.outputPrecision + 2 )
 
-    return g.outputAccuracy
+    return g.outputPrecision
 
 
 def setPrecisionOperator( n ):

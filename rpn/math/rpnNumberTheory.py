@@ -27,14 +27,15 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac,
 
 from rpn.math.rpnComputer import getBitCount
 from rpn.math.rpnFactor import getFactors, getFactorList
-from rpn.math.rpnMath import isDivisible, isEven, isInteger, isOdd
+from rpn.math.rpnMath import isInteger
 from rpn.math.rpnPrimeUtils import findPrime, getNthPrime, isPrime, getNextPrime
+from rpn.math.rpnSimpleMath import isDivisible, isEven, isOdd
 
 from rpn.special.rpnList import getGCD, getGCDOfList, calculatePowerTowerRight, reduceList
 
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedFunction
-from rpn.util.rpnSettings import setAccuracy
+from rpn.util.rpnSettings import getAccuracy, setAccuracy
 from rpn.util.rpnUtils import getMPFIntegerAsString, listArgFunctionEvaluator, \
                          listAndOneArgFunctionEvaluator, oneArgFunctionEvaluator, setAccuracyForN, \
                          twoArgFunctionEvaluator
@@ -248,8 +249,7 @@ def getNthLucasNumber( n ):
     elif n == 1:
         return 1
     else:
-        precision = int( fdiv( fmul( n, 2 ), 8 ) )
-        mp.dps = max( precision, mp.dps )
+        setAccuracy( int( fdiv( fmul( n, 2 ), 8 ) ) )
 
         return floor( fadd( power( phi, n ), 0.5 ) )
 
@@ -378,8 +378,7 @@ def getNthKFibonacciNumber( n, k ):
 
     nth = int( n ) + 4
 
-    precision = int( fdiv( fmul( n, k ), 8 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fdiv( fmul( n, k ), 8 ) )
 
     poly = [ 1 ]
     poly.extend( [ -1 ] * int( k ) )
@@ -456,8 +455,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
     '''
     This is used for testing getNthKFibonacciNumber( ).
     '''
-    precision = int( fdiv( fmul( int( n ), k ), 8 ) )
-    mp.dps = max( precision, mp.dps )
+    setAccuracy( fdiv( fmul( int( n ), k ), 8 ) )
 
     return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], n )
 
@@ -485,6 +483,10 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 
 def getNthPadovanNumber( arg ):
     n = fadd( arg, 4 )
+
+    # This constant was determined by experimentation.  The ratio of 
+    # n / log10( n ) converges to a constant of about 8.1884. 
+    setAccuracy( int( n / 8.18 ) + 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
     b = root( fdiv( fadd( 9, sqrt( 69 ) ), 2 ), 3 )
@@ -520,7 +522,7 @@ class RPNContinuedFraction( list ):
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
         super( ).__init__( )
 
-        mp.dps = max( maxterms, mp.dps )
+        setAccuracy( maxterms )
 
         if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
@@ -587,7 +589,7 @@ def convertFromContinuedFractionOperator( n ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
 def makeContinuedFractionOperator( n, k ):
-    return RPNContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps / 2 ) ) )
+    return RPNContinuedFraction( n, maxterms = k, cutoff = power( 10, -( getAccuracy( ) / 2 ) ) )
 
 
 #******************************************************************************
@@ -599,11 +601,9 @@ def makeContinuedFractionOperator( n, k ):
 @twoArgFunctionEvaluator( )
 @argValidator( [ RealValidator( ), IntValidator( 1 ) ] )
 def interpretAsFractionOperator( n, k ):
-    k = int( k )
+    setAccuracy( k )
 
-    mp.dps = max( mp.dps, k )
-
-    cutoff = fmul( n, power( 10, -( mp.dps / 2 ) ) )
+    cutoff = fmul( n, power( 10, -( getAccuracy( ) / 2 ) ) )
     fraction = RPNContinuedFraction( value=n, maxterms=k, cutoff=cutoff ).getFraction( )
 
     return [ fraction.numerator, fraction.denominator ]
@@ -3076,7 +3076,7 @@ def getNthKPolygorialOperator( n, k ):
 #******************************************************************************
 
 def getRandomPrime( n ):
-    setAccuracy( n )
+    setAccuracy( n + 1 )
 
     base = int( power( 10, n ) )
     result = getNextPrime( randrange( base ) )
