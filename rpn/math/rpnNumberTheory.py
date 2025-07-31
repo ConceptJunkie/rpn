@@ -484,8 +484,8 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 def getNthPadovanNumber( arg ):
     n = fadd( arg, 4 )
 
-    # This constant was determined by experimentation.  The ratio of 
-    # n / log10( n ) converges to a constant of about 8.1884. 
+    # This constant was determined by experimentation.  The ratio of
+    # n / log10( n ) converges to a constant of about 8.1884.
     setAccuracy( int( n / 8.18 ) + 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )

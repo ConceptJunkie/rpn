@@ -649,8 +649,6 @@ class RPNMeasurement( ):
         else:
             value2 = roundNumberByDigits( other.value, -getAccuracy( ) ) 
 
-        print( 'isLarger:', value1, value2, 'accuracy:', getAccuracy( ) )
-
         return value1 > value2
 
     def isNotLarger( self, other ):
@@ -668,8 +666,6 @@ class RPNMeasurement( ):
             value2 = other.value
         else:
             value2 = roundNumberByDigits( other.value, -getAccuracy( ) )
-
-        print( 'isSmaller:', value1, value2, 'accuracy:', getAccuracy( ) )
 
         return value1 < value2
 
