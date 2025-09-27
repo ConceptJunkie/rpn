@@ -28,7 +28,11 @@ import time
 import types
 
 from pathlib import Path
-import readline
+
+if sys.platform == 'win32':
+    import pyreadline3
+else:
+    import readline
 
 from mpmath import fneg, im, mp, mpc, mpmathify, nan, nstr, re
 
