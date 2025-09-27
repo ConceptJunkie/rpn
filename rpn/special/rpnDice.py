@@ -418,49 +418,50 @@ def rollSimpleDiceOperator( n, k ):
     values, modifier = evaluateDiceExpression( [ ( int( n ), int( k ), 0, 0, 0 ) ] )
     return sum( values ) + modifier
 
-def dice_roll_distribution(num_dice, num_sides, drop_lowest=0, drop_highest=0):
+def dice_roll_distribution( num_dice, num_sides, drop_lowest=0, drop_highest = 0 ):
     # Generate all possible rolls of the dice
-    all_rolls = itertools.product(range(1, num_sides+1), repeat=num_dice)
+    all_rolls = itertools.product( range( 1, num_sides + 1 ), repeat=num_dice )
 
     # Determine the lowest and highest dice to drop
     dice_to_drop = drop_lowest + drop_highest
+
     if dice_to_drop >= num_dice:
         return None # Can't drop all dice
 
     # Create a dictionary to store the counts for each total value
-    totals = {i:0 for i in range(num_dice, num_dice*num_sides+1)}
+    totals = { i : 0 for i in range( num_dice, num_dice*num_sides + 1 ) }
 
     # Count the occurrences of each total value, taking into account dropped dice
     for roll in all_rolls:
-        sorted_roll = sorted(roll)
-        total = sum(sorted_roll[dice_to_drop:-drop_highest])
-        totals[total] += 1
+        sorted_roll = sorted( roll )
+        total = sum( sorted_roll[ dice_to_drop : -drop_highest ] )
+        totals[ total ] += 1
 
     return totals
 
 
-@functools.lru_cache(maxsize=None)
-def getDiceRollDistribution(dice_count, sides, drop_highest=0, drop_lowest=0):
-    dice_results = collections.Counter()
+@functools.lru_cache( maxsize=None )
+def getDiceRollDistribution( dice_count, sides, drop_highest=0, drop_lowest=0 ):
+    dice_results = collections.Counter( )
 
     if dice_count == 0:
-        dice_results[0] = 1
+        dice_results[ 0 ] = 1
     elif sides == 0:
         raise ValueError( 'dice must have more than 0 sides' )
     else:
-        for count_showing_max in range(dice_count + 1):  # 0..count
+        for count_showing_max in range( dice_count + 1 ):  # 0..count
 
-            d1 = getDiceRollDistribution(dice_count - count_showing_max, sides - 1, max(drop_highest - count_showing_max, 0), drop_lowest)
+            d1 = getDiceRollDistribution( dice_count - count_showing_max, sides - 1, max( drop_highest - count_showing_max, 0 ), drop_lowest )
 
             count_showing_max_not_dropped = \
-                            max( min(count_showing_max - drop_highest, dice_count - drop_highest - drop_lowest), 0)
+                            max( min( count_showing_max - drop_highest, dice_count - drop_highest - drop_lowest ), 0 )
 
             sum_showing_max = count_showing_max_not_dropped * sides
 
-            multiplier = binomial(dice_count, count_showing_max)
+            multiplier = binomial( dice_count, count_showing_max )
 
             for k, v in d1.items():
-                dice_results[sum_showing_max + k] += multiplier * v
+                dice_results[ sum_showing_max + k ] += multiplier * v
 
     return dice_results
 
