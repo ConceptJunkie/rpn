@@ -16,6 +16,7 @@ import functools
 import itertools
 import multiprocessing
 import os
+import platform
 import sys
 import types
 
@@ -876,3 +877,43 @@ def parallel( func=None, args=( ), merge_func=lambda x:x, parallelism = multipro
     else:
         # decorator was used like @parallel, without parens
         return decorator( func )
+
+
+#******************************************************************************
+#
+#  isAndroid
+#
+#******************************************************************************
+
+@lru_cache( maxsize=1 )
+def isAndroid( ):
+    """
+    Returns True if running on Android (e.g., Termux), False otherwise.
+    Memoized for performance.
+    """
+    return (
+        "ANDROID_ROOT" in os.environ or
+        platform.system().lower() == "linux" and "com.termux" in os.getenv("PREFIX", "")
+    )
+
+
+#******************************************************************************
+#
+#  androidSwitch
+#
+#******************************************************************************
+
+def androidSwitch(android_func, non_android_func):
+    """
+    Decorator that switches the decorated function to either `android_func`
+    or `non_android_func` based on the result of `isAndroid()`.
+    """
+    def decorator(func):
+        chosen_func = android_func if isAndroid() else non_android_func
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return chosen_func(*args, **kwargs)
+
+        return wrapper
+    return decorator

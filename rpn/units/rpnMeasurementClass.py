@@ -612,6 +612,8 @@ class RPNMeasurement( ):
         # simplification.  This way you can multiply watts by seconds and get joules.  However,
         # again we don't want a conversion factor.  e.g., meters^3 should not be converted to liters.
         for _, unitTypeInfo in basicUnitTypes.items( ):
+            debugPrint( 'unitTypeInfo', unitTypeInfo.primitiveUnit, unitTypeInfo.baseUnit )
+
             if result.getUnitName( ) == unitTypeInfo.primitiveUnit:
                 test = RPNMeasurement( result )
 

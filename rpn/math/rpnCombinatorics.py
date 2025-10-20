@@ -23,7 +23,7 @@ from rpn.util.rpnDebug import debugPrint
 from rpn.util.rpnGenerator import RPNGenerator
 from rpn.util.rpnPersistence import cachedFunction
 from rpn.util.rpnSettings import setAccuracy
-from rpn.util.rpnUtils import listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
+from rpn.util.rpnUtils import androidSwitch, listAndOneArgFunctionEvaluator, listArgFunctionEvaluator, \
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
@@ -479,7 +479,7 @@ def getPartitionsWithLimitOperator( n, k ):
 
 
 @cachedFunction( 'partition' )
-def getPartitionNumber( n ):
+def getPartitionNumberSlow( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.
     The strategy is to create a list of the smaller partition numbers we need
@@ -526,7 +526,8 @@ def getPartitionNumber( n ):
 
     return total
 
-def getPartitionNumber( n ):
+
+def getPartitionNumberFLINT( n ):
     '''
     Fredrick Johannson's version of the partition number, which is infinitely
     better than anything I could come up with. It uses the FLINT library to
@@ -542,6 +543,10 @@ def getPartitionNumber( n ):
 
     return total
 
+
+@androidSwitch( getPartitionNumberSlow, getPartitionNumberFLINT )
+def getPartitionNumber( n ):
+    pass 
 
 
 @oneArgFunctionEvaluator( )
