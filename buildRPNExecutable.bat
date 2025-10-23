@@ -1,1 +1,1 @@
-pyinstaller --onefile rpn.py
+pyinstaller --clear --noconfirm rpn.spec

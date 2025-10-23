@@ -840,7 +840,12 @@ forceTable = {
 # two hyperfine levels of the ground state of the caesium 133 atom.
 
 frequencyTable = {
+    mpmathify( '1.0e-30' )            : '1 quectohertz (QHz)',
+    mpmathify( '1.0e-27' )            : '1 rontohertz (RHz)',
+    mpmathify( '1.0e-24' )            : '1 yoctohertz (yHz)',
+    mpmathify( '1.0e-21' )            : '1 zeptohertz (zHz)',
     mpmathify( '2.296e-18' )          : 'the frequency of the Hubble Constant (once in 13.8 billion years)',
+    mpmathify( '1.0e-18' )            : '1 attohertz (aHz)',
     mpmathify( '1.0e-15' )            : '1 femtohertz (fHz)',
     mpmathify( '1.0e-12' )            : '1 picohertz (pHz)',
     mpmathify( '3.1687535787e-11' )   : 'the frequency of once a millennium',
@@ -890,7 +895,9 @@ frequencyTable = {
     mpmathify( '1.0e18' )             : '1 exahertz (EHz)',
     mpmathify( '1.0e21' )             : '1 zettahertz (ZHz)',
     mpmathify( '1.0e24' )             : '1 yottahertz (YHz)',
+    mpmathify( '1.0e27' )             : '1 ronnahertz (RHz)',
     mpmathify( '3.9e27' )             : 'the frequency of the highest energy (16 TeV) gamma ray detected, from Markarian 501',
+    mpmathify( '1.0e30' )             : '1 quettahertz (QHz)',
     mpmathify( '1.85e43' )            : 'the Planck frequency, the inverse of the Planck time',
 }
 

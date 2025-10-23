@@ -62,7 +62,7 @@ distance between the nucleus and the electron in a hydrogen atom in its ground
 state (non-relativistic and with an infinitely heavy proton).  It is named
 after Niels Bohr, due to its role in the Bohr model of an atom.
 
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 ''' ),
 
     'classical_electron_radius' :
@@ -126,7 +126,7 @@ Ref:  https://www.bipm.org/utils/en/pdf/si-revised-brochure/Draft-SI-Brochure-20
 ''' ),
 
     'magnetic_constant' :
-        RPNConstantInfo( '1.25663706127e-6', 'newton/ampere^2',
+        RPNConstantInfo( '1.256_637_061_27e-6', 'newton/ampere^2',
                          [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], False,
                          'the permeability of free space',
                          '''
@@ -141,7 +141,7 @@ Ref:  https://en.wikipedia.org/wiki/Vacuum_permeability
 ''' ),
 
     'magnetic_flux_quantum' :
-        RPNConstantInfo( '2.067833848e-15', 'weber',
+        RPNConstantInfo( '2.067_833_848e-15', 'weber',
                          [ 'magnetic_flux_quanta', 'josephson_constant', 'K_sub_j' ], False,
                          'the magnetic flux quantum',
                          '''
@@ -152,11 +152,11 @@ The (superconducting) magnetic flux quantum F0 = h/2e =~
 the Planck constant h and the electron charge e.  Its value is, therefore, the
 same for any superconductor.
 
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 ''' ),
 
     'molar_gas_constant' :
-        RPNConstantInfo( '8.314462618', 'joule/mole*kelvin',
+        RPNConstantInfo( '8.314_462_618', 'joule/mole*kelvin',
                          [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], False,
                          'molar gas constant',
                          '''
@@ -172,23 +172,23 @@ constant that is featured in many fundamental equations in the physical
 sciences, such as the ideal gas law, the Arrhenius equation, and the Nernst
 equation.
 
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
 ''' ),
 
     'newton_constant' :
-        RPNConstantInfo( '6.67430e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], False,
+        RPNConstantInfo( '6.674_30e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], False,
                          'Newton\'s constant of gravitation',
                          '''
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
 ''' ),
 
     'nuclear_magneton' :
-        RPNConstantInfo( '5.0507837393e-27', 'joule/tesla', [ ], False,
+        RPNConstantInfo( '5.050_783_739_3e-27', 'joule/tesla', [ ], False,
                          'the nuclear magneton, a physical constant of magnetic moment',
                          '''
 From https://en.wikipedia.org/wiki/Nuclear_magneton:
 
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 
 ''' ),
 
@@ -230,13 +230,13 @@ and physics and many formulas use a reduced Planck constant (pronounced h-bar).
 ''' ),
 
     'rydberg_constant' :
-        RPNConstantInfo( '10973731.568160', 'meter^-1', [ ], False,
+        RPNConstantInfo( '10_973_731.568_157', 'meter^-1', [ ], False,
                          'the Rydberg constant, a physical constant relating to the electromagnetic spectra of an atom',
                          '''
 From https://en.wikipedia.org/wiki/Rydberg_constant:
 
 
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 ''' ),
 
     'speed_of_light' :
@@ -244,7 +244,7 @@ Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
                          [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity', 'light' ], False,
                          'the speed of light in a vacuum',
                          '''
-Ref:  CODATA 2018 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
+Ref:  CODATA 2022 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 ''' ),
 
     # physical quantities

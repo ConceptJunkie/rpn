@@ -1725,6 +1725,8 @@ SI Prefixes:
 
     Prefix      Abbreviation    Factor
 
+    quetta           Q          10^30
+    ronna            R          10^27
     yotta            Y          10^24
     zetta            Z          10^21
     exa              E          10^18
@@ -1745,6 +1747,8 @@ SI Prefixes:
     atto             a          10^-18
     zepto            z          10^-21
     yocto            y          10^-24
+    ronto            r          10^-27
+    quecto           q          10^-30
 
     * Greek mu, but since rpn only uses ASCII symbols, it's a lower-case 'u'
 ''',
