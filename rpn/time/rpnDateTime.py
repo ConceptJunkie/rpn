@@ -24,6 +24,7 @@ from rpn.units.rpnMeasurement import convertUnits
 from rpn.util.rpnUtils import oneArgFunctionEvaluator, listArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, DateTimeValidator, IntValidator, ListValidator, YearValidator
 from rpn.units.rpnMeasurementClass import RPNMeasurement
+from rpn.util.rpnDebug import debugPrint
 
 import rpn.util.rpnGlobals as g
 
@@ -34,13 +35,13 @@ import rpn.util.rpnGlobals as g
 #
 #******************************************************************************
 
+SUNDAY = 0
 MONDAY = 1
 TUESDAY = 2
 WEDNESDAY = 3
 THURSDAY = 4
 FRIDAY = 5
 SATURDAY = 6
-SUNDAY = 7
 
 JANUARY = 1
 FEBRUARY = 2
@@ -331,7 +332,7 @@ def getLastDayOfMonth( year, month ):
 #
 #******************************************************************************
 
-@argValidator( [ IntValidator( ), IntValidator( -53, 53 ), IntValidator( MONDAY, SUNDAY ) ] )
+@argValidator( [ IntValidator( ), IntValidator( -53, 53 ), IntValidator( SUNDAY, SATURDAY ) ] )
 def calculateNthWeekdayOfYearOperator( year, nth, weekday ):
     ''' Monday = 1, etc., nth == -1 for last, etc.'''
     if isinstance( year, RPNDateTime ):
@@ -375,13 +376,13 @@ def calculateNthWeekdayOfYearOperator( year, nth, weekday ):
 #******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
-    if weekday > SUNDAY or weekday < MONDAY:
-        raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
+    if weekday < SUNDAY or weekday > SATURDAY:
+        raise ValueError( 'day of week must be 0 - 6 (Sunday to Saturday)' )
 
     if isinstance( year, RPNDateTime ):
         year = year.getYear( )
 
-    firstDayOfWeek = pendulum.datetime( int( year ), int( month ), 1 ).day_of_week
+    firstDayOfWeek = ( pendulum.datetime( int( year ), int( month ), 1 ).day_of_week + 1 ) % 7
 
     if nth < 0:
         day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7
@@ -399,7 +400,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     return RPNDateTime( year, month, day, dateOnly = True )
 
 
-@argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( -5, 5 ), IntValidator( MONDAY, SUNDAY ) ] )
+@argValidator( [ IntValidator( ), IntValidator( 1, 12 ), IntValidator( -5, 5 ), IntValidator( SUNDAY, SATURDAY ) ] )
 def calculateNthWeekdayOfMonthOperator( year, month, nth, weekday ):
     return calculateNthWeekdayOfMonth( year, month, nth, weekday )
 
@@ -733,7 +734,7 @@ def calculateDSTEndOperator( year ):
 #******************************************************************************
 
 def getDayOfWeek( n ):
-    return n.getDayOfWeek( )
+    return ( n.getDayOfWeek( ) ) % 7
 
 
 @oneArgFunctionEvaluator( )

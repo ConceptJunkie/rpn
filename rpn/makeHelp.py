@@ -4276,13 +4276,13 @@ making New Year's resolutions and calling one's friends and family.
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'nth_weekday' : [
-'calendars', 'finds the nth day (1 = Monday, etc.) of the month',
+'calendars', 'finds the nth day (0 = Sunday, etc.) of the month',
 '''
 This operator returns the date of the c-th weekday (d) of month b in year a, as
 follows:
 
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
-d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+d = day (0 = Sunday, 1 = Monday, etc. through 6 = Saturday)
 ''',
 '''
 ''' + makeCommandExample( '2019 8 2 1 nth_weekday' ) + '''
@@ -4291,12 +4291,12 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 [ 'nth_weekday_of_year' ] ],
 
     'nth_weekday_of_year' : [
-'calendars', 'finds the nth day (1 = Monday) of the year',
+'calendars', 'finds the nth day (0 = Sunday, etc.) of the month',
 '''
 This operator returns the date of the b-th weekday (c) in year a, as follows:
 
 a = four-digit year, b = week (negative values count from the end), c = day
-(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+(0 = Sunday, 1 = Monday, etc. through 6 = Saturday)
 ''',
 '''
 ''' + makeCommandExample( '2019 8 1 nth_weekday_of_year' ) + '''
@@ -4537,7 +4537,7 @@ names are used.
 'calendars', 'converts a date to the equivalent ISO date',
 '''
 The ISO day format is represented here by a three-valued list which contains the
-year, the number of the week, and the weekday (from 1-7, 1 = Monday).
+year, the number of the week, and the weekday (from 0-6, 0 = Sunday).
 ''',
 '''
 ''' + makeCommandExample( '2020-01-11 to_iso' ) + '''
@@ -4547,9 +4547,9 @@ year, the number of the week, and the weekday (from 1-7, 1 = Monday).
     'to_iso_name' : [
 'calendars', 'converts a date to the formatted version of the equivalent ISO date',
 '''
-THis operator converts a date to the formatted version of the equivalent ISO
+This operator converts a date to the formatted version of the equivalent ISO
 date.  The format consists of a "yyyy-Www-d", where "yyyy" is the year, "ww" is
-the one- or two-digit date number, and d is the weekday. (from 1-7, 1 = Monday).
+the one- or two-digit date number, and d is the weekday. (from 0-6, 0 = Sunday).
 
 TODO:  This operator returns a string value that rpnChilada cannot currently
 parse.
@@ -4699,8 +4699,8 @@ This operator calculates the day of the week of a specified date-time.
 
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.  It returns a number representing the weekday,
-where 0 == Monday, 1 == Tuesday, 2 == Wednesday, 3 == Thursday,
-4 == Friday, 5 == Saturday and 6 == Sunday.
+where 0 == Sunday, 1 == Monday, 2 == Tuesday, 3 == Wednesday,
+4 == Thursday, 5 == Friday and 6 == Saturday.
 ''',
 '''
 ''' + makeCommandExample( 'today weekday' ) + '''
