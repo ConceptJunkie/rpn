@@ -891,6 +891,157 @@ def countFrobeniusOperator( denominations, target ):
     return data[ target ]
 
 
+# pip install python-flint
+from flint import fmpz_series
+
+def coin_change_count(denoms, n: int) -> int:
+    """
+    Number of unordered representations of n as a sum of the given denominations,
+    with unlimited copies of each coin.
+
+    Args:
+        denoms: iterable of positive integers (coin denominations)
+        n: target amount (>= 0)
+
+    Returns:
+        The coefficient of x^n in ∏_{d∈D} 1/(1 - x^d).
+    """
+    if n < 0:
+        return 0
+
+    # Clean and bound the set of coins
+    D = sorted({d for d in denoms if isinstance(d, int) and d > 0 and d <= n})
+    if n == 0:
+        return 1  # empty sum
+    if not D:
+        return 0
+
+    prec = n + 1                        # truncate series at x^(n+1)
+    x = fmpz_series([0, 1], prec)       # x as a formal power series
+    G = fmpz_series([1], prec)          # start at 1
+
+    # Balanced product tree to reduce multiplication depth (helps for large |D|)
+    factors = [ (1 - x**d)**-1 for d in D ]
+
+    while len(factors) > 1:
+        nxt = []
+        for i in range(0, len(factors), 2):
+            if i + 1 < len(factors):
+                nxt.append(factors[i] * factors[i+1])  # auto-truncated to 'prec'
+            else:
+                nxt.append(factors[i])
+        factors = nxt
+
+    G = factors[0]
+    return int(G[n])  # coefficient of x^n as a Python int
+
+# pip install python-flint
+from flint import fmpz, fmpz_series, fmpz_poly
+
+def build_Q(denoms):
+    """
+    Q(x) = ∏ (1 - x^d) as a Z[x] polynomial with Q(0)=1.
+    Returns list of Python ints [1, q1, ..., q_m] (coeffs by ascending degree).
+    """
+    Q = fmpz_poly([1])  # 1
+    for d in sorted(set(int(d) for d in denoms if d > 0)):
+        # multiply by (1 - x^d)
+        R = fmpz_poly([0] * d + [1])   # x^d
+        Q = Q * (fmpz_poly([1]) - R)
+    return [int(c) for c in Q]  # ascending coeffs
+
+def initial_segment(denoms, m):
+    """
+    Compute a_0..a_{m-1} where a_n = [x^n] ∏ 1/(1 - x^d).
+    Uses truncated series of precision m (O(m) space).
+    """
+    prec = m
+    x = fmpz_series([0, 1], prec)
+    G = fmpz_series([1], prec)
+    for d in sorted(set(int(d) for d in denoms if d > 0)):
+        G *= (1 - x**d)**-1            # auto-truncated to 'prec'
+    return [int(G[i]) for i in range(min(m, len(G)))]
+
+def kitamasa_nth(q_coeffs, init, n):
+    """
+    Compute a_n for recurrence a_k = -Σ_{j=1..m} q_j a_{k-j}, k >= m,
+    given q_coeffs = [1, q1, ..., q_m], init = [a_0,...,a_{m-1}].
+    Complexity: O(m^2 log n), space O(m).
+    """
+    m = len(q_coeffs) - 1
+    if n < len(init):
+        return init[n]
+
+    # Recurrence vector C for a_k in terms of [a_{k-1},...,a_{k-m}]
+    C = [ -q_coeffs[j] for j in range(1, m+1) ]  # length m
+
+    # Polynomial multiply modulo the characteristic poly
+    def combine(A, B):
+        # A, B represent polynomials (or transition vectors) of degree < m
+        # representing linear forms in initial window; we compute (A * B) mod
+        # the characteristic polynomial x^m - Σ_{j=1..m} (-C[j-1]) x^{m-j}.
+        # Equivalent standard Kitamasa composition.
+        tmp = [0] * (2*m - 1)
+        for i in range(m):
+            if A[i]:
+                ai = A[i]
+                for j in range(m):
+                    if B[j]:
+                        tmp[i + j] += ai * B[j]
+        # reduce degrees >= m using x^m = Σ (-C[j-1]) x^{m-j}
+        for deg in range(2*m - 2, m - 1, -1):
+            if tmp[deg]:
+                t = tmp[deg]
+                # tmp[deg] * x^deg contributes to degrees deg - 1 .. deg - m
+                for j in range(1, m+1):
+                    tmp[deg - j] += t * C[j-1]
+                tmp[deg] = 0
+        return tmp[:m]
+
+    # Binary exponentiation to build coefficient vector for n
+    # Start with vector for x^1: V = [1, 0, ..., 0] corresponds to a_{k+1} from window.
+    # We want vector for x^n.
+    V = [0]*m
+    V[0] = 1  # x^1
+    R = [0]*m
+    R[0] = 0
+    R[1-1 if m>=1 else 0] = 1  # identity: x^0 (i.e., vector for 'do nothing')
+    # Represent identity properly: for Kitamasa, identity is vector [0,0,...,1]?
+    # Simpler: we'll use exponentiation on polynomials; initialize R as '1' (degree 0):
+    R = [0]*m
+    R[0] = 1  # '1' polynomial
+
+    e = n
+    while e > 0:
+        if e & 1:
+            R = combine(R, V)
+        V = combine(V, V)
+        e >>= 1
+
+    # Now R encodes a_n as a linear form in [a_{m-1},...,a_0] reversed or in-window.
+    # Our construction uses the "forward" window [a_{k-1},...,a_{k-m}] ordering.
+    # To evaluate a_n from init, we need the window [a_{m-1},...,a_0].
+    # The evaluation is: a_n = sum_{i=0..m-1} R[i] * a_{m-1-i}
+    return sum(R[i] * init[m-1-i] for i in range(m))
+
+def coin_change_count_single_coefficient(denoms, n):
+    # Build Q and initial segment length m = deg Q
+    q = build_Q(denoms)
+    m = len(q) - 1
+    if n < 0:
+        return 0
+    if m == 0:
+        # No coins -> Q=1, G=1 -> only a_0 = 1
+        return 1 if n == 0 else 0
+    init = initial_segment(denoms, m)
+    # If init is shorter than m (e.g., m=0 case), pad zeros
+    if len(init) < m:
+        init += [0]*(m - len(init))
+    return int(kitamasa_nth(q, init, n))
+
+
+
+
 #******************************************************************************
 #
 #  getStirling1NumberOperator
