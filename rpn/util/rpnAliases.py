@@ -255,6 +255,7 @@ OPERATOR_ALIASES = {
     'convert_tz'                    : 'convert_time_zone',
     'copeland'                      : 'copeland_erdos_constant',
     'copeland_erdos'                : 'copeland_erdos_constant',
+    'coprimorial'					: 'phitorial',
     'cosecant'                      : 'csc',
     'cosine'                        : 'cos',
     'cotangent'                     : 'cot',

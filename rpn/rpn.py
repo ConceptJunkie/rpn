@@ -30,7 +30,7 @@ import types
 from pathlib import Path
 
 if sys.platform == 'win32':
-    import pyreadline3
+    import pyreadline3 as readline
 else:
     import readline
 
@@ -291,8 +291,13 @@ def enterInteractiveMode( ):
     mode, where it will continue to evaluate new expressions input until
     the 'exit' command.
     '''
-    readline.parse_and_bind( 'tab: complete' )
-    readline.parse_and_bind( 'set editing-mode vi' )
+    if readline is not None:
+        try:
+            readline.parse_and_bind( 'tab: complete' )
+            readline.parse_and_bind( 'set editing-mode vi' )
+        except Exception:
+            # Optional: ignore if the underlying implementation doesn't support this
+            pass
 
     printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
 
