@@ -328,6 +328,11 @@ def enterInteractiveMode( ):
         terms = line.split( ' ' )
 
         if terms[ 0 ] == 'help':
+            if not helpFile.is_file( ):
+                print( f'help files not found in {getDataPath()}' )
+                print( 'Please run makeHelp.py to initialize the help files.' )
+                sys.exit( 0 )
+
             enterHelpMode( terms[ 1 : ] )
         else:
             if g.timer or g.tempTimerMode:
@@ -704,11 +709,6 @@ def main( ):
         sys.exit( 0 )
 
     helpFile = Path( getUserDataPath( ) + os.sep + 'help.pckl.bz2' )
-
-    if not helpFile.is_file( ):
-        print( f'help files not found in {getDataPath()}' )
-        print( 'Please run makeHelp.py to initialize the help files.' )
-        sys.exit( 0 )
 
     try:
         #for arg in sys.argv:
