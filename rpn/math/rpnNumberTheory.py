@@ -27,7 +27,7 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, fac,
 
 from rpn.math.rpnComputer import getBitCount
 from rpn.math.rpnFactor import getFactors, getFactorList
-from rpn.math.rpnMath import isInteger
+from rpn.math.rpnMath import isInteger, roundOff
 from rpn.math.rpnPrimeUtils import findPrime, getNthPrime, isPrime, getNextPrime
 from rpn.math.rpnSimpleMath import isDivisible, isEven, isOdd
 
@@ -2584,13 +2584,13 @@ def getNthHarmonicNumberOperator( n ):
 
 
 def getNthHyperfactorial( n ):
-    return hyperfac( n )
+    return roundOff( hyperfac( n ) )
 
 
 @oneArgFunctionEvaluator( )
 @argValidator( [ ComplexValidator( ) ] )
 def getNthHyperfactorialOperator( n ):
-    return hyperfac( n )
+    return getNthHyperfactorial( n )
 
 
 @twoArgFunctionEvaluator( )
@@ -2652,7 +2652,7 @@ def getNthSubfactorialOperator( n ):
 
 
 def getNthSuperfactorial( n ):
-    return superfac( n )
+    return roundOff( superfac( n ) )
 
 
 @oneArgFunctionEvaluator( )
