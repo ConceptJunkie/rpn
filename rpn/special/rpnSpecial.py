@@ -13,12 +13,7 @@
 #*******************************************************************************
 
 import functools
-import re as regex
 import sys
-import urllib.request as urllib2
-import uuid
-
-from urllib.error import URLError
 
 from random import randrange
 
@@ -223,12 +218,23 @@ def downloadOEISText( aNumber, char, addCR = False ):
     '''
     Downloads, formats and caches text data from oeis.org.
     '''
+    import certifi
+    import ssl
+
+    url = f'https://oeis.org/search?q=id%3AA{int( aNumber ):06}' + '&fmt=text'
+    context = ssl.create_default_context( cafile=certifi.where( ) )
+
+    import urllib.request
+    from urllib.error import URLError
+
     try:
-        with urllib2.urlopen( f'http://oeis.org/search?q=id%3AA{int( aNumber ):06}' + '&fmt=text' ) as url:
+        with urllib.request.urlopen( url, context=context ) as url:
             data = url.read( )
-    except URLError:
-        print( 'rpn:  HTTP access to oeis.org failed' )
+    except URLError as e:
+        print( 'rpn:  HTTP access to oeis.org failed: ', e, file=sys.stderr )
         return ''
+
+    import re as regex
 
     pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
 
@@ -276,12 +282,28 @@ def downloadOEISOffsetOperator( n ):
 #*******************************************************************************
 
 def downloadOEISTable( aNumber ):
+    url = f'https://oeis.org/A{int( aNumber ):06}/b{int( aNumber ):06}.txt'
+
+    import certifi
+    import ssl
+
     try:
-        with urllib2.urlopen( f'http://oeis.org/A{int( aNumber ):06}/b{int( aNumber ):06}.txt' ) as url:
+        context = ssl.create_default_context( )
+    except FileNotFoundError:
+        print( "CA File '{cafile}' not found!" )
+        context = ssl.create_default_context( cafile=certifi.where( ) )
+
+    import urllib.request
+    from urllib.error import URLError
+
+    try:
+        with urllib.request.urlopen( url, context=context ) as url:
             data = url.read( )
-    except URLError:
-        print( 'HTTP access to oeis.org failed', file=sys.stderr )
+    except URLError as e:
+        print( 'rpn:  HTTP access to oeis.org failed: ', e, file=sys.stderr )
         return [ ], False
+
+    import re as regex
 
     pattern = regex.compile( b'(.*?)[\n]', regex.DOTALL )
     lines = pattern.findall( data )
@@ -378,6 +400,7 @@ def generateUUIDOperator( ):
     Generates a UUID that uses the current machine's MAC address and the
     current time as seeds.
     '''
+    import uuid
     return str( uuid.uuid1( ) )
 
 
@@ -389,6 +412,7 @@ def generateUUIDOperator( ):
 
 def generateRandomUUIDOperator( ):
     '''Generates a completely random UUID.'''
+    import uuid
     return str( uuid.uuid4( ) )
 
 

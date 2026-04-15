@@ -14,7 +14,6 @@
 
 import collections
 import os
-import subprocess
 
 from mpmath import fadd, fdiv, floor, fmod, fneg, fprod, log10, mpmathify
 
@@ -144,6 +143,8 @@ def factorByTrialDivision( n ):
 
 @oneArgFunctionEvaluator( )
 def runYAFU( n ):
+    import subprocess
+
     fullOut = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
                                 g.userConfiguration[ 'yafu_binary' ], '-R', '-xover', '120' ],
                               input='factor(' + str( int( n ) ) + ')\n', encoding='ascii', stdout=subprocess.PIPE,

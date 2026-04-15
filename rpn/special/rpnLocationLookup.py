@@ -18,10 +18,7 @@ import os
 import pickle
 
 import pendulum
-import timezonefinder
 
-from geopy.exc import GeocoderUnavailable
-from geopy.geocoders import Nominatim
 
 from rpn.util.rpnKeyboard import DelayedKeyboardInterrupt
 
@@ -69,6 +66,8 @@ def saveLocationCache( locationCache ):
 #******************************************************************************
 
 def lookUpLocation( name ):
+    import certifi
+
     if g.locationCache is None:
         g.locationCache = loadLocationCache( )
 
@@ -76,13 +75,30 @@ def lookUpLocation( name ):
         locationInfo = g.locationCache[ name ]
         return locationInfo[ 1 ], locationInfo[ 2 ]
 
-    geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
+    import ssl
+
+    ctx = ssl.create_default_context( cafile=certifi.where( ) )
+
+    #TODO: make ignoring TLS an option
+    if True:
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+
+    import geopy.geocoders
+
+    geopy.geocoders.options.default_ssl_context = ctx
+
+    from geopy.geocoders import Nominatim
+
+    geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME, scheme='http' )
 
     location = None
 
+    from geopy.exc import GeocoderUnavailable
+
     for attempts in range( 3 ):
         try:
-            location = geolocator.geocode( name )
+            location = geolocator.geocode( name, timeout=10 )
             break
         except GeocoderUnavailable as e:
             if attempts == 2:
@@ -104,6 +120,8 @@ def lookUpLocation( name ):
 #******************************************************************************
 
 def lookUpTimeZone( lat, long ):
+    import timezonefinder
+
     if g.timeZoneFinder is None:
         g.timeZoneFinder = timezonefinder.TimezoneFinder( )
 

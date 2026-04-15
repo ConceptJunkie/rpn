@@ -16,8 +16,6 @@ import itertools
 
 from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, mpmathify, power
 
-from concurrent.futures import ProcessPoolExecutor, as_completed
-
 
 #******************************************************************************
 #
@@ -207,6 +205,8 @@ def chainedGenerator( generator, func ):
     for i in generator:
         yield evaluateNestedArgs( func, i )
     #print( 'chainedGenerator', generator, func )
+    #
+    #from concurrent.futures import ProcessPoolExecutor, as_completed
     #
     #with ProcessPoolExecutor( max_workers = 4 ) as executor:
     #    # Submit tasks with their index

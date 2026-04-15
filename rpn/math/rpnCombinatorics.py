@@ -27,8 +27,6 @@ from rpn.util.rpnUtils import androidSwitch, listAndOneArgFunctionEvaluator, lis
                          oneArgFunctionEvaluator, twoArgFunctionEvaluator
 from rpn.util.rpnValidator import argValidator, ComplexValidator, IntValidator, ListValidator
 
-from flint import *
-
 
 #******************************************************************************
 #
@@ -534,6 +532,7 @@ def getPartitionNumberFLINT( n ):
     calculate the partition number for any integer n, and since it's not
     recursive, I'm not bothering to cache it anymore.
     '''
+    from flint import fmpz
     debugPrint( 'partition', int( n ) )
 
     if n in ( 0, 1 ):
@@ -890,10 +889,6 @@ def countFrobeniusOperator( denominations, target ):
 
     return data[ target ]
 
-
-# pip install python-flint
-from flint import fmpz_series
-
 def coin_change_count(denoms, n: int) -> int:
     """
     Number of unordered representations of n as a sum of the given denominations,
@@ -906,6 +901,8 @@ def coin_change_count(denoms, n: int) -> int:
     Returns:
         The coefficient of x^n in ∏_{d∈D} 1/(1 - x^d).
     """
+    from flint import fmpz_series
+
     if n < 0:
         return 0
 
@@ -935,14 +932,14 @@ def coin_change_count(denoms, n: int) -> int:
     G = factors[0]
     return int(G[n])  # coefficient of x^n as a Python int
 
-# pip install python-flint
-from flint import fmpz, fmpz_series, fmpz_poly
-
 def build_Q(denoms):
     """
     Q(x) = ∏ (1 - x^d) as a Z[x] polynomial with Q(0)=1.
     Returns list of Python ints [1, q1, ..., q_m] (coeffs by ascending degree).
     """
+
+    from flint import fmpz_poly
+
     Q = fmpz_poly([1])  # 1
     for d in sorted(set(int(d) for d in denoms if d > 0)):
         # multiply by (1 - x^d)
@@ -955,6 +952,9 @@ def initial_segment(denoms, m):
     Compute a_0..a_{m-1} where a_n = [x^n] ∏ 1/(1 - x^d).
     Uses truncated series of precision m (O(m) space).
     """
+
+    from flint import fmpz_series
+
     prec = m
     x = fmpz_series([0, 1], prec)
     G = fmpz_series([1], prec)

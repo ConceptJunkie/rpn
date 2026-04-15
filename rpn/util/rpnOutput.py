@@ -15,8 +15,6 @@
 import math
 import string
 import sys
-import textwrap
-import types
 
 from mpmath import e, floor, frac, im, mp, mpf, mpmathify, nstr, phi, pi, re, sqrt
 
@@ -383,6 +381,7 @@ def formatUnits( measurement ):
 #******************************************************************************
 
 def printParagraph( text, indent = 0 ):
+    import textwrap
     lines = textwrap.wrap( text, g.lineLength - ( indent + 1 ) )
 
     for line in lines:

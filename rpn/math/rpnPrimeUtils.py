@@ -15,12 +15,9 @@
 import os
 import sys
 
-from bisect import bisect_left
 from pathlib import Path
 
 from mpmath import arange, fadd, fmod, fmul, fprod, fsub
-
-import gmpy2
 
 from rpn.math.rpnPrimes import primes
 
@@ -40,6 +37,8 @@ import rpn.util.rpnGlobals as g
 #******************************************************************************
 
 def isPrime( n ):
+    import gmpy2
+
     if g.zhangConjecturesAllowed and n < 1543267864443420616877677640751301:
         return isPrimeMillerRabin( int( n ) )
 
@@ -72,6 +71,8 @@ def isPrimeOperator( n ):
 
 def isPrimeNumberSimple( n ):
     # if prime is already in the list, just pick it
+    from bisect import bisect_left
+
     if n <= max( primes ):
         i = bisect_left( primes, n )
         return i != len( primes ) and primes[ i ] == n
