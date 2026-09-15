@@ -1584,7 +1584,7 @@ def isSmithNumber( n ):
 @oneArgFunctionEvaluator( )
 @argValidator( [ IntValidator( 0 ) ] )
 def isSmithNumberOperator( n ):
-    isSmithNumber( n )
+    return isSmithNumber( n )
 
 
 #******************************************************************************
